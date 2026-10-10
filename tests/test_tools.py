@@ -70,3 +70,19 @@ def test_get_document_links_backlinks_and_similar(okf, root):
         "rel": "Vincular A", "path": LOGIN, "id": "10", "title": "Login do cliente"}
     with pytest.raises(LookupError):
         okf.okf_get_document(root, "../../etc/passwd")
+
+
+def test_export_html_writes_report_in_bundle_root(okf, root):
+    with pytest.raises(LookupError):
+        okf.okf_export_html(root)
+    with open(os.path.join(root, RN), "a") as f:
+        f.write("\nTexto com </script><script>alert(1)</script>\n")
+    okf.okf_index(root)
+    okf.okf_save_enrichment(root, [{"path": RN, "summary": "Valida CPF </script>", "keywords": ["cpf"],
+                                    "entities": [], "questions": []}])
+    assert okf.okf_export_html(root) == {"arquivo": os.path.join(os.path.realpath(root), "okf.html"),
+                                         "documentos": 3, "enriquecidos": 1, "links": 3}
+    html = open(os.path.join(root, "okf.html"), encoding="utf-8").read()
+    data = html.split('<script id="data" type="application/json">')[1].split("</script>")[0]
+    assert '"rel": "Vincular A"' in data and "Valida CPF <\\/script>" in data
+    assert "okf.html" not in {d["path"] for d in okf.okf_list_documents(root)}

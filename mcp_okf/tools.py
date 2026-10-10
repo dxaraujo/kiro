@@ -1,6 +1,9 @@
 """Tools do mcp-okf: indexação, enriquecimento (feito pela LLM do cliente), busca e leitura."""
 from __future__ import annotations
 
+import json
+import os
+from pathlib import Path
 from typing import TypedDict
 
 from . import bundle, store
@@ -51,6 +54,7 @@ def okf_index(root: str, limit: int = 200, force: bool = False) -> dict:
         for p, d in docs.items():
             e = state.setdefault(p, {})
             e.update(hash=d["hash"], id=d["id"], title=d["title"], type=d["type"], folder=d["folder"],
+                     description=d["description"],
                      links=bundle.links(d, docs, ids))
             if force:
                 e.pop("indexed_hash", None)
@@ -183,3 +187,33 @@ def okf_get_document(root: str, ref: str) -> dict:
                         for l in e.get("links", []) if l["path"] == path],
             "similares": [{"path": h.payload["path"], "id": h.payload["id"], "title": h.payload["title"],
                            "score": round(h.score, 4)} for h in store.similar(rd, path, 5)]}}
+
+
+REPORT = "okf.html"
+
+
+@tool
+def okf_export_html(root: str) -> dict:
+    """Grava `<root>/okf.html`: página para abrir no navegador com o grafo de links entre os documentos indexados
+    (cor por pasta; borda grossa = não enriquecido), lista filtrável por texto, pasta e tipo, e o detalhe de cada
+    documento (resumo, palavras-chave, entidades, perguntas, links de saída e de entrada). Rode depois de okf_index
+    (e do enriquecimento). Devolve {arquivo, documentos, enriquecidos, links}."""
+    with store.LOCK:
+        rd = bundle.root(root)
+        state = store.load_state(rd)
+        docs = [{"path": p, "id": e.get("id"), "title": e.get("title") or p, "type": e.get("type"),
+                 "folder": e.get("folder"), "description": e.get("description"),
+                 "enrichment": {k: v for k, v in e.get("enrichment", {}).items() if k not in ("hash", "at")},
+                 "enriched": store.enriched(e)} for p, e in sorted(state.items())]
+        if not docs:
+            raise LookupError(f"nenhum documento indexado em {root} (rode okf_index)")
+        links = [{"from": p, "to": l["path"], "rel": l["rel"]} for p, e in sorted(state.items())
+                 for l in e.get("links", []) if l["path"] in state]
+        data = json.dumps({"bundle": os.path.basename(rd), "generated": store.now(), "docs": docs, "links": links},
+                          ensure_ascii=False).replace("</", "<\\/")  # texto do documento não fecha o <script>
+        html = Path(__file__).with_name("report.html").read_text(encoding="utf-8").replace("__DATA__", data)
+        target = os.path.join(rd, REPORT)
+        with open(target, "w", encoding="utf-8") as f:
+            f.write(html)
+        return {"arquivo": target, "documentos": len(docs), "enriquecidos": sum(d["enriched"] for d in docs),
+                "links": len(links)}

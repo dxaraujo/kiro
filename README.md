@@ -12,12 +12,28 @@ alm-sync do [mcp-alm](https://github.com/dxaraujo/mcp-alm)) numa base de conheci
 
 ## Instalação
 
+Requer o [uv](https://docs.astral.sh/uv/). Baixe os modelos uma vez (~1 GB), para a 1ª indexação não estourar o
+timeout do cliente MCP:
+
 ```bash
-uv sync
-# baixa os modelos uma vez (~1 GB), para a 1ª indexação não estourar o timeout do cliente MCP
-uv run python -c "from mcp_okf import store; store.embed_dense(['x']); store.embed_sparse(['x'])"
-claude mcp add okf -- uv --directory /caminho/mcp-okf run mcp-okf
+uvx --from mcp-okf python -c "from mcp_okf import store; store.embed_dense(['x']); store.embed_sparse(['x'])"
 ```
+
+Configuração do cliente MCP (Kiro: `~/.kiro/settings/mcp.json` ou `.kiro/settings/mcp.json` do projeto):
+
+```json
+{
+  "mcpServers": {
+    "okf": {
+      "command": "uvx",
+      "args": ["mcp-okf@latest"],
+      "env": { "UV_SYSTEM_CERTS": "true" }
+    }
+  }
+}
+```
+
+Claude Code: `claude mcp add okf -- uvx mcp-okf@latest`.
 
 Dados em `~/.config/mcp-okf/` (`%APPDATA%\mcp-okf` no Windows; ou `MCP_OKF_HOME`): `qdrant/` e
 `state/<sha1(root)>.json` (hash, links e enriquecimento de cada documento). Nada é gravado no bundle.

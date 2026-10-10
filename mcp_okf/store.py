@@ -1,30 +1,35 @@
-"""Índice do bundle: Qdrant local (vetor denso + BM25, fusão RRF) e o estado por bundle (hash, links, enriquecimento).
+"""Índice do bundle: um SQLite por bundle em <home>/<sha1(root)>.db, com documentos, links, chunks (vetor denso
+float32 normalizado) e FTS5 (BM25). Busca híbrida: cosseno por força bruta (numpy) + FTS5, fusão RRF.
 
-Estado em <home>/state/<sha1(root)>.json: {path: {hash, indexed_hash, links: [{rel, path}], enrichment}}.
-É o que torna a indexação incremental e mantém o enriquecimento entre reindexações. Nada é gravado no bundle."""
+SQLite em WAL: vários processos do mcp-okf podem abrir o mesmo índice. Nada é gravado no bundle."""
 from __future__ import annotations
 
+import contextlib
 import functools
 import hashlib
-import json
 import os
+import re
+import sqlite3
 import sys
-import threading
-import uuid
-from datetime import datetime, timezone
 from pathlib import Path
 
-from qdrant_client import QdrantClient, models
+import numpy as np
 
 from . import bundle
 
-COLLECTION = "okf"
-DENSE_MODEL = "sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
-DENSE_DIM = 768
-SPARSE_MODEL = "Qdrant/bm25"
-_NS = uuid.UUID("5b0f0c6e-2a51-4f43-9d55-0c2c7f1e9a10")
-# um lock para tudo: tools síncronas podem rodar em threads e o estado é um JSON
-LOCK = threading.RLock()
+MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+RRF_K = 60
+SCHEMA = """
+create table if not exists docs(path text primary key, hash text, id text, title text, type text, folder text,
+                                description text);
+create index if not exists docs_id on docs(id);
+create table if not exists links(src text, rel text, dst text);
+create index if not exists links_src on links(src);
+create index if not exists links_dst on links(dst);
+create table if not exists chunks(cid integer primary key, path text, section text, text text, vec blob);
+create index if not exists chunks_path on chunks(path);
+create virtual table if not exists chunks_fts using fts5(text, tokenize='unicode61 remove_diacritics 2');
+"""
 
 
 def home() -> Path:
@@ -35,168 +40,90 @@ def home() -> Path:
     return Path.home() / ".config" / "mcp-okf"
 
 
-@functools.cache
-def client() -> QdrantClient:
-    """Qdrant em modo local (a pasta fica travada para um processo só)."""
-    path = home() / "qdrant"
-    path.mkdir(parents=True, exist_ok=True)
-    try:
-        # o MCP roda cada tool numa thread de trabalho; o acesso já é serializado por LOCK
-        qc = QdrantClient(path=str(path), force_disable_check_same_thread=True)
-    except RuntimeError as exc:
-        raise RuntimeError(f"Índice em {path} já está aberto por outro processo do mcp-okf: {exc}") from exc
-    _ensure(qc)
-    return qc
+def db_file(root: str) -> Path:
+    return home() / f"{hashlib.sha1(root.encode()).hexdigest()}.db"
 
 
-def _ensure(qc: QdrantClient) -> None:
-    if qc.collection_exists(COLLECTION):
-        return
-    qc.create_collection(
-        COLLECTION,
-        vectors_config={"dense": models.VectorParams(size=DENSE_DIM, distance=models.Distance.COSINE)},
-        sparse_vectors_config={"bm25": models.SparseVectorParams(modifier=models.Modifier.IDF)})
-    # shortcut: sem índices de payload (o Qdrant local os ignora); criar em bundle/path/folder/type/kind ao migrar
-    # para servidor Qdrant
-
-
-@functools.cache
-def _dense():
-    from fastembed import TextEmbedding
-    return TextEmbedding(DENSE_MODEL)
-
-
-@functools.cache
-def _sparse():
-    from fastembed import SparseTextEmbedding
-    return SparseTextEmbedding(SPARSE_MODEL, language="portuguese")
-
-
-def embed_dense(texts: list[str]) -> list[list[float]]:
-    return [v.tolist() for v in _dense().embed(texts)]
-
-
-def embed_sparse(texts: list[str], query: bool = False) -> list[models.SparseVector]:
-    fn = _sparse().query_embed if query else _sparse().embed
-    return [models.SparseVector(indices=e.indices.tolist(), values=e.values.tolist()) for e in fn(texts)]
-
-
-# --- estado
-
-def _state_file(root: str) -> Path:
-    return home() / "state" / f"{hashlib.sha1(root.encode()).hexdigest()}.json"
-
-
-def load_state(root: str) -> dict:
-    try:
-        return json.loads(_state_file(root).read_text(encoding="utf-8"))
-    except FileNotFoundError:
-        return {}
-
-
-def save_state(root: str, state: dict) -> None:
-    path = _state_file(root)
+@contextlib.contextmanager
+def connect(root: str):
+    """Conexão ao índice do bundle; commit ao sair sem erro."""
+    path = db_file(root)
     path.parent.mkdir(parents=True, exist_ok=True)
-    tmp = path.with_suffix(".tmp")
-    tmp.write_text(json.dumps(state, ensure_ascii=False, indent=1), encoding="utf-8")
-    os.replace(tmp, path)  # atômico: estado nunca fica pela metade
+    con = sqlite3.connect(path, timeout=30)
+    try:
+        con.execute("pragma journal_mode=wal")
+        con.executescript(SCHEMA)
+        yield con
+        con.commit()
+    finally:
+        con.close()
 
 
-def enriched(entry: dict) -> bool:
-    return entry.get("enrichment", {}).get("hash") == entry.get("hash")
+@functools.cache
+def _model():
+    from fastembed import TextEmbedding
+    return TextEmbedding(MODEL)
 
 
-def indexed(entry: dict) -> bool:
-    return entry.get("indexed_hash") == entry.get("hash")
+def embed(texts: list[str]) -> np.ndarray:
+    """(n, dim) float32 com norma 1: produto escalar = cosseno."""
+    v = np.array(list(_model().embed(texts)), dtype=np.float32)
+    return v / np.linalg.norm(v, axis=1, keepdims=True).clip(1e-9)
 
 
-# --- pontos
-
-def _pid(root: str, path: str, n) -> str:
-    return str(uuid.uuid5(_NS, f"{root}\n{path}\n{n}"))
-
-
-def _filter(root: str, **eq) -> models.Filter:
-    return models.Filter(must=[models.FieldCondition(key=k, match=models.MatchValue(value=v))
-                               for k, v in {"bundle": root, **eq}.items() if v is not None])
+def delete_doc(con: sqlite3.Connection, path: str) -> None:
+    con.execute("delete from chunks_fts where rowid in (select cid from chunks where path = ?)", (path,))
+    con.execute("delete from chunks where path = ?", (path,))
+    con.execute("delete from docs where path = ?", (path,))
 
 
-def _payload(root: str, doc: dict, kind: str, section: str = "", text: str = "") -> dict:
-    return {"bundle": root, "path": doc["path"], "id": doc["id"], "title": doc["title"], "type": doc["type"],
-            "folder": doc["folder"], "kind": kind, "section": section, "text": text}
-
-
-def doc_text(doc: dict, enrichment: dict | None) -> str:
-    """Texto do ponto 'doc': cabeçalho + enriquecimento (é ele que casa pergunta em linguagem natural com jargão)."""
-    e = enrichment or {}
-    parts = [" ".join(filter(None, [doc["type"], doc["id"], "—", doc["title"]])), doc["folder"],
-             doc["description"], e.get("summary"), ", ".join(e.get("keywords", [])),
-             ", ".join(e.get("entities", [])), "\n".join(e.get("questions", []))]
-    return "\n".join(p for p in parts if p)
-
-
-def _doc_point(root: str, doc: dict, enrichment: dict | None) -> models.PointStruct:
-    text = doc_text(doc, enrichment)
-    return models.PointStruct(id=_pid(root, doc["path"], "doc"),
-                               vector={"dense": embed_dense([text])[0], "bm25": embed_sparse([text])[0]},
-                               payload=_payload(root, doc, "doc", text=(enrichment or {}).get("summary") or ""))
-
-
-def _delete(root: str, path: str) -> None:
-    client().delete(COLLECTION, points_selector=models.FilterSelector(filter=_filter(root, path=path)))
-
-
-def write_doc(root: str, doc: dict, enrichment: dict | None) -> None:
-    """Apaga os pontos do documento e grava os chunks + o ponto 'doc'."""
+def write_doc(con: sqlite3.Connection, doc: dict) -> None:
+    """Troca os chunks do documento e grava a linha em `docs` (com o hash: marca como indexado)."""
     parts = bundle.chunks(doc)
-    texts = [c["text"] for c in parts]
-    dense, sparse = embed_dense(texts), embed_sparse(texts)
-    points = [models.PointStruct(id=_pid(root, doc["path"], n), vector={"dense": d, "bm25": s},
-                                 payload=_payload(root, doc, "chunk", c["section"], c["text"].split("\n", 1)[-1]))
-              for n, (c, d, s) in enumerate(zip(parts, dense, sparse))]
-    _delete(root, doc["path"])
-    client().upsert(COLLECTION, points + [_doc_point(root, doc, enrichment)])
+    vecs = embed([c["text"] for c in parts])  # antes de apagar: falha no modelo não deixa o documento sem chunks
+    delete_doc(con, doc["path"])
+    con.execute("insert into docs values (?, ?, ?, ?, ?, ?, ?)", tuple(doc[k] for k in (
+        "path", "hash", "id", "title", "type", "folder", "description")))
+    for c, v in zip(parts, vecs):
+        cid = con.execute("insert into chunks(path, section, text, vec) values (?, ?, ?, ?)",
+                          (doc["path"], c["section"], c["text"], v.tobytes())).lastrowid
+        con.execute("insert into chunks_fts(rowid, text) values (?, ?)", (cid, c["text"]))
 
 
-def write_doc_point(root: str, doc: dict, enrichment: dict | None) -> None:
-    client().upsert(COLLECTION, [_doc_point(root, doc, enrichment)])
+def set_links(con: sqlite3.Connection, links: dict[str, list[dict]]) -> None:
+    con.execute("delete from links")
+    con.executemany("insert into links values (?, ?, ?)",
+                    [(src, l["rel"], l["path"]) for src, ls in links.items() for l in ls])
 
 
-def indexed_paths(root: str) -> set[str]:
-    """Paths com ponto 'doc' gravado no Qdrant para este bundle."""
-    paths, offset = set(), None
-    while True:
-        points, offset = client().scroll(COLLECTION, scroll_filter=_filter(root, kind="doc"), limit=1000,
-                                         offset=offset, with_payload=["path"], with_vectors=False)
-        paths.update(p.payload["path"] for p in points)
-        if offset is None:
-            return paths
-
-
-def delete_doc(root: str, path: str) -> None:
-    _delete(root, path)
-
-
-def search(root: str, query: str, limit: int, folder: str | None, type_: str | None) -> list[models.ScoredPoint]:
-    flt = _filter(root, folder=folder, type=type_)
-    wide = limit * 5
-    return client().query_points(
-        COLLECTION,
-        prefetch=[models.Prefetch(query=embed_dense([query])[0], using="dense", filter=flt, limit=wide),
-                  models.Prefetch(query=embed_sparse([query], query=True)[0], using="bm25", filter=flt, limit=wide)],
-        query=models.FusionQuery(fusion=models.Fusion.RRF), limit=wide, with_payload=True).points
-
-
-def similar(root: str, path: str, limit: int) -> list[models.ScoredPoint]:
-    """Documentos mais próximos pelo vetor do ponto 'doc' (vazio se o documento não estiver indexado)."""
-    found = client().retrieve(COLLECTION, [_pid(root, path, "doc")], with_vectors=["dense"])
-    if not found:
-        return []
-    flt = _filter(root, kind="doc")
-    flt.must_not = [models.FieldCondition(key="path", match=models.MatchValue(value=path))]
-    return client().query_points(COLLECTION, query=found[0].vector["dense"], using="dense", query_filter=flt,
-                                 limit=limit, with_payload=True).points
-
-
-def now() -> str:
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+def search(con: sqlite3.Connection, query: str, wide: int, folder: str | None, type_: str | None) -> list[dict]:
+    """Até `wide` chunks, do mais relevante: [{path, section, text, id, title, type, folder, score}]."""
+    where, args = "1 = 1", []
+    for col, value in (("folder", folder), ("type", type_)):
+        if value is not None:
+            where += f" and d.{col} = ?"
+            args.append(value)
+    # shortcut: vetores lidos a cada consulta; cachear a matriz se o bundle passar de ~50k chunks
+    rows = con.execute(f"select c.cid, c.vec from chunks c join docs d on d.path = c.path where {where}",
+                       args).fetchall()
+    dense = []
+    if rows:
+        scores = np.frombuffer(b"".join(r[1] for r in rows), dtype=np.float32).reshape(len(rows), -1) \
+            @ embed([query])[0]
+        dense = [rows[i][0] for i in np.argsort(-scores)[:wide]]
+    # shortcut: FTS5 sem stemming PT (prefixo * cobre plurais); tokenizer próprio se o recall lexical cair
+    terms = re.findall(r"\w+", query)
+    lexical = [r[0] for r in con.execute(
+        f"select f.rowid from chunks_fts f join chunks c on c.cid = f.rowid join docs d on d.path = c.path "
+        f"where chunks_fts match ? and {where} order by bm25(chunks_fts) limit ?",
+        [" OR ".join(f'"{t}"*' for t in terms), *args, wide])] if terms else []
+    rrf: dict[int, float] = {}
+    for ranking in (dense, lexical):
+        for rank, cid in enumerate(ranking):
+            rrf[cid] = rrf.get(cid, 0) + 1 / (RRF_K + rank + 1)
+    best = sorted(rrf, key=rrf.get, reverse=True)[:wide]
+    found = {r[0]: r for r in con.execute(
+        f"select c.cid, c.path, c.section, c.text, d.id, d.title, d.type, d.folder from chunks c "
+        f"join docs d on d.path = c.path where c.cid in ({','.join('?' * len(best))})", best)}
+    return [dict(zip(("path", "section", "text", "id", "title", "type", "folder"), found[cid][1:]),
+                 score=rrf[cid]) for cid in best]

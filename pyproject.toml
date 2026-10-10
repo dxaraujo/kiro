@@ -1,7 +1,7 @@
 [project]
 name = "mcp-okf"
-version = "0.2.3"
-description = "MCP server de base de conhecimento sobre bundles OKF (alm-sync): indexação, enriquecimento e busca semântica"
+version = "0.3.0"
+description = "MCP server de base de conhecimento sobre bundles OKF (alm-sync): indexação e busca semântica"
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
@@ -9,7 +9,7 @@ authors = [{ name = "Daniel Xavier Araújo", email = "danielxaraujo@gmail.com" }
 requires-python = ">=3.10"
 dependencies = [
     "mcp[cli]>=2.2",
-    "qdrant-client[fastembed]>=1.12",
+    "fastembed>=0.4",
     "pyyaml>=6",
     "markdown-it-py>=3",
 ]

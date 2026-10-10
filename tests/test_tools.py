@@ -8,8 +8,7 @@ LOGIN = "01-Requisitos/10-login-do-cliente.md"
 
 
 def test_index_is_incremental(okf, root):
-    assert okf.okf_index(root, limit=2) == {"documentos": 3, "indexados": 2, "removidos": 0, "restantes": 1,
-                                            "a_enriquecer": 2}
+    assert okf.okf_index(root, limit=2) == {"documentos": 3, "indexados": 2, "removidos": 0, "restantes": 1}
     assert okf.okf_index(root)["indexados"] == 1
     assert okf.okf_index(root)["indexados"] == 0
     with open(os.path.join(root, RN), "a") as f:
@@ -22,78 +21,55 @@ def test_index_is_incremental(okf, root):
     assert okf.okf_index(root, force=True)["indexados"] == 2
 
 
-def test_enrichment_round_trip(okf, root):
+def test_force_keeps_search_while_reindexing(okf, root):
     okf.okf_index(root)
-    batch = okf.okf_enrich_next(root, limit=1)
-    assert batch["restantes"] == 3 and len(batch["documentos"]) == 1 and "summary" in batch["instrucoes"]
-    uc = okf.okf_enrich_next(root, limit=5)["documentos"]
-    doc = next(d for d in uc if d["path"] == UC)
-    assert "Vincular A: 10 — Login do cliente" in doc["links"] and doc["title"] == "2010 — UC - Cadastrar cliente"
-    assert "[2001 RN - Validar CPF do cliente]" in doc["body"] and "TX_2001" not in doc["body"]
-    items = [{"path": d["path"], "summary": f"Resumo {d['title']}", "keywords": ["onboarding"], "entities": [],
-              "questions": []} for d in uc]
-    assert okf.okf_save_enrichment(root, items) == {"gravados": 3, "restantes": 0}
-    assert okf.okf_enrich_next(root)["documentos"] == []
-    assert okf.okf_index(root)["a_enriquecer"] == 0
-    # keyword que só existe no enriquecimento já acha o documento
-    assert okf.okf_search(root, "onboarding", limit=3)[0]["summary"].startswith("Resumo")
-    with open(os.path.join(root, RN), "a") as f:
-        f.write("\nMudou.\n")
-    assert okf.okf_index(root)["a_enriquecer"] == 1
-
-
-def test_save_enrichment_validates_before_writing(okf, root):
-    okf.okf_index(root)
-    ok = {"path": RN, "summary": "x", "keywords": [], "entities": [], "questions": []}
-    with pytest.raises(ValueError):
-        okf.okf_save_enrichment(root, [ok, {**ok, "path": "../fora.md"}])
-    with pytest.raises(ValueError):
-        okf.okf_save_enrichment(root, [{**ok, "keywords": "não é lista"}])
-    assert okf.okf_enrich_next(root)["restantes"] == 3
+    assert okf.okf_index(root, limit=1, force=True)["restantes"] == 2
+    assert okf.okf_search(root, "CPF")  # índice antigo continua respondendo
+    assert okf.okf_index(root)["indexados"] == 2
 
 
 def test_search_and_filters(okf, root):
     okf.okf_index(root)
     hits = okf.okf_search(root, "CPF dígitos verificadores módulo 11")
     assert hits[0]["path"] == RN and hits[0]["trechos"][0]["section"] == "Regra"
+    assert hits[0]["trechos"][0]["text"].startswith("## Regra")  # sem o prefixo de contexto
     assert {h["folder"] for h in okf.okf_search(root, "CPF", folder="01-Requisitos")} == {"01-Requisitos"}
     assert okf.okf_search(root, "CPF", type="Caso de Uso")[0]["path"] == UC
+    assert okf.okf_search(root, "verificador")[0]["path"] == RN  # FTS por prefixo e sem acento
+    assert okf.okf_search(root, 'aspas " e OR') is not None  # sintaxe do FTS5 não vaza da query
+    with pytest.raises(ValueError):
+        okf.okf_search(root, "  ")
 
 
-def test_get_document_links_backlinks_and_similar(okf, root):
+def test_get_document_with_links(okf, root):
     okf.okf_index(root)
     doc = okf.okf_get_document(root, "2001")
     assert doc["path"] == RN and doc["markdown"].startswith("---\ntype: Regra de Negócio")
     assert {(l["rel"], l["path"]) for l in doc["links"]["entrada"]} == {("cita", UC), ("cita", LOGIN)}
     assert doc["links"]["saida"] == []
-    assert RN not in {s["path"] for s in doc["links"]["similares"]} and doc["links"]["similares"]
     assert okf.okf_get_document(root, UC)["links"]["saida"][0] == {
         "rel": "Vincular A", "path": LOGIN, "id": "10", "title": "Login do cliente"}
     with pytest.raises(LookupError):
         okf.okf_get_document(root, "../../etc/passwd")
 
 
-def test_export_html_writes_report_in_bundle_root(okf, root):
-    with pytest.raises(LookupError):
-        okf.okf_export_html(root)
+def test_export_html_renders_bundle(okf, root):
     with open(os.path.join(root, RN), "a") as f:
         f.write("\nTexto com </script><script>alert(1)</script>\n")
-    okf.okf_index(root)
-    okf.okf_save_enrichment(root, [{"path": RN, "summary": "Valida CPF </script>", "keywords": ["cpf"],
-                                    "entities": [], "questions": []}])
     assert okf.okf_export_html(root) == {"arquivo": os.path.join(os.path.realpath(root), "okf.html"),
-                                         "documentos": 3, "enriquecidos": 1, "links": 3}
+                                         "documentos": 3, "links": 3}
     html = open(os.path.join(root, "okf.html"), encoding="utf-8").read()
     data = html.split('<script id="data" type="application/json">')[1].split("</script>")[0]
-    assert '"rel": "Vincular A"' in data and "Valida CPF <\\/script>" in data
+    assert '"rel": "Vincular A"' in data and "<\\/script><script>alert(1)<\\/script>" in data
+    assert "(#doc=03-Regras/2001-rn-validar-cpf-do-cliente.md)" in data  # link interno navega no html
     assert "okf.html" not in {d["path"] for d in okf.okf_list_documents(root)}
 
 
-def test_index_heals_points_missing_from_qdrant(okf, root):
+def test_index_rebuilds_when_db_is_deleted(okf, root):
     from mcp_okf import store
     okf.okf_index(root)
-    store.delete_doc(os.path.realpath(root), RN)  # estado diz indexado, Qdrant não tem
-    assert okf.okf_index(root)["indexados"] == 1
+    os.remove(store.db_file(os.path.realpath(root)))
+    assert okf.okf_index(root)["indexados"] == 3
     assert okf.okf_search(root, "CPF dígitos verificadores")[0]["path"] == RN
 
 
@@ -102,19 +78,11 @@ def test_index_stops_at_time_budget(okf, root, monkeypatch):
     assert okf.okf_index(root)["restantes"] == 3
 
 
-
-def test_writes_from_different_threads_on_disk_index(okf, root, monkeypatch):
-    """O MCP roda cada tool síncrona numa thread de trabalho; o Qdrant local em disco grava em SQLite."""
-    from concurrent.futures import ThreadPoolExecutor
+def test_two_connections_on_same_index(okf, root):
+    """Dois processos do mcp-okf no mesmo bundle: WAL deixa um ler enquanto o outro grava."""
     from mcp_okf import store
-    from conftest import REAL_CLIENT
-    REAL_CLIENT.cache_clear()
-    monkeypatch.setattr(store, "client", REAL_CLIENT)
-    try:
-        with ThreadPoolExecutor(1) as a, ThreadPoolExecutor(1) as b:
-            assert a.submit(okf.okf_index, root).result()["indexados"] == 3
-            item = {"path": RN, "summary": "x", "keywords": [], "entities": [], "questions": []}
-            assert b.submit(okf.okf_save_enrichment, root, [item]).result() == {"gravados": 1, "restantes": 2}
-    finally:
-        REAL_CLIENT().close()
-        REAL_CLIENT.cache_clear()
+    rd = os.path.realpath(root)
+    with store.connect(rd) as a, store.connect(rd) as b:
+        okf.okf_index(root)
+        assert a.execute("select count(*) from docs").fetchone()[0] == 3
+        assert b.execute("select count(*) from chunks").fetchone()[0] > 0

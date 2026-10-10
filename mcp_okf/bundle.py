@@ -7,7 +7,7 @@ import os
 import posixpath
 import re
 from pathlib import Path
-from urllib.parse import unquote
+from urllib.parse import quote, unquote
 
 import yaml
 from markdown_it import MarkdownIt
@@ -17,6 +17,7 @@ CHUNK_MAX = 1500
 _HEADING = re.compile(r"^(#{1,3})\s+(.+?)\s*#*\s*$", re.M)
 _LEADING_ID = re.compile(r"(\d+)(?:[ _:-].*)?")
 _LINK_ID = re.compile(r"\s*(\d+)\s*:")  # item de `links`: 'id: título'
+_LINK = re.compile(r"\]\((?:<([^>]*)>|([^)\s]*))")  # '](alvo' ou '](<alvo>'
 _MD = MarkdownIt()
 
 
@@ -118,6 +119,14 @@ def links(doc: dict, docs: dict, by_id: dict[str, str]) -> list[dict]:
         if (path := resolve(doc["path"], target, by_id, docs)) and path != doc["path"]:
             out.setdefault(("cita", path), {"rel": "cita", "path": path})
     return list(out.values())
+
+
+def link_body(doc: dict, docs: dict, by_id: dict[str, str]) -> str:
+    """Corpo com os links para documentos do bundle trocados por `#doc=<path>` (navegação dentro do okf.html)."""
+    def repl(m: re.Match) -> str:
+        path = resolve(doc["path"], m.group(1) if m.group(1) is not None else m.group(2), by_id, docs)
+        return f"](#doc={quote(path)}" if path else m.group(0)
+    return _LINK.sub(repl, doc["body"])
 
 
 def by_id(docs: dict) -> dict[str, str]:

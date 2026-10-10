@@ -1,9 +1,9 @@
-"""Bundle de exemplo copiado para tmp, Qdrant em memória e embeddings falsos (sem baixar modelo)."""
+"""Bundle de exemplo copiado para tmp, índice SQLite em tmp e embeddings falsos (sem baixar modelo)."""
 import re
 import zlib
 
+import numpy as np
 import pytest
-from qdrant_client import QdrantClient, models
 
 from mcp_okf import store
 
@@ -21,22 +21,17 @@ def _words(text: str) -> list[str]:
     return re.findall(r"\w+", text.lower())
 
 
-def fake_dense(texts):
-    out = []
-    for t in texts:
-        v = [0.0] * store.DENSE_DIM
+DIM = 64
+
+
+def fake_embed(texts):
+    """Saco de palavras com hash: textos com palavras em comum ficam próximos."""
+    v = np.zeros((len(texts), DIM), dtype=np.float32)
+    for i, t in enumerate(texts):
         for w in _words(t):
-            v[zlib.crc32(w.encode()) % store.DENSE_DIM] += 1.0
-        out.append(v if any(v) else [1.0] + [0.0] * (store.DENSE_DIM - 1))
-    return out
-
-
-def fake_sparse(texts, query=False):
-    out = []
-    for t in texts:
-        idx = sorted({zlib.crc32(w.encode()) % 100_000 for w in _words(t)})
-        out.append(models.SparseVector(indices=idx, values=[1.0] * len(idx)))
-    return out
+            v[i, zlib.crc32(w.encode()) % DIM] += 1.0
+    v[:, 0] += 1e-3
+    return v / np.linalg.norm(v, axis=1, keepdims=True)
 
 
 @pytest.fixture
@@ -48,16 +43,9 @@ def root(tmp_path):
     return str(dest)
 
 
-REAL_CLIENT = store.client  # Qdrant em disco, antes do monkeypatch
-
-
 @pytest.fixture
 def okf(tmp_path, monkeypatch):
     monkeypatch.setenv("MCP_OKF_HOME", str(tmp_path / "home"))
-    qc = QdrantClient(":memory:")
-    store._ensure(qc)
-    monkeypatch.setattr(store, "client", lambda: qc)
-    monkeypatch.setattr(store, "embed_dense", fake_dense)
-    monkeypatch.setattr(store, "embed_sparse", fake_sparse)
+    monkeypatch.setattr(store, "embed", fake_embed)
     from mcp_okf import tools
     return tools

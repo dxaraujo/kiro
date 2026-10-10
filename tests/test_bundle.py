@@ -45,6 +45,13 @@ def test_resolve_ignores_targets_outside_bundle(root):
     assert bundle.resolve(UC, "https://example.com/x.md", {}, docs) is None
 
 
+def test_link_body_points_bundle_links_to_html_anchor(root):
+    docs = bundle.scan(root)
+    body = bundle.link_body(docs[UC], docs, bundle.by_id(docs))
+    assert "(#doc=03-Regras/2001-rn-validar-cpf-do-cliente.md)" in body  # URL do ALM de artefato no bundle
+    assert "(https://example.com/manual.pdf)" in body and "(../../segredo.md)" in body  # fora: intacto
+
+
 def test_chunks_by_heading_with_context_prefix(root):
     parts = bundle.chunks(bundle.scan(root)[RN])
     assert [c["section"] for c in parts] == ["Regra", "Mensagem"]

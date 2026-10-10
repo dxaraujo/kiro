@@ -13,11 +13,10 @@ mcp = MCPServer(
     "okf",
     instructions=(
         "Base de conhecimento sobre um bundle OKF (pasta com index.md e um .md por documento, como o gerado pela "
-        "alm-sync). `root` é sempre o caminho absoluto da pasta. Preparar: okf_index até restantes=0; depois "
-        "okf_enrich_next -> gere o enriquecimento de cada documento -> okf_save_enrichment, até restantes=0. "
-        "Consultar: okf_search (pergunta em linguagem natural), okf_get_document (documento inteiro + links de "
-        "saída, de entrada e similares), okf_list_documents (inventário). A busca funciona sem enriquecimento, mas "
-        "fica melhor com ele. Cite os documentos pelo path/id."
+        "alm-sync). `root` é sempre o caminho absoluto da pasta. Preparar: okf_index até restantes=0 (de novo após "
+        "cada sincronismo: só o que mudou é reindexado). Consultar: okf_search (pergunta em linguagem natural), "
+        "okf_get_document (documento inteiro + links de saída e de entrada), okf_list_documents (inventário). "
+        "okf_export_html grava okf.html no bundle para navegar no grafo 3D. Cite os documentos pelo path/id."
     ),
 )
 

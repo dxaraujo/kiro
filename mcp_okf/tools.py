@@ -3,21 +3,28 @@ from __future__ import annotations
 
 import json
 import os
+import re
+import time
 from pathlib import Path
 from typing import TypedDict
 
 from . import bundle, store
 from .server import tool
 
-BODY_MAX = 12000  # corpo devolvido para enriquecer: limita o contexto gasto por documento
+# shortcut: orçamento fixo por chamada; tornar parâmetro se algum cliente tiver timeout menor que ~60 s
+TIME_BUDGET = 40
+BODY_MAX = 4000  # corpo devolvido para enriquecer: a LLM do cliente lê tudo, então quanto menos, mais rápido
+LINKS_MAX = 10
+_LINK_TARGET = re.compile(r"\]\((?:<[^>]*>|[^)\s]*)\)")  # '[rótulo](alvo)' -> '[rótulo]': o alvo não ajuda a resumir
 SNIPPET_MAX = 800
 LIST_MAX, ITEM_MAX, SUMMARY_MAX = 30, 300, 2000
 INSTRUCOES = (
-    "Para cada documento, gere em PT-BR e chame okf_save_enrichment com items=[{path, summary, keywords, entities, "
-    "questions}]: summary = 2-3 frases do que o documento define; keywords = termos de negócio e sinônimos que uma "
-    "pessoa usaria para procurá-lo (inclusive os que o texto não usa literalmente); entities = atores, sistemas, "
-    "regras e dados citados; questions = 3-5 perguntas que o documento responde. Use só o que está no documento e "
-    "nos links; não invente.")
+    "Para todos os documentos do lote, chame UMA vez okf_save_enrichment com items=[{path, summary, keywords, "
+    "entities, questions}], em PT-BR e curto: summary = 1-2 frases do que o documento define; keywords = até 8 termos "
+    "de negócio e sinônimos que alguém usaria para procurá-lo (inclusive os que o texto não usa); entities = até 5 "
+    "atores/sistemas/dados citados, ou []; questions = até 3 perguntas que ele responde. Use só o documento e os "
+    "links; não invente. Não mostre o enriquecimento na conversa: grave e chame okf_enrich_next de novo até "
+    "restantes = 0.")
 
 
 class Enrichment(TypedDict):
@@ -39,8 +46,8 @@ def _pending_enrichment(state: dict) -> list[str]:
 @tool
 def okf_index(root: str, limit: int = 200, force: bool = False) -> dict:
     """Indexa o bundle OKF em `root` (caminho absoluto): lê todos os .md, recalcula os links entre documentos, remove
-    do índice os arquivos apagados e (re)indexa até `limit` documentos novos ou alterados (sha256 diferente).
-    Chame até `restantes` = 0. `force=True` (só na 1ª chamada) reindexa tudo, mantendo o enriquecimento.
+    do índice os arquivos apagados e (re)indexa até `limit` documentos novos ou alterados (sha256 diferente) ou que
+    faltam no índice, parando em ~40 s para responder antes do timeout do cliente. Chame até `restantes` = 0. `force=True` (só na 1ª chamada) reindexa tudo, mantendo o enriquecimento.
     Devolve {documentos, indexados, removidos, restantes, a_enriquecer}."""
     with store.LOCK:
         rd = bundle.root(root)
@@ -51,30 +58,33 @@ def okf_index(root: str, limit: int = 200, force: bool = False) -> dict:
         for p in removed:
             store.delete_doc(rd, p)
             del state[p]
+        in_index = store.indexed_paths(rd)  # o que o Qdrant tem de fato: estado e índice podem divergir
         for p, d in docs.items():
             e = state.setdefault(p, {})
             e.update(hash=d["hash"], id=d["id"], title=d["title"], type=d["type"], folder=d["folder"],
                      description=d["description"],
                      links=bundle.links(d, docs, ids))
-            if force:
+            if force or p not in in_index:
                 e.pop("indexed_hash", None)
         pending = [p for p in docs if not store.indexed(state[p])]
-        done = 0
-        try:
-            for p in pending[:limit]:
-                store.write_doc(rd, docs[p], state[p].get("enrichment"))  # enriquecimento antigo vale até o novo
-                state[p]["indexed_hash"] = docs[p]["hash"]
-                done += 1
-        finally:
-            store.save_state(rd, state)  # progresso salvo mesmo se um documento falhar
+        done, deadline = 0, time.monotonic() + TIME_BUDGET
+        store.save_state(rd, state)
+        for p in pending[:limit]:
+            if time.monotonic() > deadline:
+                break
+            store.write_doc(rd, docs[p], state[p].get("enrichment"))  # enriquecimento antigo vale até o novo
+            state[p]["indexed_hash"] = docs[p]["hash"]
+            store.save_state(rd, state)  # por documento: reinício do MCP no meio do lote não perde o progresso
+            done += 1
         return {"documentos": len(docs), "indexados": done, "removidos": len(removed),
                 "restantes": len(pending) - done, "a_enriquecer": len(_pending_enrichment(state))}
 
 
 @tool
-def okf_enrich_next(root: str, limit: int = 5) -> dict:
+def okf_enrich_next(root: str, limit: int = 10) -> dict:
     """Próximos documentos indexados sem enriquecimento (ou alterados depois dele), para a LLM enriquecer e gravar
-    com okf_save_enrichment. Devolve {restantes, instrucoes, documentos: [{path, id, type, title, body, links}]}."""
+    com okf_save_enrichment. Devolve {restantes, instrucoes, documentos: [{path, type, title, body, links}]}; body sem
+    o alvo dos links e cortado em 4 mil caracteres; links = ['rel: id — título']."""
     with store.LOCK:
         rd = bundle.root(root)
         state = store.load_state(rd)
@@ -82,10 +92,13 @@ def okf_enrich_next(root: str, limit: int = 5) -> dict:
         out = []
         for p in pending[:max(1, limit)]:
             doc = bundle.load(rd, p)
-            out.append({"path": p, "id": doc["id"], "type": doc["type"], "title": doc["title"],
-                        "description": doc["description"], "body": doc["body"][:BODY_MAX],
-                        "links": [{"rel": l["rel"], **_ref(state.get(l["path"], {}), l["path"])}
-                                  for l in state[p].get("links", [])]})
+            body = re.sub(r"\n\s*\n+", "\n\n", _LINK_TARGET.sub("]", doc["body"])).strip()
+            if doc["description"] and doc["description"] not in body:
+                body = f"{doc['description']}\n\n{body}"
+            links = [(l["rel"], state.get(l["path"], {})) for l in state[p].get("links", [])]
+            out.append({"path": p, "type": doc["type"], "title": f"{doc['id']} — {doc['title']}" if doc["id"]
+                        else doc["title"], "body": body[:BODY_MAX],
+                        "links": [f"{rel}: {e.get('id')} — {e.get('title')}" for rel, e in links[:LINKS_MAX]]})
         return {"restantes": len(pending), "instrucoes": INSTRUCOES, "documentos": out}
 
 

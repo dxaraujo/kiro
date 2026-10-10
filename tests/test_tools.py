@@ -27,8 +27,9 @@ def test_enrichment_round_trip(okf, root):
     batch = okf.okf_enrich_next(root, limit=1)
     assert batch["restantes"] == 3 and len(batch["documentos"]) == 1 and "summary" in batch["instrucoes"]
     uc = okf.okf_enrich_next(root, limit=5)["documentos"]
-    assert {"rel": "Vincular A", "path": LOGIN, "id": "10", "title": "Login do cliente"} in \
-        next(d for d in uc if d["path"] == UC)["links"]
+    doc = next(d for d in uc if d["path"] == UC)
+    assert "Vincular A: 10 — Login do cliente" in doc["links"] and doc["title"] == "2010 — UC - Cadastrar cliente"
+    assert "[2001 RN - Validar CPF do cliente]" in doc["body"] and "TX_2001" not in doc["body"]
     items = [{"path": d["path"], "summary": f"Resumo {d['title']}", "keywords": ["onboarding"], "entities": [],
               "questions": []} for d in uc]
     assert okf.okf_save_enrichment(root, items) == {"gravados": 3, "restantes": 0}
@@ -86,3 +87,16 @@ def test_export_html_writes_report_in_bundle_root(okf, root):
     data = html.split('<script id="data" type="application/json">')[1].split("</script>")[0]
     assert '"rel": "Vincular A"' in data and "Valida CPF <\\/script>" in data
     assert "okf.html" not in {d["path"] for d in okf.okf_list_documents(root)}
+
+
+def test_index_heals_points_missing_from_qdrant(okf, root):
+    from mcp_okf import store
+    okf.okf_index(root)
+    store.delete_doc(os.path.realpath(root), RN)  # estado diz indexado, Qdrant não tem
+    assert okf.okf_index(root)["indexados"] == 1
+    assert okf.okf_search(root, "CPF dígitos verificadores")[0]["path"] == RN
+
+
+def test_index_stops_at_time_budget(okf, root, monkeypatch):
+    monkeypatch.setattr(okf, "TIME_BUDGET", -1)
+    assert okf.okf_index(root)["restantes"] == 3

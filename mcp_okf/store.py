@@ -161,6 +161,17 @@ def write_doc_point(root: str, doc: dict, enrichment: dict | None) -> None:
     client().upsert(COLLECTION, [_doc_point(root, doc, enrichment)])
 
 
+def indexed_paths(root: str) -> set[str]:
+    """Paths com ponto 'doc' gravado no Qdrant para este bundle."""
+    paths, offset = set(), None
+    while True:
+        points, offset = client().scroll(COLLECTION, scroll_filter=_filter(root, kind="doc"), limit=1000,
+                                         offset=offset, with_payload=["path"], with_vectors=False)
+        paths.update(p.payload["path"] for p in points)
+        if offset is None:
+            return paths
+
+
 def delete_doc(root: str, path: str) -> None:
     _delete(root, path)
 

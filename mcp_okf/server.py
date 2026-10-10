@@ -21,20 +21,19 @@ mcp = MCPServer(
     ),
 )
 
-# RuntimeError: Qdrant travado por outro processo; OSError: disco; ValueError/LookupError: parâmetro inválido
-EXPECTED = (RuntimeError, OSError, LookupError, ValueError)
 
 
 def tool(fn):
     """Registra `fn` como tool e devolve `fn` intacta (testes veem as exceções originais).
 
-    O MCP SDK 2.x esconde o texto de exceções que não são ToolError."""
+    O MCP SDK 2.x esconde o texto de exceções que não são ToolError ("Error executing tool"); aqui toda falha vira
+    ToolError com tipo e mensagem, para o cliente (e quem lê o log dele) ver a causa."""
     @functools.wraps(fn)
     def wrapper(*args, **kwargs):
         try:
             return fn(*args, **kwargs)
-        except EXPECTED as exc:
-            raise ToolError(str(exc)) from exc
+        except Exception as exc:
+            raise ToolError(f"{type(exc).__name__}: {exc}") from exc
 
     mcp.tool()(wrapper)
     return fn

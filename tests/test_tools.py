@@ -100,3 +100,21 @@ def test_index_heals_points_missing_from_qdrant(okf, root):
 def test_index_stops_at_time_budget(okf, root, monkeypatch):
     monkeypatch.setattr(okf, "TIME_BUDGET", -1)
     assert okf.okf_index(root)["restantes"] == 3
+
+
+
+def test_writes_from_different_threads_on_disk_index(okf, root, monkeypatch):
+    """O MCP roda cada tool síncrona numa thread de trabalho; o Qdrant local em disco grava em SQLite."""
+    from concurrent.futures import ThreadPoolExecutor
+    from mcp_okf import store
+    from conftest import REAL_CLIENT
+    REAL_CLIENT.cache_clear()
+    monkeypatch.setattr(store, "client", REAL_CLIENT)
+    try:
+        with ThreadPoolExecutor(1) as a, ThreadPoolExecutor(1) as b:
+            assert a.submit(okf.okf_index, root).result()["indexados"] == 3
+            item = {"path": RN, "summary": "x", "keywords": [], "entities": [], "questions": []}
+            assert b.submit(okf.okf_save_enrichment, root, [item]).result() == {"gravados": 1, "restantes": 2}
+    finally:
+        REAL_CLIENT().close()
+        REAL_CLIENT.cache_clear()

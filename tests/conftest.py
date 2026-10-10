@@ -48,6 +48,9 @@ def root(tmp_path):
     return str(dest)
 
 
+REAL_CLIENT = store.client  # Qdrant em disco, antes do monkeypatch
+
+
 @pytest.fixture
 def okf(tmp_path, monkeypatch):
     monkeypatch.setenv("MCP_OKF_HOME", str(tmp_path / "home"))

@@ -41,7 +41,8 @@ def client() -> QdrantClient:
     path = home() / "qdrant"
     path.mkdir(parents=True, exist_ok=True)
     try:
-        qc = QdrantClient(path=str(path))
+        # o MCP roda cada tool numa thread de trabalho; o acesso já é serializado por LOCK
+        qc = QdrantClient(path=str(path), force_disable_check_same_thread=True)
     except RuntimeError as exc:
         raise RuntimeError(f"Índice em {path} já está aberto por outro processo do mcp-okf: {exc}") from exc
     _ensure(qc)

@@ -12,7 +12,8 @@ from urllib.parse import quote, unquote
 import yaml
 from markdown_it import MarkdownIt
 
-SKIP = {"index.md", "sync.md"}  # arquivos do próprio bundle, não documentos
+RESERVED = {"index.md", "log.md"}  # reservados pelo OKF em qualquer pasta, não documentos
+SKIP = {"sync.md"}  # relatório da alm-sync na raiz
 CHUNK_MAX = 1500
 _HEADING = re.compile(r"^(#{1,3})\s+(.+?)\s*#*\s*$", re.M)
 _LEADING_ID = re.compile(r"(\d+)(?:[ _:-].*)?")
@@ -67,11 +68,11 @@ def load(root_dir: str, path: str) -> dict:
 
 
 def scan(root_dir: str) -> dict[str, dict]:
-    """Todos os .md do bundle (menos index.md/sync.md na raiz), por caminho relativo posix."""
+    """Todos os .md do bundle (menos index.md/log.md de qualquer pasta e sync.md na raiz), por caminho relativo posix."""
     docs = {}
     for full in sorted(Path(root_dir).rglob("*.md")):
         rel = full.relative_to(root_dir).as_posix()
-        if rel in SKIP or any(part.startswith(".") for part in full.relative_to(root_dir).parts):
+        if full.name in RESERVED or rel in SKIP or any(part.startswith(".") for part in full.relative_to(root_dir).parts):
             continue
         docs[rel] = load(root_dir, rel)
     return docs

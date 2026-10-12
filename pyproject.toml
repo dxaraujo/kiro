@@ -1,6 +1,6 @@
 [project]
 name = "mcp-okf"
-version = "0.3.0"
+version = "1.0.4"
 description = "MCP server de base de conhecimento sobre bundles OKF (alm-sync): indexação e busca semântica"
 readme = "README.md"
 license = "MIT"

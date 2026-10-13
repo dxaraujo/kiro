@@ -1,0 +1,48 @@
+{
+  "name": "sdd2-planejar-fatia",
+  "description": "sdd2 — pesquisa e plano de uma fatia (spec do Kiro) com análise independente; cada passo roda numa sessão nova. Termina no GATE do plano, que é de uma pessoa.",
+  "inputs": {
+    "fatia": "string"
+  },
+  "steps": [
+    {
+      "type": "step",
+      "id": "pesquisa",
+      "agent": "sdd2-pesquisador",
+      "prompt": "Fatia {{fatia}}. AUTONOMO=true. Siga a skill sdd2-pesquisar: ache a pasta da fatia pelo campo spec de .kiro/produto/backlog.json e escreva o research.md dela. Sem perguntas; o que não achar vai para 'Não encontrado'."
+    },
+    {
+      "type": "step",
+      "id": "plano",
+      "agent": "sdd2-codificador",
+      "prompt": "Fatia {{fatia}}. AUTONOMO=true. Siga a skill sdd2-plano, Passos 2 e 3 (o research.md já existe). Não rode a análise nem o GATE. Lacuna de negócio: registre a pergunta, ponha fase bloqueada no status.md e pare."
+    },
+    {
+      "type": "repeat",
+      "id": "analise",
+      "maxIterations": 2,
+      "onMaxIterations": "pause",
+      "stopCondition": {
+        "fileCheck": {
+          "path": ".kiro/local/wf/{{fatia}}/plano.json",
+          "jsonPath": "resultado",
+          "value": "OK"
+        }
+      },
+      "steps": [
+        {
+          "type": "step",
+          "id": "analisar",
+          "agent": "sdd2-revisor",
+          "prompt": "Fatia {{fatia}}. Revise o plano pela rubrica L da skill sdd2-revisar. Grave o analise-plano-<N>.md na pasta da fatia e .kiro/local/wf/{{fatia}}/plano.json com {\"resultado\": \"OK\"} ou {\"resultado\": \"AJUSTAR\"}."
+        },
+        {
+          "type": "step",
+          "id": "ajustar",
+          "agent": "sdd2-codificador",
+          "prompt": "Fatia {{fatia}}. AUTONOMO=true. Leia .kiro/local/wf/{{fatia}}/plano.json. Se for AJUSTAR: corrija no plano só os achados do último analise-plano-<N>.md que são do plano; achado do PRD → registre a pergunta, fase bloqueada, e pare. Se for OK: não faça nada."
+        }
+      ]
+    }
+  ]
+}

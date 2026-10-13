@@ -1,0 +1,42 @@
+{
+  "name": "sdd2-entregar-fatia",
+  "description": "sdd2 — implementa uma fatia de plano aprovado (teste primeiro + backpressure), com revisão independente em até 3 rodadas e verificação de aceite; cada passo roda numa sessão nova. Termina com a fatia pronta para o PR, que uma pessoa abre e revisa.",
+  "inputs": {
+    "fatia": "string"
+  },
+  "steps": [
+    {
+      "type": "repeat",
+      "id": "construir",
+      "maxIterations": 3,
+      "onMaxIterations": "pause",
+      "stopCondition": {
+        "fileCheck": {
+          "path": ".kiro/local/wf/{{fatia}}/codigo.json",
+          "jsonPath": "veredito",
+          "value": "APROVADO"
+        }
+      },
+      "steps": [
+        {
+          "type": "step",
+          "id": "implementar",
+          "agent": "sdd2-codificador",
+          "prompt": "Fatia {{fatia}}. AUTONOMO=true. Siga a skill sdd2-implementar, Passos 0 a 2: implemente as tarefas pendentes do tasks.md e os achados do último revisao-codigo-<N>.md com veredito REVISAR, se houver. Não peça revisão, não faça push nem abra PR."
+        },
+        {
+          "type": "step",
+          "id": "revisar",
+          "agent": "sdd2-revisor",
+          "prompt": "Fatia {{fatia}}. Revise o código pela rubrica C da skill sdd2-revisar (diff contra a branch base do sdd2-projeto.md), eixos spec e padrões separados. Grave o revisao-codigo-<N>.md na pasta da fatia e .kiro/local/wf/{{fatia}}/codigo.json com {\"veredito\": \"APROVADO\"} ou {\"veredito\": \"REVISAR\"}."
+        }
+      ]
+    },
+    {
+      "type": "step",
+      "id": "verificar",
+      "agent": "sdd2-verificador",
+      "prompt": "Fatia {{fatia}}. Siga a skill sdd2-verificar com o contrato de pronto do design.md. Grave verificacao.md, o CT.csv se ACEITO, e .kiro/local/wf/{{fatia}}/aceite.json com {\"verificacao\": \"ACEITO\"} ou {\"verificacao\": \"REJEITADO\"}. Atualize a fase no status.md."
+    }
+  ]
+}

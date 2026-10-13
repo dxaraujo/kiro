@@ -1,0 +1,26 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "sdd2-backpressure",
+      "description": "sdd2: depois de cada tarefa de spec executada pelo agente (Start task / Run all tasks), compila e roda os testes com os comandos do sdd2-projeto.md. Falha volta para o agente como aviso, antes da próxima tarefa.",
+      "trigger": "PostTaskExec",
+      "action": {
+        "type": "command",
+        "command": "{{COMPILAR}} && {{TESTES}}"
+      },
+      "timeout": 900,
+      "enabled": true
+    },
+    {
+      "name": "sdd2-fechar-sessao",
+      "description": "sdd2: botão para encerrar a sessão de trabalho numa fatia sem perder o fio — atualiza o status.md (o que foi feito, próximo passo, decisões), deixa o git limpo e diz como retomar.",
+      "trigger": "Manual",
+      "action": {
+        "type": "agent",
+        "prompt": "Estou encerrando esta sessão de trabalho. Se trabalhamos numa fatia do sdd2: (1) acrescente ao Histórico do status.md da fatia o que foi feito, o próximo passo exato e as decisões tomadas; (2) marque no tasks.md só o que está realmente pronto e verde; (3) mostre o git status e proponha o commit do que está pronto (não faça push); (4) termine com a frase para retomar numa sessão nova (ex.: \"vamos trabalhar na FT-031\")."
+      },
+      "enabled": true
+    }
+  ]
+}

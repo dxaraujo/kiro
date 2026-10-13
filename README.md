@@ -7,15 +7,15 @@ independente, com manifesto (`plugin.json`), steering, skills e, quando usa, ser
 
 | Power | O que faz | MCP |
 |---|---|---|
-| [alm](alm/) | IBM Engineering Lifecycle Management (ELM) via OSLC: work items do EWM/RTC, requisitos do DOORS Next, testes do ETM, configuração global, rastreabilidade, lançamento de horas e sincronização da documentação do RM (OKF) | [mcp-alm](https://github.com/dxaraujo/mcp-alm) |
+| [elm](elm/) | IBM Engineering Lifecycle Management (ELM) via OSLC: work items do EWM/RTC, requisitos do DOORS Next, testes do ETM, configuração global, rastreabilidade, lançamento de horas e sincronização da documentação do RM (OKF) | [mcp-elm](https://github.com/dxaraujo/mcp-elm) |
 | [elk](elk/) | Logs do ELK (Elasticsearch + Kibana): buscar, contar, exportar CSV, diagnosticar incidentes, salvar consultas no Kibana e logs de execução de jobs Spring Batch | [mcp-elk](https://github.com/dxaraujo/mcp-elk) |
-| [sdd-workflow](sdd-workflow/) | Fluxo de Spec-Driven Development (especificador, codificador, testador) com gates, judge, devoluções com causa raiz, aprendizado contínuo, lote e planejamento de sprints; cria os agentes no projeto pela `sdd-setup` | — (usa o `alm`, se instalado) |
+| [sdd](sdd/) | Fluxo de Spec-Driven Development (especificador, codificador, testador) com gates, judge, devoluções com causa raiz, aprendizado contínuo, lote e planejamento de sprints; cria os agentes no projeto pela `sdd-setup` | — (usa o `elm`, se instalado) |
 
 ## Instalação
 
 1. Para powers com MCP, instale o [uv](https://docs.astral.sh/uv/): os servidores MCP rodam com `uvx`.
 2. No Kiro, adicione o power pelo painel **Powers**, apontando para a pasta do power neste repositório
-   (ex.: `https://github.com/dxaraujo/kiro-powers/alm`) ou para uma cópia local dela.
+   (ex.: `https://github.com/dxaraujo/kiro-powers/elm`) ou para uma cópia local dela.
 3. Siga o `README.md` da pasta do power para credenciais e primeiros passos.
 
 ## Estrutura de um power

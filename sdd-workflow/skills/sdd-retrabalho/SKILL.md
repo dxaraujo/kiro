@@ -50,6 +50,11 @@ Para cada problema (cada CT reprovado ou motivo de rejeição do PR é um item),
 4. Steering (`.kiro/steering/*.md`, inclusive `sdd-projeto.md`) e skills de código do projeto
 5. `retrabalho.md` — já aconteceu algo parecido?
 
+**Só fatos verificados ou informados.** Cada evidência diz de onde veio: `consta: arquivo:linha`, `não consta` (o
+que você procurou e não achou) ou `informado por <pessoa> — <o que disse>`. Fonte que você não consultou (ALM sem
+o MCP nesta sessão, banco, conversa com o P.O.) nunca vira "consta"; o que a pessoa contou é registrado como dito
+por ela, sem completar nem reformular como fato.
+
 ### 2. Classificar a causa raiz (proposta; quem confirma é uma pessoa)
 
 | Se a informação… | Categoria | Papel da causa raiz |
@@ -95,7 +100,10 @@ acrescente a linha. Expire itens sem reincidência nas últimas 10 Tasks registr
    artefatos que vão mudar → `rascunho`; `Retries do judge` → 0.
 2. Numa só confirmação: commit `Task <id da Task do papel que detectou, anotada no passo 0> - Registrar devolução
    R-<nnn>` — **não** a Task do papel que recebe (ex.: CT reprovado → `Task <[QA]> - …`, nunca a `[ESPEC]`) —
-   com `status.md`, `retrabalho.md`, os checklists e `testes.md` ou o motivo do PR, + push (é o sinal assíncrono para quem recebe) + comentário no PR, se ele já existir.
+   com `status.md`, `retrabalho.md`, os checklists e `testes.md` ou o motivo do PR (no `testes.md`, só o que foi
+   executado ou informado: o CT reprovado, o obtido e quem informou — nunca preencha resultado de CT que ninguém
+   executou nem relatou; se o `testes.md` ainda não existe e a pessoa não trouxe a execução, registre só o CT
+   reprovado com `fonte: informado por <pessoa>`), + push (é o sinal assíncrono para quem recebe) + comentário no PR, se ele já existir.
    Com power ALM: comentário na Task do papel que recebe (`Devolução R-<nnn>: <resumo> — ver status.md`) e reabrir
    essa Task (ação de `ccm_list_workitem_states`, ex.: Reabrir/Refazer). A Task do codificador continua aberta até o merge.
 3. Informe o próximo passo: especificador → `sdd-tarefa` com a Task `[ESPEC]` (corrige pela `sdd-especificar`, valida

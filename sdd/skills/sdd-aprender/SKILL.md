@@ -88,7 +88,7 @@ Autonomia: AFK <n> (<x> chegaram ao PR sem intervenção) · HITL <n>
 Propostas: <promoções, rubricas, skills, steering>
 ```
 
-Fontes: `status.md` das fatias (Histórico), `revisao-*`, `verificacao.md`, `licoes.md`, `backlog.json`. Termine
+Fontes: `status.md` das fatias (Histórico), `revisao-*`, `verificacao.md`, `licoes.md`, `backlog.md`. Termine
 perguntando quais propostas aplicar.
 
 ## Regras

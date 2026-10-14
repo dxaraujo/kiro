@@ -55,7 +55,7 @@ git worktree add .kiro/local/wt/<ft> <branch>                      # já existe
 
 Dentro da worktree, faça só os itens 2 e o commit do item 5 do Passo 4 da **`sdd-iniciar`** (pasta, `status.md`
 com `Responsável: agente:sdd-orquestrador`, `.config.kiro`), sem perguntas — o lote já foi confirmado. Sem EWM
-(você não tem o ELM: registre `ELM pendente: assumir a tarefa`) e sem push nesta hora. O `backlog.json` não muda
+(você não tem o ELM: registre `ELM pendente: assumir a tarefa`) e sem push nesta hora. O `backlog.md` não muda
 (ele só é escrito na base).
 
 **Comandos dentro da worktree** — diga isto a cada subagente: git, build e testes com

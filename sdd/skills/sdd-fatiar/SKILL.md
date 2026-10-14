@@ -1,6 +1,6 @@
 ---
 name: sdd-fatiar
-description: "Quebra um PRD aprovado do fluxo sdd em fatias verticais (tracer bullets) — cada fatia atravessa todas as camadas, entrega um comportamento verificável de ponta a ponta, cita as histórias e cenários que cobre, as dependências (bloqueada por), o tamanho (P/M/G, nunca maior) e o modo de autonomia (AFK: o agente faz sozinho até o PR · HITL: precisa de uma pessoa no meio). Grava o backlog em <produto>/backlog.json, conduz o GATE do backlog e, com ELM, publica as fatias como itens de backlog no EWM pela sdd-elm. Use em \"fatiar o PRD\", \"quebrar em histórias\", \"gerar o backlog\", \"criar os itens de backlog\", \"PRD para issues\", \"refinar o backlog\"."
+description: "Quebra um PRD aprovado do fluxo sdd em fatias verticais (tracer bullets) — cada fatia atravessa todas as camadas, entrega um comportamento verificável de ponta a ponta, cita as histórias e cenários que cobre, as dependências (bloqueada por), o tamanho (P/M/G, nunca maior) e o modo de autonomia (AFK: o agente faz sozinho até o PR · HITL: precisa de uma pessoa no meio). Grava o backlog em <produto>/backlog.md, conduz o GATE do backlog e, com ELM, publica as fatias como itens de backlog no EWM pela sdd-elm. Use em \"fatiar o PRD\", \"quebrar em histórias\", \"gerar o backlog\", \"criar os itens de backlog\", \"PRD para issues\", \"refinar o backlog\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -10,8 +10,7 @@ metadata:
 # sdd-fatiar — PRD → fatias verticais
 
 Entrada: PRD `aprovado` (`<produto>/epicos/<EP>-<slug>/prd.md`). Saída: fatias no
-`<produto>/backlog.json` (formato em [references/backlog.md](references/backlog.md)) e a visão humana
-`<produto>/backlog.md`, regenerada a partir do JSON.
+`<produto>/backlog.md` (formato em [references/backlog.md](references/backlog.md)).
 
 ## O que é uma boa fatia
 
@@ -68,13 +67,12 @@ Ajuste e repita até "ok". Esse "ok" é o **GATE do backlog** (P.O. ou time no r
 
 ## Passo 3 — Gravar
 
-1. `backlog.json` (na **base** — ver [references/backlog.md](references/backlog.md)): épico com `status: fatiado`;
-   uma entrada por fatia com prioridade (ordem da tabela, respeitando dependências), `elm: null` e `status`
-   `pronta` se passa na **Definition of Ready** (seção do `backlog.md`) ou `backlog` com o que falta. Ids
-   `FT-<nnn>` sequenciais no projeto, **nunca reaproveitados**.
-2. Regenere `backlog.md` a partir do JSON.
-3. PRD: `status: fatiado`.
-4. Commit (padrão do `sdd.md`): `backlog.json`, `backlog.md`, `prd.md`.
+1. `backlog.md` (na **base** — ver [references/backlog.md](references/backlog.md)): épico com `status: fatiado`;
+   uma linha por fatia com prioridade (ordem da tabela, respeitando dependências), `elm` `—` e `status`
+   `pronta` se passa na **Definition of Ready** (seção do [references/backlog.md](references/backlog.md)) ou
+   `backlog` com o que falta. Ids `FT-<nnn>` sequenciais no projeto, **nunca reaproveitados**.
+2. PRD: `status: fatiado`.
+3. Commit (padrão do `sdd.md`): `backlog.md`, `prd.md`.
 
 ## Passo 4 — Próximos passos (na mesma resposta)
 

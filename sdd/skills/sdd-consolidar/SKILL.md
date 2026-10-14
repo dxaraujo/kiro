@@ -62,11 +62,11 @@ Bundle do ELM no repositório (`rm.download.path`) → sugira rodar a `elm-sync`
 
 - Na **base** (`git switch <base>` + `git pull --ff-only`; direto ou por PR curto, conforme "Artefatos de produto"
   no `sdd.md` — várias fatias podem ir no mesmo PR de consolidação): `status.md` da fatia com
-  `fase: concluida` e data; `backlog.json` com `status: concluida` e `concluida-em`; ADRs e glossário do Passo 3.
+  `fase: concluida` e data; `backlog.md` com `status: concluida` e `concluida-em`; ADRs e glossário do Passo 3.
 - Todas as fatias do épico concluídas → épico `concluido` (PRD e backlog).
 - **`sdd-aprender`** modo registrar para cada correção humana da fatia (achados da revisão que chegaram à pessoa,
   verificações rejeitadas, mudanças pedidas no PR) — e modo retrospectiva se a pessoa quiser.
-- Commit (padrão do `sdd.md`) com `status.md`, `backlog.json`/`backlog.md` e o que mudou. Branch da
+- Commit (padrão do `sdd.md`) com `status.md`, `backlog.md` e o que mudou. Branch da
   fatia: pode ser apagada depois do merge (a pasta da fatia já está na base).
 
 ## Passo 5 — Próximo

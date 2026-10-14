@@ -25,8 +25,8 @@ Projeto sem ELM (`sdd.md` → ELM: não usa) → nada a fazer.
 1. **Prévia antes de escrever:** tabela `Ação (criar | atualizar | ligar | sem mudança) | Alvo | Título | Tipo/Pasta`
    e **uma** confirmação para o lote. Nada é escrito sem "sim".
 2. **Idempotência:** cada artefato tem uma identidade no repositório — o conceito OKF em `elm/` (requisitos) ou
-   a entrada do `backlog.json` (épico, fatia). Antes de criar:
-   - o repositório já tem o id (`resource`/`id` do conceito; `elm` do `backlog.json`) → **atualizar** o mesmo id;
+   a linha do `backlog.md` (épico, fatia). Antes de criar:
+   - o repositório já tem o id (`resource`/`id` do conceito; coluna `elm` do `backlog.md`) → **atualizar** o mesmo id;
    - não tem → procure no ELM uma publicação interrompida (requisito: `rm_search_requirements(text=<título>)`
      filtrado pelo tipo e pela pasta do conceito; EWM: título com `[FT-031]`) — achou um candidato → mostre e
      pergunte se é ele (sim → grave o id e trate como atualização);
@@ -83,7 +83,7 @@ modo sprint).
    `sdd.md`), descrição com: cenários cobertos (texto), modo AFK/HITL, `bloqueada por`, pasta prevista;
    responsável = P.O. (o IB é do produto). Links **implementa** → cada história que a fatia cobre; **depende de** →
    IBs das fatias em `bloqueada-por` (se o `link-types` tiver; senão fica na descrição).
-3. `backlog.json` (na base): `elm` de cada fatia/épico.
+3. `backlog.md` (na base): `elm` de cada fatia/épico.
 
 ## Modo sprint (planejamento → iteração)
 

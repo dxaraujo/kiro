@@ -92,7 +92,7 @@ de `skills/sdd-setup/assets/`:
 | `.kiro/hooks/sdd.json` (opcional) | backpressure: compila e testa depois de cada tarefa de spec |
 | `.kiro/workflows/sdd-*.workflow.json` (opcional, experimental) | `planejar-fatia` e `entregar-fatia` nos Kiro Workflows — quem dispara é a pessoa, no chat do Kiro ("rode o workflow `sdd-entregar-fatia` para a FT-031" ou `/workflow-run`), uma fatia por vez; nenhum agente as dispara |
 | `.kiro/sdd/http.sh` (opcional) | única chamada HTTP que o verificador faz sem perguntar: só à URL de teste, com corpo da pasta `massa/` |
-| pasta do produto (perguntada na setup; ex.: `docs/pab`) | `backlog.json`, épicos e PRDs, `planejamento/`, `aprendizado/` — fora do `.kiro`, que guarda só o padrão do Kiro (`specs`, `steering`, `agents`, `hooks`, `workflows`) e o que é local (`.kiro/local/`, fora do git; `.kiro/sdd/http.sh`) |
+| pasta do produto (perguntada na setup; ex.: `docs/pab`) | `backlog.md`, épicos e PRDs, `planejamento/`, `aprendizado/` — fora do `.kiro`, que guarda só o padrão do Kiro (`specs`, `steering`, `agents`, `hooks`, `workflows`) e o que é local (`.kiro/local/`, fora do git; `.kiro/sdd/http.sh`) |
 
 Os agentes nunca recebem o MCP do ELM nem os outros powers (sem `includePowers`): a escrita no ELM acontece na
 sessão da pessoa, com o power `elm` e confirmação; nos agentes ela vira pendência registrada.

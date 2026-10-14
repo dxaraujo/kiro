@@ -15,14 +15,14 @@ Leia antes: `.kiro/steering/sdd.md`. Sem ele → ofereça a **`sdd-setup`** ("co
 
 **Ordem de consulta** para qualquer id (`FT-031`, número do EWM, `EP-03`) — vale a primeira fonte que achar, e
 nunca se inventa dado de work item: (1) `status.md` nas branches (atual, worktrees, remotas); (2) o
-`backlog.json` da base (ids locais e o campo `elm`); (3) o EWM pela skill `elm-ccm`, se a sessão tem o power `elm`;
+`backlog.md` da base (ids locais e a coluna `elm`); (3) o EWM pela skill `elm-ccm`, se a sessão tem o power `elm`;
 (4) perguntar à pessoa. A `fase` do `status.md` decide se o papel pode começar.
 
 | Entrada | Como ler |
 |---|---|
-| `FT-nnn` | `<produto>/backlog.json` (+ PRD do épico) |
+| `FT-nnn` | `<produto>/backlog.md` (+ PRD do épico) |
 | `EP-nn` ou "nova demanda" | é trabalho de produto → **`sdd-prd`** (ou `sdd-fatiar`, se o PRD já está aprovado) |
-| número do EWM (IB, DF, tarefa) | skill `elm-ccm` do power `elm`; o item pode já estar no `backlog.json` (campo `elm`) — procure primeiro lá |
+| número do EWM (IB, DF, tarefa) | skill `elm-ccm` do power `elm`; o item pode já estar no `backlog.md` (coluna `elm`) — procure primeiro lá |
 | texto ("corrigir o cálculo de juros") | a própria descrição; pergunte só o que faltar para a triagem |
 
 Fatia já iniciada (tem pasta em `.kiro/specs/` nesta branch, em worktrees ou em branches remotas —
@@ -41,12 +41,12 @@ ofereça descartar, `stash` ou `reset`).
 
 Diga a trilha e o motivo; dúvida entre duas → sim/não pela mais leve.
 - **Direta** não cria pasta nem entrada no backlog: o pedido e o id do item (se houver) vão no commit e no PR.
-- **Rápida** cria a fatia no `backlog.json` com `origem` (ex.: `"DF 4567"`) e sem épico. Regra de negócio nova
+- **Rápida** cria a fatia no `backlog.md` com `origem` (ex.: `DF 4567`) e sem épico. Regra de negócio nova
   descoberta nela → vira padrão (e, se mudar documentação, o PRD do épico ou um PRD curto).
 
 ## Passo 3 — Definition of Ready (trilha padrão)
 
-- a fatia está `pronta` no `backlog.json` — ou confira agora: cenários de aceite definidos (`cobre` preenchido) e
+- a fatia está `pronta` no `backlog.md` — ou confira agora: cenários de aceite definidos (`cobre` preenchido) e
   PRD `aprovado`/`fatiado`;
 - nenhuma decisão bloqueante `em aberto` (`decisoes.md`);
 - dependências (`bloqueada-por`) concluídas ou com o que a fatia precisa já na base;
@@ -66,7 +66,7 @@ Falhou um item → diga qual e o caminho (`sdd-entrevistar`, `sdd-fatiar` refina
    e o `.config.kiro` da spec do Kiro (`specType` `feature` na trilha padrão, `bugfix` na rápida — formato em
    [../sdd-plano/references/plano-templates.md](../sdd-plano/references/plano-templates.md)).
 3. **Backlog:** não muda aqui (ele só é escrito na base); a fatia em andamento é a que tem `status.md` numa branch.
-   Fatia de trilha rápida sem id → crie-a no `backlog.json` **na base** antes de criar a branch.
+   Fatia de trilha rápida sem id → crie-a no `backlog.md` **na base** antes de criar a branch.
 4. **EWM** (com power `elm`, pergunta única; nunca sem "sim"): assumir a **tarefa** de quem implementa (ex.:
    `[DEV]`; o item de backlog continua do P.O.) com responsável = `whoami`, iniciá-la (ação de
    `ccm_list_workitem_states`), estimativa se faltar. Sem o power: só o `status.md`.

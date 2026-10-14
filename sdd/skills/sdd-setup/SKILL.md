@@ -108,7 +108,7 @@ Falhou ao rodar → mostre o erro; a pessoa decide (corrigir o comando, seguir a
 
 ## Passo 4 — Produto, conhecimento e ELM
 
-1. **Pasta do produto** (`{{PRODUTO}}` dos templates e `<produto>` nas skills): onde ficam `backlog.json`, épicos
+1. **Pasta do produto** (`{{PRODUTO}}` dos templates e `<produto>` nas skills): onde ficam `backlog.md`, épicos
    e PRDs, planejamento e aprendizado — versionada, fora do `.kiro`. Pergunte sempre, mostrando as pastas que já
    existem em `docs/` e sugerindo `docs/<nome do produto>` (nome curto em minúsculas, do `pa_*.json` do ELM, do
    README ou do repositório; ex.: `docs/pab`). Grave o caminho real na seção Projeto do `sdd.md`.
@@ -118,7 +118,7 @@ Falhou ao rodar → mostre o erro; a pessoa decide (corrigir o comando, seguir a
 3. **ELM:** power `elm` instalado (`~/.kiro/powers/**/elm/`) e `.kiro/config/power/elm/pa_*.json` no repositório?
    Não achou o power ou o `pa_*.json` ali → procure `.kiro/config/power/*/pa_*.json` e **pergunte** qual vale
    (ou se o projeto não usa ELM).
-   - Sem power, confirmado pela pessoa → `Usa ELM: não` (o fluxo funciona igual; os ids vêm do `backlog.json`).
+   - Sem power, confirmado pela pessoa → `Usa ELM: não` (o fluxo funciona igual; os ids vêm do `backlog.md`).
    - Com power e sem `pa_*.json` → ofereça rodar a `elm-setup` antes (ela mapeia tipos, pastas, iterações).
    - Com `pa_*.json`: proponha o mapeamento da seção ELM do template (tipos e pastas pelos nomes do
      `rm.requirements-types`/`rm.folders`/`workitem-types`, por proximidade) e pergunte, um de cada vez: quando
@@ -197,8 +197,8 @@ Em memória:
 3. Hook e workflows escolhidos (Passo 7); script de chamada do verificador, se escolhido (Passo 6):
    `.kiro/sdd/http.sh` ← [assets/scripts/http.sh](assets/scripts/http.sh) com `{{URL_TESTE}}` trocado pela URL
    base do ambiente de teste (sem barra no fim).
-4. `<produto>/` (só o que não existir): `backlog.json` mínimo
-   (`{"projeto": "<nome>", "atualizado": "<data>", "proximo": {"EP": 1, "FT": 1}, "epicos": [], "fatias": []}`),
+4. `<produto>/` (só o que não existir): `backlog.md` mínimo
+   (`# Backlog — <nome>`, `Próximos ids: EP-01 · FT-001` e a tabela `## Épicos` vazia — formato na `sdd-fatiar`),
    `planejamento/`; `<produto>/aprendizado/licoes.md` com o título `# Lições`.
 5. `.gitignore`: acrescente `.kiro/local/` se faltar. Migração do layout antigo (Passo 0), se aceita.
 

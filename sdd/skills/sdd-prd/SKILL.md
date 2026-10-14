@@ -33,7 +33,7 @@ Leia antes: `.kiro/steering/sdd.md` (ELM, caminhos, papéis) e o steering de pro
    - código: onde o comportamento mora hoje, funcionalidades análogas;
    - glossário e ADRs (caminhos na seção Projeto do `sdd.md`): termos e decisões que já valem.
    Registre o que achou como fontes (id ELM, `arquivo:linha`).
-3. Defina o id: próximo `EP-<nn>` livre em `<produto>/backlog.json` (crie o arquivo se não existir —
+3. Defina o id: próximo `EP-<nn>` livre em `<produto>/backlog.md` (crie o arquivo se não existir —
    formato na `sdd-fatiar`). Pasta: `<produto>/epicos/<EP>-<slug>/` (`slug` em kebab-case, sem acento).
 
 ## Passo 2 — Entrevistar
@@ -86,7 +86,7 @@ Aprovar? (o P.O. ou quem ele delegou)
 - Aprovado → no `prd.md`: `status: aprovado`, versão `1.0`, data e quem aprovou no rodapé. Em **cada** conceito de
   `elm/`: `status: stable` e um `verified` com `{ by: human:<login de quem aprovou>, at: <agora> }` — sem esse
   `verified` humano a `sdd-elm` não publica. Entrada `**Update**` no `log.md`. Commit do PRD, do `decisoes.md`, de
-  `elm/` e do `backlog.json` (padrão de commit do `sdd.md`) — artefatos de produto vão para a **base**,
+  `elm/` e do `backlog.md` (padrão de commit do `sdd.md`) — artefatos de produto vão para a **base**,
   direto ou por PR curto, conforme "Artefatos de produto" no `sdd.md`; nunca numa branch de fatia.
 - Próximo passo, na mesma resposta:
   1. **`sdd-elm`** modo *requisitos* — publicar HF/REG/GL no DOORS Next (se o projeto usa ELM e a publicação é

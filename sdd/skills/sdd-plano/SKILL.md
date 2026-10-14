@@ -14,7 +14,7 @@ code review. Ele é curto, concreto e descartável: depois do merge, o que vale 
 ADRs. Templates: [references/plano-templates.md](references/plano-templates.md).
 
 Entrada: pasta `.kiro/specs/<ft>-<slug>/` criada pela `sdd-iniciar`, na branch da fatia.
-Leia: `status.md`, a fatia no `backlog.json`, o PRD do épico (histórias e regras cobertas) ou o defeito,
+Leia: `status.md`, a fatia no `backlog.md`, o PRD do épico (histórias e regras cobertas) ou o defeito,
 `.kiro/steering/sdd.md` (com as regras aprendidas) e o steering de tecnologia/estrutura.
 
 ## Passo 1 — Pesquisa

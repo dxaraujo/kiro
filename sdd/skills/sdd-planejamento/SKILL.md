@@ -14,7 +14,7 @@ PRs, verificar e aceitar. O planejamento do sdd mede e protege essa capacidade, 
 tamanho parecido e prevê pela **vazão** (fatias concluídas por sprint), mantendo os pontos no EWM para quem os usa.
 
 Arquivos em `<produto>/planejamento/` (formatos em [references/arquivos.md](references/arquivos.md)):
-`equipe.json`, `acordos.md`, `roadmap.md`, `sprints/sprint-<nn>.md`. Fatias: `<produto>/backlog.json`.
+`equipe.json`, `acordos.md`, `roadmap.md`, `sprints/sprint-<nn>.md`. Fatias: `<produto>/backlog.md`.
 
 Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
 
@@ -32,7 +32,7 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
      1 dia;
    - **Definition of Ready** e **Definition of Done** (padrão no `arquivos.md`);
    - tamanho: `P`/`M`/`G` e a tabela de pontos (padrão `2/3/5`).
-3. **Roadmap** (`roadmap.md`): épicos do `backlog.json` em ordem de valor e risco (maior incerteza mais cedo),
+3. **Roadmap** (`roadmap.md`): épicos do `backlog.md` em ordem de valor e risco (maior incerteza mais cedo),
    agrupados em releases com um objetivo cada; épico sem PRD aparece como "a descobrir" (`sdd-prd`).
 
 ## Modo sprint — planejar a próxima
@@ -54,7 +54,7 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
    Capacidade: revisão <h>h (usa <x>h) · vazão prevista <n> fatias / <p> pts · HITL <h>h
    Fica de fora (por capacidade): <FT…>
    ```
-5. "ok" → grave `sprints/sprint-<nn>.md`, `sprint`, `responsavel` e `status` no `backlog.json`, commit na base
+5. "ok" → grave `sprints/sprint-<nn>.md`, `sprint`, `responsavel` e `status` no `backlog.md`, commit na base
    (artefato de produto); ofereça a **`sdd-elm`** modo *sprint* (iteração, IBs, tarefas).
 
 ## Durante a sprint

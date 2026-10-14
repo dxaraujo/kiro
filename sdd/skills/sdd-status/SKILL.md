@@ -21,7 +21,7 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
 2. De cada `status.md`: fatia, título, trilha, modo, fase, responsável, rodadas, achados abertos, PR, ELM,
    Banco, última linha do Histórico (data) e pendências `ELM pendente:` sem `ELM feito:` correspondente.
 3. De cada `tasks.md`: `[x]`/total e o primeiro item pendente.
-4. `<produto>/backlog.json` (da base): épicos por status, fatias `pronta` sem `status.md` em nenhuma branch,
+4. `<produto>/backlog.md` (da base): épicos por status, fatias `pronta` sem `status.md` em nenhuma branch,
    sprint atual (`planejamento/sprints/` de maior número com `**Situação:** aberta`) e a meta. "Em andamento" = fatia com
    `status.md` numa branch e fase diferente de `concluida`; o backlog não guarda isso.
    PRDs (`epicos/*/prd.md`): status e pendências `ELM pendente:` do rodapé.
@@ -64,13 +64,13 @@ trabalho de produto (PRD/fatiar) para manter o backlog com fatias prontas.
 ## Inconsistências a apontar
 
 - fase `pr-aberto` sem PR, ou com tarefas pendentes no `tasks.md`;
-- fatia `concluida` no `status.md` e não no `backlog.json` (ou o contrário);
+- fatia `concluida` no `status.md` e não no `backlog.md` (ou o contrário);
 - fatia em andamento sem commit há mais de 3 dias úteis;
 - `concluida` com Banco = `pendente` ou `aplicada em dev` (implantação bloqueada);
 - Histórico fora de ordem cronológica ou fase que não bate com a última linha (conflito mal resolvido);
 - conceito de `elm/` com `verified` humano e sem `resource` há mais de 1 dia (projeto que publica na aprovação);
 - conceito de `elm/` alterado (`generated.at`) depois do último `verified` e ainda `stable` (falta reaprovar);
-- `backlog.json` alterado numa branch de fatia (deve mudar só na base).
+- `backlog.md` alterado numa branch de fatia (deve mudar só na base).
 
 ## Fechar a sessão
 

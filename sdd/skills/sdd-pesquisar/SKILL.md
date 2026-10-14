@@ -18,7 +18,7 @@ leitura.
 
 ## Entrada
 
-Pasta da fatia `.kiro/specs/<ft>-<slug>/` com `status.md`; a fatia no `backlog.json` (`cobre`); o PRD do épico
+Pasta da fatia `.kiro/specs/<ft>-<slug>/` com `status.md`; a fatia no `backlog.md` (`cobre`); o PRD do épico
 (histórias e regras cobertas) ou, na trilha rápida, o defeito/pedido.
 
 ## Passo 1 — Perguntas da pesquisa

@@ -1,7 +1,7 @@
-# Backlog do produto — `<produto>/backlog.json`
+# Backlog do produto — `<produto>/backlog.md`
 
 Fonte única dos ids locais (`EP-nn`, `FT-nnn`), do **planejamento** (o que existe, em que ordem, em que sprint) e do
-mapeamento com o ELM. Versionado. `backlog.md` é **gerado** a partir dele (nunca editado à mão).
+mapeamento com o ELM. Versionado. Só markdown: editado direto, sem arquivo JSON por trás.
 
 **Onde é escrito:** só na **branch base** (direto ou por um PR curto, conforme "Artefatos de produto" no
 `sdd.md`) — **nunca numa branch de fatia**, para que fatias em paralelo não disputem o mesmo arquivo. O
@@ -10,51 +10,44 @@ andamento de uma fatia (fase, branch, PR) não mora aqui: mora no `status.md` da
 
 ## Formato
 
-```json
-{
-  "projeto": "Gestão de Acessos",
-  "proximo": { "EP": 4, "FT": 34 },
-  "epicos": [
-    {
-      "id": "EP-03",
-      "titulo": "Bloqueio por tentativas de login",
-      "status": "fatiado",
-      "prioridade": 1,
-      "prd": "<produto>/epicos/EP-03-bloqueio-login/prd.md",
-      "elm": { "id": "612001", "url": "https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612001" }
-    }
-  ],
-  "fatias": [
-    {
-      "id": "FT-031",
-      "epico": "EP-03",
-      "origem": null,
-      "titulo": "Bloquear a conta após 3 tentativas inválidas",
-      "cobre": ["HF-01#1.1", "HF-01#1.2", "REG-01"],
-      "bloqueada-por": [],
-      "tamanho": "M",
-      "modo": "AFK",
-      "prioridade": 1,
-      "status": "pronta",
-      "sprint": 3,
-      "responsavel": "joao.lima",
-      "elm": null,
-      "concluida-em": null
-    }
-  ]
-}
+```markdown
+# Backlog — Gestão de Acessos
+
+Próximos ids: EP-04 · FT-034
+
+## Épicos
+
+| id | título | status | prioridade | prd | elm |
+|---|---|---|---|---|---|
+| EP-03 | Bloqueio por tentativas de login | fatiado | 1 | [prd](epicos/EP-03-bloqueio-login/prd.md) | [612001](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612001) |
+
+## Fatias — EP-03 Bloqueio por tentativas de login
+
+| id | título | cobre | bloqueada-por | tamanho | modo | prioridade | status | sprint | responsavel | elm | concluida-em | obs |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| FT-031 | Bloquear a conta após 3 tentativas inválidas | HF-01#1.1, HF-01#1.2, REG-01 | — | M | AFK | 1 | pronta | 3 | joao.lima | — | — | — |
+
+## Fatias — trilha rápida
+
+| id | título | origem | tamanho | modo | prioridade | status | sprint | responsavel | elm | concluida-em | obs |
+|---|---|---|---|---|---|---|---|---|---|---|---|
 ```
 
-| Campo | Valores |
+Uma seção `## Fatias — <EP> <título>` por épico, na ordem de prioridade dos épicos; linhas na ordem de
+`prioridade`. Célula vazia é `—`. Listas (`cobre`, `bloqueada-por`) separadas por vírgula. Cada fatia é **uma**
+linha da tabela — sem quebra de linha nem `|` dentro de célula (troque por `/`).
+
+| Coluna | Valores |
 |---|---|
 | épico `status` | `rascunho` · `em-revisao` · `aprovado` · `fatiado` · `concluido` · `cancelado` (o mesmo do frontmatter do PRD; publicação no ELM fica no `elm` do PRD, não no status) |
-| fatia `origem` | `null` (veio de um PRD) ou o item que a originou sem PRD: `"DF 4567"`, `"IB 611"`, `"pedido: <resumo>"` (trilha rápida) |
-| `cobre` | `HF-nn#c.c` (cenário) e `REG-nn` do PRD do épico; vazio só na trilha rápida |
+| fatia `origem` | só na trilha rápida: o item que a originou sem PRD — `DF 4567`, `IB 611`, `pedido: <resumo>` |
+| `cobre` | `HF-nn#c.c` (cenário) e `REG-nn` do PRD do épico; não existe na trilha rápida |
 | `tamanho` | `P` · `M` · `G` |
 | `modo` | `AFK` · `HITL` |
-| fatia `status` | `backlog` → `pronta` (passou na Definition of Ready) → `concluida`; desvios `dividida` (+ `substituida-por`), `cancelada` (+ `motivo`). "Em andamento" não é gravado: é a fatia que tem `status.md` numa branch |
-| `sprint` | número da sprint (`sdd-planejamento`) ou `null`; no Kanban, `null` |
-| `elm` | `null` ou `{ "id", "url", "tarefas": { "<prefixo>": { "id", "url" } } }` (gravado pela `sdd-elm`) |
+| fatia `status` | `backlog` → `pronta` (passou na Definition of Ready) → `concluida`; desvios `dividida` (`obs`: `substituida-por FT-…`), `cancelada` (`obs`: motivo). "Em andamento" não é gravado: é a fatia que tem `status.md` numa branch |
+| `sprint` | número da sprint (`sdd-planejamento`) ou `—`; no Kanban, `—` |
+| `elm` | `—` ou `[<id>](<url>)`; tarefas do EWM em seguida, `<prefixo> [<id>](<url>)`, separadas por ` · ` (gravado pela `sdd-elm`) |
+| `concluida-em` | data `AAAA-MM-DD` ou `—` |
 
 ## Quem escreve o quê
 
@@ -75,12 +68,8 @@ modo AFK/HITL declarado. Deixou de valer (PRD reaberto, decisão nova em aberto)
 
 ## Regras
 
-- Ids nunca são reaproveitados nem renumerados; `proximo` só cresce.
-- Antes de gravar: `git switch <base>` e `git pull --ff-only`; depois, commit pequeno só com ele (e o
-  `backlog.md`) quando não houver outro artefato de produto junto. Push ou PR curto: com o "sim" da pessoa, como
-  diz "Artefatos de produto" no `sdd.md`.
-- **Quem grava o `backlog.json` regenera o `backlog.md`** no mesmo commit — qualquer skill da tabela acima.
-- Conflito no `backlog.json`: mantenha o remoto e reaplique só a sua mudança, campo a campo. Nunca resolva
-  descartando o lado remoto.
-- `backlog.md` é regenerado: tabela por épico (**FT | Título | Tam. | Modo | Status | Sprint | Responsável | ELM**),
-  na ordem de prioridade, seguida das fatias de trilha rápida.
+- Ids nunca são reaproveitados nem renumerados; "Próximos ids" só cresce.
+- Antes de gravar: `git switch <base>` e `git pull --ff-only`; depois, commit pequeno só com ele quando não houver
+  outro artefato de produto junto. Push ou PR curto: com o "sim" da pessoa, como diz "Artefatos de produto" no `sdd.md`.
+- Conflito no `backlog.md`: mantenha o remoto e reaplique só a sua mudança, linha a linha (cada fatia é uma linha).
+  Nunca resolva descartando o lado remoto.

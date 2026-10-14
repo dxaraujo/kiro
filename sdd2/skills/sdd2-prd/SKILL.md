@@ -73,8 +73,9 @@ Aprovar? (o P.O. ou quem ele delegou)
 ```
 
 - Decisão **em aberto que muda comportamento** → não há aprovação; volte à entrevista.
-- Aprovado → `status: aprovado`, versão `1.0`, data e quem aprovou no rodapé; commit do PRD e do `decisoes.md`
-  (padrão de commit do `sdd2-projeto.md`).
+- Aprovado → `status: aprovado`, versão `1.0`, data e quem aprovou no rodapé; commit do PRD, do `decisoes.md` e do
+  `backlog.json` (padrão de commit do `sdd2-projeto.md`) — artefatos de produto vão para a **base**, direto ou por
+  PR curto, conforme "Artefatos de produto" no `sdd2-projeto.md`; nunca numa branch de fatia.
 - Próximo passo, na mesma resposta:
   1. **`sdd2-elm`** modo *requisitos* — publicar HF/REG/GL no DOORS Next (se o projeto usa ELM e a publicação é
      `na-aprovacao` no `sdd2-projeto.md`);
@@ -82,7 +83,7 @@ Aprovar? (o P.O. ou quem ele delegou)
 
 ## Mudança depois de aprovado
 
-PRD `aprovado`/`publicado` só muda por um pedido explícito: incremente a versão (`1.1` correção, `2.0` mudança de
+PRD `aprovado`/`fatiado` só muda por um pedido explícito: incremente a versão (`1.1` correção, `2.0` mudança de
 escopo), registre no rodapé, volte a `em-revisao` só o que mudou e repita o GATE. A `sdd2-elm` atualiza os mesmos
 artefatos (os ids ficam no frontmatter `elm`). Fatias já entregues que dependem do que mudou → avise e proponha
 fatias novas; não altere fatia concluída.

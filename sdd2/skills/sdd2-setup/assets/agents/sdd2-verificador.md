@@ -16,13 +16,13 @@ permissions:
     - capability: fs_read
       effect: allow
     - capability: fs_write
-      match: [".kiro/specs/**", ".kiro/local/**"]
+      match: [".kiro/specs/*/verificacao.md", ".kiro/local/wt/*/.kiro/specs/*/verificacao.md", ".kiro/specs/*/CT.csv", ".kiro/local/wt/*/.kiro/specs/*/CT.csv", ".kiro/specs/*/status.md", ".kiro/local/wt/*/.kiro/specs/*/status.md", ".kiro/specs/*/evidencias/**", ".kiro/local/wt/*/.kiro/specs/*/evidencias/**", ".kiro/specs/*/massa/**", ".kiro/local/wt/*/.kiro/specs/*/massa/**", ".kiro/local/wf/*/aceite.json"]
       effect: allow
     - capability: shell
-      match: ["git status*", "git diff*", "git log*", "git show*", "ls*", "find *", "grep *", "rg *", "cat *", "head *", "tail *", "wc *", "curl *"]
+      match: ["git status*", "git diff*", "git log*", "git show*", "git grep*", "git ls-files*", "git ls-tree*", "git branch*", "git -C .kiro/local/wt/* status*", "git -C .kiro/local/wt/* diff*", "git -C .kiro/local/wt/* log*", "git -C .kiro/local/wt/* show*", "git -C .kiro/local/wt/* grep*", "ls*", "find * -name *", "find * -type *", "grep *", "rg *", "cat *", "head *", "tail *", "wc *", "curl *localhost*", "curl *127.0.0.1*"]
       effect: allow
     - capability: shell
-      match: ["git add*", "git commit*", "git push*", "git merge*", "git rebase*", "git reset*", "git checkout*", "git restore*", "git stash*", "rm -rf *"]
+      match: ["*git push*", "*git merge*", "*git rebase*", "*git reset --hard*", "*git clean*", "*git checkout -- *", "*git restore *", "*git stash*", "*git worktree remove*", "*rm -rf*", "*-delete*", "*-exec rm*", "*git add*", "*git commit*"]
       effect: deny
 welcomeMessage: "Qual fatia (FT-nnn) devo verificar?"
 ---

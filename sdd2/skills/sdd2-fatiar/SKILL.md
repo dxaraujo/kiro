@@ -68,8 +68,10 @@ Ajuste e repita até "ok". Esse "ok" é o **GATE do backlog** (P.O. ou time no r
 
 ## Passo 3 — Gravar
 
-1. `backlog.json`: épico com `status: fatiado`; uma entrada por fatia com `status: backlog`, prioridade (ordem da
-   tabela, respeitando dependências) e `elm: null`. Ids `FT-<nnn>` sequenciais no projeto, **nunca reaproveitados**.
+1. `backlog.json` (na **base** — ver [references/backlog.md](references/backlog.md)): épico com `status: fatiado`;
+   uma entrada por fatia com prioridade (ordem da tabela, respeitando dependências), `elm: null` e `status`
+   `pronta` se passa na **Definition of Ready** (seção do `backlog.md`) ou `backlog` com o que falta. Ids
+   `FT-<nnn>` sequenciais no projeto, **nunca reaproveitados**.
 2. Regenere `backlog.md` a partir do JSON.
 3. PRD: `status: fatiado`.
 4. Commit (padrão do `sdd2-projeto.md`): `backlog.json`, `backlog.md`, `prd.md`.
@@ -89,8 +91,8 @@ Ajuste e repita até "ok". Esse "ok" é o **GATE do backlog** (P.O. ou time no r
   original ou fecha o original — conforme o `sdd2-projeto.md`.
 - **Juntar:** só fatias ainda em `backlog`; a que some fica `status: cancelada` com `motivo`.
 - **Nova fatia:** cenário novo exige PRD alterado antes (`sdd2-prd`, mudança depois de aprovado).
-- **Definition of Ready** (a `sdd2-iniciar` confere antes de começar): cenários de aceite definidos, nenhuma decisão
-  bloqueante em aberto, dependências `concluida` ou em andamento, tamanho ≤ G, modo AFK/HITL declarado.
+- **Definition of Ready:** a cada refinamento, confira as fatias `backlog` e grave `pronta` nas que passam (e
+  volte a `backlog` as que deixaram de passar). Critérios na seção do [references/backlog.md](references/backlog.md).
 
 ## Regras
 

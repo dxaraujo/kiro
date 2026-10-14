@@ -10,7 +10,8 @@ metadata:
 # sdd2-elm — O ELM como fonte oficial
 
 Requer o power **`elm`** (MCP `elm`) nesta sessão e as skills dele: **`elm-rm`** (DOORS Next), **`elm-ccm`**
-(EWM), **`elm-gc`** (links) — carregue a skill da área antes de chamar as tools. Ids da project area:
+(EWM), **`elm-qm`** (ETM — ler o caso de teste importado para obter a URL), **`elm-gc`** (links) — carregue a skill
+da área antes de chamar as tools. Ids da project area:
 `.kiro/config/power/elm/pa_*.json`. Tipos, pastas, prefixos e regras do projeto: seção **ELM** do
 `.kiro/steering/sdd2-projeto.md`. Mapeamento e limites: [references/mapeamento.md](references/mapeamento.md).
 
@@ -39,7 +40,8 @@ Projeto sem ELM (`sdd2-projeto.md` → ELM: não usa) → nada a fazer.
 
 ## Modo requisitos (PRD → DOORS Next)
 
-Pré-condição: PRD `aprovado` (ou `fatiado`/`concluido` numa republicação). Ordem **de baixo para cima**, para cada
+Pré-condição: PRD `aprovado` (ou `fatiado`/`concluido` numa republicação). Publicar **não** muda o status do PRD:
+fica registrado no frontmatter `elm`. Ordem **de baixo para cima**, para cada
 artefato nascer com os ids dos que ele cita:
 
 1. **Termos** novos do glossário (coluna ELM `—`) → tipo de termo; título = o termo; texto = definição + "Evitar".
@@ -51,8 +53,8 @@ artefato nascer com os ids dos que ele cita:
 4. Todo texto termina com a linha de chave (formato em `mapeamento.md`).
 
 O texto vai em **Markdown** direto (`rm_create_requirement` / `rm_update_requirement` convertem). Depois:
-frontmatter `elm` do PRD com `{id, url, hash, publicado-em}` por chave; glossário com o id na coluna ELM; PRD
-`status: publicado`. Roteiro manual se o projeto exigir (change set, módulo, links *restringe*, atributos).
+frontmatter `elm` do PRD com `{id, url, hash, publicado-em}` por chave e o `publicado-em` geral; glossário com o
+id na coluna ELM (commits na base, como todo artefato de produto). Roteiro manual se o projeto exigir (change set, módulo, links *restringe*, atributos).
 Bundle do ELM no repositório → sugira a `elm-sync` para baixar o que foi publicado.
 
 ## Modo backlog (fatias → EWM)
@@ -66,7 +68,7 @@ modo sprint).
    `sdd2-projeto.md`), descrição com: cenários cobertos (texto), modo AFK/HITL, `bloqueada por`, pasta prevista;
    responsável = P.O. (o IB é do produto). Links **implementa** → cada história que a fatia cobre; **depende de** →
    IBs das fatias em `bloqueada-por` (se o `link-types` tiver; senão fica na descrição).
-3. `backlog.json`: `elm` de cada fatia/épico.
+3. `backlog.json` (na base): `elm` de cada fatia/épico.
 
 ## Modo sprint (planejamento → iteração)
 
@@ -84,8 +86,9 @@ Entrada da `sdd2-planejamento`: número da sprint, iteração, plano e time conf
 ## Modo testes (verificação → ETM)
 
 1. Entregue o caminho do `CT.csv` de cada fatia: `Importe no ETM (Importar → CSV)`. Pergunte os ids criados.
-2. Com os ids: **valida** (CT → história coberta pelo cenário) e **testado por** (IB → CT). `gc_context` se o ETM
-   usar configuração global (`elm-gc`).
+2. Com os ids: leia cada caso pela `elm-qm` (`get_testartifact`) para obter a URL, depois ligue **valida** (CT →
+   história coberta pelo cenário) e **testado por** (IB → CT). `gc_context` se o ETM usar configuração global
+   (`elm-gc`).
 3. Registre os ids no `verificacao.md` e no `status.md`.
 
 ## Modo especificação técnica (opcional, as-built)

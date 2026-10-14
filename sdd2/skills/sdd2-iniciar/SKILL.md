@@ -20,8 +20,8 @@ Leia antes: `.kiro/steering/sdd2-projeto.md`. Sem ele → ofereça a **`sdd2-set
 | número do EWM (IB, DF, tarefa) | skill `elm-ccm` do power `elm`; o item pode já estar no `backlog.json` (campo `elm`) — procure primeiro lá |
 | texto ("corrigir o cálculo de juros") | a própria descrição; pergunte só o que faltar para a triagem |
 
-Fatia já iniciada (tem `spec` no backlog ou pasta em `.kiro/specs/` nesta branch, em worktrees ou em branches
-remotas — `git grep -l '<id>' <ref> -- '.kiro/specs/*/status.md'`) → leia o `status.md` e **retome** pela fase
+Fatia já iniciada (tem pasta em `.kiro/specs/` nesta branch, em worktrees ou em branches remotas —
+`git grep -l '<id>' <ref> -- '.kiro/specs/*/status.md'`) → leia o `status.md` e **retome** pela fase
 (Passo 5). Branch diferente da atual → pergunte se troca (alterações locais não commitadas → avise e pare; nunca
 ofereça descartar, `stash` ou `reset`).
 
@@ -41,7 +41,8 @@ Diga a trilha e o motivo; dúvida entre duas → sim/não pela mais leve.
 
 ## Passo 3 — Definition of Ready (trilha padrão)
 
-- cenários de aceite definidos (`cobre` preenchido) e PRD `aprovado`/`publicado`/`fatiado`;
+- a fatia está `pronta` no `backlog.json` — ou confira agora: cenários de aceite definidos (`cobre` preenchido) e
+  PRD `aprovado`/`fatiado`;
 - nenhuma decisão bloqueante `em aberto` (`decisoes.md`);
 - dependências (`bloqueada-por`) concluídas ou com o que a fatia precisa já na base;
 - tamanho ≤ G e modo AFK/HITL declarado.
@@ -56,11 +57,15 @@ Falhou um item → diga qual e o caminho (`sdd2-entrevistar`, `sdd2-fatiar` refi
    Confirma, ou informe outro nome:
    ```
    Confirmado → `git fetch` e `git switch -c <branch> origin/<base>`.
-2. **Pasta** `.kiro/specs/<ft>-<slug>/` com `status.md` de [references/status-template.md](references/status-template.md).
-3. **Backlog:** fatia `em-andamento`, `spec`, `branch`, `responsavel`.
-4. **EWM** (com power `elm`, pergunta única; nunca sem "sim"): assumir o item/tarefa (responsável = `whoami`),
-   iniciar (ação de `ccm_list_workitem_states`), estimativa se faltar. Sem o power: só o `status.md`.
-5. Commit pequeno (`status.md`, `backlog.json`) — é o sinal para o time de que a fatia começou.
+2. **Pasta** `.kiro/specs/<ft>-<slug>/` com `status.md` de [references/status-template.md](references/status-template.md)
+   e o `.config.kiro` da spec do Kiro (`specType` `feature` na trilha padrão, `bugfix` na rápida — formato em
+   [../sdd2-plano/references/plano-templates.md](../sdd2-plano/references/plano-templates.md)).
+3. **Backlog:** não muda aqui (ele só é escrito na base); a fatia em andamento é a que tem `status.md` numa branch.
+   Fatia de trilha rápida sem id → crie-a no `backlog.json` **na base** antes de criar a branch.
+4. **EWM** (com power `elm`, pergunta única; nunca sem "sim"): assumir a **tarefa** de quem implementa (ex.:
+   `[DEV]`; o item de backlog continua do P.O.) com responsável = `whoami`, iniciá-la (ação de
+   `ccm_list_workitem_states`), estimativa se faltar. Sem o power: só o `status.md`.
+5. Commit pequeno do `status.md` e, com "sim", push da branch — é o sinal para o time de que a fatia começou.
 
 ## Passo 5 — Encaminhar
 
@@ -75,10 +80,12 @@ Próximo: <skill>
 | `pesquisando`, `planejando`, `plano-em-revisao` | `sdd2-plano` (que começa pela `sdd2-pesquisar`) |
 | `implementando`, `revisando` | `sdd2-implementar` |
 | `verificando` | `sdd2-verificar` |
+| `aceita` | `sdd2-implementar` (Passo 5 — abrir o PR) |
 | `pr-aberto` | aguardar o merge; mergeado → `sdd2-consolidar` |
 | `bloqueada` | mostre o motivo; a pessoa decide |
 
-Modo AFK e várias fatias prontas → ofereça o **`sdd2-loop`** (o agente leva cada uma até o PR).
+Trilha direta → `sdd2-implementar` (seção Trilha direta), sem pasta. Modo AFK e várias fatias prontas → ofereça
+o **`sdd2-loop`** (o agente leva cada uma até o PR).
 
 ## Regras
 

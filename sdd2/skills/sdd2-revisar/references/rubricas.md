@@ -28,8 +28,8 @@ Fecho: `RESULTADO: PRONTO` ou `RESULTADO: AJUSTAR`.
 
 | # | Verificação | Severidade |
 |---|---|---|
-| L1 | Todo cenário que a fatia cobre (backlog `cobre`) tem critério de aceite em `requirements.md`, e nenhum critério sai do que a fatia cobre | BLOQUEANTE |
-| L2 | Todo critério tem ao menos uma tarefa no `tasks.md` (`_Requirements: N.M_`) | BLOQUEANTE |
+| L1 | Todo cenário que a fatia cobre (backlog `cobre`) tem critério de aceite em `requirements.md`, e nenhum critério sai do que a fatia cobre. Trilha rápida (`cobre` vazio): o `bugfix.md` tem comportamento atual com evidência, esperado com fonte e o que não muda | BLOQUEANTE |
+| L2 | Todo critério (ou item 2.x/3.x do `bugfix.md`) tem ao menos uma tarefa no `tasks.md` (`_Requirements: N.M_`); bugfix começa pelo teste da condição do defeito e pelos testes de preservação | BLOQUEANTE |
 | L3 | Nenhuma regra de negócio que não esteja no PRD/ELM ou no `decisoes.md` | BLOQUEANTE |
 | L4 | Os caminhos, classes e análogos citados existem (conferir com `glob`/`read`) — ou estão marcados "a criar" | BLOQUEANTE |
 | L5 | O design segue o steering de tecnologia/estrutura, as regras críticas do `sdd2-projeto.md` e as lições promovidas | BLOQUEANTE |

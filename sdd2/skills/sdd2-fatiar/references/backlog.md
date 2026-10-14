@@ -1,15 +1,18 @@
 # Backlog do produto — `.kiro/produto/backlog.json`
 
-Fonte única dos ids locais (`EP-nn`, `FT-nnn`), do estado de alto nível de cada item e do mapeamento com o ELM.
-Versionado. `backlog.md` é **gerado** a partir dele (nunca editado à mão). O estado detalhado de uma fatia em
-andamento fica no `status.md` da pasta dela; o backlog só muda nas transições marcadas abaixo.
+Fonte única dos ids locais (`EP-nn`, `FT-nnn`), do **planejamento** (o que existe, em que ordem, em que sprint) e do
+mapeamento com o ELM. Versionado. `backlog.md` é **gerado** a partir dele (nunca editado à mão).
+
+**Onde é escrito:** só na **branch base** (direto ou por um PR curto, conforme "Artefatos de produto" no
+`sdd2-projeto.md`) — **nunca numa branch de fatia**, para que fatias em paralelo não disputem o mesmo arquivo. O
+andamento de uma fatia (fase, branch, PR) não mora aqui: mora no `status.md` da pasta dela, na branch dela, e o
+`sdd2-status` o lê de lá.
 
 ## Formato
 
 ```json
 {
   "projeto": "Gestão de Acessos",
-  "atualizado": "2026-10-13",
   "proximo": { "EP": 4, "FT": 34 },
   "epicos": [
     {
@@ -32,12 +35,9 @@ andamento fica no `status.md` da pasta dela; o backlog só muda nas transições
       "tamanho": "M",
       "modo": "AFK",
       "prioridade": 1,
-      "status": "backlog",
-      "sprint": null,
-      "responsavel": null,
-      "spec": null,
-      "branch": null,
-      "pr": null,
+      "status": "pronta",
+      "sprint": 3,
+      "responsavel": "joao.lima",
       "elm": null,
       "concluida-em": null
     }
@@ -47,14 +47,13 @@ andamento fica no `status.md` da pasta dela; o backlog só muda nas transições
 
 | Campo | Valores |
 |---|---|
-| épico `status` | `rascunho` · `em-revisao` · `aprovado` · `publicado` · `fatiado` · `concluido` · `cancelado` (o mesmo do frontmatter do PRD) |
+| épico `status` | `rascunho` · `em-revisao` · `aprovado` · `fatiado` · `concluido` · `cancelado` (o mesmo do frontmatter do PRD; publicação no ELM fica no `elm` do PRD, não no status) |
 | fatia `origem` | `null` (veio de um PRD) ou o item que a originou sem PRD: `"DF 4567"`, `"IB 611"`, `"pedido: <resumo>"` (trilha rápida) |
 | `cobre` | `HF-nn#c.c` (cenário) e `REG-nn` do PRD do épico; vazio só na trilha rápida |
 | `tamanho` | `P` · `M` · `G` |
 | `modo` | `AFK` · `HITL` |
-| fatia `status` | `backlog` → `pronta` (Definition of Ready ok) → `em-andamento` → `concluida`; desvios `bloqueada`, `dividida` (+ `substituida-por`), `cancelada` (+ `motivo`) |
+| fatia `status` | `backlog` → `pronta` (passou na Definition of Ready) → `concluida`; desvios `dividida` (+ `substituida-por`), `cancelada` (+ `motivo`). "Em andamento" não é gravado: é a fatia que tem `status.md` numa branch |
 | `sprint` | número da sprint (`sdd2-planejamento`) ou `null`; no Kanban, `null` |
-| `spec` | `.kiro/specs/<ft>-<slug>/` quando a fatia começa |
 | `elm` | `null` ou `{ "id", "url", "tarefas": { "<prefixo>": { "id", "url" } } }` (gravado pela `sdd2-elm`) |
 
 ## Quem escreve o quê
@@ -62,18 +61,22 @@ andamento fica no `status.md` da pasta dela; o backlog só muda nas transições
 | Transição | Skill |
 |---|---|
 | épico criado / status do PRD | `sdd2-prd` |
-| fatias criadas, divididas, juntadas, canceladas | `sdd2-fatiar` |
-| `sprint`, `responsavel`, prioridade | `sdd2-planejamento` |
-| `pronta` (DoR) → `em-andamento`, `spec`, `branch` | `sdd2-iniciar` |
-| `pr` | `sdd2-implementar` |
-| `concluida`, `concluida-em` | `sdd2-consolidar` |
+| fatias criadas, divididas, juntadas, canceladas · `pronta` (DoR conferida) | `sdd2-fatiar` |
+| `sprint`, `responsavel`, prioridade · `pronta` (DoR conferida de novo no planejamento) | `sdd2-planejamento` |
+| `concluida`, `concluida-em` | `sdd2-consolidar` (depois do merge, na base) |
 | `elm` (ids e urls) | `sdd2-elm` |
+
+## Definition of Ready (o que faz uma fatia `pronta`)
+
+Cenários de aceite definidos (`cobre`) num PRD `aprovado` (ou `fatiado`) — ou, na trilha rápida, o comportamento
+esperado claro; nenhuma decisão bloqueante `em aberto`; dependências concluídas ou planejadas antes; tamanho ≤ G;
+modo AFK/HITL declarado. Deixou de valer (PRD reaberto, decisão nova em aberto) → volta a `backlog`.
 
 ## Regras
 
 - Ids nunca são reaproveitados nem renumerados; `proximo` só cresce.
-- Antes de gravar: `git pull --rebase` (o backlog é compartilhado); depois, commit pequeno só com ele (e o
-  `backlog.md`) quando não houver outro artefato junto.
+- Antes de gravar: `git switch <base>` e `git pull --ff-only`; depois, commit pequeno só com ele (e o
+  `backlog.md`) quando não houver outro artefato de produto junto.
 - Conflito no `backlog.json`: mantenha o remoto e reaplique só a sua mudança, campo a campo. Nunca resolva
   descartando o lado remoto.
 - `backlog.md` é regenerado: tabela por épico (**FT | Título | Tam. | Modo | Status | Sprint | Responsável | ELM**),

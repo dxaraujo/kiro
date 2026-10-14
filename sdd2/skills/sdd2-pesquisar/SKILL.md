@@ -80,10 +80,11 @@ Antes de abrir o código, escreva de 3 a 7 perguntas que o plano vai precisar re
 
 - Só fatos com evidência; nada de solução ou recomendação (isso é do plano).
 - Curto: o objetivo é caber inteiro no contexto de quem planeja. Mais de ~150 linhas → corte o que o plano não usa.
-- `status.md`: fase `planejando`, linha no Histórico.
+- `status.md`: fase `planejando`, linha no Histórico — **só** quando você não é o agente `sdd2-pesquisador`
+  (sessão da pessoa). O agente pesquisador nunca grava o `status.md`: quem o chamou registra (`sdd2-plano`,
+  `sdd2-loop`).
 
 ## Regras
 
-- Somente leitura: nenhum arquivo além de `research.md` (e a linha do `status.md`, quando não estiver como
-  subagente — aí quem chamou registra).
+- Somente leitura: nenhum arquivo além de `research.md` (e, fora do agente pesquisador, a linha do `status.md`).
 - Nunca invente arquivo, classe, coluna ou rota. Não achou → seção "Não encontrado".

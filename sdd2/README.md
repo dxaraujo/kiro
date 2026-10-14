@@ -92,7 +92,7 @@ de `skills/sdd2-setup/assets/`:
 | `.kiro/steering/sdd2-licoes.md` | regras aprendidas (o revisor cobra) |
 | `.kiro/agents/sdd2-*.md` | `produto`, `pesquisador`, `codificador`, `revisor`, `verificador`, `orquestrador` — cada um com as skills e MCPs que a pessoa liberou |
 | `.kiro/hooks/sdd2.json` (opcional) | backpressure depois de cada tarefa de spec · botão "fechar sessão" |
-| `.kiro/workflows/sdd2-*.workflow.json` (opcional, experimental) | `planejar-fatia` e `entregar-fatia` nos Kiro Workflows |
+| `.kiro/workflows/sdd2-*.workflow.json` (opcional, experimental) | `planejar-fatia` e `entregar-fatia` nos Kiro Workflows (uma fatia por vez, disparadas pela pessoa) |
 | `.kiro/produto/`, `.kiro/aprendizado/` | backlog, planejamento, lições |
 
 Os agentes nunca recebem o MCP do ELM nem os outros powers (`includePowers: false`): a escrita no ELM acontece na
@@ -144,9 +144,9 @@ Depois de atualizar o power ou um toolkit: "atualizar os agentes do sdd2".
   `~/.kiro/powers/` e grava o caminho achado nos agentes.
 - `kiro-cli agent validate` só valida agentes JSON; a setup valida os `.md` por parse e conferência de caminhos.
 - Kiro Workflows é recente (IDE 1.2): as receitas são opcionais e marcadas como experimentais.
-- **v2:** toolkits oficiais (backend Java/Spring, Spring Batch, frontend Angular/React), avaliação do fluxo com casos
-  reais (`.kiro/aprendizado/avaliacoes/`), e — quando o MCP do ELM suportar — atributo de chave, links entre
-  requisitos, módulos, change sets e baselines automáticos.
+- **v2:** toolkits oficiais (backend Java/Spring, Spring Batch, frontend Angular/React); execução automatizada dos
+  casos de avaliação que a `sdd2-aprender` já guarda em `.kiro/aprendizado/avaliacoes/`; e — quando o MCP do ELM
+  suportar — atributo de chave, links entre requisitos, módulos, change sets e baselines automáticos.
 
 ## Fontes (consultadas em 13/10/2026)
 

@@ -44,15 +44,18 @@ recomendada (HITL) ou decida e registre (AFK) em "Decisões técnicas".
 3. **`tasks.md`**: uma tarefa por comportamento, teste primeiro, comando de pronto, `_Requirements: N.M_`; a
    última é o checkpoint de validação completa + revisão.
 4. Skills do toolkit ligadas ao agente: consulte a da stack para a forma do programa (camadas, nomes, testes).
-5. Limite: plano que passa de ~200 linhas no total ou de ~8 tarefas → a fatia está grande: volte à `sdd2-fatiar`
-   (dividir) em vez de escrever um plano maior.
+5. Limite: plano que passa de ~200 linhas no total ou de ~8 tarefas → a fatia está grande: proponha à pessoa
+   dividi-la (`sdd2-fatiar`, refinamento) em vez de escrever um plano maior. Modo autônomo → `fase: bloqueada`
+   com a proposta de divisão.
 
 `status.md`: fase `planejando` → `plano-em-revisao`.
 
 ## Passo 4 — Análise independente
 
-Peça ao agente **`sdd2-revisor`** a rubrica **L** ([../sdd2-revisar/references/rubricas.md](../sdd2-revisar/references/rubricas.md))
-— passe só a pasta da fatia e a rodada. Grave como `analise-plano-<N>.md`.
+Incremente "revisão do plano" em Rodadas. Peça ao agente **`sdd2-revisor`** (subagente) a rubrica **L**
+([../sdd2-revisar/references/rubricas.md](../sdd2-revisar/references/rubricas.md)) — passe só a pasta da fatia e a
+rodada; ele grava o `analise-plano-<N>.md`. Sem subagente disponível (agente sem essa ferramenta, passo de workflow)
+→ pare e devolva a quem chamou: "plano pronto para análise".
 - `ANALISE: OK` → Passo 5.
 - `AJUSTAR`: falta **do plano** → corrija e peça nova análise (até 2 rodadas); falta **do PRD** → Passo 2.
 
@@ -68,8 +71,10 @@ Aprovar? Leia de preferência: forma do programa e contrato de pronto.
 ```
 
 - **HITL** → sempre uma pessoa aprova. Sugira que seja quem vai revisar o PR (alinha antes do código).
-- **AFK** → o `sdd2-projeto.md` decide (`Plano AFK: aprovação humana | análise basta`). Com "análise basta", a
-  fatia segue com `ANALISE: OK`; a pessoa revisa no PR.
+- **AFK** → o `sdd2-projeto.md` decide (`Plano de fatia AFK: aprovação humana | análise independente basta`). Com
+  "análise basta", a fatia segue com `ANALISE: OK` (quem conduz grava `fase: implementando`); a pessoa revisa no PR.
+- **Trilha rápida** → `Trilha rápida pede GATE do plano` do `sdd2-projeto.md`: `não` → segue com `ANALISE: OK`;
+  `sim` → como HITL.
 - Aprovado → `fase: implementando`, linha no Histórico (quem aprovou), commit dos arquivos do plano. Próximo:
   **`sdd2-implementar`** — numa sessão nova, de preferência (o plano está no disco; o contexto da pesquisa não é
   mais necessário).

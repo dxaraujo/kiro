@@ -21,13 +21,15 @@ não está configurado e ofereça a `sdd2-setup`.
 2. De cada `status.md`: fatia, título, trilha, modo, fase, responsável, rodadas, achados abertos, PR, ELM,
    Banco, última linha do Histórico (data) e pendências `ELM pendente:` sem `ELM feito:` correspondente.
 3. De cada `tasks.md`: `[x]`/total e o primeiro item pendente.
-4. `.kiro/produto/backlog.json`: épicos por status, fatias `pronta` sem pasta, sprint atual
-   (`planejamento/sprints/` de maior número não fechada) e a meta.
+4. `.kiro/produto/backlog.json` (da base): épicos por status, fatias `pronta` sem `status.md` em nenhuma branch,
+   sprint atual (`planejamento/sprints/` de maior número não fechada) e a meta. "Em andamento" = fatia com
+   `status.md` numa branch e fase diferente de `concluida`; o backlog não guarda isso.
+   PRDs (`epicos/*/prd.md`): status e pendências `ELM pendente:` do rodapé.
 5. `.kiro/produto/planejamento/acordos.md`: limites de WIP.
 6. `.kiro/aprendizado/licoes.md`: lições com situação `proposta`.
 7. Lotes autônomos em andamento: `.kiro/local/loop-*.md`.
-8. "Minhas" = responsável igual ao login da pessoa (`git config user.email`/`user.name` cruzado com
-   `equipe.json`; sem correspondência, pergunte uma vez).
+8. "Minhas" = responsável igual ao login da pessoa: `git config user.name` cruzado com `nome`/`login` do
+   `equipe.json`; sem correspondência, pergunte o login uma vez.
 
 ## Painel
 
@@ -37,8 +39,9 @@ não está configurado e ofereça a `sdd2-setup`.
 🔨 Em andamento
 | FT | Título | Fase | Modo | Tarefas | Achados | PR | Parada há | Próximo passo |
 
-👀 Esperando pessoa (WIP de revisão: <n>/<limite>)
+👀 Esperando pessoa (WIP de revisão: <n>/<limite> — plano-em-revisao + aceita + pr-aberto)
 - FT-031 plano-em-revisao há 1 dia → aprovar o plano (sdd2-plano)
+- FT-030 aceita → abrir o PR (sdd2-implementar)
 - FT-029 pr-aberto há 2 dias → revisar o PR <link>
 
 ✅ Prontas para começar (por prioridade)
@@ -62,6 +65,7 @@ trabalho de produto (PRD/fatiar) para manter o backlog com fatias prontas.
 - fase `pr-aberto` sem PR, ou com tarefas pendentes no `tasks.md`;
 - fatia `concluida` no `status.md` e não no `backlog.json` (ou o contrário);
 - fatia em andamento sem commit há mais de 3 dias úteis;
-- `concluida` com Banco diferente de `aplicada em prod` (implantação bloqueada);
+- `concluida` com Banco = `pendente` ou `aplicada em dev` (implantação bloqueada);
 - Histórico fora de ordem cronológica ou fase que não bate com a última linha (conflito mal resolvido);
-- PRD `aprovado` há mais de 1 dia sem publicação no ELM (projeto que publica na aprovação).
+- PRD `aprovado` há mais de 1 dia sem `publicado-em` no frontmatter `elm` (projeto que publica na aprovação);
+- `backlog.json` alterado numa branch de fatia (deve mudar só na base).

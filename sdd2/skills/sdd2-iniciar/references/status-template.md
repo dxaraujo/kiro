@@ -15,9 +15,10 @@
 | ELM | <IB <id> \| sem ELM \| pendente> |
 | Banco (DDL) | <não se aplica \| pendente \| aplicada em dev \| aplicada em prod> |
 
-<!-- Fases: pesquisando → planejando → plano-em-revisao → implementando → revisando → verificando → pr-aberto
-     → concluida · desvio: bloqueada (com motivo) · Trilha rápida pula plano-em-revisao quando o sdd2-projeto.md
-     permitir. -->
+<!-- Fases: pesquisando → planejando → plano-em-revisao → implementando → revisando → verificando → aceita
+     → pr-aberto → concluida · desvio: bloqueada (com motivo e a pergunta exata) · plano-em-revisao é pulado
+     quando o sdd2-projeto.md permitir (AFK com "análise basta"; trilha rápida sem GATE do plano).
+     Rodadas: incrementadas por quem pede a rodada (sdd2-plano, sdd2-implementar, sdd2-verificar, sdd2-loop). -->
 
 ## Achados abertos
 

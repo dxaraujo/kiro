@@ -1,11 +1,11 @@
 ---
 id: EP-<nn>
 titulo: <título curto, linguagem do negócio>
-status: rascunho            # rascunho → em-revisao → aprovado → publicado → fatiado → concluido
+status: rascunho            # rascunho → em-revisao → aprovado → fatiado → concluido (publicação no ELM: campo elm)
 po: <login do P.O.>
 demanda: <id da demanda/épico no EWM | —>
 atualizado: <AAAA-MM-DD>
-elm: {}                     # preenchido pela sdd2-elm: { HF-01: {id, url, hash}, REG-01: {…}, GL: {…} }
+elm: {}                     # preenchido pela sdd2-elm: { publicado-em, HF-01: {id, url, hash, publicado-em}, REG-01: {…} }
 ---
 
 # PRD — EP-<nn> <título>

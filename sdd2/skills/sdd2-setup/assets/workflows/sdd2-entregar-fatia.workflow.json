@@ -1,14 +1,20 @@
 {
   "name": "sdd2-entregar-fatia",
-  "description": "sdd2 — implementa uma fatia de plano aprovado (teste primeiro + backpressure), com revisão independente em até 3 rodadas e verificação de aceite; cada passo roda numa sessão nova. Termina com a fatia pronta para o PR, que uma pessoa abre e revisa.",
+  "description": "sdd2 — implementa UMA fatia de plano aprovado (teste primeiro + backpressure), com revisão independente em até 2 rodadas e verificação de aceite; a pessoa dispara na branch da fatia, no checkout principal; cada passo roda numa sessão nova. Termina com a fatia aceita, pronta para o PR que uma pessoa abre e revisa.",
   "inputs": {
     "fatia": "string"
   },
   "steps": [
     {
+      "type": "step",
+      "id": "zerar",
+      "agent": "sdd2-revisor",
+      "prompt": "Fatia {{fatia}}. Grave .kiro/local/wf/{{fatia}}/codigo.json com {\"veredito\": \"PENDENTE\"} (zera o veredito de uma execução anterior). Não faça mais nada."
+    },
+    {
       "type": "repeat",
       "id": "construir",
-      "maxIterations": 3,
+      "maxIterations": 2,
       "onMaxIterations": "pause",
       "stopCondition": {
         "fileCheck": {
@@ -36,7 +42,7 @@
       "type": "step",
       "id": "verificar",
       "agent": "sdd2-verificador",
-      "prompt": "Fatia {{fatia}}. Siga a skill sdd2-verificar com o contrato de pronto do design.md. Grave verificacao.md, o CT.csv se ACEITO, e .kiro/local/wf/{{fatia}}/aceite.json com {\"verificacao\": \"ACEITO\"} ou {\"verificacao\": \"REJEITADO\"}. Atualize a fase no status.md."
+      "prompt": "Fatia {{fatia}}. Siga a skill sdd2-verificar com o contrato de pronto do design.md. Grave verificacao.md, o CT.csv se ACEITO, e .kiro/local/wf/{{fatia}}/aceite.json com {\"verificacao\": \"ACEITO\"} ou {\"verificacao\": \"REJEITADO\"}. No status.md: fase aceita (ACEITO) ou implementando com os cenários rejeitados (REJEITADO)."
     }
   ]
 }

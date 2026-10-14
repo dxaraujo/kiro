@@ -17,11 +17,14 @@ Leia antes: `design.md` inteiro, `research.md`, `.kiro/steering/sdd2-projeto.md`
 
 ## Passo 0 — Onde estou
 
-- `git status` limpo e branch = a do `status.md`; senão avise e pare. `git pull --ff-only`.
-- Retome do **primeiro item não marcado** do `tasks.md`. Achados abertos → trate-os primeiro, como tarefas
-  `- [ ] R<n>. <achado>` acrescentadas ao fim do `tasks.md`: os da seção "Achados abertos" do `status.md` (PR,
-  pessoa), os do último `revisao-codigo-<N>.md` com `VEREDITO: REVISAR` e os cenários rejeitados do
-  `verificacao.md`.
+- Branch = a do `status.md` (senão avise e pare). `git status` limpo, **descontados** os relatórios que outros
+  papéis gravaram na pasta da fatia (`revisao-*.md`, `analise-*.md`, `verificacao.md`, `CT.csv`, `evidencias/`,
+  `massa/`): commite-os primeiro (`FT-<nnn> registrar revisão/verificação`). Qualquer outra alteração → avise e pare.
+- Atualize: a branch tem upstream → `git pull --ff-only`; não tem (worktree nova) → `git fetch` basta.
+- Retome do **primeiro item não marcado** do `tasks.md`. Achados abertos viram as próximas tarefas, numeradas em
+  sequência no fim do `tasks.md` (`- [ ] 7. [R1] <achado> — origem: revisao-codigo-2.md`): os da seção "Achados
+  abertos" do `status.md` (PR, pessoa), os do último `revisao-codigo-<N>.md` com `VEREDITO: REVISAR` e os cenários
+  rejeitados do `verificacao.md`. Como as anteriores estão marcadas, elas são as primeiras não marcadas.
 - Rode o comando de **testes** uma vez antes de mexer: vermelho antes de começar = problema do ambiente ou da
   base, não seu. Registre e avise; não "conserte" o que não é da fatia.
 
@@ -63,29 +66,36 @@ Regras do ciclo:
 
 ## Passo 2 — Validação completa
 
-Todas as tarefas `[x]`: rode compilar, **todos** os testes, lint e cobertura (gate do `sdd2-projeto.md`, se houver)
-— nas classes/arquivos da fatia. Erro de ambiente → `AMBIENTE` no `status.md`, não código.
+Todas as tarefas `[x]`: rode compilar, a suíte **inteira** de testes e o lint; a cobertura, com o gate do
+`sdd2-projeto.md` (se houver), é medida nos arquivos que a fatia criou ou alterou. Erro de ambiente → `AMBIENTE`
+no `status.md`, não código.
 
 ## Passo 3 — Revisão independente
 
-`fase: revisando`. Peça ao agente **`sdd2-revisor`** a rubrica **C** passando só: id da fatia, pasta, branch/
-worktree e rodada — **nunca** o seu raciocínio. Grave o relatório como `revisao-codigo-<N>.md`.
+`fase: revisando`; incremente "revisão do código" em Rodadas. Peça ao agente **`sdd2-revisor`** (subagente) a
+rubrica **C** passando só: id da fatia, pasta, branch/worktree e rodada — **nunca** o seu raciocínio. Ele grava o
+`revisao-codigo-<N>.md`. Sem subagente disponível (você é um agente sem essa ferramenta) → pare aqui e devolva a
+quem chamou: "pronta para a revisão (rodada <N>)".
 
 - `VEREDITO: APROVADO` → Passo 4.
-- `REVISAR` → corrija **só** os achados (como tarefas `[R<n>]`) e volte ao Passo 2. Até 2 rodadas.
+- `REVISAR` → corrija **só** os achados (como tarefas `[R<n>]`, Passo 0) e volte ao Passo 2. Até 2 rodadas.
 - 2ª reprovação → `fase: bloqueada`; mostre à pessoa os relatórios e as opções: orientar a correção (zera as
   rodadas), voltar ao plano, ou aceitar explicitamente os achados restantes (quem e por quê no `status.md`).
 
 ## Passo 4 — Verificação de aceite
 
-Siga para a **`sdd2-verificar`** (cenários de aceite executados de ponta a ponta, com evidência). Ela devolve para
-cá o que falhar.
+Siga para a **`sdd2-verificar`** (cenários de aceite executados de ponta a ponta, com evidência; de preferência
+pelo agente `sdd2-verificador`). `ACEITO` → ela deixa a fatia em `fase: aceita`; `REJEITADO` → devolve para cá
+os cenários reprovados (Passo 0).
 
 ## Passo 5 — PR
 
-Com revisão `APROVADO` e verificação `ACEITO`:
+Com `fase: aceita` (revisão `APROVADO` e verificação `ACEITO`):
 
-1. Branch atualizada com a base (`git fetch` + merge da base se preciso; conflito → resolva e repita Passos 2–4).
+1. Branch atualizada com a base? (`git fetch` e compare com `origin/<base>`). Desatualizada → numa sessão com a
+   pessoa, com o "sim" dela, `git merge origin/<base>` (conflito → resolva e repita Passos 2–4); como agente,
+   pare e devolva "branch desatualizada com a base". O "nunca merge" do fluxo é sobre o PR: esse merge é sempre de
+   uma pessoa.
 2. Texto do PR:
    ```
    FT-<nnn> — <título>   (EP-<nn> · IB <id ELM | —>)
@@ -101,9 +111,17 @@ Com revisão `APROVADO` e verificação `ACEITO`:
    O PR é para uma pessoa **ler o código**: pequeno, com a evidência e o caminho de leitura, sem despejar o plano.
 3. Numa só confirmação da pessoa: push e abertura do PR com a ferramenta do `sdd2-projeto.md` (sem ferramenta →
    entregue título e descrição prontos).
-4. `status.md`: `fase: pr-aberto`, link do PR; `backlog.json`: `pr`. Commit + push.
+4. `status.md`: `fase: pr-aberto`, link do PR. Commit + push (o `status.md` vai junto no PR).
 
 O merge é de uma pessoa. Depois do merge: **`sdd2-consolidar`**.
+
+## Trilha direta
+
+Sem pasta de spec nem `tasks.md` (a `sdd2-iniciar` decidiu que o diff cabe numa frase):
+1. Teste que falha, quando há comportamento (texto e configuração pura não têm); 2. a mudança; 3. backpressure;
+4. revisão pela **`sdd2-revisar`** (rubrica C sobre o diff, com o **pedido** no lugar dos critérios; relatório na
+conversa); 5. PR curto: `<pedido> (<id do item | —>)` · `O quê` · `Backpressure` · `Revisão: APROVADO` ·
+`Como ler`. Se no caminho aparecer regra de negócio ou mais de um comportamento → pare: é trilha rápida ou padrão.
 
 ## Modo autônomo
 
@@ -112,5 +130,6 @@ O merge é de uma pessoa. Depois do merge: **`sdd2-consolidar`**.
 
 ## Regras
 
-- Nunca `--force`, nunca merge, push só com confirmação (ou pelo orquestrador).
+- Nunca `--force`; merge só o da base para a branch, por uma pessoa (Passo 5); push só com confirmação (ou pelo
+  orquestrador, com a autorização do lote).
 - Nada fora do escopo do `design.md`; melhoria vista no caminho vira sugestão de item no backlog.

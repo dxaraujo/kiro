@@ -17,13 +17,13 @@ permissions:
     - capability: fs_read
       effect: allow
     - capability: fs_write
-      match: [".kiro/specs/*/revisao-*.md", ".kiro/specs/*/analise-*.md", ".kiro/produto/epicos/*/revisao-*.md", ".kiro/local/**"]
+      match: [".kiro/specs/*/revisao-*.md", ".kiro/local/wt/*/.kiro/specs/*/revisao-*.md", ".kiro/specs/*/analise-*.md", ".kiro/local/wt/*/.kiro/specs/*/analise-*.md", ".kiro/produto/epicos/*/revisao-*.md", ".kiro/local/wf/*/prd.json", ".kiro/local/wf/*/plano.json", ".kiro/local/wf/*/codigo.json"]
       effect: allow
     - capability: shell
-      match: ["git status*", "git diff*", "git log*", "git show*", "git grep*", "git ls-files*", "ls*", "find *", "grep *", "rg *", "cat *", "head *", "tail *", "wc *"]
+      match: ["git status*", "git diff*", "git log*", "git show*", "git grep*", "git ls-files*", "git ls-tree*", "git branch*", "git -C .kiro/local/wt/* status*", "git -C .kiro/local/wt/* diff*", "git -C .kiro/local/wt/* log*", "git -C .kiro/local/wt/* show*", "git -C .kiro/local/wt/* grep*", "ls*", "find * -name *", "find * -type *", "grep *", "rg *", "cat *", "head *", "tail *", "wc *"]
       effect: allow
     - capability: shell
-      match: ["git add*", "git commit*", "git push*", "git merge*", "git rebase*", "git reset*", "git checkout*", "git restore*", "git stash*", "rm *"]
+      match: ["*git push*", "*git merge*", "*git rebase*", "*git reset --hard*", "*git clean*", "*git checkout -- *", "*git restore *", "*git stash*", "*git worktree remove*", "*rm -rf*", "*-delete*", "*-exec rm*", "*git add*", "*git commit*"]
       effect: deny
 welcomeMessage: "O que devo revisar? (PRD de um épico, plano ou código de uma fatia)"
 ---

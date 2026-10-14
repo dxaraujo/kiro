@@ -1,15 +1,21 @@
 {
   "name": "sdd2-planejar-fatia",
-  "description": "sdd2 — pesquisa e plano de uma fatia (spec do Kiro) com análise independente; cada passo roda numa sessão nova. Termina no GATE do plano, que é de uma pessoa.",
+  "description": "sdd2 — pesquisa e plano de UMA fatia (spec do Kiro) com análise independente; a pessoa dispara na branch da fatia, no checkout principal; cada passo roda numa sessão nova. Termina no GATE do plano, que é de uma pessoa.",
   "inputs": {
     "fatia": "string"
   },
   "steps": [
     {
       "type": "step",
+      "id": "zerar",
+      "agent": "sdd2-revisor",
+      "prompt": "Fatia {{fatia}}. Grave .kiro/local/wf/{{fatia}}/plano.json com {\"resultado\": \"PENDENTE\"} (zera o veredito de uma execução anterior). Não faça mais nada."
+    },
+    {
+      "type": "step",
       "id": "pesquisa",
       "agent": "sdd2-pesquisador",
-      "prompt": "Fatia {{fatia}}. AUTONOMO=true. Siga a skill sdd2-pesquisar: ache a pasta da fatia pelo campo spec de .kiro/produto/backlog.json e escreva o research.md dela. Sem perguntas; o que não achar vai para 'Não encontrado'."
+      "prompt": "Fatia {{fatia}}. AUTONOMO=true. Siga a skill sdd2-pesquisar: a pasta da fatia é a de .kiro/specs/ cujo nome começa pelo id em minúsculas (ex.: ft-031-…), nesta branch; escreva o research.md dela. Sem perguntas; o que não achar vai para 'Não encontrado'."
     },
     {
       "type": "step",

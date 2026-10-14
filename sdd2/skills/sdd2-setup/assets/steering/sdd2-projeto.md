@@ -33,12 +33,15 @@ inclusion: manual
 | Item | Caminho |
 |---|---|
 | Glossário (linguagem ubíqua) | `<docs/glossario.md>` |
-| ADRs (decisões técnicas que duram) | `<docs/adr/>` |
+| ADRs (decisões técnicas que duram) | `<docs/adr>` |
 | Documentação do ELM no repositório (bundle OKF da `elm-sync`) | `<docs/elm/<pa>/ | não há>` |
 
 ## Comandos (backpressure)
 
-| Ação | Comando |
+Uma coluna por tipo/módulo quando o repositório tem mais de um (ex.: `batch`, `api`, `web`); a fatia usa a do
+módulo que ela altera (o `design.md` diz qual).
+
+| Ação | `<tipo/módulo>` |
 |---|---|
 | Compilar / checar tipos | `<…>` |
 | Testes (todos) | `<…>` |
@@ -47,10 +50,13 @@ inclusion: manual
 | Cobertura e gate | `<comando> · <ex.: linha ≥ 80% nos arquivos alterados | sem gate>` |
 
 Falha de ambiente (banco, rede, dependência fora do ar) → `AMBIENTE`, nunca "consertar" o ambiente.
+Dentro de uma worktree do `sdd2-loop`: `cd .kiro/local/wt/<ft> && <comando>`.
 
 ## Verificação de aceite
 
-| Item | Valor |
+Uma coluna por tipo/módulo, como em Comandos.
+
+| Item | `<tipo/módulo>` |
 |---|---|
 | Como executar a aplicação/job | `<comando, perfil, porta | job + parâmetros>` |
 | Como exercitar um cenário | <requisição HTTP | execução do job | navegação no browser (Playwright/MCP) | carga> |
@@ -66,6 +72,7 @@ Falha de ambiente (banco, rede, dependência fora do ar) → `AMBIENTE`, nunca "
 | Prefixo da branch | `<feature/>` (branch da fatia: `<prefixo><ft>-<slug>`) |
 | Mensagem de commit | `<FT-<nnn> <verbo no infinitivo> <descrição> | Task <id ELM> - …>` |
 | Abrir PR | `<gh pr create … | glab mr create … | entregar título e descrição para a pessoa>` |
+| Artefatos de produto (`.kiro/produto/`, glossário, ADRs, consolidação) | `<direto na branch base | PR curto para a base>` — nunca em branch de fatia |
 
 ## Banco de dados
 
@@ -83,7 +90,7 @@ Falha de ambiente (banco, rede, dependência fora do ar) → `AMBIENTE`, nunca "
 | Trilha rápida pede GATE do plano | `<sim | não>` |
 | Fatias em paralelo no `sdd2-loop` | `<1>` (máximo 3) |
 | Push e PR no `sdd2-loop` | `<perguntar no início de cada lote | não — a pessoa abre>` |
-| Execução autônoma | `<agente sdd2-orquestrador | Kiro Workflows (.kiro/workflows/sdd2-*.workflow.json)>` |
+| Kiro Workflows instalados (uma fatia por vez, disparados pela pessoa) | `<sim — .kiro/workflows/sdd2-*.workflow.json | não>` |
 
 ## ELM
 
@@ -108,6 +115,18 @@ Falha de ambiente (banco, rede, dependência fora do ar) → `AMBIENTE`, nunca "
 |---|---|
 | P · M · G | `<2 · 3 · 5>` |
 
+Testes (ETM) — colunas do `CT.csv` na ordem do template de importação do projeto:
+
+| Coluna | Valor fixo ou origem |
+|---|---|
+| `<Tipo>` | `<Caso de Teste>` |
+| `<Resumo>` | `<FT-nnn> <título> : CT<nn> - <cenário>` |
+| `<Responsável>` | login de quem verificou |
+| `<Status>` | `<estado inicial>` |
+| `<Categoria>` | `<… | vazio>` |
+| `<Planejado para>` | sprint (iteração) |
+| `<Descrição>` | bloco OBJETIVO / PRÉ-CONDIÇÕES / PASSOS / RESULTADO ESPERADO / EVIDÊNCIA |
+
 Tarefas criadas por fatia na sprint:
 
 | Prefixo | Título | Responsável |
@@ -117,13 +136,14 @@ Tarefas criadas por fatia na sprint:
 
 ## Agentes
 
-| Agente | Skills extras | MCP | Modelo | Subagentes |
-|---|---|---|---|---|
-| `sdd2-produto` | <…> | <…> | <padrão> | `sdd2-pesquisador`, `sdd2-revisor` |
-| `sdd2-pesquisador` | <…> | <…> | <padrão> | — |
-| `sdd2-codificador` | <…> | <…> | <padrão> | <…> |
-| `sdd2-revisor` | <…> | <…> | <padrão> | — |
-| `sdd2-verificador` | <…> | <…> | <padrão> | — |
-| `sdd2-orquestrador` | <…> | — | <padrão> | os `sdd2-*` <+ do projeto> |
+| Agente | Skills extras | Oferecidas e recusadas | MCP | Modelo | Subagentes |
+|---|---|---|---|---|---|
+| `sdd2-produto` | <…> | <…> | <…> | <padrão> | `sdd2-pesquisador`, `sdd2-revisor` |
+| `sdd2-pesquisador` | <…> | <…> | <…> | <padrão> | — |
+| `sdd2-codificador` | <…> | <…> | <…> | <padrão> | `sdd2-pesquisador`, `sdd2-revisor` <+ do projeto> |
+| `sdd2-revisor` | <…> | <…> | <…> | <padrão> | — |
+| `sdd2-verificador` | <…> | <…> | <…> | <padrão> | — |
+| `sdd2-orquestrador` | <…> | <…> | — | <padrão> | os `sdd2-*` <+ do projeto> |
 
-Instalados: hooks `<.kiro/hooks/sdd2-backpressure.json | nenhum>` · workflows `<.kiro/workflows/sdd2-*.workflow.json | nenhum>`
+Instalados: hooks `<.kiro/hooks/sdd2.json (sdd2-backpressure, sdd2-fechar-sessao) | nenhum>` · workflows
+`<.kiro/workflows/sdd2-planejar-fatia.workflow.json, sdd2-entregar-fatia.workflow.json | nenhum>`

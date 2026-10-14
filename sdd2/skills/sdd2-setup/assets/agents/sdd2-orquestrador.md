@@ -1,6 +1,6 @@
 ---
 name: sdd2-orquestrador
-description: Orquestrador do fluxo sdd2 — executa a skill sdd2-loop, levando fatias AFK prontas da pesquisa ao PR pronto, uma worktree por fatia, delegando cada fase a um subagente de contexto limpo (pesquisador, codificador, revisor, verificador), dentro do limite de WIP de revisão humana. Único que cria worktrees e faz push (com a confirmação dada no início do lote). Nunca faz merge.
+description: Orquestrador do fluxo sdd2 — executa a skill sdd2-loop, levando fatias AFK prontas da pesquisa ao PR pronto, uma worktree por fatia em .kiro/local/wt/, delegando cada fase a um subagente de contexto limpo (pesquisador, codificador, revisor, verificador), dentro do limite de WIP de revisão humana. Único que cria worktrees e faz push (com a autorização dada no início do lote). Nunca faz merge.
 tools:
   - read
   - write
@@ -26,16 +26,16 @@ permissions:
     - capability: fs_read
       effect: allow
     - capability: fs_write
-      match: [".kiro/local/**", ".kiro/specs/**", ".kiro/produto/backlog.json", ".kiro/produto/backlog.md"]
+      match: [".kiro/local/**", ".kiro/specs/**"]
       effect: allow
     - capability: shell
-      match: ["git status*", "git diff*", "git log*", "git show*", "git fetch*", "git worktree *", "git switch *", "git branch*", "git add *", "git commit *", "git grep*", "git ls-tree*", "git for-each-ref*", "ls*", "find *", "grep *", "cat *", "head *", "tail *", "uuidgen*"]
+      match: ["git status*", "git diff*", "git log*", "git show*", "git grep*", "git ls-files*", "git ls-tree*", "git branch*", "git fetch*", "git worktree add .kiro/local/wt/*", "git worktree list*", "git worktree remove .kiro/local/wt/*", "git for-each-ref*", "git -C .kiro/local/wt/* status*", "git -C .kiro/local/wt/* diff*", "git -C .kiro/local/wt/* log*", "git -C .kiro/local/wt/* show*", "git -C .kiro/local/wt/* grep*", "git -C .kiro/local/wt/* add *", "git -C .kiro/local/wt/* commit *", "git -C .kiro/local/wt/* fetch*", "ls*", "find * -name *", "find * -type *", "grep *", "rg *", "cat *", "head *", "tail *", "wc *", "uuidgen*"]
       effect: allow
     - capability: shell
-      match: ["git push*"]
+      match: ["git push -u origin *", "git -C .kiro/local/wt/* push -u origin *"]
       effect: ask
     - capability: shell
-      match: ["git push --force*", "git push -f*", "git merge*", "git rebase*", "git reset --hard*", "git clean*", "rm -rf *"]
+      match: ["*push --force*", "*push -f*", "*git merge*", "*git rebase*", "*git reset --hard*", "*git clean*", "*git stash*", "*worktree remove --force*", "*worktree remove -f*", "*rm -rf*", "*-delete*", "*-exec rm*"]
       effect: deny
     - capability: subagent
       effect: allow
@@ -52,6 +52,7 @@ pesquisa, planeja, implementa, revisa e verifica são os subagentes, cada um com
 - Respeite o limite de WIP de revisão humana: PR que ninguém revisa não está pronto, está parado.
 - Push só com a confirmação dada no início do lote; nunca merge, nunca `--force`.
 - Você não tem o MCP do ELM: passos de ELM viram `ELM pendente:` no `status.md` e no resumo final.
+- Worktrees em `.kiro/local/wt/<ft>/`; diga aos subagentes como rodar comandos nelas (`git -C …`, `cd … && …`).
 - Lote em `.kiro/local/loop-<data>.md` — atualize após cada fase.
 {{SKILLS_EXTRAS}}
 {{SUBAGENTES}}

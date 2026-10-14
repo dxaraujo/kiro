@@ -82,11 +82,14 @@ Falhou ao rodar → mostre o erro; a pessoa decide (corrigir o comando, seguir a
 | Prefixo da branch | branches remotas existentes; padrão `feature/` |
 | Padrão de commit | `git log --oneline -20` (Task/IB do EWM? Conventional Commits?) |
 | Abrir PR | `gh`/`glab` no PATH e o host do `origin`; senão "entregar título e descrição" |
-| MCP de banco | servidores em `.kiro/settings/mcp.json` e `~/.kiro/settings/mcp.json` — qual é o de consulta (ou "não há") |
+| MCP de banco | servidores em `.kiro/settings/mcp.json` e `~/.kiro/settings/mcp.json` — qual é o de consulta e **qual tool** só consulta (ou "não há"); recomende um usuário de banco somente leitura |
+| Artefatos de produto | a base é protegida? → `PR curto para a base`; senão pergunte (`direto na branch base` ou PR) |
 
 ## Passo 4 — Conhecimento e ELM
 
-1. **Glossário** (padrão `docs/glossario.md`) e **ADRs** (padrão `docs/adr/`) — use os que já existirem.
+1. **Glossário** (padrão `docs/glossario.md`) e **ADRs** (padrão `docs/adr`, sem barra no fim) — use os que já
+   existirem; não existindo, pergunte "criar `docs/glossario.md` e `docs/adr`? (recomendado)". Recusou → registre
+   "não há" e remova dos agentes as regras e linhas que os citam (`{{GLOSSARIO}}`, `{{ADR}}`).
 2. **ELM:** power `elm` instalado (`~/.kiro/powers/**/elm/`) e `.kiro/config/power/elm/pa_*.json` no repositório?
    - Sem power → `Usa ELM: não` (o fluxo funciona igual; os ids vêm do `backlog.json`).
    - Com power e sem `pa_*.json` → ofereça rodar a `elm-setup` antes (ela mapeia tipos, pastas, iterações).
@@ -94,16 +97,18 @@ Falhou ao rodar → mostre o erro; a pessoa decide (corrigir o comando, seguir a
      `rm.requirements-types`/`rm.folders`/`workitem-types`, por proximidade) e pergunte, um de cada vez: quando
      publicar os requisitos (`na-aprovacao` recomendado), quando criar os itens no EWM (`na-sprint` recomendado —
      sprints futuras mudam), se publica ET as-built, o que o processo exige manualmente no DOORS Next (change set,
-     módulo, baseline), pontos por tamanho e o template de tarefas por fatia.
+     módulo, baseline), pontos por tamanho, o template de tarefas por fatia e as colunas do `CT.csv` (tabela
+     Testes (ETM): tipo, status inicial, categoria — pergunte pelo template de importação do ETM do projeto).
    - Bundle do RM no repositório (`rm.download.path`) → registre em Conhecimento: é a base que os agentes leem.
 
 ## Passo 5 — Inventário de skills e toolkits
 
 Siga [references/toolkits.md](references/toolkits.md): procure toolkits (com e sem manifesto) e skills avulsas
 do projeto (`.kiro/skills/*/SKILL.md`), do usuário (`~/.kiro/skills/*/SKILL.md`) e de outros powers
-(`~/.kiro/powers/**/skills/*/SKILL.md`), **exceto** as `sdd2-*` (já são do fluxo) e as do power `elm` (o ELM fica
-na sessão da pessoa). Para cada uma: nome, início da `description`, origem e, se houver, toolkit e papéis.
-Toolkit cujo `deteccao` casa com o projeto → marque "detectado".
+(`~/.kiro/powers/installed/*/skills/*/SKILL.md`; não achou nada ali → `~/.kiro/powers/**/skills/*/SKILL.md`),
+**exceto** as `sdd2-*` e as `sdd-*` (fluxos), e as do power `elm` (o ELM fica na sessão da pessoa). Para cada uma:
+nome, início da `description`, origem e, se houver, toolkit e papéis. Toolkit cujo `deteccao` casa com o projeto
+→ "detectado".
 
 ## Passo 6 — Agentes, um de cada vez
 
@@ -119,27 +124,36 @@ pelos `papeis` do toolkit e pelo tipo de projeto, e pergunte (formato em `toolki
 | `sdd2-verificador` | verificar | skills de teste de aceite (Playwright, teste de job, API) |
 | `sdd2-orquestrador` | loop, iniciar, status | normalmente nenhuma |
 
-Na mesma rodada de cada agente, pergunte também:
-- **MCPs** (lista dos servidores configurados): o de banco entra como somente leitura em pesquisador, codificador,
-  revisor e verificador; browser/Playwright é sugerido para o verificador em projeto `frontend`. **Nunca ofereça o
-  MCP `elm`** — o ELM é do power `elm`, com as regras das skills dele, na sessão da pessoa.
-- **Modelo** (opcional; padrão: o do Kiro). Ex.: um modelo mais rápido para o pesquisador.
-- Só codificador e orquestrador: **agentes do projeto** (`.kiro/agents/*`, `~/.kiro/agents/*`, exceto `sdd2-*`)
-  que podem ser chamados como subagentes, e para que tipo de tarefa.
+Para cada agente, nesta sequência — **uma pergunta por mensagem**:
+1. **Skills** (o inventário acima). Pré-marcadas só as de toolkits **detectados** com o papel do agente.
+2. **MCPs** (lista dos servidores configurados): o de banco entra como somente leitura em pesquisador,
+   codificador, revisor e verificador — ligue só a tool de consulta (`@<servidor>/<tool>`), nunca o servidor
+   inteiro se ele tiver tool de escrita; browser/Playwright é sugerido para o verificador em projeto `frontend`.
+   **Nunca ofereça o MCP `elm`** — o ELM é do power `elm`, com as regras das skills dele, na sessão da pessoa.
+3. **Modelo** (opcional; padrão: o do Kiro). Ex.: um modelo mais rápido para o pesquisador.
+4. Só codificador e orquestrador: **agentes do projeto** (`.kiro/agents/*`, `~/.kiro/agents/*`, exceto `sdd2-*`)
+   que podem ser chamados como subagentes, e para que tipo de tarefa.
 
-Depois, a seção **Autonomia** do template: plano de fatia AFK (aprovação humana recomendada até o time confiar),
-paralelismo do loop (1), push/PR no loop (perguntar a cada lote).
+Registre também as skills **oferecidas e recusadas** por agente (coluna própria no `sdd2-projeto.md`): no modo
+atualização, só skill que não está em nenhuma das duas colunas é "nova".
+
+Depois, a seção **Autonomia** do template, uma pergunta por vez: plano de fatia AFK (aprovação humana recomendada
+até o time confiar), se a trilha rápida pede GATE do plano (não, recomendado — a análise independente basta),
+paralelismo do loop (1), push e PR no loop (perguntar a cada lote, recomendado; "sim" → acrescente ao
+orquestrador a ferramenta de PR na regra `ask`).
 
 ## Passo 7 — Hooks e workflows (opcionais)
 
 - **Hooks** ([assets/hooks/sdd2.json](assets/hooks/sdd2.json) → `.kiro/hooks/sdd2.json`): `sdd2-backpressure`
   (depois de cada tarefa de spec, compila e testa — troque `{{COMPILAR}}`/`{{TESTES}}` pelos comandos; sugira o
   conjunto rápido se a suíte for lenta) e `sdd2-fechar-sessao` (botão manual que atualiza o `status.md` e deixa o
-  git limpo). Pergunte por cada um.
+  git limpo). Pergunte por cada um; o recusado sai do array (ou fica com `"enabled": false`, se a pessoa preferir).
+  O comando roda no shell de quem usa o Kiro: no Windows com PowerShell 5, `&&` não existe — use
+  `cmd /c "<compilar> && <testes>"` ou `;` conforme o caso.
 - **Kiro Workflows** (experimental; exige a opção `kiroAgent.workflows.enabled`): as receitas de
   [assets/workflows/](assets/workflows/) → `.kiro/workflows/` — `sdd2-planejar-fatia` (pesquisa → plano → análise)
-  e `sdd2-entregar-fatia` (implementação ↔ revisão → verificação). Instalou → `Execução autônoma: Kiro Workflows`
-  na seção Autonomia.
+  e `sdd2-entregar-fatia` (implementação ↔ revisão → verificação). São disparadas pela pessoa, **uma fatia por
+  vez**, na branch da fatia, no checkout principal — não fazem parte do `sdd2-loop`.
 
 ## Passo 8 — Montar, mostrar, gravar
 
@@ -155,9 +169,10 @@ Em memória:
      skill escolhida para o agente;
    - `tools`: acrescente `@<servidor>` (ou `@<servidor>/<tool>`) dos MCPs escolhidos e, se houver algum, mude
      `includeMcpJson` para `true` (os `tools` limitam o que o agente vê); `includePowers` fica sempre `false`;
-   - `permissions`: acrescente à regra `shell` de `allow` os comandos do Passo 2 que o agente usa (ex.:
-     `"mvn *"`, `"npm test*"`) — codificador e revisor: compilar, testes, lint, cobertura; verificador: executar,
-     testes e scripts de massa;
+   - `permissions`: acrescente à regra `shell` de `allow` os comandos do Passo 2 que o agente usa, nas duas formas —
+     direto e dentro de uma worktree do loop (ex.: `"mvn *"` e `"cd .kiro/local/wt/* && mvn *"`) — codificador e
+     revisor: compilar, testes, lint, cobertura; verificador: executar, testes, scripts de massa e o host do ambiente
+     de teste no `curl` (ex.: `"curl *dev.interno*"`); a pasta de massa do projeto na regra `fs_write` dele;
    - `model` (se escolhido); subagentes do projeto em `toolsSettings.subagent.availableAgents` e na linha
      `{{SUBAGENTES}}` do corpo (`Subagentes do projeto: \`x\` (<tipo de tarefa>)`), senão remova a linha;
    - `{{SKILLS_EXTRAS}}` → `Skills do projeto ligadas a você: \`a\`, \`b\` — carregue a do artefato antes de
@@ -186,9 +201,14 @@ Agente `.md` existente e editado à mão → mostre o diff e pergunte antes de s
 ## Passo 9 — Validar
 
 - Frontmatter YAML de cada agente faz parse; `name` = nome do arquivo; nenhum `{{…}}` sobrando.
+- Ferramentas que varrem a raiz do repositório (test runners, linters, `tsc`, varredura de arquivos) ignoram
+  `.kiro/local/` — onde o loop cria as worktrees? Não ignoram → acrescente a exclusão na configuração delas (com
+  "ok") ou registre no `sdd2-projeto.md` que o loop não deve ser usado.
 - Todo `skill://` e `file://` aponta para arquivo existente (resolvendo `~` no home e o resto a partir da raiz) e
   é relativo — nenhum `/…` absoluto, `C:\…`, `\` ou variável.
-- JSON dos hooks e workflows faz parse; agentes citados nos workflows existem em `.kiro/agents/`.
+- JSON dos hooks e workflows faz parse; agentes citados nos workflows existem em `.kiro/agents/`. Depois de
+  instalar, peça à pessoa para abrir os painéis de hooks e de workflows do Kiro: erro de formato aparece ali — se
+  aparecer, mostre-o e ofereça remover o arquivo (o fluxo funciona sem eles).
 - `kiro-cli` disponível → confira que os agentes aparecem (`/agent` no chat do kiro-cli, ou `kiro-cli agent list`).
   `kiro-cli agent validate` só entende JSON: não use nos `.md`.
 - Workspace não confiável → avise: o Kiro só carrega agentes do workspace depois de a pessoa confiar nele.

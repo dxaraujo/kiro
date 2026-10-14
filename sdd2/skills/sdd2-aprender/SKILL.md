@@ -36,8 +36,8 @@ pessoa dizendo "não é assim", bloqueio por falta de informação.
 | `contexto-ausente` | a informação não existia em steering, PRD, glossário ou skill | escrever onde ela deve morar |
 | `contexto-ignorado` | existia e o agente não seguiu | se é mecânico: checagem determinística; senão regra em `sdd2-licoes.md` |
 | `prd-incompleto` | faltava regra/cenário no PRD | PRD nova versão (`sdd2-prd`) + publicar no ELM |
-| `plano-errado` | estava no PRD e não foi para o plano | item na rubrica L |
-| `revisao-branda` | a revisão viu e não reprovou (ou não viu) | subir a severidade / novo item de rubrica |
+| `plano-errado` | estava no PRD e não foi para o plano | regra R-nn em `sdd2-licoes.md` (aplica a: plano) |
+| `revisao-branda` | a revisão viu e não reprovou (ou não viu) | regra R-nn em `sdd2-licoes.md` (aplica a: revisor) com a severidade certa — as rubricas ficam no power e não são editadas no projeto |
 | `skill-desatualizada` | a skill do toolkit ensinou o jeito errado | corrigir a skill do toolkit (avisar quem mantém) |
 | `ambiente` | build, dado ou serviço de teste | registrar; não vira regra |
 

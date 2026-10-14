@@ -16,7 +16,7 @@ feche as decisões que as fontes não respondem — o agente **não** preenche l
 
 - **O que está sendo alinhado:** demanda (texto, work item do EWM), PRD, fatia ou plano técnico.
 - **Onde registrar:** a pasta do épico (`.kiro/produto/epicos/<EP>-<slug>/decisoes.md`) ou da fatia
-  (`.kiro/specs/<FT>-<slug>/decisoes.md`). Quem chamou informa; chamada direta → pergunte uma vez.
+  (`.kiro/specs/<ft>-<slug>/decisoes.md`). Quem chamou informa; chamada direta → pergunte uma vez.
 - **Glossário:** o caminho está no `.kiro/steering/sdd2-projeto.md` (seção Conhecimento; padrão `docs/glossario.md`).
 
 ## Passo 1 — Montar a árvore de decisões (sem perguntar nada ainda)

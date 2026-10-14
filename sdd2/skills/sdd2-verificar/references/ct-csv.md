@@ -6,13 +6,14 @@ importação é pela UI do ETM (Importar → CSV) e o link "valida" com a histó
 ## Arquivo
 
 - `.kiro/specs/<ft>-<slug>/CT.csv` · UTF-8 **com BOM** · quebras de linha **LF** · separador `;`.
-- Depois de gravar, garanta LF (`sed -i 's/\r$//' CT.csv`; no macOS `sed -i '' $'s/\r$//' CT.csv`) e o BOM.
+- Grave o arquivo já assim: o conteúdo começa pelo caractere BOM (U+FEFF) e usa só `\n` nas quebras de linha —
+  inclusive dentro da Descrição. Não dependa de `sed` depois (no Windows ele nem existe).
 
 ## Colunas (nesta ordem)
 
 Valores do ELM vêm do `.kiro/config/power/elm/pa_*.json` (power `elm`) e do `sdd2-projeto.md`; sem ELM, deixe
-vazios os que não souber. A ordem e os nomes podem ser trocados na seção **ELM → Testes** do `sdd2-projeto.md`
-(o template de importação do ETM do projeto manda).
+vazios os que não souber. A ordem, os nomes e os valores fixos (tipo, status inicial, categoria) vêm da tabela
+**Testes (ETM)** da seção ELM do `sdd2-projeto.md` — o template de importação do ETM do projeto manda.
 
 | # | Coluna | Valor |
 |---|---|---|

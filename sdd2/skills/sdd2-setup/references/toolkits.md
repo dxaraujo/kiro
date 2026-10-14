@@ -35,12 +35,15 @@ e quais verificações a `sdd2-verificar` usa para executar os cenários de acei
 
 1. **Projeto:** `.kiro/toolkits/*/toolkit.json`
 2. **Usuário:** `~/.kiro/toolkits/*/toolkit.json`
-3. **Powers instalados:** `~/.kiro/powers/installed/*/toolkit.json` (um toolkit pode ser distribuído como power)
+3. **Powers instalados:** `~/.kiro/powers/installed/*/toolkit.json` (um toolkit pode ser distribuído como power;
+   não achou nada ali → `~/.kiro/powers/**/toolkit.json`)
 4. **Sem manifesto** (toolkit implícito): skills em `.kiro/skills/*/SKILL.md`, `~/.kiro/skills/*/SKILL.md` e
    `~/.kiro/powers/installed/*/skills/*/SKILL.md` cujo frontmatter traga `metadata.toolkit` (nome do toolkit) —
    e, opcionalmente, `metadata.papeis` e `metadata.tipos-de-projeto`. Skills com o mesmo `metadata.toolkit` formam
    um toolkit.
 5. **Skills avulsas** (sem toolkit): entram no inventário geral; a pessoa decide por agente, como qualquer outra.
+
+Ficam de fora do inventário: as skills dos fluxos (`sdd2-*` e `sdd-*`) e as do power `elm`.
 
 Use `glob`/`ls` nesses caminhos (expandindo `~` para o home). Pastas inexistentes são normais — siga sem comentar.
 Nunca leia arquivos de credenciais que encontrar no caminho.
@@ -91,20 +94,21 @@ Formato definido por [../assets/toolkit.schema.json](../assets/toolkit.schema.js
 
 ## Pergunta por agente
 
-A setup nunca liga uma skill sem perguntar. Para cada agente, mostra o inventário **agrupado por toolkit**, com
-as skills pré-marcadas pelo papel e pelo tipo de projeto:
+A setup nunca liga uma skill sem perguntar. Para cada agente, mostra o inventário **agrupado por toolkit**. Vêm
+pré-marcadas só as skills de toolkits **detectados** cujo `papeis` inclui o papel do agente; toolkit não
+detectado, skill do projeto e skill do usuário aparecem desmarcadas:
 
 ```
 🤖 sdd2-codificador — quais skills ele pode usar?
 Projeto detectado: batch (spring-batch-core no pom.xml)
 
-Toolkit spring-batch (detectado)               Toolkit java-backend
+Toolkit spring-batch (detectado)               Toolkit java-backend (detectado — pom.xml)
  [x] 1. spring-batch-job — steps chunk/tasklet   [x] 4. java — padrões Java 21 do time
- [x] 2. spring-batch-teste — testes de job       [ ] 5. spring-rest — controladores REST
+ [x] 2. spring-batch-teste — testes de job       [ ] 5. spring-rest — controladores REST (papel: só backend web)
 Skills do projeto                              Skills do usuário
  [ ] 3. convencoes-sql — padrões de SQL          [ ] 6. git-commit — mensagens de commit
 
-Confirma as marcadas, ou informe os números (ex.: "1,2,4,3"), "nenhuma" ou "as mesmas do sdd2-revisor":
+Confirma as marcadas, ou informe os números (ex.: "1,2,4,3"), "nenhuma" ou "as mesmas do <agente já configurado>":
 ```
 
 Num projeto 100% Spring Batch, o normal é o codificador receber as skills de batch e Java, e não as de REST ou

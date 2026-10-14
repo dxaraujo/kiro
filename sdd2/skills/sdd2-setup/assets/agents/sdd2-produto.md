@@ -28,10 +28,10 @@ permissions:
       match: [".kiro/produto/**", "{{GLOSSARIO}}", "{{ADR}}/**"]
       effect: allow
     - capability: shell
-      match: ["git status*", "git diff*", "git log*", "git show*", "git add *", "git commit *", "git grep*", "ls*", "find *", "grep *", "rg *", "cat *", "head *", "tail *"]
+      match: ["git status*", "git diff*", "git log*", "git show*", "git grep*", "git ls-files*", "git ls-tree*", "git branch*", "git add *", "git commit *", "git fetch*", "git pull --ff-only*", "git switch *", "ls*", "find * -name *", "find * -type *", "grep *", "rg *", "cat *", "head *", "tail *", "wc *"]
       effect: allow
     - capability: shell
-      match: ["git push*", "git merge*", "git rebase*", "git reset --hard*", "rm -rf *"]
+      match: ["*git push*", "*git merge*", "*git rebase*", "*git reset --hard*", "*git clean*", "*git checkout -- *", "*git restore *", "*git stash*", "*git worktree remove*", "*rm -rf*", "*-delete*", "*-exec rm*"]
       effect: deny
     - capability: subagent
       effect: allow

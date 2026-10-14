@@ -26,8 +26,9 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
 2. **Acordos** (`acordos.md`) — proponha e ajuste:
    - cadência: **Scrum** (sprints de N semanas, cerimônias, iteração no EWM) ou **Kanban** (fluxo contínuo,
      revisão de backlog semanal); padrão: sprints de 2 semanas com fluxo puxado dentro da sprint;
-   - **WIP:** uma fatia por sessão de agente; fatias em `revisando` + `pr-aberto` ≤ capacidade de revisão (ex.: 2
-     por revisor); nenhuma fatia nova começa com PR parado há mais de 1 dia;
+   - **WIP:** uma fatia por sessão de agente; fatias esperando pessoa (`plano-em-revisao` + `aceita` +
+     `pr-aberto`) ≤ capacidade de revisão (ex.: 2 por revisor); nenhuma fatia nova começa com PR parado há mais de
+     1 dia;
    - **Definition of Ready** e **Definition of Done** (padrão no `arquivos.md`);
    - tamanho: `P`/`M`/`G` e a tabela de pontos (padrão `2/3/5`).
 3. **Roadmap** (`roadmap.md`): épicos do `backlog.json` em ordem de valor e risco (maior incerteza mais cedo),
@@ -40,9 +41,10 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
    - **HITL**: fatias HITL consomem horas de dev acompanhando;
    - **vazão**: média de fatias concluídas nas últimas 3 sprints (primeira sprint: comece com 1 fatia por dev
      por semana e ajuste na virada). Em pontos: velocidade média, para o EWM.
-2. **Seleção:** fatias `pronta` (Definition of Ready) do topo do backlog, respeitando `bloqueada-por` — a fatia só
-   entra se as dependências entram antes ou já estão concluídas. Pare ao atingir a menor das capacidades. Fatia
-   não `pronta` no topo → aponte o que falta (decisão, PRD, fatiar) antes de pular para a próxima.
+2. **Seleção:** confira a Definition of Ready das fatias do topo e grave `pronta` nas que passam (ou `backlog`
+   nas que deixaram de passar). Entram as `pronta`, respeitando `bloqueada-por` — a fatia só entra se as
+   dependências entram antes ou já estão concluídas. Pare ao atingir a menor das capacidades. Fatia não `pronta` no
+   topo → aponte o que falta (decisão, PRD, fatiar) antes de pular para a próxima.
 3. **Meta da sprint:** uma frase de resultado de negócio que as fatias entregam juntas.
 4. **Proposta:**
    ```
@@ -51,8 +53,8 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
    Capacidade: revisão <h>h (usa <x>h) · vazão prevista <n> fatias / <p> pts · HITL <h>h
    Fica de fora (por capacidade): <FT…>
    ```
-5. "ok" → grave `sprints/sprint-<nn>.md`, `sprint` e `responsavel` no `backlog.json`, commit; ofereça a
-   **`sdd2-elm`** modo *sprint* (iteração, IBs, tarefas).
+5. "ok" → grave `sprints/sprint-<nn>.md`, `sprint`, `responsavel` e `status` no `backlog.json`, commit na base
+   (artefato de produto); ofereça a **`sdd2-elm`** modo *sprint* (iteração, IBs, tarefas).
 
 ## Durante a sprint
 

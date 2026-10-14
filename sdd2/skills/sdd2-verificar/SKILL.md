@@ -38,9 +38,10 @@ afrouxe agora. Para cada cenário que a fatia cobre, escreva-o em `verificacao.m
 
 - Suba a aplicação/job como o `sdd2-projeto.md` manda (comando **Executar**) — ambiente local ou de teste,
   **nunca produção**.
-- Massa de teste: scripts da convenção do projeto (se houver); senão crie fixtures na pasta de testes da fatia.
-  Escrita em banco **só** pelos scripts de massa declarados; consultas pelo MCP de banco, somente leitura.
-- DDL pendente (campo Banco do `status.md` diferente de `aplicada em dev`) → pare: a verificação depende dela.
+- Massa de teste: scripts da convenção do projeto (seção Verificação do `sdd2-projeto.md`); sem convenção, crie-a
+  em `.kiro/specs/<ft>-<slug>/massa/`. Escrita em banco **só** pelos scripts de massa; consultas pelo MCP de banco,
+  somente leitura.
+- Campo Banco do `status.md` = `pendente` → pare: a verificação depende da DDL aplicada em dev.
 
 ## Passo 3 — Executar e registrar
 
@@ -66,7 +67,8 @@ Cenários: <a> aceitos · <r> rejeitados · <e> ambiente
 VERIFICACAO: ACEITO | REJEITADO
 ```
 
-- **ACEITO** (todos aceitos) → gere o `CT.csv` (Passo 5) e devolva para a `sdd2-implementar` abrir o PR.
+- **ACEITO** (todos aceitos) → gere o `CT.csv` (Passo 5), `fase: aceita` no `status.md` e devolva para a
+  `sdd2-implementar` abrir o PR (Passo 5 dela).
 - **REJEITADO** → para cada cenário, esperado × obtido + evidência, registrados no `status.md` como achados;
   `fase: implementando`; a `sdd2-implementar` corrige e a verificação roda de novo (só os rejeitados + os de
   repetição). Se o problema é o cenário estar errado no PRD, diga isso: é com o P.O., não com o código.
@@ -77,6 +79,9 @@ VERIFICACAO: ACEITO | REJEITADO
 Gere `CT.csv` na pasta da fatia — um caso por cenário verificado — no formato de
 [references/ct-csv.md](references/ct-csv.md). A importação no ETM e o link "valida" com a história são feitos
 pela **`sdd2-elm`** (modo *testes*) na consolidação, depois do merge.
+
+Incremente "verificação" em Rodadas no `status.md`; pedido de quem chamou (workflow, loop) → grave também
+`.kiro/local/wf/<ft>/aceite.json` com `{"verificacao": "ACEITO"}` ou `{"verificacao": "REJEITADO"}`.
 
 ## Regras
 

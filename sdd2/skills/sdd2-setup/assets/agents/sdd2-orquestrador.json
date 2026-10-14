@@ -87,6 +87,7 @@
     }
   },
   "includeMcpJson": false,
+  "includePowers": false,
   "welcomeMessage": "Quais fatias AFK devo levar até o PR? (lista de FT-nnn ou \"as prontas da sprint\")",
   "permissions": {
     "rules": [

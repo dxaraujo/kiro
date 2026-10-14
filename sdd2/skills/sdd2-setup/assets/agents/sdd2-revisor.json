@@ -75,6 +75,7 @@
     }
   },
   "includeMcpJson": false,
+  "includePowers": false,
   "welcomeMessage": "O que devo revisar? (PRD de um épico, plano ou código de uma fatia)",
   "permissions": {
     "rules": [

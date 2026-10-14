@@ -79,6 +79,7 @@
     }
   },
   "includeMcpJson": false,
+  "includePowers": false,
   "welcomeMessage": "Qual fatia (FT-nnn) devo verificar?",
   "permissions": {
     "rules": [

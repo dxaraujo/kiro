@@ -145,5 +145,5 @@ Tarefas criadas por fatia na sprint:
 | `sdd2-verificador` | <…> | <…> | <…> | <padrão> | — |
 | `sdd2-orquestrador` | <…> | <…> | — | <padrão> | os `sdd2-*` <+ do projeto> |
 
-Instalados: hooks `<.kiro/hooks/sdd2.json (sdd2-backpressure, sdd2-fechar-sessao) | nenhum>` · workflows
+Instalados: hook `<.kiro/hooks/sdd2.json (sdd2-backpressure) | nenhum>` · comando `</sdd2-fechar-sessao | não>` · workflows
 `<.kiro/workflows/sdd2-planejar-fatia.workflow.json, sdd2-entregar-fatia.workflow.json | nenhum>`

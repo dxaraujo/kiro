@@ -68,6 +68,7 @@
     }
   },
   "includeMcpJson": false,
+  "includePowers": false,
   "welcomeMessage": "Qual fatia (FT-nnn) ou pergunta sobre o código devo pesquisar?",
   "permissions": {
     "rules": [

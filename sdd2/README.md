@@ -91,7 +91,8 @@ de `skills/sdd2-setup/assets/`:
 | `.kiro/steering/sdd2-projeto.md` | configuração: tipos de projeto, toolkits, comandos, verificação, git, banco, autonomia, ELM, agentes |
 | `.kiro/steering/sdd2-licoes.md` | regras aprendidas (o revisor cobra) |
 | `.kiro/agents/sdd2-*.json` | `produto`, `pesquisador`, `codificador`, `revisor`, `verificador`, `orquestrador` — cada um com as skills e MCPs que a pessoa liberou |
-| `.kiro/hooks/sdd2.json` (opcional) | backpressure depois de cada tarefa de spec · botão "fechar sessão" |
+| `.kiro/hooks/sdd2.json` (opcional) | backpressure: compila e testa depois de cada tarefa de spec |
+| `.kiro/steering/sdd2-fechar-sessao.md` (opcional) | comando `/sdd2-fechar-sessao`: atualiza o `status.md` e deixa o git limpo ao fim da sessão |
 | `.kiro/workflows/sdd2-*.workflow.json` (opcional, experimental) | `planejar-fatia` e `entregar-fatia` nos Kiro Workflows (uma fatia por vez, disparadas pela pessoa) |
 | `.kiro/produto/`, `.kiro/aprendizado/` | backlog, planejamento, lições |
 
@@ -145,15 +146,18 @@ Com o **Kiro CLI 2.31.0** (o binário oficial, 13–14/10/2026):
 - `kiro-cli powers install <pasta>` instala o power em `~/.kiro/powers/installed/sdd2/`, com todas as skills,
   `references/` e `assets/` — o caminho que a setup usa nos agentes;
 - os seis agentes gerados a partir de `assets/agents/` (placeholders preenchidos, comandos de build e skills de
-  toolkit acrescentados como a setup faz) passam no `kiro-cli agent validate`, aparecem no `kiro-cli agent list` e
-  o `kiro-cli agent upgrade --dry-run` os reconhece como `already universal`;
+  toolkit acrescentados como a setup faz) passam no `kiro-cli agent validate` e aparecem no `kiro-cli agent list`;
+  o bloco `permissions` (V3 e IDE) é o gerado pelo próprio `kiro-cli agent upgrade` a partir do `toolsSettings`
+  (V2), e `includePowers: false` fica explícito porque a documentação não garante o padrão;
 - o formato `.md` de agente **não** é carregado pela engine V2 do CLI (ainda a padrão), por isso os agentes são
   JSON universais; padrões de comando encadeado (`cd … && …`) são descartados pelo CLI, por isso as permissões
   usam comandos simples.
 
-Não foi possível testar uma conversa (exige login) nem abrir a IDE, e a rede deste ambiente bloqueia `kiro.dev`:
-as regras de hooks v1, Workflows e specs vieram de trechos da documentação e de arquivos reais publicados no
-GitHub.
+Conferido no índice de busca do `kiro.dev` (a rede deste ambiente bloqueia o acesso direto ao site): formato de
+power (`plugin.json` + `skills/` + `mcp.json`, sem steering), hooks v1 e `PostTaskExec`, gatilho manual
+indisponível na IDE (por isso o `/sdd2-fechar-sessao` é steering manual), Workflows (`step`/`repeat`, `fileCheck`
+avaliado depois de cada iteração), agentes JSON/Markdown e `permissions`, bugfix specs e modos de steering. Não foi
+possível testar uma conversa (exige login) nem abrir a IDE.
 
 ## Limitações conhecidas e próxima versão
 

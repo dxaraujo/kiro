@@ -145,8 +145,10 @@ orquestrador a ferramenta de PR na regra `ask`).
 
 - **Hooks** ([assets/hooks/sdd2.json](assets/hooks/sdd2.json) → `.kiro/hooks/sdd2.json`): `sdd2-backpressure`
   (depois de cada tarefa de spec, compila e testa — troque `{{COMPILAR}}`/`{{TESTES}}` pelos comandos; sugira o
-  conjunto rápido se a suíte for lenta) e `sdd2-fechar-sessao` (botão manual que atualiza o `status.md` e deixa o
-  git limpo). Pergunte por cada um; o recusado sai do array (ou fica com `"enabled": false`, se a pessoa preferir).
+  conjunto rápido se a suíte for lenta). Recusado → não instale o arquivo (ou `"enabled": false`).
+- **Fechar a sessão** ([assets/steering/sdd2-fechar-sessao.md](assets/steering/sdd2-fechar-sessao.md) →
+  `.kiro/steering/`): steering manual que vira o comando `/sdd2-fechar-sessao` — atualiza o `status.md`, deixa o
+  git limpo e diz como retomar. (A IDE não aceita hook de gatilho manual; o Kiro recomenda steering manual.)
   O comando roda no shell de quem usa o Kiro: no Windows com PowerShell 5, `&&` não existe — use
   `cmd /c "<compilar> && <testes>"` ou `;` conforme o caso.
 - **Kiro Workflows** (experimental; exige a opção `kiroAgent.workflows.enabled`): as receitas de
@@ -180,12 +182,13 @@ Em memória:
      (`cd … && mvn …`): o Kiro avalia cada parte de um comando composto separadamente (o `cd .kiro/local/wt/*` das
      worktrees já está liberado);
    - `model` (se escolhido);
-   - **regenere o `permissions`**: com `kiro-cli` disponível, apague o bloco `permissions` dos agentes alterados e
-     rode `kiro-cli agent upgrade --no-backup .kiro/agents` — ele reconstrói o bloco a partir do `toolsSettings`
-     (aviso `unconvertible-pattern` = padrão que a V3 não aceita: corrija-o). Sem `kiro-cli`, espelhe à mão cada
-     mudança no `permissions` (regex `.*` → glob `*`, `\.` → `.`);
-   - nunca acrescente `includePowers` (sem ele o agente não recebe os powers — é o que queremos — e com ele o JSON
-     deixa de ser universal) nem `hooks` (a IDE ignora agentes que o têm).
+   - **regenere o `permissions`**: com `kiro-cli` disponível, tire dos agentes alterados o bloco `permissions` e o
+     campo `includePowers`, rode `kiro-cli agent upgrade --no-backup .kiro/agents` — ele reconstrói o bloco a partir
+     do `toolsSettings` (aviso `unconvertible-pattern` = padrão que a V3 não aceita: corrija-o) — e devolva
+     `"includePowers": false`. Sem `kiro-cli`, espelhe à mão cada mudança no `permissions` (regex `.*` → glob `*`,
+     `\.` → `.`);
+   - `"includePowers": false` fica sempre (a documentação não garante o padrão, e com powers o agente receberia o
+     MCP do `elm`); nunca acrescente `hooks` (a IDE ignora agentes que o têm).
 5. Hooks e workflows escolhidos (Passo 7).
 6. `.kiro/produto/` (só o que não existir): `backlog.json` mínimo
    (`{"projeto": "<nome>", "atualizado": "<data>", "proximo": {"EP": 1, "FT": 1}, "epicos": [], "fatias": []}`),
@@ -218,8 +221,9 @@ Agente existente e editado à mão → mostre o diff e pergunte antes de sobresc
   instalar, peça à pessoa para abrir os painéis de hooks e de workflows do Kiro: erro de formato aparece ali — se
   aparecer, mostre-o e ofereça remover o arquivo (o fluxo funciona sem eles).
 - `kiro-cli` disponível → para cada agente, `kiro-cli agent validate --path .kiro/agents/<agente>.json` (saída
-  vazia = válido; erro aponta o campo); `kiro-cli agent upgrade --dry-run .kiro/agents` deve dizer
-  `already universal` para os seis; `kiro-cli agent list` (na raiz do repositório) lista os seis.
+  vazia = válido; erro aponta o campo); `kiro-cli agent list` (na raiz do repositório) lista os seis. O
+  `kiro-cli agent upgrade --dry-run` diz `out of sync` por causa do `includePowers: false` — é esperado e só
+  significa que ele não reescreve esses arquivos.
 - Workspace não confiável → avise: o Kiro só carrega agentes do workspace depois de a pessoa confiar nele.
 
 Sugira o commit (`.kiro/steering/sdd2*.md`, `.kiro/agents/sdd2-*.json`, `.kiro/hooks/`, `.kiro/workflows/`,

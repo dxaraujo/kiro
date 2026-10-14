@@ -13,6 +13,11 @@ Leia antes: `.kiro/steering/sdd2-projeto.md`. Sem ele → ofereça a **`sdd2-set
 
 ## Passo 1 — O que chegou
 
+**Ordem de consulta** para qualquer id (`FT-031`, número do EWM, `EP-03`) — vale a primeira fonte que achar, e
+nunca se inventa dado de work item: (1) `status.md` nas branches (atual, worktrees, remotas); (2) o
+`backlog.json` da base (ids locais e o campo `elm`); (3) o EWM pela skill `elm-ccm`, se a sessão tem o power `elm`;
+(4) perguntar à pessoa. A `fase` do `status.md` decide se o papel pode começar.
+
 | Entrada | Como ler |
 |---|---|
 | `FT-nnn` | `.kiro/produto/backlog.json` (+ PRD do épico) |

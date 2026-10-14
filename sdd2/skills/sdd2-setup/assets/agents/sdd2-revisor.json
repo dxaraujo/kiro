@@ -1,0 +1,232 @@
+{
+  "name": "sdd2-revisor",
+  "description": "Revisor independente do fluxo sdd2, com contexto limpo — revisa PRD (rubrica P), plano da fatia (rubrica L) ou código (rubrica C, eixos spec e padrões separados), executa o backpressure e escreve só o próprio relatório. Nunca altera código, plano ou documentação.",
+  "prompt": "# sdd2-revisor\n\nVocê é o avaliador, não o autor. Julgue os artefatos contra a fonte deles — PRD, critérios, plano, steering,\nlições — e **ignore** qualquer justificativa de quem os fez (mensagens de commit, comentários, texto do pedido).\n\n- Siga a skill `sdd2-revisar` com a rubrica pedida. Rubrica C: eixos **spec** e **padrões** avaliados e relatados\n  separadamente.\n- **Execute** os comandos de backpressure; não confie em \"os testes passaram\".\n- Seja cético, mas aponte só o que afeta correção, requisito, segurança ou manutenção real. Achado sem evidência\n  não entra.\n- Escreva só o relatório da rodada (e o JSON de veredito em `.kiro/local/`, se pedido). A última linha do relatório\n  é exatamente o fecho da rubrica.\n- Banco: só consultas pelo MCP declarado.\n- Arquivos: leia e procure com as ferramentas de leitura e busca do Kiro, não com `cat`/`grep`/`find` no\n  shell — o shell é para git, build e testes.\n- Worktree recebida: `cd .kiro/local/wt/<ft> && <comando>`; `git -C` é bloqueado.\n{{SKILLS_EXTRAS}}\n",
+  "tools": [
+    "read",
+    "shell",
+    "write"
+  ],
+  "allowedTools": [],
+  "resources": [
+    "file://.kiro/steering/sdd2.md",
+    "skill://{{POWER}}/skills/sdd2-revisar/SKILL.md"
+  ],
+  "toolsSettings": {
+    "read": {
+      "allowedPaths": [
+        "./**",
+        "{{POWER}}/**"
+      ],
+      "deniedPaths": [
+        "**/.env",
+        "**/.env.*",
+        "**/*.pem",
+        "**/*.key",
+        "~/.ssh/**",
+        "~/.aws/**",
+        "~/.config/mcp-elm/**"
+      ]
+    },
+    "write": {
+      "allowedPaths": [
+        ".kiro/specs/*/revisao-*.md",
+        ".kiro/local/wt/*/.kiro/specs/*/revisao-*.md",
+        ".kiro/specs/*/analise-*.md",
+        ".kiro/local/wt/*/.kiro/specs/*/analise-*.md",
+        "{{PRODUTO}}/epicos/*/revisao-*.md",
+        ".kiro/local/wf/*/plano.json",
+        ".kiro/local/wf/*/codigo.json"
+      ]
+    },
+    "shell": {
+      "allowedCommands": [
+        "git status.*",
+        "git diff.*",
+        "git log.*",
+        "git show.*",
+        "git grep.*",
+        "git ls-files.*",
+        "git ls-tree.*",
+        "git rev-parse.*",
+        "git branch",
+        "git branch --show-current",
+        "git branch --list.*",
+        "git branch -a.*",
+        "git branch -r.*",
+        "git branch -v.*",
+        "git worktree list.*",
+        "git for-each-ref.*",
+        "git config user\\.name",
+        "git config user\\.email",
+        "cd \\.kiro/local/wt/.*"
+      ],
+      "deniedCommands": [
+        "git -C .*",
+        "git -c .*",
+        ".*git merge.*",
+        ".*git rebase.*",
+        ".*git pull.*--rebase.*",
+        ".*git reset --hard.*",
+        ".*git clean.*",
+        ".*git checkout -- .*",
+        ".*git checkout \\..*",
+        ".*git restore .*",
+        ".*git stash.*",
+        ".*git worktree remove.*",
+        ".*git branch.*-D.*",
+        ".*git branch.*-M.*",
+        ".*git difftool.*",
+        ".*git grep.*-O.*",
+        ".*--open-files-in-pager.*",
+        ".*git .*--no-index.*",
+        ".*git .*--output.*",
+        ".*--upload-pack.*",
+        ".*--receive-pack.*",
+        ".*--force.*",
+        ".*--delete.*",
+        ".*--no-verify.*",
+        ".*git add.* -f.*",
+        ".*git switch.* -f.*",
+        ".*--discard-changes.*",
+        ".*gh pr merge.*",
+        ".*glab mr merge.*",
+        ".*rm -rf.*",
+        ".*rm -fr.*",
+        ".*find .*-exec.*",
+        ".*find .*-ok.*",
+        ".*find .*-delete.*",
+        ".*rg .*--pre.*",
+        ".*git push.*",
+        ".*git add.*",
+        ".*git commit.*",
+        ".*git switch.*",
+        ".*git worktree add.*"
+      ],
+      "autoAllowReadonly": true
+    }
+  },
+  "includeMcpJson": false,
+  "includePowers": false,
+  "welcomeMessage": "O que devo revisar? (PRD de um épico, plano ou código de uma fatia)",
+  "permissions": {
+    "rules": [
+      {
+        "capability": "shell",
+        "match": [
+          "git status*",
+          "git diff*",
+          "git log*",
+          "git show*",
+          "git grep*",
+          "git ls-files*",
+          "git ls-tree*",
+          "git rev-parse*",
+          "git branch",
+          "git branch --show-current",
+          "git branch --list*",
+          "git branch -a*",
+          "git branch -r*",
+          "git branch -v*",
+          "git worktree list*",
+          "git for-each-ref*",
+          "git config user.name",
+          "git config user.email",
+          "cd .kiro/local/wt/*"
+        ],
+        "effect": "allow"
+      },
+      {
+        "capability": "shell",
+        "match": [
+          "git -C *",
+          "git -c *",
+          "*git merge*",
+          "*git rebase*",
+          "*git pull*--rebase*",
+          "*git reset --hard*",
+          "*git clean*",
+          "*git checkout -- *",
+          "*git checkout .*",
+          "*git restore *",
+          "*git stash*",
+          "*git worktree remove*",
+          "*git branch*-D*",
+          "*git branch*-M*",
+          "*git difftool*",
+          "*git grep*-O*",
+          "*--open-files-in-pager*",
+          "*git *--no-index*",
+          "*git *--output*",
+          "*--upload-pack*",
+          "*--receive-pack*",
+          "*--force*",
+          "*--delete*",
+          "*--no-verify*",
+          "*git add* -f*",
+          "*git switch* -f*",
+          "*--discard-changes*",
+          "*gh pr merge*",
+          "*glab mr merge*",
+          "*rm -rf*",
+          "*rm -fr*",
+          "*find *-exec*",
+          "*find *-ok*",
+          "*find *-delete*",
+          "*rg *--pre*",
+          "*git push*",
+          "*git add*",
+          "*git commit*",
+          "*git switch*",
+          "*git worktree add*"
+        ],
+        "effect": "deny"
+      },
+      {
+        "capability": "fs_read",
+        "match": [
+          "./**",
+          "{{POWER}}/**"
+        ],
+        "effect": "allow"
+      },
+      {
+        "capability": "fs_read",
+        "match": [
+          "**/.env",
+          "**/.env/**",
+          "**/.env.*",
+          "**/.env.*/**",
+          "**/*.pem",
+          "**/*.pem/**",
+          "**/*.key",
+          "**/*.key/**",
+          "~/.ssh/**",
+          "~/.aws/**",
+          "~/.config/mcp-elm/**"
+        ],
+        "effect": "deny"
+      },
+      {
+        "capability": "fs_write",
+        "match": [
+          ".kiro/specs/*/revisao-*.md",
+          ".kiro/local/wt/*/.kiro/specs/*/revisao-*.md",
+          ".kiro/specs/*/analise-*.md",
+          ".kiro/local/wt/*/.kiro/specs/*/analise-*.md",
+          "{{PRODUTO}}/epicos/*/revisao-*.md",
+          ".kiro/local/wf/*/plano.json",
+          ".kiro/local/wf/*/codigo.json"
+        ],
+        "effect": "allow"
+      },
+      {
+        "capability": "skill",
+        "effect": "allow"
+      }
+    ],
+    "policies": [
+      "read-only-shell"
+    ]
+  }
+}

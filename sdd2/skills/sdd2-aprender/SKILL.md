@@ -1,0 +1,97 @@
+---
+name: sdd2-aprender
+description: "Aprendizado composto do fluxo sdd2 — transforma cada correção humana em melhoria permanente: registra a lição (o que o agente fez, o que era o certo, onde estava a informação, causa: falta de contexto, regra não escrita, revisão branda, PRD incompleto, skill desatualizada), propõe a correção na fonte certa (steering, glossário, skill do toolkit, rubrica, PRD) e promove regras para a seção Regras aprendidas do .kiro/steering/sdd2.md com aprovação de uma pessoa. Também faz a retrospectiva da fatia/sprint com dados. Use em \"isso está errado, aprenda\", \"registra a lição\", \"o agente sempre erra X\", \"retrospectiva\", \"resumo das lições\", e quando a revisão, a verificação ou o PR reprovarem algo que um humano teve de corrigir."
+license: MIT
+metadata:
+  author: "Daniel Xavier Araújo"
+  version: "0.1.0"
+---
+
+# sdd2-aprender — Cada erro corrigido uma vez só
+
+Todo retrabalho tem uma causa no **ambiente** do agente: contexto, verificação ou processo. Corrigir só o código
+resolve hoje; corrigir o ambiente resolve para sempre. Arquivos (versionados):
+
+- `<produto>/aprendizado/licoes.md` — log de lições (só acréscimo);
+- a seção **Regras aprendidas** do `.kiro/steering/sdd2.md` — regras promovidas de **julgamento** (o revisor
+  cobra, o plano respeita; o steering é sempre carregado, então cada regra é curta, imperativa, com exemplo).
+
+Os dois só mudam na **branch base** (artefato de produto): antes de gravar, `git switch <base>` e
+`git pull --ff-only` (com alterações pendentes na branch da fatia → commite-as ou peça à pessoa); depois, commit
+pequeno e push ou PR curto com o "sim" da pessoa, como diz "Artefatos de produto" no `sdd2.md`.
+
+**Ordem de preferência da correção:** (1) erro **mecânico** → checagem determinística (lint, teste, hook, CI) —
+ponto final, não vira texto; (2) regra de **julgamento** → seção Regras aprendidas do `sdd2.md` (o revisor
+cobra); (3) conhecimento de domínio → glossário, ADR ou PRD/ELM; (4) conhecimento de stack → skill do toolkit. O steering recebe só a regra
+curta, nunca a explicação longa (ela fica no `licoes.md`).
+
+## Modo registrar (a cada correção)
+
+Gatilhos: achado da revisão que chegou ao humano, cenário rejeitado na verificação, PR com mudança pedida,
+pessoa dizendo "não é assim", bloqueio por falta de informação.
+
+1. **Fatos** (só verificados; o que a pessoa disse é registrado como dito por ela):
+   - o que foi feito (`arquivo:linha`, trecho) × o que era o certo;
+   - onde a informação certa estava — ou que não estava em lugar nenhum.
+2. **Causa** (proponha; a pessoa confirma):
+
+| Causa | Quando | Correção na fonte |
+|---|---|---|
+| `contexto-ausente` | a informação não existia em steering, PRD, glossário ou skill | escrever onde ela deve morar |
+| `contexto-ignorado` | existia e o agente não seguiu | se é mecânico: checagem determinística; senão regra em Regras aprendidas |
+| `prd-incompleto` | faltava regra/cenário no PRD | PRD nova versão (`sdd2-prd`) + publicar no ELM |
+| `plano-errado` | estava no PRD e não foi para o plano | regra R-nn em Regras aprendidas (aplica a: plano) |
+| `revisao-branda` | a revisão viu e não reprovou (ou não viu) | regra R-nn em Regras aprendidas (aplica a: revisor) com a severidade certa — as rubricas ficam no power e não são editadas no projeto |
+| `skill-desatualizada` | a skill do toolkit ensinou o jeito errado | corrigir a skill do toolkit (avisar quem mantém) |
+| `ambiente` | build, dado ou serviço de teste | registrar; não vira regra |
+
+3. Grave em `licoes.md`:
+
+```markdown
+## L-<nnn> · <AAAA-MM-DD> · FT-<nnn> · <causa>
+- Feito: <…> (`arquivo:linha`)
+- Certo: <…> — fonte: <onde estava | "não estava escrito">
+- Correção na fonte: <proposta> · Situação: <proposta | aplicada | promovida → R-<nn> | descartada>
+```
+
+4. Mesma causa e mesmo tipo de erro já registrado (2ª ocorrência) **ou** a pessoa pede → proponha a promoção.
+
+## Modo promover
+
+Regra promovida é curta, imperativa, verificável e com exemplo — o revisor consegue checá-la:
+
+```markdown
+### R-<nn> · <título> · aplica a: <codificador | revisor | plano | PRD | todos> · severidade: <BLOQUEANTE | IMPORTANTE>
+<A regra em 1–2 frases imperativas.>
+- ✅ <exemplo certo> · ❌ <exemplo errado>
+- Origem: L-<nnn>, L-<nnn>
+```
+
+Mostre o diff da seção Regras aprendidas do `.kiro/steering/sdd2.md` e grave só com "ok" (o resto do arquivo
+não muda). Regra que pertence à stack (ex.: "todo
+`ItemWriter` deve ser idempotente") → proponha também levá-la para a skill do toolkit, onde serve a outros projetos.
+
+Mantenha a seção curta: regras que viraram checagem determinística, rubrica, ADR ou skill saem dele com
+`→ movida para <destino>` no `licoes.md`. Lições reais também viram **casos de avaliação** do fluxo: guarde o
+pedido e o resultado esperado em `<produto>/aprendizado/avaliacoes/` para conferir, quando o modelo ou o fluxo mudar,
+que o erro não voltou.
+
+## Modo retrospectiva (fim de fatia, épico ou sprint)
+
+Com dados, não impressões:
+
+```
+🔁 Retrospectiva — <FT | EP | Sprint N>
+Fluxo: <fatias concluídas> · lead time médio <d> dias · retrabalho <n> rodadas de revisão / <n> verificações
+Onde o humano corrigiu: <lista de L-nnn por causa>
+Autonomia: AFK <n> (<x> chegaram ao PR sem intervenção) · HITL <n>
+Propostas: <promoções, rubricas, skills, steering>
+```
+
+Fontes: `status.md` das fatias (Histórico), `revisao-*`, `verificacao.md`, `licoes.md`, `backlog.json`. Termine
+perguntando quais propostas aplicar.
+
+## Regras
+
+- Nunca culpe pessoas; a lição é sobre o contexto e o processo.
+- Nunca promova sem "ok". Nunca apague lição (só acréscimo).

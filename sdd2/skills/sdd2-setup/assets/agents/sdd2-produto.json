@@ -1,0 +1,253 @@
+{
+  "name": "sdd2-produto",
+  "description": "Agente de produto do fluxo sdd2 — conduz a entrevista de alinhamento (grill), escreve o PRD do épico, quebra em fatias verticais e cuida do planejamento ágil (roadmap, sprint, review, virada), com o glossário do domínio. Não escreve código.",
+  "prompt": "# sdd2-produto\n\nVocê trabalha no **o quê** e no **porquê**, na linguagem do negócio. Não escreve código nem plano técnico.\n\n- Alinhe antes de escrever: skill `sdd2-entrevistar`, em rodadas, sempre com a recomendação. **Fatos são trabalho\n  seu** (mande o subagente `sdd2-pesquisador` buscar no código, no ELM do repositório e no banco); **decisões são\n  da pessoa**.\n- PRD → `sdd2-prd`; fatias → `sdd2-fatiar`; sprint, roadmap, review, virada → `sdd2-planejamento`.\n- Revisão independente do PRD → subagente `sdd2-revisor` (rubrica P).\n- Termo do domínio → glossário (`{{GLOSSARIO}}`); decisão que deve durar → ADR (`{{ADR}}`).\n- Nada inventado: regra, valor ou ator sem fonte e sem decisão de uma pessoa fica `em aberto`.\n- Você não tem o MCP do ELM: publicação no DOORS Next/EWM fica como pendência para a sessão da pessoa com o power\n  `elm` (`sdd2-elm`).\n- Arquivos: leia e procure com as ferramentas de leitura e busca do Kiro, não com `cat`/`grep`/`find` no\n  shell — o shell é para git, build e testes.\n{{SKILLS_EXTRAS}}\n",
+  "tools": [
+    "read",
+    "shell",
+    "subagent/sdd2-pesquisador",
+    "subagent/sdd2-revisor",
+    "write"
+  ],
+  "allowedTools": [],
+  "resources": [
+    "file://.kiro/steering/sdd2.md",
+    "skill://{{POWER}}/skills/sdd2-entrevistar/SKILL.md",
+    "skill://{{POWER}}/skills/sdd2-prd/SKILL.md",
+    "skill://{{POWER}}/skills/sdd2-fatiar/SKILL.md",
+    "skill://{{POWER}}/skills/sdd2-planejamento/SKILL.md"
+  ],
+  "toolsSettings": {
+    "read": {
+      "allowedPaths": [
+        "./**",
+        "{{POWER}}/**"
+      ],
+      "deniedPaths": [
+        "**/.env",
+        "**/.env.*",
+        "**/*.pem",
+        "**/*.key",
+        "~/.ssh/**",
+        "~/.aws/**",
+        "~/.config/mcp-elm/**"
+      ]
+    },
+    "write": {
+      "allowedPaths": [
+        "{{PRODUTO}}/**",
+        "{{GLOSSARIO}}",
+        "{{ADR}}/**",
+        ".kiro/specs/*/decisoes.md",
+        ".kiro/local/wt/*/.kiro/specs/*/decisoes.md"
+      ]
+    },
+    "shell": {
+      "allowedCommands": [
+        "git status.*",
+        "git diff.*",
+        "git log.*",
+        "git show.*",
+        "git grep.*",
+        "git ls-files.*",
+        "git ls-tree.*",
+        "git rev-parse.*",
+        "git branch",
+        "git branch --show-current",
+        "git branch --list.*",
+        "git branch -a.*",
+        "git branch -r.*",
+        "git branch -v.*",
+        "git worktree list.*",
+        "git for-each-ref.*",
+        "git config user\\.name",
+        "git config user\\.email",
+        "cd \\.kiro/local/wt/.*",
+        "git add .*",
+        "git commit .*",
+        "git fetch.*",
+        "git pull --ff-only.*",
+        "git switch .*"
+      ],
+      "deniedCommands": [
+        "git -C .*",
+        "git -c .*",
+        ".*git merge.*",
+        ".*git rebase.*",
+        ".*git pull.*--rebase.*",
+        ".*git reset --hard.*",
+        ".*git clean.*",
+        ".*git checkout -- .*",
+        ".*git checkout \\..*",
+        ".*git restore .*",
+        ".*git stash.*",
+        ".*git worktree remove.*",
+        ".*git branch.*-D.*",
+        ".*git branch.*-M.*",
+        ".*git difftool.*",
+        ".*git grep.*-O.*",
+        ".*--open-files-in-pager.*",
+        ".*git .*--no-index.*",
+        ".*git .*--output.*",
+        ".*--upload-pack.*",
+        ".*--receive-pack.*",
+        ".*--force.*",
+        ".*--delete.*",
+        ".*--no-verify.*",
+        ".*git add.* -f.*",
+        ".*git switch.* -f.*",
+        ".*--discard-changes.*",
+        ".*gh pr merge.*",
+        ".*glab mr merge.*",
+        ".*rm -rf.*",
+        ".*rm -fr.*",
+        ".*find .*-exec.*",
+        ".*find .*-ok.*",
+        ".*find .*-delete.*",
+        ".*rg .*--pre.*",
+        ".*git push.*"
+      ],
+      "autoAllowReadonly": true
+    },
+    "subagent": {
+      "availableAgents": [
+        "sdd2-pesquisador",
+        "sdd2-revisor"
+      ],
+      "trustedAgents": [
+        "sdd2-pesquisador",
+        "sdd2-revisor"
+      ]
+    }
+  },
+  "includeMcpJson": false,
+  "includePowers": false,
+  "welcomeMessage": "Vamos trabalhar em quê? (nova demanda, PRD, fatiar, planejar a sprint, review, virada)",
+  "permissions": {
+    "rules": [
+      {
+        "capability": "shell",
+        "match": [
+          "git status*",
+          "git diff*",
+          "git log*",
+          "git show*",
+          "git grep*",
+          "git ls-files*",
+          "git ls-tree*",
+          "git rev-parse*",
+          "git branch",
+          "git branch --show-current",
+          "git branch --list*",
+          "git branch -a*",
+          "git branch -r*",
+          "git branch -v*",
+          "git worktree list*",
+          "git for-each-ref*",
+          "git config user.name",
+          "git config user.email",
+          "cd .kiro/local/wt/*",
+          "git add *",
+          "git commit *",
+          "git fetch*",
+          "git pull --ff-only*",
+          "git switch *"
+        ],
+        "effect": "allow"
+      },
+      {
+        "capability": "shell",
+        "match": [
+          "git -C *",
+          "git -c *",
+          "*git merge*",
+          "*git rebase*",
+          "*git pull*--rebase*",
+          "*git reset --hard*",
+          "*git clean*",
+          "*git checkout -- *",
+          "*git checkout .*",
+          "*git restore *",
+          "*git stash*",
+          "*git worktree remove*",
+          "*git branch*-D*",
+          "*git branch*-M*",
+          "*git difftool*",
+          "*git grep*-O*",
+          "*--open-files-in-pager*",
+          "*git *--no-index*",
+          "*git *--output*",
+          "*--upload-pack*",
+          "*--receive-pack*",
+          "*--force*",
+          "*--delete*",
+          "*--no-verify*",
+          "*git add* -f*",
+          "*git switch* -f*",
+          "*--discard-changes*",
+          "*gh pr merge*",
+          "*glab mr merge*",
+          "*rm -rf*",
+          "*rm -fr*",
+          "*find *-exec*",
+          "*find *-ok*",
+          "*find *-delete*",
+          "*rg *--pre*",
+          "*git push*"
+        ],
+        "effect": "deny"
+      },
+      {
+        "capability": "fs_read",
+        "match": [
+          "./**",
+          "{{POWER}}/**"
+        ],
+        "effect": "allow"
+      },
+      {
+        "capability": "fs_read",
+        "match": [
+          "**/.env",
+          "**/.env/**",
+          "**/.env.*",
+          "**/.env.*/**",
+          "**/*.pem",
+          "**/*.pem/**",
+          "**/*.key",
+          "**/*.key/**",
+          "~/.ssh/**",
+          "~/.aws/**",
+          "~/.config/mcp-elm/**"
+        ],
+        "effect": "deny"
+      },
+      {
+        "capability": "fs_write",
+        "match": [
+          "{{PRODUTO}}/**",
+          "{{GLOSSARIO}}",
+          "{{ADR}}/**",
+          ".kiro/specs/*/decisoes.md",
+          ".kiro/local/wt/*/.kiro/specs/*/decisoes.md"
+        ],
+        "effect": "allow"
+      },
+      {
+        "capability": "subagent",
+        "match": [
+          "sdd2-pesquisador",
+          "sdd2-revisor"
+        ],
+        "effect": "allow"
+      },
+      {
+        "capability": "skill",
+        "effect": "allow"
+      }
+    ],
+    "policies": [
+      "read-only-shell"
+    ]
+  }
+}

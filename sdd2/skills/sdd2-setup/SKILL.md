@@ -105,7 +105,8 @@ Falhou ao rodar → mostre o erro; a pessoa decide (corrigir o comando, seguir a
 Siga [references/toolkits.md](references/toolkits.md): procure toolkits (com e sem manifesto) e skills avulsas
 do projeto (`.kiro/skills/*/SKILL.md`), do usuário (`~/.kiro/skills/*/SKILL.md`) e de outros powers
 (`~/.kiro/powers/installed/*/skills/*/SKILL.md`; não achou nada ali → `~/.kiro/powers/**/skills/*/SKILL.md`),
-**exceto** as `sdd2-*` e as `sdd-*` (fluxos), e as do power `elm` (o ELM fica na sessão da pessoa). Para cada uma:
+**exceto** as dos fluxos (`sdd2`, `sdd2-*`, `sdd`, `sdd-*`) e as do power `elm` (`elm`, `elm-*`: o ELM fica na
+sessão da pessoa). Para cada uma:
 nome, início da `description`, origem e, se houver, toolkit e papéis. Toolkit cujo `deteccao` casa com o projeto
 → "detectado".
 

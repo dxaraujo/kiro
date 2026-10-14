@@ -43,7 +43,8 @@ e quais verificações a `sdd2-verificar` usa para executar os cenários de acei
    um toolkit.
 5. **Skills avulsas** (sem toolkit): entram no inventário geral; a pessoa decide por agente, como qualquer outra.
 
-Ficam de fora do inventário: as skills dos fluxos (`sdd2-*` e `sdd-*`) e as do power `elm`.
+Ficam de fora do inventário: as skills dos fluxos (`sdd2`, `sdd2-*`, `sdd`, `sdd-*`) e as do power `elm`
+(`elm`, `elm-*`).
 
 Use `glob`/`ls` nesses caminhos (expandindo `~` para o home). Pastas inexistentes são normais — siga sem comentar.
 Nunca leia arquivos de credenciais que encontrar no caminho.

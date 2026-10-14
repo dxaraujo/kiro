@@ -9,7 +9,8 @@ metadata:
 
 # sdd2-elm — O ELM como fonte oficial
 
-Requer o power **`elm`** (MCP `elm`) nesta sessão e as skills dele: **`elm-rm`** (DOORS Next), **`elm-ccm`**
+Requer o power **`elm`** (MCP `elm`) nesta sessão e as skills dele: **`elm`** (guia do power: regras de uso do
+MCP), **`elm-rm`** (DOORS Next), **`elm-ccm`**
 (EWM), **`elm-qm`** (ETM — ler o caso de teste importado para obter a URL), **`elm-gc`** (links) — carregue a skill
 da área antes de chamar as tools. Ids da project area:
 `.kiro/config/power/elm/pa_*.json`. Tipos, pastas, prefixos e regras do projeto: seção **ELM** do

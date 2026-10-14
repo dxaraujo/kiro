@@ -16,8 +16,8 @@ testador       executa os CTs no PR → GATE 3 (pessoa aprova e faz o merge) ou 
 | Arquivo | Função |
 |---|---|
 | `plugin.json` | Manifesto e keywords de ativação |
-| `steering/steering.md` | O processo: papéis, gates, fases, pasta/branch, devoluções, "o que dizer" — sempre carregado |
-| `skills/sdd-setup/` | Configura o projeto (`.kiro/steering/sdd-projeto.md`), cria os agentes e o `.kiro/aprendizado/` |
+| `skills/sdd/` | O processo (guia): papéis, gates, fases, pasta/branch, devoluções, "o que dizer" — toda skill `sdd-*` o lê antes |
+| `skills/sdd-setup/` | Configura o projeto (`.kiro/steering/sdd.md` e `sdd-projeto.md`), cria os agentes e o `.kiro/aprendizado/` |
 | `skills/sdd-tarefa/` | Entrada de qualquer papel pela Task |
 | `skills/sdd-especificar/` | Entrevista de decisões + HF, REG, ET e CT |
 | `skills/sdd-validar-requisitos/` | Validação formal (V1–V10) e GATE 1 |
@@ -61,6 +61,12 @@ usar, e quais arquivos de steering usar quando o projeto não segue o padrão do
 3. Comece pela Task: **"vamos trabalhar na task 123"** — ou **"onde parei?"**.
 
 Depois de atualizar o power, peça "atualizar os agentes do sdd" para refazer os caminhos e prompts dos agentes.
+
+**Steering.** No formato `plugin.json` o Kiro carrega do power só `skills/` e `mcp.json`: o processo fica na skill
+`sdd` (os agentes a recebem como recurso `file://`) e a `sdd-setup` instala no projeto o resumo sempre carregado
+`.kiro/steering/sdd.md`. **Vindo da 1.0.x:** peça "atualizar a configuração do sdd" (modo atualização) — ela grava
+o `.kiro/steering/sdd.md` e aponta os agentes para a skill. Até lá, `steering/steering.md` só redireciona os agentes
+antigos para a skill.
 Os agentes só usam caminhos relativos — `.kiro/...` (raiz do repositório) e `~/.kiro/...` (home) —, então os `.kiro/agents/*.json` versionados servem em Linux, macOS e Windows.
 
 Sem o power `elm`, as Tasks são atendidas pelos ids do planejamento (`planejamento-agil/backlog.json`, gerado pela

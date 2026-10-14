@@ -4,7 +4,7 @@ description: "Access cross-application IBM ELM data through the `elm` MCP: users
 license: "MIT"
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "1.0.2"
+  version: "1.0.3"
 ---
 
 # elm-gc
@@ -15,12 +15,16 @@ Tools comuns do MCP `elm`: usuários, rastreabilidade entre apps, project areas 
 Project areas em detalhe (`include_*`, associações), configuração global (GC), formato do recurso OSLC e qnames dos
 links estão em [reference.md](reference.md): leia-o **só** quando o pedido for sobre isso.
 
+Regras gerais do power (sem setup, formato das respostas, confirmação de escrita): skill **`elm`** — leia-a antes da
+primeira chamada ao MCP na conversa. Credenciais (`~/.config/mcp-elm/elm.properties`): nunca leia nem mostre o
+arquivo; em HTTP 401, peça ao usuário que o corrija.
+
 ## Antes de chamar
 
 1. **Leia `.kiro/config/power/elm/pa_*.json`**: já tem os uuids de project area (ccm, rm, qm), times, membros e iterações. Com ele,
    **não** chame `list_project_areas`/`get_project_area` só para descobrir id.
 2. Descubra no servidor só o que o arquivo não tem; se for algo recorrente, sugira a **elm-setup**.
-   **Sem setup** (sem arquivo; regra do steering): project area → pergunte um trecho do nome e
+   **Sem setup** (sem arquivo; regra "Sem setup" da skill **`elm`**): project area → pergunte um trecho do nome e
    `list_project_areas(app_type=<CCM|RM|QM>, search_name=<trecho>)`; as outras áreas do projeto saem de
    `get_project_area(..., include_associations=True)`. Guarde na conversa os uuids escolhidos.
 3. Mostre **nomes**, nunca URLs/uuids (exceção: a coluna Código).

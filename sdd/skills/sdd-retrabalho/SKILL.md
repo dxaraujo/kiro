@@ -10,7 +10,7 @@ metadata:
 
 # sdd-retrabalho — Devoluções e aprendizado
 
-Regras do processo: o steering do power `sdd` (seção **Devoluções e retrabalho**).
+Regras do processo: a skill `sdd` (seção **Devoluções e retrabalho**).
 Arquivos: `.kiro/aprendizado/retrabalho.md` (log, só acréscimo), `.kiro/aprendizado/checklists/<skill>.md`,
 `.kiro/aprendizado/promocoes/`. Formatos nos READMEs de cada pasta.
 
@@ -95,7 +95,7 @@ acrescente a linha. Expire itens sem reincidência nas últimas 10 Tasks registr
 ### 4. Devolver
 
 1. `git pull --rebase` antes de escrever (a devolução é uma das exceções em que quem detecta escreve fora da sua
-   fase — regras de escrita em steering do power). `status.md`: seção **Devoluções** (`R-<nnn> | gatilho | causa | volta para | situação: aberta`), `fase` →
+   fase — regras de escrita na skill `sdd`, Convenções). `status.md`: seção **Devoluções** (`R-<nnn> | gatilho | causa | volta para | situação: aberta`), `fase` →
    `documentando` (especificador) ou `implementando` (codificador); papel que recebe → `devolvido <data>`;
    artefatos que vão mudar → `rascunho`; `Retries do judge` → 0.
 2. Numa só confirmação: commit `Task <id da Task do papel que detectou, anotada no passo 0> - Registrar devolução

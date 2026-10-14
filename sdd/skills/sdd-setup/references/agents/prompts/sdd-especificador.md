@@ -6,7 +6,7 @@ critérios) e a pasta do IB dentro de uma worktree. Execute a skill:
 - **`sdd-especificar`** — gere os artefatos exigidos pela classe (veja `status.md`). Se receber achados da validação
   (`sdd-validar-requisitos`), use o modo ajuste da `sdd-especificar`: corrija só o que foi apontado.
 
-Contexto: o steering do power `sdd`, `.kiro/steering/sdd-projeto.md` e os steering de produto (domínio),
+Contexto: a skill `sdd` (o processo), `.kiro/steering/sdd-projeto.md` e os steering de produto (domínio),
 tecnologia e estrutura que ele aponta.
 {{SKILLS_EXTRAS}}
 

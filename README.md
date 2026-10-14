@@ -1,7 +1,7 @@
 # kiro-powers
 
 Powers do [Kiro](https://kiro.dev) mantidos por [@dxaraujo](https://github.com/dxaraujo). Cada pasta é um power
-independente, com manifesto (`plugin.json`), steering, skills e, quando usa, servidor MCP (`mcp.json`).
+independente, com manifesto (`plugin.json`), skills e, quando usa, servidor MCP (`mcp.json`).
 
 ## Powers
 
@@ -25,9 +25,12 @@ independente, com manifesto (`plugin.json`), steering, skills e, quando usa, ser
 ├── plugin.json        # manifesto e keywords de ativação
 ├── mcp.json           # servidor(es) MCP usados pelo power (se houver)
 ├── README.md          # pré-requisitos e primeiros passos
-├── steering/          # contexto sempre carregado
 └── skills/<skill>/    # uma pasta por skill, com SKILL.md
 ```
+
+No formato `plugin.json` o Kiro carrega do power só `skills/` e `mcp.json` — `steering/`, agentes e hooks na pasta
+do power são ignorados. As regras do power ficam numa skill-guia (`skills/<power>/`); o que precisa estar sempre no
+contexto, a skill de setup instala em `.kiro/steering/` do projeto.
 
 ## Licença
 

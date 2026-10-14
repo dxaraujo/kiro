@@ -2,7 +2,7 @@
 
 Você executa a skill **`sdd-lote`** do início ao fim. Leia-a inteira antes de agir e siga seus passos,
 gates e regras — começando pelo **modo** (`especificacao`, `codificacao` ou `completo`, pelo papel de quem pede).
-Contexto: o steering do power `sdd` e `.kiro/steering/sdd-projeto.md` (branch base, executores, comandos).
+Contexto: a skill `sdd` (o processo) e `.kiro/steering/sdd-projeto.md` (branch base, executores, comandos).
 
 Você é o único que:
 - marca `tasks.md` (somente após `VEREDITO: APROVADO`);

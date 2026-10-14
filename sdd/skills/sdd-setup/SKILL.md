@@ -1,17 +1,19 @@
 ---
 name: "sdd-setup"
-description: "Configura o fluxo SDD (power sdd) no projeto: gera .kiro/steering/sdd-projeto.md (steering de produto/tecnologia/estrutura — padrão do Kiro ou os arquivos informados —, branch base, comandos de build/teste/cobertura, banco, testes funcionais, prefixos das Tasks, executores), cria os agentes sdd-especificador, sdd-codificador, sdd-revisor e sdd-orquestrador em .kiro/agents/ a partir das referências do power, perguntando para cada agente quais skills e MCPs já existentes ele pode usar, e prepara .kiro/aprendizado/. Também atualiza a configuração e os agentes depois de uma atualização do power. Use em \"configurar o sdd\", \"setup do sdd\", \"criar os agentes do sdd\", \"atualizar a configuração do sdd\", \"atualizar os agentes do sdd\"."
+description: "Configura o fluxo SDD (power sdd) no projeto: instala .kiro/steering/sdd.md (resumo do fluxo, sempre carregado — o power só entrega skills) e gera .kiro/steering/sdd-projeto.md (steering de produto/tecnologia/estrutura — padrão do Kiro ou os arquivos informados —, branch base, comandos de build/teste/cobertura, banco, testes funcionais, prefixos das Tasks, executores), cria os agentes sdd-especificador, sdd-codificador, sdd-revisor e sdd-orquestrador em .kiro/agents/ a partir das referências do power, perguntando para cada agente quais skills e MCPs já existentes ele pode usar, e prepara .kiro/aprendizado/. Também atualiza a configuração e os agentes depois de uma atualização do power. Use em \"configurar o sdd\", \"setup do sdd\", \"criar os agentes do sdd\", \"atualizar a configuração do sdd\", \"atualizar os agentes do sdd\"."
 license: "MIT"
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "1.0.0"
+  version: "1.1.0"
   keywords: "setup, configurar, instalar, sdd, sdd-workflow, agentes, criar agentes, steering, configuracao, atualizar agentes"
 ---
 
 # sdd-setup — Configurar o fluxo SDD no projeto
 
-O power não traz agentes (o Kiro não os distribui por power): esta skill os cria no projeto a partir de
-[references/agents/](references/agents/) e grava a configuração do projeto, que todas as skills `sdd-*` leem.
+O power só entrega skills (no formato `plugin.json` o Kiro carrega do power apenas `skills/` e `mcp.json` — não
+carrega steering, agentes nem hooks): esta skill cria no projeto os agentes, a partir de
+[references/agents/](references/agents/), o steering do fluxo e a configuração do projeto, que todas as skills
+`sdd-*` leem.
 
 **Uma pergunta por vez**, sempre com a opção recomendada e o que foi detectado. Nada é gravado antes do resumo
 final (Passo 6) e do "ok". Nunca leia nem mostre arquivos de credenciais.
@@ -19,7 +21,7 @@ final (Passo 6) e do "ok". Nunca leia nem mostre arquivos de credenciais.
 ## Passo 0 — Onde estou
 
 1. **Pasta do power:** `~/.kiro/powers/installed/sdd` (o Kiro instala sempre ali, em Linux, macOS e
-   Windows). Confirme que `~/.kiro/powers/installed/sdd/steering/steering.md` existe.
+   Windows). Confirme que `~/.kiro/powers/installed/sdd/skills/sdd/SKILL.md` (o processo) existe.
    **Caminhos nos agentes e no steering — sempre relativos, nunca absolutos** (os `.kiro/agents/*.json` e o
    `sdd-projeto.md` são versionados e usados em Linux e Windows):
    - arquivo do projeto → relativo à raiz do repositório: `file://.kiro/steering/tech.md`, `skill://.kiro/skills/x/SKILL.md`;
@@ -94,9 +96,11 @@ Na mesma rodada de cada agente, pergunte também:
 
 ## Passo 4 — Montar os arquivos (em memória)
 
-1. **`.kiro/steering/sdd-projeto.md`** a partir de [references/projeto-template.md](references/projeto-template.md)
+1. **`.kiro/steering/sdd.md`** ← [references/steering/sdd.md](references/steering/sdd.md), como está (resumo do
+   fluxo sempre carregado; aponta para a skill `sdd`). No modo atualização, sobrescreva com a versão do power.
+2. **`.kiro/steering/sdd-projeto.md`** a partir de [references/projeto-template.md](references/projeto-template.md)
    com as respostas dos Passos 1–3 (no modo atualização, preserve a seção **Regras promovidas** como está).
-2. **Agentes** — para cada `references/agents/<agente>.json`:
+3. **Agentes** — para cada `references/agents/<agente>.json`:
    - `resources`: acrescente `file://<arquivo>` de cada steering do Passo 1 (produto, tecnologia, estrutura, extras;
      sem duplicar) e `skill://<caminho relativo do SKILL.md>` de cada skill extra do agente (regras do Passo 0: do projeto
      `.kiro/skills/...`; do usuário ou de outro power `~/.kiro/...`);
@@ -104,15 +108,15 @@ Na mesma rodada de cada agente, pergunte também:
      nem o bloco `elm` em `mcpServers`);
    - subagentes escolhidos → acrescente em `toolsSettings.subagent.availableAgents` (no `sdd-codificador`, que não
      tem, inclua também `subagent` em `tools`/`allowedTools` e a permissão `{"capability": "subagent", "effect": "allow"}`).
-3. **Prompts** — `references/agents/prompts/<agente>.md` → `.kiro/agents/prompts/<agente>.md`, trocando:
+4. **Prompts** — `references/agents/prompts/<agente>.md` → `.kiro/agents/prompts/<agente>.md`, trocando:
    - `{{SKILLS_EXTRAS}}` → `Skills extras do projeto: \`a\`, \`b\` — carregue a do artefato antes de usá-la.` (ou
      remova a linha se não houver);
    - `{{SUBAGENTES}}` → lista dos subagentes (orquestrador: os `sdd-*` + os do projeto; codificador:
      `Subagentes do projeto: \`x\` (<tipo de item>) — passe a pasta do IB e os itens; sem a ferramenta de subagente,
      faça em sequência.` ou remova a linha).
-4. **Aprendizado** — se não existir `.kiro/aprendizado/`, copie [references/aprendizado/](references/aprendizado/)
+5. **Aprendizado** — se não existir `.kiro/aprendizado/`, copie [references/aprendizado/](references/aprendizado/)
    (`retrabalho.md`, `checklists/README.md`, `promocoes/README.md`). Existindo, **nunca** sobrescreva.
-5. **`.gitignore`** — acrescente `.kiro/local/` se ainda não estiver.
+6. **`.gitignore`** — acrescente `.kiro/local/` se ainda não estiver.
 
 ## Passo 5 — Validar
 
@@ -132,12 +136,12 @@ Git: base <branch> · prefixo <prefixo> · PR <ferramenta | texto para a pessoa>
 Comandos: testes <cmd> · cobertura <cmd> (gate <…>)
 Banco: <MCP | não há> · ELM: <power elm | sem power>
 | Agente | Skills extras | MCPs | Subagentes |
-Arquivos: .kiro/steering/sdd-projeto.md · .kiro/agents/sdd-*.json + prompts/ · .kiro/aprendizado/ (<novo | mantido>) · .gitignore
+Arquivos: .kiro/steering/sdd.md + sdd-projeto.md · .kiro/agents/sdd-*.json + prompts/ · .kiro/aprendizado/ (<novo | mantido>) · .gitignore
 Gravar? ("ok")
 ```
 
 No modo atualização, mostre o diff dos arquivos que mudam. "ok" → grave, rode o Passo 5 nos arquivos gravados e
-sugira o commit (`.kiro/steering/sdd-projeto.md`, `.kiro/agents/`, `.kiro/aprendizado/`, `.gitignore`) — commit só
+sugira o commit (`.kiro/steering/sdd.md`, `.kiro/steering/sdd-projeto.md`, `.kiro/agents/`, `.kiro/aprendizado/`, `.gitignore`) — commit só
 com confirmação. Termine com o próximo passo: "vamos trabalhar na task <id>" (`sdd-tarefa`) ou "onde parei?"
 (`sdd-status`).
 

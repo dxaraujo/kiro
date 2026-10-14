@@ -4,7 +4,7 @@ description: "Query, search, read, create or update IBM DOORS Next (RM) artifact
 license: "MIT"
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.0.3"
+  version: "2.0.4"
 ---
 
 # elm-rm
@@ -15,13 +15,17 @@ outra project area) estão em [reference.md](reference.md): leia-o **só** quand
 items e testes → **elm-gc**. Baixar a documentação para o repositório, conferir o que mudou e atualizar o que foi
 baixado → **elm-sync**.
 
+Regras gerais do power (sem setup, formato das respostas, confirmação de escrita): skill **`elm`** — leia-a antes da
+primeira chamada ao MCP na conversa. Credenciais (`~/.config/mcp-elm/elm.properties`): nunca leia nem mostre o
+arquivo; em HTTP 401, peça ao usuário que o corrija.
+
 ## Antes de chamar
 
 1. **Leia `.kiro/config/power/elm/pa_*.json`** (um → use; vários → pergunte). A seção `rm` dá os três parâmetros fixos de **todas**
    as `rm_*`: `project_area_identifier` = `rm.project-area-identifier`, `component` = `rm.component`,
    `configuration` = `rm.configuration` (a stream). Também: `rm.folders` (`{caminho: FR_...}`),
    `rm.requirements-types` (`{nome: OT_...}`), `rm.members`.
-2. Sem arquivo ou sem seção `rm` → regra "Sem setup" do steering (abaixo). Pasta/tipo fora do arquivo → não
+2. Sem arquivo ou sem seção `rm` → regra "Sem setup" da skill **`elm`** (e a seção abaixo). Pasta/tipo fora do arquivo → não
    invente: descubra como abaixo (e sugira mapeá-lo na elm-setup).
 3. Mostre nomes de tipo e pasta, nunca `FR_`/`OT_`/URLs (exceção: o código do requisito).
 

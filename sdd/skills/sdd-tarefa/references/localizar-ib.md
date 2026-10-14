@@ -56,7 +56,7 @@ Mostre o que achou numa linha (`Task T-03 [BE] — IB-02 <título> · Sprint 1 �
 ## 4. Nada encontrado
 
 Peça à pessoa número, título, descrição e critérios do IB e das Tasks (comportamento sem fonte), e registre
-o campo `ELM` do `status.md` pela regra do steering (`pendente — publicar com o power elm` ou `sem power — não
+o campo `ELM` do `status.md` pela regra da skill `sdd`, seção ELM opcional (`pendente — publicar com o power elm` ou `sem power — não
 publicado`).
 
 ## Pasta e ids sem ELM

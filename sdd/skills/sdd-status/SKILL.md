@@ -10,8 +10,8 @@ metadata:
 
 # sdd-status — Onde parei
 
-Somente leitura: não altera nenhum arquivo nem o ELM. A tabela de fases ("Vez de") está no
-steering do power `sdd`. As etapas são assíncronas: o que vale é o `status.md` mais recente de cada
+Somente leitura: não altera nenhum arquivo nem o ELM. A tabela de fases ("Vez de") está na
+skill `sdd` (o processo). As etapas são assíncronas: o que vale é o `status.md` mais recente de cada
 branch remota. Sem `.kiro/steering/sdd-projeto.md` → avise que o fluxo não está configurado (`sdd-setup`).
 
 ## Coleta

@@ -87,7 +87,7 @@ Aprova os requisitos? ("ok" · ou diga o que ajustar)
   no padrão do `sdd-projeto.md` (ex.: `Task <id [ESPEC]> - Especificar <funcionalidade>`; só a pasta do IB) e push da branch — é o sinal assíncrono
   para o codificador.
 - Com power ELM → siga para **`sdd-elm-publicar-requisitos`** (publica, rastreia e conclui a `[ESPEC]`). Sem o MCP
-  `elm` → campo `ELM` pela regra do steering (`pendente — publicar com o power elm` ou `sem power — não publicado`);
+  `elm` → campo `ELM` pela regra da skill `sdd`, seção ELM opcional (`pendente — publicar com o power elm` ou `sem power — não publicado`);
   a etapa do especificador termina aqui.
 - Depois do GATE 1 **encerre o papel**: não ofereça gerar a spec SDD nem codificar nesta conversa — é a Task do
   codificador (`[BE]`), que começa pela `sdd-tarefa` (mesmo que seja a mesma pessoa). Informe só:

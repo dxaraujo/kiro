@@ -10,7 +10,7 @@ metadata:
 
 # sdd-especificar — Documentação do IB (papel especificador)
 
-Leia antes: `status.md` da pasta do IB, o steering do power `sdd` e `.kiro/steering/sdd-projeto.md`.
+Leia antes: `status.md` da pasta do IB, a skill `sdd` (o processo) e `.kiro/steering/sdd-projeto.md`.
 Contexto de domínio: o steering de **produto** do projeto (módulos, fluxos, regras, glossário) e os steering extras
 listados no `sdd-projeto.md`.
 

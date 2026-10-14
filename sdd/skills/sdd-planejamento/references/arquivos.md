@@ -107,4 +107,4 @@ Revisão: <h>h · HITL: <h>h · Vazão prevista: <n> fatias / <p> pts
 Concluídas: <n> fatias / <p> pts · lead time médio <d> dias · rodadas de revisão por fatia <x> · correções humanas <n>
 ```
 
-A coluna Status espelha o `backlog.json` no fechamento; durante a sprint, o painel (`sdd2-status`) é a fonte.
+A coluna Status espelha o `backlog.json` no fechamento; durante a sprint, o painel (`sdd-status`) é a fonte.

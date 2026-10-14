@@ -1,12 +1,12 @@
-# sdd2
+# sdd
 
 Power do Kiro para **engenharia agêntica orientada a especificação**, com o **IBM ELM** como fonte oficial da
-documentação e o **planejamento ágil** dentro do fluxo. É a segunda geração do `sdd` (o power anterior, já
-removido): menos cerimônia onde ela não paga, mais verificação onde ela paga, e cada decisão ancorada no que os
-principais praticantes de desenvolvimento com agentes defendem hoje (outubro de 2026).
+documentação e o **planejamento ágil** dentro do fluxo. É a versão 2 do `sdd` (substitui a v1 e o power `sdd2`, nome
+desta versão durante o desenvolvimento): menos cerimônia onde ela não paga, mais verificação onde ela paga, e cada
+decisão ancorada no que os principais praticantes de desenvolvimento com agentes defendem hoje (outubro de 2026).
 
 O agente escreve muito código rápido; o que limita o resultado é o **alinhamento** antes e a **verificação**
-depois. O sdd2 põe as pessoas onde elas têm mais alavanca — decidir o quê, aprovar o como, ler o código — e deixa
+depois. O sdd põe as pessoas onde elas têm mais alavanca — decidir o quê, aprovar o como, ler o código — e deixa
 o resto com agentes de contexto limpo, presos a feedback automático.
 
 ```
@@ -19,7 +19,7 @@ DEPOIS    merge (pessoa) ─► consolidar (drift, ELM as-built, CTs, ADRs) ─�
 
 ## O que muda em relação ao `sdd`
 
-| `sdd` (v1) | `sdd2` |
+| `sdd` v1 | `sdd` v2 |
 |---|---|
 | um fluxo para tudo (HF/REG/ET/CT + spec SDD em todo IB) | **trilhas** pelo tamanho: direta, rápida (bugfix spec), padrão, épico |
 | especificação por IB, em três papéis assíncronos | **PRD por épico** + **fatias verticais** que cabem numa janela de contexto |
@@ -61,38 +61,38 @@ Fontes no fim deste arquivo.
 
 | Skill | Função |
 |---|---|
-| `sdd2` | guia do fluxo: trilhas, gates, princípios, qual skill usar |
-| `sdd2-setup` | configura o projeto: entende o repositório, descobre skills e toolkits, cria os agentes perguntando as skills de cada um |
-| `sdd2-status` | painel "onde parei", WIP de revisão, próxima ação de maior alavanca |
-| `sdd2-iniciar` | porta de entrada: triagem por trilha, Definition of Ready, pasta, branch, item do EWM |
-| `sdd2-entrevistar` | alinhamento em rodadas (grill), decisões e glossário |
-| `sdd2-prd` | PRD do épico (o quê e por quê) e GATE do PRD |
-| `sdd2-fatiar` | PRD → fatias verticais AFK/HITL, backlog e GATE do backlog |
-| `sdd2-planejamento` | roadmap, acordos (cadência, DoR/DoD, WIP), sprint, review, retrospectiva, virada |
-| `sdd2-pesquisar` | pesquisa do código compactada em `research.md` |
-| `sdd2-plano` | spec do Kiro (`requirements.md`/`bugfix.md`, `design.md`, `tasks.md`) e GATE do plano |
-| `sdd2-implementar` | TDD + backpressure, commits pequenos, revisão e PR |
-| `sdd2-revisar` | revisão independente: PRD (P), plano (L), código (C, dois eixos) |
-| `sdd2-verificar` | aceite de ponta a ponta com evidência; `CT.csv` para o ETM |
-| `sdd2-consolidar` | pós-merge: drift, ELM as-built, ADRs, lint do conhecimento, conclusão |
-| `sdd2-elm` | alimenta o ELM: requisitos (DOORS Next), backlog e sprint (EWM), testes (ETM), links |
-| `sdd2-loop` | fatias AFK até o PR, uma worktree por fatia, uma fase por contexto limpo |
-| `sdd2-aprender` | lições, promoção de regras, retrospectiva com dados, casos de avaliação |
+| `sdd` | guia do fluxo: trilhas, gates, princípios, qual skill usar |
+| `sdd-setup` | configura o projeto: entende o repositório, descobre skills e toolkits, cria os agentes perguntando as skills de cada um |
+| `sdd-status` | painel "onde parei", WIP de revisão, próxima ação de maior alavanca |
+| `sdd-iniciar` | porta de entrada: triagem por trilha, Definition of Ready, pasta, branch, item do EWM |
+| `sdd-entrevistar` | alinhamento em rodadas (grill), decisões e glossário |
+| `sdd-prd` | PRD do épico (o quê e por quê) e GATE do PRD |
+| `sdd-fatiar` | PRD → fatias verticais AFK/HITL, backlog e GATE do backlog |
+| `sdd-planejamento` | roadmap, acordos (cadência, DoR/DoD, WIP), sprint, review, retrospectiva, virada |
+| `sdd-pesquisar` | pesquisa do código compactada em `research.md` |
+| `sdd-plano` | spec do Kiro (`requirements.md`/`bugfix.md`, `design.md`, `tasks.md`) e GATE do plano |
+| `sdd-implementar` | TDD + backpressure, commits pequenos, revisão e PR |
+| `sdd-revisar` | revisão independente: PRD (P), plano (L), código (C, dois eixos) |
+| `sdd-verificar` | aceite de ponta a ponta com evidência; `CT.csv` para o ETM |
+| `sdd-consolidar` | pós-merge: drift, ELM as-built, ADRs, lint do conhecimento, conclusão |
+| `sdd-elm` | alimenta o ELM: requisitos (DOORS Next), backlog e sprint (EWM), testes (ETM), links |
+| `sdd-loop` | fatias AFK até o PR, uma worktree por fatia, uma fase por contexto limpo |
+| `sdd-aprender` | lições, promoção de regras, retrospectiva com dados, casos de avaliação |
 
 ## O que a setup instala no projeto
 
 O formato de power recomendado pelo Kiro (Agent Plugins, `plugin.json`) carrega só `skills/` e `mcp.json` — steering,
-agentes, hooks e workflows dentro de um power são ignorados. Por isso a `sdd2-setup` instala no projeto, a partir
-de `skills/sdd2-setup/assets/`:
+agentes, hooks e workflows dentro de um power são ignorados. Por isso a `sdd-setup` instala no projeto, a partir
+de `skills/sdd-setup/assets/`:
 
 | Arquivo | O quê |
 |---|---|
-| `.kiro/steering/sdd2.md` | o único steering do fluxo (sempre carregado): resumo, configuração do projeto (pasta do produto, comandos, verificação, git, banco, autonomia, ELM, agentes) e regras aprendidas |
-| `.kiro/agents/sdd2-*.json` | `produto`, `pesquisador`, `codificador`, `revisor`, `verificador`, `orquestrador` — cada um com as skills e MCPs que a pessoa liberou |
-| `.kiro/hooks/sdd2.json` (opcional) | backpressure: compila e testa depois de cada tarefa de spec |
-| `.kiro/workflows/sdd2-*.workflow.json` (opcional, experimental) | `planejar-fatia` e `entregar-fatia` nos Kiro Workflows — quem dispara é a pessoa, no chat do Kiro ("rode o workflow `sdd2-entregar-fatia` para a FT-031" ou `/workflow-run`), uma fatia por vez; nenhum agente as dispara |
-| `.kiro/sdd2/http.sh` (opcional) | única chamada HTTP que o verificador faz sem perguntar: só à URL de teste, com corpo da pasta `massa/` |
-| pasta do produto (perguntada na setup; ex.: `docs/pab`) | `backlog.json`, épicos e PRDs, `planejamento/`, `aprendizado/` — fora do `.kiro`, que guarda só o padrão do Kiro (`specs`, `steering`, `agents`, `hooks`, `workflows`) e o que é local (`.kiro/local/`, fora do git; `.kiro/sdd2/http.sh`) |
+| `.kiro/steering/sdd.md` | o único steering do fluxo (sempre carregado): resumo, configuração do projeto (pasta do produto, comandos, verificação, git, banco, autonomia, ELM, agentes) e regras aprendidas |
+| `.kiro/agents/sdd-*.json` | `produto`, `pesquisador`, `codificador`, `revisor`, `verificador`, `orquestrador` — cada um com as skills e MCPs que a pessoa liberou |
+| `.kiro/hooks/sdd.json` (opcional) | backpressure: compila e testa depois de cada tarefa de spec |
+| `.kiro/workflows/sdd-*.workflow.json` (opcional, experimental) | `planejar-fatia` e `entregar-fatia` nos Kiro Workflows — quem dispara é a pessoa, no chat do Kiro ("rode o workflow `sdd-entregar-fatia` para a FT-031" ou `/workflow-run`), uma fatia por vez; nenhum agente as dispara |
+| `.kiro/sdd/http.sh` (opcional) | única chamada HTTP que o verificador faz sem perguntar: só à URL de teste, com corpo da pasta `massa/` |
+| pasta do produto (perguntada na setup; ex.: `docs/pab`) | `backlog.json`, épicos e PRDs, `planejamento/`, `aprendizado/` — fora do `.kiro`, que guarda só o padrão do Kiro (`specs`, `steering`, `agents`, `hooks`, `workflows`) e o que é local (`.kiro/local/`, fora do git; `.kiro/sdd/http.sh`) |
 
 Os agentes nunca recebem o MCP do ELM nem os outros powers (sem `includePowers`): a escrita no ELM acontece na
 sessão da pessoa, com o power `elm` e confirmação; nos agentes ela vira pendência registrada.
@@ -102,17 +102,17 @@ engine V2, `permissions` para a V3 e a IDE): lê o projeto e o power, mas não `
 as credenciais do ELM; escreve só o que produz; no shell, git de leitura e, conforme o papel, `add`/`commit`. Merge,
 rebase, `--force`, `reset --hard` e `git -C` (que esconde o subcomando das regras) são negados em todos; push e PR
 só no orquestrador, com confirmação a cada um. Detalhes em
-[`skills/sdd2-setup/references/agentes.md`](skills/sdd2-setup/references/agentes.md).
+[`skills/sdd-setup/references/agentes.md`](skills/sdd-setup/references/agentes.md).
 
 ## Toolkits
 
 O fluxo não sabe programar em nenhuma stack: o conhecimento de Java, Spring Batch, Angular, React etc. vem de
-**toolkits** — pacotes de skills mantidos fora do power, um por tipo de projeto ou stack. A `sdd2-setup` é a única
+**toolkits** — pacotes de skills mantidos fora do power, um por tipo de projeto ou stack. A `sdd-setup` é a única
 parte do fluxo que sabe procurá-los (`.kiro/toolkits/`, `~/.kiro/toolkits/`, powers instalados com `toolkit.json`,
 ou skills com `metadata.toolkit`), detecta o tipo do projeto e **pergunta, agente por agente**, quais skills ligar —
 num projeto 100% Spring Batch, o codificador recebe as de batch e Java que a pessoa escolher, e não as de REST ou
-frontend. Contrato em [`skills/sdd2-setup/references/toolkits.md`](skills/sdd2-setup/references/toolkits.md) e
-schema em [`toolkit.schema.json`](skills/sdd2-setup/assets/toolkit.schema.json).
+frontend. Contrato em [`skills/sdd-setup/references/toolkits.md`](skills/sdd-setup/references/toolkits.md) e
+schema em [`toolkit.schema.json`](skills/sdd-setup/assets/toolkit.schema.json).
 
 ## IBM ELM
 
@@ -123,10 +123,10 @@ histórias; tarefas filhas na sprint; cenário verificado → *Caso de Teste* (E
 Cada história, regra e termo nasce como um conceito **OKF v0.2** na pasta da spec (o mesmo formato do bundle da
 `elm-sync`), com aprovação registrada em `verified`; sobe para o DOORS Next só depois do GATE, de baixo para cima,
 com HF → REG como embed, sem nada extra no texto publicado e sempre com prévia e confirmação. Atributos e links entre
-requisitos ficam registrados nos conceitos, porque o MCP não os grava. Detalhes em [`skills/sdd2-elm/references/mapeamento.md`](skills/sdd2-elm/references/mapeamento.md).
+requisitos ficam registrados nos conceitos, porque o MCP não os grava. Detalhes em [`skills/sdd-elm/references/mapeamento.md`](skills/sdd-elm/references/mapeamento.md).
 
 O MCP do power `elm` ainda não grava atributos de requisito, links requisito↔requisito, módulos, change sets,
-baselines nem casos de teste: quando o processo do projeto exige algum deles, a `sdd2-elm` entrega o roteiro manual
+baselines nem casos de teste: quando o processo do projeto exige algum deles, a `sdd-elm` entrega o roteiro manual
 e registra a pendência.
 
 ## Pré-requisitos
@@ -141,16 +141,17 @@ e registra a pendência.
 
 ## Primeiros passos
 
-1. Instale pelo painel **Powers** do Kiro (pasta `sdd2` deste repositório ou uma cópia local).
-2. No projeto, peça **"configurar o sdd2"** e responda às perguntas (uma por vez).
+1. Instale pelo painel **Powers** do Kiro (pasta `sdd` deste repositório ou uma cópia local).
+2. No projeto, peça **"configurar o sdd"** e responda às perguntas (uma por vez).
 3. Comece: **"nova demanda: …"** (épico → PRD), **"vamos trabalhar na FT-031"** (fatia), **"corrigir o defeito
    4567"** (trilha rápida) — ou **"onde parei?"**.
 
-Depois de atualizar o power ou um toolkit: "atualizar os agentes do sdd2". Projeto configurado com a versão
-anterior (quatro steerings e `.kiro/produto/`): "atualizar a configuração do sdd2" — a setup pergunta a pasta do
-produto, junta os steerings num só e move `.kiro/produto/` e `.kiro/aprendizado/` com `git mv`.
+Depois de atualizar o power ou um toolkit: "atualizar os agentes do sdd". Projeto configurado com o power
+`sdd2` ou com a v1 do `sdd`: desinstale o power antigo, instale este e peça "atualizar a configuração do sdd" — a
+setup pergunta a pasta do produto, junta os steerings num só, renomeia hooks, workflows e agentes e move
+`.kiro/produto/` e `.kiro/aprendizado/` com `git mv`.
 
-Não use o `/upgrade-agent` (nem `kiro-cli agent upgrade`) para regenerar os agentes `sdd2-*`: o conversor não
+Não use o `/upgrade-agent` (nem `kiro-cli agent upgrade`) para regenerar os agentes `sdd-*`: o conversor não
 produz as regras que só existem na V3 (skill liberada, confirmação de push/PR) — ele já os deixa de lado
 ("out of sync").
 
@@ -165,7 +166,7 @@ por `send_message`, chamada HTTP do verificador por script.
 
 Com o **Kiro CLI 2.31.0** (o binário oficial):
 
-- `kiro-cli powers install <pasta>` instala o power em `~/.kiro/powers/installed/sdd2/`, com todas as skills,
+- `kiro-cli powers install <pasta>` instala o power em `~/.kiro/powers/installed/sdd/`, com todas as skills,
   `references/` e `assets/` — o caminho que a setup usa nos agentes;
 - o bloco `permissions` dos templates foi gerado pelo próprio `kiro-cli agent upgrade` a partir do `toolsSettings`
   (V2) e conferido regra a regra; depois receberam o que só existe na V3: `skill` liberada (com leitura restrita o
@@ -193,7 +194,7 @@ steering e de configuração divergem sobre agentes herdarem o steering padrão 
 - O `validate_workflow` do Kiro não confere se os agentes citados existem: a setup confere.
 - Kiro Workflows é experimental: as receitas são opcionais; `/workflow-run` exige a IDE 1.3+.
 - **v2:** toolkits oficiais (backend Java/Spring, Spring Batch, frontend Angular/React); execução automatizada dos
-  casos de avaliação que a `sdd2-aprender` já guarda em `<produto>/aprendizado/avaliacoes/`; e — quando o MCP do ELM
+  casos de avaliação que a `sdd-aprender` já guarda em `<produto>/aprendizado/avaliacoes/`; e — quando o MCP do ELM
   suportar — atributo de chave, links entre requisitos, módulos, change sets e baselines automáticos.
 
 ## Fontes (consultadas em 13 e 14/10/2026)

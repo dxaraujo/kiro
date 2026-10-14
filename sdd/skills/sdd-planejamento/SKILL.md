@@ -1,16 +1,16 @@
 ---
-name: sdd2-planejamento
-description: "Planejamento ágil do projeto no fluxo sdd2, ajustado a times que trabalham com agentes — roadmap e releases a partir dos épicos, acordos do time (cadência Scrum ou Kanban, Definition of Ready e Done, limites de WIP incluindo a capacidade de revisão humana, que é o gargalo), planejamento da sprint por prioridade, dependências e capacidade (vazão de fatias e pontos), meta da sprint, acompanhamento, review com as evidências de aceite, retrospectiva com dados e virada de sprint; publica a sprint no EWM pela sdd2-elm. Use em \"monta o planejamento\", \"planejar a sprint\", \"roadmap\", \"virada de sprint\", \"fechar a sprint\", \"review da sprint\", \"capacidade do time\", \"acordos do time\"."
+name: sdd-planejamento
+description: "Planejamento ágil do projeto no fluxo sdd, ajustado a times que trabalham com agentes — roadmap e releases a partir dos épicos, acordos do time (cadência Scrum ou Kanban, Definition of Ready e Done, limites de WIP incluindo a capacidade de revisão humana, que é o gargalo), planejamento da sprint por prioridade, dependências e capacidade (vazão de fatias e pontos), meta da sprint, acompanhamento, review com as evidências de aceite, retrospectiva com dados e virada de sprint; publica a sprint no EWM pela sdd-elm. Use em \"monta o planejamento\", \"planejar a sprint\", \"roadmap\", \"virada de sprint\", \"fechar a sprint\", \"review da sprint\", \"capacidade do time\", \"acordos do time\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "0.1.0"
+  version: "2.0.0"
 ---
 
-# sdd2-planejamento — Planejar o fluxo, não só o calendário
+# sdd-planejamento — Planejar o fluxo, não só o calendário
 
 Com agentes escrevendo código, o que limita a entrega é a **atenção humana**: decidir (P.O.), revisar planos e
-PRs, verificar e aceitar. O planejamento do sdd2 mede e protege essa capacidade, trabalha com fatias pequenas e de
+PRs, verificar e aceitar. O planejamento do sdd mede e protege essa capacidade, trabalha com fatias pequenas e de
 tamanho parecido e prevê pela **vazão** (fatias concluídas por sprint), mantendo os pontos no EWM para quem os usa.
 
 Arquivos em `<produto>/planejamento/` (formatos em [references/arquivos.md](references/arquivos.md)):
@@ -32,7 +32,7 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
    - **Definition of Ready** e **Definition of Done** (padrão no `arquivos.md`);
    - tamanho: `P`/`M`/`G` e a tabela de pontos (padrão `2/3/5`).
 3. **Roadmap** (`roadmap.md`): épicos do `backlog.json` em ordem de valor e risco (maior incerteza mais cedo),
-   agrupados em releases com um objetivo cada; épico sem PRD aparece como "a descobrir" (`sdd2-prd`).
+   agrupados em releases com um objetivo cada; épico sem PRD aparece como "a descobrir" (`sdd-prd`).
 
 ## Modo sprint — planejar a próxima
 
@@ -54,22 +54,22 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
    Fica de fora (por capacidade): <FT…>
    ```
 5. "ok" → grave `sprints/sprint-<nn>.md`, `sprint`, `responsavel` e `status` no `backlog.json`, commit na base
-   (artefato de produto); ofereça a **`sdd2-elm`** modo *sprint* (iteração, IBs, tarefas).
+   (artefato de produto); ofereça a **`sdd-elm`** modo *sprint* (iteração, IBs, tarefas).
 
 ## Durante a sprint
 
-"Como está a sprint?" → **`sdd2-status`** filtrado pela sprint (fase de cada fatia, bloqueios, WIP de revisão,
-PRs parados). Fatia que cresceu (passou de `G` no plano) → volte para a `sdd2-fatiar` (dividir) em vez de esticar.
+"Como está a sprint?" → **`sdd-status`** filtrado pela sprint (fase de cada fatia, bloqueios, WIP de revisão,
+PRs parados). Fatia que cresceu (passou de `G` no plano) → volte para a `sdd-fatiar` (dividir) em vez de esticar.
 
 ## Review
 
 Para cada fatia concluída: o cenário entregue e a **evidência** do `verificacao.md` (resposta, contagem,
-screenshot). Registre o retorno do P.O. no `sprint-<nn>.md`; pedido novo vira cenário/fatia nova pela `sdd2-prd`/
-`sdd2-fatiar` — não reabre fatia concluída.
+screenshot). Registre o retorno do P.O. no `sprint-<nn>.md`; pedido novo vira cenário/fatia nova pela `sdd-prd`/
+`sdd-fatiar` — não reabre fatia concluída.
 
 ## Retrospectiva e virada
 
-1. **Retrospectiva com dados** — `sdd2-aprender` modo retrospectiva (vazão, lead time, rodadas de revisão,
+1. **Retrospectiva com dados** — `sdd-aprender` modo retrospectiva (vazão, lead time, rodadas de revisão,
    correções humanas por causa, AFK que chegaram ao PR sozinhas). Registre no `sprint-<nn>.md`: bom · melhorar ·
    ações (cada ação com dono).
 2. **Fechar:** concluídas contam na vazão e nos pontos; não concluídas **migram** para a próxima sprint (no
@@ -77,7 +77,7 @@ screenshot). Registre o retorno do P.O. no `sprint-<nn>.md`; pedido novo vira ce
    `**Situação:** fechada`.
 3. Recalcule vazão média e velocidade (`equipe.json` → `historico`), replaneje a próxima pelo modo sprint
    (migradas consomem capacidade primeiro).
-4. **ELM** — `sdd2-elm` modo *sprint*, virada: move as não concluídas para a nova iteração e publica as novas;
+4. **ELM** — `sdd-elm` modo *sprint*, virada: move as não concluídas para a nova iteração e publica as novas;
    roteiro manual de baseline, se o projeto exige.
 
 ## Regras

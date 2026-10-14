@@ -1,13 +1,13 @@
 ---
-name: sdd2-fatiar
-description: "Quebra um PRD aprovado do fluxo sdd2 em fatias verticais (tracer bullets) — cada fatia atravessa todas as camadas, entrega um comportamento verificável de ponta a ponta, cita as histórias e cenários que cobre, as dependências (bloqueada por), o tamanho (P/M/G, nunca maior) e o modo de autonomia (AFK: o agente faz sozinho até o PR · HITL: precisa de uma pessoa no meio). Grava o backlog em <produto>/backlog.json, conduz o GATE do backlog e, com ELM, publica as fatias como itens de backlog no EWM pela sdd2-elm. Use em \"fatiar o PRD\", \"quebrar em histórias\", \"gerar o backlog\", \"criar os itens de backlog\", \"PRD para issues\", \"refinar o backlog\"."
+name: sdd-fatiar
+description: "Quebra um PRD aprovado do fluxo sdd em fatias verticais (tracer bullets) — cada fatia atravessa todas as camadas, entrega um comportamento verificável de ponta a ponta, cita as histórias e cenários que cobre, as dependências (bloqueada por), o tamanho (P/M/G, nunca maior) e o modo de autonomia (AFK: o agente faz sozinho até o PR · HITL: precisa de uma pessoa no meio). Grava o backlog em <produto>/backlog.json, conduz o GATE do backlog e, com ELM, publica as fatias como itens de backlog no EWM pela sdd-elm. Use em \"fatiar o PRD\", \"quebrar em histórias\", \"gerar o backlog\", \"criar os itens de backlog\", \"PRD para issues\", \"refinar o backlog\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "0.1.0"
+  version: "2.0.0"
 ---
 
-# sdd2-fatiar — PRD → fatias verticais
+# sdd-fatiar — PRD → fatias verticais
 
 Entrada: PRD `aprovado` (`<produto>/epicos/<EP>-<slug>/prd.md`). Saída: fatias no
 `<produto>/backlog.json` (formato em [references/backlog.md](references/backlog.md)) e a visão humana
@@ -34,12 +34,12 @@ Entrada: PRD `aprovado` (`<produto>/epicos/<EP>-<slug>/prd.md`). Saída: fatias 
   - `HITL` — tem decisão de design, UX, integração nova, dado sensível ou risco alto: uma pessoa acompanha o plano e
     a implementação.
   - Tipo de trabalho novo no projeto começa `HITL`; vira `AFK` depois que fatias parecidas chegaram ao PR sem
-    correção humana (a `sdd2-aprender` mostra isso na retrospectiva).
+    correção humana (a `sdd-aprender` mostra isso na retrospectiva).
 
 ## Passo 1 — Rascunho
 
 1. Leia o PRD inteiro e o `decisoes.md`. Releia o código das fatias que mexem
-   em módulos existentes (subagente `sdd2-pesquisador`, se houver) — a fatia tem de ser possível no código real.
+   em módulos existentes (subagente `sdd-pesquisador`, se houver) — a fatia tem de ser possível no código real.
 2. Monte a lista:
 
 ```
@@ -74,23 +74,23 @@ Ajuste e repita até "ok". Esse "ok" é o **GATE do backlog** (P.O. ou time no r
    `FT-<nnn>` sequenciais no projeto, **nunca reaproveitados**.
 2. Regenere `backlog.md` a partir do JSON.
 3. PRD: `status: fatiado`.
-4. Commit (padrão do `sdd2.md`): `backlog.json`, `backlog.md`, `prd.md`.
+4. Commit (padrão do `sdd.md`): `backlog.json`, `backlog.md`, `prd.md`.
 
 ## Passo 4 — Próximos passos (na mesma resposta)
 
-- Com ELM: **`sdd2-elm`** modo *backlog* — cria o épico (se ainda não existe no EWM) e um item de backlog por fatia,
+- Com ELM: **`sdd-elm`** modo *backlog* — cria o épico (se ainda não existe no EWM) e um item de backlog por fatia,
   ligados às histórias do DOORS Next ("implementa") e ao épico (pai), **sem iteração** (backlog do produto).
-- **`sdd2-planejamento`** — encaixar as fatias na sprint (ou no fluxo Kanban).
-- Para começar uma fatia já: "vamos trabalhar na FT-031" (`sdd2-iniciar`).
+- **`sdd-planejamento`** — encaixar as fatias na sprint (ou no fluxo Kanban).
+- Para começar uma fatia já: "vamos trabalhar na FT-031" (`sdd-iniciar`).
 
 ## Refinamento (backlog já existe)
 
 "Refinar o backlog", "a FT-033 está grande demais", "faltou uma fatia":
 - **Dividir:** a fatia original fica `status: dividida` com `substituida-por: [FT-x, FT-y]`; as novas herdam a
-  cobertura (repartida), as dependências e o épico. No EWM, a `sdd2-elm` faz o que diz "Fatia dividida no EWM" no
-  `sdd2.md` (filhos do item original, ou fecha o original e cria itens novos).
+  cobertura (repartida), as dependências e o épico. No EWM, a `sdd-elm` faz o que diz "Fatia dividida no EWM" no
+  `sdd.md` (filhos do item original, ou fecha o original e cria itens novos).
 - **Juntar:** só fatias ainda em `backlog`; a que some fica `status: cancelada` com `motivo`.
-- **Nova fatia:** cenário novo exige PRD alterado antes (`sdd2-prd`, mudança depois de aprovado).
+- **Nova fatia:** cenário novo exige PRD alterado antes (`sdd-prd`, mudança depois de aprovado).
 - **Definition of Ready:** a cada refinamento, confira as fatias `backlog` e grave `pronta` nas que passam (e
   volte a `backlog` as que deixaram de passar). Critérios na seção do [references/backlog.md](references/backlog.md).
 

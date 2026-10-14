@@ -1,18 +1,18 @@
 ---
-name: sdd2-implementar
-description: "Implementa uma fatia do fluxo sdd2 a partir do plano aprovado (tasks.md), uma tarefa por vez, em ciclo de teste (vermelho → verde → refatorar), com backpressure — compilar, testes, lint e cobertura do sdd2.md têm de passar antes de marcar a tarefa; commits pequenos, progresso registrado no status.md, revisão independente (sdd2-revisar, rubrica C, até 2 rodadas) e abertura do PR. Usa as skills do toolkit ligadas ao agente codificador antes de escrever cada artefato. Também corrige achados da revisão, da verificação e do PR. Use em \"implementa a FT-031\", \"executa as tasks\", \"continua a implementação\", \"Start task\", \"abre o PR\", \"corrige os achados\"."
+name: sdd-implementar
+description: "Implementa uma fatia do fluxo sdd a partir do plano aprovado (tasks.md), uma tarefa por vez, em ciclo de teste (vermelho → verde → refatorar), com backpressure — compilar, testes, lint e cobertura do sdd.md têm de passar antes de marcar a tarefa; commits pequenos, progresso registrado no status.md, revisão independente (sdd-revisar, rubrica C, até 2 rodadas) e abertura do PR. Usa as skills do toolkit ligadas ao agente codificador antes de escrever cada artefato. Também corrige achados da revisão, da verificação e do PR. Use em \"implementa a FT-031\", \"executa as tasks\", \"continua a implementação\", \"Start task\", \"abre o PR\", \"corrige os achados\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "0.1.0"
+  version: "2.0.0"
 ---
 
-# sdd2-implementar — Ciclo curto, verificação sempre
+# sdd-implementar — Ciclo curto, verificação sempre
 
 Entrada: `.kiro/specs/<ft>-<slug>/` com o plano aprovado (`status.md` com fase `implementando`), na branch da
 fatia. No Kiro, cada tarefa também pode ser executada pelo **"Start task"** do `tasks.md` — as regras valem igual.
 
-Leia antes: `design.md` inteiro, `research.md`, `.kiro/steering/sdd2.md` (comandos, regras críticas,
+Leia antes: `design.md` inteiro, `research.md`, `.kiro/steering/sdd.md` (comandos, regras críticas,
 regras aprendidas).
 
 ## Passo 0 — Onde estou
@@ -41,9 +41,9 @@ Para cada tarefa do `tasks.md`, nesta ordem:
 3. **Verde:** a menor mudança de produção que faz o teste passar, imitando o análogo do `design.md`.
 4. **Arrumar** só o que você acabou de escrever (nomes do glossário, duplicação), com os testes verdes.
    Refatorar código existente não é desta tarefa: vira sugestão para a revisão ou fatia própria.
-5. **Backpressure:** compilar + testes da área + lint (comandos do `sdd2.md`). Falhou → corrija antes de
+5. **Backpressure:** compilar + testes da área + lint (comandos do `sdd.md`). Falhou → corrija antes de
    seguir; não acumule vermelho.
-6. Marque `- [x]` e faça **commit** pequeno (padrão do `sdd2.md`), com o id da fatia.
+6. Marque `- [x]` e faça **commit** pequeno (padrão do `sdd.md`), com o id da fatia.
 7. Uma linha no Histórico do `status.md`: `<data> — tarefa N ok · <testes> · <commit curto>`.
 
 Regras do ciclo:
@@ -54,7 +54,7 @@ Regras do ciclo:
   Divergência na tarefa N — Esperado: <o que o plano diz> · Encontrado: <o que o código tem, arquivo:linha>
   · Por que importa: <o que muda>
   ```
-  Muda comportamento de negócio → P.O. (`sdd2-entrevistar` / `sdd2-prd`); muda o desenho → `sdd2-plano`
+  Muda comportamento de negócio → P.O. (`sdd-entrevistar` / `sdd-prd`); muda o desenho → `sdd-plano`
   (replanejar). Decisão técnica equivalente → decida e registre no `design.md` (Decisões técnicas).
 - Nada de funcionalidade que a fatia não pediu, mesmo "aproveitando".
 - Duas correções seguidas sem sair do lugar → pare de tentar variações: registre no `status.md` o que foi tentado e
@@ -67,12 +67,12 @@ Regras do ciclo:
 ## Passo 2 — Validação completa
 
 Todas as tarefas `[x]`: rode compilar, a suíte **inteira** de testes e o lint; a cobertura, com o gate do
-`sdd2.md` (se houver), é medida nos arquivos que a fatia criou ou alterou. Erro de ambiente → `AMBIENTE`
+`sdd.md` (se houver), é medida nos arquivos que a fatia criou ou alterou. Erro de ambiente → `AMBIENTE`
 no `status.md`, não código.
 
 ## Passo 3 — Revisão independente
 
-`fase: revisando`; incremente "revisão do código" em Rodadas. Peça ao agente **`sdd2-revisor`** (subagente) a
+`fase: revisando`; incremente "revisão do código" em Rodadas. Peça ao agente **`sdd-revisor`** (subagente) a
 rubrica **C** passando só: id da fatia, pasta, branch/worktree e rodada — **nunca** o seu raciocínio. Ele grava o
 `revisao-codigo-<N>.md`. Sem subagente disponível (você é um agente sem essa ferramenta) → pare aqui e devolva a
 quem chamou: "pronta para a revisão (rodada <N>)".
@@ -84,16 +84,16 @@ quem chamou: "pronta para a revisão (rodada <N>)".
 
 ## Passo 4 — Verificação de aceite
 
-Incremente "verificação" em Rodadas e siga para a **`sdd2-verificar`** (cenários de aceite executados de ponta a ponta, com evidência; de preferência
-pelo agente `sdd2-verificador`). `ACEITO` → ela deixa a fatia em `fase: aceita`; `REJEITADO` → devolve para cá
+Incremente "verificação" em Rodadas e siga para a **`sdd-verificar`** (cenários de aceite executados de ponta a ponta, com evidência; de preferência
+pelo agente `sdd-verificador`). `ACEITO` → ela deixa a fatia em `fase: aceita`; `REJEITADO` → devolve para cá
 os cenários reprovados (Passo 0).
 
 ## Passo 5 — PR
 
 Com `fase: aceita` (revisão `APROVADO` e verificação `ACEITO`):
 
-Quem abre o PR é a sessão da pessoa (com o "sim" dela) ou o `sdd2-orquestrador` no loop. Como agente
-`sdd2-codificador`, que não faz push, pare em "pronta para o PR" e entregue o título e a descrição do item 2.
+Quem abre o PR é a sessão da pessoa (com o "sim" dela) ou o `sdd-orquestrador` no loop. Como agente
+`sdd-codificador`, que não faz push, pare em "pronta para o PR" e entregue o título e a descrição do item 2.
 
 1. Branch atualizada com a base? (`git fetch` e compare com `origin/<base>`). Desatualizada → numa sessão com a
    pessoa, com o "sim" dela, `git merge origin/<base>` (conflito → resolva e repita Passos 2–4); como agente,
@@ -112,23 +112,23 @@ Quem abre o PR é a sessão da pessoa (com o "sim" dela) ou o `sdd2-orquestrador
    Reversível? <sim, só reverter o PR | não: dado migrado/contrato publicado — o que fazer>
    ```
    O PR é para uma pessoa **ler o código**: pequeno, com a evidência e o caminho de leitura, sem despejar o plano.
-3. Numa só confirmação da pessoa: push e abertura do PR com a ferramenta do `sdd2.md` (sem ferramenta →
+3. Numa só confirmação da pessoa: push e abertura do PR com a ferramenta do `sdd.md` (sem ferramenta →
    entregue título e descrição prontos).
 4. `status.md`: `fase: pr-aberto`, link do PR; commit e, com o mesmo "sim", push (o `status.md` vai junto no PR).
 
-O merge é de uma pessoa. Depois do merge: **`sdd2-consolidar`**.
+O merge é de uma pessoa. Depois do merge: **`sdd-consolidar`**.
 
 ## Trilha direta
 
-Sem pasta de spec nem `tasks.md` (a `sdd2-iniciar` decidiu que o diff cabe numa frase):
+Sem pasta de spec nem `tasks.md` (a `sdd-iniciar` decidiu que o diff cabe numa frase):
 1. Teste que falha, quando há comportamento (texto e configuração pura não têm); 2. a mudança; 3. backpressure;
-4. revisão pela **`sdd2-revisar`** (rubrica C sobre o diff, com o **pedido** no lugar dos critérios; relatório na
+4. revisão pela **`sdd-revisar`** (rubrica C sobre o diff, com o **pedido** no lugar dos critérios; relatório na
 conversa); 5. PR curto: `<pedido> (<id do item | —>)` · `O quê` · `Backpressure` · `Revisão: APROVADO` ·
 `Como ler`. Se no caminho aparecer regra de negócio ou mais de um comportamento → pare: é trilha rápida ou padrão.
 
 ## Modo autônomo
 
-`AUTONOMO=true` (chamado pelo `sdd2-orquestrador`/`sdd2-loop`): sem perguntas; trabalhe só na worktree recebida;
+`AUTONOMO=true` (chamado pelo `sdd-orquestrador`/`sdd-loop`): sem perguntas; trabalhe só na worktree recebida;
 **não** faça push nem abra PR (o orquestrador faz); bloqueio vira `fase: bloqueada` com o motivo, e você para.
 
 ## Regras

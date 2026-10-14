@@ -1,18 +1,18 @@
 ---
-name: sdd2-pesquisar
-description: "Pesquisa do código para uma fatia do fluxo sdd2, antes de planejar — somente leitura: localiza onde o comportamento mora, as funcionalidades análogas (pattern grounding), o que pode ser reaproveitado, os testes vizinhos, o schema real e as restrições; compacta tudo em research.md com fatos e arquivo:linha, sem opinião nem solução. Mantém o contexto de quem planeja limpo (o pesquisador lê muito e devolve pouco). Use em \"pesquisa o código para a FT-031\", \"onde isso está implementado\", \"research\", \"entender o código antes de planejar\", e como primeiro passo da sdd2-plano."
+name: sdd-pesquisar
+description: "Pesquisa do código para uma fatia do fluxo sdd, antes de planejar — somente leitura: localiza onde o comportamento mora, as funcionalidades análogas (pattern grounding), o que pode ser reaproveitado, os testes vizinhos, o schema real e as restrições; compacta tudo em research.md com fatos e arquivo:linha, sem opinião nem solução. Mantém o contexto de quem planeja limpo (o pesquisador lê muito e devolve pouco). Use em \"pesquisa o código para a FT-031\", \"onde isso está implementado\", \"research\", \"entender o código antes de planejar\", e como primeiro passo da sdd-plano."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "0.1.0"
+  version: "2.0.0"
 ---
 
-# sdd2-pesquisar — Entender antes de planejar
+# sdd-pesquisar — Entender antes de planejar
 
 Uma linha errada na pesquisa vira um plano errado, que vira centenas de linhas de código erradas. A pesquisa é
 barata de revisar e cara de errar — por isso ela é um arquivo curto, factual e verificável.
 
-Prefira o agente **`sdd2-pesquisador`** (somente leitura, contexto próprio): ele lê dezenas de arquivos e devolve
+Prefira o agente **`sdd-pesquisador`** (somente leitura, contexto próprio): ele lê dezenas de arquivos e devolve
 só o `research.md`. Sem o agente, faça você mesmo e, ao terminar, trabalhe a partir do arquivo, não da memória da
 leitura.
 
@@ -40,7 +40,7 @@ Antes de abrir o código, escreva de 3 a 7 perguntas que o plano vai precisar re
 - **Dados:** schema real pelo MCP de banco (somente leitura) ou pelos modelos/migrações; volumetria se importar.
 - **Documentação:** histórias e regras do bundle do ELM (`<rm.download.path>`) que tratam do mesmo comportamento —
   divergência entre código e documentação é um achado importante.
-- **Testes:** como rodar só os testes da área (comando de teste único do `sdd2.md`) e o que já cobrem.
+- **Testes:** como rodar só os testes da área (comando de teste único do `sdd.md`) e o que já cobrem.
 - Skills do toolkit do projeto ligadas a você: carregue a da stack antes de interpretar código dela.
 
 ## Passo 3 — `research.md`
@@ -80,9 +80,9 @@ Antes de abrir o código, escreva de 3 a 7 perguntas que o plano vai precisar re
 
 - Só fatos com evidência; nada de solução ou recomendação (isso é do plano).
 - Curto: o objetivo é caber inteiro no contexto de quem planeja. Mais de ~150 linhas → corte o que o plano não usa.
-- `status.md`: fase `planejando`, linha no Histórico — **só** quando você não é o agente `sdd2-pesquisador`
-  (sessão da pessoa). O agente pesquisador nunca grava o `status.md`: quem o chamou registra (`sdd2-plano`,
-  `sdd2-loop`).
+- `status.md`: fase `planejando`, linha no Histórico — **só** quando você não é o agente `sdd-pesquisador`
+  (sessão da pessoa). O agente pesquisador nunca grava o `status.md`: quem o chamou registra (`sdd-plano`,
+  `sdd-loop`).
 
 ## Regras
 

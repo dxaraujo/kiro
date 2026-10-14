@@ -1,16 +1,16 @@
 ---
-name: sdd2-status
-description: "Painel do fluxo sdd2, somente leitura — onde parei e o que fazer agora: fatias em andamento (nesta branch, nas worktrees e nas branches remotas) com fase, trilha, modo AFK/HITL, progresso do tasks.md, achados abertos e PR; WIP de revisão humana contra o acordo do time; sprint atual e meta; fatias prontas para começar; épicos e PRDs pendentes de aprovação; pendências de ELM; lições propostas; e inconsistências. Também fecha a sessão de trabalho numa fatia (atualiza o status.md, deixa o git pronto para commit e diz como retomar). SEMPRE use esta skill (leia-a antes de responder) em \"onde parei\", \"status\", \"painel\", \"bom dia\", \"o que tem pendente\", \"qual a próxima fatia\", \"como está a sprint\", \"retomar\", \"fechar a sessão\", \"encerrar por hoje\"."
+name: sdd-status
+description: "Painel do fluxo sdd, somente leitura — onde parei e o que fazer agora: fatias em andamento (nesta branch, nas worktrees e nas branches remotas) com fase, trilha, modo AFK/HITL, progresso do tasks.md, achados abertos e PR; WIP de revisão humana contra o acordo do time; sprint atual e meta; fatias prontas para começar; épicos e PRDs pendentes de aprovação; pendências de ELM; lições propostas; e inconsistências. Também fecha a sessão de trabalho numa fatia (atualiza o status.md, deixa o git pronto para commit e diz como retomar). SEMPRE use esta skill (leia-a antes de responder) em \"onde parei\", \"status\", \"painel\", \"bom dia\", \"o que tem pendente\", \"qual a próxima fatia\", \"como está a sprint\", \"retomar\", \"fechar a sessão\", \"encerrar por hoje\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "0.1.0"
+  version: "2.0.0"
 ---
 
-# sdd2-status — Onde parei
+# sdd-status — Onde parei
 
 O painel é somente leitura: não altera arquivo, branch nem ELM. Pedido de **fechar a sessão** → modo da última
-seção. Sem `.kiro/steering/sdd2.md` → diga que o fluxo não está configurado e ofereça a `sdd2-setup`.
+seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado e ofereça a `sdd-setup`.
 
 ## Coleta
 
@@ -26,7 +26,7 @@ seção. Sem `.kiro/steering/sdd2.md` → diga que o fluxo não está configurad
    `status.md` numa branch e fase diferente de `concluida`; o backlog não guarda isso.
    PRDs (`epicos/*/prd.md`): status e pendências `ELM pendente:` do rodapé.
 5. `<produto>/planejamento/acordos.md`: limites de WIP (sem o arquivo: 2 fatias esperando pessoa, e sugira a
-   `sdd2-planejamento` modo inicial).
+   `sdd-planejamento` modo inicial).
 6. `<produto>/aprendizado/licoes.md`: lições com situação `proposta`.
 7. Lotes autônomos em andamento: `.kiro/local/loop-*.md`.
 8. "Minhas" = responsável igual ao login da pessoa: `git config user.name` cruzado com `nome`/`login` do
@@ -35,14 +35,14 @@ seção. Sem `.kiro/steering/sdd2.md` → diga que o fluxo não está configurad
 ## Painel
 
 ```
-📊 sdd2 — <projeto> · sprint <nn> (<dias> dias restantes) · meta: <…>
+📊 sdd — <projeto> · sprint <nn> (<dias> dias restantes) · meta: <…>
 
 🔨 Em andamento
 | FT | Título | Fase | Modo | Tarefas | Achados | PR | Parada há | Próximo passo |
 
 👀 Esperando pessoa (WIP de revisão: <n>/<limite> — plano-em-revisao + aceita + pr-aberto)
-- FT-031 plano-em-revisao há 1 dia → aprovar o plano (sdd2-plano)
-- FT-030 aceita → abrir o PR (sdd2-implementar)
+- FT-031 plano-em-revisao há 1 dia → aprovar o plano (sdd-plano)
+- FT-030 aceita → abrir o PR (sdd-implementar)
 - FT-029 pr-aberto há 2 dias → revisar o PR <link>
 
 ✅ Prontas para começar (por prioridade)
@@ -58,7 +58,7 @@ seção. Sem `.kiro/steering/sdd2.md` → diga que o fluxo não está configurad
 ```
 
 **Sugestão** — nesta ordem: desbloquear quem espera uma pessoa (plano ou PR parado, WIP de revisão estourado) →
-terminar a fatia em andamento → começar a próxima pronta (AFK prontas em quantidade → ofereça o `sdd2-loop`) →
+terminar a fatia em andamento → começar a próxima pronta (AFK prontas em quantidade → ofereça o `sdd-loop`) →
 trabalho de produto (PRD/fatiar) para manter o backlog com fatias prontas.
 
 ## Inconsistências a apontar
@@ -80,6 +80,6 @@ fio:
 1. Acrescente ao Histórico do `status.md` da fatia o que foi feito, o **próximo passo exato** e as decisões desta
    sessão.
 2. Marque no `tasks.md` só o que está realmente pronto e verde.
-3. Mostre o `git status` e proponha o commit do que está pronto (padrão do `sdd2.md`); grave só com "ok" e nunca
+3. Mostre o `git status` e proponha o commit do que está pronto (padrão do `sdd.md`); grave só com "ok" e nunca
    faça push.
 4. Termine com a frase para retomar numa sessão nova (ex.: "vamos trabalhar na FT-031").

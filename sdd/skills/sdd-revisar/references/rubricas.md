@@ -1,10 +1,10 @@
-# Rubricas de revisão do sdd2
+# Rubricas de revisão do sdd
 
 Cada verificação tem severidade. **BLOQUEANTE** reprova; **IMPORTANTE** reprova (barato de corrigir agora, caro
 depois); **SUGESTÃO** não reprova nem reabre ciclo. Todo achado tem **evidência** (`arquivo:linha`, comando +
 saída, ou "procurado em X, não encontrado") e a **correção** esperada. Achado sem evidência não é achado.
 
-Regras promovidas (seção Regras aprendidas do `.kiro/steering/sdd2.md`) valem como itens extras da rubrica do artefato a que se
+Regras promovidas (seção Regras aprendidas do `.kiro/steering/sdd.md`) valem como itens extras da rubrica do artefato a que se
 referem, com a severidade registrada nelas.
 
 ## P — PRD (`prd.md` + `decisoes.md`)
@@ -21,7 +21,7 @@ referem, com a severidade registrada nelas.
 | P8 | Nenhuma decisão `em aberto` que mude comportamento | BLOQUEANTE |
 | P9 | Sem caminho de arquivo, classe, SQL ou código | SUGESTÃO |
 | P10 | Fora de escopo explícito | SUGESTÃO |
-| P11 | Conceitos OKF v0.2 em `elm/` conformes (checklist "Conformidade" de `okf-elm.md` da `sdd2-prd`): frontmatter que faz parse, `type` e `tags` do mapeamento do projeto, só chaves do OKF v0.2 (+ `id`), `status: draft` antes do GATE, HF ligando as suas REGs, links que resolvem, `index.md` completo | BLOQUEANTE |
+| P11 | Conceitos OKF v0.2 em `elm/` conformes (checklist "Conformidade" de `okf-elm.md` da `sdd-prd`): frontmatter que faz parse, `type` e `tags` do mapeamento do projeto, só chaves do OKF v0.2 (+ `id`), `status: draft` antes do GATE, HF ligando as suas REGs, links que resolvem, `index.md` completo | BLOQUEANTE |
 
 Fecho: `RESULTADO: PRONTO` ou `RESULTADO: AJUSTAR`.
 
@@ -33,7 +33,7 @@ Fecho: `RESULTADO: PRONTO` ou `RESULTADO: AJUSTAR`.
 | L2 | Todo critério (ou item 2.x/3.x do `bugfix.md`) tem ao menos uma tarefa no `tasks.md` (`_Requirements: N.M_`); bugfix começa pelo teste da condição do defeito e pelos testes de preservação | BLOQUEANTE |
 | L3 | Nenhuma regra de negócio que não esteja no PRD/ELM ou no `decisoes.md` | BLOQUEANTE |
 | L4 | Os caminhos, classes e análogos citados existem (conferir com `glob`/`read`) — ou estão marcados "a criar" | BLOQUEANTE |
-| L5 | O design segue o steering de tecnologia/estrutura, as regras críticas do `sdd2.md` e as lições promovidas | BLOQUEANTE |
+| L5 | O design segue o steering de tecnologia/estrutura, as regras críticas do `sdd.md` e as lições promovidas | BLOQUEANTE |
 | L6 | Tarefas em ciclo de teste: cada comportamento começa por um teste que falha; corretiva começa pelo teste que reproduz o defeito | IMPORTANTE |
 | L7 | Tarefas pequenas, na ordem de dependência, cada uma com o comando que prova que terminou | IMPORTANTE |
 | L8 | Reexecução segura, transação e concorrência tratadas quando há escrita | BLOQUEANTE |
@@ -41,7 +41,7 @@ Fecho: `RESULTADO: PRONTO` ou `RESULTADO: AJUSTAR`.
 | L10 | Nada fora do escopo da fatia (arquivos, refatorações oportunistas) | IMPORTANTE |
 
 Fecho: `ANALISE: OK` ou `ANALISE: AJUSTAR`. Em cada achado diga se a falta é **do plano** (o codificador corrige)
-ou **do PRD** (cenário ausente, regra contraditória → volta para o P.O. pela `sdd2-prd`).
+ou **do PRD** (cenário ausente, regra contraditória → volta para o P.O. pela `sdd-prd`).
 
 ## C — Código da fatia (diff contra a branch base)
 
@@ -54,7 +54,7 @@ Reprovação em qualquer eixo é `REVISAR`.
 |---|---|---|
 | C1 | Cada critério de `requirements.md`/`bugfix.md` tem implementação (`critério → arquivo:linha`), citando a linha do critério | BLOQUEANTE |
 | C2 | Cada cenário da fatia tem teste automatizado que o exercita pelo ponto de teste do `design.md` (`cenário → teste`) | BLOQUEANTE |
-| C3 | Os comandos de backpressure do `sdd2.md` passam (compilar, testes, lint, cobertura se houver gate) — **executar** | BLOQUEANTE |
+| C3 | Os comandos de backpressure do `sdd.md` passam (compilar, testes, lint, cobertura se houver gate) — **executar** | BLOQUEANTE |
 | C4 | Oráculo protegido: nenhum teste removido, desabilitado, ignorado, com assert vazio, enfraquecido ou tautológico (esperado recalculado como o código calcula); nenhuma exceção engolida | BLOQUEANTE |
 | C5 | Reexecução segura: rodar de novo não duplica nem corrompe (chave, situação gravada, transação) | BLOQUEANTE |
 | C6 | Tarefas `[x]` do `tasks.md` têm código correspondente no diff | BLOQUEANTE |
@@ -64,7 +64,7 @@ Reprovação em qualquer eixo é `REVISAR`.
 
 | # | Verificação | Severidade |
 |---|---|---|
-| C8 | Regras críticas do `sdd2.md`, steering de tecnologia e regras aprendidas (mesmo arquivo) | BLOQUEANTE |
+| C8 | Regras críticas do `sdd.md`, steering de tecnologia e regras aprendidas (mesmo arquivo) | BLOQUEANTE |
 | C9 | Segurança: sem segredo no código ou em log, sem injeção (SQL, comando, HTML), dado sensível protegido | BLOQUEANTE |
 | C10 | Modelo/entidade bate com o schema real (MCP de banco, somente leitura; sem MCP → `N/A`) | BLOQUEANTE |
 | C11 | Segue o análogo e a forma do programa do `design.md`; nada de padrão novo sem decisão registrada | IMPORTANTE |

@@ -4,9 +4,9 @@ Fonte única dos ids locais (`EP-nn`, `FT-nnn`), do **planejamento** (o que exis
 mapeamento com o ELM. Versionado. `backlog.md` é **gerado** a partir dele (nunca editado à mão).
 
 **Onde é escrito:** só na **branch base** (direto ou por um PR curto, conforme "Artefatos de produto" no
-`sdd2.md`) — **nunca numa branch de fatia**, para que fatias em paralelo não disputem o mesmo arquivo. O
+`sdd.md`) — **nunca numa branch de fatia**, para que fatias em paralelo não disputem o mesmo arquivo. O
 andamento de uma fatia (fase, branch, PR) não mora aqui: mora no `status.md` da pasta dela, na branch dela, e o
-`sdd2-status` o lê de lá.
+`sdd-status` o lê de lá.
 
 ## Formato
 
@@ -53,19 +53,19 @@ andamento de uma fatia (fase, branch, PR) não mora aqui: mora no `status.md` da
 | `tamanho` | `P` · `M` · `G` |
 | `modo` | `AFK` · `HITL` |
 | fatia `status` | `backlog` → `pronta` (passou na Definition of Ready) → `concluida`; desvios `dividida` (+ `substituida-por`), `cancelada` (+ `motivo`). "Em andamento" não é gravado: é a fatia que tem `status.md` numa branch |
-| `sprint` | número da sprint (`sdd2-planejamento`) ou `null`; no Kanban, `null` |
-| `elm` | `null` ou `{ "id", "url", "tarefas": { "<prefixo>": { "id", "url" } } }` (gravado pela `sdd2-elm`) |
+| `sprint` | número da sprint (`sdd-planejamento`) ou `null`; no Kanban, `null` |
+| `elm` | `null` ou `{ "id", "url", "tarefas": { "<prefixo>": { "id", "url" } } }` (gravado pela `sdd-elm`) |
 
 ## Quem escreve o quê
 
 | Transição | Skill |
 |---|---|
-| épico criado / status do PRD | `sdd2-prd` |
-| fatias criadas, divididas, juntadas, canceladas · `pronta` (DoR conferida) | `sdd2-fatiar` |
-| `sprint`, `responsavel`, prioridade · `pronta` (DoR conferida de novo no planejamento) | `sdd2-planejamento` |
-| fatia da trilha rápida (com `origem`, sem épico) | `sdd2-iniciar` (antes de criar a branch, na base) |
-| `concluida`, `concluida-em` | `sdd2-consolidar` (depois do merge, na base) |
-| `elm` (ids e urls) | `sdd2-elm` |
+| épico criado / status do PRD | `sdd-prd` |
+| fatias criadas, divididas, juntadas, canceladas · `pronta` (DoR conferida) | `sdd-fatiar` |
+| `sprint`, `responsavel`, prioridade · `pronta` (DoR conferida de novo no planejamento) | `sdd-planejamento` |
+| fatia da trilha rápida (com `origem`, sem épico) | `sdd-iniciar` (antes de criar a branch, na base) |
+| `concluida`, `concluida-em` | `sdd-consolidar` (depois do merge, na base) |
+| `elm` (ids e urls) | `sdd-elm` |
 
 ## Definition of Ready (o que faz uma fatia `pronta`)
 
@@ -78,7 +78,7 @@ modo AFK/HITL declarado. Deixou de valer (PRD reaberto, decisão nova em aberto)
 - Ids nunca são reaproveitados nem renumerados; `proximo` só cresce.
 - Antes de gravar: `git switch <base>` e `git pull --ff-only`; depois, commit pequeno só com ele (e o
   `backlog.md`) quando não houver outro artefato de produto junto. Push ou PR curto: com o "sim" da pessoa, como
-  diz "Artefatos de produto" no `sdd2.md`.
+  diz "Artefatos de produto" no `sdd.md`.
 - **Quem grava o `backlog.json` regenera o `backlog.md`** no mesmo commit — qualquer skill da tabela acima.
 - Conflito no `backlog.json`: mantenha o remoto e reaplique só a sua mudança, campo a campo. Nunca resolva
   descartando o lado remoto.

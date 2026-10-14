@@ -1,16 +1,16 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
-  "name": "sdd2",
-  "version": "0.2.0",
+  "name": "sdd",
+  "version": "2.0.0",
   "description": "Engenharia agêntica orientada a especificação, com o IBM ELM como fonte oficial da documentação e planejamento ágil: entrevista de alinhamento, PRD, fatias verticais AFK/HITL, plano no formato de spec do Kiro, TDD com backpressure, revisão e verificação independentes, PR lido por uma pessoa, consolidação no ELM e aprendizado composto. A setup cria no projeto os agentes e liga a cada um as skills escolhidas, inclusive as dos toolkits de stack (backend, batch, frontend).",
   "author": {
     "name": "Daniel Xavier Araújo",
     "email": "danielxaraujo@gmail.com"
   },
-  "repository": "https://github.com/dxaraujo/kiro-powers/tree/main/sdd2",
+  "repository": "https://github.com/dxaraujo/kiro-powers/tree/main/sdd",
   "license": "MIT",
   "keywords": [
-    "sdd2", "configurar o sdd2", "spec-driven", "engenharia agêntica", "agentic engineering",
+    "sdd", "configurar o sdd", "spec-driven", "engenharia agêntica", "agentic engineering",
     "fatias verticais", "tracer bullet", "grill me", "me entreviste", "planejamento ágil", "planejar a sprint",
     "virada de sprint", "onde parei", "publicar no elm"
   ]

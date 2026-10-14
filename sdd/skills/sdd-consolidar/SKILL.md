@@ -1,13 +1,13 @@
 ---
-name: sdd2-consolidar
-description: "Fecha uma fatia do fluxo sdd2 depois do merge do PR — confere que o que foi entregue bate com a documentação oficial (drift entre código, plano e ELM), atualiza o que mudou na documentação (as-built) e manda para o ELM pela sdd2-elm (requisitos, especificação técnica se o projeto usa, casos de teste e links), conclui os itens do EWM, marca a fatia como concluída no backlog, registra as lições (sdd2-aprender) e diz o que vem a seguir no épico. Use em \"PR mergeado\", \"fecha a FT-031\", \"consolidar\", \"concluir a fatia\", \"a fatia foi entregue\"."
+name: sdd-consolidar
+description: "Fecha uma fatia do fluxo sdd depois do merge do PR — confere que o que foi entregue bate com a documentação oficial (drift entre código, plano e ELM), atualiza o que mudou na documentação (as-built) e manda para o ELM pela sdd-elm (requisitos, especificação técnica se o projeto usa, casos de teste e links), conclui os itens do EWM, marca a fatia como concluída no backlog, registra as lições (sdd-aprender) e diz o que vem a seguir no épico. Use em \"PR mergeado\", \"fecha a FT-031\", \"consolidar\", \"concluir a fatia\", \"a fatia foi entregue\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "0.1.0"
+  version: "2.0.0"
 ---
 
-# sdd2-consolidar — Documentação viva depois do merge
+# sdd-consolidar — Documentação viva depois do merge
 
 O plano da fatia (`research`, `design`, `tasks`) é andaime: cumpriu o papel quando o código chegou à base. O que
 fica valendo é a documentação oficial no ELM — e ela tem de descrever o que **foi** construído. Esta skill fecha a
@@ -28,19 +28,19 @@ Compare o entregue com a documentação:
 | conceitos de `elm/` (histórias e regras cobertas) × bundle do ELM | o ELM já reflete o aprovado? (conceito `stable` sem `resource` = publicação pendente; corpo do bundle diferente do conceito publicado = alguém mudou no ELM) |
 
 Drift de **negócio** (regra, cenário, valor) → o PRD precisa de nova versão: mostre a diferença e acione a
-`sdd2-prd` (mudança depois de aprovado) antes de publicar. Drift só técnico → nada no PRD.
+`sdd-prd` (mudança depois de aprovado) antes de publicar. Drift só técnico → nada no PRD.
 
 ## Passo 2 — ELM (com o power `elm`; senão registre pendências)
 
-Pela **`sdd2-elm`**, numa confirmação só:
-- *requisitos* — publicar/atualizar o que ainda não foi (publicação `no-merge` no `sdd2.md`, ou drift do
+Pela **`sdd-elm`**, numa confirmação só:
+- *requisitos* — publicar/atualizar o que ainda não foi (publicação `no-merge` no `sdd.md`, ou drift do
   Passo 1);
 - *especificação técnica* — se o projeto publica ET: gerar a ET **as-built** da fatia a partir do `design.md` e do
   código final (interfaces, dados, integrações) e publicar;
 - *testes* — `CT.csv` pronto para importar no ETM; após a importação, links "valida" com as histórias;
 - *backlog* — concluir as tarefas e o item de backlog da fatia no EWM (estado de conclusão da PA).
 
-Sem o MCP `elm` nesta sessão → `ELM pendente: <ação>` no Histórico do `status.md`; o `sdd2-status` lista as
+Sem o MCP `elm` nesta sessão → `ELM pendente: <ação>` no Histórico do `status.md`; o `sdd-status` lista as
 pendências até alguém fazê-las numa sessão com o power.
 
 Bundle do ELM no repositório (`rm.download.path`) → sugira rodar a `elm-sync` para trazer o que foi publicado
@@ -49,7 +49,7 @@ Bundle do ELM no repositório (`rm.download.path`) → sugira rodar a `elm-sync`
 ## Passo 3 — Conhecimento que dura
 
 - **ADRs:** decisões técnicas do `design.md` marcadas "Vira ADR? sim" (ou que mudam como o time vai construir daqui
-  para a frente) → um ADR curto na pasta de ADRs do `sdd2.md` (contexto · decisão · consequências ·
+  para a frente) → um ADR curto na pasta de ADRs do `sdd.md` (contexto · decisão · consequências ·
   origem FT-nnn). Mostre e grave com "ok".
 - **Glossário:** termos que o código novo introduziu ou renomeou — e os `termo pendente` do `decisoes.md` da
   fatia — estão no glossário? Faltando ou divergente → corrija o glossário (com "ok") ou abra a correção do código
@@ -61,12 +61,12 @@ Bundle do ELM no repositório (`rm.download.path`) → sugira rodar a `elm-sync`
 ## Passo 4 — Fechar
 
 - Na **base** (`git switch <base>` + `git pull --ff-only`; direto ou por PR curto, conforme "Artefatos de produto"
-  no `sdd2.md` — várias fatias podem ir no mesmo PR de consolidação): `status.md` da fatia com
+  no `sdd.md` — várias fatias podem ir no mesmo PR de consolidação): `status.md` da fatia com
   `fase: concluida` e data; `backlog.json` com `status: concluida` e `concluida-em`; ADRs e glossário do Passo 3.
 - Todas as fatias do épico concluídas → épico `concluido` (PRD e backlog).
-- **`sdd2-aprender`** modo registrar para cada correção humana da fatia (achados da revisão que chegaram à pessoa,
+- **`sdd-aprender`** modo registrar para cada correção humana da fatia (achados da revisão que chegaram à pessoa,
   verificações rejeitadas, mudanças pedidas no PR) — e modo retrospectiva se a pessoa quiser.
-- Commit (padrão do `sdd2.md`) com `status.md`, `backlog.json`/`backlog.md` e o que mudou. Branch da
+- Commit (padrão do `sdd.md`) com `status.md`, `backlog.json`/`backlog.md` e o que mudou. Branch da
   fatia: pode ser apagada depois do merge (a pasta da fatia já está na base).
 
 ## Passo 5 — Próximo
@@ -82,4 +82,4 @@ Lições: <n> registradas
 
 - Não apague a pasta da fatia: ela é o registro de como a mudança foi feita (o ELM é o registro do que o sistema
   faz).
-- Toda escrita no ELM só com confirmação, pela `sdd2-elm`.
+- Toda escrita no ELM só com confirmação, pela `sdd-elm`.

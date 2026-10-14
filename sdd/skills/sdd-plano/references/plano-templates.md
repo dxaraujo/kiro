@@ -8,7 +8,7 @@ de mostrá-las.
 
 ## `.config.kiro`
 
-Uma linha de JSON, criada pela `sdd2-iniciar` junto com a pasta (a `sdd2-plano` cria se faltar; `specId` = um
+Uma linha de JSON, criada pela `sdd-iniciar` junto com a pasta (a `sdd-plano` cria se faltar; `specId` = um
 UUID novo: `uuidgen` ou `python3 -c "import uuid; print(uuid.uuid4())"`):
 
 ```json
@@ -167,7 +167,7 @@ Testing Strategy com exploração da condição do defeito, verificação da cor
 - [ ]* 3. Teste de propriedade da Property 1
   - _Requirements: 1.1, 1.3_
 - [ ] 4. Checkpoint — validação completa (compilar, suíte inteira, lint, cobertura)
-  - A revisão não é tarefa daqui: é da `sdd2-revisar`, em outro contexto (quem implementou não se revisa)
+  - A revisão não é tarefa daqui: é da `sdd-revisar`, em outro contexto (quem implementou não se revisa)
 
 ## Notes
 - Tarefas com `*` são opcionais.

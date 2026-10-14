@@ -10,7 +10,7 @@ atualizado: <AAAA-MM-DD>
 # PRD — EP-<nn> <título>
 
 > O quê e por quê, na linguagem do negócio. O **como** técnico fica no plano de cada fatia (`design.md`).
-> Decisões: `decisoes.md` (nesta pasta) · Glossário e ADRs: caminhos no `.kiro/steering/sdd2.md`
+> Decisões: `decisoes.md` (nesta pasta) · Glossário e ADRs: caminhos no `.kiro/steering/sdd.md`
 
 ## Problema
 
@@ -29,7 +29,7 @@ atualizado: <AAAA-MM-DD>
 ## Histórias, regras e termos (artefatos do ELM)
 
 <!-- Cada história (HF), regra (REG) e termo novo (GL) é um conceito OKF v0.2 próprio em elm/ (formato em
-     okf-elm.md da skill sdd2-prd): é o que sobe para o DOORS Next depois do GATE. Aqui fica só o índice.
+     okf-elm.md da skill sdd-prd): é o que sobe para o DOORS Next depois do GATE. Aqui fica só o índice.
      Cenários são os critérios de aceite: cada um é verificável e vira caso de teste (ETM). -->
 
 | Artefato | Arquivo | Resumo | Altera no ELM |
@@ -77,4 +77,4 @@ atualizado: <AAAA-MM-DD>
 |---|---|---|
 
 ---
-Artefato produzido com apoio de IA generativa — fluxo sdd2 · Versão <x.y> · <AAAA-MM-DD>
+Artefato produzido com apoio de IA generativa — fluxo sdd · Versão <x.y> · <AAAA-MM-DD>

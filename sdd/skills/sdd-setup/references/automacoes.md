@@ -3,9 +3,9 @@
 As duas exigem a IDE ou a engine V3 do `kiro-cli` (a V2 não lê `.kiro/hooks/*.json` nem receitas). O fluxo funciona
 sem elas.
 
-## Hook `sdd2-backpressure`
+## Hook `sdd-backpressure`
 
-[../assets/hooks/sdd2.json](../assets/hooks/sdd2.json) → `.kiro/hooks/sdd2.json`.
+[../assets/hooks/sdd.json](../assets/hooks/sdd.json) → `.kiro/hooks/sdd.json`.
 
 - Depois de cada tarefa de spec (`PostTaskExec`: Start task, Run all tasks), compila e roda os testes. Troque
   `{{COMPILAR}}` e `{{TESTES}}` pelos comandos do Passo 2; suíte lenta → sugira o conjunto rápido.
@@ -24,19 +24,19 @@ configurações, o recurso ainda não está disponível para a conta.
 
 | Receita | Faz | Termina |
 |---|---|---|
-| `sdd2-planejar-fatia` | zera o veredito → pesquisa → plano → análise ↔ ajuste (até 2 rodadas) | no GATE do plano, que é de uma pessoa |
-| `sdd2-entregar-fatia` | zera o veredito → implementação ↔ revisão (até 2 rodadas) → verificação | fatia `aceita`, pronta para o PR que uma pessoa abre |
+| `sdd-planejar-fatia` | zera o veredito → pesquisa → plano → análise ↔ ajuste (até 2 rodadas) | no GATE do plano, que é de uma pessoa |
+| `sdd-entregar-fatia` | zera o veredito → implementação ↔ revisão (até 2 rodadas) → verificação | fatia `aceita`, pronta para o PR que uma pessoa abre |
 
 - **Quem dispara: a pessoa**, no chat principal do Kiro (com o agente padrão ou qualquer outro), **uma fatia por
-  vez**, na branch da fatia, no checkout principal: "rode o workflow `sdd2-entregar-fatia` com fatia FT-031" ou, na
-  IDE 1.3+, `/workflow-run sdd2-entregar-fatia fatia="FT-031"`; no CLI, a família de comandos `/workflow`. Nenhum
-  agente `sdd2-*` dispara receitas — nem o orquestrador, que usa subagentes no `sdd2-loop`. Cada passo roda com o
+  vez**, na branch da fatia, no checkout principal: "rode o workflow `sdd-entregar-fatia` com fatia FT-031" ou, na
+  IDE 1.3+, `/workflow-run sdd-entregar-fatia fatia="FT-031"`; no CLI, a família de comandos `/workflow`. Nenhum
+  agente `sdd-*` dispara receitas — nem o orquestrador, que usa subagentes no `sdd-loop`. Cada passo roda com o
   agente que a receita indica (pesquisador, codificador, revisor, verificador).
-- Cada passo roda numa sessão nova, com os agentes `sdd2-*` do projeto.
+- Cada passo roda numa sessão nova, com os agentes `sdd-*` do projeto.
 - Lacuna de negócio num passo → o agente pausa a execução com a pergunta (`send_message` `warning`); responda na
   aba do passo e ele continua. Bloqueio técnico ou aceite rejeitado → o passo falha e a execução para (`error`).
 - Pausou no **teto de rodadas** → **Stop** e trate a fatia na sessão interativa. O **Resume** não dá rodada nova
   (para de novo no mesmo teto); relançar a receita zera o veredito no primeiro passo. Na entrega, nunca
   "Stop looping and continue": a verificação rodaria sobre código não aprovado. (Na Web, "Run N more" dá rodadas.)
 - Com Workflows ligado, a IDE pode transformar a delegação a um agente numa execução em segundo plano — o
-  `sdd2-loop` já espera cada fase terminar.
+  `sdd-loop` já espera cada fase terminar.

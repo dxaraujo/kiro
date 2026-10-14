@@ -1,4 +1,4 @@
-# Agentes — como montar `.kiro/agents/sdd2-*.json`
+# Agentes — como montar `.kiro/agents/sdd-*.json`
 
 Os templates de [../assets/agents/](../assets/agents/) estão no **formato universal** do Kiro: o mesmo JSON
 carrega na IDE e nas engines V2 e V3 do `kiro-cli`. São dois blocos que dizem a mesma coisa:
@@ -34,7 +34,7 @@ liberado) e do `mvn *`. Padrão encadeado (`cd … && mvn …`) não é converti
 Os subagentes herdam as regras da sessão que os chamou (a documentação diz "deny-wins intersection", sem dizer se
 os `allow` também se cruzam). Por isso o orquestrador já escreve nas worktrees (`.kiro/local/wt/*/**`, menos
 `.kiro`, a pasta do produto e `.git`), e a setup também põe nele os comandos de build, teste e verificação dos
-subagentes e o `sh .kiro/sdd2/http.sh *`, nos dois blocos. Se, no primeiro lote, um subagente ainda falhar por
+subagentes e o `sh .kiro/sdd/http.sh *`, nos dois blocos. Se, no primeiro lote, um subagente ainda falhar por
 permissão, compare as regras dele com as do orquestrador.
 
 ## O que a setup preenche
@@ -48,7 +48,7 @@ permissão, compare as regras dele com as do orquestrador.
 | `{{SUBAGENTES}}` (no `prompt`) | `Subagentes do projeto: `x` (<tipo de tarefa>)` ou nada |
 | `resources` | `file://` do steering de produto/tecnologia/estrutura e dos extras; `skill://` de cada skill escolhida |
 | leitura | a pasta de cada skill escolhida que fique fora do projeto e do power (`~/.kiro/skills/<skill>/**`, `~/.kiro/powers/installed/<toolkit>/**`) e o bundle do ELM, se estiver fora do projeto |
-| comandos | codificador e revisor: compilar, testes, teste único, lint, cobertura · verificador: executar, testes, scripts de massa · orquestrador: todos esses e `sh .kiro/sdd2/http.sh *` (se instalado) |
+| comandos | codificador e revisor: compilar, testes, teste único, lint, cobertura · verificador: executar, testes, scripts de massa · orquestrador: todos esses e `sh .kiro/sdd/http.sh *` (se instalado) |
 | escrita do verificador | a pasta de massa do projeto, se houver |
 | MCP de banco | só a tool de consulta, como na tabela acima |
 | subagentes do projeto | como na tabela acima (codificador e orquestrador) |
@@ -67,7 +67,7 @@ ignora agentes que o têm).
 - **Shell:** git de leitura (`status`, `diff`, `log`, `show`, `grep`, `ls-files`, `ls-tree`, `rev-parse`, listagem de
   branches, `worktree list`, `for-each-ref`, `config user.name/email`) e `cd .kiro/local/wt/*`; codificador e produto
   também `add`, `commit`, `fetch`, `pull --ff-only` (produto: `switch`); orquestrador: `add`, `commit`, `fetch`,
-  `worktree add .kiro/local/wt/*`, e push/PR com `ask`; verificador: `sh .kiro/sdd2/http.sh *`.
+  `worktree add .kiro/local/wt/*`, e push/PR com `ask`; verificador: `sh .kiro/sdd/http.sh *`.
 - **Negados em todos:** `git -C` (com ele as regras não enxergam o subcomando: `git -C <dir> push …` passaria por um
   allow de `git -C <dir> show*`), `git -c`, merge, rebase (inclusive `pull --rebase`), `reset --hard`, `clean`,
   `checkout --`/`checkout .`, `restore`, `stash`, `worktree remove`, `branch -D/-M`, `--force`, `--delete`,
@@ -76,7 +76,7 @@ ignora agentes que o têm).
   `git … --output`, `git … --no-index`). Push negado em todos, menos no orquestrador (`ask`, com `-f`, `+ref`,
   `:ref`, `--mirror`, `--all`, `--prune` negados).
 - **Escrita:** só o que o papel produz (ver cada template); o codificador escreve no projeto, menos `.kiro/agents`,
-  `hooks`, `workflows`, `steering`, a pasta do produto, `.kiro/local/wf`, `.kiro/sdd2` e `.git`.
+  `hooks`, `workflows`, `steering`, a pasta do produto, `.kiro/local/wf`, `.kiro/sdd` e `.git`.
 
 ## Gravação
 

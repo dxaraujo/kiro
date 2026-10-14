@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://raw.githubusercontent.com/dxaraujo/kiro-powers/main/sdd2/skills/sdd2-setup/assets/toolkit.schema.json",
-  "title": "Toolkit do sdd2",
-  "description": "Manifesto de um toolkit: conjunto de skills (e opcionalmente steering e comandos) para um tipo de projeto ou stack, mantido fora do fluxo sdd2 e descoberto pela skill sdd2-setup.",
+  "$id": "https://raw.githubusercontent.com/dxaraujo/kiro-powers/main/sdd/skills/sdd-setup/assets/toolkit.schema.json",
+  "title": "Toolkit do sdd",
+  "description": "Manifesto de um toolkit: conjunto de skills (e opcionalmente steering e comandos) para um tipo de projeto ou stack, mantido fora do fluxo sdd e descoberto pela skill sdd-setup.",
   "type": "object",
   "required": ["nome", "versao", "descricao", "tipos-de-projeto", "skills"],
   "additionalProperties": false,
@@ -70,7 +70,7 @@
     "comandos": {
       "type": "object",
       "additionalProperties": false,
-      "description": "Propostas para a seção Comandos do sdd2.md; {alvo} = classe/arquivo de teste.",
+      "description": "Propostas para a seção Comandos do sdd.md; {alvo} = classe/arquivo de teste.",
       "properties": {
         "compilar": { "type": "string" },
         "testes": { "type": "string" },
@@ -82,7 +82,7 @@
     },
     "verificacao": {
       "type": "string",
-      "description": "Como executar os cenários de aceite neste tipo de projeto (usado pela sdd2-verificar)."
+      "description": "Como executar os cenários de aceite neste tipo de projeto (usado pela sdd-verificar)."
     }
   },
   "$defs": {

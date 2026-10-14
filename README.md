@@ -9,7 +9,7 @@ independente, com manifesto (`plugin.json`), skills e, quando usa, servidor MCP 
 |---|---|---|
 | [elm](elm/) | IBM Engineering Lifecycle Management (ELM) via OSLC: work items do EWM/RTC, requisitos do DOORS Next, testes do ETM, configuração global, rastreabilidade, lançamento de horas e sincronização da documentação do RM (OKF) | [mcp-elm](https://github.com/dxaraujo/mcp-elm) |
 | [elk](elk/) | Logs do ELK (Elasticsearch + Kibana): buscar, contar, exportar CSV, diagnosticar incidentes, salvar consultas no Kibana e logs de execução de jobs Spring Batch | [mcp-elk](https://github.com/dxaraujo/mcp-elk) |
-| [sdd2](sdd2/) | Engenharia agêntica orientada a especificação: trilhas por tamanho, entrevista de alinhamento, PRD, fatias verticais AFK/HITL, plano na spec do Kiro, TDD com backpressure, revisão e verificação independentes, consolidação no ELM (fonte oficial), planejamento ágil e aprendizado composto; a `sdd2-setup` cria os agentes e liga as skills dos toolkits de stack escolhidas por agente | — (usa o `elm`, se instalado) |
+| [sdd](sdd/) | Engenharia agêntica orientada a especificação: trilhas por tamanho, entrevista de alinhamento, PRD, fatias verticais AFK/HITL, plano na spec do Kiro, TDD com backpressure, revisão e verificação independentes, consolidação no ELM (fonte oficial), planejamento ágil e aprendizado composto; a `sdd-setup` cria os agentes e liga as skills dos toolkits de stack escolhidas por agente | — (usa o `elm`, se instalado) |
 
 ## Instalação
 

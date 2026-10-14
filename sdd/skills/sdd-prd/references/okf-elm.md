@@ -10,7 +10,7 @@ no repositório, então o rascunho e a versão oficial se leem do mesmo jeito.
 | Origem | Pasta (um bundle OKF pequeno) |
 |---|---|
 | épico (PRD) | `<produto>/epicos/<EP>-<slug>/elm/` |
-| ET as-built de uma fatia (`sdd2-elm`, na consolidação) | `.kiro/specs/<ft>-<slug>/elm/` |
+| ET as-built de uma fatia (`sdd-elm`, na consolidação) | `.kiro/specs/<ft>-<slug>/elm/` |
 
 ```
 elm/
@@ -44,11 +44,11 @@ sources:                                      # §5.1: de onde o conteúdo veio
   - id: d-02
     resource: ../decisoes.md
     title: Decisão D-02
-generated: { by: sdd2/0.1.0, at: 2026-10-14T13:00:00Z }   # §5.2: quem escreveu e quando mudou por último
+generated: { by: sdd/2.0.0, at: 2026-10-14T13:00:00Z }   # §5.2: quem escreveu e quando mudou por último
 ---
 ```
 
-| Campo (OKF v0.2) | Uso no sdd2 |
+| Campo (OKF v0.2) | Uso no sdd |
 |---|---|
 | `type` (obrigatório) | nome do tipo no DOORS Next — a chave em `rm.requirements-types` do `pa_*.json` (ex.: `História de Usuário`, `Regra`, `Termos de Glossário`) |
 | `title` | título no ELM: `HF - <nome>`, `REG - <nome>`, o termo |
@@ -56,7 +56,7 @@ generated: { by: sdd2/0.1.0, at: 2026-10-14T13:00:00Z }   # §5.2: quem escreveu
 | `tags` | `[<pasta do RM>]` — a chave em `rm.folders` |
 | `resource` | **ausente até publicar**; depois, a URI do artefato no ELM. Decide criar × atualizar |
 | `sources` | o PRD, as decisões e, numa alteração, o próprio artefato do ELM (`resource` = URI, `last_modified` = última modificação no ELM vista por nós) |
-| `generated` | `by: sdd2/<versão do power>` (ator `<producer>/<version>`, §7); `at` = última mudança de conteúdo |
+| `generated` | `by: sdd/<versão do power>` (ator `<producer>/<version>`, §7); `at` = última mudança de conteúdo |
 | `verified` | **aprovação no GATE**: `{ by: human:<login do P.O.>, at: <instante> }` (§5.2). Sem `verified` humano o conceito é *unverified* (§5.3) e **não é publicado** |
 | `status` | `draft` enquanto não aprovado (obrigatório escrever: no OKF, ausência = `stable`), `stable` depois do GATE, `deprecated` quando deixa de valer |
 
@@ -135,9 +135,9 @@ houver, `## Relações`.
 
 | Momento | O que acontece |
 |---|---|
-| Rascunho | `sdd2-prd` (ou a fatia) cria o conceito com `status: draft`, `sources`, `generated` |
+| Rascunho | `sdd-prd` (ou a fatia) cria o conceito com `status: draft`, `sources`, `generated` |
 | GATE do PRD | a pessoa aprova → cada conceito recebe `verified` humano e `status: stable` |
-| Publicação | `sdd2-elm` publica de baixo para cima (GL → REG → HF), grava `resource` e `id`, e acrescenta ao `sources` a entrada do ELM com o `last_modified` |
+| Publicação | `sdd-elm` publica de baixo para cima (GL → REG → HF), grava `resource` e `id`, e acrescenta ao `sources` a entrada do ELM com o `last_modified` |
 | Depois | a `elm-sync` baixa a versão oficial para o bundle, que passa a ser a versão viva; o rascunho fica como registro histórico, com `resource` preenchido |
 | Alteração de artefato existente | copie o arquivo do bundle para `elm/`, mantendo `resource`, `id` e o `sources` do ELM; `status: draft`, `generated` novo; edite. Na publicação, `rm_list_modified` mais novo que o `last_modified` desse `sources` = alguém mudou no ELM no meio-tempo → **conflito**: a pessoa decide |
 | Obsoleto | `status: deprecated`; a remoção ou a marcação no ELM é passo manual na UI |
@@ -166,6 +166,6 @@ okf_version: "0.2"
 1. Todo `.md` de `elm/` (fora `index.md` e `log.md`) tem frontmatter YAML que faz parse, com `type` não vazio.
 2. Só chaves do OKF v0.2, mais `id` (e as que vieram do bundle numa cópia).
 3. `status` presente; `draft` antes do GATE.
-4. `type` e `tags` existem no mapeamento do projeto (`pa_*.json`, seção ELM do `sdd2.md`).
+4. `type` e `tags` existem no mapeamento do projeto (`pa_*.json`, seção ELM do `sdd.md`).
 5. Toda HF tem cenários e liga as suas REGs; todo link relativo aponta para um arquivo que existe.
 6. `index.md` lista todos os conceitos; `log.md` com datas `AAAA-MM-DD`.

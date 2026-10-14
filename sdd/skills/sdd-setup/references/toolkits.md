@@ -1,25 +1,25 @@
-# Toolkits — como a `sdd2-setup` encontra as skills de cada tipo de projeto
+# Toolkits — como a `sdd-setup` encontra as skills de cada tipo de projeto
 
-O fluxo `sdd2` não sabe programar em nenhuma stack: ele organiza **o quê** (produto), **o como** (plano) e **a
+O fluxo `sdd` não sabe programar em nenhuma stack: ele organiza **o quê** (produto), **o como** (plano) e **a
 verificação**. O conhecimento de stack — Java, Spring Batch, Angular, React, Python, mainframe — vem de
-**toolkits**: pacotes de skills mantidos **fora** do power, um por tipo de projeto ou stack. A `sdd2-setup` é a
+**toolkits**: pacotes de skills mantidos **fora** do power, um por tipo de projeto ou stack. A `sdd-setup` é a
 única parte do fluxo que sabe procurá-los; depois de configurado, cada agente só enxerga as skills que a pessoa
 liberou para ele.
 
 ```
-toolkit (fora do fluxo)            sdd2-setup                          agentes do projeto
+toolkit (fora do fluxo)            sdd-setup                          agentes do projeto
 ┌──────────────────────┐   descobre   ┌──────────────────────┐  liga   ┌──────────────────────────┐
-│ toolkit.json         │ ───────────► │ detecta o tipo de    │ ──────► │ sdd2-codificador         │
+│ toolkit.json         │ ───────────► │ detecta o tipo de    │ ──────► │ sdd-codificador         │
 │ skills/<skill>/      │              │ projeto, propõe as   │         │   skill://…/java/SKILL.md │
 │ steering/ (opcional) │              │ skills por agente e  │         │   skill://…/spring-batch… │
-│ comandos de build    │              │ PERGUNTA à pessoa    │         │ sdd2-revisor …           │
+│ comandos de build    │              │ PERGUNTA à pessoa    │         │ sdd-revisor …           │
 └──────────────────────┘              └──────────────────────┘         └──────────────────────────┘
 ```
 
 ## Tipos de projeto
 
 Um repositório pode ter mais de um tipo (ex.: `backend` + `batch`). O tipo decide quais toolkits a setup propõe
-e quais verificações a `sdd2-verificar` usa para executar os cenários de aceite.
+e quais verificações a `sdd-verificar` usa para executar os cenários de aceite.
 
 | Tipo | Sinais no repositório | Como a aceitação é verificada (padrão) |
 |---|---|---|
@@ -43,7 +43,7 @@ e quais verificações a `sdd2-verificar` usa para executar os cenários de acei
    um toolkit.
 5. **Skills avulsas** (sem toolkit): entram no inventário geral; a pessoa decide por agente, como qualquer outra.
 
-Ficam de fora do inventário: as skills dos fluxos (`sdd2`, `sdd2-*`, `sdd`, `sdd-*`) e as do power `elm`
+Ficam de fora do inventário: as skills do fluxo (`sdd`, `sdd-*`, e `sdd2`, `sdd2-*` de uma instalação antiga) e as do power `elm`
 (`elm`, `elm-*`).
 
 Use `glob`/`ls` nesses caminhos (expandindo `~` para o home). Pastas inexistentes são normais — siga sem comentar.
@@ -56,7 +56,7 @@ Formato definido por [../assets/toolkit.schema.json](../assets/toolkit.schema.js
 
 ```json
 {
-  "$schema": "https://raw.githubusercontent.com/dxaraujo/kiro-powers/main/sdd2/skills/sdd2-setup/assets/toolkit.schema.json",
+  "$schema": "https://raw.githubusercontent.com/dxaraujo/kiro-powers/main/sdd/skills/sdd-setup/assets/toolkit.schema.json",
   "nome": "spring-batch",
   "versao": "1.0.0",
   "descricao": "Jobs Spring Batch 5: steps chunk e tasklet, readers/writers JDBC, reexecução e testes de job",
@@ -90,8 +90,8 @@ Formato definido por [../assets/toolkit.schema.json](../assets/toolkit.schema.js
 | `deteccao` | `arquivos` existe na raiz (ou em módulos) **e** algum `contem` aparece nele → toolkit "detectado" |
 | `skills[].papeis` | pré-seleciona a skill na pergunta de cada agente (`pesquisador`, `codificador`, `revisor`, `verificador`, `produto`, `orquestrador`) |
 | `steering[]` | regras da stack: vira `file://` nos agentes dos papéis indicados |
-| `comandos` | **proposta** para a seção Comandos do `sdd2.md` quando o repositório não deixa claro; a pessoa confirma |
-| `verificacao` | texto que a `sdd2-verificar` usa para executar os cenários de aceite desse tipo de projeto |
+| `comandos` | **proposta** para a seção Comandos do `sdd.md` quando o repositório não deixa claro; a pessoa confirma |
+| `verificacao` | texto que a `sdd-verificar` usa para executar os cenários de aceite desse tipo de projeto |
 
 ## Pergunta por agente
 
@@ -100,7 +100,7 @@ pré-marcadas só as skills de toolkits **detectados** cujo `papeis` inclui o pa
 detectado, skill do projeto e skill do usuário aparecem desmarcadas:
 
 ```
-🤖 sdd2-codificador — quais skills ele pode usar?
+🤖 sdd-codificador — quais skills ele pode usar?
 Projeto detectado: batch (spring-batch-core no pom.xml)
 
 Toolkit spring-batch (detectado)               Toolkit java-backend (detectado — pom.xml)
@@ -118,12 +118,12 @@ de frontend — mas quem decide é a pessoa.
 ## Sem toolkit
 
 Nenhum toolkit encontrado para o tipo detectado → diga isso uma vez, siga com as skills avulsas e registre no
-`sdd2.md` (`Toolkits: nenhum — <tipo>`). Os agentes passam a depender do steering de tecnologia e do
+`sdd.md` (`Toolkits: nenhum — <tipo>`). Os agentes passam a depender do steering de tecnologia e do
 código vizinho (pattern grounding) — funciona, mas com mais revisão. Sugira à pessoa criar as skills da stack em
 `.kiro/skills/` (ou um toolkit em `.kiro/toolkits/<nome>/`) e rodar a setup em modo atualização depois.
 
 ## Atualização
 
-Toolkit novo ou atualizado → "atualizar os agentes do sdd2" (`sdd2-setup`, modo atualização): a setup compara o
-inventário atual com o `sdd2.md` e pergunta só sobre as skills **novas** de cada agente; skill que sumiu
+Toolkit novo ou atualizado → "atualizar os agentes do sdd" (`sdd-setup`, modo atualização): a setup compara o
+inventário atual com o `sdd.md` e pergunta só sobre as skills **novas** de cada agente; skill que sumiu
 sai dos agentes com aviso.

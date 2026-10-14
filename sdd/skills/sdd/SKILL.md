@@ -1,21 +1,21 @@
 ---
-name: sdd2
-description: "Guia do fluxo sdd2 — engenharia agêntica orientada a especificação, com o IBM ELM como fonte oficial da documentação e planejamento ágil: trilhas por tamanho (direta, rápida, padrão, épico), fases, gates humanos, artefatos e onde moram, agentes, princípios e qual skill usar para cada pedido. Use para entender ou explicar o fluxo, decidir o próximo passo quando nenhuma outra skill sdd2 se encaixa, e em \"como funciona o sdd2\", \"qual o fluxo\", \"o que eu faço agora com isso\", \"sdd2\"."
+name: sdd
+description: "Guia do fluxo sdd — engenharia agêntica orientada a especificação, com o IBM ELM como fonte oficial da documentação e planejamento ágil: trilhas por tamanho (direta, rápida, padrão, épico), fases, gates humanos, artefatos e onde moram, agentes, princípios e qual skill usar para cada pedido. Use para entender ou explicar o fluxo, decidir o próximo passo quando nenhuma outra skill sdd se encaixa, e em \"como funciona o sdd\", \"qual o fluxo\", \"o que eu faço agora com isso\", \"sdd\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "0.1.0"
+  version: "2.0.0"
 ---
 
-# sdd2 — Engenharia agêntica orientada a especificação
+# sdd — Engenharia agêntica orientada a especificação
 
 O agente escreve muito código rápido; o que limita o resultado é o **alinhamento** antes e a **verificação**
-depois. O sdd2 põe as pessoas onde elas têm mais alavanca — decidir o quê, aprovar o como, ler o código — e
+depois. O sdd põe as pessoas onde elas têm mais alavanca — decidir o quê, aprovar o como, ler o código — e
 deixa o resto com agentes de contexto limpo, presos a feedback automático. O IBM ELM é o registro oficial do que
 o sistema faz; o repositório guarda como cada mudança foi feita.
 
-Configuração do projeto: `.kiro/steering/sdd2.md` (gerado pela **`sdd2-setup`**). Sem ele, comece por
-"configurar o sdd2".
+Configuração do projeto: `.kiro/steering/sdd.md` (gerado pela **`sdd-setup`**). Sem ele, comece por
+"configurar o sdd".
 
 ## Trilhas (o tamanho decide a cerimônia)
 
@@ -65,34 +65,34 @@ Fatia **AFK**: o projeto pode dispensar o GATE do plano (a análise independente
 
 | Quero… | Skill |
 |---|---|
-| configurar o fluxo, os agentes e os toolkits no projeto | `sdd2-setup` |
-| saber onde parei / o que fazer agora · fechar a sessão | `sdd2-status` |
-| começar qualquer trabalho (fatia, defeito, item do EWM, pedido) | `sdd2-iniciar` |
-| alinhar decisões | `sdd2-entrevistar` |
-| escrever o PRD de um épico | `sdd2-prd` |
-| quebrar o PRD em fatias / refinar o backlog | `sdd2-fatiar` |
-| planejar sprint, roadmap, virada, review | `sdd2-planejamento` |
-| entender o código antes de planejar | `sdd2-pesquisar` |
-| planejar uma fatia (spec do Kiro) | `sdd2-plano` |
-| implementar e abrir o PR | `sdd2-implementar` |
-| revisar PRD, plano ou código | `sdd2-revisar` |
-| verificar o aceite de ponta a ponta | `sdd2-verificar` |
-| fechar a fatia depois do merge | `sdd2-consolidar` |
-| publicar no ELM (DOORS Next, EWM, ETM) | `sdd2-elm` |
-| levar várias fatias AFK até o PR | `sdd2-loop` (com o agente `sdd2-orquestrador`) |
-| rodar uma receita de workflow numa fatia | você, no chat do Kiro: "rode o workflow `sdd2-entregar-fatia` para a FT-031" ou `/workflow-run` (IDE 1.3+) |
-| registrar uma lição / retrospectiva | `sdd2-aprender` |
+| configurar o fluxo, os agentes e os toolkits no projeto | `sdd-setup` |
+| saber onde parei / o que fazer agora · fechar a sessão | `sdd-status` |
+| começar qualquer trabalho (fatia, defeito, item do EWM, pedido) | `sdd-iniciar` |
+| alinhar decisões | `sdd-entrevistar` |
+| escrever o PRD de um épico | `sdd-prd` |
+| quebrar o PRD em fatias / refinar o backlog | `sdd-fatiar` |
+| planejar sprint, roadmap, virada, review | `sdd-planejamento` |
+| entender o código antes de planejar | `sdd-pesquisar` |
+| planejar uma fatia (spec do Kiro) | `sdd-plano` |
+| implementar e abrir o PR | `sdd-implementar` |
+| revisar PRD, plano ou código | `sdd-revisar` |
+| verificar o aceite de ponta a ponta | `sdd-verificar` |
+| fechar a fatia depois do merge | `sdd-consolidar` |
+| publicar no ELM (DOORS Next, EWM, ETM) | `sdd-elm` |
+| levar várias fatias AFK até o PR | `sdd-loop` (com o agente `sdd-orquestrador`) |
+| rodar uma receita de workflow numa fatia | você, no chat do Kiro: "rode o workflow `sdd-entregar-fatia` para a FT-031" ou `/workflow-run` (IDE 1.3+) |
+| registrar uma lição / retrospectiva | `sdd-aprender` |
 
 ## Onde as coisas moram (no projeto)
 
 | Caminho | O quê |
 |---|---|
-| `.kiro/steering/sdd2.md` | o único steering do fluxo: resumo, configuração do projeto e regras aprendidas |
-| `.kiro/agents/sdd2-*.json` | agentes (criados pela setup, com as skills escolhidas por agente) |
-| `<produto>/` — a pasta escolhida na setup (ex.: `docs/pab`), registrada no `sdd2.md` | `backlog.json`, `epicos/<EP>-<slug>/` (PRDs), `planejamento/`, `aprendizado/` (só na branch base) |
+| `.kiro/steering/sdd.md` | o único steering do fluxo: resumo, configuração do projeto e regras aprendidas |
+| `.kiro/agents/sdd-*.json` | agentes (criados pela setup, com as skills escolhidas por agente) |
+| `<produto>/` — a pasta escolhida na setup (ex.: `docs/pab`), registrada no `sdd.md` | `backlog.json`, `epicos/<EP>-<slug>/` (PRDs), `planejamento/`, `aprendizado/` (só na branch base) |
 | `.kiro/specs/<ft>-<slug>/` | uma pasta por fatia: `status.md`, `research.md`, spec do Kiro, revisões, verificação |
-| glossário · ADRs · bundle do ELM | caminhos na seção Projeto do `sdd2.md` |
-| `.kiro/hooks/sdd2.json` · `.kiro/workflows/sdd2-*` · `.kiro/sdd2/http.sh` | opcionais da setup: backpressure por tarefa, receitas, chamada HTTP do verificador |
+| glossário · ADRs · bundle do ELM | caminhos na seção Projeto do `sdd.md` |
+| `.kiro/hooks/sdd.json` · `.kiro/workflows/sdd-*` · `.kiro/sdd/http.sh` | opcionais da setup: backpressure por tarefa, receitas, chamada HTTP do verificador |
 | `.kiro/local/` (fora do git) | worktrees do loop, vereditos dos workflows, log dos lotes |
 
 ## Fronteiras de fase

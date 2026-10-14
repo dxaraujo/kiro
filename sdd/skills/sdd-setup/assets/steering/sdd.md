@@ -2,19 +2,19 @@
 inclusion: always
 ---
 
-# sdd2 — <nome do projeto>
+# sdd — <nome do projeto>
 
-Este repositório usa o fluxo **sdd2** (power `sdd2`): alinhar antes de escrever, fatias verticais pequenas, plano
+Este repositório usa o fluxo **sdd** (power `sdd`): alinhar antes de escrever, fatias verticais pequenas, plano
 aprovado por uma pessoa, teste primeiro com backpressure, revisão e verificação independentes, PR lido por uma
-pessoa, e o IBM ELM como registro oficial da documentação. Como funciona: skill `sdd2`. Começar: `sdd2-iniciar`.
-Onde parei ou fechar a sessão: `sdd2-status`.
+pessoa, e o IBM ELM como registro oficial da documentação. Como funciona: skill `sdd`. Começar: `sdd-iniciar`.
+Onde parei ou fechar a sessão: `sdd-status`.
 
 - Nada inventado (confirme no código, no banco — só leitura — ou no ELM). Nunca apague nem afrouxe teste.
 - Push, troca de branch e escrita no ELM só com "sim" de uma pessoa. Agente nunca faz merge nem `--force`.
 - Estado em disco: cada fatia em `.kiro/specs/<ft>-<slug>/` (comece pelo `status.md`); produto na pasta abaixo.
 
-> Gerado pela `sdd2-setup` (power `sdd2` <x.y.z>) em <AAAA-MM-DD>. Para mudar: "atualizar a configuração do sdd2".
-> As skills e os agentes `sdd2-*` leem os valores daqui.
+> Gerado pela `sdd-setup` (power `sdd` <x.y.z>) em <AAAA-MM-DD>. Para mudar: "atualizar a configuração do sdd".
+> As skills e os agentes `sdd-*` leem os valores daqui.
 
 ## Projeto
 
@@ -33,7 +33,7 @@ Onde parei ou fechar a sessão: `sdd2-status`.
 ## Comandos (backpressure)
 
 Uma coluna por módulo quando houver mais de um; a fatia usa a do módulo que altera (o `design.md` diz qual).
-Na worktree do `sdd2-loop`: `cd .kiro/local/wt/<ft> && <comando>`. Falha de ambiente → `AMBIENTE`, nunca consertar.
+Na worktree do `sdd-loop`: `cd .kiro/local/wt/<ft> && <comando>`. Falha de ambiente → `AMBIENTE`, nunca consertar.
 
 | Ação | `<módulo>` |
 |---|---|
@@ -47,7 +47,7 @@ Na worktree do `sdd2-loop`: `cd .kiro/local/wt/<ft> && <comando>`. Falha de ambi
 |---|---|
 | Executar · exercitar um cenário | `<comando | job + parâmetros>` · <HTTP | job | browser | carga> |
 | Onde verificar · massa de teste | <resposta, banco, log> · `<pasta e convenção>` |
-| Ambiente · chamada HTTP | <local | dev — nunca produção> · `<sh .kiro/sdd2/http.sh — <url> | curl com confirmação | não se aplica>` |
+| Ambiente · chamada HTTP | <local | dev — nunca produção> · `<sh .kiro/sdd/http.sh — <url> | curl com confirmação | não se aplica>` |
 
 ## Git, banco e autonomia
 
@@ -55,17 +55,17 @@ Na worktree do `sdd2-loop`: `cd .kiro/local/wt/<ft> && <comando>`. Falha de ambi
 |---|---|
 | Branch base · prefixo · commit | `<develop>` · `<feature/>` · `<FT-<nnn> <verbo> <descrição> | Task <id> - …>` |
 | Abrir PR | `<gh pr create … | glab mr create … | entregar título e descrição>` |
-| Artefatos de produto (pasta do produto, glossário, ADRs, consolidação) | `<direto na branch base | PR curto para a base>` — nunca em branch de fatia; push ou PR com o "sim" da pessoa (o agente `sdd2-produto` não faz push: entrega o comando) |
+| Artefatos de produto (pasta do produto, glossário, ADRs, consolidação) | `<direto na branch base | PR curto para a base>` — nunca em branch de fatia; push ou PR com o "sim" da pessoa (o agente `sdd-produto` não faz push: entrega o comando) |
 | MCP de banco | `<@servidor/tool | não há>` — **somente leitura** (`SELECT`/`WITH`), exceto os scripts de massa; DDL fora do fluxo |
 | Plano AFK · GATE na trilha rápida · paralelo no loop | `<aprovação humana | análise basta>` · `<sim | não>` · `<1>` (máx. 3) |
 | Push e PR no loop | `<perguntar a cada lote (o Kiro confirma cada um) | não — a pessoa abre>` |
-| Instalados | hook `<sdd2-backpressure | nenhum>` · workflows `<sdd2-planejar-fatia, sdd2-entregar-fatia | nenhum>` (disparados pela pessoa) |
+| Instalados | hook `<sdd-backpressure | nenhum>` · workflows `<sdd-planejar-fatia, sdd-entregar-fatia | nenhum>` (disparados pela pessoa) |
 
 ## ELM
 
 | Item | Valor |
 |---|---|
-| Usa ELM | `<sim — <caminho do pa_*.json> | não>` (agentes `sdd2-*` não têm o MCP do ELM: a sessão da pessoa usa o power `elm`) |
+| Usa ELM | `<sim — <caminho do pa_*.json> | não>` (agentes `sdd-*` não têm o MCP do ELM: a sessão da pessoa usa o power `elm`) |
 | Publicar requisitos · backlog no EWM · ET | `<na-aprovacao | no-merge>` · `<ao-fatiar | na-sprint>` · `<não publica | as-built no merge>` |
 | Manual no DOORS Next | `<change set, módulo, links restringe, baseline | nada>` |
 | Fatia dividida no EWM | `<itens novos como filhos do item original | fecha o original e cria itens novos>` |
@@ -78,16 +78,16 @@ Na worktree do `sdd2-loop`: `cd .kiro/local/wt/<ft> && <comando>`. Falha de ambi
 
 | Agente | Skills extras | Oferecidas e recusadas | MCP | Modelo | Subagentes |
 |---|---|---|---|---|---|
-| `sdd2-produto` | <…> | <…> | <…> | <padrão> | `sdd2-pesquisador`, `sdd2-revisor` |
-| `sdd2-pesquisador` | <…> | <…> | <…> | <padrão> | — |
-| `sdd2-codificador` | <…> | <…> | <…> | <padrão> | `sdd2-pesquisador`, `sdd2-revisor` <+ do projeto> |
-| `sdd2-revisor` | <…> | <…> | <…> | <padrão> | — |
-| `sdd2-verificador` | <…> | <…> | <…> | <padrão> | — |
-| `sdd2-orquestrador` | <…> | <…> | — | <padrão> | os `sdd2-*` <+ do projeto> |
+| `sdd-produto` | <…> | <…> | <…> | <padrão> | `sdd-pesquisador`, `sdd-revisor` |
+| `sdd-pesquisador` | <…> | <…> | <…> | <padrão> | — |
+| `sdd-codificador` | <…> | <…> | <…> | <padrão> | `sdd-pesquisador`, `sdd-revisor` <+ do projeto> |
+| `sdd-revisor` | <…> | <…> | <…> | <padrão> | — |
+| `sdd-verificador` | <…> | <…> | <…> | <padrão> | — |
+| `sdd-orquestrador` | <…> | <…> | — | <padrão> | os `sdd-*` <+ do projeto> |
 
 ## Regras aprendidas
 
-Regras de **julgamento** promovidas pela `sdd2-aprender` (lições em `<produto>/aprendizado/licoes.md`). O revisor
+Regras de **julgamento** promovidas pela `sdd-aprender` (lições em `<produto>/aprendizado/licoes.md`). O revisor
 as cobra como itens da rubrica; o plano as respeita. Erro mecânico não entra aqui: vira lint, teste, hook ou CI.
 Formato: `### R-<nn> · <título> · aplica a: <codificador | revisor | plano | PRD | todos> · severidade: <BLOQUEANTE | IMPORTANTE>`,
 a regra em 1–2 frases imperativas, `- ✅ <certo> · ❌ <errado>`, `- Origem: L-<nnn>`.

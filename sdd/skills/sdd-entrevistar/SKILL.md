@@ -1,13 +1,13 @@
 ---
-name: sdd2-entrevistar
-description: "Entrevista de alinhamento do fluxo sdd2 (técnica \"grill me\"): percorre a árvore de decisões de uma demanda, PRD, fatia ou plano em rodadas (só as decisões da fronteira, numeradas, cada uma com a resposta recomendada) até haver entendimento compartilhado confirmado; responde sozinha o que o código, a documentação do ELM (bundle OKF) ou o glossário já respondem; registra cada decisão em decisoes.md e cada termo novo do domínio no glossário (linguagem ubíqua). Use em \"me entreviste\", \"grill me\", \"vamos alinhar\", \"quais decisões estão em aberto\", \"o que falta definir\", e sempre que sdd2-prd, sdd2-fatiar ou sdd2-plano encontrarem decisão em aberto."
+name: sdd-entrevistar
+description: "Entrevista de alinhamento do fluxo sdd (técnica \"grill me\"): percorre a árvore de decisões de uma demanda, PRD, fatia ou plano em rodadas (só as decisões da fronteira, numeradas, cada uma com a resposta recomendada) até haver entendimento compartilhado confirmado; responde sozinha o que o código, a documentação do ELM (bundle OKF) ou o glossário já respondem; registra cada decisão em decisoes.md e cada termo novo do domínio no glossário (linguagem ubíqua). Use em \"me entreviste\", \"grill me\", \"vamos alinhar\", \"quais decisões estão em aberto\", \"o que falta definir\", e sempre que sdd-prd, sdd-fatiar ou sdd-plano encontrarem decisão em aberto."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "0.1.0"
+  version: "2.0.0"
 ---
 
-# sdd2-entrevistar — Alinhar antes de escrever
+# sdd-entrevistar — Alinhar antes de escrever
 
 O erro mais caro de um fluxo com agentes é escrever bem a coisa errada. Antes de qualquer PRD, fatia ou plano,
 feche as decisões que as fontes não respondem — o agente **não** preenche lacuna com suposição plausível.
@@ -17,7 +17,7 @@ feche as decisões que as fontes não respondem — o agente **não** preenche l
 - **O que está sendo alinhado:** demanda (texto, work item do EWM), PRD, fatia ou plano técnico.
 - **Onde registrar:** a pasta do épico (`<produto>/epicos/<EP>-<slug>/decisoes.md`) ou da fatia
   (`.kiro/specs/<ft>-<slug>/decisoes.md`). Quem chamou informa; chamada direta → pergunte uma vez.
-- **Glossário:** o caminho está no `.kiro/steering/sdd2.md` (seção Projeto; padrão `docs/glossario.md`).
+- **Glossário:** o caminho está no `.kiro/steering/sdd.md` (seção Projeto; padrão `docs/glossario.md`).
 
 ## Passo 1 — Montar a árvore de decisões (sem perguntar nada ainda)
 
@@ -28,10 +28,10 @@ feche as decisões que as fontes não respondem — o agente **não** preenche l
    depender de outra: ordene para que a resposta de cima mude as de baixo.
 3. **Responda sozinho o que tiver fonte**, citando-a — não pergunte o que dá para descobrir:
    - comportamento atual → o código (`arquivo:linha`);
-   - regra documentada → bundle do ELM (`<rm.download.path>` do `sdd2.md`), pela busca de texto do Kiro no
+   - regra documentada → bundle do ELM (`<rm.download.path>` do `sdd.md`), pela busca de texto do Kiro no
      título e no corpo dos `.md`;
    - termo do domínio → glossário;
-   - dado → banco pelo MCP de consulta (somente leitura), se o `sdd2.md` declarar um.
+   - dado → banco pelo MCP de consulta (somente leitura), se o `sdd.md` declarar um.
    Fato encontrado vira decisão `confirmada — fonte: <…>`; não ocupa a pessoa.
 
 ## Passo 2 — Perguntar em rodadas, pela fronteira
@@ -52,7 +52,7 @@ D-05 · O que a tela mostra para a conta bloqueada?
 ```
 
 - **Fatos são trabalho seu, decisões são da pessoa.** Antes de perguntar, mande buscar (subagente
-  `sdd2-pesquisador`, se houver) o que o código, o ELM ou o banco respondem.
+  `sdd-pesquisador`, se houver) o que o código, o ELM ou o banco respondem.
 - Recomendação sempre com o motivo em uma linha. Pergunta sem recomendação transfere o trabalho de pensar.
 - Rodadas pequenas (até ~5 perguntas). Resposta que abre ramos novos → eles entram na próxima rodada.
 - Resposta vaga ("tanto faz", "o de sempre") → registre a recomendada como decisão e diga isso.
@@ -91,9 +91,9 @@ Todo termo de negócio que apareceu (novo, renomeado ou desambiguado) vai para o
 
 - Um termo por conceito; sinônimos vão para "Evitar". O código novo usa o termo canônico (o revisor confere).
 - Termo que já existe no ELM (bundle) → cite o id na coluna ELM; termo novo fica com `—` e, num épico, vira um
-  conceito `GL-<termo>.md` em `elm/` (`sdd2-prd`), que a `sdd2-elm` publica como Termo de Glossário.
+  conceito `GL-<termo>.md` em `elm/` (`sdd-prd`), que a `sdd-elm` publica como Termo de Glossário.
 - O glossário é artefato de produto: só na branch base. Entrevista de uma **fatia** (na branch dela) → não grave o
-  glossário; registre o termo no `decisoes.md` da fatia como `termo pendente`, e a `sdd2-consolidar` o leva para o
+  glossário; registre o termo no `decisoes.md` da fatia como `termo pendente`, e a `sdd-consolidar` o leva para o
   glossário depois do merge.
 
 ## Saída para quem chamou

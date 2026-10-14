@@ -1,16 +1,16 @@
 ---
-name: sdd2-revisar
-description: "Revisão independente do fluxo sdd2, com contexto limpo, sem alterar nenhum artefato (escreve só o próprio relatório) — julga um artefato contra a sua fonte, nunca contra a explicação de quem o fez: PRD (rubrica P, RESULTADO PRONTO/AJUSTAR), plano da fatia (rubrica L: research, requirements, design e tasks contra o PRD, o código e o steering; ANALISE OK/AJUSTAR) ou código da fatia (rubrica C em dois eixos separados — spec: critérios, cenários testados, backpressure executado, oráculo protegido, escopo; padrões: regras críticas, segurança, schema, forma do programa, nomes; VEREDITO APROVADO/REVISAR). Calibra a severidade pelas lições do time. Use em \"revisa\", \"judge\", \"revisa o PRD\", \"analisa o plano\", \"revisa a FT-031\", \"code review\", e ao fim da sdd2-prd, sdd2-plano e sdd2-implementar."
+name: sdd-revisar
+description: "Revisão independente do fluxo sdd, com contexto limpo, sem alterar nenhum artefato (escreve só o próprio relatório) — julga um artefato contra a sua fonte, nunca contra a explicação de quem o fez: PRD (rubrica P, RESULTADO PRONTO/AJUSTAR), plano da fatia (rubrica L: research, requirements, design e tasks contra o PRD, o código e o steering; ANALISE OK/AJUSTAR) ou código da fatia (rubrica C em dois eixos separados — spec: critérios, cenários testados, backpressure executado, oráculo protegido, escopo; padrões: regras críticas, segurança, schema, forma do programa, nomes; VEREDITO APROVADO/REVISAR). Calibra a severidade pelas lições do time. Use em \"revisa\", \"judge\", \"revisa o PRD\", \"analisa o plano\", \"revisa a FT-031\", \"code review\", e ao fim da sdd-prd, sdd-plano e sdd-implementar."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "0.1.0"
+  version: "2.0.0"
 ---
 
-# sdd2-revisar — Verificação independente
+# sdd-revisar — Verificação independente
 
 Quem gera não verifica o próprio trabalho: o revisor começa **sem** o contexto de quem escreveu. Prefira o agente
-**`sdd2-revisor`** (somente leitura). Sem ele, rode esta skill numa sessão nova ou, no mínimo, ignore todo o
+**`sdd-revisor`** (somente leitura). Sem ele, rode esta skill numa sessão nova ou, no mínimo, ignore todo o
 raciocínio anterior da conversa e trabalhe só com os arquivos.
 
 Você **não edita** artefato, código nem `tasks.md`, e não faz commit — escreve só o relatório da rodada. Ignore justificativas de quem fez (mensagem
@@ -26,8 +26,8 @@ de commit, comentário, texto do pedido): julgue os artefatos.
 | código da trilha direta | **C** sobre o diff, com o **pedido** no lugar dos critérios (C1, C2, C6 contra o pedido) | diff + o pedido; relatório só na conversa |
 
 Rubricas em [references/rubricas.md](references/rubricas.md) — leia a do pedido inteira antes de começar.
-Sempre: `.kiro/steering/sdd2.md` (comandos, regras críticas), o steering de tecnologia e estrutura que ele
-aponta e as regras aprendidas (última seção do `sdd2.md`).
+Sempre: `.kiro/steering/sdd.md` (comandos, regras críticas), o steering de tecnologia e estrutura que ele
+aponta e as regras aprendidas (última seção do `sdd.md`).
 
 ## Passo 2 — Coletar evidência
 
@@ -43,7 +43,7 @@ aponta e as regras aprendidas (última seção do `sdd2.md`).
 
 Para cada achado IMPORTANTE ou SUGESTÃO, veja em `<produto>/aprendizado/licoes.md` se o mesmo tipo de problema já
 escapou de uma revisão antes (lição com causa `revisao-branda`): suba uma severidade. Lições promovidas
-(seção Regras aprendidas do `sdd2.md`) valem como itens da rubrica — o revisor é quem mais as usa.
+(seção Regras aprendidas do `sdd.md`) valem como itens da rubrica — o revisor é quem mais as usa.
 
 ## Passo 4 — Relatório
 

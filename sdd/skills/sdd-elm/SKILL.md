@@ -1,24 +1,24 @@
 ---
-name: sdd2-elm
-description: "Alimenta o IBM ELM (sistema de registro da documentação do projeto) a partir dos artefatos do fluxo sdd2, pelo power elm — modo requisitos (histórias, regras e termos do épico — conceitos OKF v0.2 na pasta da spec, aprovados com verified humano — publicados no DOORS Next de baixo para cima, HF → REG como embed, idempotente pelo resource/id do conceito, alteração do artefato existente em vez de duplicar), modo backlog (épico e itens de backlog das fatias no EWM, ligados às histórias por implementa/rastreia), modo sprint (iteração, tarefas filhas, responsáveis, virada), modo testes (CT.csv para o ETM e links valida/testado por), modo especificação técnica (ET as-built) e modo conclusão (estados). Sempre mostra a prévia e pede confirmação; o que o MCP não faz vira roteiro manual com pendência registrada. Use em \"publica no ELM\", \"sobe o PRD para o DOORS\", \"cria os itens no EWM\", \"publica a sprint\", \"liga os testes\", \"fecha no ELM\"."
+name: sdd-elm
+description: "Alimenta o IBM ELM (sistema de registro da documentação do projeto) a partir dos artefatos do fluxo sdd, pelo power elm — modo requisitos (histórias, regras e termos do épico — conceitos OKF v0.2 na pasta da spec, aprovados com verified humano — publicados no DOORS Next de baixo para cima, HF → REG como embed, idempotente pelo resource/id do conceito, alteração do artefato existente em vez de duplicar), modo backlog (épico e itens de backlog das fatias no EWM, ligados às histórias por implementa/rastreia), modo sprint (iteração, tarefas filhas, responsáveis, virada), modo testes (CT.csv para o ETM e links valida/testado por), modo especificação técnica (ET as-built) e modo conclusão (estados). Sempre mostra a prévia e pede confirmação; o que o MCP não faz vira roteiro manual com pendência registrada. Use em \"publica no ELM\", \"sobe o PRD para o DOORS\", \"cria os itens no EWM\", \"publica a sprint\", \"liga os testes\", \"fecha no ELM\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "0.1.0"
+  version: "2.0.0"
 ---
 
-# sdd2-elm — O ELM como fonte oficial
+# sdd-elm — O ELM como fonte oficial
 
 Requer o power **`elm`** (MCP `elm`) nesta sessão e as skills dele: **`elm`** (guia do power: regras de uso do
 MCP), **`elm-rm`** (DOORS Next), **`elm-ccm`**
 (EWM), **`elm-qm`** (ETM — ler o caso de teste importado para obter a URL), **`elm-gc`** (links) — carregue a skill
 da área antes de chamar as tools. Ids da project area:
 `.kiro/config/power/elm/pa_*.json`. Tipos, pastas, prefixos e regras do projeto: seção **ELM** do
-`.kiro/steering/sdd2.md`. Mapeamento e limites: [references/mapeamento.md](references/mapeamento.md).
+`.kiro/steering/sdd.md`. Mapeamento e limites: [references/mapeamento.md](references/mapeamento.md).
 
 **Sem o MCP `elm` nesta sessão** (agentes, kiro-cli, outra máquina): não publique. Registre `ELM pendente:
 <modo> <alvo>` no Histórico do `status.md` (fatia) ou no rodapé do PRD (épico) e siga — o ELM nunca trava o fluxo.
-Projeto sem ELM (`sdd2.md` → ELM: não usa) → nada a fazer.
+Projeto sem ELM (`sdd.md` → ELM: não usa) → nada a fazer.
 
 ## Regras de toda publicação
 
@@ -45,7 +45,7 @@ Projeto sem ELM (`sdd2.md` → ELM: não usa) → nada a fazer.
 ## Modo requisitos (PRD → DOORS Next)
 
 Entrada: a pasta `elm/` do épico (`<produto>/epicos/<EP>-<slug>/elm/`) — conceitos OKF v0.2 no
-formato de [../sdd2-prd/references/okf-elm.md](../sdd2-prd/references/okf-elm.md). Publica só conceito
+formato de [../sdd-prd/references/okf-elm.md](../sdd-prd/references/okf-elm.md). Publica só conceito
 `status: stable` com um `verified` humano (`by: human:…`) **posterior** ao `generated.at`; o resto aparece na prévia
 como "aguardando aprovação". Publicar **não** muda o status do PRD.
 
@@ -77,23 +77,23 @@ Depois: sugira a **`elm-sync`** para baixar ao bundle a versão oficial, que pas
 Quando: `backlog no EWM` = `ao-fatiar` (logo após o GATE do backlog) ou `na-sprint` (só as fatias da sprint, no
 modo sprint).
 
-1. **Épico** (se não tem `elm`): tipo do `sdd2.md`, título `[EP-03] <título>`, descrição = problema +
+1. **Épico** (se não tem `elm`): tipo do `sdd.md`, título `[EP-03] <título>`, descrição = problema +
    solução do PRD + link do PRD no repositório; links **rastreia** → histórias publicadas.
 2. **Item de backlog por fatia:** título `[FT-031] <título>`, `parent` = épico, pontos pelo tamanho (tabela do
-   `sdd2.md`), descrição com: cenários cobertos (texto), modo AFK/HITL, `bloqueada por`, pasta prevista;
+   `sdd.md`), descrição com: cenários cobertos (texto), modo AFK/HITL, `bloqueada por`, pasta prevista;
    responsável = P.O. (o IB é do produto). Links **implementa** → cada história que a fatia cobre; **depende de** →
    IBs das fatias em `bloqueada-por` (se o `link-types` tiver; senão fica na descrição).
 3. `backlog.json` (na base): `elm` de cada fatia/épico.
 
 ## Modo sprint (planejamento → iteração)
 
-Entrada da `sdd2-planejamento`: número da sprint, iteração, plano e time confirmados, fatias da sprint.
+Entrada da `sdd-planejamento`: número da sprint, iteração, plano e time confirmados, fatias da sprint.
 
 1. Iteração/plano inexistentes → ofereça criá-los pela `elm-setup` (exige a permissão de modificar iterações na
    PA; as tools de criação usam serviços internos do EWM — se falharem, peça a quem administra a PA).
 2. Fatias sem IB → modo backlog primeiro. Para cada IB da sprint: `plannedFor` = iteração (o planejamento é de
    quem planeja; o responsável continua o P.O.).
-3. **Tarefas** filhas pelo template do `sdd2.md` (ex.: `[DEV] FT-031 Implementar`, `[VER] FT-031
+3. **Tarefas** filhas pelo template do `sdd.md` (ex.: `[DEV] FT-031 Implementar`, `[VER] FT-031
    Verificar`), com responsável e estimativa em horas se o planejamento informou.
 4. **Virada:** IBs/tarefas não concluídos da sprint que fechou → `plannedFor` da nova (move, nunca recria);
    roteiro manual de **baseline** (componente RM + GC) se o projeto exige baseline por sprint.
@@ -108,7 +108,7 @@ Entrada da `sdd2-planejamento`: número da sprint, iteração, plano e time conf
 
 ## Modo especificação técnica (opcional, as-built)
 
-Só se a linha ET da seção ELM do `sdd2.md` disser `as-built no merge`. Gere `ET - FT-031 <título>` a partir do `design.md` e do
+Só se a linha ET da seção ELM do `sdd.md` disser `as-built no merge`. Gere `ET - FT-031 <título>` a partir do `design.md` e do
 código **final** (interfaces, contratos, dados, integrações, decisões técnicas — nada do que não foi feito),
 grave-a como conceito OKF em `.kiro/specs/<ft>-<slug>/elm/ET-<slug>.md` (mesmo formato; `type` = o tipo de ET do
 projeto), mostre, publique como os requisitos depois do `verified` humano, e ligue ao IB (**implementa**).

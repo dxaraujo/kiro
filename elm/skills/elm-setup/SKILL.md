@@ -185,15 +185,16 @@ Mostre o resumo e peça confirmação antes. Depois de criar, inclua o item em `
 - **Iteração:** `ccm_create_iteration(project_area_identifier=pa, parent=<identifier da iteração/timeline pai>,
   name, start_date, end_date?, iteration_id?, iteration_type?)`. Datas `AAAA-MM-DD` (fuso de Brasília).
 - **Plano:** `ccm_create_iteration_plan(project_area_identifier=pa, name, iteration=<identifier>, plan_type,
-  team_area?)`. Pergunte o tipo pelo nome e passe o id:
+  team_area?)`. Por iteração, um plano de cada tipo (ex.: "Backlog Jandaia" e "Sprint 01 - Jandaia"):
 
   | Mostrar | `plan_type` |
   |---|---|
-  | Quadro de tarefas Kanban | `com.ibm.team.apt.plantype.kanbanBoard` |
+  | Plano da sprint | `com.ibm.team.apt.plantype.default` |
   | Backlog do Produto | `com.ibm.team.apt.plantype.product.backlog` |
 
+  Outros tipos em uso na PA: `ccm_list_plan_types` (só leitura; a criação aceita só os dois acima).
   Omita `team_area` para o plano ser da própria project area. O servidor pode normalizar o tipo conforme o
-  processo; se o usuário questionar, confira com `ccm_list_iteration_plans`.
+  processo; confira o `plan-type` do plano criado.
 - Essas tools usam serviços internos da UI web: `HTTP 403`/`Permission Denied` = o usuário não tem a permissão de
   processo ("Modify structures of iterations" / planos). Informe e pare; **não tente variações** do payload.
 

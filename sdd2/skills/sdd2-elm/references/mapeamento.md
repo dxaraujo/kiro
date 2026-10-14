@@ -11,9 +11,9 @@ foi feita. Os nomes reais de tipos, pastas, campos e links são da project area:
 | sdd2 (repositório) | ELM | Tipo padrão (ajustável) | Quando |
 |---|---|---|---|
 | Épico `EP-nn` | EWM — Épico (ou Item de Backlog pai) | `Épico` / `com.ibm.team.apt.workItemType.epic` | publicação do backlog |
-| História `HF-nn` do PRD | DOORS Next — artefato | `História de Usuário` (título `HF - <nome>`) | GATE do PRD (`na-aprovacao`) ou merge (`no-merge`) |
-| Regra `REG-nn` do PRD | DOORS Next — artefato | `Regra` (título `REG - <nome>`) | idem, **antes** das histórias (elas embutem as regras) |
-| Termo do glossário | DOORS Next — artefato | `Termos de Glossário` (título = o termo) | idem, antes das regras |
+| História `HF-nn` (conceito OKF em `elm/`) | DOORS Next — artefato | `História de Usuário` (título `HF - <nome>`) | GATE do PRD (`na-aprovacao`) ou merge (`no-merge`) |
+| Regra `REG-nn` (conceito OKF em `elm/`) | DOORS Next — artefato | `Regra` (título `REG - <nome>`) | idem, **antes** das histórias (elas embutem as regras) |
+| Termo `GL-<termo>` (conceito OKF em `elm/`) | DOORS Next — artefato | `Termos de Glossário` (título = o termo) | idem, antes das regras |
 | Fatia `FT-nnn` | EWM — Item de Backlog (story, *plan item*) | `com.ibm.team.apt.workItemType.story` | conforme `Backlog no EWM`: ao fatiar ou na sprint |
 | Tarefas da fatia | EWM — Tarefa (filha do IB, *execution item*) | `task` | planejamento da sprint |
 | ET as-built (opcional) | DOORS Next — artefato | `Especificação Técnica` (título `ET - <fatia>`) | consolidação (depois do merge) |
@@ -57,14 +57,15 @@ entrega um **roteiro manual** com os ids exatos, e o registra como `ELM pendente
 | Baseline por sprint/release | no fechamento da sprint: baseline do componente RM e baseline global (GC) |
 | Caso de teste | importar o `CT.csv` no ETM (Importar → CSV) e informar os ids |
 
-## Chave estável (idempotência)
+## Identidade e idempotência
 
-O id do DOORS Next é atribuído pelo servidor. Para reencontrar um artefato publicado mesmo que o repositório tenha
-perdido o id (publicação interrompida, branch descartada), todo texto publicado termina com a linha:
+Os artefatos do DOORS Next nascem como conceitos **OKF v0.2** na pasta `elm/` do épico (ou da fatia), no mesmo
+formato do bundle da `elm-sync` — ver [../../sdd2-prd/references/okf-elm.md](../../sdd2-prd/references/okf-elm.md):
 
-```
-Chave sdd2: <EP-nn>/<HF-nn | REG-nn | GL-<termo-kebab>>   ·   origem: <caminho do PRD>@<commit curto>
-```
+- a chave estável é o **Concept ID** (o caminho do arquivo dentro de `elm/`), que não muda;
+- `resource` ausente = ainda não publicado (criar); `resource` + `id` = publicado (atualizar o mesmo id);
+- a entrada do ELM em `sources` guarda o `last_modified` visto na última publicação — base da detecção de
+  conflito com mudanças feitas direto no ELM;
+- aprovação = `verified` humano (OKF §5.2); sem ele, não publica.
 
-Busca de recuperação: `rm_search_requirements(text="Chave sdd2: EP-03/HF-01")`. Quando o MCP passar a gravar
-atributos, a chave pode migrar para um atributo `Chave sdd2` (configurável na setup) — o algoritmo não muda.
+Nada é acrescentado ao texto publicado para identificar o artefato.

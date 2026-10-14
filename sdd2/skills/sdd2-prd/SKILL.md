@@ -9,8 +9,10 @@ metadata:
 
 # sdd2-prd — O quê e por quê (épico)
 
-Saída: `.kiro/produto/epicos/<EP>-<slug>/prd.md` no formato de [references/prd-template.md](references/prd-template.md)
-e `decisoes.md` ao lado.
+Saída, em `.kiro/produto/epicos/<EP>-<slug>/`: o `prd.md` no formato de
+[references/prd-template.md](references/prd-template.md), o `decisoes.md` e a pasta `elm/` com **um conceito OKF
+v0.2 por história, regra e termo novo** — o formato de [references/okf-elm.md](references/okf-elm.md), o mesmo do
+bundle que a `elm-sync` mantém. São esses arquivos que sobem para o DOORS Next depois do GATE; até lá, ficam aqui.
 
 O PRD é um **registro de decisões** e a **proposta de mudança** da documentação oficial — não um documento vivo.
 Depois de aprovado, as histórias (HF), regras (REG) e termos (GL) vão para o DOORS Next (`sdd2-elm`), que é a fonte
@@ -41,14 +43,22 @@ Rode a **`sdd2-entrevistar`** sobre a demanda, gravando em `decisoes.md` da past
 
 ## Passo 3 — Escrever
 
-Preencha o template. Regras de escrita:
+Preencha o template do `prd.md` e crie, em `elm/`, um arquivo por artefato (`HF-nn-<slug>.md`,
+`REG-nn-<slug>.md`, `GL-<termo>.md`), com `status: draft`, `sources` (PRD, decisões), `generated` e o corpo do tipo
+(formato em [references/okf-elm.md](references/okf-elm.md)), mais o `index.md` e uma entrada no `log.md`. O `prd.md`
+só aponta para eles. Regras de escrita:
 
 - **Histórias** pequenas o bastante para caber em poucas fatias; cada uma com cenários que cubram: caminho feliz,
   o que **não** deve ser aceito, repetição/reexecução, erro em um item (a operação continua? o que fica
   registrado?). "Então" sempre verificável — nada de "corretamente".
 - **Regras** testáveis, com valores, uma por bloco, citando a decisão de origem (`D-nn`) ou a fonte.
-- **Alteração** de comportamento documentado → cite o artefato do ELM que muda (`Altera: HF 2010`) e escreva a
-  história no estado **depois** da mudança. A `sdd2-elm` atualiza o artefato existente em vez de criar outro.
+- **Alteração** de comportamento documentado → copie o arquivo do artefato do bundle da `elm-sync`
+  (`<rm.download.path>/…/<id>-<slug>.md`) para `elm/`, mantendo `resource`, `id` e o `sources` do ELM; ponha
+  `status: draft` e um `generated` novo; reescreva no estado **depois** da mudança. Sem bundle, leia o artefato
+  pela `elm-rm` (`rm_get_requirement`) e grave a mesma estrutura. A `sdd2-elm` atualiza o artefato existente em vez
+  de criar outro. Na tabela do PRD, coluna "Altera no ELM" = o id.
+- **HF → REG** sempre por link para o arquivo da regra: na publicação ele vira **embed**. Relações entre requisitos
+  (restringe, satisfaz) vão na seção `## Relações` do conceito — ficam só no repositório.
 - **Decisões de implementação** sem caminho de arquivo e sem código — módulos, interfaces e contratos.
 - **Decisões de teste:** proponha os **pontos de teste** (seams) — o mais alto possível, idealmente um por
   comportamento — e confirme com a pessoa: é por eles que as fatias vão provar que funcionam.
@@ -73,9 +83,11 @@ Aprovar? (o P.O. ou quem ele delegou)
 ```
 
 - Decisão **em aberto que muda comportamento** → não há aprovação; volte à entrevista.
-- Aprovado → `status: aprovado`, versão `1.0`, data e quem aprovou no rodapé; commit do PRD, do `decisoes.md` e do
-  `backlog.json` (padrão de commit do `sdd2-projeto.md`) — artefatos de produto vão para a **base**, direto ou por
-  PR curto, conforme "Artefatos de produto" no `sdd2-projeto.md`; nunca numa branch de fatia.
+- Aprovado → no `prd.md`: `status: aprovado`, versão `1.0`, data e quem aprovou no rodapé. Em **cada** conceito de
+  `elm/`: `status: stable` e um `verified` com `{ by: human:<login de quem aprovou>, at: <agora> }` — sem esse
+  `verified` humano a `sdd2-elm` não publica. Entrada `**Update**` no `log.md`. Commit do PRD, do `decisoes.md`, de
+  `elm/` e do `backlog.json` (padrão de commit do `sdd2-projeto.md`) — artefatos de produto vão para a **base**,
+  direto ou por PR curto, conforme "Artefatos de produto" no `sdd2-projeto.md`; nunca numa branch de fatia.
 - Próximo passo, na mesma resposta:
   1. **`sdd2-elm`** modo *requisitos* — publicar HF/REG/GL no DOORS Next (se o projeto usa ELM e a publicação é
      `na-aprovacao` no `sdd2-projeto.md`);
@@ -84,8 +96,9 @@ Aprovar? (o P.O. ou quem ele delegou)
 ## Mudança depois de aprovado
 
 PRD `aprovado`/`fatiado` só muda por um pedido explícito: incremente a versão (`1.1` correção, `2.0` mudança de
-escopo), registre no rodapé, volte a `em-revisao` só o que mudou e repita o GATE. A `sdd2-elm` atualiza os mesmos
-artefatos (os ids ficam no frontmatter `elm`). Fatias já entregues que dependem do que mudou → avise e proponha
+escopo), registre no rodapé, volte a `em-revisao` só o que mudou e repita o GATE. Conceito alterado: `status:
+draft`, `generated.at` novo; no GATE, um `verified` novo é acrescentado à lista. A `sdd2-elm` atualiza os mesmos
+artefatos (pelo `resource`/`id` de cada conceito). Fatias já entregues que dependem do que mudou → avise e proponha
 fatias novas; não altere fatia concluída.
 
 ## Regras

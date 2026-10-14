@@ -20,7 +20,7 @@ de commit, comentário, texto do pedido): julgue os artefatos.
 
 | Pedido | Rubrica | Entrada |
 |---|---|---|
-| PRD de um épico | **P** | `prd.md`, `decisoes.md`, glossário, bundle do ELM (para P6) |
+| PRD de um épico | **P** | `prd.md`, os conceitos de `elm/`, `decisoes.md`, glossário, bundle do ELM (para P6) |
 | plano de uma fatia | **L** | `.kiro/specs/<ft>/`: `research.md`, `requirements.md`, `design.md`, `tasks.md`; PRD do épico; `backlog.json` (`cobre`) |
 | código de uma fatia | **C** | diff `git diff origin/<base>...HEAD` (worktree: `git -C <worktree> diff origin/<base>...HEAD`), a pasta da fatia, o PRD |
 | código da trilha direta | **C** sobre o diff, com o **pedido** no lugar dos critérios (C1, C2, C6 contra o pedido) | diff + o pedido; relatório só na conversa |

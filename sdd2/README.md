@@ -115,8 +115,10 @@ O ELM é o sistema de registro; o repositório guarda as propostas de mudança (
 feita. Mapeamento padrão (ajustável na setup): história → artefato *História de Usuário* (DOORS Next); regra →
 *Regra*; termo → *Termos de Glossário*; épico → *Épico* (EWM); fatia → *Item de Backlog* que **implementa** as
 histórias; tarefas filhas na sprint; cenário verificado → *Caso de Teste* (ETM) que **valida** a história.
-Publicação idempotente (chave estável no texto + hash + id gravado no repositório), sempre com prévia e
-confirmação, de baixo para cima. Detalhes em [`skills/sdd2-elm/references/mapeamento.md`](skills/sdd2-elm/references/mapeamento.md).
+Cada história, regra e termo nasce como um conceito **OKF v0.2** na pasta da spec (o mesmo formato do bundle da
+`elm-sync`), com aprovação registrada em `verified`; sobe para o DOORS Next só depois do GATE, de baixo para cima,
+com HF → REG como embed, sem nada extra no texto publicado e sempre com prévia e confirmação. Atributos e links entre
+requisitos ficam registrados nos conceitos, porque o MCP não os grava. Detalhes em [`skills/sdd2-elm/references/mapeamento.md`](skills/sdd2-elm/references/mapeamento.md).
 
 O MCP do power `elm` ainda não grava atributos de requisito, links requisito↔requisito, módulos, change sets,
 baselines nem casos de teste: quando o processo do projeto exige algum deles, a `sdd2-elm` entrega o roteiro manual

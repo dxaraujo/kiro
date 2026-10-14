@@ -25,7 +25,7 @@ Compare o entregue com a documentação:
 | `design.md` → Decisões técnicas, achados aceitos da revisão | alguma decisão mudou comportamento visível? |
 | `verificacao.md` | algum cenário foi ajustado durante a verificação? |
 | `decisoes.md` (épico e fatia) | decisão nova depois do GATE do PRD? |
-| PRD (histórias e regras cobertas) × bundle do ELM | o ELM já reflete o PRD aprovado? (publicação pendente?) |
+| conceitos de `elm/` (histórias e regras cobertas) × bundle do ELM | o ELM já reflete o aprovado? (conceito `stable` sem `resource` = publicação pendente; corpo do bundle diferente do conceito publicado = alguém mudou no ELM) |
 
 Drift de **negócio** (regra, cenário, valor) → o PRD precisa de nova versão: mostre a diferença e acione a
 `sdd2-prd` (mudança depois de aprovado) antes de publicar. Drift só técnico → nada no PRD.

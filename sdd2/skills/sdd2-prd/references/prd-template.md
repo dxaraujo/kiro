@@ -1,11 +1,10 @@
 ---
 id: EP-<nn>
 titulo: <título curto, linguagem do negócio>
-status: rascunho            # rascunho → em-revisao → aprovado → fatiado → concluido (publicação no ELM: campo elm)
+status: rascunho            # rascunho → em-revisao → aprovado → fatiado → concluido (publicação no ELM: em cada elm/*.md)
 po: <login do P.O.>
 demanda: <id da demanda/épico no EWM | —>
 atualizado: <AAAA-MM-DD>
-elm: {}                     # preenchido pela sdd2-elm: { publicado-em, HF-01: {id, url, hash, publicado-em}, REG-01: {…} }
 ---
 
 # PRD — EP-<nn> <título>
@@ -27,43 +26,18 @@ elm: {}                     # preenchido pela sdd2-elm: { publicado-em, HF-01: {
 |---|---|---|
 | <Operador do faturamento> | <perfil> | <tela X · API · agendamento · arquivo do parceiro> |
 
-## Histórias
+## Histórias, regras e termos (artefatos do ELM)
 
-<!-- Uma história por comportamento observável. Cada uma vira um artefato "História" no DOORS Next (sdd2-elm).
+<!-- Cada história (HF), regra (REG) e termo novo (GL) é um conceito OKF v0.2 próprio em elm/ (formato em
+     okf-elm.md da skill sdd2-prd): é o que sobe para o DOORS Next depois do GATE. Aqui fica só o índice.
      Cenários são os critérios de aceite: cada um é verificável e vira caso de teste (ETM). -->
 
-### HF-01 — <nome da história>
-
-**Como** <ator>, **quero** <capacidade>, **para** <benefício>.
-
-**Gatilho:** <ação na tela | chamada de API | agendamento | evento> · **Entradas:** <…> · **Pré-condições:** <…>
-
-**Cenários (critérios de aceite)**
-
-1.1 <título do cenário — caminho feliz>
-**Dado que** <estado antes>
-**Quando** <o ator faz X>
-**Então** <efeito verificável: valor gravado, resposta, mensagem, contagem>
-**Conforme** REG-01
-
-1.2 <o que NÃO deve ser aceito/processado>
-…
-
-1.3 <repetição / reexecução: rodar de novo não duplica nem corrompe>
-…
-
-**Regras:** REG-01, REG-02
-
-### HF-02 — …
-
-## Regras de negócio
-
-<!-- Uma regra por bloco. Cada uma vira um artefato "Regra" no DOORS Next. -->
-
-### REG-01 — <nome da regra>
-
-<Enunciado testável, com valores. Ex.: "Após **3** tentativas de login inválidas em **15 minutos**, a conta fica
-**Bloqueada** por **30 minutos**." Origem: D-02.>
+| Artefato | Arquivo | Resumo | Altera no ELM |
+|---|---|---|---|
+| HF-01 | [HF - <nome>](elm/HF-01-<slug>.md) | <description> | — \| <id> |
+| HF-02 | [HF - <nome>](elm/HF-02-<slug>.md) | <description> | — |
+| REG-01 | [REG - <nome>](elm/REG-01-<slug>.md) | <description> | — |
+| GL | [<termo>](elm/GL-<termo>.md) | <definição curta> | — |
 
 ## Decisões de implementação
 

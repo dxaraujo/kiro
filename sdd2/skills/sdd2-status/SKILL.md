@@ -67,5 +67,6 @@ trabalho de produto (PRD/fatiar) para manter o backlog com fatias prontas.
 - fatia em andamento sem commit há mais de 3 dias úteis;
 - `concluida` com Banco = `pendente` ou `aplicada em dev` (implantação bloqueada);
 - Histórico fora de ordem cronológica ou fase que não bate com a última linha (conflito mal resolvido);
-- PRD `aprovado` há mais de 1 dia sem `publicado-em` no frontmatter `elm` (projeto que publica na aprovação);
+- conceito de `elm/` com `verified` humano e sem `resource` há mais de 1 dia (projeto que publica na aprovação);
+- conceito de `elm/` alterado (`generated.at`) depois do último `verified` e ainda `stable` (falta reaprovar);
 - `backlog.json` alterado numa branch de fatia (deve mudar só na base).

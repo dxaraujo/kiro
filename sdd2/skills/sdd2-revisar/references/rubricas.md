@@ -16,11 +16,12 @@ referem, com a severidade registrada nelas.
 | P3 | Cada história cobre: caminho feliz, o que não deve ser aceito, repetição/reexecução e erro em um item — ou diz por que não se aplica | BLOQUEANTE |
 | P4 | Toda regra é testável, tem valores e cita a origem (`D-nn`, artefato do ELM ou fonte) | BLOQUEANTE |
 | P5 | Nada inventado: regra, ator, valor ou integração sem fonte e sem decisão de uma pessoa | BLOQUEANTE |
-| P6 | Comportamento já documentado no ELM é **alterado** (`Altera: <id>`), não duplicado — conferir no bundle | IMPORTANTE |
+| P6 | Comportamento já documentado no ELM é **alterado** (conceito copiado do bundle, com `resource` e `id`), não duplicado num conceito novo — conferir no bundle | IMPORTANTE |
 | P7 | Termos canônicos do glossário em todo o texto; nenhum sinônimo listado em "Evitar" | IMPORTANTE |
 | P8 | Nenhuma decisão `em aberto` que mude comportamento | BLOQUEANTE |
 | P9 | Sem caminho de arquivo, classe, SQL ou código | SUGESTÃO |
 | P10 | Fora de escopo explícito | SUGESTÃO |
+| P11 | Conceitos OKF v0.2 em `elm/` conformes (checklist "Conformidade" de `okf-elm.md` da `sdd2-prd`): frontmatter que faz parse, `type` e `tags` do mapeamento do projeto, só chaves do OKF v0.2 (+ `id`), `status: draft` antes do GATE, HF ligando as suas REGs, links que resolvem, `index.md` completo | BLOQUEANTE |
 
 Fecho: `RESULTADO: PRONTO` ou `RESULTADO: AJUSTAR`.
 

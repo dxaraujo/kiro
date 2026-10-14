@@ -87,7 +87,7 @@ Fatia **AFK**: o projeto pode dispensar o GATE do plano (a análise independente
 | Caminho | O quê |
 |---|---|
 | `.kiro/steering/sdd2.md` · `sdd2-projeto.md` · `sdd2-licoes.md` | resumo do fluxo · configuração · regras aprendidas |
-| `.kiro/agents/sdd2-*.md` | agentes (criados pela setup, com as skills escolhidas por agente) |
+| `.kiro/agents/sdd2-*.json` | agentes (criados pela setup, com as skills escolhidas por agente) |
 | `.kiro/produto/backlog.json` · `epicos/<EP>-<slug>/` · `planejamento/` | backlog, PRDs, sprints (só na branch base) |
 | `.kiro/specs/<ft>-<slug>/` | uma pasta por fatia: `status.md`, `research.md`, spec do Kiro, revisões, verificação |
 | glossário · ADRs · bundle do ELM | caminhos na seção Conhecimento do `sdd2-projeto.md` |

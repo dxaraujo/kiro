@@ -31,7 +31,7 @@ DEPOIS    merge (pessoa) ─► consolidar (drift, ELM as-built, CTs, ADRs) ─�
 | retrabalho por causa raiz | **aprendizado composto**: erro mecânico vira checagem, julgamento vira regra do revisor |
 | lote de IBs | **AFK/HITL** por fatia e **loop AFK** limitado pela capacidade de revisão humana |
 | planejamento por pontos/hora e Excel | **vazão** de fatias, WIP de revisão, meta da sprint; pontos mantidos no EWM |
-| agentes JSON | agentes **Markdown** do Kiro 1.x, com **skills de toolkit escolhidas por agente** |
+| agentes JSON com permissões amplas | agentes no **formato universal** do Kiro (IDE e as duas engines do CLI), permissões mínimas por papel e **skills de toolkit escolhidas por agente** |
 
 ## Fundamentos
 
@@ -90,12 +90,12 @@ de `skills/sdd2-setup/assets/`:
 | `.kiro/steering/sdd2.md` | resumo do fluxo (sempre carregado, curto) |
 | `.kiro/steering/sdd2-projeto.md` | configuração: tipos de projeto, toolkits, comandos, verificação, git, banco, autonomia, ELM, agentes |
 | `.kiro/steering/sdd2-licoes.md` | regras aprendidas (o revisor cobra) |
-| `.kiro/agents/sdd2-*.md` | `produto`, `pesquisador`, `codificador`, `revisor`, `verificador`, `orquestrador` — cada um com as skills e MCPs que a pessoa liberou |
+| `.kiro/agents/sdd2-*.json` | `produto`, `pesquisador`, `codificador`, `revisor`, `verificador`, `orquestrador` — cada um com as skills e MCPs que a pessoa liberou |
 | `.kiro/hooks/sdd2.json` (opcional) | backpressure depois de cada tarefa de spec · botão "fechar sessão" |
 | `.kiro/workflows/sdd2-*.workflow.json` (opcional, experimental) | `planejar-fatia` e `entregar-fatia` nos Kiro Workflows (uma fatia por vez, disparadas pela pessoa) |
 | `.kiro/produto/`, `.kiro/aprendizado/` | backlog, planejamento, lições |
 
-Os agentes nunca recebem o MCP do ELM nem os outros powers (`includePowers: false`): a escrita no ELM acontece na
+Os agentes nunca recebem o MCP do ELM nem os outros powers (sem `includePowers`): a escrita no ELM acontece na
 sessão da pessoa, com o power `elm` e confirmação; nos agentes ela vira pendência registrada.
 
 ## Toolkits
@@ -123,7 +123,7 @@ e registra a pendência.
 
 ## Pré-requisitos
 
-- Kiro IDE 1.x ou Kiro CLI 3 (agentes em Markdown); repositório git com branch base e PRs.
+- Kiro IDE 1.x ou Kiro CLI 2.31+ (engine V2 ou V3); repositório git com branch base e PRs.
 - Opcional: power [`elm`](../elm/) (IBM ELM) com `elm-setup` feito; MCP de consulta ao banco (somente leitura);
   MCP de browser/Playwright para verificar frontend; Kiro Workflows habilitado (`kiroAgent.workflows.enabled`)
   para as receitas experimentais.
@@ -138,11 +138,27 @@ e registra a pendência.
 
 Depois de atualizar o power ou um toolkit: "atualizar os agentes do sdd2".
 
+## Como foi verificado
+
+Com o **Kiro CLI 2.31.0** (o binário oficial, 13–14/10/2026):
+
+- `kiro-cli powers install <pasta>` instala o power em `~/.kiro/powers/installed/sdd2/`, com todas as skills,
+  `references/` e `assets/` — o caminho que a setup usa nos agentes;
+- os seis agentes gerados a partir de `assets/agents/` (placeholders preenchidos, comandos de build e skills de
+  toolkit acrescentados como a setup faz) passam no `kiro-cli agent validate`, aparecem no `kiro-cli agent list` e
+  o `kiro-cli agent upgrade --dry-run` os reconhece como `already universal`;
+- o formato `.md` de agente **não** é carregado pela engine V2 do CLI (ainda a padrão), por isso os agentes são
+  JSON universais; padrões de comando encadeado (`cd … && …`) são descartados pelo CLI, por isso as permissões
+  usam comandos simples.
+
+Não foi possível testar uma conversa (exige login) nem abrir a IDE, e a rede deste ambiente bloqueia `kiro.dev`:
+as regras de hooks v1, Workflows e specs vieram de trechos da documentação e de arquivos reais publicados no
+GitHub.
+
 ## Limitações conhecidas e próxima versão
 
-- O caminho de instalação de powers no formato de plugin não é documentado pelo Kiro; a setup o procura em
-  `~/.kiro/powers/` e grava o caminho achado nos agentes.
-- `kiro-cli agent validate` só valida agentes JSON; a setup valida os `.md` por parse e conferência de caminhos.
+- Kiro Workflows e hooks v1 não têm validador no `kiro-cli`: a setup confere o JSON e pede para abrir os painéis
+  do Kiro, onde erro de formato aparece.
 - Kiro Workflows é recente (IDE 1.2): as receitas são opcionais e marcadas como experimentais.
 - **v2:** toolkits oficiais (backend Java/Spring, Spring Batch, frontend Angular/React); execução automatizada dos
   casos de avaliação que a `sdd2-aprender` já guarda em `.kiro/aprendizado/avaliacoes/`; e — quando o MCP do ELM

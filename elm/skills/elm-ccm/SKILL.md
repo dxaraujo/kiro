@@ -100,7 +100,7 @@ coluna). Termo que não está aqui nem em `workitem-types` → pergunte o tipo; 
 | `ccm_get_workitem(workitem_id, fields, link_types?)` | `fields` = `workitem-types[tipo].fields`; `link_types` = `link-types` | Markdown + YAML (abaixo) |
 | `ccm_list_field_values(project_area_identifier, workitem_type, attribute)` | attribute do mapa `fields` | `{kind, required, values: [{identifier, name, default}]}`; `values` vazio para text/integer/date/member |
 | `ccm_create_workitem(project_area_identifier, workitem_type, summary, description?, fields?, parent?)` | `description` em Markdown; `fields` `{attribute: valor}`; `parent` = id do pai | `resumo` |
-| `ccm_update_workitem(workitem_id, fields?, description?, state?)` | `description` **substitui** a inteira; `state` = **nome** do estado destino (a tool acha a ação e confere a mudança) | `resumo` |
+| `ccm_update_workitem(workitem_id, fields?, description?, state?, parent?)` | `description` **substitui** a inteira; `state` = **nome** do estado destino (a tool acha a ação e confere a mudança); `parent` = id do novo pai (troca o pai) | `resumo` |
 | `ccm_list_workitem_states(workitem_id)` | — | `{state, actions: [{name, result-state}]}` |
 | `add_comment_to_workitem(workitem_id, comment, mentions?)` | `mentions` = logins (viram `@login`) | comentário |
 
@@ -238,11 +238,13 @@ Exemplo — "muda a estimativa do WI 1001 para 6h": `fields["Estimativa"]` → `
   campos e estado podem ir na mesma chamada. Erro de estado → `ccm_list_workitem_states(id)` e ofereça os
   `result-state`.
 - **Comentar:** `add_comment_to_workitem(id, comment, mentions=[logins])`.
-- **Links entre work items** (pai, filho, relacionado, bloqueia...): o MCP só grava **na criação** —
-  `ccm_create_workitem(..., parent=<id do pai>)` ou, para outros tipos, `create_workitem(..., links=...)`
-  ([reference.md](reference.md)). **Não há tool para ligar dois work items que já existem** nem para remover link:
-  diga isso ao usuário e oriente a fazer na UI web do EWM. Não tente por `fields` nem por `description` (citar
-  "Tarefa 1002" na descrição cria só o link "Menções", não pai/filho). Links com requisitos e testes → elm-gc.
+- **Pai:** na criação, `ccm_create_workitem(..., parent=<id do pai>)`; num item que já existe,
+  `ccm_update_workitem(id, parent=<id do novo pai>)` troca o pai (confirme antes).
+- **Outros links entre work items** (relacionado, bloqueia...): o MCP só grava **na criação** —
+  `create_workitem(..., links=...)` ([reference.md](reference.md)). **Não há tool para ligar dois work items que
+  já existem** com esses tipos nem para remover link: diga isso ao usuário e oriente a fazer na UI web do EWM. Não
+  tente por `description` (citar "Tarefa 1002" na descrição cria só o link "Menções"). Links com requisitos e
+  testes → elm-gc.
 
 ## Erros
 

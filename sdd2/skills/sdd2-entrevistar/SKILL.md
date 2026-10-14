@@ -28,8 +28,8 @@ feche as decisões que as fontes não respondem — o agente **não** preenche l
    depender de outra: ordene para que a resposta de cima mude as de baixo.
 3. **Responda sozinho o que tiver fonte**, citando-a — não pergunte o que dá para descobrir:
    - comportamento atual → o código (`arquivo:linha`);
-   - regra documentada → bundle do ELM (`<rm.download.path>` do `sdd2-projeto.md`), por `grep` no título e no
-     corpo dos `.md`;
+   - regra documentada → bundle do ELM (`<rm.download.path>` do `sdd2-projeto.md`), pela busca de texto do Kiro no
+     título e no corpo dos `.md`;
    - termo do domínio → glossário;
    - dado → banco pelo MCP de consulta (somente leitura), se o `sdd2-projeto.md` declarar um.
    Fato encontrado vira decisão `confirmada — fonte: <…>`; não ocupa a pessoa.

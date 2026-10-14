@@ -1,7 +1,7 @@
 {
   "name": "sdd2-codificador",
   "description": "Codificador do fluxo sdd2 — planeja a fatia no formato de spec do Kiro (sdd2-plano) e a implementa em ciclo de teste com backpressure (sdd2-implementar), usando as skills do toolkit do projeto ligadas a ele. Em modo autônomo trabalha só na worktree recebida, não faz push nem abre PR.",
-  "prompt": "# sdd2-codificador\n\nVocê planeja e implementa **uma fatia por sessão**. O estado está no disco: comece sempre pelo `status.md` da\nfatia e pelo primeiro item não marcado do `tasks.md`.\n\n- Sem plano aprovado → skill `sdd2-plano`. Plano aprovado (`fase: implementando`) → skill `sdd2-implementar`.\n- Análise do plano e revisão do código são do subagente `sdd2-revisor` (contexto limpo) — nunca as faça você.\n  Sem a ferramenta de subagente nesta execução → pare e devolva \"pronta para revisão\" a quem chamou.\n- **Carregue a skill do toolkit** do artefato antes de escrevê-lo — nunca escreva de memória o que uma skill do\n  projeto padroniza.\n- Teste primeiro, pelo ponto de teste do `design.md`; backpressure (comandos do `sdd2-projeto.md`) a cada tarefa.\n- **Nunca** apague, desabilite ou afrouxe um teste para ficar verde. Divergência entre plano e código → pare e\n  reporte \"Esperado / Encontrado / Por que importa\".\n- Lacuna de negócio não se decide no código: pare e devolva a pergunta.\n- Banco: só consultas pelo MCP declarado. Nunca DML/DDL.\n- Modo autônomo (`AUTONOMO=true` no pedido): sem perguntas, só na worktree recebida, sem push/PR; bloqueio →\n  `fase: bloqueada` com o motivo, e pare.\n{{SKILLS_EXTRAS}}\n{{SUBAGENTES}}\n",
+  "prompt": "# sdd2-codificador\n\nVocê planeja e implementa **uma fatia por sessão**. O estado está no disco: comece sempre pelo `status.md` da\nfatia e pelo primeiro item não marcado do `tasks.md`.\n\n- Sem plano aprovado → skill `sdd2-plano`. Plano aprovado (`fase: implementando`) → skill `sdd2-implementar`.\n- Análise do plano e revisão do código são do subagente `sdd2-revisor` (contexto limpo) — nunca as faça você.\n  Sem a ferramenta de subagente nesta execução → pare e devolva \"pronta para revisão\" a quem chamou.\n- **Carregue a skill do toolkit** do artefato antes de escrevê-lo — nunca escreva de memória o que uma skill do\n  projeto padroniza.\n- Teste primeiro, pelo ponto de teste do `design.md`; backpressure (comandos do `sdd2-projeto.md`) a cada tarefa.\n- **Nunca** apague, desabilite ou afrouxe um teste para ficar verde. Divergência entre plano e código → pare e\n  reporte \"Esperado / Encontrado / Por que importa\".\n- Lacuna de negócio não se decide no código: pare e devolva a pergunta.\n- Banco: só consultas pelo MCP declarado. Nunca DML/DDL.\n- Modo autônomo (`AUTONOMO=true` no pedido): sem perguntas, só na worktree recebida, sem push/PR; bloqueio →\n  `fase: bloqueada` com o motivo, e pare.\n- Arquivos: leia e procure com as ferramentas de leitura e busca do Kiro, não com `cat`/`grep`/`find` no\n  shell — o shell é para git, build e testes.\n- Worktree recebida: `cd .kiro/local/wt/<ft> && <comando>`; `git -C` é bloqueado.\n{{SKILLS_EXTRAS}}\n{{SUBAGENTES}}\n",
   "tools": [
     "read",
     "shell",
@@ -9,9 +9,7 @@
     "subagent/sdd2-revisor",
     "write"
   ],
-  "allowedTools": [
-    "read"
-  ],
+  "allowedTools": [],
   "resources": [
     "file://.kiro/steering/sdd2.md",
     "file://.kiro/steering/sdd2-projeto.md",
@@ -20,23 +18,35 @@
     "skill://{{POWER}}/skills/sdd2-implementar/SKILL.md"
   ],
   "toolsSettings": {
-    "write": {
+    "read": {
       "allowedPaths": [
-        "**"
+        "./**",
+        "{{POWER}}/**"
       ],
       "deniedPaths": [
+        "**/.env",
+        "**/.env.*",
+        "**/*.pem",
+        "**/*.key",
+        "~/.ssh/**",
+        "~/.aws/**",
+        "~/.config/mcp-elm/**"
+      ]
+    },
+    "write": {
+      "allowedPaths": [
+        "./**"
+      ],
+      "deniedPaths": [
+        "**/.kiro/agents/**",
+        "**/.kiro/hooks/**",
+        "**/.kiro/workflows/**",
+        "**/.kiro/steering/**",
+        "**/.kiro/produto/**",
         ".kiro/local/wf/**",
-        ".kiro/agents/**",
-        ".kiro/hooks/**",
-        ".kiro/workflows/**",
-        ".kiro/steering/**",
-        ".kiro/settings/**",
-        ".kiro/produto/**",
-        ".kiro/local/wt/*/.kiro/agents/**",
-        ".kiro/local/wt/*/.kiro/hooks/**",
-        ".kiro/local/wt/*/.kiro/workflows/**",
-        ".kiro/local/wt/*/.kiro/steering/**",
-        ".kiro/local/wt/*/.kiro/produto/**"
+        "**/.git/**",
+        "**/.git",
+        "**/.kiro/sdd2/**"
       ]
     },
     "shell": {
@@ -48,49 +58,70 @@
         "git grep.*",
         "git ls-files.*",
         "git ls-tree.*",
-        "git branch.*",
+        "git rev-parse.*",
+        "git branch",
+        "git branch --show-current",
+        "git branch --list.*",
+        "git branch -a.*",
+        "git branch -r.*",
+        "git branch -v.*",
+        "git worktree list.*",
+        "git for-each-ref.*",
+        "git config user\\.name",
+        "git config user\\.email",
+        "cd \\.kiro/local/wt/.*",
         "git add .*",
         "git commit .*",
         "git fetch.*",
         "git pull --ff-only.*",
-        "git -C \\.kiro/local/wt/.* status.*",
-        "git -C \\.kiro/local/wt/.* diff.*",
-        "git -C \\.kiro/local/wt/.* log.*",
-        "git -C \\.kiro/local/wt/.* show.*",
-        "git -C \\.kiro/local/wt/.* grep.*",
-        "git -C \\.kiro/local/wt/.* add .*",
-        "git -C \\.kiro/local/wt/.* commit .*",
-        "git -C \\.kiro/local/wt/.* fetch.*",
-        "ls.*",
-        "find .* -name .*",
-        "find .* -type .*",
-        "grep .*",
-        "rg .*",
-        "cat .*",
-        "head .*",
-        "tail .*",
-        "wc .*",
-        "uuidgen.*",
-        "cd \\.kiro/local/wt/.*"
+        "uuidgen.*"
       ],
       "deniedCommands": [
-        ".*git push.*",
+        "git -C .*",
+        "git -c .*",
         ".*git merge.*",
         ".*git rebase.*",
+        ".*git pull.*--rebase.*",
         ".*git reset --hard.*",
         ".*git clean.*",
         ".*git checkout -- .*",
+        ".*git checkout \\..*",
         ".*git restore .*",
         ".*git stash.*",
         ".*git worktree remove.*",
+        ".*git branch.*-D.*",
+        ".*git branch.*-M.*",
+        ".*git difftool.*",
+        ".*git grep.*-O.*",
+        ".*--open-files-in-pager.*",
+        ".*git .*--no-index.*",
+        ".*git .*--output.*",
+        ".*--upload-pack.*",
+        ".*--receive-pack.*",
+        ".*--force.*",
+        ".*--delete.*",
+        ".*--no-verify.*",
+        ".*git add.* -f.*",
+        ".*git switch.* -f.*",
+        ".*--discard-changes.*",
+        ".*gh pr merge.*",
+        ".*glab mr merge.*",
         ".*rm -rf.*",
-        ".*-delete.*",
-        ".*-exec rm.*"
+        ".*rm -fr.*",
+        ".*find .*-exec.*",
+        ".*find .*-ok.*",
+        ".*find .*-delete.*",
+        ".*rg .*--pre.*",
+        ".*git push.*"
       ],
       "autoAllowReadonly": true
     },
     "subagent": {
       "availableAgents": [
+        "sdd2-pesquisador",
+        "sdd2-revisor"
+      ],
+      "trustedAgents": [
         "sdd2-pesquisador",
         "sdd2-revisor"
       ]
@@ -111,78 +142,121 @@
           "git grep*",
           "git ls-files*",
           "git ls-tree*",
-          "git branch*",
+          "git rev-parse*",
+          "git branch",
+          "git branch --show-current",
+          "git branch --list*",
+          "git branch -a*",
+          "git branch -r*",
+          "git branch -v*",
+          "git worktree list*",
+          "git for-each-ref*",
+          "git config user.name",
+          "git config user.email",
+          "cd .kiro/local/wt/*",
           "git add *",
           "git commit *",
           "git fetch*",
           "git pull --ff-only*",
-          "git -C .kiro/local/wt/* status*",
-          "git -C .kiro/local/wt/* diff*",
-          "git -C .kiro/local/wt/* log*",
-          "git -C .kiro/local/wt/* show*",
-          "git -C .kiro/local/wt/* grep*",
-          "git -C .kiro/local/wt/* add *",
-          "git -C .kiro/local/wt/* commit *",
-          "git -C .kiro/local/wt/* fetch*",
-          "ls*",
-          "find * -name *",
-          "find * -type *",
-          "grep *",
-          "rg *",
-          "cat *",
-          "head *",
-          "tail *",
-          "wc *",
-          "uuidgen*",
-          "cd .kiro/local/wt/*"
+          "uuidgen*"
         ],
         "effect": "allow"
       },
       {
         "capability": "shell",
         "match": [
-          "*git push*",
+          "git -C *",
+          "git -c *",
           "*git merge*",
           "*git rebase*",
+          "*git pull*--rebase*",
           "*git reset --hard*",
           "*git clean*",
           "*git checkout -- *",
+          "*git checkout .*",
           "*git restore *",
           "*git stash*",
           "*git worktree remove*",
+          "*git branch*-D*",
+          "*git branch*-M*",
+          "*git difftool*",
+          "*git grep*-O*",
+          "*--open-files-in-pager*",
+          "*git *--no-index*",
+          "*git *--output*",
+          "*--upload-pack*",
+          "*--receive-pack*",
+          "*--force*",
+          "*--delete*",
+          "*--no-verify*",
+          "*git add* -f*",
+          "*git switch* -f*",
+          "*--discard-changes*",
+          "*gh pr merge*",
+          "*glab mr merge*",
           "*rm -rf*",
-          "*-delete*",
-          "*-exec rm*"
+          "*rm -fr*",
+          "*find *-exec*",
+          "*find *-ok*",
+          "*find *-delete*",
+          "*rg *--pre*",
+          "*git push*"
+        ],
+        "effect": "deny"
+      },
+      {
+        "capability": "fs_read",
+        "match": [
+          "./**",
+          "{{POWER}}/**"
+        ],
+        "effect": "allow"
+      },
+      {
+        "capability": "fs_read",
+        "match": [
+          "**/.env",
+          "**/.env/**",
+          "**/.env.*",
+          "**/.env.*/**",
+          "**/*.pem",
+          "**/*.pem/**",
+          "**/*.key",
+          "**/*.key/**",
+          "~/.ssh/**",
+          "~/.aws/**",
+          "~/.config/mcp-elm/**"
         ],
         "effect": "deny"
       },
       {
         "capability": "fs_write",
         "match": [
-          "**"
+          "./**"
         ],
         "effect": "allow"
       },
       {
         "capability": "fs_write",
         "match": [
+          "**/.kiro/agents/**",
+          "**/.kiro/hooks/**",
+          "**/.kiro/workflows/**",
+          "**/.kiro/steering/**",
+          "**/.kiro/produto/**",
           ".kiro/local/wf/**",
-          ".kiro/agents/**",
-          ".kiro/hooks/**",
-          ".kiro/workflows/**",
-          ".kiro/steering/**",
-          ".kiro/settings/**",
-          ".kiro/produto/**",
-          ".kiro/local/wt/*/.kiro/agents/**",
-          ".kiro/local/wt/*/.kiro/hooks/**",
-          ".kiro/local/wt/*/.kiro/workflows/**",
-          ".kiro/local/wt/*/.kiro/steering/**",
-          ".kiro/local/wt/*/.kiro/produto/**"
+          "**/.git/**",
+          "**/.git",
+          "**/.kiro/sdd2/**"
         ],
         "effect": "deny"
       },
       {
-        "capability": "fs_read",
+        "capability": "subagent",
+        "match": [
+          "sdd2-pesquisador",
+          "sdd2-revisor"
+        ],
         "effect": "allow"
       },
       {

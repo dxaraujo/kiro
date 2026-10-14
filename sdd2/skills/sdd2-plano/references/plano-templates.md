@@ -175,8 +175,9 @@ Testing Strategy com exploração da condição do defeito, verificação da cor
 
 - Uma tarefa = um comportamento, começando pelo teste que falha (corretiva: o teste que reproduz o defeito).
 - Toda tarefa diz o comando que prova que terminou.
-- Ordem de dependência. O **Run all tasks** do Kiro roda em ondas e em paralelo só tarefas que não mexem nos
-  mesmos arquivos — deixe explícito quando uma depende da outra.
+- Ordem de dependência. O **Run all tasks** do Kiro deduz quais tarefas dependem de quais e roda as
+  independentes ao mesmo tempo — deixe explícito quando uma depende da outra (inclusive quando duas mexem no
+  mesmo arquivo).
 - Mudança em código compartilhado → primeiro a tarefa de **preparação** ("deixar a mudança fácil"), depois a
   mudança; refatoração larga usa expandir → migrar → contrair, em fatias próprias.
 - DDL não vira tarefa: vai para Riscos e para o campo Banco do `status.md`.

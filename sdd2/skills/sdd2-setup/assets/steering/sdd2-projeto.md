@@ -89,7 +89,8 @@ Uma coluna por tipo/módulo, como em Comandos.
 | Plano de fatia AFK | `<aprovação humana | análise independente basta>` |
 | Trilha rápida pede GATE do plano | `<sim | não>` |
 | Fatias em paralelo no `sdd2-loop` | `<1>` (máximo 3) |
-| Push e PR no `sdd2-loop` | `<perguntar no início de cada lote | não — a pessoa abre>` |
+| Push e PR no `sdd2-loop` | `<perguntar no início de cada lote (o Kiro confirma cada push e PR) | não — a pessoa abre>` |
+| Chamada HTTP do verificador | `<sh .kiro/sdd2/http.sh — URL <url de teste> | curl com confirmação a cada chamada>` |
 | Kiro Workflows instalados (uma fatia por vez, disparados pela pessoa) | `<sim — .kiro/workflows/sdd2-*.workflow.json | não>` |
 
 ## ELM

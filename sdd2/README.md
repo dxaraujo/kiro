@@ -94,10 +94,18 @@ de `skills/sdd2-setup/assets/`:
 | `.kiro/hooks/sdd2.json` (opcional) | backpressure: compila e testa depois de cada tarefa de spec |
 | `.kiro/steering/sdd2-fechar-sessao.md` (opcional) | comando `/sdd2-fechar-sessao`: atualiza o `status.md` e deixa o git limpo ao fim da sessão |
 | `.kiro/workflows/sdd2-*.workflow.json` (opcional, experimental) | `planejar-fatia` e `entregar-fatia` nos Kiro Workflows (uma fatia por vez, disparadas pela pessoa) |
+| `.kiro/sdd2/http.sh` (opcional) | única chamada HTTP que o verificador faz sem perguntar: só à URL de teste, com corpo da pasta `massa/` |
 | `.kiro/produto/`, `.kiro/aprendizado/` | backlog, planejamento, lições |
 
 Os agentes nunca recebem o MCP do ELM nem os outros powers (sem `includePowers`): a escrita no ELM acontece na
 sessão da pessoa, com o power `elm` e confirmação; nos agentes ela vira pendência registrada.
+
+Cada agente tem as permissões mínimas do papel, nos dois blocos do formato universal (`toolsSettings` para a
+engine V2, `permissions` para a V3 e a IDE): lê o projeto e o power, mas não `.env`, chaves, `~/.ssh`, `~/.aws` nem
+as credenciais do ELM; escreve só o que produz; no shell, git de leitura e, conforme o papel, `add`/`commit`. Merge,
+rebase, `--force`, `reset --hard` e `git -C` (que esconde o subcomando das regras) são negados em todos; push e PR
+só no orquestrador, com confirmação a cada um. Detalhes em
+[`skills/sdd2-setup/references/agentes.md`](skills/sdd2-setup/references/agentes.md).
 
 ## Toolkits
 
@@ -126,10 +134,12 @@ e registra a pendência.
 
 ## Pré-requisitos
 
-- Kiro IDE 1.x ou Kiro CLI 2.31+ (engine V2 ou V3); repositório git com branch base e PRs.
+- Kiro IDE 1.x ou Kiro CLI 2.31+; repositório git com branch base e PRs. Na engine V2 do CLI os agentes e as
+  skills funcionam, mas o hook, o `/sdd2-fechar-sessao` e os workflows exigem a IDE ou a engine V3.
+- Kiro Web não lê `~/.kiro`: os agentes do projeto aparecem lá, mas sem as skills do power — use a IDE ou o CLI.
 - Opcional: power [`elm`](../elm/) (IBM ELM) com `elm-setup` feito; MCP de consulta ao banco (somente leitura);
-  MCP de browser/Playwright para verificar frontend; Kiro Workflows habilitado (`kiroAgent.workflows.enabled`)
-  para as receitas experimentais.
+  MCP de browser/Playwright para verificar frontend; Kiro Workflows habilitado (IDE: `kiroAgent.workflows.enabled`;
+  CLI: `chat.enableWorkflows`) para as receitas experimentais.
 - Toolkits da stack do projeto (opcional — sem eles os agentes dependem do steering e do código vizinho).
 
 ## Primeiros passos
@@ -139,38 +149,53 @@ e registra a pendência.
 3. Comece: **"nova demanda: …"** (épico → PRD), **"vamos trabalhar na FT-031"** (fatia), **"corrigir o defeito
    4567"** (trilha rápida) — ou **"onde parei?"**.
 
-Depois de atualizar o power ou um toolkit: "atualizar os agentes do sdd2".
+Depois de atualizar o power ou um toolkit: "atualizar os agentes do sdd2". Não use o `/upgrade-agent` (nem
+`kiro-cli agent upgrade`) para regenerar os agentes `sdd2-*`: o conversor não produz as regras que só existem na V3
+(skill liberada, confirmação de push/PR) — ele já os deixa de lado ("out of sync").
 
 ## Como foi verificado
 
-Com o **Kiro CLI 2.31.0** (o binário oficial, 13–14/10/2026):
+**Documentação oficial do Kiro**, lida inteira nas páginas `.md` de `kiro.dev/docs` em 14/10/2026 (powers, skills,
+steering, custom agents e referência de configuração, subagentes, permissões, hooks, specs, workflows, CLI V3 e
+migração), mais o schema do `plugin.json` (Agent Plugins) e a especificação Agent Skills. Uma auditoria do power
+contra essas páginas gerou as correções desta versão: `git -C` negado, leitura restrita, confirmação de push e PR,
+delegação a subagente sem pergunta por agente, falha do hook na saída de erro, pausa e falha dos passos de workflow
+por `send_message`, chamada HTTP do verificador por script.
+
+Com o **Kiro CLI 2.31.0** (o binário oficial):
 
 - `kiro-cli powers install <pasta>` instala o power em `~/.kiro/powers/installed/sdd2/`, com todas as skills,
   `references/` e `assets/` — o caminho que a setup usa nos agentes;
-- os seis agentes gerados a partir de `assets/agents/` (placeholders preenchidos, comandos de build e skills de
-  toolkit acrescentados como a setup faz) passam no `kiro-cli agent validate` e aparecem no `kiro-cli agent list`;
-  o bloco `permissions` (V3 e IDE) é o gerado pelo próprio `kiro-cli agent upgrade` a partir do `toolsSettings`
-  (V2), e `includePowers: false` fica explícito porque a documentação não garante o padrão;
+- o bloco `permissions` dos templates foi gerado pelo próprio `kiro-cli agent upgrade` a partir do `toolsSettings`
+  (V2) e conferido regra a regra; depois receberam o que só existe na V3: `skill` liberada (com leitura restrita o
+  conversor avisa que cada skill pediria aprovação), `ask` de push/PR no orquestrador e de `curl`/`wget` no
+  verificador. `subagent/<nome>` em `tools` e a regra `subagent` vêm do conversor (de `availableAgents` e
+  `trustedAgents`);
+- os seis agentes, com os placeholders preenchidos, passam no `kiro-cli agent validate`, aparecem no
+  `kiro-cli agent list`, e o `kiro-cli agent upgrade --dry-run` os deixa intactos (`out of sync (not rebuilt)`);
 - o formato `.md` de agente **não** é carregado pela engine V2 do CLI (ainda a padrão), por isso os agentes são
-  JSON universais; padrões de comando encadeado (`cd … && …`) são descartados pelo CLI, por isso as permissões
-  usam comandos simples.
+  JSON universais; padrões de comando encadeado (`cd … && …`) são descartados pelo conversor, por isso as
+  permissões usam comandos simples;
+- o `http.sh` foi exercitado contra um servidor local (método, caminho e corpo fora da pasta `massa/` recusados).
 
-Conferido no índice de busca do `kiro.dev` (a rede deste ambiente bloqueia o acesso direto ao site): formato de
-power (`plugin.json` + `skills/` + `mcp.json`, sem steering), hooks v1 e `PostTaskExec`, gatilho manual
-indisponível na IDE (por isso o `/sdd2-fechar-sessao` é steering manual), Workflows (`step`/`repeat`, `fileCheck`
-avaliado depois de cada iteração), agentes JSON/Markdown e `permissions`, bugfix specs e modos de steering. Não foi
-possível testar uma conversa (exige login) nem abrir a IDE.
+Não foi possível testar uma conversa (exige login) nem abrir a IDE.
+
+**O que a documentação não resolve** (comportamento a observar no primeiro uso): o formato do `.config.kiro` das
+specs; EARS em português no Analyze Requirements; se os subagentes somam ou intersectam os `allow` de quem os
+chama (a doc diz "deny-wins intersection" — se um subagente do loop falhar por permissão, libere o comando também
+no orquestrador); se um passo de workflow pode pedir aprovação; o alcance de `trustedAgents`; e as páginas de
+steering e de configuração divergem sobre agentes herdarem o steering padrão (a setup oferece
+`chat.disableInheritingDefaultResources` no CLI).
 
 ## Limitações conhecidas e próxima versão
 
-- Kiro Workflows e hooks v1 não têm validador no `kiro-cli`: a setup confere o JSON e pede para abrir os painéis
-  do Kiro, onde erro de formato aparece.
-- Kiro Workflows é recente (IDE 1.2): as receitas são opcionais e marcadas como experimentais.
+- O `validate_workflow` do Kiro não confere se os agentes citados existem: a setup confere.
+- Kiro Workflows é experimental: as receitas são opcionais; `/workflow-run` exige a IDE 1.3+.
 - **v2:** toolkits oficiais (backend Java/Spring, Spring Batch, frontend Angular/React); execução automatizada dos
   casos de avaliação que a `sdd2-aprender` já guarda em `.kiro/aprendizado/avaliacoes/`; e — quando o MCP do ELM
   suportar — atributo de chave, links entre requisitos, módulos, change sets e baselines automáticos.
 
-## Fontes (consultadas em 13/10/2026)
+## Fontes (consultadas em 13 e 14/10/2026)
 
 - Andrej Karpathy — *Software Is Changing (Again)*, YC AI Startup School, jun/2025 · *2025 LLM Year in Review*,
   dez/2025 · notas sobre programar com agentes, jan/2026 · [autoresearch](https://github.com/karpathy/autoresearch),

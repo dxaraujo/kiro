@@ -21,8 +21,12 @@ Nada é gravado antes do resumo do Passo 8 e do "ok". Nunca leia nem mostre arqu
 1. **Raiz do repositório:** `git rev-parse --show-toplevel` (sem git → avise: o fluxo depende de branches e PRs).
 2. **Pasta do power instalado** (`{{POWER}}` dos templates): o Kiro instala em `~/.kiro/powers/installed/sdd2/`
    (conferido com o `kiro-cli` 2.31). Confirme que `skills/sdd2-setup/SKILL.md` existe ali; senão procure
-   (`find ~/.kiro/powers -path '*sdd2/skills/sdd2-setup/SKILL.md'`) ou use a pasta de onde esta skill foi carregada. Escreva o caminho **relativo
-   ao home** (`~/.kiro/powers/installed/sdd2`), com `/`. Não achou → pergunte à pessoa onde o power está.
+   (`find ~/.kiro/powers -path '*sdd2/skills/sdd2-setup/SKILL.md'`) ou use a pasta de onde esta skill foi
+   carregada. Escreva o caminho **relativo ao home** (`~/.kiro/powers/installed/sdd2`), com `/`. Não achou →
+   pergunte à pessoa onde o power está.
+   `KIRO_HOME` definida → o Kiro guarda a configuração global ali, não em `~/.kiro`: procure o power em
+   `$KIRO_HOME/powers/installed/sdd2/`; fora do home, avise que os agentes gerados só valerão nesta máquina e peça
+   "ok" para usar o caminho absoluto.
 3. **Caminhos nos arquivos gerados — sempre relativos, nunca absolutos** (são versionados e usados em Linux,
    macOS e Windows): do projeto → relativos à raiz (`file://.kiro/steering/sdd2.md`); do power ou do usuário →
    relativos ao home (`skill://~/.kiro/powers/installed/sdd2/skills/...`, `skill://~/.kiro/skills/...`); separador
@@ -98,7 +102,8 @@ Falhou ao rodar → mostre o erro; a pessoa decide (corrigir o comando, seguir a
      sprints futuras mudam), se publica ET as-built, o que o processo exige manualmente no DOORS Next (change set,
      módulo, baseline), pontos por tamanho, o template de tarefas por fatia e as colunas do `CT.csv` (tabela
      Testes (ETM): tipo, status inicial, categoria — pergunte pelo template de importação do ETM do projeto).
-   - Bundle do RM no repositório (`rm.download.path`) → registre em Conhecimento: é a base que os agentes leem.
+   - Bundle do RM (`rm.download.path`) → registre em Conhecimento: é a base que os agentes leem (fora do projeto →
+     entra na leitura permitida dos agentes).
 
 ## Passo 5 — Inventário de skills e toolkits
 
@@ -139,23 +144,18 @@ atualização, só skill que não está em nenhuma das duas colunas é "nova".
 
 Depois, a seção **Autonomia** do template, uma pergunta por vez: plano de fatia AFK (aprovação humana recomendada
 até o time confiar), se a trilha rápida pede GATE do plano (não, recomendado — a análise independente basta),
-paralelismo do loop (1), push e PR no loop (perguntar a cada lote, recomendado; "sim" → acrescente ao
-orquestrador a ferramenta de PR na regra `ask`).
+paralelismo do loop (1), push e PR no loop (perguntar a cada lote, recomendado — o orquestrador tem regra `ask`
+para push e PR, então o Kiro confirma cada um; "nunca" → a regra vira `deny`) e, se a verificação chama a
+aplicação por HTTP, o **script de chamada** do verificador: `.kiro/sdd2/http.sh` com a URL de teste (recomendado —
+o verificador roda só esse script sem perguntar, só contra essa URL e com corpo da pasta `massa/`; precisa de
+`sh` e `curl`) ou nenhum (cada `curl` pede confirmação, e no loop a verificação fica para a sessão da pessoa).
+Nunca uma URL de produção.
 
-## Passo 7 — Hooks e workflows (opcionais)
+## Passo 7 — Hooks, fechar sessão e workflows (opcionais)
 
-- **Hooks** ([assets/hooks/sdd2.json](assets/hooks/sdd2.json) → `.kiro/hooks/sdd2.json`): `sdd2-backpressure`
-  (depois de cada tarefa de spec, compila e testa — troque `{{COMPILAR}}`/`{{TESTES}}` pelos comandos; sugira o
-  conjunto rápido se a suíte for lenta). Recusado → não instale o arquivo (ou `"enabled": false`).
-- **Fechar a sessão** ([assets/steering/sdd2-fechar-sessao.md](assets/steering/sdd2-fechar-sessao.md) →
-  `.kiro/steering/`): steering manual que vira o comando `/sdd2-fechar-sessao` — atualiza o `status.md`, deixa o
-  git limpo e diz como retomar. (A IDE não aceita hook de gatilho manual; o Kiro recomenda steering manual.)
-  O comando roda no shell de quem usa o Kiro: no Windows com PowerShell 5, `&&` não existe — use
-  `cmd /c "<compilar> && <testes>"` ou `;` conforme o caso.
-- **Kiro Workflows** (experimental; exige a opção `kiroAgent.workflows.enabled`): as receitas de
-  [assets/workflows/](assets/workflows/) → `.kiro/workflows/` — `sdd2-planejar-fatia` (pesquisa → plano → análise)
-  e `sdd2-entregar-fatia` (implementação ↔ revisão → verificação). São disparadas pela pessoa, **uma fatia por
-  vez**, na branch da fatia, no checkout principal — não fazem parte do `sdd2-loop`.
+Ofereça um de cada vez, com o que faz e o custo, conforme [references/automacoes.md](references/automacoes.md):
+o hook `sdd2-backpressure`, o comando `/sdd2-fechar-sessao` e as receitas de Kiro Workflows. Os três exigem a IDE
+ou a engine V3 do `kiro-cli`. Recusado → não instale.
 
 ## Passo 8 — Montar, mostrar, gravar
 
@@ -165,32 +165,12 @@ Em memória:
    respostas (nada de `<…>` sobrando; o que não se aplica fica "não há"/"nenhum").
 3. `.kiro/steering/sdd2-licoes.md` ← [assets/steering/sdd2-licoes.md](assets/steering/sdd2-licoes.md) **só se não
    existir** (nunca sobrescreva regras promovidas).
-4. `.kiro/agents/sdd2-<agente>.json` ← [assets/agents/](assets/agents/), para cada agente. Os templates estão no
-   **formato universal** do Kiro — o mesmo JSON carrega na IDE, na engine V2 e na V3 do `kiro-cli`: o bloco
-   `toolsSettings` (lido pela V2) e o bloco `permissions` (V3 e IDE) dizem a mesma coisa. Edite assim:
-   - `{{POWER}}` → a pasta do power (Passo 0); `{{GLOSSARIO}}`/`{{ADR}}` → os caminhos do Passo 4 (aparecem nos dois
-     blocos); `{{SKILLS_EXTRAS}}` (dentro do `prompt`) → `Skills do projeto ligadas a você: `a`, `b` — carregue a do
-     artefato antes de escrevê-lo.` ou nada; `{{SUBAGENTES}}` → `Subagentes do projeto: `x` (<tipo de tarefa>)` ou
-     nada;
-   - `resources`: acrescente `file://` do steering de produto/tecnologia/estrutura e extras e `skill://` de cada
-     skill escolhida para o agente;
-   - `tools`: acrescente `@<servidor>/<tool>` dos MCPs escolhidos e, se houver algum, `"includeMcpJson": true`;
-     subagentes do projeto: `subagent/<nome>` em `tools` e o nome em `toolsSettings.subagent.availableAgents`;
-   - comandos do Passo 2 que o agente usa → `toolsSettings.shell.allowedCommands` como **expressão regular** de um
-     comando simples (ex.: `mvn .*`, `npm test.*`) — codificador e revisor: compilar, testes, lint, cobertura;
-     verificador: executar, testes, scripts de massa e o host de teste no `curl` (ex.: `curl .*dev\.interno.*`); a
-     pasta de massa do projeto em `toolsSettings.write.allowedPaths` do verificador. Nunca padrão encadeado
-     (`cd … && mvn …`): o Kiro avalia cada parte de um comando composto separadamente (o `cd .kiro/local/wt/*` das
-     worktrees já está liberado);
-   - `model` (se escolhido);
-   - **regenere o `permissions`**: com `kiro-cli` disponível, tire dos agentes alterados o bloco `permissions` e o
-     campo `includePowers`, rode `kiro-cli agent upgrade --no-backup .kiro/agents` — ele reconstrói o bloco a partir
-     do `toolsSettings` (aviso `unconvertible-pattern` = padrão que a V3 não aceita: corrija-o) — e devolva
-     `"includePowers": false`. Sem `kiro-cli`, espelhe à mão cada mudança no `permissions` (regex `.*` → glob `*`,
-     `\.` → `.`);
-   - `"includePowers": false` fica sempre (a documentação não garante o padrão, e com powers o agente receberia o
-     MCP do `elm`); nunca acrescente `hooks` (a IDE ignora agentes que o têm).
-5. Hooks e workflows escolhidos (Passo 7).
+4. `.kiro/agents/sdd2-<agente>.json` ← [assets/agents/](assets/agents/), para cada agente, montados como manda
+   [references/agentes.md](references/agentes.md): placeholders, skills, MCPs, comandos e caminhos **nos dois
+   blocos** (V2 e V3) em espelho; as regras só da V3 ficam; nunca regenere o bloco `permissions` pelo `kiro-cli`.
+5. Hooks e workflows escolhidos (Passo 7); script de chamada do verificador, se escolhido (Passo 6):
+   `.kiro/sdd2/http.sh` ← [assets/scripts/http.sh](assets/scripts/http.sh) com `{{URL_TESTE}}` trocado pela URL
+   base do ambiente de teste (sem barra no fim).
 6. `.kiro/produto/` (só o que não existir): `backlog.json` mínimo
    (`{"projeto": "<nome>", "atualizado": "<data>", "proximo": {"EP": 1, "FT": 1}, "epicos": [], "fatias": []}`),
    `planejamento/`; `.kiro/aprendizado/licoes.md` com o título `# Lições`.
@@ -204,11 +184,13 @@ Comandos: compilar <…> · testes <…> · lint <…> · cobertura <…> (rodad
 Verificação: <como> · Git: base <…> · prefixo <…> · PR <…> · Banco: <MCP | não há> · ELM: <…>
 | Agente | Skills extras | MCPs | Modelo |
 Hooks: <…> · Workflows: <…> · Autonomia: plano AFK <…> · paralelo <n>
-Arquivos: .kiro/steering/sdd2*.md · .kiro/agents/sdd2-*.json · .kiro/hooks/… · .kiro/workflows/… · .kiro/produto/ · .gitignore
+Arquivos: .kiro/steering/sdd2*.md · .kiro/agents/sdd2-*.json · .kiro/hooks/… · .kiro/workflows/… · .kiro/sdd2/…
+          .kiro/produto/ · .gitignore
 Gravar? ("ok")
 ```
 
-Agente existente e editado à mão → mostre o diff e pergunte antes de sobrescrever.
+Agente existente e editado à mão → mostre o diff e pergunte antes de sobrescrever. O Kiro pede confirmação para
+cada arquivo gravado em `.kiro/agents/`, `.kiro/hooks/` e `.kiro/workflows/` — avise antes.
 
 ## Passo 9 — Validar
 
@@ -218,17 +200,23 @@ Agente existente e editado à mão → mostre o diff e pergunte antes de sobresc
   "ok") ou registre no `sdd2-projeto.md` que o loop não deve ser usado.
 - Todo `skill://` e `file://` aponta para arquivo existente (resolvendo `~` no home e o resto a partir da raiz) e
   é relativo — nenhum `/…` absoluto, `C:\…`, `\` ou variável.
-- JSON dos hooks e workflows faz parse; agentes citados nos workflows existem em `.kiro/agents/`. Depois de
-  instalar, peça à pessoa para abrir os painéis de hooks e de workflows do Kiro: erro de formato aparece ali — se
-  aparecer, mostre-o e ofereça remover o arquivo (o fluxo funciona sem eles).
+- JSON dos hooks e workflows faz parse; agentes citados nos workflows existem em `.kiro/agents/` (o validador de
+  receitas não confere isso). Com Workflows ligado, peça ao Kiro `validate_workflow` em cada
+  `.kiro/workflows/*.workflow.json`; erro → mostre-o e ofereça remover o arquivo (o fluxo funciona sem ele).
 - `kiro-cli` disponível → para cada agente, `kiro-cli agent validate --path .kiro/agents/<agente>.json` (saída
-  vazia = válido; erro aponta o campo); `kiro-cli agent list` (na raiz do repositório) lista os seis. O
-  `kiro-cli agent upgrade --dry-run` diz `out of sync` por causa do `includePowers: false` — é esperado e só
-  significa que ele não reescreve esses arquivos.
-- Workspace não confiável → avise: o Kiro só carrega agentes do workspace depois de a pessoa confiar nele.
+  vazia = válido; erro aponta o campo); `kiro-cli agent list` (na raiz do repositório) lista os seis;
+  `kiro-cli agent upgrade --dry-run .kiro/agents` diz `out of sync (not rebuilt)` para eles — esperado (ver
+  [references/agentes.md](references/agentes.md)). No CLI V3, `/config` e `/hooks` mostram os agentes, as
+  permissões e o hook carregados.
+- Herança: por padrão, agentes customizados recebem também o steering, as skills e o `AGENTS.md` padrão do
+  workspace e do usuário — as skills de `~/.kiro/skills` chegam a todos, além das escolhidas no Passo 6. Para que
+  cada agente tenha só as suas, no CLI: `kiro-cli settings --workspace chat.disableInheritingDefaultResources
+  true` (ofereça; a IDE não documenta essa opção).
+- Workspace não confiável → avise: até a pessoa confiar nele, o Kiro não carrega os agentes, o steering, as skills
+  e os workflows do projeto e pergunta antes de cada comando de shell.
 
 Sugira o commit (`.kiro/steering/sdd2*.md`, `.kiro/agents/sdd2-*.json`, `.kiro/hooks/`, `.kiro/workflows/`,
-`.kiro/produto/`, `.kiro/aprendizado/`, `.gitignore`) — só com confirmação — e termine com o próximo passo:
+`.kiro/sdd2/`, `.kiro/produto/`, `.kiro/aprendizado/`, `.gitignore`) — só com confirmação — e termine com o próximo passo:
 "nova demanda" (`sdd2-prd`), "vamos trabalhar na <id>" (`sdd2-iniciar`) ou "onde parei?" (`sdd2-status`).
 
 ## Regras

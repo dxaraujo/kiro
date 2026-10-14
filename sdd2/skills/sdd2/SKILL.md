@@ -92,6 +92,8 @@ Fatia **AFK**: o projeto pode dispensar o GATE do plano (a análise independente
 | `.kiro/specs/<ft>-<slug>/` | uma pasta por fatia: `status.md`, `research.md`, spec do Kiro, revisões, verificação |
 | glossário · ADRs · bundle do ELM | caminhos na seção Conhecimento do `sdd2-projeto.md` |
 | `.kiro/aprendizado/` | lições e casos de avaliação |
+| `.kiro/hooks/sdd2.json` · `.kiro/workflows/sdd2-*` · `.kiro/sdd2/http.sh` | opcionais da setup: backpressure por tarefa, receitas, chamada HTTP do verificador |
+| `.kiro/local/` (fora do git) | worktrees do loop, vereditos dos workflows, log dos lotes |
 
 ## Fronteiras de fase
 

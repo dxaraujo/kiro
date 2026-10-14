@@ -56,16 +56,19 @@ Dentro da worktree, faça o que a **`sdd2-iniciar`** faz no Passo 4 (pasta, `sta
 agente:sdd2-orquestrador`, `.config.kiro`), sem perguntas — o lote já foi confirmado. O `backlog.json` não muda
 (ele só é escrito na base).
 
-**Comandos dentro da worktree** — diga isto a cada subagente: git com `git -C .kiro/local/wt/<ft> <comando>`;
-build e testes com `cd .kiro/local/wt/<ft> && <comando do sdd2-projeto.md>`; arquivos pelo caminho
-`.kiro/local/wt/<ft>/<caminho>`. Ferramentas que varrem a raiz (alguns test runners, linters) podem enxergar
-`.kiro/local/`: se o projeto tiver esse risco, a setup registra a exclusão.
+**Comandos dentro da worktree** — diga isto a cada subagente: git, build e testes com
+`cd .kiro/local/wt/<ft> && <comando>` (o `git -C` é bloqueado nos agentes: com ele as regras de permissão não
+enxergam o subcomando); arquivos pelo caminho `.kiro/local/wt/<ft>/<caminho>`. Ferramentas que varrem a raiz
+(alguns test runners, linters) podem enxergar `.kiro/local/`: se o projeto tiver esse risco, a setup registra a
+exclusão.
 
 ## Passo 3 — Fases (por fatia; fatias diferentes em paralelo até o limite)
 
 Cada fase é um subagente novo recebendo **só**: `AUTONOMO=true`, id da fatia, o caminho da worktree
 (`.kiro/local/wt/<ft>`) e da pasta da fatia dentro dela, como rodar comandos ali (Passo 2) e a rodada. Nunca o
-raciocínio de outra fase.
+raciocínio de outra fase. Com **Workflows** ligado no Kiro, a delegação a um agente pode virar uma execução em
+segundo plano: espere a de cada fase terminar (artefato gravado, `status.md` atualizado) antes de abrir a
+seguinte da mesma fatia.
 
 | # | Fase | Subagente | Sai quando |
 |---|---|---|---|

@@ -1,21 +1,34 @@
 {
   "name": "sdd2-verificador",
   "description": "Verificador de aceite do fluxo sdd2 — executa de ponta a ponta, na aplicação de verdade (API, job batch, tela no browser, carga), cada cenário do contrato de pronto da fatia, com massa de teste e evidência por cenário, decide ACEITO/REJEITADO e gera o CT.csv para o ETM. Não altera código de produção.",
-  "prompt": "# sdd2-verificador\n\nVocê prova (ou desmente) que o **sistema** faz o que o cenário diz. Seja cético: funcionalidade pela metade passa\nem teste de unidade; \"feito\" é uma afirmação, a evidência é a prova.\n\n- Siga a skill `sdd2-verificar`. O roteiro vem do **contrato de pronto** do `design.md` — não o afrouxe.\n- Execute como um usuário real: chamada à API, execução do job, navegação no browser, carga — o que o tipo de\n  projeto pede (seção Verificação do `sdd2-projeto.md`).\n- Rode também a repetição (duas vezes) e o erro em um item.\n- Nunca rode contra produção nem com dado real de pessoa. Escrita em banco só pelos scripts de massa declarados.\n- Não altere código de produção: só massa, fixtures, evidências, `verificacao.md` e `CT.csv`.\n{{SKILLS_EXTRAS}}\n",
+  "prompt": "# sdd2-verificador\n\nVocê prova (ou desmente) que o **sistema** faz o que o cenário diz. Seja cético: funcionalidade pela metade passa\nem teste de unidade; \"feito\" é uma afirmação, a evidência é a prova.\n\n- Siga a skill `sdd2-verificar`. O roteiro vem do **contrato de pronto** do `design.md` — não o afrouxe.\n- Execute como um usuário real: chamada à API, execução do job, navegação no browser, carga — o que o tipo de\n  projeto pede (seção Verificação do `sdd2-projeto.md`).\n- Rode também a repetição (duas vezes) e o erro em um item.\n- Nunca rode contra produção nem com dado real de pessoa. Escrita em banco só pelos scripts de massa declarados.\n- Não altere código de produção: só massa, fixtures, evidências, `verificacao.md` e `CT.csv`.\n- Arquivos: leia e procure com as ferramentas de leitura e busca do Kiro, não com `cat`/`grep`/`find` no\n  shell — o shell é para git, build e testes.\n- Worktree recebida: `cd .kiro/local/wt/<ft> && <comando>`; `git -C` é bloqueado.\n- Chamada HTTP à aplicação: `sh .kiro/sdd2/http.sh <MÉTODO> <caminho> [corpo]`, se a setup o instalou;\n  `curl` direto pede confirmação a cada chamada.\n{{SKILLS_EXTRAS}}\n",
   "tools": [
     "read",
     "shell",
     "write"
   ],
-  "allowedTools": [
-    "read"
-  ],
+  "allowedTools": [],
   "resources": [
     "file://.kiro/steering/sdd2.md",
     "file://.kiro/steering/sdd2-projeto.md",
     "skill://{{POWER}}/skills/sdd2-verificar/SKILL.md"
   ],
   "toolsSettings": {
+    "read": {
+      "allowedPaths": [
+        "./**",
+        "{{POWER}}/**"
+      ],
+      "deniedPaths": [
+        "**/.env",
+        "**/.env.*",
+        "**/*.pem",
+        "**/*.key",
+        "~/.ssh/**",
+        "~/.aws/**",
+        "~/.config/mcp-elm/**"
+      ]
+    },
     "write": {
       "allowedPaths": [
         ".kiro/specs/*/verificacao.md",
@@ -40,40 +53,61 @@
         "git grep.*",
         "git ls-files.*",
         "git ls-tree.*",
-        "git branch.*",
-        "git -C \\.kiro/local/wt/.* status.*",
-        "git -C \\.kiro/local/wt/.* diff.*",
-        "git -C \\.kiro/local/wt/.* log.*",
-        "git -C \\.kiro/local/wt/.* show.*",
-        "git -C \\.kiro/local/wt/.* grep.*",
-        "ls.*",
-        "find .* -name .*",
-        "find .* -type .*",
-        "grep .*",
-        "rg .*",
-        "cat .*",
-        "head .*",
-        "tail .*",
-        "wc .*",
-        "curl .*localhost.*",
-        "curl .*127\\.0\\.0\\.1.*",
-        "cd \\.kiro/local/wt/.*"
+        "git rev-parse.*",
+        "git branch",
+        "git branch --show-current",
+        "git branch --list.*",
+        "git branch -a.*",
+        "git branch -r.*",
+        "git branch -v.*",
+        "git worktree list.*",
+        "git for-each-ref.*",
+        "git config user\\.name",
+        "git config user\\.email",
+        "cd \\.kiro/local/wt/.*",
+        "sh \\.kiro/sdd2/http\\.sh .*"
       ],
       "deniedCommands": [
-        ".*git push.*",
+        "git -C .*",
+        "git -c .*",
         ".*git merge.*",
         ".*git rebase.*",
+        ".*git pull.*--rebase.*",
         ".*git reset --hard.*",
         ".*git clean.*",
         ".*git checkout -- .*",
+        ".*git checkout \\..*",
         ".*git restore .*",
         ".*git stash.*",
         ".*git worktree remove.*",
+        ".*git branch.*-D.*",
+        ".*git branch.*-M.*",
+        ".*git difftool.*",
+        ".*git grep.*-O.*",
+        ".*--open-files-in-pager.*",
+        ".*git .*--no-index.*",
+        ".*git .*--output.*",
+        ".*--upload-pack.*",
+        ".*--receive-pack.*",
+        ".*--force.*",
+        ".*--delete.*",
+        ".*--no-verify.*",
+        ".*git add.* -f.*",
+        ".*git switch.* -f.*",
+        ".*--discard-changes.*",
+        ".*gh pr merge.*",
+        ".*glab mr merge.*",
         ".*rm -rf.*",
-        ".*-delete.*",
-        ".*-exec rm.*",
+        ".*rm -fr.*",
+        ".*find .*-exec.*",
+        ".*find .*-ok.*",
+        ".*find .*-delete.*",
+        ".*rg .*--pre.*",
+        ".*git push.*",
         ".*git add.*",
-        ".*git commit.*"
+        ".*git commit.*",
+        ".*git switch.*",
+        ".*git worktree add.*"
       ],
       "autoAllowReadonly": true
     }
@@ -93,44 +127,98 @@
           "git grep*",
           "git ls-files*",
           "git ls-tree*",
-          "git branch*",
-          "git -C .kiro/local/wt/* status*",
-          "git -C .kiro/local/wt/* diff*",
-          "git -C .kiro/local/wt/* log*",
-          "git -C .kiro/local/wt/* show*",
-          "git -C .kiro/local/wt/* grep*",
-          "ls*",
-          "find * -name *",
-          "find * -type *",
-          "grep *",
-          "rg *",
-          "cat *",
-          "head *",
-          "tail *",
-          "wc *",
-          "curl *localhost*",
-          "curl *127.0.0.1*",
-          "cd .kiro/local/wt/*"
+          "git rev-parse*",
+          "git branch",
+          "git branch --show-current",
+          "git branch --list*",
+          "git branch -a*",
+          "git branch -r*",
+          "git branch -v*",
+          "git worktree list*",
+          "git for-each-ref*",
+          "git config user.name",
+          "git config user.email",
+          "cd .kiro/local/wt/*",
+          "sh .kiro/sdd2/http.sh *"
         ],
         "effect": "allow"
       },
       {
         "capability": "shell",
         "match": [
-          "*git push*",
+          "git -C *",
+          "git -c *",
           "*git merge*",
           "*git rebase*",
+          "*git pull*--rebase*",
           "*git reset --hard*",
           "*git clean*",
           "*git checkout -- *",
+          "*git checkout .*",
           "*git restore *",
           "*git stash*",
           "*git worktree remove*",
+          "*git branch*-D*",
+          "*git branch*-M*",
+          "*git difftool*",
+          "*git grep*-O*",
+          "*--open-files-in-pager*",
+          "*git *--no-index*",
+          "*git *--output*",
+          "*--upload-pack*",
+          "*--receive-pack*",
+          "*--force*",
+          "*--delete*",
+          "*--no-verify*",
+          "*git add* -f*",
+          "*git switch* -f*",
+          "*--discard-changes*",
+          "*gh pr merge*",
+          "*glab mr merge*",
           "*rm -rf*",
-          "*-delete*",
-          "*-exec rm*",
+          "*rm -fr*",
+          "*find *-exec*",
+          "*find *-ok*",
+          "*find *-delete*",
+          "*rg *--pre*",
+          "*git push*",
           "*git add*",
-          "*git commit*"
+          "*git commit*",
+          "*git switch*",
+          "*git worktree add*"
+        ],
+        "effect": "deny"
+      },
+      {
+        "capability": "shell",
+        "match": [
+          "curl *",
+          "wget *"
+        ],
+        "effect": "ask"
+      },
+      {
+        "capability": "fs_read",
+        "match": [
+          "./**",
+          "{{POWER}}/**"
+        ],
+        "effect": "allow"
+      },
+      {
+        "capability": "fs_read",
+        "match": [
+          "**/.env",
+          "**/.env/**",
+          "**/.env.*",
+          "**/.env.*/**",
+          "**/*.pem",
+          "**/*.pem/**",
+          "**/*.key",
+          "**/*.key/**",
+          "~/.ssh/**",
+          "~/.aws/**",
+          "~/.config/mcp-elm/**"
         ],
         "effect": "deny"
       },
@@ -149,10 +237,6 @@
           ".kiro/local/wt/*/.kiro/specs/*/massa/**",
           ".kiro/local/wf/*/aceite.json"
         ],
-        "effect": "allow"
-      },
-      {
-        "capability": "fs_read",
         "effect": "allow"
       },
       {

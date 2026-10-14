@@ -5,8 +5,14 @@ atualize); mostre o diff e grave só com "ok".
 
 ## `equipe.json`
 
+Formato definido pelo JSON Schema [../assets/equipe.schema.json](../assets/equipe.schema.json) (fonte da verdade).
+Ele fica dentro do power instalado, não no projeto: leia-o direto por esse caminho, relativo a esta pasta (busca no
+workspace não o acha), e valide o JSON contra ele antes de mostrar. `$schema` é a primeira propriedade e é sempre a
+URL abaixo, nunca um caminho local:
+
 ```json
 {
+  "$schema": "https://raw.githubusercontent.com/dxaraujo/kiro-powers/main/sdd/skills/sdd-planejamento/assets/equipe.schema.json",
   "atualizado": "2026-10-13",
   "projeto": {
     "nome": "Gestão de Acessos",
@@ -32,6 +38,11 @@ atualize); mostre o diff e grave só com "ok".
 }
 ```
 
+- Chaves em kebab-case, exatamente as do exemplo; nada além delas (o schema recusa `horasSemana`, `capacidade`…).
+- `papel` é **um** valor: `P.O.`, `Dev`, `QA` ou `SM`; quem acumula papéis entra com o principal.
+- `horas-revisao-semana` soma revisar (planos, PRs) e verificar (aceite) e é parte de `horas-semana`.
+- Capacidade da sprint e totais **não** são gravados: calcule na hora. `historico` fica dentro de `projeto`.
+- `motivo` da ausência: `férias`, `folga`, `treinamento` ou `outro`.
 - Exatamente um P.O. ativo. Quem sai fica `ativo: false` (preserva o histórico).
 - Horas de uma sprint = `horas-semana × semanas` − ausências que caem nela (o mesmo para revisão).
 - Sem dado pessoal além de nome e login.

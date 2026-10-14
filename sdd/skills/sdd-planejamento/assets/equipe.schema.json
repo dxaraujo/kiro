@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/dxaraujo/kiro-powers/main/sdd/skills/sdd-planejamento/assets/equipe.schema.json",
+  "title": "Equipe do sdd",
+  "description": "<produto>/planejamento/equipe.json: projeto, cadência, histórico de vazão e membros com a capacidade de trabalho e de revisão. Chaves em kebab-case; valores derivados (capacidade da sprint, totais) não são gravados, são calculados na hora.",
+  "type": "object",
+  "required": ["atualizado", "projeto", "membros"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "atualizado": { "$ref": "#/$defs/data" },
+    "projeto": {
+      "type": "object",
+      "required": ["nome", "cadencia", "duracao-sprint-semanas", "inicio", "pontos-por-tamanho", "historico"],
+      "additionalProperties": false,
+      "properties": {
+        "nome": { "type": "string", "minLength": 1 },
+        "cadencia": { "enum": ["scrum", "kanban"] },
+        "duracao-sprint-semanas": { "type": "integer", "minimum": 1, "maximum": 4 },
+        "inicio": { "$ref": "#/$defs/data", "description": "Início da sprint 1." },
+        "pontos-por-tamanho": {
+          "type": "object",
+          "required": ["P", "M", "G"],
+          "additionalProperties": false,
+          "properties": {
+            "P": { "type": "integer", "minimum": 1 },
+            "M": { "type": "integer", "minimum": 1 },
+            "G": { "type": "integer", "minimum": 1 }
+          }
+        },
+        "historico": {
+          "type": "array",
+          "description": "Uma entrada por sprint fechada, gravada na virada.",
+          "items": {
+            "type": "object",
+            "required": ["sprint", "fatias-concluidas", "pontos"],
+            "additionalProperties": false,
+            "properties": {
+              "sprint": { "type": "integer", "minimum": 1 },
+              "fatias-concluidas": { "type": "integer", "minimum": 0 },
+              "pontos": { "type": "integer", "minimum": 0 },
+              "lead-time-medio-dias": { "type": "number", "minimum": 0 },
+              "horas-revisao": { "type": "number", "minimum": 0 }
+            }
+          }
+        }
+      }
+    },
+    "membros": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/membro" },
+      "contains": { "properties": { "papel": { "const": "P.O." }, "ativo": { "const": true } } },
+      "minContains": 1,
+      "maxContains": 1,
+      "$comment": "Exatamente um P.O. ativo."
+    }
+  },
+  "$defs": {
+    "data": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$", "format": "date" },
+    "membro": {
+      "type": "object",
+      "required": ["nome", "login", "papel", "horas-semana", "horas-revisao-semana", "ativo", "ausencias"],
+      "additionalProperties": false,
+      "properties": {
+        "nome": { "type": "string", "minLength": 1 },
+        "login": { "type": "string", "pattern": "^[^\\s@]+$", "description": "Login do ELM (members do pa_*.json), sem domínio." },
+        "papel": {
+          "enum": ["P.O.", "Dev", "QA", "SM"],
+          "description": "Um papel por pessoa: o principal. Quem acumula papéis entra com o que mais consome as horas dela."
+        },
+        "horas-semana": { "type": "number", "minimum": 0, "maximum": 60 },
+        "horas-revisao-semana": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 60,
+          "description": "Horas por semana de revisar (planos, PRs) e verificar (aceite), somadas num número só; parte de horas-semana, nunca maior que ela."
+        },
+        "ativo": { "type": "boolean", "description": "Quem sai fica false (preserva o histórico)." },
+        "ausencias": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["inicio", "fim", "motivo"],
+            "additionalProperties": false,
+            "properties": {
+              "inicio": { "$ref": "#/$defs/data" },
+              "fim": { "$ref": "#/$defs/data" },
+              "motivo": {
+                "enum": ["férias", "folga", "treinamento", "outro"],
+                "description": "Genérico de propósito: sem dado pessoal (nada de saúde ou motivo particular)."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

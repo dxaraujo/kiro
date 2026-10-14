@@ -20,9 +20,10 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
 
 ## Modo inicial — acordos e roadmap
 
-1. **Equipe** (`equipe.json` existe → mostre e pergunte só o que mudou): pessoas, papel (P.O., dev, QA, SM),
-   login do ELM (de `members` do `pa_*.json`, se houver), horas por semana, ausências. Pergunte também, por pessoa,
-   quantas horas por semana vão para **revisar** (planos, PRs) e **verificar**.
+1. **Equipe** (`equipe.json` existe → mostre e pergunte só o que mudou): pessoas, papel (um só: `P.O.`, `Dev`,
+   `QA` ou `SM`), login do ELM (de `members` do `pa_*.json`, se houver), horas por semana, ausências. Pergunte
+   também, por pessoa, quantas horas por semana vão para **revisar** (planos, PRs) e **verificar** — somadas em
+   `horas-revisao-semana`. Grave no formato de `assets/equipe.schema.json` (validado antes de mostrar).
 2. **Acordos** (`acordos.md`) — proponha e ajuste:
    - cadência: **Scrum** (sprints de N semanas, cerimônias, iteração no EWM) ou **Kanban** (fluxo contínuo,
      revisão de backlog semanal); padrão: sprints de 2 semanas com fluxo puxado dentro da sprint;

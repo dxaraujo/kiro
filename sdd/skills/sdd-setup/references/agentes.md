@@ -50,7 +50,7 @@ permissão, compare as regras dele com as do orquestrador.
 | leitura | a pasta de cada skill escolhida que fique fora do projeto e do power (`~/.kiro/skills/<skill>/**`, `~/.kiro/powers/installed/<toolkit>/**`) e o bundle do ELM, se estiver fora do projeto |
 | comandos | codificador e revisor: compilar, testes, teste único, lint, cobertura · verificador: executar, testes, scripts de massa · orquestrador: todos esses e `sh .kiro/sdd/http.sh *` (se instalado) |
 | escrita do verificador | a pasta de massa do projeto, se houver |
-| MCP de banco | só a tool de consulta, como na tabela acima |
+| MCP de banco | só a tool de consulta, em **quatro** lugares: `tools` e `allowedTools` (`@<servidor>/<tool>`), `"includeMcpJson": true` (o template vem com `false`: sem trocar, o agente não carrega nenhum MCP) e a regra `mcp` `allow` `<servidor>/<tool>` |
 | subagentes do projeto | como na tabela acima (codificador e orquestrador) |
 | `model` | o modelo escolhido, se houver |
 | push e PR no loop = "não — a pessoa abre" | no orquestrador, a regra `ask` de push/PR vira `deny` |

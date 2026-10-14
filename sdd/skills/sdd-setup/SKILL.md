@@ -220,7 +220,8 @@ cada arquivo gravado em `.kiro/agents/`, `.kiro/hooks/` e `.kiro/workflows/` —
 
 ## Passo 9 — Validar
 
-- JSON de cada agente faz parse; `name` = nome do arquivo; nenhum `{{…}}` sobrando; `.kiro/steering/` tem só o
+- JSON de cada agente faz parse; `name` = nome do arquivo; nenhum `{{…}}` sobrando; agente com `@<servidor>/…` em
+  `tools` tem `"includeMcpJson": true`, a mesma tool em `allowedTools` e a regra `mcp`; `.kiro/steering/` tem só o
   `sdd.md` do fluxo (nenhum `sdd2*.md` nem `sdd-projeto.md` sobrando), e nenhum `.kiro/agents/sdd2-*.json`.
 - Ferramentas que varrem a raiz do repositório (test runners, linters, `tsc`, varredura de arquivos) ignoram
   `.kiro/local/` — onde o loop cria as worktrees? Não ignoram → acrescente a exclusão na configuração delas (com

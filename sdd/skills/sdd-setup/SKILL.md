@@ -35,9 +35,9 @@ credenciais.
    `/`; nunca `/home/…`, `/Users/…`, `C:\…`, `\` nem variáveis de ambiente.
 4. **Modo:** já existe `.kiro/steering/sdd.md` ou `.kiro/agents/sdd-*.json` → **atualização**: mostre a
    configuração atual numa tabela e pergunte o que mudar ("nada — só regenerar os agentes", útil depois de
-   atualizar o power ou um toolkit). Refaça só o que mudou nas respostas, mas agentes, hook e workflows **sempre** a partir dos templates atuais do
-   power (com os valores do projeto), mesmo os que já têm o nome certo — renomear um arquivo antigo não o atualiza.
-   Mostre o diff de cada um.
+   atualizar o power ou um toolkit). Refaça só o que mudou nas respostas, mas agentes, hook e workflows
+   **sempre** a partir dos templates atuais do power (com os valores do projeto), mesmo os que já têm o nome certo
+   — renomear um arquivo antigo não o atualiza. Mostre o diff de cada um.
    **Configurado com o nome `sdd2`** (o nome deste fluxo antes da v2: `.kiro/steering/sdd2*.md`,
    `.kiro/agents/sdd2-*.json`) → proponha a migração, com o plano numa só mensagem e "ok":
    - `.kiro/steering/sdd2.md` e `sdd2-projeto.md` → os valores vão para as seções do novo `.kiro/steering/sdd.md`;

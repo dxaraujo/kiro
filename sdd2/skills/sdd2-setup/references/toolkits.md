@@ -90,7 +90,7 @@ Formato definido por [../assets/toolkit.schema.json](../assets/toolkit.schema.js
 | `deteccao` | `arquivos` existe na raiz (ou em módulos) **e** algum `contem` aparece nele → toolkit "detectado" |
 | `skills[].papeis` | pré-seleciona a skill na pergunta de cada agente (`pesquisador`, `codificador`, `revisor`, `verificador`, `produto`, `orquestrador`) |
 | `steering[]` | regras da stack: vira `file://` nos agentes dos papéis indicados |
-| `comandos` | **proposta** para a seção Comandos do `sdd2-projeto.md` quando o repositório não deixa claro; a pessoa confirma |
+| `comandos` | **proposta** para a seção Comandos do `sdd2.md` quando o repositório não deixa claro; a pessoa confirma |
 | `verificacao` | texto que a `sdd2-verificar` usa para executar os cenários de aceite desse tipo de projeto |
 
 ## Pergunta por agente
@@ -118,12 +118,12 @@ de frontend — mas quem decide é a pessoa.
 ## Sem toolkit
 
 Nenhum toolkit encontrado para o tipo detectado → diga isso uma vez, siga com as skills avulsas e registre no
-`sdd2-projeto.md` (`Toolkits: nenhum — <tipo>`). Os agentes passam a depender do steering de tecnologia e do
+`sdd2.md` (`Toolkits: nenhum — <tipo>`). Os agentes passam a depender do steering de tecnologia e do
 código vizinho (pattern grounding) — funciona, mas com mais revisão. Sugira à pessoa criar as skills da stack em
 `.kiro/skills/` (ou um toolkit em `.kiro/toolkits/<nome>/`) e rodar a setup em modo atualização depois.
 
 ## Atualização
 
 Toolkit novo ou atualizado → "atualizar os agentes do sdd2" (`sdd2-setup`, modo atualização): a setup compara o
-inventário atual com o `sdd2-projeto.md` e pergunta só sobre as skills **novas** de cada agente; skill que sumiu
+inventário atual com o `sdd2.md` e pergunta só sobre as skills **novas** de cada agente; skill que sumiu
 sai dos agentes com aviso.

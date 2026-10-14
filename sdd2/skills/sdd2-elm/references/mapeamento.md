@@ -4,7 +4,7 @@ O ELM é o **sistema de registro**: o que o sistema faz (DOORS Next), o que est�
 testado (ETM). O repositório guarda as **propostas de mudança** (PRD, fatias) e o histórico de como cada mudança
 foi feita. Os nomes reais de tipos, pastas, campos e links são da project area: vêm do
 `.kiro/config/power/elm/pa_<nome>.json` (power `elm`, skill `elm-setup`) e o mapeamento abaixo é confirmado na
-`sdd2-setup` e gravado na seção **ELM** do `.kiro/steering/sdd2-projeto.md`.
+`sdd2-setup` e gravado na seção **ELM** do `.kiro/steering/sdd2.md`.
 
 ## Artefatos
 
@@ -14,7 +14,7 @@ foi feita. Os nomes reais de tipos, pastas, campos e links são da project area:
 | História `HF-nn` (conceito OKF em `elm/`) | DOORS Next — artefato | `História de Usuário` (título `HF - <nome>`) | GATE do PRD (`na-aprovacao`) ou merge (`no-merge`) |
 | Regra `REG-nn` (conceito OKF em `elm/`) | DOORS Next — artefato | `Regra` (título `REG - <nome>`) | idem, **antes** das histórias (elas embutem as regras) |
 | Termo `GL-<termo>` (conceito OKF em `elm/`) | DOORS Next — artefato | `Termos de Glossário` (título = o termo) | idem, antes das regras |
-| Fatia `FT-nnn` | EWM — Item de Backlog (story, *plan item*) | `com.ibm.team.apt.workItemType.story` | conforme `Backlog no EWM`: ao fatiar ou na sprint |
+| Fatia `FT-nnn` | EWM — Item de Backlog (story, *plan item*) | `com.ibm.team.apt.workItemType.story` | conforme `backlog no EWM` (seção ELM do `sdd2.md`): ao fatiar ou na sprint |
 | Tarefas da fatia | EWM — Tarefa (filha do IB, *execution item*) | `task` | planejamento da sprint |
 | ET as-built (opcional) | DOORS Next — artefato | `Especificação Técnica` (título `ET - <fatia>`) | consolidação (depois do merge) |
 | Cenário verificado | ETM — Caso de Teste | importação do `CT.csv` | consolidação |
@@ -39,7 +39,7 @@ Os links são gravados no lado do work item ou do teste (o DOORS Next mostra o b
 ## Pontos e tamanho
 
 O IB é *plan item*: os pontos vão no campo de complexidade/pontos de história do IB (nunca nas tarefas), para o
-relatório de velocidade do EWM funcionar. Padrão (ajustável no `sdd2-projeto.md`): `P = 2`, `M = 3`, `G = 5`.
+relatório de velocidade do EWM funcionar. Padrão (ajustável no `sdd2.md`): `P = 2`, `M = 3`, `G = 5`.
 
 ## O que o MCP `elm` não faz (passos manuais)
 
@@ -48,7 +48,7 @@ requisito. Não grava: atributos de requisito, links requisito ↔ requisito (*s
 módulos, change sets, baselines e casos de teste. Quando o processo do projeto exigir algum deles, a `sdd2-elm`
 entrega um **roteiro manual** com os ids exatos, e o registra como `ELM pendente: <ação>` até a pessoa confirmar:
 
-| Exigência do projeto (seção ELM do `sdd2-projeto.md`) | Roteiro manual |
+| Exigência do projeto (seção ELM do `sdd2.md`) | Roteiro manual |
 |---|---|
 | Change set por publicação | criar o change set `sdd2 <EP> v<versão>` no DOORS Next **antes** da publicação e entregá-lo depois da revisão na UI |
 | Módulo por épico | inserir os artefatos publicados no módulo `<nome>`, na ordem do PRD |

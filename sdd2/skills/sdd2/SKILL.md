@@ -14,7 +14,7 @@ depois. O sdd2 põe as pessoas onde elas têm mais alavanca — decidir o quê, 
 deixa o resto com agentes de contexto limpo, presos a feedback automático. O IBM ELM é o registro oficial do que
 o sistema faz; o repositório guarda como cada mudança foi feita.
 
-Configuração do projeto: `.kiro/steering/sdd2-projeto.md` (gerado pela **`sdd2-setup`**). Sem ele, comece por
+Configuração do projeto: `.kiro/steering/sdd2.md` (gerado pela **`sdd2-setup`**). Sem ele, comece por
 "configurar o sdd2".
 
 ## Trilhas (o tamanho decide a cerimônia)
@@ -66,7 +66,7 @@ Fatia **AFK**: o projeto pode dispensar o GATE do plano (a análise independente
 | Quero… | Skill |
 |---|---|
 | configurar o fluxo, os agentes e os toolkits no projeto | `sdd2-setup` |
-| saber onde parei / o que fazer agora | `sdd2-status` |
+| saber onde parei / o que fazer agora · fechar a sessão | `sdd2-status` |
 | começar qualquer trabalho (fatia, defeito, item do EWM, pedido) | `sdd2-iniciar` |
 | alinhar decisões | `sdd2-entrevistar` |
 | escrever o PRD de um épico | `sdd2-prd` |
@@ -79,19 +79,19 @@ Fatia **AFK**: o projeto pode dispensar o GATE do plano (a análise independente
 | verificar o aceite de ponta a ponta | `sdd2-verificar` |
 | fechar a fatia depois do merge | `sdd2-consolidar` |
 | publicar no ELM (DOORS Next, EWM, ETM) | `sdd2-elm` |
-| levar várias fatias AFK até o PR | `sdd2-loop` |
+| levar várias fatias AFK até o PR | `sdd2-loop` (com o agente `sdd2-orquestrador`) |
+| rodar uma receita de workflow numa fatia | você, no chat do Kiro: "rode o workflow `sdd2-entregar-fatia` para a FT-031" ou `/workflow-run` (IDE 1.3+) |
 | registrar uma lição / retrospectiva | `sdd2-aprender` |
 
 ## Onde as coisas moram (no projeto)
 
 | Caminho | O quê |
 |---|---|
-| `.kiro/steering/sdd2.md` · `sdd2-projeto.md` · `sdd2-licoes.md` | resumo do fluxo · configuração · regras aprendidas |
+| `.kiro/steering/sdd2.md` | o único steering do fluxo: resumo, configuração do projeto e regras aprendidas |
 | `.kiro/agents/sdd2-*.json` | agentes (criados pela setup, com as skills escolhidas por agente) |
-| `.kiro/produto/backlog.json` · `epicos/<EP>-<slug>/` · `planejamento/` | backlog, PRDs, sprints (só na branch base) |
+| `<produto>/` — a pasta escolhida na setup (ex.: `docs/pab`), registrada no `sdd2.md` | `backlog.json`, `epicos/<EP>-<slug>/` (PRDs), `planejamento/`, `aprendizado/` (só na branch base) |
 | `.kiro/specs/<ft>-<slug>/` | uma pasta por fatia: `status.md`, `research.md`, spec do Kiro, revisões, verificação |
-| glossário · ADRs · bundle do ELM | caminhos na seção Conhecimento do `sdd2-projeto.md` |
-| `.kiro/aprendizado/` | lições e casos de avaliação |
+| glossário · ADRs · bundle do ELM | caminhos na seção Projeto do `sdd2.md` |
 | `.kiro/hooks/sdd2.json` · `.kiro/workflows/sdd2-*` · `.kiro/sdd2/http.sh` | opcionais da setup: backpressure por tarefa, receitas, chamada HTTP do verificador |
 | `.kiro/local/` (fora do git) | worktrees do loop, vereditos dos workflows, log dos lotes |
 

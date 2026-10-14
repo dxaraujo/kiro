@@ -23,7 +23,7 @@ partir do bloco V2 e receberam depois as regras que só existem na V3 (tabela ab
 | comando liberado | `toolsSettings.shell.allowedCommands`: `mvn .*` | `shell` `allow`: `mvn *` |
 | comando negado | `toolsSettings.shell.deniedCommands`: `.*git push.*` | `shell` `deny`: `*git push*` |
 | subagente | `tools`: `subagent/<nome>` · `toolsSettings.subagent.availableAgents` e `trustedAgents`: `<nome>` | `subagent` `allow`: `<nome>` |
-| tool de MCP | `tools` e `allowedTools`: `@<servidor>/<tool>` · `"includeMcpJson": true` | `mcp` `allow`: `<servidor>/<tool>` |
+| tool de MCP | `tools` e `allowedTools`: `@<servidor>/<tool>` · `"includeMcpJson": true` | `mcp` `allow`: `<servidor>/<tool>` (com `/`, nunca `<servidor>::<tool>`) |
 | **só V3** | — | `skill` `allow` (todos) · `shell` `ask` de push/PR (orquestrador) · `shell` `ask` de `curl`/`wget` (verificador) |
 
 Regex → glob: `.*` → `*` e tire o escape (`\.` → `.`). Um padrão por **comando simples**: o Kiro separa um comando
@@ -40,6 +40,7 @@ orquestrador.
 | Onde | O quê |
 |---|---|
 | `{{POWER}}` (nos dois blocos) | a pasta do power (Passo 0) |
+| `{{PRODUTO}}` (produto, revisor, codificador; nos dois blocos) | a pasta do produto (Passo 4), ex.: `docs/pab` |
 | `{{GLOSSARIO}}`, `{{ADR}}` (produto, nos dois blocos) | os caminhos do Passo 4 |
 | `{{SKILLS_EXTRAS}}` (no `prompt`) | `Skills do projeto ligadas a você: `a`, `b` — carregue a do artefato antes de escrevê-lo.` ou nada |
 | `{{SUBAGENTES}}` (no `prompt`) | `Subagentes do projeto: `x` (<tipo de tarefa>)` ou nada |
@@ -73,7 +74,7 @@ ignora agentes que o têm).
   `git … --output`, `git … --no-index`). Push negado em todos, menos no orquestrador (`ask`, com `-f`, `+ref`,
   `:ref`, `--mirror`, `--all`, `--prune` negados).
 - **Escrita:** só o que o papel produz (ver cada template); o codificador escreve no projeto, menos `.kiro/agents`,
-  `hooks`, `workflows`, `steering`, `produto`, `.kiro/local/wf`, `.kiro/sdd2` e `.git`.
+  `hooks`, `workflows`, `steering`, a pasta do produto, `.kiro/local/wf`, `.kiro/sdd2` e `.git`.
 
 ## Gravação
 

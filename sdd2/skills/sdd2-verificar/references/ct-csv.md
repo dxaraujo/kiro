@@ -11,9 +11,9 @@ importação é pela UI do ETM (Importar → CSV) e o link "valida" com a histó
 
 ## Colunas (nesta ordem)
 
-Valores do ELM vêm do `.kiro/config/power/elm/pa_*.json` (power `elm`) e do `sdd2-projeto.md`; sem ELM, deixe
+Valores do ELM vêm do `.kiro/config/power/elm/pa_*.json` (power `elm`) e do `sdd2.md`; sem ELM, deixe
 vazios os que não souber. A ordem, os nomes e os valores fixos (tipo, status inicial, categoria) vêm da tabela
-**Testes (ETM)** da seção ELM do `sdd2-projeto.md` — o template de importação do ETM do projeto manda.
+linha `CT.csv` da seção ELM do `sdd2.md` — o template de importação do ETM do projeto manda.
 
 | # | Coluna | Valor |
 |---|---|---|

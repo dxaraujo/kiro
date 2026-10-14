@@ -87,15 +87,12 @@ de `skills/sdd2-setup/assets/`:
 
 | Arquivo | O quê |
 |---|---|
-| `.kiro/steering/sdd2.md` | resumo do fluxo (sempre carregado, curto) |
-| `.kiro/steering/sdd2-projeto.md` | configuração: tipos de projeto, toolkits, comandos, verificação, git, banco, autonomia, ELM, agentes |
-| `.kiro/steering/sdd2-licoes.md` | regras aprendidas (o revisor cobra) |
+| `.kiro/steering/sdd2.md` | o único steering do fluxo (sempre carregado): resumo, configuração do projeto (pasta do produto, comandos, verificação, git, banco, autonomia, ELM, agentes) e regras aprendidas |
 | `.kiro/agents/sdd2-*.json` | `produto`, `pesquisador`, `codificador`, `revisor`, `verificador`, `orquestrador` — cada um com as skills e MCPs que a pessoa liberou |
 | `.kiro/hooks/sdd2.json` (opcional) | backpressure: compila e testa depois de cada tarefa de spec |
-| `.kiro/steering/sdd2-fechar-sessao.md` (opcional) | comando `/sdd2-fechar-sessao`: atualiza o `status.md` e deixa o git limpo ao fim da sessão |
-| `.kiro/workflows/sdd2-*.workflow.json` (opcional, experimental) | `planejar-fatia` e `entregar-fatia` nos Kiro Workflows (uma fatia por vez, disparadas pela pessoa) |
+| `.kiro/workflows/sdd2-*.workflow.json` (opcional, experimental) | `planejar-fatia` e `entregar-fatia` nos Kiro Workflows — quem dispara é a pessoa, no chat do Kiro ("rode o workflow `sdd2-entregar-fatia` para a FT-031" ou `/workflow-run`), uma fatia por vez; nenhum agente as dispara |
 | `.kiro/sdd2/http.sh` (opcional) | única chamada HTTP que o verificador faz sem perguntar: só à URL de teste, com corpo da pasta `massa/` |
-| `.kiro/produto/`, `.kiro/aprendizado/` | backlog, planejamento, lições |
+| pasta do produto (perguntada na setup; ex.: `docs/pab`) | `backlog.json`, épicos e PRDs, `planejamento/`, `aprendizado/` — fora do `.kiro`, que guarda só o padrão do Kiro (`specs`, `steering`, `agents`, `hooks`, `workflows`) e o que é local (`.kiro/local/`, fora do git; `.kiro/sdd2/http.sh`) |
 
 Os agentes nunca recebem o MCP do ELM nem os outros powers (sem `includePowers`): a escrita no ELM acontece na
 sessão da pessoa, com o power `elm` e confirmação; nos agentes ela vira pendência registrada.
@@ -135,7 +132,7 @@ e registra a pendência.
 ## Pré-requisitos
 
 - Kiro IDE 1.x ou Kiro CLI 2.31+; repositório git com branch base e PRs. Na engine V2 do CLI os agentes e as
-  skills funcionam, mas o hook, o `/sdd2-fechar-sessao` e os workflows exigem a IDE ou a engine V3.
+  skills funcionam, mas o hook e os workflows exigem a IDE ou a engine V3.
 - Kiro Web não lê `~/.kiro`: os agentes do projeto aparecem lá, mas sem as skills do power — use a IDE ou o CLI.
 - Opcional: power [`elm`](../elm/) (IBM ELM) com `elm-setup` feito; MCP de consulta ao banco (somente leitura);
   MCP de browser/Playwright para verificar frontend; Kiro Workflows habilitado (IDE: `kiroAgent.workflows.enabled`;
@@ -149,9 +146,13 @@ e registra a pendência.
 3. Comece: **"nova demanda: …"** (épico → PRD), **"vamos trabalhar na FT-031"** (fatia), **"corrigir o defeito
    4567"** (trilha rápida) — ou **"onde parei?"**.
 
-Depois de atualizar o power ou um toolkit: "atualizar os agentes do sdd2". Não use o `/upgrade-agent` (nem
-`kiro-cli agent upgrade`) para regenerar os agentes `sdd2-*`: o conversor não produz as regras que só existem na V3
-(skill liberada, confirmação de push/PR) — ele já os deixa de lado ("out of sync").
+Depois de atualizar o power ou um toolkit: "atualizar os agentes do sdd2". Projeto configurado com a versão
+anterior (quatro steerings e `.kiro/produto/`): "atualizar a configuração do sdd2" — a setup pergunta a pasta do
+produto, junta os steerings num só e move `.kiro/produto/` e `.kiro/aprendizado/` com `git mv`.
+
+Não use o `/upgrade-agent` (nem `kiro-cli agent upgrade`) para regenerar os agentes `sdd2-*`: o conversor não
+produz as regras que só existem na V3 (skill liberada, confirmação de push/PR) — ele já os deixa de lado
+("out of sync").
 
 ## Como foi verificado
 
@@ -192,7 +193,7 @@ steering e de configuração divergem sobre agentes herdarem o steering padrão 
 - O `validate_workflow` do Kiro não confere se os agentes citados existem: a setup confere.
 - Kiro Workflows é experimental: as receitas são opcionais; `/workflow-run` exige a IDE 1.3+.
 - **v2:** toolkits oficiais (backend Java/Spring, Spring Batch, frontend Angular/React); execução automatizada dos
-  casos de avaliação que a `sdd2-aprender` já guarda em `.kiro/aprendizado/avaliacoes/`; e — quando o MCP do ELM
+  casos de avaliação que a `sdd2-aprender` já guarda em `<produto>/aprendizado/avaliacoes/`; e — quando o MCP do ELM
   suportar — atributo de chave, links entre requisitos, módulos, change sets e baselines automáticos.
 
 ## Fontes (consultadas em 13 e 14/10/2026)

@@ -13,8 +13,8 @@ Quem executa é o agente **`sdd2-orquestrador`** (ou a sessão da pessoa, com os
 registra; cada fase é feita por um subagente que começa do zero e lê o estado do disco. A pessoa fica **sobre** o
 loop, não dentro: aprova o lote no início e lê os PRs no fim.
 
-Leia antes: `.kiro/steering/sdd2-projeto.md` (seção Autonomia, comandos, git) e
-`.kiro/produto/planejamento/acordos.md` (WIP).
+Leia antes: `.kiro/steering/sdd2.md` (seções Git, banco e autonomia e Comandos) e
+`<produto>/planejamento/acordos.md` (WIP).
 
 ## Passo 0 — Retomar?
 
@@ -26,7 +26,7 @@ e pergunte se retoma. Retomar = continuar cada fatia da fase registrada no `stat
 1. Candidatas: as fatias pedidas, ou as `pronta` + `AFK` da sprint atual, em ordem de prioridade.
 2. Fica de fora (diga o motivo): HITL; Definition of Ready não atendida; `bloqueada-por` não concluída e não
    presente antes no lote; já em andamento com outra pessoa.
-3. **Limite:** paralelismo do `sdd2-projeto.md` (padrão 1, máximo 3) **e** vagas de WIP de revisão humana (limite
+3. **Limite:** paralelismo do `sdd2.md` (padrão 1, máximo 3) **e** vagas de WIP de revisão humana (limite
    dos acordos menos as fatias já esperando pessoa: `plano-em-revisao`, `aceita`, `pr-aberto`). PR que ninguém vai
    revisar hoje não deve ser produzido hoje.
 4. Proposta — **uma confirmação para o lote todo**:

@@ -1,10 +1,10 @@
-# Backlog do produto — `.kiro/produto/backlog.json`
+# Backlog do produto — `<produto>/backlog.json`
 
 Fonte única dos ids locais (`EP-nn`, `FT-nnn`), do **planejamento** (o que existe, em que ordem, em que sprint) e do
 mapeamento com o ELM. Versionado. `backlog.md` é **gerado** a partir dele (nunca editado à mão).
 
 **Onde é escrito:** só na **branch base** (direto ou por um PR curto, conforme "Artefatos de produto" no
-`sdd2-projeto.md`) — **nunca numa branch de fatia**, para que fatias em paralelo não disputem o mesmo arquivo. O
+`sdd2.md`) — **nunca numa branch de fatia**, para que fatias em paralelo não disputem o mesmo arquivo. O
 andamento de uma fatia (fase, branch, PR) não mora aqui: mora no `status.md` da pasta dela, na branch dela, e o
 `sdd2-status` o lê de lá.
 
@@ -20,7 +20,7 @@ andamento de uma fatia (fase, branch, PR) não mora aqui: mora no `status.md` da
       "titulo": "Bloqueio por tentativas de login",
       "status": "fatiado",
       "prioridade": 1,
-      "prd": ".kiro/produto/epicos/EP-03-bloqueio-login/prd.md",
+      "prd": "<produto>/epicos/EP-03-bloqueio-login/prd.md",
       "elm": { "id": "612001", "url": "https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612001" }
     }
   ],

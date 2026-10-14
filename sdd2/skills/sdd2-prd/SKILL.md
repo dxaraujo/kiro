@@ -9,7 +9,7 @@ metadata:
 
 # sdd2-prd — O quê e por quê (épico)
 
-Saída, em `.kiro/produto/epicos/<EP>-<slug>/`: o `prd.md` no formato de
+Saída, em `<produto>/epicos/<EP>-<slug>/`: o `prd.md` no formato de
 [references/prd-template.md](references/prd-template.md), o `decisoes.md` e a pasta `elm/` com **um conceito OKF
 v0.2 por história, regra e termo novo** — o formato de [references/okf-elm.md](references/okf-elm.md), o mesmo do
 bundle que a `elm-sync` mantém. São esses arquivos que sobem para o DOORS Next depois do GATE; até lá, ficam aqui.
@@ -20,7 +20,7 @@ oficial; o que vale a longo prazo é o ELM, o glossário e os ADRs. Se o PRD afi
 defeito do PRD. Trabalho que cabe numa sessão (uma fatia, um ajuste) **não precisa de PRD**: vá de
 `sdd2-entrevistar` direto para `sdd2-iniciar`.
 
-Leia antes: `.kiro/steering/sdd2-projeto.md` (ELM, caminhos, papéis) e o steering de produto que ele aponta.
+Leia antes: `.kiro/steering/sdd2.md` (ELM, caminhos, papéis) e o steering de produto que ele aponta.
 
 ## Passo 1 — Entender a demanda
 
@@ -31,10 +31,10 @@ Leia antes: `.kiro/steering/sdd2-projeto.md` (ELM, caminhos, papéis) e o steeri
    - documentação atual no bundle do ELM (`<rm.download.path>`): histórias e regras que já tratam do assunto —
      o PRD **altera** o que existe, não duplica;
    - código: onde o comportamento mora hoje, funcionalidades análogas;
-   - glossário e ADRs (caminhos no `sdd2-projeto.md`, seção Conhecimento): termos e decisões que já valem.
+   - glossário e ADRs (caminhos na seção Projeto do `sdd2.md`): termos e decisões que já valem.
    Registre o que achou como fontes (id ELM, `arquivo:linha`).
-3. Defina o id: próximo `EP-<nn>` livre em `.kiro/produto/backlog.json` (crie o arquivo se não existir —
-   formato na `sdd2-fatiar`). Pasta: `.kiro/produto/epicos/<EP>-<slug>/` (`slug` em kebab-case, sem acento).
+3. Defina o id: próximo `EP-<nn>` livre em `<produto>/backlog.json` (crie o arquivo se não existir —
+   formato na `sdd2-fatiar`). Pasta: `<produto>/epicos/<EP>-<slug>/` (`slug` em kebab-case, sem acento).
 
 ## Passo 2 — Entrevistar
 
@@ -86,11 +86,11 @@ Aprovar? (o P.O. ou quem ele delegou)
 - Aprovado → no `prd.md`: `status: aprovado`, versão `1.0`, data e quem aprovou no rodapé. Em **cada** conceito de
   `elm/`: `status: stable` e um `verified` com `{ by: human:<login de quem aprovou>, at: <agora> }` — sem esse
   `verified` humano a `sdd2-elm` não publica. Entrada `**Update**` no `log.md`. Commit do PRD, do `decisoes.md`, de
-  `elm/` e do `backlog.json` (padrão de commit do `sdd2-projeto.md`) — artefatos de produto vão para a **base**,
-  direto ou por PR curto, conforme "Artefatos de produto" no `sdd2-projeto.md`; nunca numa branch de fatia.
+  `elm/` e do `backlog.json` (padrão de commit do `sdd2.md`) — artefatos de produto vão para a **base**,
+  direto ou por PR curto, conforme "Artefatos de produto" no `sdd2.md`; nunca numa branch de fatia.
 - Próximo passo, na mesma resposta:
   1. **`sdd2-elm`** modo *requisitos* — publicar HF/REG/GL no DOORS Next (se o projeto usa ELM e a publicação é
-     `na-aprovacao` no `sdd2-projeto.md`);
+     `na-aprovacao` no `sdd2.md`);
   2. **`sdd2-fatiar`** — quebrar em fatias verticais para o backlog.
 
 ## Mudança depois de aprovado

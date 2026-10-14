@@ -13,8 +13,8 @@ Com agentes escrevendo código, o que limita a entrega é a **atenção humana**
 PRs, verificar e aceitar. O planejamento do sdd2 mede e protege essa capacidade, trabalha com fatias pequenas e de
 tamanho parecido e prevê pela **vazão** (fatias concluídas por sprint), mantendo os pontos no EWM para quem os usa.
 
-Arquivos em `.kiro/produto/planejamento/` (formatos em [references/arquivos.md](references/arquivos.md)):
-`equipe.json`, `acordos.md`, `roadmap.md`, `sprints/sprint-<nn>.md`. Fatias: `.kiro/produto/backlog.json`.
+Arquivos em `<produto>/planejamento/` (formatos em [references/arquivos.md](references/arquivos.md)):
+`equipe.json`, `acordos.md`, `roadmap.md`, `sprints/sprint-<nn>.md`. Fatias: `<produto>/backlog.json`.
 
 Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
 

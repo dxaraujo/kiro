@@ -9,7 +9,7 @@ metadata:
 
 # sdd2-iniciar — Triagem e entrada
 
-Leia antes: `.kiro/steering/sdd2-projeto.md`. Sem ele → ofereça a **`sdd2-setup`** ("configurar o sdd2") e pare.
+Leia antes: `.kiro/steering/sdd2.md`. Sem ele → ofereça a **`sdd2-setup`** ("configurar o sdd2") e pare.
 
 ## Passo 1 — O que chegou
 
@@ -20,7 +20,7 @@ nunca se inventa dado de work item: (1) `status.md` nas branches (atual, worktre
 
 | Entrada | Como ler |
 |---|---|
-| `FT-nnn` | `.kiro/produto/backlog.json` (+ PRD do épico) |
+| `FT-nnn` | `<produto>/backlog.json` (+ PRD do épico) |
 | `EP-nn` ou "nova demanda" | é trabalho de produto → **`sdd2-prd`** (ou `sdd2-fatiar`, se o PRD já está aprovado) |
 | número do EWM (IB, DF, tarefa) | skill `elm-ccm` do power `elm`; o item pode já estar no `backlog.json` (campo `elm`) — procure primeiro lá |
 | texto ("corrigir o cálculo de juros") | a própria descrição; pergunte só o que faltar para a triagem |
@@ -58,7 +58,7 @@ Falhou um item → diga qual e o caminho (`sdd2-entrevistar`, `sdd2-fatiar` refi
 
 1. **Branch** — sugira e **aguarde**:
    ```
-   Branch sugerida: <prefixo do sdd2-projeto.md><ft>-<slug>   (ex.: feature/ft-031-bloquear-conta)
+   Branch sugerida: <prefixo do sdd2.md><ft>-<slug>   (ex.: feature/ft-031-bloquear-conta)
    Confirma, ou informe outro nome:
    ```
    Confirmado → `git fetch` e `git switch -c <branch> origin/<base>`.

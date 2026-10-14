@@ -1,6 +1,6 @@
 ---
 name: sdd2-status
-description: "Painel do fluxo sdd2, somente leitura — onde parei e o que fazer agora: fatias em andamento (nesta branch, nas worktrees e nas branches remotas) com fase, trilha, modo AFK/HITL, progresso do tasks.md, achados abertos e PR; WIP de revisão humana contra o acordo do time; sprint atual e meta; fatias prontas para começar; épicos e PRDs pendentes de aprovação; pendências de ELM; lições propostas; e inconsistências. SEMPRE use esta skill (leia-a antes de responder) em \"onde parei\", \"status\", \"painel\", \"bom dia\", \"o que tem pendente\", \"qual a próxima fatia\", \"como está a sprint\", \"retomar\"."
+description: "Painel do fluxo sdd2, somente leitura — onde parei e o que fazer agora: fatias em andamento (nesta branch, nas worktrees e nas branches remotas) com fase, trilha, modo AFK/HITL, progresso do tasks.md, achados abertos e PR; WIP de revisão humana contra o acordo do time; sprint atual e meta; fatias prontas para começar; épicos e PRDs pendentes de aprovação; pendências de ELM; lições propostas; e inconsistências. Também fecha a sessão de trabalho numa fatia (atualiza o status.md, deixa o git pronto para commit e diz como retomar). SEMPRE use esta skill (leia-a antes de responder) em \"onde parei\", \"status\", \"painel\", \"bom dia\", \"o que tem pendente\", \"qual a próxima fatia\", \"como está a sprint\", \"retomar\", \"fechar a sessão\", \"encerrar por hoje\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -9,8 +9,8 @@ metadata:
 
 # sdd2-status — Onde parei
 
-Somente leitura: não altera arquivo, branch nem ELM. Sem `.kiro/steering/sdd2-projeto.md` → diga que o fluxo
-não está configurado e ofereça a `sdd2-setup`.
+O painel é somente leitura: não altera arquivo, branch nem ELM. Pedido de **fechar a sessão** → modo da última
+seção. Sem `.kiro/steering/sdd2.md` → diga que o fluxo não está configurado e ofereça a `sdd2-setup`.
 
 ## Coleta
 
@@ -21,12 +21,12 @@ não está configurado e ofereça a `sdd2-setup`.
 2. De cada `status.md`: fatia, título, trilha, modo, fase, responsável, rodadas, achados abertos, PR, ELM,
    Banco, última linha do Histórico (data) e pendências `ELM pendente:` sem `ELM feito:` correspondente.
 3. De cada `tasks.md`: `[x]`/total e o primeiro item pendente.
-4. `.kiro/produto/backlog.json` (da base): épicos por status, fatias `pronta` sem `status.md` em nenhuma branch,
+4. `<produto>/backlog.json` (da base): épicos por status, fatias `pronta` sem `status.md` em nenhuma branch,
    sprint atual (`planejamento/sprints/` de maior número não fechada) e a meta. "Em andamento" = fatia com
    `status.md` numa branch e fase diferente de `concluida`; o backlog não guarda isso.
    PRDs (`epicos/*/prd.md`): status e pendências `ELM pendente:` do rodapé.
-5. `.kiro/produto/planejamento/acordos.md`: limites de WIP.
-6. `.kiro/aprendizado/licoes.md`: lições com situação `proposta`.
+5. `<produto>/planejamento/acordos.md`: limites de WIP.
+6. `<produto>/aprendizado/licoes.md`: lições com situação `proposta`.
 7. Lotes autônomos em andamento: `.kiro/local/loop-*.md`.
 8. "Minhas" = responsável igual ao login da pessoa: `git config user.name` cruzado com `nome`/`login` do
    `equipe.json`; sem correspondência, pergunte o login uma vez.
@@ -70,3 +70,15 @@ trabalho de produto (PRD/fatiar) para manter o backlog com fatias prontas.
 - conceito de `elm/` com `verified` humano e sem `resource` há mais de 1 dia (projeto que publica na aprovação);
 - conceito de `elm/` alterado (`generated.at`) depois do último `verified` e ainda `stable` (falta reaprovar);
 - `backlog.json` alterado numa branch de fatia (deve mudar só na base).
+
+## Fechar a sessão
+
+Ao encerrar uma sessão numa fatia, para que a próxima — sua, de outra pessoa ou de um agente — retome sem perder o
+fio:
+
+1. Acrescente ao Histórico do `status.md` da fatia o que foi feito, o **próximo passo exato** e as decisões desta
+   sessão.
+2. Marque no `tasks.md` só o que está realmente pronto e verde.
+3. Mostre o `git status` e proponha o commit do que está pronto (padrão do `sdd2.md`); grave só com "ok" e nunca
+   faça push.
+4. Termine com a frase para retomar numa sessão nova (ex.: "vamos trabalhar na FT-031").

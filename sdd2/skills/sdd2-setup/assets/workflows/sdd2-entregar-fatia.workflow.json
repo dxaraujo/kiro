@@ -34,7 +34,7 @@
           "type": "step",
           "id": "revisar",
           "agent": "sdd2-revisor",
-          "prompt": "Fatia {{fatia}}. Revise o código pela rubrica C da skill sdd2-revisar (diff contra a branch base do sdd2-projeto.md), eixos spec e padrões separados. Grave o revisao-codigo-<N>.md na pasta da fatia e .kiro/local/wf/{{fatia}}/codigo.json com {\"veredito\": \"APROVADO\"} ou {\"veredito\": \"REVISAR\"}. Não conseguiu revisar (build quebrado sem relação com a fatia, ferramenta ou ambiente fora): send_message severity error com o motivo."
+          "prompt": "Fatia {{fatia}}. Revise o código pela rubrica C da skill sdd2-revisar (diff contra a branch base do sdd2.md), eixos spec e padrões separados. Grave o revisao-codigo-<N>.md na pasta da fatia e .kiro/local/wf/{{fatia}}/codigo.json com {\"veredito\": \"APROVADO\"} ou {\"veredito\": \"REVISAR\"}. Não conseguiu revisar (build quebrado sem relação com a fatia, ferramenta ou ambiente fora): send_message severity error com o motivo."
         }
       ]
     },

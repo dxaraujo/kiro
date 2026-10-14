@@ -1,7 +1,7 @@
 #!/bin/sh
 # sdd2 — chamada HTTP do agente sdd2-verificador, só para a URL de teste do projeto.
 # Instalado pela sdd2-setup em .kiro/sdd2/http.sh (o verificador tem permissão para rodar só este script, e nenhum
-# agente pode alterá-lo). A URL vem da seção Verificação do .kiro/steering/sdd2-projeto.md; mudou → rode a setup.
+# agente pode alterá-lo). A URL vem da seção Verificação de aceite do .kiro/steering/sdd2.md; mudou → rode a setup.
 #
 # Uso (da raiz do repositório):
 #   sh .kiro/sdd2/http.sh <MÉTODO> <caminho> [corpo.json]

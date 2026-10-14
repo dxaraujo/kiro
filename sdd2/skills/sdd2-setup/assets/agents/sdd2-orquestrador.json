@@ -14,7 +14,6 @@
   "allowedTools": [],
   "resources": [
     "file://.kiro/steering/sdd2.md",
-    "file://.kiro/steering/sdd2-projeto.md",
     "skill://{{POWER}}/skills/sdd2-loop/SKILL.md",
     "skill://{{POWER}}/skills/sdd2-iniciar/SKILL.md",
     "skill://{{POWER}}/skills/sdd2-status/SKILL.md"

@@ -15,7 +15,7 @@ ADRs. Templates: [references/plano-templates.md](references/plano-templates.md).
 
 Entrada: pasta `.kiro/specs/<ft>-<slug>/` criada pela `sdd2-iniciar`, na branch da fatia.
 Leia: `status.md`, a fatia no `backlog.json`, o PRD do épico (histórias e regras cobertas) ou o defeito,
-`.kiro/steering/sdd2-projeto.md`, o steering de tecnologia/estrutura e `.kiro/steering/sdd2-licoes.md`.
+`.kiro/steering/sdd2.md` (com as regras aprendidas) e o steering de tecnologia/estrutura.
 
 ## Passo 1 — Pesquisa
 
@@ -71,9 +71,9 @@ Aprovar? Leia de preferência: forma do programa e contrato de pronto.
 ```
 
 - **HITL** → sempre uma pessoa aprova. Sugira que seja quem vai revisar o PR (alinha antes do código).
-- **AFK** → o `sdd2-projeto.md` decide (`Plano de fatia AFK: aprovação humana | análise independente basta`). Com
+- **AFK** → o `sdd2.md` decide (`Plano AFK`: `aprovação humana | análise basta`). Com
   "análise basta", a fatia segue com `ANALISE: OK` (quem conduz grava `fase: implementando`); a pessoa revisa no PR.
-- **Trilha rápida** → `Trilha rápida pede GATE do plano` do `sdd2-projeto.md`: `não` → segue com `ANALISE: OK`;
+- **Trilha rápida** → `GATE na trilha rápida` do `sdd2.md`: `não` → segue com `ANALISE: OK`;
   `sim` → como HITL.
 - Aprovado → `fase: implementando`, linha no Histórico (quem aprovou), commit dos arquivos do plano. Próximo:
   **`sdd2-implementar`** — numa sessão nova, de preferência (o plano está no disco; o contexto da pesquisa não é

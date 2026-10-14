@@ -70,7 +70,7 @@
     "comandos": {
       "type": "object",
       "additionalProperties": false,
-      "description": "Propostas para a seção Comandos do sdd2-projeto.md; {alvo} = classe/arquivo de teste.",
+      "description": "Propostas para a seção Comandos do sdd2.md; {alvo} = classe/arquivo de teste.",
       "properties": {
         "compilar": { "type": "string" },
         "testes": { "type": "string" },

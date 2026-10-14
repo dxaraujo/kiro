@@ -33,7 +33,7 @@ Drift de **negócio** (regra, cenário, valor) → o PRD precisa de nova versão
 ## Passo 2 — ELM (com o power `elm`; senão registre pendências)
 
 Pela **`sdd2-elm`**, numa confirmação só:
-- *requisitos* — publicar/atualizar o que ainda não foi (publicação `no-merge` no `sdd2-projeto.md`, ou drift do
+- *requisitos* — publicar/atualizar o que ainda não foi (publicação `no-merge` no `sdd2.md`, ou drift do
   Passo 1);
 - *especificação técnica* — se o projeto publica ET: gerar a ET **as-built** da fatia a partir do `design.md` e do
   código final (interfaces, dados, integrações) e publicar;
@@ -49,7 +49,7 @@ Bundle do ELM no repositório (`rm.download.path`) → sugira rodar a `elm-sync`
 ## Passo 3 — Conhecimento que dura
 
 - **ADRs:** decisões técnicas do `design.md` marcadas "Vira ADR? sim" (ou que mudam como o time vai construir daqui
-  para a frente) → um ADR curto na pasta de ADRs do `sdd2-projeto.md` (contexto · decisão · consequências ·
+  para a frente) → um ADR curto na pasta de ADRs do `sdd2.md` (contexto · decisão · consequências ·
   origem FT-nnn). Mostre e grave com "ok".
 - **Glossário:** termos que o código novo introduziu ou renomeou estão no glossário? Divergência → corrija o
   glossário (com "ok") ou abra a correção do código como fatia.
@@ -60,12 +60,12 @@ Bundle do ELM no repositório (`rm.download.path`) → sugira rodar a `elm-sync`
 ## Passo 4 — Fechar
 
 - Na **base** (`git switch <base>` + `git pull --ff-only`; direto ou por PR curto, conforme "Artefatos de produto"
-  no `sdd2-projeto.md` — várias fatias podem ir no mesmo PR de consolidação): `status.md` da fatia com
+  no `sdd2.md` — várias fatias podem ir no mesmo PR de consolidação): `status.md` da fatia com
   `fase: concluida` e data; `backlog.json` com `status: concluida` e `concluida-em`; ADRs e glossário do Passo 3.
 - Todas as fatias do épico concluídas → épico `concluido` (PRD e backlog).
 - **`sdd2-aprender`** modo registrar para cada correção humana da fatia (achados da revisão que chegaram à pessoa,
   verificações rejeitadas, mudanças pedidas no PR) — e modo retrospectiva se a pessoa quiser.
-- Commit (padrão do `sdd2-projeto.md`) com `status.md`, `backlog.json`/`backlog.md` e o que mudou. Branch da
+- Commit (padrão do `sdd2.md`) com `status.md`, `backlog.json`/`backlog.md` e o que mudou. Branch da
   fatia: pode ser apagada depois do merge (a pasta da fatia já está na base).
 
 ## Passo 5 — Próximo

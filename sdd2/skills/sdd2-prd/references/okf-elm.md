@@ -9,7 +9,7 @@ no repositório, então o rascunho e a versão oficial se leem do mesmo jeito.
 
 | Origem | Pasta (um bundle OKF pequeno) |
 |---|---|
-| épico (PRD) | `.kiro/produto/epicos/<EP>-<slug>/elm/` |
+| épico (PRD) | `<produto>/epicos/<EP>-<slug>/elm/` |
 | fatia de trilha rápida que muda documentação | `.kiro/specs/<ft>-<slug>/elm/` |
 
 ```
@@ -166,6 +166,6 @@ okf_version: "0.2"
 1. Todo `.md` de `elm/` (fora `index.md` e `log.md`) tem frontmatter YAML que faz parse, com `type` não vazio.
 2. Só chaves do OKF v0.2, mais `id` (e as que vieram do bundle numa cópia).
 3. `status` presente; `draft` antes do GATE.
-4. `type` e `tags` existem no mapeamento do projeto (`pa_*.json`, seção ELM do `sdd2-projeto.md`).
+4. `type` e `tags` existem no mapeamento do projeto (`pa_*.json`, seção ELM do `sdd2.md`).
 5. Toda HF tem cenários e liga as suas REGs; todo link relativo aponta para um arquivo que existe.
 6. `index.md` lista todos os conceitos; `log.md` com datas `AAAA-MM-DD`.

@@ -15,9 +15,9 @@ feche as decisões que as fontes não respondem — o agente **não** preenche l
 ## Entrada
 
 - **O que está sendo alinhado:** demanda (texto, work item do EWM), PRD, fatia ou plano técnico.
-- **Onde registrar:** a pasta do épico (`.kiro/produto/epicos/<EP>-<slug>/decisoes.md`) ou da fatia
+- **Onde registrar:** a pasta do épico (`<produto>/epicos/<EP>-<slug>/decisoes.md`) ou da fatia
   (`.kiro/specs/<ft>-<slug>/decisoes.md`). Quem chamou informa; chamada direta → pergunte uma vez.
-- **Glossário:** o caminho está no `.kiro/steering/sdd2-projeto.md` (seção Conhecimento; padrão `docs/glossario.md`).
+- **Glossário:** o caminho está no `.kiro/steering/sdd2.md` (seção Projeto; padrão `docs/glossario.md`).
 
 ## Passo 1 — Montar a árvore de decisões (sem perguntar nada ainda)
 
@@ -28,10 +28,10 @@ feche as decisões que as fontes não respondem — o agente **não** preenche l
    depender de outra: ordene para que a resposta de cima mude as de baixo.
 3. **Responda sozinho o que tiver fonte**, citando-a — não pergunte o que dá para descobrir:
    - comportamento atual → o código (`arquivo:linha`);
-   - regra documentada → bundle do ELM (`<rm.download.path>` do `sdd2-projeto.md`), pela busca de texto do Kiro no
+   - regra documentada → bundle do ELM (`<rm.download.path>` do `sdd2.md`), pela busca de texto do Kiro no
      título e no corpo dos `.md`;
    - termo do domínio → glossário;
-   - dado → banco pelo MCP de consulta (somente leitura), se o `sdd2-projeto.md` declarar um.
+   - dado → banco pelo MCP de consulta (somente leitura), se o `sdd2.md` declarar um.
    Fato encontrado vira decisão `confirmada — fonte: <…>`; não ocupa a pessoa.
 
 ## Passo 2 — Perguntar em rodadas, pela fronteira

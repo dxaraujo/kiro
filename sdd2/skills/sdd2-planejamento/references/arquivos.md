@@ -1,4 +1,4 @@
-# Arquivos do planejamento — `.kiro/produto/planejamento/`
+# Arquivos do planejamento — `<produto>/planejamento/`
 
 Todos versionados. Antes de gravar: `git pull --ff-only` (falhou → a branch local divergiu: peça à pessoa que a
 atualize); mostre o diff e grave só com "ok".

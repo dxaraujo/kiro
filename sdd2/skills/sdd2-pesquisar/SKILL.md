@@ -40,7 +40,7 @@ Antes de abrir o código, escreva de 3 a 7 perguntas que o plano vai precisar re
 - **Dados:** schema real pelo MCP de banco (somente leitura) ou pelos modelos/migrações; volumetria se importar.
 - **Documentação:** histórias e regras do bundle do ELM (`<rm.download.path>`) que tratam do mesmo comportamento —
   divergência entre código e documentação é um achado importante.
-- **Testes:** como rodar só os testes da área (comando de teste único do `sdd2-projeto.md`) e o que já cobrem.
+- **Testes:** como rodar só os testes da área (comando de teste único do `sdd2.md`) e o que já cobrem.
 - Skills do toolkit do projeto ligadas a você: carregue a da stack antes de interpretar código dela.
 
 ## Passo 3 — `research.md`

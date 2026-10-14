@@ -1,6 +1,6 @@
 ---
 name: sdd2-fatiar
-description: "Quebra um PRD aprovado do fluxo sdd2 em fatias verticais (tracer bullets) — cada fatia atravessa todas as camadas, entrega um comportamento verificável de ponta a ponta, cita as histórias e cenários que cobre, as dependências (bloqueada por), o tamanho (P/M/G, nunca maior) e o modo de autonomia (AFK: o agente faz sozinho até o PR · HITL: precisa de uma pessoa no meio). Grava o backlog em .kiro/produto/backlog.json, conduz o GATE do backlog e, com ELM, publica as fatias como itens de backlog no EWM pela sdd2-elm. Use em \"fatiar o PRD\", \"quebrar em histórias\", \"gerar o backlog\", \"criar os itens de backlog\", \"PRD para issues\", \"refinar o backlog\"."
+description: "Quebra um PRD aprovado do fluxo sdd2 em fatias verticais (tracer bullets) — cada fatia atravessa todas as camadas, entrega um comportamento verificável de ponta a ponta, cita as histórias e cenários que cobre, as dependências (bloqueada por), o tamanho (P/M/G, nunca maior) e o modo de autonomia (AFK: o agente faz sozinho até o PR · HITL: precisa de uma pessoa no meio). Grava o backlog em <produto>/backlog.json, conduz o GATE do backlog e, com ELM, publica as fatias como itens de backlog no EWM pela sdd2-elm. Use em \"fatiar o PRD\", \"quebrar em histórias\", \"gerar o backlog\", \"criar os itens de backlog\", \"PRD para issues\", \"refinar o backlog\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -9,9 +9,9 @@ metadata:
 
 # sdd2-fatiar — PRD → fatias verticais
 
-Entrada: PRD `aprovado` (`.kiro/produto/epicos/<EP>-<slug>/prd.md`). Saída: fatias no
-`.kiro/produto/backlog.json` (formato em [references/backlog.md](references/backlog.md)) e a visão humana
-`.kiro/produto/backlog.md`, regenerada a partir do JSON.
+Entrada: PRD `aprovado` (`<produto>/epicos/<EP>-<slug>/prd.md`). Saída: fatias no
+`<produto>/backlog.json` (formato em [references/backlog.md](references/backlog.md)) e a visão humana
+`<produto>/backlog.md`, regenerada a partir do JSON.
 
 ## O que é uma boa fatia
 
@@ -74,7 +74,7 @@ Ajuste e repita até "ok". Esse "ok" é o **GATE do backlog** (P.O. ou time no r
    `FT-<nnn>` sequenciais no projeto, **nunca reaproveitados**.
 2. Regenere `backlog.md` a partir do JSON.
 3. PRD: `status: fatiado`.
-4. Commit (padrão do `sdd2-projeto.md`): `backlog.json`, `backlog.md`, `prd.md`.
+4. Commit (padrão do `sdd2.md`): `backlog.json`, `backlog.md`, `prd.md`.
 
 ## Passo 4 — Próximos passos (na mesma resposta)
 
@@ -88,7 +88,7 @@ Ajuste e repita até "ok". Esse "ok" é o **GATE do backlog** (P.O. ou time no r
 "Refinar o backlog", "a FT-033 está grande demais", "faltou uma fatia":
 - **Dividir:** a fatia original fica `status: dividida` com `substituida-por: [FT-x, FT-y]`; as novas herdam a
   cobertura (repartida), as dependências e o épico. No EWM, a `sdd2-elm` cria os itens novos como filhos do item
-  original ou fecha o original — conforme o `sdd2-projeto.md`.
+  original ou fecha o original — conforme o `sdd2.md`.
 - **Juntar:** só fatias ainda em `backlog`; a que some fica `status: cancelada` com `motivo`.
 - **Nova fatia:** cenário novo exige PRD alterado antes (`sdd2-prd`, mudança depois de aprovado).
 - **Definition of Ready:** a cada refinamento, confira as fatias `backlog` e grave `pronta` nas que passam (e

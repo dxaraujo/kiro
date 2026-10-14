@@ -10,7 +10,7 @@ atualizado: <AAAA-MM-DD>
 # PRD — EP-<nn> <título>
 
 > O quê e por quê, na linguagem do negócio. O **como** técnico fica no plano de cada fatia (`design.md`).
-> Decisões: `decisoes.md` (nesta pasta) · Glossário e ADRs: caminhos no `.kiro/steering/sdd2-projeto.md`
+> Decisões: `decisoes.md` (nesta pasta) · Glossário e ADRs: caminhos no `.kiro/steering/sdd2.md`
 
 ## Problema
 

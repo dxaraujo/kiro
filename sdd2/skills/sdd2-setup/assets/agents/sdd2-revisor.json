@@ -10,8 +10,6 @@
   "allowedTools": [],
   "resources": [
     "file://.kiro/steering/sdd2.md",
-    "file://.kiro/steering/sdd2-projeto.md",
-    "file://.kiro/steering/sdd2-licoes.md",
     "skill://{{POWER}}/skills/sdd2-revisar/SKILL.md"
   ],
   "toolsSettings": {
@@ -36,7 +34,7 @@
         ".kiro/local/wt/*/.kiro/specs/*/revisao-*.md",
         ".kiro/specs/*/analise-*.md",
         ".kiro/local/wt/*/.kiro/specs/*/analise-*.md",
-        ".kiro/produto/epicos/*/revisao-*.md",
+        "{{PRODUTO}}/epicos/*/revisao-*.md",
         ".kiro/local/wf/*/prd.json",
         ".kiro/local/wf/*/plano.json",
         ".kiro/local/wf/*/codigo.json"
@@ -217,7 +215,7 @@
           ".kiro/local/wt/*/.kiro/specs/*/revisao-*.md",
           ".kiro/specs/*/analise-*.md",
           ".kiro/local/wt/*/.kiro/specs/*/analise-*.md",
-          ".kiro/produto/epicos/*/revisao-*.md",
+          "{{PRODUTO}}/epicos/*/revisao-*.md",
           ".kiro/local/wf/*/prd.json",
           ".kiro/local/wf/*/plano.json",
           ".kiro/local/wf/*/codigo.json"

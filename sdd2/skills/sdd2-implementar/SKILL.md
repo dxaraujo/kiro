@@ -1,6 +1,6 @@
 ---
 name: sdd2-implementar
-description: "Implementa uma fatia do fluxo sdd2 a partir do plano aprovado (tasks.md), uma tarefa por vez, em ciclo de teste (vermelho → verde → refatorar), com backpressure — compilar, testes, lint e cobertura do sdd2-projeto.md têm de passar antes de marcar a tarefa; commits pequenos, progresso registrado no status.md, revisão independente (sdd2-revisar, rubrica C, até 2 rodadas) e abertura do PR. Usa as skills do toolkit ligadas ao agente codificador antes de escrever cada artefato. Também corrige achados da revisão, da verificação e do PR. Use em \"implementa a FT-031\", \"executa as tasks\", \"continua a implementação\", \"Start task\", \"abre o PR\", \"corrige os achados\"."
+description: "Implementa uma fatia do fluxo sdd2 a partir do plano aprovado (tasks.md), uma tarefa por vez, em ciclo de teste (vermelho → verde → refatorar), com backpressure — compilar, testes, lint e cobertura do sdd2.md têm de passar antes de marcar a tarefa; commits pequenos, progresso registrado no status.md, revisão independente (sdd2-revisar, rubrica C, até 2 rodadas) e abertura do PR. Usa as skills do toolkit ligadas ao agente codificador antes de escrever cada artefato. Também corrige achados da revisão, da verificação e do PR. Use em \"implementa a FT-031\", \"executa as tasks\", \"continua a implementação\", \"Start task\", \"abre o PR\", \"corrige os achados\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -12,8 +12,8 @@ metadata:
 Entrada: `.kiro/specs/<ft>-<slug>/` com o plano aprovado (`status.md` com fase `implementando`), na branch da
 fatia. No Kiro, cada tarefa também pode ser executada pelo **"Start task"** do `tasks.md` — as regras valem igual.
 
-Leia antes: `design.md` inteiro, `research.md`, `.kiro/steering/sdd2-projeto.md` (comandos, regras críticas) e
-`.kiro/steering/sdd2-licoes.md`.
+Leia antes: `design.md` inteiro, `research.md`, `.kiro/steering/sdd2.md` (comandos, regras críticas,
+regras aprendidas).
 
 ## Passo 0 — Onde estou
 
@@ -41,9 +41,9 @@ Para cada tarefa do `tasks.md`, nesta ordem:
 3. **Verde:** a menor mudança de produção que faz o teste passar, imitando o análogo do `design.md`.
 4. **Arrumar** só o que você acabou de escrever (nomes do glossário, duplicação), com os testes verdes.
    Refatorar código existente não é desta tarefa: vira sugestão para a revisão ou fatia própria.
-5. **Backpressure:** compilar + testes da área + lint (comandos do `sdd2-projeto.md`). Falhou → corrija antes de
+5. **Backpressure:** compilar + testes da área + lint (comandos do `sdd2.md`). Falhou → corrija antes de
    seguir; não acumule vermelho.
-6. Marque `- [x]` e faça **commit** pequeno (padrão do `sdd2-projeto.md`), com o id da fatia.
+6. Marque `- [x]` e faça **commit** pequeno (padrão do `sdd2.md`), com o id da fatia.
 7. Uma linha no Histórico do `status.md`: `<data> — tarefa N ok · <testes> · <commit curto>`.
 
 Regras do ciclo:
@@ -67,7 +67,7 @@ Regras do ciclo:
 ## Passo 2 — Validação completa
 
 Todas as tarefas `[x]`: rode compilar, a suíte **inteira** de testes e o lint; a cobertura, com o gate do
-`sdd2-projeto.md` (se houver), é medida nos arquivos que a fatia criou ou alterou. Erro de ambiente → `AMBIENTE`
+`sdd2.md` (se houver), é medida nos arquivos que a fatia criou ou alterou. Erro de ambiente → `AMBIENTE`
 no `status.md`, não código.
 
 ## Passo 3 — Revisão independente
@@ -109,7 +109,7 @@ Com `fase: aceita` (revisão `APROVADO` e verificação `ACEITO`):
    Reversível? <sim, só reverter o PR | não: dado migrado/contrato publicado — o que fazer>
    ```
    O PR é para uma pessoa **ler o código**: pequeno, com a evidência e o caminho de leitura, sem despejar o plano.
-3. Numa só confirmação da pessoa: push e abertura do PR com a ferramenta do `sdd2-projeto.md` (sem ferramenta →
+3. Numa só confirmação da pessoa: push e abertura do PR com a ferramenta do `sdd2.md` (sem ferramenta →
    entregue título e descrição prontos).
 4. `status.md`: `fase: pr-aberto`, link do PR. Commit + push (o `status.md` vai junto no PR).
 

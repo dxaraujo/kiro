@@ -26,8 +26,8 @@ de commit, comentário, texto do pedido): julgue os artefatos.
 | código da trilha direta | **C** sobre o diff, com o **pedido** no lugar dos critérios (C1, C2, C6 contra o pedido) | diff + o pedido; relatório só na conversa |
 
 Rubricas em [references/rubricas.md](references/rubricas.md) — leia a do pedido inteira antes de começar.
-Sempre: `.kiro/steering/sdd2-projeto.md` (comandos, regras críticas), o steering de tecnologia e estrutura que ele
-aponta e `.kiro/steering/sdd2-licoes.md`.
+Sempre: `.kiro/steering/sdd2.md` (comandos, regras críticas), o steering de tecnologia e estrutura que ele
+aponta e as regras aprendidas (última seção do `sdd2.md`).
 
 ## Passo 2 — Coletar evidência
 
@@ -41,9 +41,9 @@ aponta e `.kiro/steering/sdd2-licoes.md`.
 
 ## Passo 3 — Calibrar
 
-Para cada achado IMPORTANTE ou SUGESTÃO, veja em `.kiro/aprendizado/licoes.md` se o mesmo tipo de problema já
+Para cada achado IMPORTANTE ou SUGESTÃO, veja em `<produto>/aprendizado/licoes.md` se o mesmo tipo de problema já
 escapou de uma revisão antes (lição com causa `revisao-branda`): suba uma severidade. Lições promovidas
-(`.kiro/steering/sdd2-licoes.md`) valem como itens da rubrica — o revisor é quem mais as usa.
+(seção Regras aprendidas do `sdd2.md`) valem como itens da rubrica — o revisor é quem mais as usa.
 
 ## Passo 4 — Relatório
 

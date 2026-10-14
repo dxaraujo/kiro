@@ -14,7 +14,9 @@ esta skill instala no projeto o que o fluxo precisa, a partir de [assets/](asset
 fluxo que conhece os toolkits de stack ([references/toolkits.md](references/toolkits.md)).
 
 **Pergunte uma coisa por vez**, sempre mostrando o que foi detectado e a opção recomendada ("sim" aceita).
-Nada é gravado antes do resumo do Passo 8 e do "ok". Nunca leia nem mostre arquivos de credenciais.
+Não achou o que procurava (arquivo, pasta, power, configuração) → **pergunte** onde está; nunca conclua "não há"
+sem a pessoa confirmar. Nada é gravado antes do resumo do Passo 8 e do "ok". Nunca leia nem mostre arquivos de
+credenciais.
 
 ## Passo 0 — Onde estou
 
@@ -31,9 +33,16 @@ Nada é gravado antes do resumo do Passo 8 e do "ok". Nunca leia nem mostre arqu
    macOS e Windows): do projeto → relativos à raiz (`file://.kiro/steering/sdd2.md`); do power ou do usuário →
    relativos ao home (`skill://~/.kiro/powers/installed/sdd2/skills/...`, `skill://~/.kiro/skills/...`); separador
    `/`; nunca `/home/…`, `/Users/…`, `C:\…`, `\` nem variáveis de ambiente.
-4. **Modo:** já existe `.kiro/steering/sdd2-projeto.md` ou `.kiro/agents/sdd2-*.json` → **atualização**: mostre a
+4. **Modo:** já existe `.kiro/steering/sdd2.md` ou `.kiro/agents/sdd2-*.json` → **atualização**: mostre a
    configuração atual numa tabela e pergunte o que mudar ("nada — só regenerar os agentes", útil depois de
-   atualizar o power ou um toolkit). Refaça só o que mudou.
+   atualizar o power ou um toolkit). Refaça só o que mudou; os agentes sempre a partir dos templates atuais.
+   **Layout antigo** (versão 0.1 do sdd2) → proponha a migração, com o plano numa só mensagem e "ok":
+   - `.kiro/steering/sdd2-projeto.md` → os valores vão para as seções do novo `.kiro/steering/sdd2.md`;
+     `sdd2-licoes.md` → as regras promovidas vão para a seção Regras aprendidas, sem perder nenhuma;
+     `sdd2-fechar-sessao.md` → removido (fechar a sessão agora é da `sdd2-status`). Os três saem do repositório;
+   - `.kiro/produto/` → a pasta do produto (Passo 4) e `.kiro/aprendizado/` → `<produto>/aprendizado/`, com
+     `git mv` (arquivo não versionado → `mv`), sem mudar o conteúdo;
+   - diga que fatias em andamento (`.kiro/specs/`) não mudam.
 5. **Vindo do power `sdd` (v1)?** Existe `.kiro/steering/sdd-projeto.md` → ofereça reaproveitar dele: steering,
    branch base, prefixo, padrão de commit, ferramenta de PR, comandos, gate de cobertura, banco, testes funcionais,
    ELM e skills por agente. Os dois fluxos convivem; o sdd2 não altera arquivos do `sdd`.
@@ -88,13 +97,19 @@ Falhou ao rodar → mostre o erro; a pessoa decide (corrigir o comando, seguir a
 | MCP de banco | servidores em `.kiro/settings/mcp.json` e `~/.kiro/settings/mcp.json` — qual é o de consulta e **qual tool** só consulta (ou "não há"); recomende um usuário de banco somente leitura |
 | Artefatos de produto | a base é protegida? → `PR curto para a base`; senão pergunte (`direto na branch base` ou PR) |
 
-## Passo 4 — Conhecimento e ELM
+## Passo 4 — Produto, conhecimento e ELM
 
-1. **Glossário** (padrão `docs/glossario.md`) e **ADRs** (padrão `docs/adr`, sem barra no fim) — use os que já
+1. **Pasta do produto** (`{{PRODUTO}}` dos templates e `<produto>` nas skills): onde ficam `backlog.json`, épicos
+   e PRDs, planejamento e aprendizado — versionada, fora do `.kiro`. Pergunte sempre, mostrando as pastas que já
+   existem em `docs/` e sugerindo `docs/<nome do produto>` (nome curto em minúsculas, do `pa_*.json` do ELM, do
+   README ou do repositório; ex.: `docs/pab`). Grave o caminho real na seção Projeto do `sdd2.md`.
+2. **Glossário** (padrão `docs/glossario.md`) e **ADRs** (padrão `docs/adr`, sem barra no fim) — use os que já
    existirem; não existindo, pergunte "criar `docs/glossario.md` e `docs/adr`? (recomendado)". Recusou → registre
    "não há" e remova dos agentes as regras e linhas que os citam (`{{GLOSSARIO}}`, `{{ADR}}`).
-2. **ELM:** power `elm` instalado (`~/.kiro/powers/**/elm/`) e `.kiro/config/power/elm/pa_*.json` no repositório?
-   - Sem power → `Usa ELM: não` (o fluxo funciona igual; os ids vêm do `backlog.json`).
+3. **ELM:** power `elm` instalado (`~/.kiro/powers/**/elm/`) e `.kiro/config/power/elm/pa_*.json` no repositório?
+   Não achou o power ou o `pa_*.json` ali → procure `.kiro/config/power/*/pa_*.json` e **pergunte** qual vale
+   (ou se o projeto não usa ELM).
+   - Sem power, confirmado pela pessoa → `Usa ELM: não` (o fluxo funciona igual; os ids vêm do `backlog.json`).
    - Com power e sem `pa_*.json` → ofereça rodar a `elm-setup` antes (ela mapeia tipos, pastas, iterações).
    - Com `pa_*.json`: proponha o mapeamento da seção ELM do template (tipos e pastas pelos nomes do
      `rm.requirements-types`/`rm.folders`/`workitem-types`, por proximidade) e pergunte, um de cada vez: quando
@@ -102,8 +117,10 @@ Falhou ao rodar → mostre o erro; a pessoa decide (corrigir o comando, seguir a
      sprints futuras mudam), se publica ET as-built, o que o processo exige manualmente no DOORS Next (change set,
      módulo, baseline), pontos por tamanho, o template de tarefas por fatia e as colunas do `CT.csv` (tabela
      Testes (ETM): tipo, status inicial, categoria — pergunte pelo template de importação do ETM do projeto).
-   - Bundle do RM (`rm.download.path`) → registre em Conhecimento: é a base que os agentes leem (fora do projeto →
-     entra na leitura permitida dos agentes).
+   - **Bundle do RM:** o caminho de download do `pa_*.json` (`download.path`) e pastas com `index.md` de
+     `okf_version` → mostre o que achou e confirme; nada achado → pergunte. Registre na seção Projeto: é a base que
+     os agentes leem (fora do projeto → entra na leitura permitida deles; no `.gitignore` → avise que só existe
+     nesta máquina, depois da `elm-sync`).
 
 ## Passo 5 — Inventário de skills e toolkits
 
@@ -137,12 +154,13 @@ Para cada agente, nesta sequência — **uma pergunta por mensagem**:
    **Nunca ofereça o MCP `elm`** — o ELM é do power `elm`, com as regras das skills dele, na sessão da pessoa.
 3. **Modelo** (opcional; padrão: o do Kiro). Ex.: um modelo mais rápido para o pesquisador.
 4. Só codificador e orquestrador: **agentes do projeto** (`.kiro/agents/*`, `~/.kiro/agents/*`, exceto `sdd2-*`)
-   que podem ser chamados como subagentes, e para que tipo de tarefa.
+   que podem ser chamados como subagentes, e para que tipo de tarefa. Agente com o campo `hooks` (mesmo vazio) é
+   ignorado pela IDE: avise e pergunte se a pessoa tira o campo ou se ele fica de fora.
 
-Registre também as skills **oferecidas e recusadas** por agente (coluna própria no `sdd2-projeto.md`): no modo
+Registre também as skills **oferecidas e recusadas** por agente (coluna própria no `sdd2.md`): no modo
 atualização, só skill que não está em nenhuma das duas colunas é "nova".
 
-Depois, a seção **Autonomia** do template, uma pergunta por vez: plano de fatia AFK (aprovação humana recomendada
+Depois, a autonomia (seção Git, banco e autonomia do template), uma pergunta por vez: plano de fatia AFK (aprovação humana recomendada
 até o time confiar), se a trilha rápida pede GATE do plano (não, recomendado — a análise independente basta),
 paralelismo do loop (1), push e PR no loop (perguntar a cada lote, recomendado — o orquestrador tem regra `ask`
 para push e PR, então o Kiro confirma cada um; "nunca" → a regra vira `deny`) e, se a verificação chama a
@@ -151,30 +169,28 @@ o verificador roda só esse script sem perguntar, só contra essa URL e com corp
 `sh` e `curl`) ou nenhum (cada `curl` pede confirmação, e no loop a verificação fica para a sessão da pessoa).
 Nunca uma URL de produção.
 
-## Passo 7 — Hooks, fechar sessão e workflows (opcionais)
+## Passo 7 — Hook e workflows (opcionais)
 
 Ofereça um de cada vez, com o que faz e o custo, conforme [references/automacoes.md](references/automacoes.md):
-o hook `sdd2-backpressure`, o comando `/sdd2-fechar-sessao` e as receitas de Kiro Workflows. Os três exigem a IDE
-ou a engine V3 do `kiro-cli`. Recusado → não instale.
+o hook `sdd2-backpressure` e as receitas de Kiro Workflows — e diga quem dispara as receitas (a pessoa, no chat do
+Kiro; nenhum agente as dispara). Os dois exigem a IDE ou a engine V3 do `kiro-cli`. Recusado → não instale.
 
 ## Passo 8 — Montar, mostrar, gravar
 
 Em memória:
-1. `.kiro/steering/sdd2.md` ← [assets/steering/sdd2.md](assets/steering/sdd2.md) (como está).
-2. `.kiro/steering/sdd2-projeto.md` ← [assets/steering/sdd2-projeto.md](assets/steering/sdd2-projeto.md) com as
-   respostas (nada de `<…>` sobrando; o que não se aplica fica "não há"/"nenhum").
-3. `.kiro/steering/sdd2-licoes.md` ← [assets/steering/sdd2-licoes.md](assets/steering/sdd2-licoes.md) **só se não
-   existir** (nunca sobrescreva regras promovidas).
-4. `.kiro/agents/sdd2-<agente>.json` ← [assets/agents/](assets/agents/), para cada agente, montados como manda
+1. `.kiro/steering/sdd2.md` ← [assets/steering/sdd2.md](assets/steering/sdd2.md) com as respostas (nada de `<…>`
+   sobrando; o que não se aplica fica "não há"/"nenhum"). É o **único** steering do fluxo. No modo atualização, a
+   seção Regras aprendidas fica como está (nunca apague regras promovidas).
+2. `.kiro/agents/sdd2-<agente>.json` ← [assets/agents/](assets/agents/), para cada agente, montados como manda
    [references/agentes.md](references/agentes.md): placeholders, skills, MCPs, comandos e caminhos **nos dois
    blocos** (V2 e V3) em espelho; as regras só da V3 ficam; nunca regenere o bloco `permissions` pelo `kiro-cli`.
-5. Hooks e workflows escolhidos (Passo 7); script de chamada do verificador, se escolhido (Passo 6):
+3. Hook e workflows escolhidos (Passo 7); script de chamada do verificador, se escolhido (Passo 6):
    `.kiro/sdd2/http.sh` ← [assets/scripts/http.sh](assets/scripts/http.sh) com `{{URL_TESTE}}` trocado pela URL
    base do ambiente de teste (sem barra no fim).
-6. `.kiro/produto/` (só o que não existir): `backlog.json` mínimo
+4. `<produto>/` (só o que não existir): `backlog.json` mínimo
    (`{"projeto": "<nome>", "atualizado": "<data>", "proximo": {"EP": 1, "FT": 1}, "epicos": [], "fatias": []}`),
-   `planejamento/`; `.kiro/aprendizado/licoes.md` com o título `# Lições`.
-7. `.gitignore`: acrescente `.kiro/local/` se faltar.
+   `planejamento/`; `<produto>/aprendizado/licoes.md` com o título `# Lições`.
+5. `.gitignore`: acrescente `.kiro/local/` se faltar. Migração do layout antigo (Passo 0), se aceita.
 
 Mostre o resumo e, no modo atualização, o diff de cada arquivo que muda:
 
@@ -184,8 +200,8 @@ Comandos: compilar <…> · testes <…> · lint <…> · cobertura <…> (rodad
 Verificação: <como> · Git: base <…> · prefixo <…> · PR <…> · Banco: <MCP | não há> · ELM: <…>
 | Agente | Skills extras | MCPs | Modelo |
 Hooks: <…> · Workflows: <…> · Autonomia: plano AFK <…> · paralelo <n>
-Arquivos: .kiro/steering/sdd2*.md · .kiro/agents/sdd2-*.json · .kiro/hooks/… · .kiro/workflows/… · .kiro/sdd2/…
-          .kiro/produto/ · .gitignore
+Arquivos: .kiro/steering/sdd2.md · .kiro/agents/sdd2-*.json · .kiro/hooks/… · .kiro/workflows/… · .kiro/sdd2/…
+          <produto>/ · .gitignore
 Gravar? ("ok")
 ```
 
@@ -194,10 +210,11 @@ cada arquivo gravado em `.kiro/agents/`, `.kiro/hooks/` e `.kiro/workflows/` —
 
 ## Passo 9 — Validar
 
-- JSON de cada agente faz parse; `name` = nome do arquivo; nenhum `{{…}}` sobrando.
+- JSON de cada agente faz parse; `name` = nome do arquivo; nenhum `{{…}}` sobrando; `.kiro/steering/` tem só o
+  `sdd2.md` do fluxo (nenhum `sdd2-projeto.md`, `sdd2-licoes.md` ou `sdd2-fechar-sessao.md` sobrando).
 - Ferramentas que varrem a raiz do repositório (test runners, linters, `tsc`, varredura de arquivos) ignoram
   `.kiro/local/` — onde o loop cria as worktrees? Não ignoram → acrescente a exclusão na configuração delas (com
-  "ok") ou registre no `sdd2-projeto.md` que o loop não deve ser usado.
+  "ok") ou registre no `sdd2.md` que o loop não deve ser usado.
 - Todo `skill://` e `file://` aponta para arquivo existente (resolvendo `~` no home e o resto a partir da raiz) e
   é relativo — nenhum `/…` absoluto, `C:\…`, `\` ou variável.
 - JSON dos hooks e workflows faz parse; agentes citados nos workflows existem em `.kiro/agents/` (o validador de
@@ -215,13 +232,14 @@ cada arquivo gravado em `.kiro/agents/`, `.kiro/hooks/` e `.kiro/workflows/` —
 - Workspace não confiável → avise: até a pessoa confiar nele, o Kiro não carrega os agentes, o steering, as skills
   e os workflows do projeto e pergunta antes de cada comando de shell.
 
-Sugira o commit (`.kiro/steering/sdd2*.md`, `.kiro/agents/sdd2-*.json`, `.kiro/hooks/`, `.kiro/workflows/`,
-`.kiro/sdd2/`, `.kiro/produto/`, `.kiro/aprendizado/`, `.gitignore`) — só com confirmação — e termine com o próximo passo:
+Sugira o commit (`.kiro/steering/sdd2.md`, `.kiro/agents/sdd2-*.json`, `.kiro/hooks/`, `.kiro/workflows/`,
+`.kiro/sdd2/`, `<produto>/`, `.gitignore` e o que a migração moveu ou removeu) — só com confirmação — e termine com o próximo passo:
 "nova demanda" (`sdd2-prd`), "vamos trabalhar na <id>" (`sdd2-iniciar`) ou "onde parei?" (`sdd2-status`).
 
 ## Regras
 
-- Não altere nada fora de `.kiro/`, do glossário/ADRs que a pessoa pediu para criar e do `.gitignore`.
+- Não altere nada fora de `.kiro/`, da pasta do produto, do glossário/ADRs que a pessoa pediu para criar e do
+  `.gitignore`.
 - As skills `sdd2-*` ficam no power — nunca as copie para o projeto (uma atualização do power as atualiza; depois
   rode esta skill em modo atualização para refazer caminhos e agentes).
 - Toolkit nunca é ligado sem a pessoa dizer sim, agente por agente.

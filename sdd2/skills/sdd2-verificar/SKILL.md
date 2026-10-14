@@ -16,7 +16,7 @@ Seja cético: quem implementou tende a achar que terminou, e funcionalidade pela
 unidade. "Feito" é uma afirmação; a evidência é a prova.
 
 Entrada: pasta da fatia com revisão `APROVADO`, na branch da fatia. Tipo de projeto, como executar e onde ver o
-resultado: seção **Verificação** do `.kiro/steering/sdd2-projeto.md` (vem do toolkit, confirmado na setup).
+resultado: seção **Verificação** do `.kiro/steering/sdd2.md` (vem do toolkit, confirmado na setup).
 
 ## Passo 1 — Roteiro
 
@@ -36,9 +36,9 @@ afrouxe agora. Para cada cenário que a fatia cobre, escreva-o em `verificacao.m
 
 ## Passo 2 — Ambiente e massa
 
-- Suba a aplicação/job como o `sdd2-projeto.md` manda (comando **Executar**) — ambiente local ou de teste,
+- Suba a aplicação/job como o `sdd2.md` manda (comando **Executar**) — ambiente local ou de teste,
   **nunca produção**.
-- Massa de teste: scripts da convenção do projeto (seção Verificação do `sdd2-projeto.md`); sem convenção, crie-a
+- Massa de teste: scripts da convenção do projeto (seção Verificação de aceite do `sdd2.md`); sem convenção, crie-a
   em `.kiro/specs/<ft>-<slug>/massa/`. Escrita em banco **só** pelos scripts de massa; consultas pelo MCP de banco,
   somente leitura.
 - Campo Banco do `status.md` = `pendente` → pare: a verificação depende da DDL aplicada em dev.
@@ -54,7 +54,7 @@ Execute cenário por cenário e registre logo abaixo do roteiro:
 ```
 
 - Por tipo de projeto: **backend** → chamada HTTP (pelo `sh .kiro/sdd2/http.sh <MÉTODO> <caminho> [corpo]`, se o
-  `sdd2-projeto.md` o registra — o corpo vem da pasta `massa/`; senão `curl`, que pede confirmação) e estado no
+  `sdd2.md` o registra — o corpo vem da pasta `massa/`; senão `curl`, que pede confirmação) e estado no
   banco; **batch** → execução do job com a massa, status da execução e contagens; **frontend** → navegação real
   no browser (Playwright ou MCP de browser ligado ao agente), screenshot em `evidencias/`; **dados** → carga e
   consultas de verificação.

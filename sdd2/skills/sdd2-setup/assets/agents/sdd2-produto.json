@@ -12,7 +12,6 @@
   "allowedTools": [],
   "resources": [
     "file://.kiro/steering/sdd2.md",
-    "file://.kiro/steering/sdd2-projeto.md",
     "skill://{{POWER}}/skills/sdd2-entrevistar/SKILL.md",
     "skill://{{POWER}}/skills/sdd2-prd/SKILL.md",
     "skill://{{POWER}}/skills/sdd2-fatiar/SKILL.md",
@@ -36,7 +35,7 @@
     },
     "write": {
       "allowedPaths": [
-        ".kiro/produto/**",
+        "{{PRODUTO}}/**",
         "{{GLOSSARIO}}",
         "{{ADR}}/**"
       ]
@@ -224,7 +223,7 @@
       {
         "capability": "fs_write",
         "match": [
-          ".kiro/produto/**",
+          "{{PRODUTO}}/**",
           "{{GLOSSARIO}}",
           "{{ADR}}/**"
         ],

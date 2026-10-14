@@ -86,6 +86,7 @@ máxima das últimas sprints) quando houver histórico.
 
 **Meta:** <resultado de negócio>
 **Iteração no EWM:** <nome | —>
+**Situação:** <aberta | fechada>   (a virada grava `fechada`; o painel usa a última `aberta`)
 
 | FT | Título | Tam. | Modo | Responsável | Status | Observação |
 |---|---|---|---|---|---|---|

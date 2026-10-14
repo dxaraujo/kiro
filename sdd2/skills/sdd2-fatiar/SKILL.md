@@ -38,7 +38,7 @@ Entrada: PRD `aprovado` (`<produto>/epicos/<EP>-<slug>/prd.md`). Saída: fatias 
 
 ## Passo 1 — Rascunho
 
-1. Leia o PRD inteiro, o `decisoes.md` e, se houver, a `research` do épico. Releia o código das fatias que mexem
+1. Leia o PRD inteiro e o `decisoes.md`. Releia o código das fatias que mexem
    em módulos existentes (subagente `sdd2-pesquisador`, se houver) — a fatia tem de ser possível no código real.
 2. Monte a lista:
 
@@ -87,8 +87,8 @@ Ajuste e repita até "ok". Esse "ok" é o **GATE do backlog** (P.O. ou time no r
 
 "Refinar o backlog", "a FT-033 está grande demais", "faltou uma fatia":
 - **Dividir:** a fatia original fica `status: dividida` com `substituida-por: [FT-x, FT-y]`; as novas herdam a
-  cobertura (repartida), as dependências e o épico. No EWM, a `sdd2-elm` cria os itens novos como filhos do item
-  original ou fecha o original — conforme o `sdd2.md`.
+  cobertura (repartida), as dependências e o épico. No EWM, a `sdd2-elm` faz o que diz "Fatia dividida no EWM" no
+  `sdd2.md` (filhos do item original, ou fecha o original e cria itens novos).
 - **Juntar:** só fatias ainda em `backlog`; a que some fica `status: cancelada` com `motivo`.
 - **Nova fatia:** cenário novo exige PRD alterado antes (`sdd2-prd`, mudança depois de aprovado).
 - **Definition of Ready:** a cada refinamento, confira as fatias `backlog` e grave `pronta` nas que passam (e

@@ -1,9 +1,9 @@
 # sdd2
 
 Power do Kiro para **engenharia agêntica orientada a especificação**, com o **IBM ELM** como fonte oficial da
-documentação e o **planejamento ágil** dentro do fluxo. É a segunda geração do [`sdd`](../sdd/): menos cerimônia
-onde ela não paga, mais verificação onde ela paga, e cada decisão ancorada no que os principais praticantes de
-desenvolvimento com agentes defendem hoje (outubro de 2026).
+documentação e o **planejamento ágil** dentro do fluxo. É a segunda geração do `sdd` (o power anterior, já
+removido): menos cerimônia onde ela não paga, mais verificação onde ela paga, e cada decisão ancorada no que os
+principais praticantes de desenvolvimento com agentes defendem hoje (outubro de 2026).
 
 O agente escreve muito código rápido; o que limita o resultado é o **alinhamento** antes e a **verificação**
 depois. O sdd2 põe as pessoas onde elas têm mais alavanca — decidir o quê, aprovar o como, ler o código — e deixa

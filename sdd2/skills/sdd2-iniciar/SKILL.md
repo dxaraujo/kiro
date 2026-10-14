@@ -87,7 +87,7 @@ Próximo: <skill>
 | `verificando` | `sdd2-verificar` |
 | `aceita` | `sdd2-implementar` (Passo 5 — abrir o PR) |
 | `pr-aberto` | aguardar o merge; mergeado → `sdd2-consolidar` |
-| `bloqueada` | mostre o motivo; a pessoa decide |
+| `bloqueada (de: <fase>)` | mostre o motivo e a pergunta; resolvido → volta à skill da fase de origem |
 
 Trilha direta → `sdd2-implementar` (seção Trilha direta), sem pasta. Modo AFK e várias fatias prontas → ofereça
 o **`sdd2-loop`** (o agente leva cada uma até o PR).

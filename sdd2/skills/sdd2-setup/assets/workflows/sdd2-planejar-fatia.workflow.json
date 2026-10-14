@@ -21,7 +21,7 @@
       "type": "step",
       "id": "plano",
       "agent": "sdd2-codificador",
-      "prompt": "Fatia {{fatia}}. AUTONOMO=true. Siga a skill sdd2-plano, Passos 2 e 3 (o research.md já existe). Não rode a análise nem o GATE. Lacuna de negócio ou divergência com o plano: registre a pergunta (ou Esperado / Encontrado / Por que importa) no status.md e termine com send_message severity warning trazendo-a — a execução pausa até a pessoa responder neste passo; com a resposta, registre a decisão, conclua e termine com severity success. Bloqueio técnico (build quebrado na base, ferramenta ou ambiente fora): send_message severity error com o motivo."
+      "prompt": "Fatia {{fatia}}. AUTONOMO=true. Siga a skill sdd2-plano, Passos 2 e 3 (o research.md já existe). Não rode a análise nem o GATE. No status.md: fase planejando (o plano em análise continua em planejando). Lacuna de negócio ou divergência com o plano: registre a pergunta (ou Esperado / Encontrado / Por que importa) no status.md e termine com send_message severity warning trazendo-a — a execução pausa até a pessoa responder neste passo; com a resposta, registre a decisão, conclua e termine com severity success. Bloqueio técnico (build quebrado na base, ferramenta ou ambiente fora): send_message severity error com o motivo."
     },
     {
       "type": "repeat",
@@ -46,7 +46,7 @@
           "type": "step",
           "id": "ajustar",
           "agent": "sdd2-codificador",
-          "prompt": "Fatia {{fatia}}. AUTONOMO=true. Leia .kiro/local/wf/{{fatia}}/plano.json. Se for AJUSTAR: corrija no plano só os achados do último analise-plano-<N>.md que são do plano; achado do PRD é lacuna de negócio. Se for OK: não faça nada. Lacuna de negócio ou divergência com o plano: registre a pergunta (ou Esperado / Encontrado / Por que importa) no status.md e termine com send_message severity warning trazendo-a — a execução pausa até a pessoa responder neste passo; com a resposta, registre a decisão, conclua e termine com severity success. Bloqueio técnico (build quebrado na base, ferramenta ou ambiente fora): send_message severity error com o motivo."
+          "prompt": "Fatia {{fatia}}. AUTONOMO=true. Leia .kiro/local/wf/{{fatia}}/plano.json. Se for AJUSTAR: corrija no plano só os achados do último analise-plano-<N>.md que são do plano; achado do PRD é lacuna de negócio. Se for OK: não mexa no plano. No status.md, incremente \"revisão do plano\" em Rodadas (a rodada que o revisor acabou de fazer) e registre o resultado no Histórico; OK sem GATE pendente → nada mais; OK com aprovação humana → fase plano-em-revisao. Lacuna de negócio ou divergência com o plano: registre a pergunta (ou Esperado / Encontrado / Por que importa) no status.md e termine com send_message severity warning trazendo-a — a execução pausa até a pessoa responder neste passo; com a resposta, registre a decisão, conclua e termine com severity success. Bloqueio técnico (build quebrado na base, ferramenta ou ambiente fora): send_message severity error com o motivo."
         }
       ]
     }

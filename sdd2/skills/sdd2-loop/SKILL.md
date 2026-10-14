@@ -14,7 +14,7 @@ registra; cada fase é feita por um subagente que começa do zero e lê o estado
 loop, não dentro: aprova o lote no início e lê os PRs no fim.
 
 Leia antes: `.kiro/steering/sdd2.md` (seções Git, banco e autonomia e Comandos) e
-`<produto>/planejamento/acordos.md` (WIP).
+`<produto>/planejamento/acordos.md` (WIP; sem o arquivo, limite 2).
 
 ## Passo 0 — Retomar?
 
@@ -36,7 +36,8 @@ e pergunte se retoma. Retomar = continuar cada fatia da fase registrada no `stat
    |---|---|---|---|
    | FT-031 | Bloquear a conta após 3 tentativas | feature/ft-031-bloquear-conta | .kiro/local/wt/ft-031 |
    Plano AFK: <aprovação humana → o loop para no GATE do plano | análise basta → segue até o PR>
-   Ao fim de cada fatia aprovada e aceita: push + PR? (sim/não)   — nunca merge
+   Ao fim de cada fatia aprovada e aceita: push + PR? (sim/não)   — nunca merge; só se o sdd2.md diz
+   "perguntar a cada lote" (com "não — a pessoa abre", omita a linha: o loop para em `aceita`)
    Confirma?
    ```
 5. Log `.kiro/local/loop-<AAAA-MM-DD-HHMM>.md` (formato no fim).
@@ -52,8 +53,9 @@ git worktree add .kiro/local/wt/<ft> -b <branch> origin/<base>     # nova
 git worktree add .kiro/local/wt/<ft> <branch>                      # já existe
 ```
 
-Dentro da worktree, faça o que a **`sdd2-iniciar`** faz no Passo 4 (pasta, `status.md` com `Responsável:
-agente:sdd2-orquestrador`, `.config.kiro`), sem perguntas — o lote já foi confirmado. O `backlog.json` não muda
+Dentro da worktree, faça só os itens 2 e o commit do item 5 do Passo 4 da **`sdd2-iniciar`** (pasta, `status.md`
+com `Responsável: agente:sdd2-orquestrador`, `.config.kiro`), sem perguntas — o lote já foi confirmado. Sem EWM
+(você não tem o ELM: registre `ELM pendente: assumir a tarefa`) e sem push nesta hora. O `backlog.json` não muda
 (ele só é escrito na base).
 
 **Comandos dentro da worktree** — diga isto a cada subagente: git, build e testes com
@@ -81,7 +83,8 @@ seguinte da mesma fatia.
 | 7 | verificação | `sdd2-verificador` (`sdd2-verificar`) | `ACEITO` · `REJEITADO` → volta à 5 uma vez; de novo → `bloqueada` |
 | 8 | entrega | você | `fase: aceita`; commit do que faltar; push + PR se autorizado no lote (texto do Passo 5 da `sdd2-implementar`; o Kiro ainda pode pedir confirmação a cada push, conforme as permissões) → `fase: pr-aberto` |
 
-Depois de cada fase: atualize o log, as Rodadas e o Histórico do `status.md`; commit pequeno na worktree
+Depois de cada fase: grave a fase seguinte (`planejando` depois da pesquisa, `revisando` antes da revisão do
+código), atualize o log, as Rodadas e o Histórico do `status.md`; commit pequeno na worktree
 (inclusive dos relatórios do revisor e do verificador, que não commitam).
 
 **Aprovação de plano pausado:** a pessoa lê o plano em `.kiro/local/wt/<ft>/.kiro/specs/<ft>-<slug>/` (ou na branch,

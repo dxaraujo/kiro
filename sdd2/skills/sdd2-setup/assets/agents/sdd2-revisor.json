@@ -35,7 +35,6 @@
         ".kiro/specs/*/analise-*.md",
         ".kiro/local/wt/*/.kiro/specs/*/analise-*.md",
         "{{PRODUTO}}/epicos/*/revisao-*.md",
-        ".kiro/local/wf/*/prd.json",
         ".kiro/local/wf/*/plano.json",
         ".kiro/local/wf/*/codigo.json"
       ]
@@ -216,7 +215,6 @@
           ".kiro/specs/*/analise-*.md",
           ".kiro/local/wt/*/.kiro/specs/*/analise-*.md",
           "{{PRODUTO}}/epicos/*/revisao-*.md",
-          ".kiro/local/wf/*/prd.json",
           ".kiro/local/wf/*/plano.json",
           ".kiro/local/wf/*/codigo.json"
         ],

@@ -50,8 +50,7 @@ escapou de uma revisão antes (lição com causa `revisao-branda`): suba uma sev
 No formato do fim de [references/rubricas.md](references/rubricas.md). A **última linha** é exatamente o fecho
 da rubrica. Grave o relatório na pasta do artefato — `revisao-prd-<N>.md` (épico), `analise-plano-<N>.md` ou
 `revisao-codigo-<N>.md` (fatia), `<N>` = próxima rodada — e, se quem chamou pediu (workflow, loop), o veredito em
-`.kiro/local/wf/<id>/`: `prd.json` (`{"resultado": "PRONTO"}` · `{"resultado": "AJUSTAR"}`), `plano.json`
-(`{"resultado": "OK"}` · `{"resultado": "AJUSTAR"}`) ou `codigo.json` (`{"veredito": "APROVADO"}` ·
+`.kiro/local/wf/<id>/`: `plano.json` (`{"resultado": "OK"}` · `{"resultado": "AJUSTAR"}`) ou `codigo.json` (`{"veredito": "APROVADO"}` ·
 `{"veredito": "REVISAR"}`). São os **únicos** arquivos que você escreve.
 
 Zero BLOQUEANTE e zero IMPORTANTE → aprovado. Sugestões nunca reprovam.

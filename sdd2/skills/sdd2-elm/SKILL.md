@@ -44,7 +44,7 @@ Projeto sem ELM (`sdd2.md` → ELM: não usa) → nada a fazer.
 
 ## Modo requisitos (PRD → DOORS Next)
 
-Entrada: a pasta `elm/` do épico (`<produto>/epicos/<EP>-<slug>/elm/`) ou da fatia — conceitos OKF v0.2 no
+Entrada: a pasta `elm/` do épico (`<produto>/epicos/<EP>-<slug>/elm/`) — conceitos OKF v0.2 no
 formato de [../sdd2-prd/references/okf-elm.md](../sdd2-prd/references/okf-elm.md). Publica só conceito
 `status: stable` com um `verified` humano (`by: human:…`) **posterior** ao `generated.at`; o resto aparece na prévia
 como "aguardando aprovação". Publicar **não** muda o status do PRD.
@@ -108,7 +108,7 @@ Entrada da `sdd2-planejamento`: número da sprint, iteração, plano e time conf
 
 ## Modo especificação técnica (opcional, as-built)
 
-Só se o `sdd2.md` disser `ET: publicar no merge`. Gere `ET - FT-031 <título>` a partir do `design.md` e do
+Só se a linha ET da seção ELM do `sdd2.md` disser `as-built no merge`. Gere `ET - FT-031 <título>` a partir do `design.md` e do
 código **final** (interfaces, contratos, dados, integrações, decisões técnicas — nada do que não foi feito),
 grave-a como conceito OKF em `.kiro/specs/<ft>-<slug>/elm/ET-<slug>.md` (mesmo formato; `type` = o tipo de ET do
 projeto), mostre, publique como os requisitos depois do `verified` humano, e ligue ao IB (**implementa**).

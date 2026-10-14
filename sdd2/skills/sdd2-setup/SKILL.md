@@ -1,6 +1,6 @@
 ---
 name: sdd2-setup
-description: "Configura o fluxo sdd2 num projeto: entende o repositório (tipos de projeto — backend, batch, frontend, mobile, dados —, stack, módulos, comandos de build e teste, como verificar o aceite, git, banco, ELM), descobre as skills disponíveis no projeto, na pasta do usuário, em outros powers e nos toolkits de stack, e cria os agentes sdd2 (produto, pesquisador, codificador, revisor, verificador, orquestrador) perguntando, agente por agente, a quais skills e MCPs cada um terá acesso — ex.: num projeto Spring Batch, as skills de batch e Java para o codificador. Gera .kiro/steering/sdd2*.md, .kiro/agents/sdd2-*.json (formato universal do Kiro, validado pelo kiro-cli), hooks e workflows opcionais, e refaz tudo em modo atualização. Use em \"configurar o sdd2\", \"setup do sdd2\", \"criar os agentes do sdd2\", \"atualizar os agentes do sdd2\", \"ligar o toolkit\", \"atualizar a configuração do sdd2\"."
+description: "Configura o fluxo sdd2 num projeto: entende o repositório (tipos de projeto — backend, batch, frontend, mobile, dados —, stack, módulos, comandos de build e teste, como verificar o aceite, git, banco, ELM), descobre as skills disponíveis no projeto, na pasta do usuário, em outros powers e nos toolkits de stack, e cria os agentes sdd2 (produto, pesquisador, codificador, revisor, verificador, orquestrador) perguntando, agente por agente, a quais skills e MCPs cada um terá acesso — ex.: num projeto Spring Batch, as skills de batch e Java para o codificador. Gera o .kiro/steering/sdd2.md (único steering do fluxo), a pasta do produto, .kiro/agents/sdd2-*.json (formato universal do Kiro, validado pelo kiro-cli), hooks e workflows opcionais, e refaz tudo em modo atualização. Use em \"configurar o sdd2\", \"setup do sdd2\", \"criar os agentes do sdd2\", \"atualizar os agentes do sdd2\", \"ligar o toolkit\", \"atualizar a configuração do sdd2\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -45,7 +45,8 @@ credenciais.
    - diga que fatias em andamento (`.kiro/specs/`) não mudam.
 5. **Vindo do power `sdd` (v1)?** Existe `.kiro/steering/sdd-projeto.md` → ofereça reaproveitar dele: steering,
    branch base, prefixo, padrão de commit, ferramenta de PR, comandos, gate de cobertura, banco, testes funcionais,
-   ELM e skills por agente. Os dois fluxos convivem; o sdd2 não altera arquivos do `sdd`.
+   ELM e skills por agente. O power `sdd` foi descontinuado: depois de migrar, ofereça remover do projeto o que
+   sobrou dele (agentes `sdd-*`, `.kiro/steering/sdd-projeto.md`), com `git rm` e "ok".
 
 ## Passo 1 — Entender o projeto
 
@@ -115,12 +116,12 @@ Falhou ao rodar → mostre o erro; a pessoa decide (corrigir o comando, seguir a
      `rm.requirements-types`/`rm.folders`/`workitem-types`, por proximidade) e pergunte, um de cada vez: quando
      publicar os requisitos (`na-aprovacao` recomendado), quando criar os itens no EWM (`na-sprint` recomendado —
      sprints futuras mudam), se publica ET as-built, o que o processo exige manualmente no DOORS Next (change set,
-     módulo, baseline), pontos por tamanho, o template de tarefas por fatia e as colunas do `CT.csv` (tabela
-     Testes (ETM): tipo, status inicial, categoria — pergunte pelo template de importação do ETM do projeto).
-   - **Bundle do RM:** o caminho de download do `pa_*.json` (`download.path`) e pastas com `index.md` de
-     `okf_version` → mostre o que achou e confirme; nada achado → pergunte. Registre na seção Projeto: é a base que
-     os agentes leem (fora do projeto → entra na leitura permitida deles; no `.gitignore` → avise que só existe
-     nesta máquina, depois da `elm-sync`).
+     módulo, baseline), pontos por tamanho, o template de tarefas por fatia, o que fazer no EWM quando uma fatia é dividida e as colunas do `CT.csv` (linha
+     `CT.csv` da seção ELM: tipo, status inicial, categoria — pergunte pelo template de importação do ETM do projeto).
+   - **Bundle do RM:** o caminho de download do `pa_*.json` (`rm.download.path`) e pastas com `index.md` de
+     `okf_version` → mostre o que achou e confirme; nada achado → pergunte. Registre na seção Projeto: é a base
+     que os agentes leem (fora do projeto → entra na leitura permitida deles; no `.gitignore` → avise que só
+     existe nesta máquina, depois da `elm-sync`).
 
 ## Passo 5 — Inventário de skills e toolkits
 
@@ -160,13 +161,14 @@ Para cada agente, nesta sequência — **uma pergunta por mensagem**:
 Registre também as skills **oferecidas e recusadas** por agente (coluna própria no `sdd2.md`): no modo
 atualização, só skill que não está em nenhuma das duas colunas é "nova".
 
-Depois, a autonomia (seção Git, banco e autonomia do template), uma pergunta por vez: plano de fatia AFK (aprovação humana recomendada
-até o time confiar), se a trilha rápida pede GATE do plano (não, recomendado — a análise independente basta),
-paralelismo do loop (1), push e PR no loop (perguntar a cada lote, recomendado — o orquestrador tem regra `ask`
-para push e PR, então o Kiro confirma cada um; "nunca" → a regra vira `deny`) e, se a verificação chama a
-aplicação por HTTP, o **script de chamada** do verificador: `.kiro/sdd2/http.sh` com a URL de teste (recomendado —
-o verificador roda só esse script sem perguntar, só contra essa URL e com corpo da pasta `massa/`; precisa de
-`sh` e `curl`) ou nenhum (cada `curl` pede confirmação, e no loop a verificação fica para a sessão da pessoa).
+Depois, a autonomia (seção Git, banco e autonomia do template), uma pergunta por vez: plano de fatia AFK (aprovação
+humana recomendada até o time confiar), se a trilha rápida pede GATE do plano (não, recomendado — a análise
+independente basta), paralelismo do loop (1), push e PR no loop (perguntar a cada lote, recomendado — o orquestrador
+tem regra `ask` para push e PR, então o Kiro confirma cada um; "não — a pessoa abre" → a regra vira `deny`) e, se a verificação
+chama a aplicação por HTTP, o **script de chamada** do verificador: `.kiro/sdd2/http.sh` com a URL de teste
+(recomendado — o verificador roda só esse script sem perguntar, só contra essa URL e com corpo da pasta `massa/`;
+precisa de `sh` e `curl`) ou nenhum (cada `curl` pede confirmação, e no loop a verificação fica para a sessão da
+pessoa).
 Nunca uma URL de produção.
 
 ## Passo 7 — Hook e workflows (opcionais)
@@ -233,7 +235,8 @@ cada arquivo gravado em `.kiro/agents/`, `.kiro/hooks/` e `.kiro/workflows/` —
   e os workflows do projeto e pergunta antes de cada comando de shell.
 
 Sugira o commit (`.kiro/steering/sdd2.md`, `.kiro/agents/sdd2-*.json`, `.kiro/hooks/`, `.kiro/workflows/`,
-`.kiro/sdd2/`, `<produto>/`, `.gitignore` e o que a migração moveu ou removeu) — só com confirmação — e termine com o próximo passo:
+`.kiro/sdd2/`, `<produto>/`, `.gitignore` e o que a migração moveu ou removeu) — só com confirmação — e termine
+com o próximo passo:
 "nova demanda" (`sdd2-prd`), "vamos trabalhar na <id>" (`sdd2-iniciar`) ou "onde parei?" (`sdd2-status`).
 
 ## Regras

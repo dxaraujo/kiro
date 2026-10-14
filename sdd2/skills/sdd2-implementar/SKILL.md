@@ -84,13 +84,16 @@ quem chamou: "pronta para a revisão (rodada <N>)".
 
 ## Passo 4 — Verificação de aceite
 
-Siga para a **`sdd2-verificar`** (cenários de aceite executados de ponta a ponta, com evidência; de preferência
+Incremente "verificação" em Rodadas e siga para a **`sdd2-verificar`** (cenários de aceite executados de ponta a ponta, com evidência; de preferência
 pelo agente `sdd2-verificador`). `ACEITO` → ela deixa a fatia em `fase: aceita`; `REJEITADO` → devolve para cá
 os cenários reprovados (Passo 0).
 
 ## Passo 5 — PR
 
 Com `fase: aceita` (revisão `APROVADO` e verificação `ACEITO`):
+
+Quem abre o PR é a sessão da pessoa (com o "sim" dela) ou o `sdd2-orquestrador` no loop. Como agente
+`sdd2-codificador`, que não faz push, pare em "pronta para o PR" e entregue o título e a descrição do item 2.
 
 1. Branch atualizada com a base? (`git fetch` e compare com `origin/<base>`). Desatualizada → numa sessão com a
    pessoa, com o "sim" dela, `git merge origin/<base>` (conflito → resolva e repita Passos 2–4); como agente,
@@ -111,7 +114,7 @@ Com `fase: aceita` (revisão `APROVADO` e verificação `ACEITO`):
    O PR é para uma pessoa **ler o código**: pequeno, com a evidência e o caminho de leitura, sem despejar o plano.
 3. Numa só confirmação da pessoa: push e abertura do PR com a ferramenta do `sdd2.md` (sem ferramenta →
    entregue título e descrição prontos).
-4. `status.md`: `fase: pr-aberto`, link do PR. Commit + push (o `status.md` vai junto no PR).
+4. `status.md`: `fase: pr-aberto`, link do PR; commit e, com o mesmo "sim", push (o `status.md` vai junto no PR).
 
 O merge é de uma pessoa. Depois do merge: **`sdd2-consolidar`**.
 

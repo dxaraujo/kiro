@@ -73,7 +73,8 @@ screenshot). Registre o retorno do P.O. no `sprint-<nn>.md`; pedido novo vira ce
    correções humanas por causa, AFK que chegaram ao PR sozinhas). Registre no `sprint-<nn>.md`: bom · melhorar ·
    ações (cada ação com dono).
 2. **Fechar:** concluídas contam na vazão e nos pontos; não concluídas **migram** para a próxima sprint (no
-   `sprint-<nn>.md` antigo ficam com "→ sprint <nn+1>"; o histórico não é apagado).
+   `sprint-<nn>.md` antigo ficam com "→ sprint <nn+1>"; o histórico não é apagado) e ele fica com
+   `**Situação:** fechada`.
 3. Recalcule vazão média e velocidade (`equipe.json` → `historico`), replaneje a próxima pelo modo sprint
    (migradas consomem capacidade primeiro).
 4. **ELM** — `sdd2-elm` modo *sprint*, virada: move as não concluídas para a nova iteração e publica as novas;

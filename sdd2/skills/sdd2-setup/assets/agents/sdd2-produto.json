@@ -37,7 +37,9 @@
       "allowedPaths": [
         "{{PRODUTO}}/**",
         "{{GLOSSARIO}}",
-        "{{ADR}}/**"
+        "{{ADR}}/**",
+        ".kiro/specs/*/decisoes.md",
+        ".kiro/local/wt/*/.kiro/specs/*/decisoes.md"
       ]
     },
     "shell": {
@@ -225,7 +227,9 @@
         "match": [
           "{{PRODUTO}}/**",
           "{{GLOSSARIO}}",
-          "{{ADR}}/**"
+          "{{ADR}}/**",
+          ".kiro/specs/*/decisoes.md",
+          ".kiro/local/wt/*/.kiro/specs/*/decisoes.md"
         ],
         "effect": "allow"
       },

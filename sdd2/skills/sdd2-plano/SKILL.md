@@ -48,7 +48,7 @@ recomendada (HITL) ou decida e registre (AFK) em "Decisões técnicas".
    dividi-la (`sdd2-fatiar`, refinamento) em vez de escrever um plano maior. Modo autônomo → `fase: bloqueada`
    com a proposta de divisão.
 
-`status.md`: fase `planejando` → `plano-em-revisao`.
+`status.md`: fase `planejando` (vale também durante a análise do Passo 4).
 
 ## Passo 4 — Análise independente
 
@@ -69,6 +69,8 @@ Contrato de pronto: <n> cenários, executados por <API | job | browser | carga>
 Análise: OK na rodada <N>
 Aprovar? Leia de preferência: forma do programa e contrato de pronto.
 ```
+
+Esperando a aprovação de uma pessoa → `fase: plano-em-revisao` (conta no WIP de revisão humana).
 
 - **HITL** → sempre uma pessoa aprova. Sugira que seja quem vai revisar o PR (alinha antes do código).
 - **AFK** → o `sdd2.md` decide (`Plano AFK`: `aprovação humana | análise basta`). Com

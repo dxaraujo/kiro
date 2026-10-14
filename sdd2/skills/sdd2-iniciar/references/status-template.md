@@ -16,13 +16,20 @@
 | Banco (DDL) | <não se aplica \| pendente \| aplicada em dev \| aplicada em prod> |
 
 <!-- Fases: pesquisando → planejando → plano-em-revisao → implementando → revisando → verificando → aceita
-     → pr-aberto → concluida · desvio: bloqueada (com motivo e a pergunta exata) · plano-em-revisao é pulado
-     quando o sdd2.md permitir (AFK com "análise basta"; trilha rápida sem GATE do plano).
-     Rodadas: incrementadas por quem pede a rodada (sdd2-plano, sdd2-implementar, sdd2-verificar, sdd2-loop). -->
+     → pr-aberto → concluida · desvio: `bloqueada (de: <fase>)`, com motivo e a pergunta exata; resolvido, a fatia
+     volta à fase de origem.
+     plano-em-revisao = o plano espera o GATE de uma pessoa; durante a análise independente a fase é planejando,
+     e o passo é pulado quando o sdd2.md permitir (AFK com "análise basta"; trilha rápida sem GATE).
+     Quem grava a fase: quem conduz a sessão (a skill da fase) ou, no loop, o orquestrador; o pesquisador e o
+     revisor nunca gravam o status.md.
+     Rodadas: incrementadas por quem pede a rodada — sdd2-plano (análise), sdd2-implementar (revisão e
+     verificação) ou, no loop, o orquestrador; nas receitas de workflow, o passo do codificador que vem depois.
+     O revisor e o verificador não incrementam. -->
 
 ## Achados abertos
 
-<!-- Da revisão (plano/código), da verificação e do PR. A sdd2-implementar os transforma em tarefas [R<n>]. -->
+<!-- Da revisão (plano/código), da verificação e do PR. A sdd2-implementar os transforma em tarefas [R<n>] e
+     marca a Situação `resolvido — tarefa <n>` quando a tarefa fica verde. -->
 
 | # | Origem | Achado | Situação |
 |---|---|---|---|

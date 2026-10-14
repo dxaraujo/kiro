@@ -31,9 +31,11 @@ composto (`;`, `&&`, `||`, `|`) e avalia cada parte — `cd .kiro/local/wt/<ft> 
 liberado) e do `mvn *`. Padrão encadeado (`cd … && mvn …`) não é convertido. `deny` vence `ask`, que vence
 `allow`; uma regra `ask` explícita pergunta sempre, sem a opção "sempre permitir".
 
-Os subagentes herdam as regras da sessão que os chamou (a documentação diz "deny-wins intersection"). Se, no loop,
-um subagente falhar por permissão num comando de build ou teste liberado para ele, libere o mesmo comando no
-orquestrador.
+Os subagentes herdam as regras da sessão que os chamou (a documentação diz "deny-wins intersection", sem dizer se
+os `allow` também se cruzam). Por isso o orquestrador já escreve nas worktrees (`.kiro/local/wt/*/**`, menos
+`.kiro`, a pasta do produto e `.git`), e a setup também põe nele os comandos de build, teste e verificação dos
+subagentes e o `sh .kiro/sdd2/http.sh *`, nos dois blocos. Se, no primeiro lote, um subagente ainda falhar por
+permissão, compare as regras dele com as do orquestrador.
 
 ## O que a setup preenche
 
@@ -46,12 +48,12 @@ orquestrador.
 | `{{SUBAGENTES}}` (no `prompt`) | `Subagentes do projeto: `x` (<tipo de tarefa>)` ou nada |
 | `resources` | `file://` do steering de produto/tecnologia/estrutura e dos extras; `skill://` de cada skill escolhida |
 | leitura | a pasta de cada skill escolhida que fique fora do projeto e do power (`~/.kiro/skills/<skill>/**`, `~/.kiro/powers/installed/<toolkit>/**`) e o bundle do ELM, se estiver fora do projeto |
-| comandos | codificador e revisor: compilar, testes, teste único, lint, cobertura · verificador: executar, testes, scripts de massa |
+| comandos | codificador e revisor: compilar, testes, teste único, lint, cobertura · verificador: executar, testes, scripts de massa · orquestrador: todos esses e `sh .kiro/sdd2/http.sh *` (se instalado) |
 | escrita do verificador | a pasta de massa do projeto, se houver |
 | MCP de banco | só a tool de consulta, como na tabela acima |
 | subagentes do projeto | como na tabela acima (codificador e orquestrador) |
 | `model` | o modelo escolhido, se houver |
-| push/PR "nunca" (Autonomia) | no orquestrador, a regra `ask` de push/PR vira `deny` |
+| push e PR no loop = "não — a pessoa abre" | no orquestrador, a regra `ask` de push/PR vira `deny` |
 
 Fixos em todos: `"allowedTools"` sem `read` (liberaria a leitura do disco inteiro); `"includePowers": false` (a
 documentação não garante o padrão, e com powers o agente receberia o MCP do `elm`); nunca o campo `hooks` (a IDE

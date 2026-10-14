@@ -55,7 +55,7 @@ Na worktree do `sdd2-loop`: `cd .kiro/local/wt/<ft> && <comando>`. Falha de ambi
 |---|---|
 | Branch base · prefixo · commit | `<develop>` · `<feature/>` · `<FT-<nnn> <verbo> <descrição> | Task <id> - …>` |
 | Abrir PR | `<gh pr create … | glab mr create … | entregar título e descrição>` |
-| Pasta do produto, glossário, ADRs, consolidação | `<direto na branch base | PR curto para a base>` — nunca em branch de fatia |
+| Artefatos de produto (pasta do produto, glossário, ADRs, consolidação) | `<direto na branch base | PR curto para a base>` — nunca em branch de fatia; push ou PR com o "sim" da pessoa (o agente `sdd2-produto` não faz push: entrega o comando) |
 | MCP de banco | `<@servidor/tool | não há>` — **somente leitura** (`SELECT`/`WITH`), exceto os scripts de massa; DDL fora do fluxo |
 | Plano AFK · GATE na trilha rápida · paralelo no loop | `<aprovação humana | análise basta>` · `<sim | não>` · `<1>` (máx. 3) |
 | Push e PR no loop | `<perguntar a cada lote (o Kiro confirma cada um) | não — a pessoa abre>` |
@@ -68,6 +68,7 @@ Na worktree do `sdd2-loop`: `cd .kiro/local/wt/<ft> && <comando>`. Falha de ambi
 | Usa ELM | `<sim — <caminho do pa_*.json> | não>` (agentes `sdd2-*` não têm o MCP do ELM: a sessão da pessoa usa o power `elm`) |
 | Publicar requisitos · backlog no EWM · ET | `<na-aprovacao | no-merge>` · `<ao-fatiar | na-sprint>` · `<não publica | as-built no merge>` |
 | Manual no DOORS Next | `<change set, módulo, links restringe, baseline | nada>` |
+| Fatia dividida no EWM | `<itens novos como filhos do item original | fecha o original e cria itens novos>` |
 | Tipo · pasta no RM | HF `<História de Usuário>` `<pasta>` · REG `<Regra>` `<pasta>` · GL `<Termos de Glossário>` `<pasta>` · ET `<… | —>` |
 | Tipo no EWM · pontos P/M/G | épico `<Épico>` · fatia `<Item de Backlog>` · `<2 · 3 · 5>` |
 | Tarefas por fatia na sprint | `<[DEV] FT-<nnn> Implementar>` (quem implementa) · `<[VER] FT-<nnn> Verificar>` (quem verifica) |
@@ -88,7 +89,7 @@ Na worktree do `sdd2-loop`: `cd .kiro/local/wt/<ft> && <comando>`. Falha de ambi
 
 Regras de **julgamento** promovidas pela `sdd2-aprender` (lições em `<produto>/aprendizado/licoes.md`). O revisor
 as cobra como itens da rubrica; o plano as respeita. Erro mecânico não entra aqui: vira lint, teste, hook ou CI.
-Formato: `### R-<nn> · <título> · aplica a: <codificador | revisor | plano | PRD | todos> · <BLOQUEANTE | IMPORTANTE>`,
+Formato: `### R-<nn> · <título> · aplica a: <codificador | revisor | plano | PRD | todos> · severidade: <BLOQUEANTE | IMPORTANTE>`,
 a regra em 1–2 frases imperativas, `- ✅ <certo> · ❌ <errado>`, `- Origem: L-<nnn>`.
 
 <!-- Nenhuma regra promovida ainda. -->

@@ -92,6 +92,9 @@ Todo termo de negócio que apareceu (novo, renomeado ou desambiguado) vai para o
 - Um termo por conceito; sinônimos vão para "Evitar". O código novo usa o termo canônico (o revisor confere).
 - Termo que já existe no ELM (bundle) → cite o id na coluna ELM; termo novo fica com `—` e, num épico, vira um
   conceito `GL-<termo>.md` em `elm/` (`sdd2-prd`), que a `sdd2-elm` publica como Termo de Glossário.
+- O glossário é artefato de produto: só na branch base. Entrevista de uma **fatia** (na branch dela) → não grave o
+  glossário; registre o termo no `decisoes.md` da fatia como `termo pendente`, e a `sdd2-consolidar` o leva para o
+  glossário depois do merge.
 
 ## Saída para quem chamou
 

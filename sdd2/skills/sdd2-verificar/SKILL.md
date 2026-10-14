@@ -16,7 +16,7 @@ Seja cético: quem implementou tende a achar que terminou, e funcionalidade pela
 unidade. "Feito" é uma afirmação; a evidência é a prova.
 
 Entrada: pasta da fatia com revisão `APROVADO`, na branch da fatia. Tipo de projeto, como executar e onde ver o
-resultado: seção **Verificação** do `.kiro/steering/sdd2.md` (vem do toolkit, confirmado na setup).
+resultado: seção **Verificação de aceite** do `.kiro/steering/sdd2.md` (vem do toolkit, confirmado na setup).
 
 ## Passo 1 — Roteiro
 
@@ -82,8 +82,8 @@ Gere `CT.csv` na pasta da fatia — um caso por cenário verificado — no forma
 [references/ct-csv.md](references/ct-csv.md). A importação no ETM e o link "valida" com a história são feitos
 pela **`sdd2-elm`** (modo *testes*) na consolidação, depois do merge.
 
-Incremente "verificação" em Rodadas no `status.md`; pedido de quem chamou (workflow, loop) → grave também
-`.kiro/local/wf/<ft>/aceite.json` com `{"verificacao": "ACEITO"}` ou `{"verificacao": "REJEITADO"}`.
+Rodadas: quem pediu a verificação incrementa "verificação" (a `sdd2-implementar` ou o orquestrador); só no
+pedido direto de uma pessoa, incremente você.
 
 ## Regras
 

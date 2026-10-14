@@ -51,8 +51,9 @@ Bundle do ELM no repositório (`rm.download.path`) → sugira rodar a `elm-sync`
 - **ADRs:** decisões técnicas do `design.md` marcadas "Vira ADR? sim" (ou que mudam como o time vai construir daqui
   para a frente) → um ADR curto na pasta de ADRs do `sdd2.md` (contexto · decisão · consequências ·
   origem FT-nnn). Mostre e grave com "ok".
-- **Glossário:** termos que o código novo introduziu ou renomeou estão no glossário? Divergência → corrija o
-  glossário (com "ok") ou abra a correção do código como fatia.
+- **Glossário:** termos que o código novo introduziu ou renomeou — e os `termo pendente` do `decisoes.md` da
+  fatia — estão no glossário? Faltando ou divergente → corrija o glossário (com "ok") ou abra a correção do código
+  como fatia.
 - **Lint do conhecimento** (a cada épico concluído, ou quando a pessoa pedir): procure contradições entre
   glossário, ADRs, bundle do ELM e steering — termo com duas definições, ADR superado sem marcação, regra do ELM
   que o código não segue. Liste como achados; cada um vira correção na fonte ou fatia nova.

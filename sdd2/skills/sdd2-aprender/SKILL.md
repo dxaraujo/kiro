@@ -13,12 +13,16 @@ Todo retrabalho tem uma causa no **ambiente** do agente: contexto, verificação
 resolve hoje; corrigir o ambiente resolve para sempre. Arquivos (versionados):
 
 - `<produto>/aprendizado/licoes.md` — log de lições (só acréscimo);
-- a seção **Regras aprendidas** do `.kiro/steering/sdd2.md` — regras promovidas de **julgamento** (o revisor cobra, o plano
-  respeita; o steering é sempre carregado, então cada regra é curta, imperativa, com exemplo).
+- a seção **Regras aprendidas** do `.kiro/steering/sdd2.md` — regras promovidas de **julgamento** (o revisor
+  cobra, o plano respeita; o steering é sempre carregado, então cada regra é curta, imperativa, com exemplo).
+
+Os dois só mudam na **branch base** (artefato de produto): antes de gravar, `git switch <base>` e
+`git pull --ff-only` (com alterações pendentes na branch da fatia → commite-as ou peça à pessoa); depois, commit
+pequeno e push ou PR curto com o "sim" da pessoa, como diz "Artefatos de produto" no `sdd2.md`.
 
 **Ordem de preferência da correção:** (1) erro **mecânico** → checagem determinística (lint, teste, hook, CI) —
-ponto final, não vira texto; (2) regra de **julgamento** → seção Regras aprendidas do `sdd2.md` (o revisor cobra); (3) conhecimento
-de domínio → glossário, ADR ou PRD/ELM; (4) conhecimento de stack → skill do toolkit. O steering recebe só a regra
+ponto final, não vira texto; (2) regra de **julgamento** → seção Regras aprendidas do `sdd2.md` (o revisor
+cobra); (3) conhecimento de domínio → glossário, ADR ou PRD/ELM; (4) conhecimento de stack → skill do toolkit. O steering recebe só a regra
 curta, nunca a explicação longa (ela fica no `licoes.md`).
 
 ## Modo registrar (a cada correção)

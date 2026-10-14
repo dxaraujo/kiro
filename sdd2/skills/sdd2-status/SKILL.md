@@ -22,10 +22,11 @@ seção. Sem `.kiro/steering/sdd2.md` → diga que o fluxo não está configurad
    Banco, última linha do Histórico (data) e pendências `ELM pendente:` sem `ELM feito:` correspondente.
 3. De cada `tasks.md`: `[x]`/total e o primeiro item pendente.
 4. `<produto>/backlog.json` (da base): épicos por status, fatias `pronta` sem `status.md` em nenhuma branch,
-   sprint atual (`planejamento/sprints/` de maior número não fechada) e a meta. "Em andamento" = fatia com
+   sprint atual (`planejamento/sprints/` de maior número com `**Situação:** aberta`) e a meta. "Em andamento" = fatia com
    `status.md` numa branch e fase diferente de `concluida`; o backlog não guarda isso.
    PRDs (`epicos/*/prd.md`): status e pendências `ELM pendente:` do rodapé.
-5. `<produto>/planejamento/acordos.md`: limites de WIP.
+5. `<produto>/planejamento/acordos.md`: limites de WIP (sem o arquivo: 2 fatias esperando pessoa, e sugira a
+   `sdd2-planejamento` modo inicial).
 6. `<produto>/aprendizado/licoes.md`: lições com situação `proposta`.
 7. Lotes autônomos em andamento: `.kiro/local/loop-*.md`.
 8. "Minhas" = responsável igual ao login da pessoa: `git config user.name` cruzado com `nome`/`login` do

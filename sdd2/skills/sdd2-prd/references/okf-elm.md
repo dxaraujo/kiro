@@ -10,7 +10,7 @@ no repositório, então o rascunho e a versão oficial se leem do mesmo jeito.
 | Origem | Pasta (um bundle OKF pequeno) |
 |---|---|
 | épico (PRD) | `<produto>/epicos/<EP>-<slug>/elm/` |
-| fatia de trilha rápida que muda documentação | `.kiro/specs/<ft>-<slug>/elm/` |
+| ET as-built de uma fatia (`sdd2-elm`, na consolidação) | `.kiro/specs/<ft>-<slug>/elm/` |
 
 ```
 elm/

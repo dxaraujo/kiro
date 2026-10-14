@@ -11,7 +11,7 @@ metadata:
 # sdd-elm-publicar-requisitos — Requisitos aprovados → ELM (opcional)
 
 Requer o MCP `elm` (power ELM) e as skills **`elm-rm`** e **`elm-gc`**. IDs de pasta e tipo: `.kiro/config/power/elm/pa_*.json`.
-**Sem o MCP `elm` nesta sessão, esta skill não publica:** registre o campo `ELM` pela regra do steering
+**Sem o MCP `elm` nesta sessão, esta skill não publica:** registre o campo `ELM` pela regra da skill `sdd`, seção ELM opcional
 (projeto com ELM → `pendente — publicar com o power elm` + `ELM pendente: publicar HF/REG/ET e concluir [ESPEC]` no
 Histórico; projeto sem ELM → `sem power — não publicado`) e pare — o IB já está `especificado` e a codificação pode
 começar. Rodada depois, com o power, ela publica as pendências e acrescenta `ELM feito: …` no Histórico.

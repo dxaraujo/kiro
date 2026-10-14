@@ -19,7 +19,7 @@ Power do Kiro para o **IBM Engineering Lifecycle Management (ELM)** via OSLC, us
 |---|---|
 | `plugin.json` | Manifesto e keywords de ativação |
 | `mcp.json` | Servidor MCP `elm` (`uvx mcp-elm@latest`) |
-| `steering/steering.md` | Visão geral do power, sempre carregada |
+| `skills/elm/` | Guia do power: qual skill cobre cada aplicação, regras de uso (sem setup, respostas, escrita, credenciais) — as skills de área o leem antes da primeira chamada ao MCP |
 | `skills/elm-setup/` | Cria/atualiza `.kiro/config/power/elm/pa_<nome>.json` do projeto; cria iterações e planos |
 | `skills/elm-ccm/` | Work items (EWM); `reference.md` com as tools genéricas |
 | `skills/elm-rm/` | Requisitos (DOORS Next); `reference.md` com as tools genéricas |

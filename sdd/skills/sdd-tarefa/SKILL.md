@@ -10,7 +10,7 @@ metadata:
 
 # sdd-tarefa — Entrada de uma Task (qualquer papel)
 
-Leia antes: o steering do power `sdd` (papéis, gates, pasta, branch, fases) e `.kiro/steering/sdd-projeto.md`
+Leia antes: a skill `sdd` (papéis, gates, pasta, branch, fases) e `.kiro/steering/sdd-projeto.md`
 (prefixos das Tasks, branch base, ELM). Sem `sdd-projeto.md` → ofereça a `sdd-setup` e pare.
 
 ## Passo 1 — Ler a Task
@@ -26,7 +26,7 @@ Leia antes: o steering do power `sdd` (papéis, gates, pasta, branch, fases) e `
 informado (número do ELM, `T-XX`, `IB-XX`) é procurado nos `status.md` da branch atual, das worktrees e das
 branches remotas; sem ELM e sem pasta, no planejamento da `sdd-planejamento` (`planejamento-agil/backlog.json`,
 `Backlog.md`, `SPRINT N.md`). Só se nada for achado, peça à pessoa número, título, descrição e critérios do IB e
-das Tasks, e preencha o campo `ELM` do `status.md` pela regra do steering (`pendente — publicar com o power elm`
+das Tasks, e preencha o campo `ELM` do `status.md` pela regra da skill `sdd`, seção ELM opcional (`pendente — publicar com o power elm`
 ou `sem power — não publicado`). Leitura falhou com o ELM instalado (401, não encontrado) → informe a causa, peça para conferir o
 número ou rodar `elm-setup`, e pare. **Nunca invente dados do work item.**
 
@@ -133,7 +133,7 @@ Lista de Tasks/IBs ou "os IBs da sprint" (com ELM, `elm-ccm`; sem ELM, os IBs do
 - O ELM (ou a pessoa) é a fonte dos dados das Tasks; o código é a fonte para saber se a funcionalidade existe; o
   `status.md` é a fonte da fase.
 - Escrita no `status.md`: só o papel da fase atual, sempre com `git pull --rebase` antes e commit + push logo depois;
-  Histórico só por acréscimo (regras e resolução de conflito no steering do power, Convenções).
+  Histórico só por acréscimo (regras e resolução de conflito na skill `sdd`, Convenções).
 - Nunca pule um gate: o codificador não começa antes do GATE 1 (`especificado`), o testador antes do GATE 2
   (`em-teste`). As etapas são assíncronas: o sinal é a `fase` do `status.md` na branch remota.
 - Toda alteração no ELM e toda troca/criação de branch só com "sim" explícito.

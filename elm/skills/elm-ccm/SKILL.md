@@ -4,7 +4,7 @@ description: "Query, list, read, create, update, change state, comment or log ti
 license: "MIT"
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "1.0.6"
+  version: "1.0.7"
 ---
 
 # elm-ccm
@@ -14,10 +14,14 @@ enxuta. As tools genéricas do IBM AI Hub (`get_workitem`, `search_workitems`, `
 `get_workitem_schema`...) estão em [reference.md](reference.md): leia-o **só** se as `ccm_*` não cobrirem o pedido.
 Criar iteração/plano é na **elm-setup**; usuários e links com requisitos/testes, na **elm-gc**.
 
+Regras gerais do power (sem setup, formato das respostas, confirmação de escrita): skill **`elm`** — leia-a antes da
+primeira chamada ao MCP na conversa. Credenciais (`~/.config/mcp-elm/elm.properties`): nunca leia nem mostre o
+arquivo; em HTTP 401, peça ao usuário que o corrija.
+
 ## Antes de chamar
 
-1. **Leia `.kiro/config/power/elm/pa_*.json`** (um → use; vários → pergunte qual). Sem arquivo → regra "Sem setup"
-   do steering (abaixo, o que perguntar). Dele saem, sem chamar o servidor (`pa` = `ccm.project-area-identifier`):
+1. **Leia `.kiro/config/power/elm/pa_*.json`** (um → use; vários → pergunte qual). Sem arquivo → regra "Sem setup" da skill
+   **`elm`** (e a seção abaixo, o que perguntar). Dele saem, sem chamar o servidor (`pa` = `ccm.project-area-identifier`):
 
    | Preciso de | Onde está |
    |---|---|

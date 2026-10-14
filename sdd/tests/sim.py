@@ -421,10 +421,10 @@ SCEN = {
 
 # ---------- execução ----------
 def sim_agent(repo):
-    """Agente que emula o power ativo (como na IDE): todas as skills sdd-* + steering do power e do projeto."""
+    """Agente que emula o power ativo (como na IDE): todas as skills sdd-* + os file:// do codificador (guia e projeto)."""
     skills = sorted(glob.glob(f"{POWER}/skills/*/SKILL.md"))
     cod = json.load(open(f"{repo}/.kiro/agents/sdd-codificador.json"))
-    a = {"name": "sdd-sim", "description": "Simula o power sdd ativo (todas as skills + steering).",
+    a = {"name": "sdd-sim", "description": "Simula o power sdd ativo (todas as skills + guia do processo).",
          "prompt": "Você é o assistente do projeto com o power sdd ativo. Antes de responder, leia a SKILL.md "
                    "da skill sdd-* que atende o pedido e siga-a.",
          "mcpServers": {}, "tools": ["glob", "grep", "read", "shell", "write", "subagent"],

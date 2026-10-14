@@ -8,7 +8,7 @@ receber um, avise quem chamou.
 ## Contexto obrigatório
 
 Leia antes de começar (no Kiro já vêm como recursos do agente):
-- o steering do power `sdd` e `.kiro/steering/sdd-projeto.md` (comandos, regras críticas, skills, executores)
+- a skill `sdd` (o processo) e `.kiro/steering/sdd-projeto.md` (comandos, regras críticas, skills, executores)
 - os steering de produto, tecnologia e estrutura que o `sdd-projeto.md` aponta
 - da pasta do IB (`.kiro/specs/ib-<id>-<slug>/`): `requirements.md`, `design.md`, `tasks.md` e a `ET.md` — sem
   `tasks.md`, crie a spec antes pela skill `sdd-criar-spec` (falta de negócio na documentação → pare e reporte;

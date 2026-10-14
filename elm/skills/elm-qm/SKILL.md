@@ -4,7 +4,7 @@ description: "Query, search or list IBM ETM/RQM (QM) test artifacts through the 
 license: "MIT"
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "1.0.2"
+  version: "1.0.3"
 ---
 
 # elm-qm
@@ -12,6 +12,10 @@ metadata:
 Guia das tools de teste (ETM/RQM/QM) do MCP `elm` (`mcp_elm/ibm/test.py`, nomes do IBM Engineering AI Hub).
 Não há tools de criação/edição de artefato de teste: só leitura. Links com requisitos e work items
 (`link_testartifact_and_requirement`, `link_workitem_and_testartifact`, `list_linked_*`) estão em **elm-gc**.
+
+Regras gerais do power (sem setup, formato das respostas, confirmação de escrita): skill **`elm`** — leia-a antes da
+primeira chamada ao MCP na conversa. Credenciais (`~/.config/mcp-elm/elm.properties`): nunca leia nem mostre o
+arquivo; em HTTP 401, peça ao usuário que o corrija.
 
 ## Siglas e sinônimos
 
@@ -43,7 +47,7 @@ coluna). Termo que não está aqui nem em `artifact_type` → pergunte o tipo; n
    `get_project_area(app_type="CCM", project_area_uuid=ccm.project-area-identifier, include_associations=True)`
    → `associations.qm[0].project_area_uuid`, e sugira a **elm-setup** para gravá-la. Não liste todas as áreas QM.
    Sem associação, ou erro de catálogo/403 → o projeto não tem testes no ETM: diga isso e pare.
-   **Sem setup** (sem arquivo; regra do steering): área CCM já escolhida na conversa → use a associação acima; senão
+   **Sem setup** (sem arquivo; regra "Sem setup" da skill **`elm`**): área CCM já escolhida na conversa → use a associação acima; senão
    pergunte um trecho do nome do projeto → `list_project_areas(app_type="QM", search_name=<trecho>)` e o usuário
    escolhe pelo nome. Guarde `pa_qm` na conversa. Pessoa (`owner`) → login dito pelo usuário ou `get_user` (elm-gc).
 2. `configuration` é opcional: só passe se o usuário pedir uma stream/baseline específica.

@@ -4,7 +4,7 @@ description: "Download and keep in sync, in both directions, the IBM DOORS Next 
 license: "MIT"
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.1.2"
+  version: "3.1.3"
 ---
 
 # elm-sync
@@ -14,6 +14,10 @@ Mantém em sincronia, nos dois sentidos, a documentação do DOORS Next em
 `index.md`. **O MCP faz o trabalho pesado**: lista as pastas, grava os arquivos, o `sync.md` e o `index.md`, sobe os
 md editados e devolve só resumos. Listas e conteúdo de artefato não passam pela conversa. O sincronismo **baixa
 primeiro e depois sobe**; no primeiro, tudo vem como `novo`.
+
+Regras gerais do power (sem setup, formato das respostas, confirmação de escrita): skill **`elm`** — leia-a antes da
+primeira chamada ao MCP na conversa. Credenciais (`~/.config/mcp-elm/elm.properties`): nunca leia nem mostre o
+arquivo; em HTTP 401, peça ao usuário que o corrija.
 
 ## Estados do `sync.md`
 
@@ -51,7 +55,7 @@ O que o download grava (`[id título](../03-Regras/2001-x.md)` e `[id título](U
 
 1. **Leia `.kiro/config/power/elm/pa_*.json`** (um → use; vários → pergunte): os três parâmetros das `rm_*`
    (`project_area_identifier`, `component`, `configuration`), `rm.folders` e `rm.download`. Sem `rm` → regra "Sem
-   setup" do steering:
+   setup" da skill **`elm`**:
    - área RM, `component` e `configuration`: como na seção "Sem setup" da **elm-rm**;
    - pasta raiz do bundle: pergunte (sugira `docs/elm/<trecho do nome da área>`);
    - pastas a sincronizar: `rm_list_folders(...)` e o usuário escolhe. **Bundle já existe** (`sync.md` na pasta) →

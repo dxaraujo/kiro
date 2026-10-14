@@ -1,5 +1,10 @@
 ---
-inclusion: always
+name: "elm"
+description: "Usage rules and map of the IBM ELM power (`elm` MCP): which skill covers each application (elm-ccm, elm-rm, elm-sync, elm-qm, elm-gc, elm-setup), pa_*.json before the server, how to proceed without setup (ask once, pick by name from numbered lists, keep choices in the conversation), list and answer format, write confirmation and credentials. Read it before the first `elm` MCP call of a conversation, together with the area skill, and when the user asks what the power does or how to use it: \"o que o power elm faz\", \"como usar o ELM\", \"usar o ELM sem setup\", IBM ELM, EWM, RTC, DOORS Next, ETM, RQM, OSLC, Jazz."
+license: "MIT"
+metadata:
+  author: "Daniel Xavier Araújo"
+  version: "1.0.0"
 ---
 
 # ELM Power

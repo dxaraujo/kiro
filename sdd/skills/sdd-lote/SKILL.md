@@ -12,8 +12,8 @@ metadata:
 
 Quem executa esta skill é o **orquestrador** (a sessão da pessoa ou o agente `sdd-orquestrador`). Ele faz os papéis
 especificador e codificador **por agentes**, mantém o log e é o **único** que marca `tasks.md`, faz commit, push
-(fim de cada etapa) e altera o ELM (só com o power `elm`). Papéis, gates e fases: o steering do power
-`sdd`; branch base, executores e comandos: `.kiro/steering/sdd-projeto.md`.
+(fim de cada etapa) e altera o ELM (só com o power `elm`). Papéis, gates e fases: a skill `sdd`
+(o processo); branch base, executores e comandos: `.kiro/steering/sdd-projeto.md`.
 Os testes (`sdd-testar`) não entram no lote — o testador (pessoa ou agente) testa cada PR e decide o GATE 3.
 
 `<repo>` abaixo = nome da pasta do repositório; worktrees ficam ao lado dele: `../<repo>-wt-<funcionalidade>`.
@@ -92,7 +92,7 @@ Aprova todos? ("ok" · "ok exceto 124" · ou ajustes por IB)
   repositório principal** (`git push origin <branch>`; nunca push nem merge de dentro das worktrees) — é o sinal
   para a codificação.
 - Com power ELM → **`sdd-elm-publicar-requisitos`** para cada um, na sessão orquestradora (publica, rastreia e
-  conclui a Task do especificador). Sem o MCP `elm` (agentes do lote) → campo `ELM` pela regra do steering (projeto com ELM: `pendente — publicar com
+  conclui a Task do especificador). Sem o MCP `elm` (agentes do lote) → campo `ELM` pela regra da skill `sdd`, seção ELM opcional (projeto com ELM: `pendente — publicar com
   o power elm` + `ELM pendente: …` no Histórico; sem ELM: `sem power — não publicado`) e liste as pendências no resumo
   do lote.
 - IB recusado no gate → sai do lote com o motivo.
@@ -171,4 +171,4 @@ checklists com ≥ 2 ocorrências (candidatos a promoção — `sdd-retrabalho`)
   etapa, com confirmação, a partir do repositório principal; nunca merge, nunca `--force`.
 - Nunca apagar worktree com trabalho não commitado.
 - `status.md`: `git pull --rebase` antes de cada escrita e push logo depois — outras pessoas podem estar no mesmo
-  IB fora do lote (regras de escrita no steering do power).
+  IB fora do lote (regras de escrita na skill `sdd`, Convenções).

@@ -21,7 +21,7 @@
     "write"
   ],
   "resources": [
-    "file://~/.kiro/powers/installed/sdd/steering/steering.md",
+    "file://~/.kiro/powers/installed/sdd/skills/sdd/SKILL.md",
     "file://.kiro/steering/sdd-projeto.md",
     "skill://~/.kiro/powers/installed/sdd/skills/sdd-lote/SKILL.md",
     "skill://~/.kiro/powers/installed/sdd/skills/sdd-tarefa/SKILL.md",

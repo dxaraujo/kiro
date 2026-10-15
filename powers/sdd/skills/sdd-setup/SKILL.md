@@ -110,7 +110,7 @@ Falhou ao rodar → mostre o erro; a pessoa decide (corrigir o comando, seguir a
 | Branch base | `git symbolic-ref refs/remotes/origin/HEAD`; `develop`/`main`/`master` |
 | Prefixo da branch | branches remotas existentes; padrão `feature/` |
 | Padrão de commit | `git log --oneline -20` (Task/IB do EWM? Conventional Commits?) |
-| Abrir PR | `gh`/`glab` no PATH e o host do `origin`; senão "entregar título e descrição" |
+| Abrir PR | **pelo host do `origin`, nunca pela ferramenta que estiver no PATH**: GitHub (`github.com` ou GitHub Enterprise) → `gh pr create`; GitLab (`gitlab` no host, ou `.gitlab-ci.yml` no repositório) → `glab mr create` (merge request); outro host → "entregar título e descrição". A ferramenta certa não está no PATH (ou não está autenticada) → padrão "entregar título e descrição", com o aviso de como instalar (GitLab: `brew install glab` e `glab auth login --hostname <host do origin>`) e trocar depois por "atualizar a configuração do sdd". Nunca `gh` para GitLab nem `glab` para GitHub |
 | MCP de banco | servidores em `.kiro/settings/mcp.json` e `~/.kiro/settings/mcp.json` — qual é o de consulta e **qual tool** só consulta (ou "não há"); recomende um usuário de banco somente leitura |
 | Artefatos de produto | a base é protegida? → `PR curto para a base`; senão o padrão também é `PR curto para a base` (a pessoa troca por `direto na branch base` na tabela) |
 

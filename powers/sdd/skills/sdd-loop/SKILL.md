@@ -23,8 +23,9 @@ e pergunte se retoma. Retomar = continuar cada fatia da fase registrada no `stat
 
 ## Passo 1 — Fronteira e lote
 
-1. Candidatas: as fatias pedidas, ou as `pronta` + `AFK` da sprint atual, em ordem de prioridade.
-2. Fica de fora (diga o motivo): HITL; Definition of Ready não atendida; `bloqueada-por` não concluída e não
+1. Candidatas: as fatias pedidas, ou as `pronta` + `AFK` da sprint atual, em ordem de prioridade. Fatia pedida
+   que não está na sprint aberta → fica de fora até o encaixe (`sdd-planejamento`, seção Encaixe).
+2. Fica de fora (diga o motivo): HITL; trilha direta (é da sessão da pessoa); Definition of Ready não atendida; `bloqueada-por` não concluída e não
    presente antes no lote; já em andamento com outra pessoa.
 3. **Limite:** paralelismo do `sdd.md` (padrão 1, máximo 3) **e** vagas de WIP de revisão humana (limite
    dos acordos menos as fatias já esperando pessoa: `plano-em-revisao`, `aceita`, `pr-aberto`). PR que ninguém vai

@@ -1,6 +1,6 @@
 ---
 name: sdd-planejamento
-description: "Planejamento ágil do projeto no fluxo sdd, ajustado a times que trabalham com agentes — roadmap e releases a partir dos épicos, acordos do time (cadência Scrum ou Kanban, Definition of Ready e Done, limites de WIP incluindo a capacidade de revisão humana, que é o gargalo), planejamento da sprint por prioridade, dependências e capacidade (vazão de fatias e pontos, especificação e reserva de atendimento), meta da sprint, acompanhamento, review com as evidências de aceite, retrospectiva com dados e virada de sprint; publica a sprint no EWM pela sdd-elm. Use em \"monta o planejamento\", \"planejar a sprint\", \"roadmap\", \"virada de sprint\", \"fechar a sprint\", \"review da sprint\", \"capacidade do time\", \"acordos do time\"."
+description: "Planejamento ágil do projeto no fluxo sdd, ajustado a times que trabalham com agentes — roadmap e releases a partir dos épicos, acordos do time (cadência Scrum ou Kanban, Definition of Ready e Done, limites de WIP incluindo a capacidade de revisão humana, que é o gargalo), planejamento da sprint por prioridade, dependências e capacidade (vazão de fatias e pontos, especificação e reserva de atendimento), meta da sprint, acompanhamento, review com as evidências de aceite, retrospectiva com dados e virada de sprint; publica a sprint no EWM pela sdd-elm. Use em \"monta o planejamento\", \"planejar a sprint\", \"roadmap\", \"virada de sprint\", \"fechar a sprint\", \"review da sprint\", \"capacidade do time\", \"acordos do time\", \"encaixe na sprint\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -58,7 +58,8 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
    descobrir" do topo), um `[ESP]` por épico, com responsável e horas previstas dentro da capacidade de
    especificação.
 3. **Seleção:** confira a Definition of Ready das fatias do topo e grave `pronta` nas que passam (ou `backlog`
-   nas que deixaram de passar). Entram as `pronta`, respeitando `bloqueada-por` — a fatia só entra se as
+   nas que deixaram de passar). Entram as `pronta` — de épico e sem épico, inclusive as diretas (toda hora tem
+   tarefa) —, respeitando `bloqueada-por` — a fatia só entra se as
    dependências entram antes ou já estão concluídas. Pare ao atingir a menor das capacidades. Fatia não `pronta` no
    topo → aponte o que falta (decisão, PRD, fatiar) antes de pular para a próxima. Cada fatia ganha **revisor** e
    **verificador** (não quem implementa), e a soma das revisões e verificações cabe nas horas de revisão de cada um.
@@ -87,6 +88,17 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
 PRs parados). Fatia que cresceu (passou de `G` no plano) → volte para a `sdd-fatiar` (dividir) em vez de esticar.
 Atendimento que estoura a reserva → mostre ao P.O. e ele decide qual fatia sai da sprint; o atendimento nunca tira
 fatia sozinho.
+
+**Encaixe** — alguém quer começar uma fatia `pronta` (de qualquer trilha, inclusive a direta) que não está na sprint
+aberta; a `sdd-iniciar` manda para cá. Mostre ao P.O. a fatia (trilha, tamanho, modo, origem), o que sobra da
+capacidade (revisão, vazão, HITL) e as opções, com a recomendada:
+- **entra na folga** — cabe sem tirar nada;
+- **entra no lugar de** `FT-…` — uma ainda não iniciada, que volta para `sprint` `—`;
+- **fica para a próxima sprint**.
+
+Com a decisão do P.O. (ou de quem ele delegou): `sprint` e `responsavel` no `backlog.md`, uma linha no
+`sprint-<nn>.md` com a Observação `encaixe: <decisão> (<quem decidiu>, <data>)`, commit na base e a `sdd-elm` modo
+*sprint* para as tarefas da fatia. Sem decisão, a fatia não começa; urgência acelera a decisão, não a dispensa.
 
 ## Review
 

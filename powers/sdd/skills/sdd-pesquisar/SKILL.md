@@ -19,7 +19,8 @@ leitura.
 ## Entrada
 
 Pasta da fatia `.kiro/specs/<ft>-<slug>/` com `status.md`; a fatia no `backlog.md` (`cobre`); o PRD do épico
-(histórias e regras cobertas) ou, na trilha rápida, o defeito/pedido.
+(histórias e regras cobertas), a ficha da fatia sem épico (`<produto>/fatias/`) ou, na trilha rápida, o
+defeito/pedido.
 
 ## Passo 1 — Perguntas da pesquisa
 

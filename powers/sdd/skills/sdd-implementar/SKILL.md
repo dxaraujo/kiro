@@ -120,11 +120,13 @@ O merge é de uma pessoa. Depois do merge: **`sdd-consolidar`**.
 
 ## Trilha direta
 
-Sem pasta de spec nem `tasks.md` (a `sdd-iniciar` decidiu que o diff cabe numa frase):
+Sem spec nem `tasks.md` — a pasta da fatia tem só o `status.md` (a triagem, na `sdd-triar`, decidiu que o diff
+cabe numa frase):
 1. Teste que falha, quando há comportamento (texto e configuração pura não têm); 2. a mudança; 3. backpressure;
 4. revisão pela **`sdd-revisar`** (rubrica C sobre o diff, com o **pedido** no lugar dos critérios; relatório na
-conversa); 5. PR curto: `<pedido> (<id do item | —>)` · `O quê` · `Backpressure` · `Revisão: APROVADO` ·
-`Como ler`. Se no caminho aparecer regra de negócio ou mais de um comportamento → pare: é trilha rápida ou padrão.
+conversa); 5. PR curto: `FT-<nnn> — <pedido> (<id do item | —>)` · `O quê` · `Backpressure` · `Revisão: APROVADO` ·
+`Como ler`; `status.md` com `fase: pr-aberto` e o link do PR. Se no caminho aparecer regra de negócio ou mais de um
+comportamento → pare: devolva à `sdd-triar` (é trilha rápida ou padrão).
 
 ## Modo autônomo
 
@@ -135,4 +137,4 @@ conversa); 5. PR curto: `<pedido> (<id do item | —>)` · `O quê` · `Backpres
 
 - Nunca `--force`; merge só o da base para a branch, por uma pessoa (Passo 5); push só com confirmação (ou pelo
   orquestrador, com a autorização do lote).
-- Nada fora do escopo do `design.md`; melhoria vista no caminho vira sugestão de item no backlog.
+- Nada fora do escopo do `design.md`; melhoria vista no caminho vira sugestão de item no backlog (registrada pela `sdd-triar`).

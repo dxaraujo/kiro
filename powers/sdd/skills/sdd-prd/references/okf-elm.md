@@ -11,6 +11,7 @@ no repositório, então o rascunho e a versão oficial se leem do mesmo jeito.
 |---|---|
 | épico (PRD) | `<produto>/epicos/<EP>-<slug>/elm/` |
 | ET as-built de uma fatia (`sdd-elm`, na consolidação) | `.kiro/specs/<ft>-<slug>/elm/` |
+| regra da ficha de uma fatia padrão sem épico (`sdd-consolidar`, as-built) | `.kiro/specs/<ft>-<slug>/elm/` |
 
 ```
 elm/

@@ -16,6 +16,8 @@ distância entre os dois.
 Entrada: fatia em `pr-aberto` cujo PR foi **mergeado** (confira: `git branch -r --merged origin/<base>` ou a
 ferramenta de PR; não mergeado → pare).
 
+Trilha direta: só as *horas* e o *backlog* do Passo 2 e o Passo 4 — não há plano nem cenário para conferir.
+
 ## Passo 1 — Drift
 
 Compare o entregue com a documentação:
@@ -24,17 +26,20 @@ Compare o entregue com a documentação:
 |---|---|
 | `design.md` → Decisões técnicas, achados aceitos da revisão | alguma decisão mudou comportamento visível? |
 | `verificacao.md` | algum cenário foi ajustado durante a verificação? |
-| `decisoes.md` (épico e fatia) | decisão nova depois do GATE do PRD? |
+| `decisoes.md` (épico e fatia) ou a ficha (fatia sem épico) | decisão nova depois do GATE do PRD ou da aprovação da ficha? |
 | conceitos de `elm/` (histórias e regras cobertas) × bundle do ELM | o ELM já reflete o aprovado? (conceito `stable` sem `resource` = publicação pendente; corpo do bundle diferente do conceito publicado = alguém mudou no ELM) |
 
 Drift de **negócio** (regra, cenário, valor) → o PRD precisa de nova versão: mostre a diferença e acione a
-`sdd-prd` (mudança depois de aprovado) antes de publicar. Drift só técnico → nada no PRD.
+`sdd-prd` (mudança depois de aprovado) antes de publicar — na fatia sem épico, a ficha, pela `sdd-triar`. Drift só técnico → nada no PRD.
 
 ## Passo 2 — ELM (com o power `elm`; senão registre pendências)
 
 Pela **`sdd-elm`**, numa confirmação só:
 - *requisitos* — publicar/atualizar o que ainda não foi (publicação `no-merge` no `sdd.md`, ou drift do
   Passo 1);
+- *regra da ficha* (fatia padrão sem épico com regra nova ou alterada) — gerar o conceito OKF da regra as-built
+  em `.kiro/specs/<ft>-<slug>/elm/` (formato do `okf-elm.md` da `sdd-prd`; alteração → a partir do artefato do
+  bundle), mostrar e, com o `verified` humano, publicar pelo modo *requisitos*;
 - *especificação técnica* — se o projeto publica ET: gerar a ET **as-built** da fatia a partir do `design.md` e do
   código final (interfaces, dados, integrações) e publicar;
 - *testes* — `CT.csv` pronto para importar no ETM; após a importação, links "valida" com as histórias;

@@ -18,7 +18,8 @@ code review. Ele é curto, concreto e descartável: depois do merge, o que vale 
 ADRs. Templates: [references/plano-templates.md](references/plano-templates.md).
 
 Entrada: pasta `.kiro/specs/<ft>-<slug>/` criada pela `sdd-iniciar`, na branch da fatia.
-Leia: `status.md`, a fatia no `backlog.md`, o PRD do épico (histórias e regras cobertas) ou o defeito,
+Leia: `status.md`, a fatia no `backlog.md`, o PRD do épico (histórias e regras cobertas), a ficha da fatia sem
+épico (`<produto>/fatias/`) ou o defeito,
 `.kiro/steering/sdd.md` (com as regras aprendidas) e o steering de tecnologia/estrutura.
 
 ## Passo 1 — Pesquisa
@@ -30,7 +31,7 @@ seguir (pode ser defeito, pode ser documentação velha).
 ## Passo 2 — Decisões em aberto
 
 Lacuna de **negócio** (regra sem valor, exceção sem comportamento) → **pare**: é do P.O. — `sdd-entrevistar` e,
-se mudar o PRD aprovado, `sdd-prd` (mudança depois de aprovado). Nunca decida regra no plano.
+se mudar o PRD aprovado, `sdd-prd` (mudança depois de aprovado) — ou a ficha aprovada, `sdd-triar`. Nunca decida regra no plano.
 Escolhas **técnicas** com alternativas reais (ex.: onde guardar o contador) → apresente-as à pessoa com a
 recomendada (HITL) ou decida e registre (AFK) em "Decisões técnicas".
 

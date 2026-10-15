@@ -114,7 +114,7 @@ de arquivo local, exceto `rm.download.path`, também relativo à raiz do reposit
 
 ```json
 {
-  "$schema": "https://raw.githubusercontent.com/dxaraujo/kiro-powers/main/elm/skills/elm-setup/assets/pa.schema.json",
+  "$schema": "https://raw.githubusercontent.com/dxaraujo/kiro/main/elm/skills/elm-setup/assets/pa.schema.json",
   "ccm": {
     "project-area": "<PROJETO>",
     "project-area-identifier": "_<uuid-pa-ccm>",

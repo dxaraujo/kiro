@@ -1,4 +1,4 @@
-# kiro-powers
+# kiro
 
 Powers do [Kiro](https://kiro.dev) mantidos por [@dxaraujo](https://github.com/dxaraujo). Cada pasta é um power
 independente, com manifesto (`plugin.json`), skills e, quando usa, servidor MCP (`mcp.json`).
@@ -15,7 +15,7 @@ independente, com manifesto (`plugin.json`), skills e, quando usa, servidor MCP 
 
 1. Para powers com MCP, instale o [uv](https://docs.astral.sh/uv/): os servidores MCP rodam com `uvx`.
 2. No Kiro, adicione o power pelo painel **Powers**, apontando para a pasta do power neste repositório
-   (ex.: `https://github.com/dxaraujo/kiro-powers/elm`) ou para uma cópia local dela.
+   (ex.: `https://github.com/dxaraujo/kiro/elm`) ou para uma cópia local dela.
 3. Siga o `README.md` da pasta do power para credenciais e primeiros passos.
 
 ## Estrutura de um power

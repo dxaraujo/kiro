@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://raw.githubusercontent.com/dxaraujo/kiro-powers/main/elm/skills/elm-setup/assets/pa.schema.json",
+  "$id": "https://raw.githubusercontent.com/dxaraujo/kiro/main/elm/skills/elm-setup/assets/pa.schema.json",
   "title": "ELM Project Area Configuration",
   "description": "Arquivo de configuração .kiro/config/power/elm/pa_<nome>.json gerado pela skill elm-setup. Um arquivo por project area. As chaves de todos os mapas são os name devolvidos pelas tools do MCP elm, em kebab-case.",
   "type": "object",

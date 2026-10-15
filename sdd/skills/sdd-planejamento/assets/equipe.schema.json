@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://raw.githubusercontent.com/dxaraujo/kiro-powers/main/sdd/skills/sdd-planejamento/assets/equipe.schema.json",
+  "$id": "https://raw.githubusercontent.com/dxaraujo/kiro/main/sdd/skills/sdd-planejamento/assets/equipe.schema.json",
   "title": "Equipe do sdd",
   "description": "<produto>/planejamento/equipe.json: projeto, cadência, histórico de vazão e de horas e membros com a capacidade de trabalho, de revisão, de especificação e de atendimento. Chaves em kebab-case; valores derivados (capacidade da sprint, totais) não são gravados, são calculados na hora.",
   "type": "object",

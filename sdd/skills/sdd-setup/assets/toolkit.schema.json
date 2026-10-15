@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://raw.githubusercontent.com/dxaraujo/kiro-powers/main/sdd/skills/sdd-setup/assets/toolkit.schema.json",
+  "$id": "https://raw.githubusercontent.com/dxaraujo/kiro/main/sdd/skills/sdd-setup/assets/toolkit.schema.json",
   "title": "Toolkit do sdd",
   "description": "Manifesto de um toolkit: conjunto de skills (e opcionalmente steering e comandos) para um tipo de projeto ou stack, mantido fora do fluxo sdd e descoberto pela skill sdd-setup.",
   "type": "object",

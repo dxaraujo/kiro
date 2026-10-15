@@ -56,7 +56,7 @@ Formato definido por [../assets/toolkit.schema.json](../assets/toolkit.schema.js
 
 ```json
 {
-  "$schema": "https://raw.githubusercontent.com/dxaraujo/kiro-powers/main/sdd/skills/sdd-setup/assets/toolkit.schema.json",
+  "$schema": "https://raw.githubusercontent.com/dxaraujo/kiro/main/sdd/skills/sdd-setup/assets/toolkit.schema.json",
   "nome": "spring-batch",
   "versao": "1.0.0",
   "descricao": "Jobs Spring Batch 5: steps chunk e tasklet, readers/writers JDBC, reexecução e testes de job",

@@ -1,0 +1,593 @@
+"""Servidor MCP de leitura para ELK (Elasticsearch + Kibana), agnóstico de índice e campos.
+
+Índice, campos e consultas chegam como parâmetro; o elk.properties só tem credenciais e servidores.
+
+Transporte: Elasticsearch direto quando `es_<ambiente>` está configurado (APIs REST oficiais); senão o Kibana
+via POST /internal/search/es (API interna do Kibana, mesmo corpo Query DSL; é o primeiro lugar a revalidar num upgrade).
+"""
+from __future__ import annotations
+
+import csv
+import functools
+import json
+import re
+import threading
+import unicodedata
+from pathlib import Path
+
+import requests
+import ssl
+from requests.adapters import HTTPAdapter
+from mcp.server.mcpserver import MCPServer
+from mcp.server.mcpserver.exceptions import ToolError
+
+from .config import ElkConfig, default_path, load_config
+
+mcp = MCPServer(
+    "elk",
+    instructions=(
+        "Leitura de logs no ELK (Elasticsearch/Kibana). Toda consulta exige `indice` e `inicio` (janela de tempo: "
+        "'now-15m' ou ISO 8601). `ambiente` aceita prod/produção, homol/homologação ou dev/desenvolvimento; sem ele, "
+        "produção. Descubra índices com elk_listar_indices, campos com elk_listar_campos e consultas prontas do Kibana "
+        "com elk_listar_consultas. Dimensione com elk_contar antes de buscar; volume grande vai para "
+        "elk_exportar_csv (grava em disco, nada passa pela conversa)."
+    ),
+)
+
+EXPECTED = (RuntimeError, OSError, LookupError, ValueError)
+TIMEOUT = 120
+LIMITE_TETO = 100
+PAGINA = 1000
+MAX_RESULT_WINDOW = 10_000  # index.max_result_window padrão do ES
+TEXTO_MAX = 2000
+ALIASES = {
+    "prod": "prod", "producao": "prod", "p": "prod",
+    "homol": "homol", "homologacao": "homol", "hml": "homol", "h": "homol",
+    "dev": "dev", "desenvolvimento": "dev", "desenv": "dev", "d": "dev",
+}
+
+
+def tool(fn):
+    """Registra `fn` como tool (ToolError com o texto da exceção) e devolve `fn` intacta."""
+    @functools.wraps(fn)
+    def wrapper(*args, **kwargs):
+        try:
+            return fn(*args, **kwargs)
+        except EXPECTED as exc:
+            raise ToolError(str(exc)) from exc
+
+    mcp.tool()(wrapper)
+    return fn
+
+
+# ---------------------------------------------------------------- HTTP
+
+class ElkHttpError(RuntimeError):
+    def __init__(self, resp: requests.Response):
+        super().__init__(f"HTTP {resp.status_code} em {resp.request.method} {resp.url}: {resp.text[:500].strip()}")
+        self.status_code = resp.status_code
+
+
+def ca_bundle() -> Path:
+    """CAs extras (ex.: cadeia interna do Kibana), ao lado do elk.properties."""
+    return default_path().parent / "elk-bundle.pem"
+
+
+class _TlsAdapter(HTTPAdapter):
+    """CAs do sistema (no Windows, o repositório do Windows) + elk-bundle.pem, se existir.
+    Cifras padrão do OpenSSL: a lista do Python/urllib3 exclui AES256-SHA256 (RSA estático), única oferecida por
+    alguns Kibana internos (handshake failure)."""
+
+    def init_poolmanager(self, *args, **kwargs):
+        ctx = ssl.create_default_context()
+        if ca_bundle().is_file():
+            ctx.load_verify_locations(ca_bundle())
+        ctx.set_ciphers("DEFAULT")
+        super().init_poolmanager(*args, ssl_context=ctx, **kwargs)
+
+
+class ElkSession:
+    def __init__(self, cfg: ElkConfig):
+        self.cfg = cfg
+        self.session = requests.Session()
+        self.session.mount("https://", _TlsAdapter())
+        self.session.auth = (cfg.user, cfg.password)
+        self.session.headers.update({"kbn-xsrf": "true", "Accept": "application/json"})
+
+    def request(self, method: str, url: str, **kwargs) -> dict:
+        try:
+            resp = self.session.request(method, url, timeout=TIMEOUT, **kwargs)
+        except requests.exceptions.SSLError as exc:
+            raise RuntimeError(
+                f"Certificado do servidor não confiável em {url}. Instale a CA na máquina ou grave a cadeia de "
+                f"certificados (PEM) em {ca_bundle()} (ou aponte REQUESTS_CA_BUNDLE para ela) e reinicie o MCP. "
+                f"Detalhe: {exc}") from exc
+        if not resp.ok:
+            raise ElkHttpError(resp)
+        try:
+            return resp.json() if resp.content else {}
+        except ValueError as exc:
+            raise ValueError(f"Resposta não é JSON em {method} {url}: {resp.text[:300]}") from exc
+
+
+_instance: ElkSession | None = None
+_lock = threading.Lock()
+
+
+def get_session() -> ElkSession:
+    """Sessão única por processo; carrega o elk.properties na primeira chamada."""
+    global _instance
+    with _lock:
+        if _instance is None:
+            _instance = ElkSession(load_config())
+        return _instance
+
+
+def set_session(session: ElkSession | None) -> None:
+    """Substitui a sessão global (testes)."""
+    global _instance
+    _instance = session
+
+
+def _ambiente(ambiente: str | None) -> str:
+    if not ambiente:
+        return "prod"
+    sem_acento = unicodedata.normalize("NFKD", ambiente.strip().lower()).encode("ascii", "ignore").decode()
+    if sem_acento not in ALIASES:
+        raise ValueError(f"Ambiente desconhecido: '{ambiente}'. Use prod/produção (padrão), homol/homologação ou "
+                         "dev/desenvolvimento.")
+    return ALIASES[sem_acento]
+
+
+def _kibana(amb: str) -> str:
+    url = get_session().cfg.kibana.get(amb)
+    if not url:
+        raise ValueError(f"Ambiente '{amb}' sem URL no elk.properties: adicione '{amb} = https://...'.")
+    return url
+
+
+def _es(amb: str) -> str | None:
+    return get_session().cfg.es.get(amb)
+
+
+def _search(amb: str, indice: str | None, body: dict) -> dict:
+    """POST _search pelo ES direto ou pelo Kibana. `indice=None` só com PIT (ES direto)."""
+    s = get_session()
+    if es := _es(amb):
+        return s.request("POST", f"{es}/{indice}/_search" if indice else f"{es}/_search", json=body)
+    resp = s.request("POST", f"{_kibana(amb)}/internal/search/es", json={"params": {"index": indice, "body": body}})
+    return resp.get("rawResponse", resp)
+
+
+def _espacos(amb: str, espaco: str | None) -> list[str]:
+    """`espaco` informado, ou todos os spaces do Kibana visíveis ao usuário."""
+    if espaco:
+        return [espaco]
+    return [sp["id"] for sp in get_session().request("GET", f"{_kibana(amb)}/api/spaces/space")]
+
+
+def _saved_objects(amb: str, espaco: str, tipos: list[str], busca: str | None) -> list[dict]:
+    params = {"type": tipos, "per_page": 10000}
+    if busca:
+        params |= {"search": f"{busca}*", "search_fields": "title"}
+    base = _kibana(amb) if espaco == "default" else f"{_kibana(amb)}/s/{espaco}"
+    return get_session().request("GET", f"{base}/api/saved_objects/_find", params=params)["saved_objects"]
+
+
+# ---------------------------------------------------------------- consulta
+
+_OPERADOR = re.compile(r'("(?:[^"\\]|\\.)*")|\b(and|or|not)\b|([\w.@-]+)\s*(>=|<=|>|<)\s*', re.IGNORECASE)
+LINGUAGENS = {"kuery": "kuery", "kql": "kuery", "lucene": "lucene"}
+
+
+def _lucene(consulta: str) -> str:
+    """KQL simples -> Lucene, fora de aspas: operadores em maiúsculas (no Lucene `and` vira termo e o resultado
+    explode) e comparação `campo > 0` -> `campo:>0`. Lucene puro passa intacto."""
+    def troca(m):
+        if m.group(1):
+            return m.group(1)
+        return m.group(2).upper() if m.group(2) else f"{m.group(3)}:{m.group(4)}"
+    return _OPERADOR.sub(troca, consulta)
+
+
+def _query(inicio: str, fim: str, consulta: str | None, campos: dict | None, filtros: list | None,
+           campo_tempo: str) -> dict:
+    if not (consulta or campos or filtros):
+        raise ValueError("Consulta vazia: informe `consulta`, `campos` ou `filtros`.")
+    must = [{"query_string": {"query": _lucene(consulta)}}] if consulta else []
+    filtro = [{"wildcard": {campo: {"value": valor}}} if isinstance(valor, str) and "*" in valor
+              else {"term": {campo: valor}} for campo, valor in (campos or {}).items()]
+    filtro += list(filtros or [])
+    filtro.append({"range": {campo_tempo: {"gte": inicio, "lte": fim}}})
+    return {"bool": {"must": must, "filter": filtro}}
+
+
+def _total(resp: dict) -> int | None:
+    total = resp.get("hits", {}).get("total")
+    return total.get("value") if isinstance(total, dict) else total
+
+
+def _flat(src: dict, prefix: str = "") -> dict:
+    """{'a': {'b': 1}} -> {'a.b': 1}; listas ficam como estão."""
+    out = {}
+    for k, v in src.items():
+        if isinstance(v, dict):
+            out |= _flat(v, f"{prefix}{k}.")
+        else:
+            out[f"{prefix}{k}"] = v
+    return out
+
+
+def _cut(v):
+    return v[:TEXTO_MAX] + "…" if isinstance(v, str) and len(v) > TEXTO_MAX else v
+
+
+def _janela(amb, indice, inicio, fim) -> dict:
+    return {"ambiente": amb, "indice": indice, "janela": {"inicio": inicio, "fim": fim}}
+
+
+# ---------------------------------------------------------------- tools
+
+@tool
+def elk_buscar_logs(indice: str, inicio: str, consulta: str | None = None, campos: dict[str, str] | None = None,
+                    filtros: list[dict] | None = None, fim: str = "now", limite: int = 20, mais_recentes: bool = True,
+                    retornar: list[str] | None = None, campo_tempo: str = "@timestamp",
+                    ambiente: str | None = None) -> dict:
+    """Busca documentos (só leitura). `consulta` é Lucene (query_string): `campo:valor AND msg:*timeout*`
+    (and/or/not viram maiúsculas e `campo > 0` vira `campo:>0` fora de aspas, então KQL simples funciona;
+    `campo:{...}` aninhado não).
+    `campos` = filtros exatos {campo: valor} (term; valor com `*` vira wildcard: 'app*'); `filtros` = Query DSL
+    crua (como vem de elk_listar_consultas). `inicio`/`fim`: 'now-15m', 'now-1d' ou ISO 8601.
+    `limite` ≤ 100; `retornar` limita os campos de cada item. Itens achatados ({'a.b': v}), textos cortados em 2000.
+    Para muitos documentos use elk_exportar_csv."""
+    if not 1 <= limite <= LIMITE_TETO:
+        raise ValueError(f"`limite` deve estar entre 1 e {LIMITE_TETO}; para mais, use elk_exportar_csv.")
+    amb = _ambiente(ambiente)
+    body = {
+        "size": limite,
+        "track_total_hits": True,
+        "sort": [{campo_tempo: {"order": "desc" if mais_recentes else "asc"}}],
+        "query": _query(inicio, fim, consulta, campos, filtros, campo_tempo),
+    }
+    if retornar:
+        body["_source"] = retornar
+    resp = _search(amb, indice, body)
+    itens = [{"_id": h["_id"], "_index": h["_index"], **{k: _cut(v) for k, v in _flat(h.get("_source", {})).items()}}
+             for h in resp.get("hits", {}).get("hits", [])]
+    return {**_janela(amb, indice, inicio, fim), "total": _total(resp), "retornados": len(itens), "itens": itens}
+
+
+@tool
+def elk_contar(indice: str, inicio: str, consulta: str | None = None, campos: dict[str, str] | None = None,
+               filtros: list[dict] | None = None, fim: str = "now", agrupar_por: str | None = None, top: int = 10,
+               campo_tempo: str = "@timestamp", ambiente: str | None = None) -> dict:
+    """Conta documentos sem trazê-los (só leitura). Mesmos filtros de elk_buscar_logs. `agrupar_por` (campo
+    agregável, ex.: keyword) devolve os `top` valores mais frequentes: use para dimensionar um problema ou para
+    conhecer os valores reais de um campo."""
+    amb = _ambiente(ambiente)
+    body = {"size": 0, "track_total_hits": True, "query": _query(inicio, fim, consulta, campos, filtros, campo_tempo)}
+    if agrupar_por:
+        body["aggs"] = {"grupos": {"terms": {"field": agrupar_por, "size": top}}}
+    resp = _search(amb, indice, body)
+    out = {**_janela(amb, indice, inicio, fim), "total": _total(resp)}
+    if agrupar_por:
+        out["grupos"] = [{"valor": b["key"], "total": b["doc_count"]}
+                         for b in resp.get("aggregations", {}).get("grupos", {}).get("buckets", [])]
+    return out
+
+
+def _filtros_kibana(filters: list[dict]) -> list[dict]:
+    """Filtros do Kibana ({meta, query, $state}) -> Query DSL; ignora os desativados e aplica `negate`."""
+    out = []
+    for f in filters or []:
+        meta = f.get("meta", {})
+        if meta.get("disabled"):
+            continue
+        dsl = f["query"] if "query" in f else {k: v for k, v in f.items() if k not in ("meta", "$state")}
+        if not dsl:  # filtro vazio do Kibana ({"query": {}}): o ES recusa com 400
+            continue
+        out.append({"bool": {"must_not": [dsl]}} if meta.get("negate") else dsl)
+    return out
+
+
+@tool
+def elk_listar_consultas(busca: str | None = None, espaco: str | None = None, limite: int = 50,
+                         ambiente: str | None = None) -> dict:
+    """Consultas prontas do Kibana: buscas salvas do Discover (tipo `search`) e saved queries (`query`).
+    `busca` filtra pelo início das palavras do título; `espaco` = space do Kibana (sem ele, todos).
+    Devolve {total, itens[:limite]} com `id`, `espaco`, `tipo` e `titulo` de cada consulta.
+    Use `elk_obter_consulta(id)` para obter os detalhes (consulta, filtros, índice)."""
+    amb = _ambiente(ambiente)
+    objetos = []
+    for sp in _espacos(amb, espaco):
+        objetos += [o | {"espaco": sp} for o in _saved_objects(amb, sp, ["search", "query"], busca)]
+    out = [{"id": o["id"], "espaco": o["espaco"], "tipo": o["type"], "titulo": o["attributes"].get("title")}
+           for o in objetos[:limite]]
+    return {"total": len(objetos), "itens": out}
+
+
+def _obter_saved_object(amb: str, id: str, espaco: str | None = None) -> tuple[dict, str]:
+    """Busca um saved object por ID. Se `espaco` for informado, busca só nele; senão, busca em todos os spaces."""
+    spaces = [espaco] if espaco else _espacos(amb, None)
+    for sp in spaces:
+        base = _kibana(amb) if sp == "default" else f"{_kibana(amb)}/s/{sp}"
+        for tipo in ["search", "query"]:
+            try:
+                obj = get_session().request("GET", f"{base}/api/saved_objects/{tipo}/{id}")
+                return obj, sp
+            except ElkHttpError as e:
+                if e.status_code != 404:
+                    raise
+    raise LookupError(f"Consulta não encontrada: {id}")
+
+
+@tool
+def elk_obter_consulta(id: str, espaco: str | None = None, ambiente: str | None = None) -> dict:
+    """Obtém os detalhes de uma consulta salva pelo ID. `espaco` = space do Kibana (sem ele, busca em todos).
+    Retorna `id`, `espaco`, `tipo`, `titulo`, `descricao`, `consulta` (Lucene), `linguagem`, `filtros` (Query DSL),
+    `indice` (padrão do data view, só em `search`) e `colunas`. Use os campos `consulta`, `filtros` e `indice`
+    diretamente em elk_buscar_logs/elk_contar/elk_exportar_csv."""
+    amb = _ambiente(ambiente)
+    obj, found_espaco = _obter_saved_object(amb, id, espaco)
+    attrs = obj["attributes"]
+    indice = None
+    if obj["type"] == "search":
+        src = json.loads(attrs.get("kibanaSavedObjectMeta", {}).get("searchSourceJSON") or "{}")
+        query, filters = src.get("query", {}), src.get("filter", [])
+        ref = next((r["id"] for r in obj.get("references", []) if r.get("type") == "index-pattern"), None)
+        if ref:
+            views = {o["id"]: o["attributes"] for o in _saved_objects(amb, found_espaco, ["index-pattern"], None)}
+            indice = views.get(ref, {}).get("title")
+    else:
+        query, filters = attrs.get("query", {}), attrs.get("filters", [])
+    return {
+        "id": obj["id"], "espaco": found_espaco, "tipo": obj["type"], "titulo": attrs.get("title"),
+        "descricao": attrs.get("description") or None, "consulta": query.get("query") or None,
+        "linguagem": query.get("language"), "filtros": _filtros_kibana(filters), "indice": indice,
+        "colunas": attrs.get("columns"),
+    }
+
+
+def _filtro_discover(i: int, campo: str | None, valor, dsl: dict | None = None) -> dict:
+    """Filtro no formato que o Discover grava (aparece como pílula): `phrase` para {campo: valor}; `custom` para
+    wildcard e Query DSL crua."""
+    meta = {"alias": None, "disabled": False, "negate": False,
+            "indexRefName": f"kibanaSavedObjectMeta.searchSourceJSON.filter[{i}].meta.index"}
+    if dsl is None and not (isinstance(valor, str) and "*" in valor):
+        return {"meta": meta | {"key": campo, "field": campo, "params": {"query": valor}, "type": "phrase"},
+                "query": {"match_phrase": {campo: valor}}, "$state": {"store": "appState"}}
+    dsl = dsl or {"wildcard": {campo: {"value": valor}}}
+    return {"meta": meta | {"type": "custom", "key": "query", "value": json.dumps(dsl, ensure_ascii=False)},
+            "query": dsl, "$state": {"store": "appState"}}
+
+
+_REF_INDICE = "kibanaSavedObjectMeta.searchSourceJSON.index"
+
+
+def _data_view_id(amb: str, espaco: str, indice: str) -> str:
+    view = next((o for o in _saved_objects(amb, espaco, ["index-pattern"], None)
+                 if o["attributes"].get("title") == indice), None)
+    if not view:
+        raise LookupError(f"Data view '{indice}' não existe no espaço '{espaco}': use o `padrao` de "
+                          f"elk_listar_indices(espaco='{espaco}').")
+    return view["id"]
+
+
+def _linguagem(linguagem: str) -> str:
+    lang = LINGUAGENS.get(linguagem.strip().lower())
+    if not lang:
+        raise ValueError(f"Linguagem desconhecida: '{linguagem}'. Use kuery (KQL) ou lucene.")
+    return lang
+
+
+def _filtros_discover(campos: dict | None, filtros: list | None) -> list[dict]:
+    itens = [(c, v, None) for c, v in (campos or {}).items()] + [(None, None, f) for f in (filtros or [])]
+    return [_filtro_discover(i, *item) for i, item in enumerate(itens)]
+
+
+def _corpo_search(view_id: str, titulo: str, consulta: str | None, campos: dict | None, filtros: list | None,
+                  colunas: list | None, descricao: str | None, lang: str) -> dict:
+    filtro = _filtros_discover(campos, filtros)
+    source = {"query": {"query": consulta or "", "language": lang}, "filter": filtro, "indexRefName": _REF_INDICE}
+    refs = [_REF_INDICE] + [f["meta"]["indexRefName"] for f in filtro]
+    return {
+        "attributes": {"title": titulo, "description": descricao or "", "columns": colunas or [],
+                       "kibanaSavedObjectMeta": {"searchSourceJSON": json.dumps(source, ensure_ascii=False)}},
+        "references": [{"name": r, "type": "index-pattern", "id": view_id} for r in refs],
+    }
+
+
+@tool
+def elk_criar_consulta(titulo: str, indice: str, consulta: str | None = None, campos: dict[str, str] | None = None,
+                       filtros: list[dict] | None = None, colunas: list[str] | None = None,
+                       descricao: str | None = None, espaco: str = "default", linguagem: str = "kuery",
+                       ambiente: str | None = None) -> dict:
+    """Cria uma busca salva do Discover (tipo `search`) no Kibana, ligada ao data view.
+    `indice` = padrão do data view no `espaco` (de elk_listar_indices); `campos` = filtros {campo: valor} que aparecem
+    como pílulas no Discover (valor com `*` vira wildcard); `filtros` = Query DSL (lista), também como pílulas;
+    `consulta` = texto da barra de busca, no idioma de `linguagem`: 'kuery'/'kql' (padrão; `msg: *timeout* and n > 0`,
+    sem `campo:{...}`) ou 'lucene' (`msg:*timeout* AND n:[1 TO 5]`); `colunas` = campos exibidos no Discover.
+    Retorna `id`, `titulo` e `espaco`."""
+    if not (consulta or campos or filtros):
+        raise ValueError("Informe `consulta`, `campos` ou `filtros`.")
+    lang = _linguagem(linguagem)
+    amb = _ambiente(ambiente)
+    body = _corpo_search(_data_view_id(amb, espaco, indice), titulo, consulta, campos, filtros, colunas, descricao,
+                         lang)
+    base = _kibana(amb) if espaco == "default" else f"{_kibana(amb)}/s/{espaco}"
+    resp = get_session().request("POST", f"{base}/api/saved_objects/search", json=body)
+    return {"id": resp["id"], "titulo": titulo, "espaco": espaco}
+
+
+@tool
+def elk_atualizar_consulta(id: str, espaco: str = "default", titulo: str | None = None, indice: str | None = None,
+                           consulta: str | None = None, campos: dict[str, str] | None = None,
+                           filtros: list[dict] | None = None, colunas: list[str] | None = None,
+                           descricao: str | None = None, linguagem: str | None = None,
+                           ambiente: str | None = None) -> dict:
+    """Atualiza uma busca salva do Discover (tipo `search`) existente: troca só o que for informado e preserva o resto
+    (ordenação, colunas, período e layout feitos no Kibana). `campos`/`filtros` (mesmo formato de elk_criar_consulta)
+    substituem **todos** os filtros; `consulta=""` limpa a barra de busca; `indice` religa a outro data view do
+    `espaco`. Retorna `id`, `titulo` e `espaco`."""
+    if all(v is None for v in (titulo, indice, consulta, campos, filtros, colunas, descricao, linguagem)):
+        raise ValueError("Nada a atualizar: informe ao menos um campo.")
+    amb = _ambiente(ambiente)
+    base = _kibana(amb) if espaco == "default" else f"{_kibana(amb)}/s/{espaco}"
+    url = f"{base}/api/saved_objects/search/{id}"
+    try:
+        obj = get_session().request("GET", url)
+    except ElkHttpError as e:
+        if e.status_code == 404:
+            raise LookupError(f"Busca salva '{id}' não encontrada no espaço '{espaco}' (só o tipo `search` é "
+                              "atualizável; use elk_listar_consultas).") from e
+        raise
+    attrs = obj["attributes"]
+    src = json.loads(attrs.get("kibanaSavedObjectMeta", {}).get("searchSourceJSON") or "{}")
+    refs = obj.get("references", [])
+    view_id = _data_view_id(amb, espaco, indice) if indice else next(
+        (r["id"] for r in refs if r["name"] == _REF_INDICE), None)
+    if consulta is not None or linguagem:
+        atual = src.get("query", {})
+        src["query"] = {"query": atual.get("query", "") if consulta is None else consulta,
+                        "language": _linguagem(linguagem) if linguagem else atual.get("language", "kuery")}
+    if campos is not None or filtros is not None:
+        src["filter"] = _filtros_discover(campos, filtros)
+        refs = [{"name": n, "type": "index-pattern", "id": view_id}
+                for n in [_REF_INDICE] + [f["meta"]["indexRefName"] for f in src["filter"]]]
+    elif indice:
+        refs = [r | {"id": view_id} if r.get("type") == "index-pattern" else r for r in refs]
+    src["indexRefName"] = _REF_INDICE
+    novos = {"title": titulo, "description": descricao, "columns": colunas}
+    attrs = attrs | {k: v for k, v in novos.items() if v is not None}
+    attrs["kibanaSavedObjectMeta"] = {**attrs.get("kibanaSavedObjectMeta", {}),
+                                      "searchSourceJSON": json.dumps(src, ensure_ascii=False)}
+    get_session().request("PUT", url, json={"attributes": attrs, "references": refs})
+    return {"id": id, "titulo": attrs.get("title"), "espaco": espaco}
+
+
+@tool
+def elk_listar_indices(busca: str | None = None, espaco: str | None = None, ambiente: str | None = None) -> list[dict]:
+    """Data views do Kibana: [{espaco, nome, padrao (use como `indice`), campo_tempo}], sem repetir padrão no mesmo
+    space. `busca` filtra pelo início das palavras do título; `espaco` = space do Kibana (sem ele, todos)."""
+    amb = _ambiente(ambiente)
+    out = {}
+    for sp in _espacos(amb, espaco):
+        for o in _saved_objects(amb, sp, ["index-pattern"], busca):
+            a = o["attributes"]
+            out[(sp, a["title"])] = {"espaco": sp, "nome": a.get("name") or a["title"], "padrao": a["title"],
+                                     "campo_tempo": a.get("timeFieldName")}
+    return sorted(out.values(), key=lambda d: (d["espaco"], d["padrao"]))
+
+
+@tool
+def elk_listar_campos(indice: str, busca: str | None = None, ambiente: str | None = None) -> list[dict]:
+    """Campos do índice: [{campo, tipo, agregavel}]. `busca` filtra por trecho do nome. `agregavel` = serve para
+    `agrupar_por` e `campos` (filtro exato)."""
+    amb = _ambiente(ambiente)
+    s = get_session()
+    if es := _es(amb):
+        caps = s.request("GET", f"{es}/{indice}/_field_caps", params={"fields": "*"})["fields"]
+        campos = [{"campo": nome, "tipo": "|".join(tipos), "agregavel": any(t.get("aggregatable") for t in tipos.values())}
+                  for nome, tipos in caps.items()]
+    else:
+        # API interna do Kibana 8.x (a pública /api/index_patterns/... responde 404)
+        resp = s.request("GET", f"{_kibana(amb)}/internal/data_views/_fields_for_wildcard",
+                         params={"pattern": indice}, headers={"elastic-api-version": "1"})
+        campos = [{"campo": f["name"], "tipo": "|".join(f.get("esTypes") or [f.get("type")]),
+                   "agregavel": bool(f.get("aggregatable"))} for f in resp["fields"]]
+    return sorted((c for c in campos if not c["campo"].startswith("_") and (not busca or busca in c["campo"])),
+                  key=lambda c: c["campo"])
+
+
+def _cell(v):
+    return json.dumps(v, ensure_ascii=False) if isinstance(v, (list, dict)) else v
+
+
+@tool
+def elk_exportar_csv(indice: str, inicio: str, arquivo: str, consulta: str | None = None,
+                     campos: dict[str, str] | None = None, filtros: list[dict] | None = None, fim: str = "now",
+                     retornar: list[str] | None = None, max_linhas: int = 100_000, campo_tempo: str = "@timestamp",
+                     ambiente: str | None = None) -> dict:
+    """Exporta para CSV todos os documentos da consulta, do mais antigo ao mais novo, sem passar pela conversa.
+    Mesmos filtros de elk_buscar_logs. `arquivo` = caminho absoluto (pastas criadas, arquivo sobrescrito; UTF-8
+    com BOM). Colunas = `retornar` ou os campos achatados da primeira página. Para em `max_linhas` (`truncado`).
+    Devolve só o resumo: {arquivo, linhas, total, truncado, colunas}."""
+    path = Path(arquivo)
+    if not path.is_absolute():
+        raise ValueError(f"`arquivo` deve ser um caminho absoluto: {arquivo}")
+    amb = _ambiente(ambiente)
+    s = get_session()
+    body = {"size": PAGINA, "track_total_hits": True,
+            "query": _query(inicio, fim, consulta, campos, filtros, campo_tempo)}
+    if retornar:
+        body["_source"] = retornar
+    es = _es(amb)
+    pit = None
+    if es:  # PIT + _shard_doc: paginação oficial, sem perda nem duplicata
+        pit = s.request("POST", f"{es}/{indice}/_pit", params={"keep_alive": "2m"})["id"]
+        body["sort"] = [{campo_tempo: "asc"}, {"_shard_doc": "asc"}]
+    else:
+        body["sort"] = [{campo_tempo: "asc"}]
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    linhas, total, colunas, truncado = 0, None, list(retornar or []), False
+    borda, vistos = None, set()  # sem PIT: _ids já gravados no último timestamp
+    try:
+        with path.open("w", newline="", encoding="utf-8-sig") as f:
+            writer = csv.DictWriter(f, colunas, extrasaction="ignore") if colunas else None
+            if writer:
+                writer.writeheader()
+            while not truncado:
+                if pit:
+                    body["pit"] = {"id": pit, "keep_alive": "2m"}
+                resp = _search(amb, None if pit else indice, body)
+                pit = resp.get("pit_id", pit)
+                if total is None:
+                    total = _total(resp)
+                    body["track_total_hits"] = False
+                hits = resp.get("hits", {}).get("hits", [])
+                novos = [h for h in hits if h["_id"] not in vistos]
+                for h in novos:
+                    row = _flat(h.get("_source", {}))
+                    if writer is None:
+                        colunas = list(row)
+                        writer = csv.DictWriter(f, colunas, extrasaction="ignore")
+                        writer.writeheader()
+                    writer.writerow({k: _cell(v) for k, v in row.items()})
+                    linhas += 1
+                    if linhas >= max_linhas:
+                        truncado = linhas < (total or 0)
+                        break
+                if len(hits) < body["size"] or linhas >= max_linhas:
+                    break
+                ultimo = hits[-1]["sort"]
+                if pit:
+                    body["search_after"] = ultimo
+                    continue
+                # sem PIT: recomeça em ts >= último ts e descarta os _ids já gravados nesse ts;
+                # a página cresce com os vistos para sempre trazer documentos novos
+                if ultimo[0] != borda:
+                    borda, vistos = ultimo[0], set()
+                vistos |= {h["_id"] for h in hits if h["sort"][0] == borda}
+                body["search_after"] = [borda - 1]
+                body["size"] = PAGINA + len(vistos)
+                if body["size"] > MAX_RESULT_WINDOW:
+                    raise RuntimeError(f"Documentos demais com o mesmo {campo_tempo} ({borda}): configure "
+                                       "es_<ambiente> (ES direto, com PIT) para exportar esta consulta.")
+    except EXPECTED as exc:
+        raise RuntimeError(f"Exportação interrompida após {linhas} linha(s) gravadas em {path}: {exc}") from exc
+    finally:
+        if pit and es:
+            try:
+                s.request("DELETE", f"{es}/_pit", json={"id": pit})
+            except EXPECTED:
+                pass  # o PIT expira sozinho em 2m
+    return {"arquivo": str(path), "linhas": linhas, "total": total, "truncado": truncado, "colunas": colunas}
+
+
+def main() -> None:
+    mcp.run()
+
+
+if __name__ == "__main__":
+    main()

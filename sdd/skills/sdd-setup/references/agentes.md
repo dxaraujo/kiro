@@ -51,13 +51,21 @@ permissão, compare as regras dele com as do orquestrador.
 | comandos | codificador e revisor: compilar, testes, teste único, lint, cobertura · verificador: executar, testes, scripts de massa · orquestrador: todos esses e `sh .kiro/sdd/http.sh *` (se instalado) |
 | escrita do verificador | a pasta de massa do projeto, se houver |
 | MCP de banco | só a tool de consulta, em **quatro** lugares: `tools` e `allowedTools` (`@<servidor>/<tool>`), `"includeMcpJson": true` (o template vem com `false`: sem trocar, o agente não carrega nenhum MCP) e a regra `mcp` `allow` `<servidor>/<tool>` |
+| MCP do ELM (projeto com `Usa ELM: sim`) | só em `sdd-produto`, `sdd-codificador` e `sdd-orquestrador` — nunca em revisor, verificador ou pesquisador (independência). Servidor = a chave do `mcp.json` que roda o `mcp-elm` (padrão `elm`). **Leitura** em `tools` e `allowedTools` + regra `mcp` `allow`; **escrita** só em `tools` + regra `mcp` `ask` (o Kiro pergunta a cada uma, além do "sim" da skill); `"includeMcpJson": true`; em `resources`, `skill://<pasta do power elm>/skills/elm-ccm/SKILL.md` (produto: também `elm-rm`, `elm-gc` e `elm-qm`). Tools na tabela abaixo |
 | subagentes do projeto | como na tabela acima (codificador e orquestrador) |
 | `model` | o modelo escolhido, se houver |
 | push e PR no loop = "não — a pessoa abre" | no orquestrador, a regra `ask` de push/PR vira `deny` |
 
 Fixos em todos: `"allowedTools"` sem `read` (liberaria a leitura do disco inteiro); `"includePowers": false` (a
-documentação não garante o padrão, e com powers o agente receberia o MCP do `elm`); nunca o campo `hooks` (a IDE
-ignora agentes que o têm).
+documentação não garante o padrão, e com powers o agente receberia o power `elm` inteiro — o MCP do ELM entra só
+pelo `mcp.json`, com as tools da tabela abaixo); nunca o campo `hooks` (a IDE ignora agentes que o têm).
+
+### Tools do MCP do ELM por agente
+
+| Agente | Leitura (`allow`) | Escrita (`ask`) |
+|---|---|---|
+| `sdd-produto` | `whoami`, `ccm_get_workitem`, `ccm_list_workitems`, `ccm_list_field_values`, `ccm_list_workitem_states`, `ccm_list_timesheet`, `ccm_list_iterations`, `ccm_list_iteration_plans`, `ccm_list_plan_types`, `ccm_list_members`, `list_linked_workitems`, `list_linked_requirements`, `list_linked_testartifacts`, `get_testartifact`, `rm_get_requirement`, `rm_search_requirements`, `rm_list_modified` | `ccm_create_workitem`, `ccm_update_workitem`, `ccm_add_timesheet`, `add_comment_to_workitem`, `ccm_create_iteration`, `ccm_create_iteration_plan`, `rm_create_requirement`, `rm_update_requirement`, `link_workitem_and_requirement`, `link_workitem_and_testartifact`, `link_testartifact_and_requirement` |
+| `sdd-codificador`, `sdd-orquestrador` | `whoami`, `ccm_get_workitem`, `ccm_list_workitems`, `ccm_list_field_values`, `ccm_list_workitem_states`, `ccm_list_timesheet` | `ccm_create_workitem`, `ccm_update_workitem`, `ccm_add_timesheet`, `add_comment_to_workitem` |
 
 ## O que os templates já trazem
 

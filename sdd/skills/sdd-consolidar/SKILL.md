@@ -45,8 +45,8 @@ Pela **`sdd-elm`**, numa confirmação só:
 - *backlog* — concluir as tarefas e o item de backlog da fatia no EWM (estado de conclusão da PA). Tarefa
   concluída sem horas não trava: a virada aponta.
 
-Sem o MCP `elm` nesta sessão → `ELM pendente: <ação>` no Histórico do `status.md`; o `sdd-status` lista as
-pendências até alguém fazê-las numa sessão com o power.
+Sem o MCP `elm` nesta sessão ou com falha → `ELM pendente: <ação>` no Histórico do `status.md`; o `sdd-status`
+lista as pendências até alguém fazê-las numa sessão com o MCP.
 
 Bundle do ELM no repositório (`rm.download.path`) → sugira rodar a `elm-sync` para trazer o que foi publicado
 (é a base de conhecimento que os agentes leem na próxima pesquisa).

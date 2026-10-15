@@ -124,8 +124,16 @@ Falhou ao rodar → mostre o erro; a pessoa decide (corrigir o comando, seguir a
      `rm.requirements-types`/`rm.folders`/`workitem-types`, por proximidade) e pergunte, um de cada vez: quando
      publicar os requisitos (`na-aprovacao` recomendado), quando criar os itens no EWM (`na-sprint` recomendado —
      sprints futuras mudam), se publica ET as-built, o que o processo exige manualmente no DOORS Next (change set,
-     módulo, baseline), pontos por tamanho, o template de tarefas por fatia, o que fazer no EWM quando uma fatia é dividida e as colunas do `CT.csv` (linha
+     módulo, baseline), pontos por tamanho, o que fazer no EWM quando uma fatia é dividida e as colunas do `CT.csv` (linha
      `CT.csv` da seção ELM: tipo, status inicial, categoria — pergunte pelo template de importação do ETM do projeto).
+     Sem perguntar: os títulos das tarefas (linha "Tarefas", padrão do template); o tipo do épico (Item de Backlog
+     pai se a PA não tem Épico); o campo de critérios de aceite (o de `workitem-types[IB].fields` com "aceite" no
+     nome; não há → `descrição`); a classificação de cada tarefa (valores da `elm-setup` etapa 4d; a PA não tem o
+     campo → "a PA não tem"); Sustentação e Atendimento ficam `criar` (a `sdd-elm` cria na primeira sprint).
+   - **MCP do ELM nos agentes:** o servidor do `mcp-elm` precisa estar no `mcp.json` do workspace
+     (`.kiro/settings/mcp.json`) ou do usuário (`~/.kiro/settings/mcp.json`) — o do power não chega aos agentes
+     (`includePowers: false`). Não está → ofereça acrescentar no do usuário a mesma entrada do `mcp.json` do power
+     `elm` (com "ok"; as credenciais continuam em `~/.config/mcp-elm/`).
    - **Bundle do RM:** o caminho de download do `pa_*.json` (`rm.download.path`) e pastas com `index.md` de
      `okf_version` → mostre o que achou e confirme; nada achado → pergunte. Registre na seção Projeto: é a base
      que os agentes leem (fora do projeto → entra na leitura permitida deles; no `.gitignore` → avise que só
@@ -137,7 +145,7 @@ Siga [references/toolkits.md](references/toolkits.md): procure toolkits (com e s
 do projeto (`.kiro/skills/*/SKILL.md`), do usuário (`~/.kiro/skills/*/SKILL.md`) e de outros powers
 (`~/.kiro/powers/installed/*/skills/*/SKILL.md`; não achou nada ali → `~/.kiro/powers/**/skills/*/SKILL.md`),
 **exceto** as do fluxo (`sdd`, `sdd-*`, e `sdd2`, `sdd2-*` de uma instalação antiga) e as do power `elm`
-(`elm`, `elm-*`: o ELM fica na sessão da pessoa). Para cada uma:
+(`elm`, `elm-*`: entram sozinhas, pelo Passo 6, nos agentes com o MCP do ELM). Para cada uma:
 nome, início da `description`, origem e, se houver, toolkit e papéis. Toolkit cujo `deteccao` casa com o projeto
 → "detectado".
 
@@ -160,7 +168,10 @@ Para cada agente, nesta sequência — **uma pergunta por mensagem**:
 2. **MCPs** (lista dos servidores configurados): o de banco entra como somente leitura em pesquisador,
    codificador, revisor e verificador — ligue só a tool de consulta (`@<servidor>/<tool>`), nunca o servidor
    inteiro se ele tiver tool de escrita; browser/Playwright é sugerido para o verificador em projeto `frontend`.
-   **Nunca ofereça o MCP `elm`** — o ELM é do power `elm`, com as regras das skills dele, na sessão da pessoa.
+   **MCP `elm`** (projeto com ELM): já vem **pré-marcado** em `sdd-produto`, `sdd-codificador` e
+   `sdd-orquestrador`, com as tools de [references/agentes.md](references/agentes.md) (leitura liberada,
+   escrita com `ask`); **nunca** em revisor, verificador e pesquisador. A pessoa pode desmarcar — então a escrita
+   no ELM vira `ELM pendente` naquele agente.
 3. **Modelo** (opcional; padrão: o do Kiro). Ex.: um modelo mais rápido para o pesquisador.
 4. Só codificador e orquestrador: **agentes do projeto** (`.kiro/agents/*`, `~/.kiro/agents/*`, exceto `sdd-*`)
    que podem ser chamados como subagentes, e para que tipo de tarefa. Agente com o campo `hooks` (mesmo vazio) é
@@ -199,7 +210,9 @@ Em memória:
    base do ambiente de teste (sem barra no fim).
 4. `<produto>/` (só o que não existir): `backlog.md` mínimo
    (`# Backlog — <nome>`, `Próximos ids: EP-01 · FT-001` e a tabela `## Épicos` vazia — formato na `sdd-fatiar`),
-   `planejamento/`; `<produto>/aprendizado/licoes.md` com o título `# Lições`.
+   `planejamento/`; `<produto>/aprendizado/licoes.md` com o título `# Lições`; `<produto>/atendimentos/README.md`
+   com `# Atendimentos`, `Próximo: AT-001` e a tabela `| AT | Pedido | Situação |` vazia (formato na
+   `sdd-atender`). No modo atualização, acrescente só o que falta — nunca recrie o que existe.
 5. `.gitignore`: acrescente `.kiro/local/` se faltar. Migração do layout antigo (Passo 0), se aceita.
 
 Mostre o resumo e, no modo atualização, o diff de cada arquivo que muda:
@@ -221,7 +234,9 @@ cada arquivo gravado em `.kiro/agents/`, `.kiro/hooks/` e `.kiro/workflows/` —
 ## Passo 9 — Validar
 
 - JSON de cada agente faz parse; `name` = nome do arquivo; nenhum `{{…}}` sobrando; agente com `@<servidor>/…` em
-  `tools` tem `"includeMcpJson": true`, a mesma tool em `allowedTools` e a regra `mcp`; `.kiro/steering/` tem só o
+  `tools` tem `"includeMcpJson": true` e a regra `mcp` (`allow` para as de leitura, que também estão em
+  `allowedTools`; `ask` para as de escrita, que **não** estão em `allowedTools`); o MCP do ELM só em produto,
+  codificador e orquestrador, e o servidor dele existe no `mcp.json` do workspace ou do usuário; `.kiro/steering/` tem só o
   `sdd.md` do fluxo (nenhum `sdd2*.md` nem `sdd-projeto.md` sobrando), e nenhum `.kiro/agents/sdd2-*.json`.
 - Ferramentas que varrem a raiz do repositório (test runners, linters, `tsc`, varredura de arquivos) ignoram
   `.kiro/local/` — onde o loop cria as worktrees? Não ignoram → acrescente a exclusão na configuração delas (com

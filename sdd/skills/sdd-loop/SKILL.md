@@ -38,8 +38,11 @@ e pergunte se retoma. Retomar = continuar cada fatia da fase registrada no `stat
    Plano AFK: <aprovação humana → o loop para no GATE do plano | análise basta → segue até o PR>
    Ao fim de cada fatia aprovada e aceita: push + PR? (sim/não)   — nunca merge; só se o sdd.md diz
    "perguntar a cada lote" (com "não — a pessoa abre", omita a linha: o loop para em `aceita`)
+   EWM: assumir as [DEV] do lote (responsável: <login de quem dispara>) e colocá-las em andamento
    Confirma?
    ```
+   Com "sim" e o MCP `elm`: assuma as `[DEV]` (`sdd-elm`); sem o MCP ou com falha → `ELM pendente: assumir a
+   tarefa` no `status.md` de cada fatia.
 5. Log `.kiro/local/loop-<AAAA-MM-DD-HHMM>.md` (formato no fim).
 
 ## Passo 2 — Worktree por fatia
@@ -54,8 +57,8 @@ git worktree add .kiro/local/wt/<ft> <branch>                      # já existe
 ```
 
 Dentro da worktree, faça só os itens 2 e o commit do item 5 do Passo 4 da **`sdd-iniciar`** (pasta, `status.md`
-com `Responsável: agente:sdd-orquestrador`, `.config.kiro`), sem perguntas — o lote já foi confirmado. Sem EWM
-(você não tem o ELM: registre `ELM pendente: assumir a tarefa`) e sem push nesta hora. O `backlog.md` não muda
+com `Responsável: agente:sdd-orquestrador`, `.config.kiro`), sem perguntas — o lote já foi confirmado. O EWM
+já foi tratado na confirmação do lote (Passo 1) e não há push nesta hora. O `backlog.md` não muda
 (ele só é escrito na base).
 
 **Comandos dentro da worktree** — diga isto a cada subagente: git, build e testes com
@@ -105,9 +108,12 @@ Os **Kiro Workflows** do sdd (se instalados) não fazem parte do loop: são rece
   🤖 Loop AFK — resultado
   | FT | Resultado | PR | Rodadas (plano/código/aceite) | Observação |
   Aguardando pessoa: <planos para aprovar · PRs para revisar · bloqueios com pergunta>
-  ELM pendente: <ações para a sessão com o power elm>
+  ELM pendente: <o que falhou ou ficou sem o MCP>
   Lições para registrar: <correções que o loop precisou — sdd-aprender>
   ```
+- **Horas, numa pergunta só** (com o MCP `elm`): uma tabela `tarefa | horas sugeridas` com as `[DEV]` do lote;
+  a pessoa ajusta e confirma de uma vez → `sdd-elm` modo *horas*. As `[REV]` e `[VER]` são lançadas por quem
+  revisa e verifica, na conclusão de cada uma.
 - Worktrees ficam até o merge; remova depois (`git worktree remove .kiro/local/wt/<ft>`, sem `--force`).
 
 ## Log `.kiro/local/loop-<data>.md`
@@ -121,6 +127,7 @@ Os **Kiro Workflows** do sdd (se instalados) não fazem parte do loop: são rece
 ## Regras
 
 - Nunca merge, nunca `--force`, nunca push sem a autorização do lote.
-- Nunca escreva no ELM: pendências vão para o `status.md` (`ELM pendente: …`).
+- ELM só pelo que o lote confirmou (assumir `[DEV]`, estados) e pelas horas do fim; nada mais. Sem o MCP ou com
+  falha → `ELM pendente: …` no `status.md`.
 - Nunca relaxe um gate para o loop andar: bloqueio é informação, não falha.
 - Tipo de fatia que bloqueia com frequência → sugira na retrospectiva tratá-lo como HITL.

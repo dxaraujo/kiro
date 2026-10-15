@@ -93,10 +93,12 @@ de `skills/sdd-setup/assets/`:
 | `.kiro/hooks/sdd.json` (opcional) | backpressure: compila e testa depois de cada tarefa de spec |
 | `.kiro/workflows/sdd-*.workflow.json` (opcional, experimental) | `planejar-fatia` e `entregar-fatia` nos Kiro Workflows — quem dispara é a pessoa, no chat do Kiro ("rode o workflow `sdd-entregar-fatia` para a FT-031" ou `/workflow-run`), uma fatia por vez; nenhum agente as dispara |
 | `.kiro/sdd/http.sh` (opcional) | única chamada HTTP que o verificador faz sem perguntar: só à URL de teste, com corpo da pasta `massa/` |
-| pasta do produto (perguntada na setup; ex.: `docs/pab`) | `backlog.md`, épicos e PRDs, `planejamento/`, `aprendizado/` — fora do `.kiro`, que guarda só o padrão do Kiro (`specs`, `steering`, `agents`, `hooks`, `workflows`) e o que é local (`.kiro/local/`, fora do git; `.kiro/sdd/http.sh`) |
+| pasta do produto (perguntada na setup; ex.: `docs/pab`) | `backlog.md`, épicos e PRDs, `planejamento/`, `atendimentos/`, `aprendizado/` — fora do `.kiro`, que guarda só o padrão do Kiro (`specs`, `steering`, `agents`, `hooks`, `workflows`) e o que é local (`.kiro/local/`, fora do git; `.kiro/sdd/http.sh`) |
 
-Os agentes nunca recebem o MCP do ELM nem os outros powers (sem `includePowers`): a escrita no ELM acontece na
-sessão da pessoa, com o power `elm` e confirmação; nos agentes ela vira pendência registrada.
+O MCP do ELM entra só nos agentes que conduzem sessão com a pessoa (`sdd-produto`, `sdd-codificador`,
+`sdd-orquestrador`), pelo `mcp.json`, com leitura liberada e escrita com confirmação; revisor, verificador e
+pesquisador não o têm, e nenhum agente recebe os powers (sem `includePowers`). Sem o MCP, a escrita vira
+pendência registrada.
 
 Cada agente tem as permissões mínimas do papel, nos dois blocos do formato universal (`toolsSettings` para a
 engine V2, `permissions` para a V3 e a IDE): lê o projeto e o power, mas não `.env`, chaves, `~/.ssh`, `~/.aws` nem

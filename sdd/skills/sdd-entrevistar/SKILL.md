@@ -1,6 +1,6 @@
 ---
 name: sdd-entrevistar
-description: "Entrevista de alinhamento do fluxo sdd (técnica \"grill me\"): percorre a árvore de decisões de uma demanda, PRD, fatia ou plano em rodadas (só as decisões da fronteira, numeradas, cada uma com a resposta recomendada) até haver entendimento compartilhado confirmado; responde sozinha o que o código, a documentação do ELM (bundle OKF) ou o glossário já respondem; registra cada decisão em decisoes.md e cada termo novo do domínio no glossário (linguagem ubíqua). Use em \"me entreviste\", \"grill me\", \"vamos alinhar\", \"quais decisões estão em aberto\", \"o que falta definir\", e sempre que sdd-prd, sdd-fatiar ou sdd-plano encontrarem decisão em aberto."
+description: "Entrevista de alinhamento do fluxo sdd (técnica \"grill me\"): percorre a árvore de decisões de uma demanda, PRD, fatia ou plano em rodadas (só as decisões da fronteira, numeradas, cada uma com a resposta recomendada) até haver entendimento compartilhado confirmado; responde sozinha o que o código, a documentação do ELM (bundle OKF) ou o glossário já respondem; registra cada decisão em decisoes.md e cada termo novo do domínio no glossário (linguagem ubíqua). Use em \"me entreviste\", \"grill me\", \"vamos alinhar\", \"quais decisões estão em aberto\", \"o que falta definir\", e sempre que sdd-prd, sdd-fatiar ou sdd-plano encontrarem decisão em aberto. Modo atendimento: uma rodada curta para abrir um AT (sdd-atender)."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -103,6 +103,23 @@ Entrevista — <EP | FT> · <N> decisões: <d> decididas · <c> confirmadas por 
 Termos no glossário: <novos> novos · <alterados> alterados
 Em aberto (bloqueiam?): D-03 <tema> — <sim: muda o comportamento | não: detalhe de apresentação>
 ```
+
+## Modo atendimento (chamado pela `sdd-atender`)
+
+Uma rodada só, no mesmo formato (numerada, com recomendação, "sim" aceita tudo), sem árvore nem glossário:
+
+```
+Atendimento AT-012 · 5 perguntas
+
+A-1 · O que o cliente precisa receber?   Recomendo: planilha com as contas bloqueadas por dia em setembro.
+A-2 · Origem?                            Recomendo: chamado 4521 (citado no pedido).
+A-3 · Prazo?                             Recomendo: 2026-10-16 (2 dias úteis).
+A-4 · Quem responde?                     Recomendo: joao.lima (atende: true no equipe.json).
+A-5 · Critério de pronto?                Recomendo: planilha enviada e chamado respondido.
+```
+
+As respostas vão para o cabeçalho do `AT-<nnn>-<slug>.md`, não para um `decisoes.md`. Regra de negócio em aberto
+que aparecer → não decide aqui: a `sdd-atender` encaminha para entrevista completa ou PRD.
 
 ## Regras
 

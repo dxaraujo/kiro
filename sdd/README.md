@@ -68,7 +68,8 @@ Fontes no fim deste arquivo.
 | `sdd-entrevistar` | alinhamento em rodadas (grill), decisões e glossário |
 | `sdd-prd` | PRD do épico (o quê e por quê) e GATE do PRD |
 | `sdd-fatiar` | PRD → fatias verticais AFK/HITL, backlog e GATE do backlog |
-| `sdd-planejamento` | roadmap, acordos (cadência, DoR/DoD, WIP), sprint, review, retrospectiva, virada |
+| `sdd-planejamento` | roadmap, acordos (cadência, DoR/DoD, WIP, reserva de atendimento), sprint com especificação e atendimento, review, retrospectiva, virada |
+| `sdd-atender` | atendimento de cliente sem mudar o repositório: AT-nnn, tarefa `[ATD]`, consulta só leitura, extração fora do git, horas |
 | `sdd-pesquisar` | pesquisa do código compactada em `research.md` |
 | `sdd-plano` | spec do Kiro (`requirements.md`/`bugfix.md`, `design.md`, `tasks.md`) e GATE do plano |
 | `sdd-implementar` | TDD + backpressure, commits pequenos, revisão e PR |

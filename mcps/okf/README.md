@@ -1,7 +1,7 @@
 # mcp-okf
 
 Servidor MCP que transforma um bundle OKF (pasta com `index.md` e um `.md` por documento, como o gerado pela
-alm-sync do [mcp-alm](https://github.com/dxaraujo/mcp-alm)) numa base de conhecimento consultável em linguagem natural.
+elm-sync do [mcp-elm](https://github.com/dxaraujo/kiro/tree/main/mcps/elm)) numa base de conhecimento consultável em linguagem natural.
 
 - **Índice:** um arquivo SQLite por bundle (sem servidor, vários processos podem abrir): FTS5 (BM25) + vetores
   densos com cosseno por força bruta (numpy), fusão RRF.

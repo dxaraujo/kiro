@@ -72,7 +72,7 @@ workspace, que não o acha). Mostre o JSON completo, peça confirmação e grave
 
 ```json
 {
-  "$schema": "https://raw.githubusercontent.com/dxaraujo/kiro/main/elk/skills/elk-setup/assets/elk.schema.json",
+  "$schema": "https://raw.githubusercontent.com/dxaraujo/kiro/main/powers/elk/skills/elk-setup/assets/elk.schema.json",
   "indice-padrao": "aplicacao",
   "indices": {
     "aplicacao": {

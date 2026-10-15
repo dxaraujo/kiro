@@ -1,7 +1,7 @@
 # elm
 
 Power do Kiro para o **IBM Engineering Lifecycle Management (ELM)** via OSLC, usando o MCP
-[mcp-elm](https://github.com/dxaraujo/mcp-elm).
+[mcp-elm](https://github.com/dxaraujo/kiro/tree/main/mcps/elm).
 
 ## O que faz
 

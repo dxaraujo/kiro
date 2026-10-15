@@ -1,7 +1,7 @@
 # elk
 
 Power do Kiro para os **logs do ELK** (Elasticsearch + Kibana), usando o MCP
-[mcp-elk](https://github.com/dxaraujo/mcp-elk). Lê os logs; as únicas escritas são criar e atualizar busca salva
+[mcp-elk](https://github.com/dxaraujo/kiro/tree/main/mcps/elk). Lê os logs; as únicas escritas são criar e atualizar busca salva
 no Kibana, com confirmação. Agnóstico: índice, campos e consultas do projeto ficam em `.kiro/config/power/elk/elk-<ambiente>.json`
 (`elk-prod.json`, `elk-homol.json`, `elk-dev.json`), gerados pela `elk-setup`.
 

@@ -12,7 +12,7 @@ URL abaixo, nunca um caminho local:
 
 ```json
 {
-  "$schema": "https://raw.githubusercontent.com/dxaraujo/kiro/main/sdd/skills/sdd-planejamento/assets/equipe.schema.json",
+  "$schema": "https://raw.githubusercontent.com/dxaraujo/kiro/main/powers/sdd/skills/sdd-planejamento/assets/equipe.schema.json",
   "atualizado": "2026-10-13",
   "projeto": {
     "nome": "Gestão de Acessos",

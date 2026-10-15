@@ -233,4 +233,4 @@ steering e de configuração divergem sobre agentes herdarem o steering padrão 
 
 ## Licença
 
-[MIT](../LICENSE)
+[MIT](../../LICENSE)

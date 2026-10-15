@@ -231,7 +231,10 @@ Exemplo — "muda a estimativa do WI 1001 para 6h": `fields["Estimativa"]` → `
      por attribute, não para conferir o que o arquivo já tem.
   2. A categoria define o time do item (não dá para escolher o time direto): use uma categoria do time desejado.
   3. **Para Tarefa**: se o campo "ID do Produto (Clarity)" estiver em `fields` e `ccm.clarity-identifier` existir
-     no elm.json, use-o como valor padrão (mostre ao usuário para confirmar).
+     no elm.json, use-o como valor padrão (mostre ao usuário para confirmar). Se estiverem em `fields`:
+     "Categoria de Integração de Horas" é **sempre "Aplicativo"**; "OTR" é obrigatório — com "Aplicativo" o
+     servidor recusa "Não designado" (403 "value provider … filtered out"), use "1-Apoio-Produtos"; "Classificação
+     da Tarefa" conforme o trabalho (Desenvolvimento, Análise / Especificação, Testes de Homologação...).
   4. Mostre o resumo (por nomes) e peça confirmação. Depois `ccm_create_workitem(...)` e responda com código,
      título e url.
 - **Atualizar / mudar estado:** confirme e chame `ccm_update_workitem(id, fields?, description?, state="<nome>")`;

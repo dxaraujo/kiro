@@ -51,6 +51,27 @@ Rode a **`sdd-entrevistar`** sobre a demanda, gravando em `decisoes.md` da pasta
 
 ## Passo 3 — Escrever
 
+### 3.1 Similares no ELM (obrigatório, antes de criar qualquer arquivo em `elm/`)
+
+Projeto com ELM: liste os artefatos que o PRD vai propor (tipo, título provisório, palavras-chave da entrevista e
+do glossário) e chame a **`sdd-elm` modo *similares*** — nunca o MCP direto. Mostre a tabela dela à pessoa e peça
+uma decisão por artefato com acerto:
+
+| Relação encontrada | Decisões possíveis (recomendada primeiro) |
+|---|---|
+| igual | **reutilizar** o existente (não cria conceito) · criar novo só com o motivo da diferença registrado |
+| sobrepõe | **alterar** o existente (caminho "Alteração" abaixo) · criar novo com o motivo registrado |
+| relacionado | **criar novo**, citando o existente em `## Relações` |
+| nenhum | criar novo |
+
+Registre cada decisão no `decisoes.md` (`D-nn`: artefato, id do ELM encontrado, relação, decisão, motivo) e, na
+tabela de artefatos do PRD, a coluna **No ELM**: `reusa <id>` · `altera <id>` · `novo (verificado <AAAA-MM-DD>)`.
+Verificação ao vivo pendente (sem MCP) → `novo (só bundle <data>)`: a `sdd-elm` refaz a busca antes de publicar.
+Artefato que surgir depois (na escrita, na revisão ou numa mudança depois de aprovado) passa por aqui antes de
+virar arquivo. Projeto sem ELM → pule.
+
+### 3.2 Escrever
+
 Preencha o template do `prd.md` e crie, em `elm/`, um arquivo por artefato (`HF-nn-<slug>.md`,
 `REG-nn-<slug>.md`, `GL-<termo>.md`), com `status: draft`, `sources` (PRD, decisões), `generated` e o corpo do tipo
 (formato em [references/okf-elm.md](references/okf-elm.md)), mais o `index.md` e uma entrada no `log.md`. O `prd.md`
@@ -64,7 +85,9 @@ só aponta para eles. Regras de escrita:
   (`<rm.download.path>/…/<id>-<slug>.md`) para `elm/`, mantendo `resource`, `id` e o `sources` do ELM; ponha
   `status: draft` e um `generated` novo; reescreva no estado **depois** da mudança. Sem bundle, leia o artefato
   pela `elm-rm` (`rm_get_requirement`) e grave a mesma estrutura. A `sdd-elm` atualiza o artefato existente em vez
-  de criar outro. Na tabela do PRD, coluna "Altera no ELM" = o id.
+  de criar outro. Na tabela do PRD, coluna "No ELM" = `altera <id>`.
+- **Reutilizar** (decisão do 3.1) → não crie conceito: a HF embute a REG existente (`[<id>](<id>)`), linka o termo
+  existente e cita a HF existente; a linha na tabela do PRD fica com `reusa <id>` e sem arquivo em `elm/`.
 - **HF → REG** sempre por link para o arquivo da regra: na publicação ele vira **embed**. Relações entre requisitos
   (restringe, satisfaz) vão na seção `## Relações` do conceito — ficam só no repositório.
 - **Decisões de implementação** sem caminho de arquivo e sem código — módulos, interfaces e contratos.
@@ -84,7 +107,7 @@ decisão de negócio volta para a entrevista. `status: em-revisao` enquanto isso
 
 ```
 📄 PRD EP-<nn> — <título>
-Histórias: <n> (<c> cenários) · Regras: <n> · Termos novos: <n> · Altera no ELM: <ids | nada>
+Histórias: <n> (<c> cenários) · Regras: <n> · Termos novos: <n> · No ELM: reusa <ids | —> · altera <ids | —> · novos verificados <n>
 Decisões: <d> decididas · <a> em aberto (<bloqueantes>)
 Revisão: <OK na rodada N | achados aceitos: …>
 Aprovar? (o P.O. ou quem ele delegou)

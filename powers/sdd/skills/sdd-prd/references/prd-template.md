@@ -32,12 +32,12 @@ atualizado: <AAAA-MM-DD>
      okf-elm.md da skill sdd-prd): é o que sobe para o DOORS Next depois do GATE. Aqui fica só o índice.
      Cenários são os critérios de aceite: cada um é verificável e vira caso de teste (ETM). -->
 
-| Artefato | Arquivo | Resumo | Altera no ELM |
+| Artefato | Arquivo | Resumo | No ELM |
 |---|---|---|---|
-| HF-01 | [HF - <nome>](elm/HF-01-<slug>.md) | <description> | — \| <id> |
-| HF-02 | [HF - <nome>](elm/HF-02-<slug>.md) | <description> | — |
-| REG-01 | [REG - <nome>](elm/REG-01-<slug>.md) | <description> | — |
-| GL | [<termo>](elm/GL-<termo>.md) | <definição curta> | — |
+| HF-01 | [HF - <nome>](elm/HF-01-<slug>.md) | <description> | novo (verificado <AAAA-MM-DD>) \| altera <id> |
+| HF-02 | [HF - <nome>](elm/HF-02-<slug>.md) | <description> | novo (verificado <AAAA-MM-DD>) |
+| REG-01 | — (existente no ELM) | <description> | reusa <id> |
+| GL | [<termo>](elm/GL-<termo>.md) | <definição curta> | novo (verificado <AAAA-MM-DD>) |
 
 ## Decisões de implementação
 

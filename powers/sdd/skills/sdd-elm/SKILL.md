@@ -1,6 +1,6 @@
 ---
 name: sdd-elm
-description: "Alimenta o IBM ELM (sistema de registro da documentação do projeto) a partir dos artefatos do fluxo sdd, pelo power elm — modo requisitos (histórias, regras e termos do épico — conceitos OKF v0.2 na pasta da spec, aprovados com verified humano — publicados no DOORS Next de baixo para cima, HF → REG como embed, idempotente pelo resource/id do conceito, alteração do artefato existente em vez de duplicar), modo backlog (épico — registrado quando o EP nasce —, épico de Sustentação, itens de backlog das fatias com critérios de aceite, ligados às histórias por implementa/rastreia), modo sprint (planos de backlog e da sprint, tarefas [ESP] [DEV] [REV] [VER] com pai, responsáveis, virada por plannedFor), modo atendimento ([ATD] por AT), modo horas (lançar e relatório por tipo e pessoa), modo testes (CT.csv para o ETM e links valida/testado por), modo especificação técnica (ET as-built) e modo conclusão (estados). Sempre mostra a prévia e pede confirmação; o que o MCP não faz vira roteiro manual com pendência registrada. Use em \"publica no ELM\", \"sobe o PRD para o DOORS\", \"cria os itens no EWM\", \"publica a sprint\", \"liga os testes\", \"fecha no ELM\", \"lança 4h\", \"relatório de horas\"."
+description: "Alimenta o IBM ELM (sistema de registro da documentação do projeto) a partir dos artefatos do fluxo sdd, pelo power elm — modo similares (antes de especificar HF, REG ou GL: busca no bundle e no DOORS Next artefatos iguais, sobrepostos ou relacionados, só leitura), modo requisitos (histórias, regras e termos do épico — conceitos OKF v0.2 na pasta da spec, aprovados com verified humano — publicados no DOORS Next de baixo para cima, HF → REG como embed, idempotente pelo resource/id do conceito, alteração do artefato existente em vez de duplicar), modo backlog (épico — registrado quando o EP nasce —, épico de Sustentação, itens de backlog das fatias com critérios de aceite, ligados às histórias por implementa/rastreia), modo sprint (planos de backlog e da sprint, tarefas [ESP] [DEV] [REV] [VER] com pai, responsáveis, virada por plannedFor), modo atendimento ([ATD] por AT), modo horas (lançar e relatório por tipo e pessoa), modo testes (CT.csv para o ETM e links valida/testado por), modo especificação técnica (ET as-built) e modo conclusão (estados). Sempre mostra a prévia e pede confirmação; o que o MCP não faz vira roteiro manual com pendência registrada. Use em \"publica no ELM\", \"sobe o PRD para o DOORS\", \"cria os itens no EWM\", \"publica a sprint\", \"liga os testes\", \"fecha no ELM\", \"lança 4h\", \"relatório de horas\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -46,6 +46,41 @@ Projeto sem ELM (`sdd.md` → ELM: não usa) → nada a fazer.
 6. Nunca apague nada no ELM. Artefato que deixou de valer → peça à pessoa a marcação de obsoleto/remoção do módulo
    na UI (roteiro manual).
 
+## Modo similares (antes de especificar — só leitura)
+
+Chamado pela `sdd-prd` **antes** de criar qualquer HF, REG ou GL, e pelo modo requisitos antes de criar um
+conceito novo. Só lê: não pede confirmação. Entrada: a lista de artefatos propostos — tipo (`HF` | `REG` | `GL`),
+título provisório e 3–6 palavras-chave do domínio (termos do glossário, sinônimos que apareceram na entrevista,
+valores e atores centrais).
+
+1. **Bundle** (`<rm.download.path>` do `sdd.md`, se existe): busca de texto do Kiro pelo título e por cada
+   palavra-chave. Anote a data do último sincronismo da `elm-sync`.
+2. **DOORS Next ao vivo**, pela skill **`elm-rm`**: uma `rm_search_requirements(text=<palavra-chave>)` por palavra-chave
+   e pelo título (só `text` — com `folder`/`requirement_type` junto o DOORS Next devolve HTTP 400), filtrando o
+   resultado pelos tipos do mapeamento do projeto; e `rm_list_modified` desde o último sincronismo, para ver o que
+   outro time criou ou mudou depois da `elm-sync`. Sem o MCP nesta sessão → só o bundle, e a saída diz
+   `verificação no ELM ao vivo pendente`.
+3. **Ler e classificar** cada acerto (corpo do bundle pelo `path`, ou `rm_get_requirement` pela `elm-rm`):
+   - **igual** — o mesmo comportamento, a mesma regra (com o mesmo valor) ou o mesmo termo;
+   - **sobrepõe** — parte do mesmo comportamento, a mesma regra com outro valor, ou o mesmo termo com outra definição;
+   - **relacionado** — mesmo assunto, comportamento diferente;
+   - acerto só por palavra em comum → descarte.
+4. **Saída**, um bloco por artefato proposto:
+
+   ```
+   🔎 Similares no ELM — EP-<nn> · bundle de <data> · ao vivo: <sim | pendente>
+   | Proposto | No ELM (id · título · tipo · pasta) | Relação | Recomendação |
+   |---|---|---|---|
+   | HF-01 Bloquear após tentativas | 2034 · HF - Bloquear acesso por senha expirada · História · 02-Histórias | relacionado | criar novo, citando 2034 em ## Relações |
+   | REG-01 Limite de tentativas | 2101 · REG - Tentativas de login · Regra · 03-Regras | igual | reutilizar 2101 |
+   | GL-tentativa-invalida | — | — | criar novo |
+   ```
+
+   Recomendação por relação: **igual → reutilizar** (não cria conceito: HF embute a REG existente, cita a HF
+   existente, linka o termo existente pelo id) · **sobrepõe → alterar** o existente (caminho "Alteração" da
+   `sdd-prd`) · **relacionado → criar novo**, citando o existente em `## Relações` · **nenhum → criar novo**. A
+   decisão é da pessoa; a `sdd-prd` registra.
+
 ## Modo requisitos (PRD → DOORS Next)
 
 Entrada: a pasta `elm/` do épico (`<produto>/epicos/<EP>-<slug>/elm/`) — conceitos OKF v0.2 no
@@ -56,6 +91,10 @@ como "aguardando aprovação". Publicar **não** muda o status do PRD.
 Ordem **de baixo para cima**, para cada artefato nascer com os ids dos que ele cita: **termos** (`GL-*`) →
 **regras** (`REG-*`) → **histórias** (`HF-*`). Para cada conceito:
 
+0. **Similares (conceito novo, sem `resource`):** a coluna "No ELM" do PRD tem de dizer `novo (verificado <data>)`.
+   Sem isso, ou com `rm_list_modified` mostrando artefato do mesmo tipo criado depois dessa data → rode o **modo
+   similares** só para esse conceito. Acerto `igual` ou `sobrepõe` → **não cria**: mostre e devolva para a
+   `sdd-prd` decidir (reutilizar ou alterar); o resto do lote segue.
 1. **Tipo e pasta:** `type` → `rm.requirements-types`; `tags[0]` → `rm.folders` (`pa_*.json`). Não casou → pergunte
    uma vez; vale para o lote.
 2. **Texto:** o corpo, sem a seção `## Relações` (ela é só local), com os links relativos trocados:

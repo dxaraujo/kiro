@@ -16,7 +16,7 @@ referem, com a severidade registrada nelas.
 | P3 | Cada história cobre: caminho feliz, o que não deve ser aceito, repetição/reexecução e erro em um item — ou diz por que não se aplica | BLOQUEANTE |
 | P4 | Toda regra é testável, tem valores e cita a origem (`D-nn`, artefato do ELM ou fonte) | BLOQUEANTE |
 | P5 | Nada inventado: regra, ator, valor ou integração sem fonte e sem decisão de uma pessoa | BLOQUEANTE |
-| P6 | Comportamento já documentado no ELM é **alterado** (conceito copiado do bundle, com `resource` e `id`), não duplicado num conceito novo — conferir no bundle | IMPORTANTE |
+| P6 | Comportamento já documentado no ELM é **alterado** ou **reutilizado**, não duplicado: todo artefato tem a coluna "No ELM" preenchida (`reusa`, `altera` ou `novo (verificado <data>)`) com a decisão no `decisoes.md`; conceito novo sem verificação, ou com acerto `igual`/`sobrepõe` sem motivo registrado — conferir também no bundle | BLOQUEANTE |
 | P7 | Termos canônicos do glossário em todo o texto; nenhum sinônimo listado em "Evitar" | IMPORTANTE |
 | P8 | Nenhuma decisão `em aberto` que mude comportamento | BLOQUEANTE |
 | P9 | Sem caminho de arquivo, classe, SQL ou código | SUGESTÃO |

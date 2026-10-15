@@ -113,9 +113,9 @@ Falhou ao rodar → mostre o erro; a pessoa decide (corrigir o comando, seguir a
 ## Passo 4 — Produto, conhecimento e ELM
 
 1. **Pasta do produto** (`{{PRODUTO}}` dos templates e `<produto>` nas skills): onde ficam `backlog.md`, épicos
-   e PRDs, planejamento e aprendizado — versionada, fora do `.kiro`. Pergunte sempre, mostrando as pastas que já
-   existem em `docs/` e sugerindo `docs/<nome do produto>` (nome curto em minúsculas, do `pa_*.json` do ELM, do
-   README ou do repositório; ex.: `docs/pab`). Grave o caminho real na seção Projeto do `sdd.md`.
+   e PRDs, planejamento e aprendizado — versionada. Pergunte sempre, sugerindo `.kiro/planejamento` (padrão) e
+   mostrando as pastas candidatas que já existem (ex.: em `docs/`). Grave o caminho real na seção Projeto do
+   `sdd.md`.
 2. **Glossário** (padrão `docs/glossario.md`) e **ADRs** (padrão `docs/adr`, sem barra no fim) — use os que já
    existirem; não existindo, pergunte "criar `docs/glossario.md` e `docs/adr`? (recomendado)". Recusou → registre
    "não há" e remova dos agentes as regras e linhas que os citam (`{{GLOSSARIO}}`, `{{ADR}}`).

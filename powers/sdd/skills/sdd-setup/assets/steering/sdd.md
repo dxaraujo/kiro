@@ -23,7 +23,7 @@ Onde parei ou fechar a sessão: `sdd-status`.
 
 | Item | Valor |
 |---|---|
-| Pasta do produto (`<produto>` nas skills) | `<docs/<produto>>` — backlog, épicos e PRDs, planejamento, aprendizado |
+| Pasta do produto (`<produto>` nas skills) | `<.kiro/planejamento>` — backlog, épicos e PRDs, planejamento, aprendizado |
 | Tipos · stack · módulos | `<batch>` · <Java 21, Spring Batch 5, Oracle> · <módulo único | lista> |
 | Toolkits | <nome (origem) | nenhum> |
 | Steering | produto `<product.md>` · tecnologia `<tech.md>` · estrutura `<structure.md>` · extras `<… | nenhum>` |

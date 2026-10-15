@@ -1,6 +1,6 @@
 ---
 name: sdd-atender
-description: "Trilha de atendimento do fluxo sdd — demanda de cliente que não muda o repositório (consulta na base, extração de dados, explicação de regra, conferência de caso): abre o atendimento AT-nnn com entrevista curta e a tarefa [ATD] no EWM na sprint, executa pelo banco (somente leitura) e pelo bundle do ELM, com código só em escopo fechado, guarda extrações fora do git (.kiro/local/atendimentos/), redige a resposta para o \"ok\" da pessoa e conclui lançando as horas na [ATD]; encaminha a saída (defeito → trilha rápida, regra em aberto → entrevista ou PRD, consulta reaproveitável → lição). Use em \"novo atendimento\", \"o cliente pediu\", \"extrai os dados de\", \"consulta na base para o cliente\", \"responde o chamado\", \"conclui o AT-012\", \"atendimentos abertos\"."
+description: "Trilha de atendimento do fluxo sdd — demanda de cliente que não muda o repositório (consulta na base, extração de dados, explicação de regra, conferência de caso): abre o atendimento AT-nnn com entrevista curta e a tarefa [ATD] no EWM na sprint, executa pelo banco (somente leitura) e pelo bundle do ELM, com código só em escopo fechado, guarda extrações fora do git (.kiro/local/atendimentos/), redige a resposta para o \"ok\" da pessoa e conclui lançando as horas na [ATD]; encaminha a saída (defeito → trilha rápida, regra em aberto → entrevista ou PRD, consulta reaproveitável → lição). Use em \"novo atendimento\", \"extrai os dados de\", \"consulta na base para o cliente\", \"responde o chamado\", \"conclui o AT-012\", \"atendimentos abertos\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -13,7 +13,7 @@ Atendimento é trabalho real que não vira código: alguém pergunta, o time con
 ele some — não tem tarefa, não consome capacidade e não deixa registro. Aqui cada demanda ganha um número
 (`AT-nnn`), uma tarefa `[ATD]` na sprint e um registro versionado **sem dado de cliente**.
 
-Não é atendimento (encaminhe pela `sdd-iniciar`): pedido que muda o comportamento do sistema (fatia, trilha rápida
+Não é atendimento (devolva à `sdd-triar`): pedido que muda o comportamento do sistema (fatia, trilha rápida
 ou direta) e regra que ninguém decidiu (entrevista ou PRD).
 
 ## Arquivos
@@ -25,6 +25,9 @@ ou direta) e regra que ninguém decidiu (entrevista ou PRD).
 - Linha na seção Atendimento do `sprints/sprint-<nn>.md` aberto (`sdd-planejamento`): consome a reserva.
 
 ## 1. Abrir ("novo atendimento: o cliente X pediu …")
+
+Toda demanda passa pela triagem: chegou direto, sem a `sdd-triar`? Faça antes os Passos 1–2 dela (já existe? é
+atendimento mesmo?).
 
 1. **Número:** lê o `Próximo` do `README.md` e já o incrementa.
 2. **Entrevista curta** — `sdd-entrevistar` modo *atendimento* (uma rodada, com recomendação em cada pergunta):
@@ -54,7 +57,7 @@ ou direta) e regra que ninguém decidiu (entrevista ou PRD).
    registro, e o modo horas lança depois.
 3. Atualiza a situação no `README.md` e no `sprint-<nn>.md`; commit na base.
 4. **Encaminha a saída:**
-   - defeito encontrado → trilha rápida com `origem: AT-<nnn>` (`sdd-iniciar`);
+   - defeito encontrado → a `sdd-triar` registra a trilha rápida com `origem` `AT-<nnn>` (começar → `sdd-iniciar`);
    - regra que ninguém decidiu → `sdd-entrevistar` ou `sdd-prd`;
    - consulta reaproveitável → lição (`sdd-aprender`).
 

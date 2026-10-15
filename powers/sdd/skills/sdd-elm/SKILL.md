@@ -48,7 +48,8 @@ Projeto sem ELM (`sdd.md` → ELM: não usa) → nada a fazer.
 
 ## Modo similares (antes de especificar — só leitura)
 
-Chamado pela `sdd-prd` **antes** de criar qualquer HF, REG ou GL, e pelo modo requisitos antes de criar um
+Chamado pela `sdd-prd` (e pela `sdd-triar`, para a regra da ficha de uma fatia padrão sem épico) **antes** de
+criar qualquer HF, REG ou GL, e pelo modo requisitos antes de criar um
 conceito novo. Só lê: não pede confirmação. Entrada: a lista de artefatos propostos — tipo (`HF` | `REG` | `GL`),
 título provisório e 3–6 palavras-chave do domínio (termos do glossário, sinônimos que apareceram na entrevista,
 valores e atores centrais).
@@ -83,7 +84,8 @@ valores e atores centrais).
 
 ## Modo requisitos (PRD → DOORS Next)
 
-Entrada: a pasta `elm/` do épico (`<produto>/epicos/<EP>-<slug>/elm/`) — conceitos OKF v0.2 no
+Entrada: a pasta `elm/` do épico (`<produto>/epicos/<EP>-<slug>/elm/`) ou, na consolidação de uma fatia padrão sem
+épico, a da fatia (`.kiro/specs/<ft>-<slug>/elm/`, gerada da ficha) — conceitos OKF v0.2 no
 formato de [../sdd-prd/references/okf-elm.md](../sdd-prd/references/okf-elm.md). Publica só conceito
 `status: stable` com um `verified` humano (`by: human:…`) **posterior** ao `generated.at`; o resto aparece na prévia
 como "aguardando aprovação". Publicar **não** muda o status do PRD.
@@ -91,7 +93,7 @@ como "aguardando aprovação". Publicar **não** muda o status do PRD.
 Ordem **de baixo para cima**, para cada artefato nascer com os ids dos que ele cita: **termos** (`GL-*`) →
 **regras** (`REG-*`) → **histórias** (`HF-*`). Para cada conceito:
 
-0. **Similares (conceito novo, sem `resource`):** a coluna "No ELM" do PRD tem de dizer `novo (verificado <data>)`.
+0. **Similares (conceito novo, sem `resource`):** a coluna "No ELM" do PRD (ou da ficha) tem de dizer `novo (verificado <data>)`.
    Sem isso, ou com `rm_list_modified` mostrando artefato do mesmo tipo criado depois dessa data → rode o **modo
    similares** só para esse conceito. Acerto `igual` ou `sobrepõe` → **não cria**: mostre e devolva para a
    `sdd-prd` decidir (reutilizar ou alterar); o resto do lote segue.
@@ -121,17 +123,21 @@ Depois: sugira a **`elm-sync`** para baixar ao bundle a versão oficial, que pas
 ano) para o resto. Ordem obrigatória de criação: épico, depois IB, depois tarefa. `Planejado para` é obrigatório
 em IB e tarefa: use sempre a iteração que a pessoa indicar (no planejamento, a da sprint).
 
-1. **Épico — nasce cedo:** a `sdd-prd` chama este modo assim que define o `EP-nn` (antes da entrevista), para o
+1. **Épico — nasce cedo:** a `sdd-triar` chama este modo ao registrar o `EP-nn` (a `sdd-prd`, se ficou
+   `pendente`), para o
    pai existir quando o IB da fatia for criado. Tipo do `sdd.md` (a PA pode não ter "Épico": então é um **Item de
    Backlog pai**), título `[EP-03] <título>`, descrição = problema (e, depois do GATE, solução do PRD + link do
-   PRD no repositório). Links **rastreia** → histórias, quando publicadas.
+   PRD no repositório). Links **rastreia** → histórias, quando publicadas. Épico que nasce de um item do EWM: se
+   o item já é do tipo de épico, ele é o épico; senão o item vira filho do épico novo
+   (`ccm_update_workitem(id, parent=<épico>)`).
 2. **Sustentação e Atendimento** (uma vez por release/ano, se a linha `Sustentação:` do `backlog.md` estiver
    vazia): épico `[SUS-<ano>] Sustentação` e, filho dele, o IB `Atendimento` (pai das `[ATD]`); ids nessa linha.
-3. **Item de backlog por fatia** (`backlog no EWM` = `ao-fatiar`, logo após o GATE do backlog, ou `na-sprint`):
-   título `[FT-031] <título>`, `parent` = épico (fatia de trilha rápida sem item de origem: o épico de
-   Sustentação; com item de origem não há IB novo), pontos pelo tamanho (tabela do `sdd.md`), descrição com modo
+3. **Item de backlog por fatia** (`backlog no EWM` = `ao-fatiar`, logo após o GATE do backlog — na fatia sem épico,
+   ao registrar na `sdd-triar` —, ou `na-sprint`):
+   título `[FT-031] <título>`, `parent` = épico (fatia sem épico sem item de origem: o épico de
+   Sustentação; com item de origem não há IB novo; direta: sem IB), pontos pelo tamanho (tabela do `sdd.md`), descrição com modo
    AFK/HITL, `bloqueada por` e pasta prevista; responsável = P.O. (o IB é do produto). **Critérios de aceite:** os
-   cenários que a fatia cobre (`cobre`), em Dado / Quando / Então, copiados do PRD, no campo da linha "Critérios
+   cenários que a fatia cobre (`cobre`), em Dado / Quando / Então, copiados do PRD (fatia sem épico: da ficha), no campo da linha "Critérios
    de aceite no IB" do `sdd.md` (Markdown; o MCP grava como texto rico) — sem o campo, numa seção "Critérios de
    aceite" da descrição. Fonte única é o PRD: o campo é cópia gerada, com o aviso "gerado do PRD — não edite
    aqui"; atualize quando a fatia for refinada ou a `sdd-consolidar` registrar mudança as-built. Links
@@ -151,7 +157,7 @@ seções do `sprint-<nn>.md` (fatias com responsável, revisor e verificador; es
    (`com.ibm.team.apt.plantype.default`: as tarefas). Faltou algum (ou a iteração) → crie pela `elm-setup`
    (`ccm_create_iteration` / `ccm_create_iteration_plan`; exige a permissão de modificar iterações — se falhar,
    peça a quem administra a PA).
-2. Fatias sem IB → modo backlog primeiro. Para cada IB da sprint: `plannedFor` = iteração (o responsável
+2. Fatias sem IB e épicos com `elm` `pendente` → modo backlog primeiro (a `[ESP]` nunca nasce sem pai). Para cada IB da sprint: `plannedFor` = iteração (o responsável
    continua o P.O.).
 3. **Tarefas**, com os títulos da linha "Tarefas" do `sdd.md`, responsável, estimativa em horas e `plannedFor` =
    iteração:
@@ -163,7 +169,7 @@ seções do `sprint-<nn>.md` (fatias com responsável, revisor e verificador; es
    | `[REV] FT-031 Revisar` | fatia | revisor | IB da fatia |
    | `[VER] FT-031 Verificar` | fatia | verificador | IB da fatia |
 
-   Trilha rápida com item de origem → pai = o item (sem IB novo); direta → uma `[DEV] <pedido>`, pai = item de
+   Fatia sem épico com item de origem → pai = o item (sem IB novo); direta → só a `[DEV] FT-<nnn> <pedido>`, pai = item de
    origem ou Sustentação. Campos obrigatórios da Tarefa (categoria de horas, OTR, classificação, Clarity) pela
    `elm-ccm` (Criar) e pela linha "Classificação da tarefa" do `sdd.md`. Grave os ids na coluna "Tarefa ELM" do
    `sprint-<nn>.md` e no `elm` do `backlog.md`.

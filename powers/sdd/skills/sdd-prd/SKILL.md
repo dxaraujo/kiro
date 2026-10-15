@@ -1,6 +1,6 @@
 ---
 name: sdd-prd
-description: "Escreve o PRD de um épico ou demanda no fluxo sdd — o quê e o porquê na linguagem do negócio: problema, solução, atores, histórias com cenários de aceite (Gherkin), regras de negócio, decisões de implementação e de teste em nível de módulo, não funcionais e fora de escopo. Explora o código e a documentação do ELM antes, entrevista a pessoa (sdd-entrevistar) e conduz o GATE do PRD (aprovação do P.O.), depois do qual as histórias, regras e termos vão para o DOORS Next pela sdd-elm. Use em \"escreve o PRD\", \"documenta a demanda\", \"nova funcionalidade\", \"épico\", \"especificar a demanda\", \"aprova o PRD\"."
+description: "Escreve o PRD de um épico ou demanda no fluxo sdd — o quê e o porquê na linguagem do negócio: problema, solução, atores, histórias com cenários de aceite (Gherkin), regras de negócio, decisões de implementação e de teste em nível de módulo, não funcionais e fora de escopo. Explora o código e a documentação do ELM antes, entrevista a pessoa (sdd-entrevistar) e conduz o GATE do PRD (aprovação do P.O.), depois do qual as histórias, regras e termos vão para o DOORS Next pela sdd-elm. Use em \"escreve o PRD\", \"documenta a demanda\", \"épico\", \"especificar a demanda\", \"aprova o PRD\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -21,14 +21,14 @@ bundle que a `elm-sync` mantém. São esses arquivos que sobem para o DOORS Next
 O PRD é um **registro de decisões** e a **proposta de mudança** da documentação oficial — não um documento vivo.
 Depois de aprovado, as histórias (HF), regras (REG) e termos (GL) vão para o DOORS Next (`sdd-elm`), que é a fonte
 oficial; o que vale a longo prazo é o ELM, o glossário e os ADRs. Se o PRD afirma algo que ninguém decidiu, é um
-defeito do PRD. Trabalho que cabe numa sessão (uma fatia, um ajuste) **não precisa de PRD**: vá de
-`sdd-entrevistar` direto para `sdd-iniciar`.
+defeito do PRD. Toda demanda entra pela `sdd-triar`; só o que ela classifica como **épico** chega aqui. Uma fatia
+com regra clara é trilha padrão sem épico, com uma ficha no lugar do PRD.
 
 Leia antes: `.kiro/steering/sdd.md` (ELM, caminhos, papéis) e o steering de produto que ele aponta.
 
 ## Passo 1 — Entender a demanda
 
-1. Peça (ou leia, se veio da `sdd-iniciar`) a descrição **longa** da demanda: quem pediu, o problema, exemplos
+1. Peça (ou leia, se veio da `sdd-triar`) a descrição **longa** da demanda: quem pediu, o problema, exemplos
    reais, prazos. Work item do EWM → pela skill `elm-ccm` do power `elm` (se instalado), com descrição e
    comentários.
 2. **Explore antes de perguntar** (subagente `sdd-pesquisador`, se houver; senão você mesmo, só leitura):
@@ -37,9 +37,9 @@ Leia antes: `.kiro/steering/sdd.md` (ELM, caminhos, papéis) e o steering de pro
    - código: onde o comportamento mora hoje, funcionalidades análogas;
    - glossário e ADRs (caminhos na seção Projeto do `sdd.md`): termos e decisões que já valem.
    Registre o que achou como fontes (id ELM, `arquivo:linha`).
-3. Defina o id: próximo `EP-<nn>` livre em `<produto>/backlog.md` (crie o arquivo se não existir —
-   formato na `sdd-fatiar`). Pasta: `<produto>/epicos/<EP>-<slug>/` (`slug` em kebab-case, sem acento).
-4. **Registre o épico no EWM já agora** (projeto com ELM): `sdd-elm` modo *backlog*, só o épico (`[EP-nn]
+3. Defina o id: o `EP-<nn>` que a `sdd-triar` registrou (linha `rascunho` com `prd` `—`); sem registro, a demanda
+   não passou pela triagem → carregue a `sdd-triar` antes. Pasta: `<produto>/epicos/<EP>-<slug>/` (`slug` em kebab-case, sem acento).
+4. **Registre o épico no EWM já agora**, se a coluna `elm` dele está `—` ou `pendente` (projeto com ELM): `sdd-elm` modo *backlog*, só o épico (`[EP-nn]
    <título>`, descrição = o problema), com confirmação; o id vai para a coluna `elm` do `backlog.md`. Assim o pai
    existe para a `[ESP]` do planejamento e para os IBs das fatias. Sem MCP → `ELM pendente: épico EP-nn` no rodapé
    do PRD.

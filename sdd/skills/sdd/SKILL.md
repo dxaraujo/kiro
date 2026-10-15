@@ -1,6 +1,6 @@
 ---
 name: sdd
-description: "Guia do fluxo sdd — engenharia agêntica orientada a especificação, com o IBM ELM como fonte oficial da documentação e planejamento ágil: trilhas por tamanho (direta, rápida, padrão, épico), fases, gates humanos, artefatos e onde moram, agentes, princípios e qual skill usar para cada pedido. Use para entender ou explicar o fluxo, decidir o próximo passo quando nenhuma outra skill sdd se encaixa, e em \"como funciona o sdd\", \"qual o fluxo\", \"o que eu faço agora com isso\", \"sdd\"."
+description: "Guia do fluxo sdd — engenharia agêntica orientada a especificação, com o IBM ELM como fonte oficial da documentação e planejamento ágil: trilhas por tamanho (direta, rápida, padrão, épico) e de atendimento, fases, gates humanos, artefatos e onde moram, agentes, princípios e qual skill usar para cada pedido. Use para entender ou explicar o fluxo, decidir o próximo passo quando nenhuma outra skill sdd se encaixa, e em \"como funciona o sdd\", \"qual o fluxo\", \"o que eu faço agora com isso\", \"sdd\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -25,6 +25,10 @@ Configuração do projeto: `.kiro/steering/sdd.md` (gerado pela **`sdd-setup`**)
 | **rápida** | defeito ou ajuste ≤ 1 dia, comportamento certo já conhecido | `bugfix.md` + `tasks.md` → implementação → revisão → verificação → PR |
 | **padrão** | uma fatia do backlog | pesquisa → plano → **GATE do plano** → implementação (TDD) → revisão → verificação → PR → consolidação |
 | **épico** | funcionalidade com várias histórias ou decisão de produto em aberto | entrevista → PRD → **GATE do PRD** → ELM → fatias → **GATE do backlog** → planejamento → cada fatia na trilha padrão |
+| **atendimento** | o cliente pede consulta, extração ou explicação; nada muda no repositório | entrevista curta → `[ATD]` no EWM → banco (só leitura) e bundle → resposta com "ok" → horas |
+
+Toda hora trabalhada cabe numa tarefa da sprint: `[ESP]` (especificação do épico), `[DEV]`, `[REV]`, `[VER]` (por
+fatia) e `[ATD]` (por atendimento). As horas são lançadas na conclusão de cada tarefa, nunca nos GATEs.
 
 ```
 PRODUTO       entrevistar ─► PRD ─► GATE PRD ─► ELM (HF/REG/GL) ─► fatiar ─► GATE backlog ─► sprint (EWM)
@@ -72,6 +76,8 @@ Fatia **AFK**: o projeto pode dispensar o GATE do plano (a análise independente
 | escrever o PRD de um épico | `sdd-prd` |
 | quebrar o PRD em fatias / refinar o backlog | `sdd-fatiar` |
 | planejar sprint, roadmap, virada, review | `sdd-planejamento` |
+| atender um pedido de cliente (consulta, extração) sem mudar o código | `sdd-atender` |
+| lançar horas ou ver o relatório de horas | `sdd-elm` modo *horas* |
 | entender o código antes de planejar | `sdd-pesquisar` |
 | planejar uma fatia (spec do Kiro) | `sdd-plano` |
 | implementar e abrir o PR | `sdd-implementar` |
@@ -89,11 +95,11 @@ Fatia **AFK**: o projeto pode dispensar o GATE do plano (a análise independente
 |---|---|
 | `.kiro/steering/sdd.md` | o único steering do fluxo: resumo, configuração do projeto e regras aprendidas |
 | `.kiro/agents/sdd-*.json` | agentes (criados pela setup, com as skills escolhidas por agente) |
-| `<produto>/` — a pasta escolhida na setup (ex.: `docs/pab`), registrada no `sdd.md` | `backlog.md`, `epicos/<EP>-<slug>/` (PRDs), `planejamento/`, `aprendizado/` (só na branch base) |
+| `<produto>/` — a pasta escolhida na setup (ex.: `docs/pab`), registrada no `sdd.md` | `backlog.md`, `epicos/<EP>-<slug>/` (PRDs), `planejamento/`, `atendimentos/`, `aprendizado/` (só na branch base) |
 | `.kiro/specs/<ft>-<slug>/` | uma pasta por fatia: `status.md`, `research.md`, spec do Kiro, revisões, verificação |
 | glossário · ADRs · bundle do ELM | caminhos na seção Projeto do `sdd.md` |
 | `.kiro/hooks/sdd.json` · `.kiro/workflows/sdd-*` · `.kiro/sdd/http.sh` | opcionais da setup: backpressure por tarefa, receitas, chamada HTTP do verificador |
-| `.kiro/local/` (fora do git) | worktrees do loop, vereditos dos workflows, log dos lotes |
+| `.kiro/local/` (fora do git) | worktrees do loop, vereditos dos workflows, log dos lotes, dados de cliente (extrações, evidências com dado real) |
 
 ## Fronteiras de fase
 
@@ -106,5 +112,9 @@ Nunca compacte no meio de uma fase.
 - Nada inventado: tabela, coluna, regra, id de work item — confirme no código, no banco (somente leitura) ou no ELM.
 - Toda escrita no ELM, troca de branch, push e alteração de work item só com "sim" de uma pessoa. Agente nunca faz
   merge nem `--force`.
-- Os agentes não têm o MCP do ELM: a escrita no ELM acontece na sessão da pessoa, com o power `elm`; nos agentes
-  ela vira pendência registrada.
+- O MCP do ELM fica nos agentes que conduzem sessão com a pessoa (`sdd-produto`, `sdd-codificador`,
+  `sdd-orquestrador`); revisor, verificador e pesquisador não o têm. Sem o MCP ou com falha, a escrita vira
+  `ELM pendente` registrada — o ELM nunca trava o fluxo.
+- Dado de cliente (resultado de consulta, extração, tela com dado real) nunca vai para o git: fica em
+  `.kiro/local/<origem>/<id>/`; o registro versionado guarda consulta, contagem, caminho e resumo sem identificar
+  pessoas.

@@ -21,7 +21,7 @@ DEPOIS    merge (pessoa) ─► consolidar (drift, ELM as-built, CTs, ADRs) ─�
 
 | `sdd` v1 | `sdd` v2 |
 |---|---|
-| um fluxo para tudo (HF/REG/ET/CT + spec SDD em todo IB) | **trilhas** pelo tamanho: direta, rápida (bugfix spec), padrão, épico |
+| um fluxo para tudo (HF/REG/ET/CT + spec SDD em todo IB) | **trilhas** pelo tamanho: direta, rápida (bugfix spec), padrão, épico — e atendimento, sem código |
 | especificação por IB, em três papéis assíncronos | **PRD por épico** + **fatias verticais** que cabem numa janela de contexto |
 | entrevista uma pergunta por vez | entrevista em **rodadas pela fronteira** de decisões, sempre com recomendação |
 | spec SDD → implementação → judge | **pesquisa** compactada → **plano com a forma do programa** e o **contrato de pronto** → **GATE do plano** |
@@ -64,7 +64,7 @@ Fontes no fim deste arquivo.
 | `sdd` | guia do fluxo: trilhas, gates, princípios, qual skill usar |
 | `sdd-setup` | configura o projeto: entende o repositório, descobre skills e toolkits, cria os agentes perguntando as skills de cada um |
 | `sdd-status` | painel "onde parei", WIP de revisão, próxima ação de maior alavanca |
-| `sdd-iniciar` | porta de entrada: triagem por trilha, Definition of Ready, pasta, branch, item do EWM |
+| `sdd-iniciar` | porta de entrada: triagem por trilha (inclusive atendimento), Definition of Ready, pasta, branch, item do EWM |
 | `sdd-entrevistar` | alinhamento em rodadas (grill), decisões e glossário |
 | `sdd-prd` | PRD do épico (o quê e por quê) e GATE do PRD |
 | `sdd-fatiar` | PRD → fatias verticais AFK/HITL, backlog e GATE do backlog |

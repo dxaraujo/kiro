@@ -1,6 +1,6 @@
 ---
 name: sdd-iniciar
-description: "Porta de entrada do fluxo sdd para qualquer trabalho — recebe uma fatia (FT-031), um item do EWM (IB, defeito, tarefa — com o power elm), um épico ou um pedido em texto; faz a triagem pelo tamanho (trilha direta quando o diff cabe numa frase, rápida para defeito pequeno com bugfix spec, padrão para uma fatia, épico quando precisa de PRD), confere a Definition of Ready, cria a pasta da fatia em .kiro/specs/ e a branch (sugere o nome e aguarda), assume o item no EWM com confirmação e encaminha para a próxima skill. Use em \"vamos trabalhar na FT-031\", \"pegar a task 123\", \"corrigir o defeito 4567\", \"nova demanda\", \"começar\", \"próxima fatia\"."
+description: "Porta de entrada do fluxo sdd para qualquer trabalho — recebe uma fatia (FT-031), um item do EWM (IB, defeito, tarefa — com o power elm), um épico ou um pedido em texto; faz a triagem pelo tamanho (trilha direta quando o diff cabe numa frase, rápida para defeito pequeno com bugfix spec, padrão para uma fatia, épico quando precisa de PRD, atendimento quando o cliente pede consulta ou extração sem mudar o repositório), confere a Definition of Ready, cria a pasta da fatia em .kiro/specs/ e a branch (sugere o nome e aguarda), assume o item no EWM com confirmação e encaminha para a próxima skill. Use em \"vamos trabalhar na FT-031\", \"pegar a task 123\", \"corrigir o defeito 4567\", \"nova demanda\", \"o cliente pediu\", \"começar\", \"próxima fatia\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -24,6 +24,7 @@ nunca se inventa dado de work item: (1) `status.md` nas branches (atual, worktre
 | `EP-nn` ou "nova demanda" | é trabalho de produto → **`sdd-prd`** (ou `sdd-fatiar`, se o PRD já está aprovado) |
 | número do EWM (IB, DF, tarefa) | skill `elm-ccm` do power `elm`; o item pode já estar no `backlog.md` (coluna `elm`) — procure primeiro lá |
 | texto ("corrigir o cálculo de juros") | a própria descrição; pergunte só o que faltar para a triagem |
+| pedido de cliente sem mudança no repositório ("extrai as contas bloqueadas", "por que o caso X deu Y?") | trilha **atendimento** → **`sdd-atender`** |
 
 Fatia já iniciada (tem pasta em `.kiro/specs/` nesta branch, em worktrees ou em branches remotas —
 `git grep -l '<id>' <ref> -- '.kiro/specs/*/status.md'`) → leia o `status.md` e **retome** pela fase
@@ -38,11 +39,21 @@ ofereça descartar, `stash` ou `reset`).
 | **padrão** | uma fatia do backlog (`FT-nnn`) ou mudança pequena **com** regra de negócio clara | pesquisa → plano → **GATE do plano** → implementação → revisão → verificação → PR |
 | **rápida** | defeito ou ajuste ≤ 1 dia **sem** regra de negócio nova (comportamento correto já documentado ou óbvio) | pesquisa curta → `bugfix.md` + `tasks.md` (o teste que reproduz primeiro) → implementação → revisão → verificação → PR |
 | **direta** | o diff cabe numa frase (texto, configuração, ajuste trivial), sem regra nova e sem risco de dado | sem pasta de spec: teste que falha (quando houver comportamento) → mudança → backpressure → revisão (`sdd-revisar`, rubrica C sobre o diff, com o pedido no lugar dos critérios) → PR |
+| **atendimento** | o cliente pede consulta, extração, explicação ou conferência; nada muda no repositório | `sdd-atender`: abrir (AT-nnn, `[ATD]`) → executar (banco só leitura, bundle) → resposta → concluir com horas |
 
 Diga a trilha e o motivo; dúvida entre duas → sim/não pela mais leve.
 - **Direta** não cria pasta nem entrada no backlog: o pedido e o id do item (se houver) vão no commit e no PR.
 - **Rápida** cria a fatia no `backlog.md` com `origem` (ex.: `DF 4567`) e sem épico. Regra de negócio nova
   descoberta nela → vira padrão (e, se mudar documentação, o PRD do épico ou um PRD curto).
+- **Tarefas no EWM por trilha** (a `sdd-elm` cria; pai sempre definido):
+
+  | Trilha | Tarefas | Pai |
+  |---|---|---|
+  | padrão | `[DEV]` `[REV]` `[VER]` | IB da fatia, filho do épico |
+  | rápida com item de origem (DF, IB) | `[DEV]` `[REV]` `[VER]` | o próprio item de origem — **sem IB novo** |
+  | rápida sem item (pedido em texto) | `[DEV]` `[REV]` `[VER]` | IB `[FT-nnn]` criado na abertura, filho do épico de Sustentação |
+  | direta | uma `[DEV] <pedido>`, sem `[REV]`/`[VER]` | item de origem, ou o épico de Sustentação |
+  | atendimento | `[ATD] AT-nnn <pedido>` | item "Atendimento" (Sustentação) |
 
 ## Passo 3 — Definition of Ready (trilha padrão)
 
@@ -69,7 +80,9 @@ Falhou um item → diga qual e o caminho (`sdd-entrevistar`, `sdd-fatiar` refina
    Fatia de trilha rápida sem id → crie-a no `backlog.md` **na base** antes de criar a branch.
 4. **EWM** (com power `elm`, pergunta única; nunca sem "sim"): assumir a **tarefa** de quem implementa (ex.:
    `[DEV]`; o item de backlog continua do P.O.) com responsável = `whoami`, iniciá-la (ação de
-   `ccm_list_workitem_states`), estimativa se faltar. Sem o power: só o `status.md`.
+   `ccm_list_workitem_states`), estimativa se faltar. Tarefa ainda não existe (rápida ou direta fora do
+   planejamento) → `sdd-elm` modo *sprint* cria as da trilha (tabela do Passo 2) na sprint aberta. Sem o MCP:
+   `ELM pendente` no `status.md`.
 5. Commit pequeno do `status.md` e, com "sim", push da branch — é o sinal para o time de que a fatia começou.
 
 ## Passo 5 — Encaminhar
@@ -89,7 +102,8 @@ Próximo: <skill>
 | `pr-aberto` | aguardar o merge; mergeado → `sdd-consolidar` |
 | `bloqueada (de: <fase>)` | mostre o motivo e a pergunta; resolvido → volta à skill da fase de origem |
 
-Trilha direta → `sdd-implementar` (seção Trilha direta), sem pasta. Modo AFK e várias fatias prontas → ofereça
+Trilha direta → `sdd-implementar` (seção Trilha direta), sem pasta. Trilha atendimento → `sdd-atender`, sem
+branch nem pasta de spec. Modo AFK e várias fatias prontas → ofereça
 o **`sdd-loop`** (o agente leva cada uma até o PR).
 
 ## Regras

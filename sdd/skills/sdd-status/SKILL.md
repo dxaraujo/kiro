@@ -1,6 +1,6 @@
 ---
 name: sdd-status
-description: "Painel do fluxo sdd, somente leitura — onde parei e o que fazer agora: fatias em andamento (nesta branch, nas worktrees e nas branches remotas) com fase, trilha, modo AFK/HITL, progresso do tasks.md, achados abertos e PR; WIP de revisão humana contra o acordo do time; sprint atual e meta; fatias prontas para começar; épicos e PRDs pendentes de aprovação; pendências de ELM; lições propostas; e inconsistências. Também fecha a sessão de trabalho numa fatia (atualiza o status.md, deixa o git pronto para commit e diz como retomar). SEMPRE use esta skill (leia-a antes de responder) em \"onde parei\", \"status\", \"painel\", \"bom dia\", \"o que tem pendente\", \"qual a próxima fatia\", \"como está a sprint\", \"retomar\", \"fechar a sessão\", \"encerrar por hoje\"."
+description: "Painel do fluxo sdd, somente leitura — onde parei e o que fazer agora: fatias em andamento (nesta branch, nas worktrees e nas branches remotas) com fase, trilha, modo AFK/HITL, progresso do tasks.md, achados abertos e PR; WIP de revisão humana contra o acordo do time; sprint atual e meta, com especificação e atendimento (reserva × consumido); fatias prontas para começar; épicos e PRDs pendentes de aprovação; pendências de ELM; lições propostas; e inconsistências. Também fecha a sessão de trabalho numa fatia (atualiza o status.md, deixa o git pronto para commit e diz como retomar). SEMPRE use esta skill (leia-a antes de responder) em \"onde parei\", \"status\", \"painel\", \"bom dia\", \"o que tem pendente\", \"qual a próxima fatia\", \"como está a sprint\", \"retomar\", \"fechar a sessão\", \"encerrar por hoje\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -28,6 +28,9 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
 5. `<produto>/planejamento/acordos.md`: limites de WIP (sem o arquivo: 2 fatias esperando pessoa, e sugira a
    `sdd-planejamento` modo inicial).
 6. `<produto>/aprendizado/licoes.md`: lições com situação `proposta`.
+   Sprint aberta (`sprint-<nn>.md`): seções Especificação e Atendimento (reserva × consumido) e as linhas
+   `ELM pendente:`. Atendimentos abertos: `<produto>/atendimentos/README.md` e os `AT-*.md` com `**Situação:**
+   aberto`.
 7. Lotes autônomos em andamento: `.kiro/local/loop-*.md`.
 8. "Minhas" = responsável igual ao login da pessoa: `git config user.name` cruzado com `nome`/`login` do
    `equipe.json`; sem correspondência, pergunte o login uma vez.
@@ -50,6 +53,9 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
 
 📄 Produto
 - EP-04 PRD em-revisao · EP-05 a descobrir
+- Especificação na sprint: EP-05 (rita.melo) PRD · 8/16 h
+
+🎧 Atendimento: reserva <h>h · consumido <h>h · abertos: AT-012 (joao.lima, prazo 2026-10-16)
 
 🏛️ ELM pendente: <n> (lista) · 🔁 Lições propostas: <n>
 ⚠️ Inconsistências: <lista | nenhuma>
@@ -58,7 +64,7 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
 ```
 
 **Sugestão** — nesta ordem: desbloquear quem espera uma pessoa (plano ou PR parado, WIP de revisão estourado) →
-terminar a fatia em andamento → começar a próxima pronta (AFK prontas em quantidade → ofereça o `sdd-loop`) →
+atendimento com prazo vencendo → terminar a fatia em andamento → começar a próxima pronta (AFK prontas em quantidade → ofereça o `sdd-loop`) →
 trabalho de produto (PRD/fatiar) para manter o backlog com fatias prontas.
 
 ## Inconsistências a apontar
@@ -70,7 +76,12 @@ trabalho de produto (PRD/fatiar) para manter o backlog com fatias prontas.
 - Histórico fora de ordem cronológica ou fase que não bate com a última linha (conflito mal resolvido);
 - conceito de `elm/` com `verified` humano e sem `resource` há mais de 1 dia (projeto que publica na aprovação);
 - conceito de `elm/` alterado (`generated.at`) depois do último `verified` e ainda `stable` (falta reaprovar);
-- `backlog.md` alterado numa branch de fatia (deve mudar só na base).
+- `backlog.md` alterado numa branch de fatia (deve mudar só na base);
+- reserva de atendimento estourada (consumido > reserva) sem decisão do P.O. registrada no `sprint-<nn>.md`;
+- arquivo com dado de cliente versionado (extração, CSV ou evidência fora de `.kiro/local/`).
+
+Tarefa concluída **sem horas lançadas** não é apontada aqui: só no fechamento da sprint (`sdd-planejamento`,
+virada).
 
 ## Fechar a sessão
 

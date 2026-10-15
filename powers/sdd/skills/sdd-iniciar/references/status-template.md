@@ -2,13 +2,13 @@
 
 | Campo | Valor |
 |---|---|
-| Fatia | FT-<nnn> · épico <EP-nn — título \| — (trilha rápida)> |
-| Origem | <PRD EP-nn \| DF 4567 \| IB 611 \| pedido: …> |
-| Trilha | <rapida \| padrao> |
+| Fatia | FT-<nnn> · épico <EP-nn — título \| — (sem épico)> |
+| Origem | <PRD EP-nn \| ficha \| DF 4567 \| IB 611 \| pedido: …> |
+| Trilha | <padrao \| rapida \| direta> |
 | Modo | <AFK \| HITL> |
 | Cobre | <HF-01#1.1, HF-01#1.2, REG-01 \| —> |
 | Branch | `<branch>` |
-| Fase | pesquisando |
+| Fase | pesquisando (direta: implementando) |
 | Responsável | <login \| agente:sdd-orquestrador> |
 | Rodadas | revisão do plano 0 · revisão do código 0 · verificação 0 |
 | PR | — |

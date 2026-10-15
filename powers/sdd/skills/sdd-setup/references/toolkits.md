@@ -88,14 +88,15 @@ Formato definido por [../assets/toolkit.schema.json](../assets/toolkit.schema.js
 |---|---|
 | `tipos-de-projeto` | casa com o tipo detectado → o toolkit vira **sugestão** (nunca é ligado sem a pessoa dizer sim) |
 | `deteccao` | `arquivos` existe na raiz (ou em módulos) **e** algum `contem` aparece nele → toolkit "detectado" |
-| `skills[].papeis` | pré-seleciona a skill na pergunta de cada agente (`pesquisador`, `codificador`, `revisor`, `verificador`, `produto`, `orquestrador`) |
+| `skills[].papeis` | pré-seleciona a skill na proposta de cada agente (`pesquisador`, `codificador`, `revisor`, `verificador`, `produto`, `orquestrador`) |
 | `steering[]` | regras da stack: vira `file://` nos agentes dos papéis indicados |
 | `comandos` | **proposta** para a seção Comandos do `sdd.md` quando o repositório não deixa claro; a pessoa confirma |
 | `verificacao` | texto que a `sdd-verificar` usa para executar os cenários de aceite desse tipo de projeto |
 
-## Pergunta por agente
+## Proposta por agente
 
-A setup nunca liga uma skill sem perguntar. Para cada agente, mostra o inventário **agrupado por toolkit**. Vêm
+A setup nunca liga uma skill sem a confirmação da pessoa — mas confirma a proposta inteira do agente de uma vez
+(skills, MCPs, modelo e subagentes; ver o Passo 6 da `SKILL.md`). Para cada agente, mostra o inventário **agrupado por toolkit**. Vêm
 pré-marcadas só as skills de toolkits **detectados** cujo `papeis` inclui o papel do agente; toolkit não
 detectado, skill do projeto e skill do usuário aparecem desmarcadas:
 

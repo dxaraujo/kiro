@@ -17,7 +17,11 @@ O power `sdd` só entrega skills (o formato de power do Kiro não instala steeri
 esta skill instala no projeto o que o fluxo precisa, a partir de [assets/](assets/), e é a **única** parte do
 fluxo que conhece os toolkits de stack ([references/toolkits.md](references/toolkits.md)).
 
-**Pergunte uma coisa por vez**, sempre mostrando o que foi detectado e a opção recomendada ("sim" aceita).
+**Padrão primeiro.** O que tem padrão — detectado no projeto ou recomendado no template — é decidido **sem
+perguntar** e aparece numa tabela **Padrões aplicados** ao fim de cada bloco (projeto, git, produto, ELM,
+autonomia, automações), com **uma** confirmação: "ok" aceita tudo, ou a pessoa diz só a linha que muda. **Pergunte**
+apenas o que não tem padrão nem dá para detectar (ex.: a URL do ambiente de teste, qual `pa_*.json` vale quando há
+mais de um), uma coisa por vez, mostrando o que foi detectado. Nunca pergunte o que só confirma um padrão.
 Não achou o que procurava (arquivo, pasta, power, configuração) → **pergunte** onde está; nunca conclua "não há"
 sem a pessoa confirmar. Nada é gravado antes do resumo do Passo 8 e do "ok". Nunca leia nem mostre arquivos de
 credenciais.
@@ -108,29 +112,37 @@ Falhou ao rodar → mostre o erro; a pessoa decide (corrigir o comando, seguir a
 | Padrão de commit | `git log --oneline -20` (Task/IB do EWM? Conventional Commits?) |
 | Abrir PR | `gh`/`glab` no PATH e o host do `origin`; senão "entregar título e descrição" |
 | MCP de banco | servidores em `.kiro/settings/mcp.json` e `~/.kiro/settings/mcp.json` — qual é o de consulta e **qual tool** só consulta (ou "não há"); recomende um usuário de banco somente leitura |
-| Artefatos de produto | a base é protegida? → `PR curto para a base`; senão pergunte (`direto na branch base` ou PR) |
+| Artefatos de produto | a base é protegida? → `PR curto para a base`; senão o padrão também é `PR curto para a base` (a pessoa troca por `direto na branch base` na tabela) |
 
 ## Passo 4 — Produto, conhecimento e ELM
 
 1. **Pasta do produto** (`{{PRODUTO}}` dos templates e `<produto>` nas skills): onde ficam `backlog.md`, épicos
-   e PRDs, planejamento e aprendizado — versionada. Pergunte sempre, sugerindo `.kiro/planejamento` (padrão) e
-   mostrando as pastas candidatas que já existem (ex.: em `docs/`). Grave o caminho real na seção Projeto do
+   e PRDs, planejamento e aprendizado — versionada. Já existe um `backlog.md` do sdd no repositório → a pasta dele;
+   senão o padrão `.kiro/planejamento`. Vai para os Padrões aplicados. Grave o caminho real na seção Projeto do
    `sdd.md`.
 2. **Glossário** (padrão `docs/glossario.md`) e **ADRs** (padrão `docs/adr`, sem barra no fim) — use os que já
-   existirem; não existindo, pergunte "criar `docs/glossario.md` e `docs/adr`? (recomendado)". Recusou → registre
+   existirem; não existindo, o padrão é criá-los (Padrões aplicados). A pessoa recusou na tabela → registre
    "não há" e remova dos agentes as regras e linhas que os citam (`{{GLOSSARIO}}`, `{{ADR}}`).
 3. **ELM:** power `elm` instalado (`~/.kiro/powers/**/elm/`) e `.kiro/config/power/elm/pa_*.json` no repositório?
    Não achou o power ou o `pa_*.json` ali → procure `.kiro/config/power/*/pa_*.json` e **pergunte** qual vale
    (ou se o projeto não usa ELM).
    - Sem power, confirmado pela pessoa → `Usa ELM: não` (o fluxo funciona igual; os ids vêm do `backlog.md`).
    - Com power e sem `pa_*.json` → ofereça rodar a `elm-setup` antes (ela mapeia tipos, pastas, iterações).
-   - Com `pa_*.json`: proponha o mapeamento da seção ELM do template (tipos e pastas pelos nomes do
-     `rm.requirements-types`/`rm.folders`/`workitem-types`, por proximidade) e pergunte, um de cada vez: quando
-     publicar os requisitos (`na-aprovacao` recomendado), quando criar os itens no EWM (`na-sprint` recomendado —
-     sprints futuras mudam), se publica ET as-built, o que o processo exige manualmente no DOORS Next (change set,
-     módulo, baseline), pontos por tamanho, o que fazer no EWM quando uma fatia é dividida e as colunas do `CT.csv` (linha
-     `CT.csv` da seção ELM: tipo, status inicial, categoria — pergunte pelo template de importação do ETM do projeto).
-     Sem perguntar: os títulos das tarefas (linha "Tarefas", padrão do template); o tipo do épico (Item de Backlog
+   - Com `pa_*.json`: **sem perguntas** — monte a seção ELM do template com os padrões e mostre numa tabela só
+     (**ELM — padrões aplicados**), para um "ok" ou a linha que muda:
+
+     | Item | Padrão |
+     |---|---|
+     | Tipos e pastas (HF, REG, GL, épico, fatia) | pelos nomes de `rm.requirements-types`/`rm.folders`/`workitem-types`, por proximidade |
+     | Publicar requisitos | `na-aprovacao` (no GATE do PRD) |
+     | Backlog no EWM | `na-sprint` (sprints futuras mudam) |
+     | ET as-built | `não publica` |
+     | Manual no DOORS Next | `nada` |
+     | Pontos P/M/G | `2 · 3 · 5` |
+     | Fatia dividida no EWM | itens novos como filhos do item original |
+     | `CT.csv` | colunas da linha `CT.csv` do template; um template de importação do ETM no repositório ajusta a ordem |
+
+     Tipo ou pasta sem nome parecido no `pa_*.json` → aí sim pergunte, só esse. Também sem perguntar: os títulos das tarefas (linha "Tarefas", padrão do template); o tipo do épico (Item de Backlog
      pai se a PA não tem Épico); o campo de critérios de aceite (o de `workitem-types[IB].fields` com "aceite" no
      nome; não há → `descrição`); a classificação de cada tarefa (valores da `elm-setup` etapa 4d; a PA não tem o
      campo → "a PA não tem"). Sustentação e Atendimento não são perguntados: a `sdd-elm` os cria na primeira
@@ -156,8 +168,8 @@ nome, início da `description`, origem e, se houver, toolkit e papéis. Toolkit 
 
 ## Passo 6 — Agentes, um de cada vez
 
-Para cada agente, nesta ordem, mostre o inventário **agrupado por toolkit/origem**, com as skills pré-marcadas
-pelos `papeis` do toolkit e pelo tipo de projeto, e pergunte (formato em `toolkits.md`):
+Para cada agente, nesta ordem, monte a proposta com o inventário **agrupado por toolkit/origem** e as skills
+pré-marcadas pelos `papeis` do toolkit e pelo tipo de projeto (formato em `toolkits.md`):
 
 | Agente | Já tem (do fluxo) | Sugestão de extras |
 |---|---|---|
@@ -168,38 +180,51 @@ pelos `papeis` do toolkit e pelo tipo de projeto, e pergunte (formato em `toolki
 | `sdd-verificador` | verificar | skills de teste de aceite (Playwright, teste de job, API) |
 | `sdd-orquestrador` | loop, iniciar, status | normalmente nenhuma |
 
-Para cada agente, nesta sequência — **uma pergunta por mensagem**:
-1. **Skills** (o inventário acima). Pré-marcadas só as de toolkits **detectados** com o papel do agente.
-2. **MCPs** (lista dos servidores configurados): o de banco entra como somente leitura em pesquisador,
-   codificador, revisor e verificador — ligue só a tool de consulta (`@<servidor>/<tool>`), nunca o servidor
-   inteiro se ele tiver tool de escrita; browser/Playwright é sugerido para o verificador em projeto `frontend`.
-   **MCP `elm`** (projeto com ELM): já vem **pré-marcado** em `sdd-produto`, `sdd-codificador` e
-   `sdd-orquestrador`, com as tools de [references/agentes.md](references/agentes.md) (leitura liberada,
-   escrita com `ask`); **nunca** em revisor, verificador e pesquisador. A pessoa pode desmarcar — então a escrita
+Para cada agente, **uma mensagem só**: a proposta completa já marcada pelos padrões e **uma** confirmação ("ok", ou
+o que muda — marcar/desmarcar uma skill, um MCP, trocar o modelo). Nada é perguntado item a item:
+
+```
+🤖 sdd-codificador — já tem: plano, implementar
+Skills  [x] java (toolkit java)  [x] spring-batch-job (toolkit batch)  [ ] angular (toolkit front)
+MCPs    [x] elm (leitura; escrita com confirmação)  [x] banco: @<servidor>/<tool de consulta>
+Modelo  padrão do Kiro
+Subagentes  sdd-pesquisador, sdd-revisor  [ ] <agente do projeto> — <para quê>
+ok?
+```
+
+Padrões da proposta:
+1. **Skills:** marcadas só as de toolkits **detectados** com o papel do agente; as outras aparecem desmarcadas.
+2. **MCPs:** o de banco entra como somente leitura em pesquisador, codificador, revisor e verificador — só a tool
+   de consulta (`@<servidor>/<tool>`), nunca o servidor inteiro se ele tiver tool de escrita; browser/Playwright
+   marcado no verificador em projeto `frontend`. **MCP `elm`** (projeto com ELM): marcado em `sdd-produto`,
+   `sdd-codificador` e `sdd-orquestrador`, com as tools de [references/agentes.md](references/agentes.md) (leitura
+   liberada, escrita com `ask`); **nunca** em revisor, verificador e pesquisador. Desmarcado pela pessoa → a escrita
    no ELM vira `ELM pendente` naquele agente.
-3. **Modelo** (opcional; padrão: o do Kiro). Ex.: um modelo mais rápido para o pesquisador.
-4. Só codificador e orquestrador: **agentes do projeto** (`.kiro/agents/*`, `~/.kiro/agents/*`, exceto `sdd-*`)
-   que podem ser chamados como subagentes, e para que tipo de tarefa. Agente com o campo `hooks` (mesmo vazio) é
-   ignorado pela IDE: avise e pergunte se a pessoa tira o campo ou se ele fica de fora.
+3. **Modelo:** sempre o padrão do Kiro — não pergunte; a pessoa troca na proposta se quiser.
+4. Só codificador e orquestrador: **subagentes** — os `sdd-*` do fluxo marcados; agentes do projeto
+   (`.kiro/agents/*`, `~/.kiro/agents/*`, exceto `sdd-*`) listados desmarcados, com o tipo de tarefa que a descrição
+   deles indica. Agente com o campo `hooks` (mesmo vazio) é ignorado pela IDE: fica desmarcado, com o aviso.
 
 Registre também as skills **oferecidas e recusadas** por agente (coluna própria no `sdd.md`): no modo
 atualização, só skill que não está em nenhuma das duas colunas é "nova".
 
-Depois, a autonomia (seção Git, banco e autonomia do template), uma pergunta por vez: plano de fatia AFK (aprovação
-humana recomendada até o time confiar), se a trilha rápida pede GATE do plano (não, recomendado — a análise
-independente basta), paralelismo do loop (1), push e PR no loop (perguntar a cada lote, recomendado — o orquestrador
-tem regra `ask` para push e PR, então o Kiro confirma cada um; "não — a pessoa abre" → a regra vira `deny`) e, se a verificação
-chama a aplicação por HTTP, o **script de chamada** do verificador: `.kiro/sdd/http.sh` com a URL de teste
-(recomendado — o verificador roda só esse script sem perguntar, só contra essa URL e com corpo da pasta `massa/`;
-precisa de `sh` e `curl`) ou nenhum (cada `curl` pede confirmação, e no loop a verificação fica para a sessão da
-pessoa).
+Depois, a autonomia (seção Git, banco e autonomia do template), **sem perguntas** — Padrões aplicados: plano de
+fatia AFK com aprovação humana (até o time confiar); trilha rápida sem GATE do plano (a análise independente basta);
+paralelismo do loop `1`; push e PR no loop perguntando a cada lote (o orquestrador tem regra `ask` para push e PR, então
+o Kiro confirma cada um; a pessoa muda para "não — a pessoa abre" → a regra vira `deny`); e, se a verificação chama a
+aplicação por HTTP, o **script de chamada** do verificador `.kiro/sdd/http.sh` (o verificador roda só esse script sem
+perguntar, só contra a URL de teste e com corpo da pasta `massa/`; precisa de `sh` e `curl`; a pessoa pode trocar por
+"nenhum": cada `curl` pede confirmação, e no loop a verificação fica para a sessão dela). A única pergunta aqui é a
+**URL base do ambiente de teste**, quando não está no repositório (`.env.example`, `application-*.yml`, README).
 Nunca uma URL de produção.
 
 ## Passo 7 — Hook e workflows (opcionais)
 
-Ofereça um de cada vez, com o que faz e o custo, conforme [references/automacoes.md](references/automacoes.md):
-o hook `sdd-backpressure` e as receitas de Kiro Workflows — e diga quem dispara as receitas (a pessoa, no chat do
-Kiro; nenhum agente as dispara). Os dois exigem a IDE ou a engine V3 do `kiro-cli`. Recusado → não instale.
+Padrões aplicados, conforme [references/automacoes.md](references/automacoes.md): hook `sdd-backpressure` **ligado**
+quando há comandos de compilar e testar; receitas de Kiro Workflows **instaladas** só quando o recurso já está
+habilitado (`kiroAgent.workflows.enabled` ou `chat.enableWorkflows`), senão de fora. Na tabela, diga quem dispara as
+receitas (a pessoa, no chat do Kiro; nenhum agente as dispara) e que os dois exigem a IDE ou a engine V3 do
+`kiro-cli`. A pessoa tira um da tabela → não instale.
 
 ## Passo 8 — Montar, mostrar, gravar
 

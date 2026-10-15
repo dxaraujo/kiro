@@ -24,7 +24,7 @@ UUID novo: `uuidgen` ou `python3 -c "import uuid; print(uuid.uuid4())"`):
 
 ## Introduction
 FT-<nnn> — <título>. <O comportamento que esta fatia entrega, em 2–3 frases.>
-Épico: EP-<nn> · PRD: `<caminho>` · ELM: HF <id>, REG <id> · Fora de escopo: <lista curta>
+Épico: <EP-<nn> | — (sem épico)> · PRD ou ficha: `<caminho>` · ELM: HF <id>, REG <id> · Fora de escopo: <lista curta>
 
 ## Glossary
 - **Sistema_Login**: <o componente que responde pelos critérios — termo usado nos critérios EARS>
@@ -48,7 +48,8 @@ FT-<nnn> — <título>. <O comportamento que esta fatia entrega, em 2–3 frases
   `SE <condição indesejada>, ENTÃO O <Sistema> DEVE …` · `ONDE <variação opcional>, O <Sistema> DEVE …` ·
   sem gatilho: `O <Sistema> DEVE …`. O `<Sistema>` é um termo do Glossary.
 - Um requisito por grupo de cenários da fatia; critérios numerados `N.M`, citados pelo `tasks.md`.
-- Só o que a fatia cobre (`cobre` no backlog). Nada de regra que não esteja no PRD/ELM/`decisoes.md`.
+- Só o que a fatia cobre (`cobre` no backlog, ou os `C<n>` da ficha). Nada de regra que não esteja no
+  PRD/ELM/`decisoes.md`/ficha.
 
 ## `bugfix.md` (trilha rápida — defeito)
 

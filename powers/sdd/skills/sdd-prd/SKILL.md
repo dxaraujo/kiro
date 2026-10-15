@@ -38,7 +38,8 @@ Leia antes: `.kiro/steering/sdd.md` (ELM, caminhos, papéis) e o steering de pro
    - glossário e ADRs (caminhos na seção Projeto do `sdd.md`): termos e decisões que já valem.
    Registre o que achou como fontes (id ELM, `arquivo:linha`).
 3. Defina o id: o `EP-<nn>` que a `sdd-triar` registrou (linha `rascunho` com `prd` `—`); sem registro, a demanda
-   não passou pela triagem → carregue a `sdd-triar` antes. Pasta: `<produto>/epicos/<EP>-<slug>/` (`slug` em kebab-case, sem acento).
+   não passou pela triagem → carregue a `sdd-triar` antes. Pasta: `<produto>/epicos/<EP>-<slug>/` (`slug` em kebab-case, sem
+   acento); na linha do épico, `prd` = o link do `prd.md`.
 4. **Registre o épico no EWM já agora**, se a coluna `elm` dele está `—` ou `pendente` (projeto com ELM): `sdd-elm` modo *backlog*, só o épico (`[EP-nn]
    <título>`, descrição = o problema), com confirmação; o id vai para a coluna `elm` do `backlog.md`. Assim o pai
    existe para a `[ESP]` do planejamento e para os IBs das fatias. Sem MCP → `ELM pendente: épico EP-nn` no rodapé

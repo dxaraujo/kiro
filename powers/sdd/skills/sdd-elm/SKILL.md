@@ -157,7 +157,7 @@ seções do `sprint-<nn>.md` (fatias com responsável, revisor e verificador; es
    (`com.ibm.team.apt.plantype.default`: as tarefas). Faltou algum (ou a iteração) → crie pela `elm-setup`
    (`ccm_create_iteration` / `ccm_create_iteration_plan`; exige a permissão de modificar iterações — se falhar,
    peça a quem administra a PA).
-2. Fatias sem IB e épicos com `elm` `pendente` → modo backlog primeiro (a `[ESP]` nunca nasce sem pai). Para cada IB da sprint: `plannedFor` = iteração (o responsável
+2. Fatias sem IB e épicos com `elm` `pendente` ou `—` (projeto com ELM) → modo backlog primeiro (a `[ESP]` nunca nasce sem pai). Para cada IB da sprint: `plannedFor` = iteração (o responsável
    continua o P.O.).
 3. **Tarefas**, com os títulos da linha "Tarefas" do `sdd.md`, responsável, estimativa em horas e `plannedFor` =
    iteração:

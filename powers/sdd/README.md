@@ -153,7 +153,8 @@ e registra a pendência.
    na FT-031"** (`sdd-iniciar`), **"corrigir o defeito 4567"** (registra pela triagem, se preciso, e começa) — ou
    **"onde parei?"**.
 
-Depois de atualizar o power ou um toolkit: "atualizar os agentes do sdd". Projeto configurado com o power
+Depois de atualizar o power ou um toolkit: "atualizar os agentes do sdd" — na 2.3.0 é obrigatório: o
+`sdd-produto` passa a carregar a `sdd-triar`, por onde entra toda demanda. Projeto configurado com o power
 `sdd2` ou com a v1 do `sdd`: desinstale o power antigo, instale este e peça "atualizar a configuração do sdd" — a
 setup pergunta a pasta do produto, junta os steerings num só, renomeia hooks, workflows e agentes e move
 `.kiro/produto/` e `.kiro/aprendizado/` com `git mv`.

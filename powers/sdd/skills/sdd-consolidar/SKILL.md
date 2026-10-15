@@ -14,7 +14,9 @@ fica valendo é a documentação oficial no ELM — e ela tem de descrever o que
 distância entre os dois.
 
 Entrada: fatia em `pr-aberto` cujo PR foi **mergeado** (confira: `git branch -r --merged origin/<base>` ou a
-ferramenta de PR; não mergeado → pare).
+ferramenta de PR; não mergeado → pare). Tudo aqui é gravado na **base**: confirmado o merge, "Troco para
+`<base>`? (sim)" e `git pull --ff-only` (alterações locais não commitadas → avise e pare; nunca ofereça descartar,
+`stash` ou `reset`).
 
 Trilha direta: só as *horas* e o *backlog* do Passo 2 e o Passo 4 — não há plano nem cenário para conferir.
 
@@ -43,7 +45,7 @@ Pela **`sdd-elm`**, numa confirmação só:
 - *especificação técnica* — se o projeto publica ET: gerar a ET **as-built** da fatia a partir do `design.md` e do
   código final (interfaces, dados, integrações) e publicar;
 - *testes* — `CT.csv` pronto para importar no ETM; após a importação, links "valida" com as histórias;
-- *horas* — o merge conclui a `[DEV]` e a `[REV]`: pergunte as horas de cada uma (descontando o já lançado) e
+- *horas* — o merge conclui a `[DEV]` e a `[REV]` (direta: só a `[DEV]`): pergunte as horas de cada uma (descontando o já lançado) e
   lance pela `sdd-elm` modo *horas*. O EWM só aceita horas do responsável: a tarefa de outra pessoa fica com
   `ELM pendente: lançar <h>h em [REV] FT-nnn (<login>)`, que ela lança na sessão dela ("lança 2h na REV da
   FT-031");
@@ -70,9 +72,10 @@ Bundle do ELM no repositório (`rm.download.path`) → sugira rodar a `elm-sync`
 
 ## Passo 4 — Fechar
 
-- Na **base** (`git switch <base>` + `git pull --ff-only`; direto ou por PR curto, conforme "Artefatos de produto"
+- Na **base** (já nela desde a Entrada; direto ou por PR curto, conforme "Artefatos de produto"
   no `sdd.md` — várias fatias podem ir no mesmo PR de consolidação): `status.md` da fatia com
-  `fase: concluida` e data; `backlog.md` com `status: concluida` e `concluida-em`; ADRs e glossário do Passo 3.
+  `fase: concluida` e data; `backlog.md` com `status: concluida`, `concluida-em` e os ids de tarefa do campo ELM
+  do `status.md` que a coluna `elm` ainda não tem; ADRs e glossário do Passo 3.
 - Todas as fatias do épico concluídas → épico `concluido` (PRD e backlog).
 - **`sdd-aprender`** modo registrar para cada correção humana da fatia (achados da revisão que chegaram à pessoa,
   verificações rejeitadas, mudanças pedidas no PR) — e modo retrospectiva se a pessoa quiser.

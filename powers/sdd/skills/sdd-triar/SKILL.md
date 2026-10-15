@@ -1,6 +1,6 @@
 ---
 name: sdd-triar
-description: "Entrada de todo trabalho novo no fluxo sdd — recebe um pedido em texto, um item do EWM (defeito, item de backlog — com o power elm) ou um lote de itens do EWM, procura duplicados e faz a triagem pelo tamanho: épico quando tem várias histórias ou decisão de produto em aberto; padrão para uma fatia com regra de negócio clara, sem épico, com uma ficha (regras e cenários) aprovada pelo P.O.; rápida para defeito ou ajuste ≤ 1 dia sem regra nova; direta quando o diff cabe numa frase; atendimento quando o cliente pede consulta ou extração sem mudar o repositório. Registra no backlog.md da base (épico EP-nn em rascunho ou fatia sem épico; EWM com confirmação) e não começa nada: no fim pergunta se começa agora (sdd-iniciar) ou fica para o planejamento. Use em \"nova demanda\", \"chegou um pedido\", \"o cliente pediu\", \"nova funcionalidade\", \"registra o defeito 4567\", \"coloca no backlog\", \"triagem\", \"importar do EWM\", \"triar os defeitos do time\"."
+description: "Entrada de todo trabalho novo no fluxo sdd — recebe um pedido em texto, um item do EWM (defeito, item de backlog — com o power elm) ou um lote de itens do EWM, procura duplicados e faz a triagem pelo tamanho: épico quando tem várias histórias ou decisão de produto em aberto; padrão para uma fatia com regra de negócio clara, sem épico, com uma ficha (regras e cenários) aprovada pelo P.O.; rápida para defeito ou ajuste ≤ 1 dia sem regra nova; direta quando o diff cabe numa frase; atendimento quando o cliente pede consulta ou extração sem mudar o repositório. Registra no backlog.md da base (épico EP-nn em rascunho ou fatia sem épico; EWM com confirmação) e não começa nada: no fim pergunta se começa agora (sdd-iniciar) ou fica para o planejamento. Use em \"nova demanda\", \"chegou um pedido\", \"o cliente pediu\", \"nova funcionalidade\", \"registra o defeito 4567\", \"coloca no backlog\", \"triagem\", \"aprova a ficha da FT-040\", \"importar do EWM\", \"triar os defeitos do time\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -23,6 +23,10 @@ Ficha da fatia sem épico: [references/ficha.md](references/ficha.md).
 
 ## Passo 1 — O que chegou
 
+**Antes de tudo** — a triagem lê e escreve na base: fora dela → "Troco para `<base>` para triar? (sim)" e, no fim,
+ofereça voltar à branch anterior; depois `git pull --ff-only`. Alterações locais não commitadas → avise e pare;
+nunca ofereça descartar, `stash` ou `reset`.
+
 | Entrada | Como ler |
 |---|---|
 | pedido em texto ("nova demanda: …", "corrigir o cálculo de juros") | a própria descrição |
@@ -31,9 +35,15 @@ Ficha da fatia sem épico: [references/ficha.md](references/ficha.md).
 | pedido de cliente sem mudança no repositório ("extrai as contas bloqueadas", "por que o caso X deu Y?") | trilha atendimento (Passo 2) |
 
 **Já existe?** Antes de triar, procure no `backlog.md` da base (ids `FT`/`EP`, colunas `origem` e `elm`, títulos
-parecidos) e nos `status.md` das branches (`git grep -l '<id>' <ref> -- '.kiro/specs/*/status.md'`). Achou →
-mostre a linha e pare: começar ou retomar é na **`sdd-iniciar`**; mudar uma fatia de épico é refinamento na
-**`sdd-fatiar`**.
+parecidos), no `**Origem:**` dos `<produto>/atendimentos/AT-*.md` e nos `status.md` das branches
+(`git grep -l '<id>' <ref> -- '.kiro/specs/*/status.md'`). Achou → mostre a linha e:
+- **fatia sem épico que volta para cá** — `backlog` com `falta:`, ficha em `rascunho` ou a aprovar, mudança na
+  ficha (pedida pela pessoa ou devolvida pela `sdd-plano` ou pela `sdd-consolidar`) ou trilha que não serve
+  (devolvida pela `sdd-iniciar` ou pela `sdd-implementar`) → **retome a triagem dela**: Passo 2 com o mesmo `FT` e
+  a ficha que existe; no Passo 3, só atualize a linha (sem id novo). Virou épico → `EP-nn` novo e a fatia
+  `cancelada`, com `obs` `substituida-por EP-nn`;
+- o resto → pare: começar ou retomar é na **`sdd-iniciar`**; mudar uma fatia de épico é refinamento na
+  **`sdd-fatiar`**.
 
 ## Passo 2 — Triagem
 
@@ -49,25 +59,26 @@ mostre a linha e pare: começar ou retomar é na **`sdd-iniciar`**; mudar uma fa
 - Diga a trilha e o motivo numa linha; dúvida entre duas → sim/não pela mais leve. Padrão que precisaria de mais de
   ~3 cenários de comportamentos diferentes, ou de mais de uma regra nova independente → é épico.
 - **Padrão:** rodadas da `sdd-entrevistar` até as regras e os cenários fecharem, gravando na seção Decisões da
-  ficha; regra nova ou alterada → **`sdd-elm` modo *similares*** (só leitura) antes de escrevê-la; no fim, o P.O.
+  ficha (ela nasce aqui, com o próximo `FT-nnn` de "Próximos ids"); regra nova ou alterada → **`sdd-elm` modo *similares*** (só leitura) antes de escrevê-la; no fim, o P.O.
   aprova a ficha. Sem a aprovação, a fatia fica `backlog` com `falta: aprovação do P.O.`.
 - **Rápida e direta:** falta informação (o comportamento esperado, onde acontece, como reproduzir) → **uma** rodada
   no formato da `sdd-entrevistar` (numerada, cada pergunta com a recomendação, "sim" aceita todas).
 - Fatos o agente busca (código, bundle do ELM, banco só leitura); decisões são da pessoa.
 - **Não fazer** (já entregue, fora do produto, recusado pelo P.O.) → nada no backlog; item do EWM → ofereça um
-  comentário com o motivo (`add_comment_to_workitem`, com "sim"); fechar o item é do P.O., na UI.
+  comentário `sdd: não fazer — <motivo>` (`add_comment_to_workitem`, com "sim"), que o tira dos próximos lotes;
+  fechar o item é do P.O., na UI.
 
 ## Passo 3 — Registrar (na base)
 
-Antes de gravar: `git switch <base>` e `git pull --ff-only`. Alterações locais não commitadas → avise e pare; nunca
-ofereça descartar, `stash` ou `reset`. Backlog ainda com a seção antiga `## Fatias — trilha rápida` → renomeie-a
+Grava-se na base, conferida no Passo 1. Backlog ainda com a seção antiga `## Fatias — trilha rápida` → renomeie-a
 para `## Fatias — sem épico` e acrescente as colunas `trilha` (`rápida` nas linhas que já existem) e `ficha` (`—`),
 no mesmo commit.
 
 - **Épico:** próximo `EP-nn` de "Próximos ids"; linha em `## Épicos` com `status` `rascunho`, prioridade `—` (quem
   prioriza é o planejamento) e `prd` `—`. Com ELM: **`sdd-elm` modo *backlog***, só o épico (`[EP-nn] <título>`,
   descrição = o problema), com confirmação; o id vai para a coluna `elm`. Veio de um item do EWM: se ele já é do
-  tipo de épico do `sdd.md`, ele é o épico (grave o id, sem criar outro); senão o épico é criado e o item de origem
+  tipo de épico do `sdd.md`, ele é o épico (grave o id, sem criar outro) — quando esse tipo é o mesmo do item
+  (Item de Backlog pai), pergunte se ele vira o épico ou o filho; senão o épico é criado e o item de origem
   vira filho dele, na mesma confirmação. Sem o MCP → `elm` = `pendente` (a `sdd-prd` ou o planejamento registram
   depois).
 - **Fatia sem épico** (padrão, rápida, direta): próximo `FT-nnn`; linha em `## Fatias — sem épico` com:
@@ -89,7 +100,8 @@ no mesmo commit.
 
 Atualize "Próximos ids" e faça um commit pequeno com o `backlog.md` e a ficha (padrão de commit do `sdd.md`); push ou
 PR curto com o "sim" da pessoa, como diz "Artefatos de produto" no `sdd.md`. **Conflito de id** no push (outra
-pessoa registrou o mesmo número antes): mantenha o remoto, pegue o próximo id livre para a sua linha (e para o nome
+pessoa registrou o mesmo número antes): o agente não faz merge nem rebase — peça à pessoa `git pull --rebase`; no
+conflito do `backlog.md`, mantenha o remoto, pegue o próximo id livre para a sua linha (e para o nome
 da ficha) e, se o item já foi criado no EWM, troque o `[FT-nnn]`/`[EP-nn]` do título (`ccm_update_workitem`, com
 "sim"). Id que ainda não chegou à base pode mudar; o que já chegou, nunca.
 
@@ -117,8 +129,10 @@ importação precisa do MCP e pare.
 
 1. **Filtro**, com padrão e uma confirmação: time do `pa_*.json` (vários → pergunte qual), tipos Defeito e Item de
    Backlog, estado `Novo` (o nome do estado inicial na PA; a pessoa troca). `ccm_list_workitems` por tipo.
-2. **Fora do lote:** item cujo id já está no `backlog.md` (colunas `origem` e `elm`), item criado pelo próprio
-   fluxo (título com `[EP-`, `[FT-`, `[SUS-`, `[ESP]`, `[DEV]`, `[REV]`, `[VER]`, `[ATD]`) e tarefas. Mais de 15
+2. **Fora do lote:** item cujo id já está no `backlog.md` (colunas `origem` e `elm`) ou no `**Origem:**` de um
+   `<produto>/atendimentos/AT-*.md`, item criado pelo próprio fluxo (título com `[EP-`, `[FT-`, `[SUS-`, `[ESP]`,
+   `[DEV]`, `[REV]`, `[VER]`, `[ATD]`), tarefas e, depois de ler o item (item 3), o que tem pai do fluxo (`[EP-`,
+   `[SUS-`) ou o comentário `sdd: não fazer`. Mais de 15
    itens → mostre a contagem e peça um filtro mais fino.
 3. Leia cada item (`ccm_get_workitem`, com descrição e comentários) e proponha a triagem numa tabela, com **uma
    confirmação para o lote**:
@@ -135,7 +149,8 @@ importação precisa do MCP e pare.
    ```
 4. Com "sim": o Passo 3 para cada linha, com um commit para o lote e o EWM numa confirmação só (`sdd-elm`). Padrão
    no lote → ficha em `rascunho` só com o Pedido e `falta: regras, cenários e aprovação do P.O.` (a entrevista é uma
-   a uma, depois). Atendimentos não são abertos no lote: ficam listados para a `sdd-atender`.
+   a uma, depois). Atendimentos não são abertos no lote: ficam listados para a `sdd-atender`
+   e voltam a cada lote até virarem AT (o `**Origem:**` do AT os tira).
 5. Saída: a tabela com os ids criados e o que ficou pendente.
 
 ## Regras

@@ -12,7 +12,7 @@
 | Responsável | <login \| agente:sdd-orquestrador> |
 | Rodadas | revisão do plano 0 · revisão do código 0 · verificação 0 |
 | PR | — |
-| ELM | <IB <id> \| sem ELM \| pendente> |
+| ELM | <IB <id> · [DEV] <id> · [REV] <id> · [VER] <id> (direta: só [DEV]) \| sem ELM \| pendente> |
 | Banco (DDL) | <não se aplica \| pendente \| aplicada em dev \| aplicada em prod> |
 
 <!-- Fases: pesquisando → planejando → plano-em-revisao → implementando → revisando → verificando → aceita

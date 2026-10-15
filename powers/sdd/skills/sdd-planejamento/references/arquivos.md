@@ -65,7 +65,7 @@ URL abaixo, nunca um caminho local:
 |---|---|
 | Cadência | Scrum, sprints de 2 semanas, fluxo puxado dentro da sprint |
 | Cerimônias | planejamento (seg, 1h) · review (última qui, 30 min) · retrospectiva (última qui, 30 min) |
-| WIP | 1 fatia por sessão de agente · revisão + PR aberto ≤ 2 por revisor · PR parado > 1 dia trava fatia nova |
+| WIP | 1 fatia por sessão de agente · revisão + PR aberto ≤ 2 por revisor · PR parado > 1 dia: destravar antes de fatia nova (exceção fica registrada: `WIP excedido`) |
 | Tamanhos | P (horas) = 2 pts · M (≈ 1 dia) = 3 pts · G (2–3 dias) = 5 pts · maior → dividir |
 | Reserva de atendimento | 20% das horas de quem atende (`atende: true`), recalibrada na virada |
 | Lançamento de horas | Na conclusão de cada tarefa (e sob pedido a qualquer momento); nunca nos GATEs intermediários |

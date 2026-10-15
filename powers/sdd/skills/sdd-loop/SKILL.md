@@ -24,7 +24,9 @@ e pergunte se retoma. Retomar = continuar cada fatia da fase registrada no `stat
 ## Passo 1 — Fronteira e lote
 
 1. Candidatas: as fatias pedidas, ou as `pronta` + `AFK` da sprint atual, em ordem de prioridade. Fatia pedida
-   que não está na sprint aberta → fica de fora até o encaixe (`sdd-planejamento`, seção Encaixe).
+   que não está na sprint aberta → fica de fora até o encaixe (`sdd-planejamento`, seção Encaixe). Kanban
+   (`acordos.md`): não há sprint nem encaixe — vale a `pronta` do topo do backlog, e as `[DEV]` do lote nascem na
+   confirmação (`sdd-elm` modo *sprint*, iteração corrente).
 2. Fica de fora (diga o motivo): HITL; trilha direta (é da sessão da pessoa); Definition of Ready não atendida; `bloqueada-por` não concluída e não
    presente antes no lote; já em andamento com outra pessoa.
 3. **Limite:** paralelismo do `sdd.md` (padrão 1, máximo 3) **e** vagas de WIP de revisão humana (limite

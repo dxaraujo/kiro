@@ -49,6 +49,7 @@ DEPOIS        merge (pessoa) ─► consolidar (drift, ELM as-built, CTs, conclu
 |---|---|---|
 | PRD | P.O. | o quê e o porquê: histórias, cenários, regras, fora de escopo |
 | Backlog | P.O. + time | as fatias: granularidade, dependências, AFK/HITL |
+| Ficha | P.O. | a fatia padrão sem épico: regras e cenários |
 | Plano | dev (de preferência quem vai revisar o PR) | a forma do programa e o contrato de pronto — maior alavanca |
 | PR | quem revisa | o código, lido de verdade, com a evidência de aceite |
 

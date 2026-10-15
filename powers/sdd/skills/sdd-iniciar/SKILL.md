@@ -23,7 +23,8 @@ Leia antes: `.kiro/steering/sdd.md`. Sem ele → ofereça a **`sdd-setup`** ("co
 **Ordem de consulta** para qualquer id (`FT-031`, número do EWM) — vale a primeira fonte que achar, e nunca se
 inventa dado de work item: (1) `status.md` nas branches (atual, worktrees, remotas); (2) o `backlog.md` da base
 (ids locais e as colunas `origem` e `elm`); (3) o EWM pela skill `elm-ccm`, se a sessão tem o power `elm`;
-(4) perguntar à pessoa. A `fase` do `status.md` decide se o papel pode começar.
+(4) perguntar à pessoa. O EWM e a pessoa só completam dados: id que não está em (1) nem (2) não está registrado →
+`sdd-triar`. A `fase` do `status.md` decide se o papel pode começar.
 
 | Entrada | Como ler |
 |---|---|
@@ -64,19 +65,24 @@ o caminho, e não comece.
      modo declarado.
    - Rápida: comportamento esperado claro, sem regra nova, tamanho ≤ M, modo declarado.
    - Direta: o pedido cabe numa frase, sem regra nova, tamanho P.
-   - Falhou → `sdd-entrevistar`, `sdd-fatiar` (refinamento) ou `sdd-triar` (ficha e `falta:` das fatias sem
-     épico).
+   - Falhou → `sdd-entrevistar`, `sdd-fatiar` (refinamento) ou `sdd-triar` (retomar a triagem: ficha e `falta:` das
+     fatias sem épico).
 2. **Responsável.** A coluna `responsavel` do `backlog.md` é outra pessoa → pergunte se ela sabe; trocar é do
    planejamento, não grave aqui.
 3. **Sprint.** Nada começa sem item planejado, nem a direta: é na tarefa da sprint que as horas são lançadas. A
    fatia está na sprint aberta (`sprint` do `backlog.md` = a do `sprint-<nn>.md` com `**Situação:** aberta`)? Não
    está → **Encaixe**: a decisão é do P.O., pela **`sdd-planejamento`** (seção Encaixe);
    sem a decisão registrada, não comece. Kanban (`acordos.md`) → não há sprint nem encaixe: a `sdd-elm` modo
-   *sprint* põe as tarefas na iteração corrente do EWM ao começar (Passo 4).
+   *sprint* põe as tarefas na iteração corrente do EWM ao começar (Passo 4). Nenhuma sprint aberta e nada no
+   `acordos.md` (planejamento ainda não feito) → não é encaixe: ofereça a `sdd-planejamento` e não comece.
 4. **WIP** (`<produto>/planejamento/acordos.md`; sem o arquivo, 2 fatias esperando pessoa). Conte as fatias em
    `plano-em-revisao`, `aceita` e `pr-aberto` nos `status.md` das branches, como a `sdd-status`. No limite, ou com PR
    parado há mais tempo que o acordo (padrão 1 dia) → mostre quais e recomende destravar antes (aprovar o plano,
-   revisar o PR). A pessoa pode seguir mesmo assim: grave no Histórico do `status.md` `WIP excedido: <motivo>`.
+   revisar o PR). A pessoa pode seguir mesmo assim: `WIP excedido: <motivo>` vai no Histórico do `status.md` ao
+   criá-lo (Passo 4).
+5. **Registro publicado.** A linha da fatia, a ficha e o encaixe já estão em `origin/<base>`
+   (`git grep -q '<FT>' origin/<base> -- <produto>/backlog.md`)? Só no local → peça o push (ou o merge do PR curto)
+   antes: a branch nasce de `origin/<base>`, e um id que ainda não chegou lá pode mudar.
 
 ## Passo 4 — Pasta, branch e item
 
@@ -103,7 +109,9 @@ o caminho, e não comece.
    | sem épico, com item de origem (DF, IB) | `[DEV]` `[REV]` `[VER]` — direta: só a `[DEV]` | o próprio item de origem — **sem IB novo** |
    | sem épico, pedido em texto | `[DEV]` `[REV]` `[VER]` — direta: só a `[DEV]` | IB `[FT-nnn]`, filho do épico de Sustentação — direta: o épico de Sustentação |
 
-   Sem o MCP: `ELM pendente` no `status.md`.
+   Grave os ids das tarefas no campo ELM do `status.md` — é por ele que as horas acham a tarefa. Chamada daqui, na
+   branch da fatia, a `sdd-elm` não grava o `backlog.md` nem o `sprint-<nn>.md`: os ids ficam no `status.md`, e a
+   `sdd-consolidar` os leva ao backlog. Sem o MCP: `ELM pendente` no `status.md`.
 5. Commit pequeno do `status.md` e, com "sim", push da branch — é o sinal para o time de que a fatia começou.
 
 ## Passo 5 — Encaminhar

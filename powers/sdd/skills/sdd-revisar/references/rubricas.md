@@ -31,7 +31,7 @@ Fecho: `RESULTADO: PRONTO` ou `RESULTADO: AJUSTAR`.
 |---|---|---|
 | L1 | Todo cenário que a fatia cobre (backlog `cobre`, ou os `C<n>` da ficha da fatia sem épico) tem critério de aceite em `requirements.md`, e nenhum critério sai do que a fatia cobre. Trilha rápida (`cobre` vazio): o `bugfix.md` tem comportamento atual com evidência, esperado com fonte e o que não muda | BLOQUEANTE |
 | L2 | Todo critério (ou item 2.x/3.x do `bugfix.md`) tem ao menos uma tarefa no `tasks.md` (`_Requirements: N.M_`); bugfix começa pelo teste da condição do defeito e pelos testes de preservação | BLOQUEANTE |
-| L3 | Nenhuma regra de negócio que não esteja no PRD/ELM ou no `decisoes.md` | BLOQUEANTE |
+| L3 | Nenhuma regra de negócio que não esteja no PRD/ELM, no `decisoes.md` ou na ficha da fatia sem épico (Regras e Decisões) | BLOQUEANTE |
 | L4 | Os caminhos, classes e análogos citados existem (conferir com `glob`/`read`) — ou estão marcados "a criar" | BLOQUEANTE |
 | L5 | O design segue o steering de tecnologia/estrutura, as regras críticas do `sdd.md` e as lições promovidas | BLOQUEANTE |
 | L6 | Tarefas em ciclo de teste: cada comportamento começa por um teste que falha; corretiva começa pelo teste que reproduz o defeito | IMPORTANTE |
@@ -41,7 +41,8 @@ Fecho: `RESULTADO: PRONTO` ou `RESULTADO: AJUSTAR`.
 | L10 | Nada fora do escopo da fatia (arquivos, refatorações oportunistas) | IMPORTANTE |
 
 Fecho: `ANALISE: OK` ou `ANALISE: AJUSTAR`. Em cada achado diga se a falta é **do plano** (o codificador corrige)
-ou **do PRD** (cenário ausente, regra contraditória → volta para o P.O. pela `sdd-prd`).
+ou **do PRD ou da ficha** (cenário ausente, regra contraditória → volta para o P.O. pela `sdd-prd`; na fatia sem
+épico, pela `sdd-triar`).
 
 ## C — Código da fatia (diff contra a branch base)
 

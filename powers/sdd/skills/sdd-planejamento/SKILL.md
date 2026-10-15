@@ -35,8 +35,8 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
    - cadência: **Scrum** (sprints de N semanas, cerimônias, iteração no EWM) ou **Kanban** (fluxo contínuo,
      revisão de backlog semanal); padrão: sprints de 2 semanas com fluxo puxado dentro da sprint;
    - **WIP:** uma fatia por sessão de agente; fatias esperando pessoa (`plano-em-revisao` + `aceita` +
-     `pr-aberto`) ≤ capacidade de revisão (ex.: 2 por revisor); nenhuma fatia nova começa com PR parado há mais de
-     1 dia;
+     `pr-aberto`) ≤ capacidade de revisão (ex.: 2 por revisor); PR parado há mais de 1 dia → recomendar destravá-lo
+     antes de começar fatia nova (seguir mesmo assim fica registrado: `WIP excedido`);
    - **Definition of Ready** e **Definition of Done** (padrão no `arquivos.md`);
    - tamanho: `P`/`M`/`G` e a tabela de pontos (padrão `2/3/5`);
    - **reserva de atendimento** (padrão 20% das horas de quem atende) e **lançamento de horas** (na conclusão de
@@ -55,7 +55,8 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
    - **reserva de atendimento**: o percentual do `acordos.md` sobre as horas de quem atende, descontado antes de
      selecionar fatias.
 2. **Especificação:** épicos que entram em entrevista, PRD ou fatiamento nesta sprint (do `roadmap.md`, os "a
-   descobrir" do topo), um `[ESP]` por épico, com responsável e horas previstas dentro da capacidade de
+   descobrir" do topo, e os `EP` em `rascunho` com `prd` `—` do `backlog.md` que o roadmap ainda não tem —
+   proponha a posição deles), um `[ESP]` por épico, com responsável e horas previstas dentro da capacidade de
    especificação.
 3. **Seleção:** confira a Definition of Ready das fatias do topo e grave `pronta` nas que passam (ou `backlog`
    nas que deixaram de passar). Entram as `pronta` — de épico e sem épico, inclusive as diretas (toda hora tem
@@ -96,9 +97,12 @@ capacidade (revisão, vazão, HITL) e as opções, com a recomendada:
 - **entra no lugar de** `FT-…` — uma ainda não iniciada, que volta para `sprint` `—`;
 - **fica para a próxima sprint**.
 
-Com a decisão do P.O. (ou de quem ele delegou): `sprint` e `responsavel` no `backlog.md`, uma linha no
+Com a decisão do P.O. (ou de quem ele delegou): `sprint` e `responsavel` no `backlog.md` (e revisor e verificador,
+que não sejam quem implementa — as `[REV]`/`[VER]` precisam deles), uma linha no
 `sprint-<nn>.md` com a Observação `encaixe: <decisão> (<quem decidiu>, <data>)`, commit na base e a `sdd-elm` modo
-*sprint* para as tarefas da fatia. Sem decisão, a fatia não começa; urgência acelera a decisão, não a dispensa.
+*sprint* para as tarefas da fatia. Na troca, as tarefas da fatia que sai vão
+para a próxima iteração (`sdd-elm`, só o `plannedFor`). Depois, volte à `sdd-iniciar` (Passo 3, item 4). Sem
+decisão, a fatia não começa; urgência acelera a decisão, não a dispensa.
 
 ## Review
 

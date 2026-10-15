@@ -70,7 +70,10 @@ VERIFICACAO: ACEITO | REJEITADO
 ```
 
 - **ACEITO** (todos aceitos) → gere o `CT.csv` (Passo 5), `fase: aceita` no `status.md` e devolva para a
-  `sdd-implementar` abrir o PR (Passo 5 dela).
+  `sdd-implementar` abrir o PR (Passo 5 dela). **Horas da `[VER]`:** pergunte as horas a quem verificou
+  (descontando o já lançado) → `sdd-elm` modo *horas* e *conclusão* na `[VER] FT-nnn`, com confirmação. Sem o MCP
+  nesta sessão (agente `sdd-verificador`) → `ELM pendente: lançar <h>h em [VER] FT-nnn` no Histórico do
+  `status.md`.
 - **REJEITADO** → para cada cenário, esperado × obtido + evidência, registrados no `status.md` como achados;
   `fase: implementando`; a `sdd-implementar` corrige e a verificação roda de novo (só os rejeitados + os de
   repetição). Se o problema é o cenário estar errado no PRD, diga isso: é com o P.O., não com o código.
@@ -88,4 +91,6 @@ pedido direto de uma pessoa, incremente você.
 ## Regras
 
 - Nunca marque aceito sem evidência. Nunca altere código de produção aqui — só massa, fixtures e evidências.
-- Nunca rode contra produção, nem com dado real de pessoa.
+- Nunca rode contra produção, nem com dado real de pessoa. Evidência ou trecho de resposta que traga dado real
+  (homologação com cópia de produção, por exemplo) vai para `.kiro/local/verificacao/<ft>/`, fora do git; no
+  `verificacao.md` ficam a consulta, a contagem, o caminho e um resumo sem identificar pessoas.

@@ -38,7 +38,12 @@ Pela **`sdd-elm`**, numa confirmação só:
 - *especificação técnica* — se o projeto publica ET: gerar a ET **as-built** da fatia a partir do `design.md` e do
   código final (interfaces, dados, integrações) e publicar;
 - *testes* — `CT.csv` pronto para importar no ETM; após a importação, links "valida" com as histórias;
-- *backlog* — concluir as tarefas e o item de backlog da fatia no EWM (estado de conclusão da PA).
+- *horas* — o merge conclui a `[DEV]` e a `[REV]`: pergunte as horas de cada uma (descontando o já lançado) e
+  lance pela `sdd-elm` modo *horas*. O EWM só aceita horas do responsável: a tarefa de outra pessoa fica com
+  `ELM pendente: lançar <h>h em [REV] FT-nnn (<login>)`, que ela lança na sessão dela ("lança 2h na REV da
+  FT-031");
+- *backlog* — concluir as tarefas e o item de backlog da fatia no EWM (estado de conclusão da PA). Tarefa
+  concluída sem horas não trava: a virada aponta.
 
 Sem o MCP `elm` nesta sessão → `ELM pendente: <ação>` no Histórico do `status.md`; o `sdd-status` lista as
 pendências até alguém fazê-las numa sessão com o power.

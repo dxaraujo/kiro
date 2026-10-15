@@ -73,11 +73,16 @@ Ajuste e repita até "ok". Esse "ok" é o **GATE do backlog** (P.O. ou time no r
    `backlog` com o que falta. Ids `FT-<nnn>` sequenciais no projeto, **nunca reaproveitados**.
 2. PRD: `status: fatiado`.
 3. Commit (padrão do `sdd.md`): `backlog.md`, `prd.md`.
+4. **Horas da `[ESP]`** (com ELM): o GATE do backlog conclui a especificação do épico — pergunte as horas de quem
+   especificou, descontando o já lançado, e chame a `sdd-elm` modo *horas* (lançar) e modo *conclusão* na
+   `[ESP] EP-nn`, com confirmação. Especificação que continua (refinamento na próxima sprint) → não conclui; a
+   virada só muda o `plannedFor`. Sem MCP → `ELM pendente: lançar <h>h em [ESP] EP-nn` no rodapé do PRD.
 
 ## Passo 4 — Próximos passos (na mesma resposta)
 
 - Com ELM: **`sdd-elm`** modo *backlog* — cria o épico (se ainda não existe no EWM) e um item de backlog por fatia,
-  ligados às histórias do DOORS Next ("implementa") e ao épico (pai), **sem iteração** (backlog do produto).
+  ligados às histórias do DOORS Next ("implementa") e ao épico (pai), com os critérios de aceite de cada fatia;
+  `Planejado para` = a iteração que a pessoa indicar (no backlog do produto, a da entrega ou release).
 - **`sdd-planejamento`** — encaixar as fatias na sprint (ou no fluxo Kanban).
 - Para começar uma fatia já: "vamos trabalhar na FT-031" (`sdd-iniciar`).
 

@@ -25,7 +25,8 @@ nunca se inventa dado de work item: (1) `status.md` nas branches (atual, worktre
 | Entrada | Como ler |
 |---|---|
 | `FT-nnn` | `<produto>/backlog.md` (+ PRD do épico) |
-| `EP-nn` ou "nova demanda" | é trabalho de produto → **`sdd-prd`** (ou `sdd-fatiar`, se o PRD já está aprovado) |
+| `EP-nn` (épico já registrado) | é trabalho de produto → **`sdd-prd`** (ou `sdd-fatiar`, se o PRD já está aprovado) |
+| "nova demanda: <texto>" | é um pedido em texto → **triagem** (Passo 2): épico → `sdd-prd` (que registra o `EP-nn` no `backlog.md` e no EWM); rápida, direta ou atendimento → a trilha dela |
 | número do EWM (IB, DF, tarefa) | skill `elm-ccm` do power `elm`; o item pode já estar no `backlog.md` (coluna `elm`) — procure primeiro lá |
 | texto ("corrigir o cálculo de juros") | a própria descrição; pergunte só o que faltar para a triagem |
 | pedido de cliente sem mudança no repositório ("extrai as contas bloqueadas", "por que o caso X deu Y?") | trilha **atendimento** → **`sdd-atender`** |

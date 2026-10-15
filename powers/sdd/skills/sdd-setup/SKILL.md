@@ -291,7 +291,8 @@ cada arquivo gravado em `.kiro/agents/`, `.kiro/hooks/` e `.kiro/workflows/` —
 Sugira o commit (`.kiro/steering/sdd.md`, `.kiro/agents/sdd-*.json`, `.kiro/hooks/`, `.kiro/workflows/`,
 `.kiro/sdd/`, `<produto>/`, `.gitignore` e o que a migração moveu ou removeu) — só com confirmação — e termine
 com o próximo passo:
-"nova demanda" (`sdd-prd`), "vamos trabalhar na <id>" (`sdd-iniciar`) ou "onde parei?" (`sdd-status`).
+"nova demanda: …" (`sdd-iniciar`: faz a triagem e, se for épico, segue para a `sdd-prd`), "vamos trabalhar na <id>"
+(`sdd-iniciar`) ou "onde parei?" (`sdd-status`).
 
 ## Regras
 

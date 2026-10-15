@@ -146,7 +146,7 @@ e registra a pendência.
 
 1. Instale pelo painel **Powers** do Kiro (pasta `sdd` deste repositório ou uma cópia local).
 2. No projeto, peça **"configurar o sdd"** e responda às perguntas (uma por vez).
-3. Comece: **"nova demanda: …"** (épico → PRD), **"vamos trabalhar na FT-031"** (fatia), **"corrigir o defeito
+3. Comece: **"nova demanda: …"** (a `sdd-iniciar` faz a triagem; épico → PRD), **"vamos trabalhar na FT-031"** (fatia), **"corrigir o defeito
    4567"** (trilha rápida) — ou **"onde parei?"**.
 
 Depois de atualizar o power ou um toolkit: "atualizar os agentes do sdd". Projeto configurado com o power

@@ -4,7 +4,7 @@ description: "Fecha uma fatia do fluxo sdd depois do merge do PR — confere que
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.3.0"
+  version: "2.4.0"
 ---
 
 # sdd-consolidar — Documentação viva depois do merge
@@ -45,10 +45,12 @@ Pela **`sdd-elm`**, numa confirmação só:
 - *especificação técnica* — se o projeto publica ET: gerar a ET **as-built** da fatia a partir do `design.md` e do
   código final (interfaces, dados, integrações) e publicar;
 - *testes* — `CT.csv` pronto para importar no ETM; após a importação, links "valida" com as histórias;
-- *horas* — o merge conclui a `[DEV]` e a `[REV]` (direta: só a `[DEV]`): pergunte as horas de cada uma (descontando o já lançado) e
-  lance pela `sdd-elm` modo *horas*. O EWM só aceita horas do responsável: a tarefa de outra pessoa fica com
-  `ELM pendente: lançar <h>h em [REV] FT-nnn (<login>)`, que ela lança na sessão dela ("lança 2h na REV da
-  FT-031");
+- *horas* — o merge conclui a `[DEV]`, a `[REV]` e a `[VER]` (direta: só a `[DEV]`): pergunte as horas de cada
+  uma (descontando o já lançado) e lance pela `sdd-elm` modo *horas*. A `[VER]` tem as horas já lançadas
+  pelo `sdd-verificar` — verifique no `status.md` o campo `ELM: horas lançadas em [VER]` e conclua a tarefa
+  (modo *conclusão*) sem relançar; se o campo estiver como `ELM pendente`, lance as horas primeiro. O EWM
+  só aceita horas do responsável: a tarefa de outra pessoa fica com `ELM pendente: lançar <h>h em [REV|VER]
+  FT-nnn (<login>)`, que ela lança na sessão dela ("lança 2h na REV da FT-031");
 - *backlog* — concluir as tarefas e o item de backlog da fatia no EWM (estado de conclusão da PA). Tarefa
   concluída sem horas não trava: a virada aponta.
 

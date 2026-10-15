@@ -4,7 +4,7 @@ description: "Planeja uma fatia do fluxo sdd no formato de spec do Kiro — pesq
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.3.0"
+  version: "2.4.0"
 ---
 
 # sdd-plano — Decidir o como antes de codar
@@ -61,7 +61,8 @@ Incremente "revisão do plano" em Rodadas. Peça ao agente **`sdd-revisor`** (su
 ([../sdd-revisar/references/rubricas.md](../sdd-revisar/references/rubricas.md)) — passe só a pasta da fatia e a
 rodada; ele grava o `analise-plano-<N>.md`. Sem subagente disponível (agente sem essa ferramenta, passo de workflow)
 → pare e devolva a quem chamou: "plano pronto para análise".
-- `ANALISE: OK` → Passo 5.
+- `ANALISE: OK` → commite o `analise-plano-<N>.md` imediatamente (`FT-<nnn> registrar análise do plano <N>`)
+  antes de seguir para o Passo 5. O GATE e a implementação citam esse arquivo; ele precisa estar na branch.
 - `AJUSTAR`: falta **do plano** → corrija e peça nova análise (até 2 rodadas); falta **do PRD** → Passo 2.
 
 ## Passo 5 — GATE do plano

@@ -4,7 +4,7 @@ description: "Verificação de aceite de uma fatia do fluxo sdd — executa de p
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.3.0"
+  version: "2.4.0"
 ---
 
 # sdd-verificar — O comportamento existe de verdade?
@@ -75,9 +75,11 @@ VERIFICACAO: ACEITO | REJEITADO
 
 - **ACEITO** (todos aceitos) → gere o `CT.csv` (Passo 5), `fase: aceita` no `status.md` e devolva para a
   `sdd-implementar` abrir o PR (Passo 5 dela). **Horas da `[VER]`:** pergunte as horas a quem verificou
-  (descontando o já lançado) → `sdd-elm` modo *horas* e *conclusão* na `[VER] FT-nnn`, com confirmação. Sem o MCP
-  nesta sessão (agente `sdd-verificador`) → `ELM pendente: lançar <h>h em [VER] FT-nnn` no Histórico do
-  `status.md`.
+  (descontando o já lançado) → `sdd-elm` modo *horas* na `[VER] FT-nnn`, com confirmação — **lance as horas mas
+  não conclua a tarefa aqui**: a `[VER]` é concluída pelo `sdd-consolidar` após o merge, junto com `[DEV]` e
+  `[REV]` (mudança pedida no PR reabre a verificação, e a tarefa precisa estar aberta). Registre no `status.md`:
+  `ELM: horas lançadas em [VER] FT-nnn · conclusão: pendente (merge)`. Sem o MCP nesta sessão (agente
+  `sdd-verificador`) → `ELM pendente: lançar <h>h em [VER] FT-nnn` no Histórico do `status.md`.
 - **REJEITADO** → para cada cenário, esperado × obtido + evidência, registrados no `status.md` como achados;
   `fase: implementando`; a `sdd-implementar` corrige e a verificação roda de novo (só os rejeitados + os de
   repetição). Se o problema é o cenário estar errado no PRD, diga isso: é com o P.O., não com o código.

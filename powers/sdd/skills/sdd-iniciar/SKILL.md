@@ -4,7 +4,7 @@ description: "Começa ou retoma, no fluxo sdd, um trabalho já registrado no bac
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.3.0"
+  version: "2.4.0"
 ---
 
 # sdd-iniciar — Compromisso e início
@@ -29,10 +29,18 @@ inventa dado de work item: (1) `status.md` nas branches (atual, worktrees, remot
 | Entrada | Como ler |
 |---|---|
 | `FT-nnn` | `<produto>/backlog.md` (+ o PRD do épico ou a ficha da fatia sem épico) |
-| número do EWM (DF, IB, tarefa) | a linha do `backlog.md` com esse id em `origem` ou `elm`; tarefa `[DEV]`/`[REV]`/`[VER]` → a fatia do pai |
+| número do EWM (DF, IB) | a linha do `backlog.md` com esse id em `origem` ou `elm` |
+| tarefa `[DEV] FT-nnn` | a fatia do pai → fluxo normal de início/retomada |
+| tarefa `[REV] FT-nnn` (recebida por esta pessoa) | identifica a fatia pai → assume `[REV]` no EWM (responsável = `whoami`, inicia) com "sim" → encaminha para **`sdd-revisar`** (rubrica C), passando: fatia, pasta spec, branch, rodada atual (lida do `status.md`) |
+| tarefa `[VER] FT-nnn` (recebida por esta pessoa) | identifica a fatia pai → assume `[VER]` no EWM (responsável = `whoami`, inicia) com "sim" → encaminha para **`sdd-verificar`**, passando: fatia, pasta spec, branch |
 | "próxima fatia" | a `pronta` de maior prioridade da sprint aberta sem `status.md` em nenhuma branch (no Kanban, a do topo do backlog) |
-| `EP-nn` | não é fatia: **`sdd-prd`** (ou `sdd-fatiar`, se o PRD já está aprovado) |
+| `EP-nn` sem `[ESP]` assumida | não é fatia: **`sdd-prd`** (se PRD ainda não existe) ou **`sdd-fatiar`** (se PRD aprovado) |
+| `EP-nn` com tarefa `[ESP]` no EWM (estado: `Novo` ou `Em andamento`) | fluxo [ESP] → Passo 4a |
 | pedido em texto, ou id que não está no backlog | não está registrado → carregue a **`sdd-triar`**: ela registra e, se a pessoa quiser começar agora, volta aqui com o id |
+
+Para tarefas `[REV]` e `[VER]`: não cria branch nova (a branch da fatia já existe); não repete o Passo 3
+(compromisso); vai diretamente para `sdd-revisar` ou `sdd-verificar` após assumir no EWM. Sem o MCP → `ELM
+pendente: assumir [REV|VER] FT-<nnn>` e encaminha da mesma forma.
 
 Fatia já iniciada (tem pasta em `.kiro/specs/` nesta branch, em worktrees ou em branches remotas —
 `git grep -l '<id>' <ref> -- '.kiro/specs/*/status.md'`) → leia o `status.md` e **retome** pela fase (Passo 5),
@@ -133,6 +141,27 @@ Próximo: <skill>
 
 Modo AFK e várias fatias padrão ou rápida prontas na sprint → ofereça o **`sdd-loop`** (o agente leva cada uma até
 o PR).
+
+## Passo 4a — Fluxo [ESP] (tarefa de especificação de épico)
+
+Para `EP-nn` com tarefa `[ESP]` detectada no Passo 1:
+
+1. **DoR mínima do épico:** título (>5 palavras), descrição do problema (>2 frases), P.O. definido no `backlog.md`
+   ou no EWM. Faltando → liste e pare: a `sdd-triar` completa o registro antes de começar.
+2. **Pasta do épico:** verifique se `<produto>/epicos/<EP>-<slug>/` existe; se não → crie com `decisoes.md`
+   (só o cabeçalho da tabela `D | Pergunta | Decisão | Fonte | Data | Situação`) e `rascunho.md` (título e
+   descrição do item EWM, sem dado inventado).
+3. **Assumir:** pela `sdd-elm` modo *sprint* — assuma a `[ESP]` com responsável = `whoami` e inicie-a
+   (`ccm_list_workitem_states`), com confirmação ("sim"). Sem MCP → `ELM pendente: assumir [ESP] EP-<nn>` na
+   pasta do épico.
+4. **Encaminhar:**
+   ```
+   🚦 EP-<nn> — <título> · [ESP] assumida · fase: especificando
+   Pasta: <produto>/epicos/<EP>-<slug>/
+   Próximo: sdd-pesquisar (ler código e bundle do ELM) → sdd-entrevistar → sdd-prd
+   ```
+   **NÃO** cria branch de fatia. **NÃO** cria `status.md` de fatia. **NÃO** registra em sprint de fatia.
+   O trabalho de especificação é feito na branch base; as horas são lançadas na `[ESP]` ao concluir.
 
 ## Regras
 

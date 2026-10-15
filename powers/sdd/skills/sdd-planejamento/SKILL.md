@@ -4,7 +4,7 @@ description: "Planejamento ágil do projeto no fluxo sdd, ajustado a times que t
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.3.0"
+  version: "2.4.0"
 ---
 
 # sdd-planejamento — Planejar o fluxo, não só o calendário
@@ -26,11 +26,31 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
 
 ## Modo inicial — acordos e roadmap
 
-1. **Equipe** (`equipe.json` existe → mostre e pergunte só o que mudou): pessoas, papel (um só: `P.O.`,
-   `Analista`, `Dev`, `QA` ou `SM`), login do ELM (de `members` do `pa_*.json`, se houver), horas por semana,
-   ausências. Pergunte também, por pessoa, quantas horas por semana vão para **revisar** (planos, PRs) e
+1. **Equipe** (`equipe.json` ou `equipe.md` existe → mostre e pergunte só o que mudou): pessoas, papel (um só:
+   `P.O.`, `Analista`, `Dev`, `QA` ou `SM`), login do ELM (de `members` do `pa_*.json`, se houver), horas por
+   semana, ausências. Pergunte também, por pessoa, quantas horas por semana vão para **revisar** (planos, PRs) e
    **verificar** — somadas em `horas-revisao-semana` —, para **especificar** (entrevista, PRD, fatiamento:
-   `horas-especificacao-semana`; P.O. e Analista) e quem **atende** demandas (`atende`). Grave no formato de `assets/equipe.schema.json` (validado antes de mostrar).
+   `horas-especificacao-semana`; P.O. e Analista) e quem **atende** demandas (`atende`). Grave no formato
+   detectado (`equipe.json` → validado contra `assets/equipe.schema.json`; `equipe.md` → valide só pela presença
+   das colunas obrigatórias: Login, Papel, Horas/semana). Se nenhum arquivo existir ainda, prefira `equipe.json`
+   (padrão com validação de schema); só use `equipe.md` se o time preferir edição direta em Markdown.
+
+   **equipe.md** (formato Markdown, alternativo): leia pelo parser de tabelas Markdown; as colunas mapeiam 1:1
+   para os campos do schema. Não valide contra `equipe.schema.json` neste caso — valide pela presença das colunas
+   obrigatórias (Login, Papel, Horas/semana). Formato das tabelas:
+   ```
+   ## Pessoas
+   | Login | Nome | Papel | Horas/semana | Horas revisão/semana | Horas especificação/semana | Atende |
+   |---|---|---|---|---|---|---|
+
+   ## Ausências planejadas
+   | Login | Início | Fim | Horas ausentes |
+   |---|---|---|---|
+
+   ## Histórico de sprints
+   | Sprint | Fatias concluídas | Pontos | Horas DEV | Horas REV | Horas VER | Horas ESP | Horas ATD |
+   |---|---|---|---|---|---|---|---|
+   ```
 2. **Acordos** (`acordos.md`) — proponha e ajuste:
    - cadência: **Scrum** (sprints de N semanas, cerimônias, iteração no EWM) ou **Kanban** (fluxo contínuo,
      revisão de backlog semanal); padrão: sprints de 2 semanas com fluxo puxado dentro da sprint;
@@ -39,8 +59,9 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
      antes de começar fatia nova (seguir mesmo assim fica registrado: `WIP excedido`);
    - **Definition of Ready** e **Definition of Done** (padrão no `arquivos.md`);
    - tamanho: `P`/`M`/`G` e a tabela de pontos (padrão `2/3/5`);
-   - **reserva de atendimento** (padrão 20% das horas de quem atende) e **lançamento de horas** (na conclusão de
-     cada tarefa).
+   - **reserva de atendimento** (padrão 20% das horas de quem atende) — esta reserva cobre **atendimentos novos**
+     e **retrabalho da sprint anterior** (fatias migradas que ainda consomem esforço); as fatias migradas consomem
+     capacidade **antes** da seleção de novas fatias; e **lançamento de horas** (na conclusão de cada tarefa).
 3. **Roadmap** (`roadmap.md`): épicos do `backlog.md` em ordem de valor e risco (maior incerteza mais cedo),
    agrupados em releases com um objetivo cada; épico sem PRD aparece como "a descobrir" (`sdd-prd`).
 
@@ -53,7 +74,8 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
      por semana e ajuste na virada). Em pontos: velocidade média, para o EWM;
    - **especificação**: horas de especificação da sprint (`horas-especificacao-semana`);
    - **reserva de atendimento**: o percentual do `acordos.md` sobre as horas de quem atende, descontado antes de
-     selecionar fatias.
+     selecionar fatias. **Fatias migradas da sprint anterior** consomem capacidade antes das fatias novas — inclua-as
+     no cálculo antes de selecionar novos itens.
 2. **Especificação:** épicos que entram em entrevista, PRD ou fatiamento nesta sprint (do `roadmap.md`, os "a
    descobrir" do topo, e os `EP` em `rascunho` com `prd` `—` do `backlog.md` que o roadmap ainda não tem —
    proponha a posição deles), um `[ESP]` por épico, com responsável e horas previstas dentro da capacidade de

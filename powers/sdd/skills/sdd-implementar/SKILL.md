@@ -4,7 +4,7 @@ description: "Implementa uma fatia do fluxo sdd a partir do plano aprovado (task
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.3.0"
+  version: "2.4.0"
 ---
 
 # sdd-implementar — Ciclo curto, verificação sempre
@@ -77,6 +77,10 @@ rubrica **C** passando só: id da fatia, pasta, branch/worktree e rodada — **n
 `revisao-codigo-<N>.md`. Sem subagente disponível (você é um agente sem essa ferramenta) → pare aqui e devolva a
 quem chamou: "pronta para a revisão (rodada <N>)".
 
+Assim que o `revisao-codigo-<N>.md` estiver gravado, **commite-o imediatamente** antes de prosseguir:
+`FT-<nnn> registrar revisão <N>` — não espere a próxima sessão nem o Passo 0. O PR cita esse arquivo e
+ele precisa estar na branch antes da abertura.
+
 - `VEREDITO: APROVADO` → Passo 4.
 - `REVISAR` → corrija **só** os achados (como tarefas `[R<n>]`, Passo 0) e volte ao Passo 2. Até 2 rodadas.
 - 2ª reprovação → `fase: bloqueada`; mostre à pessoa os relatórios e as opções: orientar a correção (zera as
@@ -87,6 +91,9 @@ quem chamou: "pronta para a revisão (rodada <N>)".
 Incremente "verificação" em Rodadas e siga para a **`sdd-verificar`** (cenários de aceite executados de ponta a ponta, com evidência; de preferência
 pelo agente `sdd-verificador`). `ACEITO` → ela deixa a fatia em `fase: aceita`; `REJEITADO` → devolve para cá
 os cenários reprovados (Passo 0).
+
+Com `ACEITO`: **commite imediatamente** `verificacao.md` e `CT.csv` antes de prosseguir para o Passo 5:
+`FT-<nnn> registrar verificação`. O PR cita esses arquivos e eles precisam estar na branch antes da abertura.
 
 ## Passo 5 — PR
 

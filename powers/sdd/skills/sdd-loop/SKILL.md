@@ -4,7 +4,7 @@ description: "Execução autônoma (AFK) de várias fatias do fluxo sdd — pega
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.3.0"
+  version: "2.4.0"
 ---
 
 # sdd-loop — Fatias AFK até o PR
@@ -90,8 +90,10 @@ seguinte da mesma fatia.
 | 8 | entrega | você | `fase: aceita`; commit do que faltar; push + PR se autorizado no lote (texto do Passo 5 da `sdd-implementar`; o Kiro ainda pode pedir confirmação a cada push, conforme as permissões) → `fase: pr-aberto` |
 
 Depois de cada fase: grave a fase seguinte (`planejando` depois da pesquisa, `revisando` antes da revisão do
-código), atualize o log, as Rodadas e o Histórico do `status.md`; commit pequeno na worktree
-(inclusive dos relatórios do revisor e do verificador, que não commitam).
+código), atualize o log, as Rodadas e o Histórico do `status.md`; **commite imediatamente** na worktree os
+relatórios que chegaram nesta fase — `analise-plano-<N>.md` (fase 3), `revisao-codigo-<N>.md` (fase 6),
+`verificacao.md` e `CT.csv` (fase 7) — antes de iniciar a fase seguinte. Esses arquivos não são commitados
+pelos subagentes que os geram; o orquestrador é o responsável pelo commit deles.
 
 **Aprovação de plano pausado:** a pessoa lê o plano em `.kiro/local/wt/<ft>/.kiro/specs/<ft>-<slug>/` (ou na branch,
 se o push foi autorizado) e diz "aprovo o plano da FT-031" → grave `fase: implementando` e retome a fatia na fase 5

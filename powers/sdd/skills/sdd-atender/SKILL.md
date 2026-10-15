@@ -4,7 +4,7 @@ description: "Trilha de atendimento do fluxo sdd — demanda de cliente que não
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.3.0"
+  version: "2.4.0"
 ---
 
 # sdd-atender — Atender sem perder o rastro
@@ -26,15 +26,23 @@ ou direta) e regra que ninguém decidiu (entrevista ou PRD).
 
 ## 1. Abrir ("novo atendimento: o cliente X pediu …")
 
-Toda demanda passa pela triagem: chegou direto, sem a `sdd-triar`? Faça antes os Passos 1–2 dela (já existe? é
-atendimento mesmo?).
+**Pré-condição obrigatória:** toda demanda de atendimento passa pela triagem. Antes de qualquer passo desta
+skill, verifique se a demanda já foi classificada como `atendimento` pela `sdd-triar` nesta sessão ou numa
+sessão anterior (encaminhamento explícito ou linha `AT-nnn` existente em `<produto>/atendimentos/README.md`).
+
+Chegou direto (sem triagem)? Execute os **Passos 1 e 2 da `sdd-triar`** como pré-condição:
+1. Verifique duplicata (já existe AT, FT ou branch para esse pedido?).
+2. Classifique a trilha: **se não for atendimento** (o pedido muda o repositório, exige regra nova ou é
+   defeito) → **pare** e redirecione para a trilha correta; não continue em `sdd-atender`.
+3. Somente se a classificação for `atendimento` confirmado → prossiga para o item 1 abaixo.
 
 1. **Número:** lê o `Próximo` do `README.md` e já o incrementa.
 2. **Entrevista curta** — `sdd-entrevistar` modo *atendimento* (uma rodada, com recomendação em cada pergunta):
    o que o cliente precisa receber, origem (chamado, e-mail, DF), prazo, quem responde, critério de pronto.
 3. **EWM**, com confirmação — `sdd-elm` modo *atendimento*: tarefa `[ATD] AT-<nnn> <título>`, filha do item
    "Atendimento", `plannedFor` = iteração da sprint aberta (a do `sprint-<nn>.md`; a pessoa pode indicar outra),
-   responsável = quem atende, estimativa, estado em andamento.
+   responsável = quem atende (verifique no `equipe.json` quem tem `atende: true` e sugira; se a pessoa indicada
+   não tem `atende: true`, confirme se ela deve ser incluída), estimativa, estado em andamento.
 4. Grava o `AT-<nnn>-<slug>.md`, a linha no `README.md` e a linha no `sprint-<nn>.md`; commit na base (artefato
    de produto). Reserva estourada → avise: o P.O. decide se alguma fatia sai (o atendimento não tira fatia
    sozinho).
@@ -43,7 +51,11 @@ atendimento mesmo?).
 
 1. **Fontes, nesta ordem** — subagente `sdd-pesquisador`, se houver: banco pelo MCP de consulta (**somente
    leitura**) e bundle do ELM (`<rm.download.path>` do `sdd.md`). Código só se necessário e em escopo fechado:
-   termos ou arquivos indicados e um limite de leitura, para não gastar tokens.
+   termos ou arquivos indicados e um limite de leitura, para não gastar tokens. Se a demanda envolver lógica de
+   negócio complexa (regras de cálculo, fluxos condicionais, comportamentos do sistema) — e não for uma extração
+   simples de dados — considere acionar o **`sdd-pesquisar`** antes das consultas SQL para entender o contexto
+   do código; nesse caso, registre no AT: `"análise baseada em pesquisa de código"`. Sem tempo para pesquisa:
+   registre `"resposta baseada apenas no bundle do ELM e no banco"` na seção Consultas do AT.
 2. **Resultado com dado real** (linhas, telas, planilhas) → `.kiro/local/atendimentos/AT-<nnn>/`. No registro
    ficam só a consulta (SQL), a contagem, o caminho do arquivo e um resumo **sem identificar pessoas**.
 3. **Rascunho da resposta** → "ok" da pessoa antes de enviar. Quem envia é a pessoa; o agente não manda e-mail

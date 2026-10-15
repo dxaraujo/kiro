@@ -4,7 +4,7 @@ description: "Guia do fluxo sdd — engenharia agêntica orientada a especifica�
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.3.0"
+  version: "2.4.0"
 ---
 
 # sdd — Engenharia agêntica orientada a especificação
@@ -78,7 +78,7 @@ Fatia **AFK**: o projeto pode dispensar o GATE do plano (a análise independente
 | configurar o fluxo, os agentes e os toolkits no projeto | `sdd-setup` |
 | saber onde parei / o que fazer agora · fechar a sessão | `sdd-status` |
 | registrar qualquer demanda nova — pedido, defeito, ajuste, item ou lote do EWM (triagem) | `sdd-triar` |
-| começar ou retomar um trabalho já registrado e planejado (fatia, defeito, item do EWM) | `sdd-iniciar` |
+| começar ou retomar um trabalho já registrado e planejado (fatia, defeito, item do EWM, tarefa [REV]/[VER]/[ESP]) | `sdd-iniciar` |
 | alinhar decisões | `sdd-entrevistar` |
 | escrever o PRD de um épico | `sdd-prd` |
 | quebrar o PRD em fatias / refinar o backlog | `sdd-fatiar` |
@@ -125,3 +125,9 @@ Nunca compacte no meio de uma fase.
 - Dado de cliente (resultado de consulta, extração, tela com dado real) nunca vai para o git: fica em
   `.kiro/local/<origem>/<id>/`; o registro versionado guarda consulta, contagem, caminho e resumo sem identificar
   pessoas.
+- **Skills sem agente exclusivo:** `sdd-consolidar` e `sdd-aprender` rodam na **sessão padrão** (com o power
+  carregado), não em agentes específicos. `sdd-iniciar` e `sdd-status` estão no `sdd-orquestrador`, mas também
+  funcionam na sessão padrão. Nenhuma skill depende de um agente para operar: o agente apenas recebe a skill
+  pré-carregada para conveniência.
+- **Nenhuma skill cria branch ou `.kiro/specs/<ft>/status.md`** sem passar pelos Passos 3–4 do `sdd-iniciar`
+  (DoR, sprint, WIP, branch, commit). O `sdd-loop` é a única exceção (opera em worktree como orquestrador).

@@ -4,7 +4,7 @@ description: "Entrada de todo trabalho novo no fluxo sdd — recebe um pedido em
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.3.0"
+  version: "2.4.0"
 ---
 
 # sdd-triar — Triagem e registro
@@ -53,7 +53,7 @@ parecidos), no `**Origem:**` dos `<produto>/atendimentos/AT-*.md` e nos `status.
 | **padrão** | uma fatia (≤ G) que cria ou muda regra de negócio **clara** — o P.O. decide aqui —, sem decisão de produto em aberto | fatia sem épico, com **ficha** (regras, cenários, decisões) aprovada pelo P.O. |
 | **rápida** | defeito ou ajuste ≤ 1 dia **sem** regra nova (o comportamento certo já está documentado ou é óbvio) | fatia sem épico, com `origem` (e ficha só se a origem não traz o comportamento esperado) |
 | **direta** | o diff cabe numa frase (texto, configuração, ajuste trivial), sem regra nova e sem risco de dado | fatia sem épico, tamanho `P` — também planejada: a `[DEV]` dela é onde as horas são lançadas |
-| **atendimento** | o cliente pede consulta, extração, explicação ou conferência; nada muda no repositório | `AT-nnn` pela **`sdd-atender`** (que abre e já atende, na reserva da sprint) |
+| **atendimento** | o cliente pede consulta, extração, explicação ou conferência; nada muda no repositório | `AT-nnn` pela **`sdd-atender`** (encaminhamento obrigatório; a triagem não executa o atendimento) |
 
 - Fatia de um épico não passa de novo por aqui: o épico foi triado na entrada e as fatias dele vêm da `sdd-fatiar`.
 - Diga a trilha e o motivo numa linha; dúvida entre duas → sim/não pela mais leve. Padrão que precisaria de mais de
@@ -81,6 +81,15 @@ no mesmo commit.
   (Item de Backlog pai), pergunte se ele vira o épico ou o filho; senão o épico é criado e o item de origem
   vira filho dele, na mesma confirmação. Sem o MCP → `elm` = `pendente` (a `sdd-prd` ou o planejamento registram
   depois).
+
+  **Pasta antecipada:** se o título tem mais de 3 palavras (slug formável), crie
+  `<produto>/epicos/<EP>-<slug>/` com:
+  - `rascunho.md`: o pedido original (nas palavras de quem pediu, sem dado inventado) + origem (EWM id,
+    chamado, texto livre);
+  - `decisoes.md`: só o cabeçalho da tabela `D | Pergunta | Decisão | Fonte | Data | Situação` (vazio).
+  A pasta só é criada aqui; o `sdd-prd` completa com `prd.md`, `elm/` e os demais artefatos.
+  Inclua o caminho relativo da pasta na coluna `pasta` do `backlog.md` (nova coluna após `prd`):
+  `[pasta](epicos/<EP>-<slug>/)` ou `—` se não criada.
 - **Fatia sem épico** (padrão, rápida, direta): próximo `FT-nnn`; linha em `## Fatias — sem épico` com:
   - `trilha`; `origem` (`DF 4567`, `IB 611`, `AT-012`, `pedido: <resumo>`); `ficha`
     (`[ficha](fatias/FT-<nnn>-<slug>.md)` ou `—`);
@@ -110,17 +119,15 @@ da ficha) e, se o item já foi criado no EWM, troque o `[FT-nnn]`/`[EP-nn]` do t
 ```
 📥 <FT-nnn | EP-nn | AT> — <título> · trilha <…> · <pronta | backlog: falta …> · modo <AFK | HITL | —>
 Origem: <DF 4567 | IB 611 | pedido> · Ficha: <caminho | —> · EWM: <id | criado <id> | pendente | sem ELM>
-Próximo: <a opção da tabela>
+Registrado. Para o próximo passo:
+  - Épico → use `sdd-prd` (para especificar) ou aguarde o planejamento da sprint.
+  - Fatia `pronta` → use `sdd-iniciar FT-<nnn>` para começar (precisa estar na sprint ou ter encaixe aprovado).
+  - Fatia `backlog` → resolva o que falta (<item>) antes de iniciar.
+  - Atendimento → use `sdd-atender`.
 ```
 
-| Registro | Próximo |
-|---|---|
-| épico | especificar agora (**`sdd-prd`**, com o `EP-nn`) ou deixar para o planejamento (seção Especificação da sprint) |
-| fatia `pronta` (padrão, rápida, direta) | começar agora (**`sdd-iniciar`**: precisa estar na sprint aberta ou entrar por encaixe) ou deixar para o planejamento |
-| fatia `backlog` | o que falta, e quem responde |
-| atendimento | **`sdd-atender`** |
-
-Pergunte; não comece sozinho.
+A triagem termina aqui. **Nunca invoque nem simule outra skill** (nem `sdd-iniciar`, nem `sdd-atender`):
+responda com a instrução acima e pare. Cada skill começa na própria invocação.
 
 ## Passo 5 — Lote do EWM
 

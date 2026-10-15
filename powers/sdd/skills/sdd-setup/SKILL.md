@@ -4,7 +4,7 @@ description: "Configura o fluxo sdd num projeto: entende o repositório (tipos d
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.3.0"
+  version: "2.4.0"
 ---
 
 # sdd-setup — Configurar o fluxo no projeto
@@ -240,7 +240,9 @@ Em memória:
    base do ambiente de teste (sem barra no fim).
 4. `<produto>/` (só o que não existir): `backlog.md` mínimo
    (`# Backlog — <nome>`, `Próximos ids: EP-01 · FT-001`, `Sustentação: —` e a tabela `## Épicos` vazia — formato na `sdd-fatiar`),
-   `planejamento/`; `<produto>/aprendizado/licoes.md` com o título `# Lições`; `<produto>/atendimentos/README.md`
+   `planejamento/` com `equipe.json` (padrão, gerado pelo `sdd-planejamento` Modo inicial — use
+   [assets/equipe-template.md](../sdd-planejamento/assets/equipe-template.md) como referência para o formato
+   Markdown alternativo); `<produto>/aprendizado/licoes.md` com o título `# Lições`; `<produto>/atendimentos/README.md`
    com `# Atendimentos`, `Próximo: AT-001` e a tabela `| AT | Pedido | Situação |` vazia (formato na
    `sdd-atender`). No modo atualização, acrescente só o que falta — nunca recrie o que existe.
 5. `.gitignore`: acrescente `.kiro/local/` se faltar. Migração do layout antigo (Passo 0), se aceita.

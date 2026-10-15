@@ -4,7 +4,7 @@ description: "Guia do fluxo sdd — engenharia agêntica orientada a especifica�
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.0.0"
+  version: "2.1.0"
 ---
 
 # sdd — Engenharia agêntica orientada a especificação

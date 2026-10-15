@@ -9,6 +9,10 @@ metadata:
 
 # elm-rm
 
+> **Arquivos desta skill** (`references/`, `assets/` e os `../<skill>/…` citados abaixo) ficam na pasta da skill, dentro do
+> power instalado (ex.: `~/.kiro/powers/installed/elm/skills/elm-rm/`), não no projeto: abra-os por esse
+> caminho, relativo a este `SKILL.md`. A busca no workspace não os encontra — não procure no projeto.
+
 Requisitos do DOORS Next pelo MCP `elm`, com as tools `rm_*`: recebem os ids do `.kiro/config/power/elm/pa_*.json` e trabalham com
 **nomes** de pasta, tipo e link. As tools genéricas do IBM AI Hub (baselines, change sets, configuração global,
 outra project area) estão em [reference.md](reference.md): leia-o **só** quando precisar delas. Links com work

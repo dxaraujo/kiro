@@ -14,6 +14,7 @@ andamento de uma fatia (fase, branch, PR) não mora aqui: mora no `status.md` da
 # Backlog — Gestão de Acessos
 
 Próximos ids: EP-04 · FT-034
+Sustentação: [SUS-2026] [612000](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612000) · Atendimento [612005](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612005)
 
 ## Épicos
 
@@ -48,6 +49,7 @@ linha da tabela — sem quebra de linha nem `|` dentro de célula (troque por `/
 | `sprint` | número da sprint (`sdd-planejamento`) ou `—`; no Kanban, `—` |
 | `elm` | `—` ou `[<id>](<url>)`; tarefas do EWM em seguida, `<prefixo> [<id>](<url>)`, separadas por ` · ` (gravado pela `sdd-elm`) |
 | `concluida-em` | data `AAAA-MM-DD` ou `—` |
+| linha `Sustentação:` | épico de Sustentação do ano e o IB `Atendimento` filho dele (pais do que não nasce de PRD); `—` até a `sdd-elm` criá-los |
 
 ## Quem escreve o quê
 
@@ -58,6 +60,7 @@ linha da tabela — sem quebra de linha nem `|` dentro de célula (troque por `/
 | `sprint`, `responsavel`, prioridade · `pronta` (DoR conferida de novo no planejamento) | `sdd-planejamento` |
 | fatia da trilha rápida (com `origem`, sem épico) | `sdd-iniciar` (antes de criar a branch, na base) |
 | `concluida`, `concluida-em` | `sdd-consolidar` (depois do merge, na base) |
+| linha `Sustentação:` | `sdd-elm` (modo backlog) |
 | `elm` (ids e urls) | `sdd-elm` |
 
 ## Definition of Ready (o que faz uma fatia `pronta`)

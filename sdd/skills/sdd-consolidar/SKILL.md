@@ -4,7 +4,7 @@ description: "Fecha uma fatia do fluxo sdd depois do merge do PR — confere que
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.0.0"
+  version: "2.1.0"
 ---
 
 # sdd-consolidar — Documentação viva depois do merge

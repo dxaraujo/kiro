@@ -9,6 +9,10 @@ metadata:
 
 # elm-gc
 
+> **Arquivos desta skill** (`references/`, `assets/` e os `../<skill>/…` citados abaixo) ficam na pasta da skill, dentro do
+> power instalado (ex.: `~/.kiro/powers/installed/elm/skills/elm-gc/`), não no projeto: abra-os por esse
+> caminho, relativo a este `SKILL.md`. A busca no workspace não os encontra — não procure no projeto.
+
 Tools comuns do MCP `elm`: usuários, rastreabilidade entre apps, project areas e configuração global. Work items →
 **elm-ccm**; requisitos (inclusive links entre requisitos) → **elm-rm**; testes → **elm-qm**.
 

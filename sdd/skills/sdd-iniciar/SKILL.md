@@ -4,10 +4,14 @@ description: "Porta de entrada do fluxo sdd para qualquer trabalho — recebe um
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.0.0"
+  version: "2.1.0"
 ---
 
 # sdd-iniciar — Triagem e entrada
+
+> **Arquivos desta skill** (`references/`, `assets/` e os `../<skill>/…` citados abaixo) ficam na pasta da skill, dentro do
+> power instalado (ex.: `~/.kiro/powers/installed/sdd/skills/sdd-iniciar/`), não no projeto: abra-os por esse
+> caminho, relativo a este `SKILL.md`. A busca no workspace não os encontra — não procure no projeto.
 
 Leia antes: `.kiro/steering/sdd.md`. Sem ele → ofereça a **`sdd-setup`** ("configurar o sdd") e pare.
 

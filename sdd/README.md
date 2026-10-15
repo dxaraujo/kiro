@@ -76,7 +76,7 @@ Fontes no fim deste arquivo.
 | `sdd-revisar` | revisão independente: PRD (P), plano (L), código (C, dois eixos) |
 | `sdd-verificar` | aceite de ponta a ponta com evidência; `CT.csv` para o ETM |
 | `sdd-consolidar` | pós-merge: drift, ELM as-built, ADRs, lint do conhecimento, conclusão |
-| `sdd-elm` | alimenta o ELM: requisitos (DOORS Next), backlog e sprint (EWM), testes (ETM), links |
+| `sdd-elm` | alimenta o ELM: requisitos (DOORS Next), backlog e sprint (EWM), atendimento, horas, testes (ETM), links |
 | `sdd-loop` | fatias AFK até o PR, uma worktree por fatia, uma fase por contexto limpo |
 | `sdd-aprender` | lições, promoção de regras, retrospectiva com dados, casos de avaliação |
 

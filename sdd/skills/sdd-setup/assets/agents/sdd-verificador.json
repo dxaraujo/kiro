@@ -39,7 +39,8 @@
         ".kiro/specs/*/evidencias/**",
         ".kiro/local/wt/*/.kiro/specs/*/evidencias/**",
         ".kiro/specs/*/massa/**",
-        ".kiro/local/wt/*/.kiro/specs/*/massa/**"
+        ".kiro/local/wt/*/.kiro/specs/*/massa/**",
+        ".kiro/local/verificacao/**"
       ]
     },
     "shell": {
@@ -232,7 +233,8 @@
           ".kiro/specs/*/evidencias/**",
           ".kiro/local/wt/*/.kiro/specs/*/evidencias/**",
           ".kiro/specs/*/massa/**",
-          ".kiro/local/wt/*/.kiro/specs/*/massa/**"
+          ".kiro/local/wt/*/.kiro/specs/*/massa/**",
+          ".kiro/local/verificacao/**"
         ],
         "effect": "allow"
       },

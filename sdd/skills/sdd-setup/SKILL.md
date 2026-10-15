@@ -4,10 +4,14 @@ description: "Configura o fluxo sdd num projeto: entende o repositório (tipos d
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.0.0"
+  version: "2.1.0"
 ---
 
 # sdd-setup — Configurar o fluxo no projeto
+
+> **Arquivos desta skill** (`references/`, `assets/` e os `../<skill>/…` citados abaixo) ficam na pasta da skill, dentro do
+> power instalado (ex.: `~/.kiro/powers/installed/sdd/skills/sdd-setup/`), não no projeto: abra-os por esse
+> caminho, relativo a este `SKILL.md`. A busca no workspace não os encontra — não procure no projeto.
 
 O power `sdd` só entrega skills (o formato de power do Kiro não instala steering, agentes, hooks nem workflows):
 esta skill instala no projeto o que o fluxo precisa, a partir de [assets/](assets/), e é a **única** parte do
@@ -129,7 +133,8 @@ Falhou ao rodar → mostre o erro; a pessoa decide (corrigir o comando, seguir a
      Sem perguntar: os títulos das tarefas (linha "Tarefas", padrão do template); o tipo do épico (Item de Backlog
      pai se a PA não tem Épico); o campo de critérios de aceite (o de `workitem-types[IB].fields` com "aceite" no
      nome; não há → `descrição`); a classificação de cada tarefa (valores da `elm-setup` etapa 4d; a PA não tem o
-     campo → "a PA não tem"); Sustentação e Atendimento ficam `criar` (a `sdd-elm` cria na primeira sprint).
+     campo → "a PA não tem"). Sustentação e Atendimento não são perguntados: a `sdd-elm` os cria na primeira
+     sprint e grava os ids no `backlog.md`.
    - **MCP do ELM nos agentes:** o servidor do `mcp-elm` precisa estar no `mcp.json` do workspace
      (`.kiro/settings/mcp.json`) ou do usuário (`~/.kiro/settings/mcp.json`) — o do power não chega aos agentes
      (`includePowers: false`). Não está → ofereça acrescentar no do usuário a mesma entrada do `mcp.json` do power
@@ -209,7 +214,7 @@ Em memória:
    `.kiro/sdd/http.sh` ← [assets/scripts/http.sh](assets/scripts/http.sh) com `{{URL_TESTE}}` trocado pela URL
    base do ambiente de teste (sem barra no fim).
 4. `<produto>/` (só o que não existir): `backlog.md` mínimo
-   (`# Backlog — <nome>`, `Próximos ids: EP-01 · FT-001` e a tabela `## Épicos` vazia — formato na `sdd-fatiar`),
+   (`# Backlog — <nome>`, `Próximos ids: EP-01 · FT-001`, `Sustentação: —` e a tabela `## Épicos` vazia — formato na `sdd-fatiar`),
    `planejamento/`; `<produto>/aprendizado/licoes.md` com o título `# Lições`; `<produto>/atendimentos/README.md`
    com `# Atendimentos`, `Próximo: AT-001` e a tabela `| AT | Pedido | Situação |` vazia (formato na
    `sdd-atender`). No modo atualização, acrescente só o que falta — nunca recrie o que existe.

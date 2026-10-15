@@ -9,6 +9,10 @@ metadata:
 
 # elm-sync
 
+> **Arquivos desta skill** (`references/`, `assets/` e os `../<skill>/…` citados abaixo) ficam na pasta da skill, dentro do
+> power instalado (ex.: `~/.kiro/powers/installed/elm/skills/elm-sync/`), não no projeto: abra-os por esse
+> caminho, relativo a este `SKILL.md`. A busca no workspace não os encontra — não procure no projeto.
+
 Mantém em sincronia, nos dois sentidos, a documentação do DOORS Next em
 `<rm.download.path>/<pasta do RM>/<id>-<slug>.md`: um bundle OKF com `sync.md` (situação de cada artefato) e
 `index.md`. **O MCP faz o trabalho pesado**: lista as pastas, grava os arquivos, o `sync.md` e o `index.md`, sobe os

@@ -4,10 +4,14 @@ description: "Planeja uma fatia do fluxo sdd no formato de spec do Kiro — pesq
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.0.0"
+  version: "2.1.0"
 ---
 
 # sdd-plano — Decidir o como antes de codar
+
+> **Arquivos desta skill** (`references/`, `assets/` e os `../<skill>/…` citados abaixo) ficam na pasta da skill, dentro do
+> power instalado (ex.: `~/.kiro/powers/installed/sdd/skills/sdd-plano/`), não no projeto: abra-os por esse
+> caminho, relativo a este `SKILL.md`. A busca no workspace não os encontra — não procure no projeto.
 
 O plano existe para que as decisões de desenho sejam tomadas **com** uma pessoa, não descobertas por ela no
 code review. Ele é curto, concreto e descartável: depois do merge, o que vale é o código, o ELM, o glossário e os

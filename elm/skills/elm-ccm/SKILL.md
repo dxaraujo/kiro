@@ -9,6 +9,10 @@ metadata:
 
 # elm-ccm
 
+> **Arquivos desta skill** (`references/`, `assets/` e os `../<skill>/…` citados abaixo) ficam na pasta da skill, dentro do
+> power instalado (ex.: `~/.kiro/powers/installed/elm/skills/elm-ccm/`), não no projeto: abra-os por esse
+> caminho, relativo a este `SKILL.md`. A busca no workspace não os encontra — não procure no projeto.
+
 Work items do EWM pelo MCP `elm`, com as tools `ccm_*`: recebem os ids do `.kiro/config/power/elm/pa_*.json` e devolvem saída
 enxuta. As tools genéricas do IBM AI Hub (`get_workitem`, `search_workitems`, `create_workitem`,
 `get_workitem_schema`...) estão em [reference.md](reference.md): leia-o **só** se as `ccm_*` não cobrirem o pedido.

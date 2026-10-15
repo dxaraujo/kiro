@@ -4,10 +4,14 @@ description: "Alimenta o IBM ELM (sistema de registro da documentação do proje
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.0.0"
+  version: "2.1.0"
 ---
 
 # sdd-elm — O ELM como fonte oficial
+
+> **Arquivos desta skill** (`references/`, `assets/` e os `../<skill>/…` citados abaixo) ficam na pasta da skill, dentro do
+> power instalado (ex.: `~/.kiro/powers/installed/sdd/skills/sdd-elm/`), não no projeto: abra-os por esse
+> caminho, relativo a este `SKILL.md`. A busca no workspace não os encontra — não procure no projeto.
 
 Requer o power **`elm`** (MCP `elm`) nesta sessão e as skills dele: **`elm`** (guia do power: regras de uso do
 MCP), **`elm-rm`** (DOORS Next), **`elm-ccm`**
@@ -82,10 +86,11 @@ em IB e tarefa: use sempre a iteração que a pessoa indicar (no planejamento, a
    pai existir quando o IB da fatia for criado. Tipo do `sdd.md` (a PA pode não ter "Épico": então é um **Item de
    Backlog pai**), título `[EP-03] <título>`, descrição = problema (e, depois do GATE, solução do PRD + link do
    PRD no repositório). Links **rastreia** → histórias, quando publicadas.
-2. **Sustentação e Atendimento** (uma vez por release/ano, se a linha do `sdd.md` estiver vazia): épico
-   `[SUS-<ano>] Sustentação` e, filho dele, o IB `Atendimento` (pai das `[ATD]`); ids na seção ELM do `sdd.md`.
+2. **Sustentação e Atendimento** (uma vez por release/ano, se a linha `Sustentação:` do `backlog.md` estiver
+   vazia): épico `[SUS-<ano>] Sustentação` e, filho dele, o IB `Atendimento` (pai das `[ATD]`); ids nessa linha.
 3. **Item de backlog por fatia** (`backlog no EWM` = `ao-fatiar`, logo após o GATE do backlog, ou `na-sprint`):
-   título `[FT-031] <título>`, `parent` = épico, pontos pelo tamanho (tabela do `sdd.md`), descrição com modo
+   título `[FT-031] <título>`, `parent` = épico (fatia de trilha rápida sem item de origem: o épico de
+   Sustentação; com item de origem não há IB novo), pontos pelo tamanho (tabela do `sdd.md`), descrição com modo
    AFK/HITL, `bloqueada por` e pasta prevista; responsável = P.O. (o IB é do produto). **Critérios de aceite:** os
    cenários que a fatia cobre (`cobre`), em Dado / Quando / Então, copiados do PRD, no campo da linha "Critérios
    de aceite no IB" do `sdd.md` (Markdown; o MCP grava como texto rico) — sem o campo, numa seção "Critérios de
@@ -129,7 +134,7 @@ seções do `sprint-<nn>.md` (fatias com responsável, revisor e verificador; es
 
 ## Modo atendimento (`sdd-atender`)
 
-- **Abrir:** `[ATD] AT-<nnn> <título>`, filha do IB "Atendimento" (`sdd.md`), `plannedFor` = iteração da sprint
+- **Abrir:** `[ATD] AT-<nnn> <título>`, filha do IB "Atendimento" (linha `Sustentação:` do `backlog.md`), `plannedFor` = iteração da sprint
   aberta (ou a que a pessoa indicar), responsável = quem atende, estimativa, estado em andamento.
 - **Concluir:** depois do lançamento das horas (modo horas), estado de conclusão da PA.
 

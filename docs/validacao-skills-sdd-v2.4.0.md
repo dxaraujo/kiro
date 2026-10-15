@@ -280,8 +280,8 @@ item para triar?"*. Se a resposta for "sim", ela volta ao Passo 1 na mesma sess�
 nem `pull`), e só faz o commit no final. Se for "não", mostra o resumo do que foi registrado (ids, trilhas,
 pendências) e encerra. Recomeçar a própria skill não fere a regra "nunca invoque outra skill".
 
-**Desdobramentos do atendimento.** Ao finalizar, a `sdd-atender` registra a resposta, lança as horas e conclui a
-`[ATD]`. Depois pergunta o que mais sai dali:
+**Desdobramentos do atendimento.** Ao finalizar, a `sdd-atender` registra a resposta, lança o saldo de horas e
+conclui a `[ATD]` (horas também podem ser lançadas durante o atendimento, D0.8). Depois pergunta o que mais sai dali:
 
 - **arquivar:** nada mais a fazer;
 - **gerar alteração:** "use `sdd-triar` com origem `AT-nnn`";
@@ -321,7 +321,8 @@ AFK   pesquisando → planejando → implementando → revisando → verificando
 WIP esperando pessoa (HITL) = plano-em-revisao + pr-aberto + em-revisao + em-verificacao + pronta-para-merge
 ```
 
-**Horas por papel (consequência).** Cada skill de papel lança as horas e conclui a **sua** tarefa ao terminar:
+**Conclusão por papel (consequência).** As horas são lançadas *durante* a tarefa (D0.8); cada skill de papel
+**conclui** a **sua** tarefa ao terminar, perguntando só o saldo de horas:
 `[DEV]` no PR, `[REV]` ao aprovar, `[VER]` ao aceitar, `[ESP]` no fim do fatiamento, `[ATD]` ao finalizar. A
 `sdd-consolidar` deixa de concluir `[DEV]`/`[REV]`/`[VER]`; fica com o item de backlog, o ELM *as-built*, os CTs e a
 documentação. **Retrabalho:** a `[DEV]` é reaberta (ação de reabertura da PA, pelo modo *assumir*), as horas do
@@ -452,6 +453,42 @@ flowchart TD
 | Q5 | HITL: revisão automática antes do PR | **sim** | `sdd-implementar` roda a rubrica C por subagente como backpressure antes do PR, sem relatório oficial nem rodada; a `[REV]` humana continua |
 | Q6 | A VER só começa com a REV aprovada | **sim** | sequencial: `em-revisao` → `em-verificacao` |
 | Q7 | Mistura de modos por papel | **não: o modo é da fatia**, definido na triagem (sem épico) ou no fatiamento/planejamento (de épico) | o `modo` do `backlog.md` vale para todos os papéis; o `status.md` copia o modo da fatia |
+
+### D0.8 Conceito do dono: lançar horas ≠ concluir a tarefa
+
+> **Registro do dono (2026-10-15):** o lançamento de horas em tarefas iniciadas é a **constatação do empenho de
+> tempo** naquela tarefa. Ele **não significa conclusão nem finalização**. É uma etapa para a empresa gerar
+> relatórios e acompanhar o trabalho de cada pessoa.
+
+**Regra proposta (única, no steering e no guia):**
+
+- **Lançar** horas é um registro que pode ser repetido em qualquer tarefa **iniciada** (`[ESP]` `[DEV]` `[REV]`
+  `[VER]` `[ATD]`), a qualquer momento: ao fechar cada sessão de trabalho (`sdd-status`, "fechar a sessão"), numa
+  fronteira de fase ou quando a pessoa pedir. Lançar não muda o estado da tarefa, e o GATE não é exceção: as horas
+  gastas até o GATE podem ser lançadas.
+- **Concluir** é um evento separado, da skill do papel, quando o trabalho dela termina (D0.4). Na conclusão, a
+  skill pergunta só o **saldo** ainda não lançado e então muda o estado.
+- No **retrabalho**, a `[DEV]` reaberta recebe novos lançamentos, como qualquer tarefa iniciada (Q1).
+- O relatório da `sdd-elm` modo *horas* (planejadas × lançadas por pessoa e por tipo) passa a acompanhar o trabalho
+  em andamento, não só o concluído.
+
+**Onde o texto atual contradiz o conceito**
+
+| Evidência | Texto atual | Ajuste |
+|---|---|---|
+| `sdd/SKILL.md:34` | "As horas são lançadas na conclusão de cada tarefa, nunca nos GATEs" | lançadas durante a tarefa, a qualquer momento; conclusão é outro evento |
+| `sdd-setup/assets/steering/sdd.md:16` | "horas lançadas na conclusão, nunca nos GATEs" | idem |
+| `sdd-planejamento/references/arquivos.md:71` | "Na conclusão de cada tarefa (e sob pedido a qualquer momento); nunca nos GATEs intermediários" | inverter a ênfase: a qualquer momento em tarefa iniciada; o saldo na conclusão |
+| `sdd-planejamento/SKILL.md:64` | acordo "lançamento de horas (na conclusão de cada tarefa)" | acordo do time: cadência de lançamento (ex.: ao fim de cada sessão ou dia) |
+| `sdd-atender/SKILL.md:113` | "Horas só na conclusão (…); **nunca no meio do atendimento**" | contradição direta: remover |
+| `sdd-atender/SKILL.md:67` | "`sdd-elm` modo *horas* lança e conclui a tarefa" | lança o saldo; a conclusão é o modo *conclusão* |
+| `sdd-iniciar/SKILL.md:164` | "as horas são lançadas na `[ESP]` ao concluir" | lançadas durante a especificação; saldo ao concluir |
+| `sdd-fatiar/SKILL.md:80-81` | "o GATE do backlog conclui a especificação — pergunte as horas" | manter a conclusão no GATE, perguntando só o saldo |
+| `sdd-consolidar/SKILL.md:48-55` | horas de `[DEV]`/`[REV]`/`[VER]` perguntadas no merge | sai com a Etapa 2 (cada papel conclui a sua); o merge não lança horas |
+| `sdd-status/SKILL.md` ("fechar a sessão") | não pergunta horas | **novo:** "Quanto tempo nesta sessão em `<tarefa>`?" → `sdd-elm` modo *horas*, com "sim" |
+
+O modo *horas* da `sdd-elm` já separa lançar de concluir (`sdd-elm/SKILL.md:184`: "Concluir: depois do lançamento
+das horas"). O conflito está nas skills que o chamam e na regra do guia.
 
 ## Resultados por skill — fluxo de execução e divergências
 
@@ -7967,7 +8004,8 @@ power, com a versão subindo (`2.5.0`, `2.5.1`…) em `plugin.json` **e** em tod
 | 0.4 | **Dois modos**: HITL = subfluxos assíncronos por pessoa (a `[DEV]` termina no PR; REV aprova → VER; VER aceita → pronto para merge; reprovação → retrabalho anotado, volta ao codificador). AFK = um fluxo só, coordenado pela IA, responsável = quem disparou |
 | 0.5 | A `sdd-triar` termina perguntando **"mais algum item para triar?"** e recomeça |
 
-| 0.6 | Q1–Q7 do D0.7: retrabalho **reabre a `[DEV]`**; revisor e verificador **com MCP do ELM**; AFK sem GATE do plano **exceto fatia de épico** (leitura a confirmar); revisão automática antes do PR no HITL; REV → VER em sequência; o **modo é da fatia** (triagem/planejamento) |
+| 0.6 | **Lançar horas ≠ concluir** (D0.8): lançamento é registro de empenho em tarefa iniciada, a qualquer momento; conclusão é evento separado |
+| 0.6b | Q1–Q7 do D0.7: retrabalho **reabre a `[DEV]`**; revisor e verificador **com MCP do ELM**; AFK sem GATE do plano **exceto fatia de épico** (leitura a confirmar); revisão automática antes do PR no HITL; REV → VER em sequência; o **modo é da fatia** (triagem/planejamento) |
 
 **Em aberto:** Q4 (horas no AFK, para depois), a confirmação da leitura do Q3, e estas:
 
@@ -8104,8 +8142,10 @@ S10-F* (virada) e S17-F* (squash merge) dá `DETERMINÍSTICO`.
 2. `sdd-fatiar` Passo 4: modo backlog só com `backlog no EWM = ao-fatiar`; `na-sprint` → o planejamento cria.
 3. `ELM pendente` num lugar só por tipo de artefato (fatia → `status.md`; épico → `prd.md`; AT → linha do backlog),
    com a `sdd-status` listando as pendências e a `sdd-elm` baixando-as (`ELM feito:`).
-4. Horas numa regra única no steering (DEV/REV/VER/ESP/ATD: quem lança, quando, quem conclui), citada por verificar,
-   consolidar, loop e atender.
+4. Horas numa regra única no steering e no guia (D0.8): **lançar ≠ concluir**. Lançar é registro de empenho, a
+   qualquer momento em tarefa iniciada (ao fechar a sessão, numa fronteira de fase, sob pedido), sem mudar o estado;
+   concluir é da skill do papel, com o saldo de horas. Corrigir as 10 passagens da tabela do D0.8; a `sdd-status`
+   pergunta as horas da sessão ao fechar.
 
 **Pronto quando:** o teste cego "publicação interrompida e repetida" não cria tarefa duplicada; `sdd-status` lista e
 zera uma pendência de exemplo.
@@ -8153,7 +8193,7 @@ Alta aberta e `DETERMINÍSTICO` como maioria nos fluxos do caminho principal.
 | 3 Estado limpo | S13-D1, S13-D2, S13-D4, S14-D1, S14-D2, S08-D1 | médio | 2 (onde cada papel commita) |
 | 4 Agentes | S11-D1, S19-D1 | pequeno (JSON + 2 textos) | 1, 2 |
 | 5 Base e backlog | S10-D3, S17-D1, S17-D2, S09-D1 | médio | 1 (seção AT) |
-| 6 ELM | S11-D2, S09-D2 | pequeno | 1 (modo assumir) |
+| 6 ELM e horas | S11-D2, S09-D2, D0.8 | pequeno | 1 (modo assumir) |
 | 7 Bordas | S19-D2, S13-D3 (via 0.8) | médio | 0 |
 | 8 Formatos | S10-D1 | pequeno | — |
 | 9 Revalidação | — | 1 rodada do pipeline | 1–8 |

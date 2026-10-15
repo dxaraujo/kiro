@@ -4,7 +4,7 @@ description: "Guia do fluxo sdd — engenharia agêntica orientada a especifica�
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.1.0"
+  version: "2.3.0"
 ---
 
 # sdd — Engenharia agêntica orientada a especificação
@@ -19,11 +19,14 @@ Configuração do projeto: `.kiro/steering/sdd.md` (gerado pela **`sdd-setup`**)
 
 ## Trilhas (o tamanho decide a cerimônia)
 
+Toda demanda nova entra pela **`sdd-triar`**: ela decide a trilha e registra o trabalho no backlog, sem começar. A
+**`sdd-iniciar`** começa o que já está registrado e planejado (Definition of Ready, sprint ou encaixe, WIP).
+
 | Trilha | Quando | Caminho |
 |---|---|---|
-| **direta** | o diff cabe numa frase, sem regra nova | teste que falha → correção → revisão → PR (sem pasta de spec) |
+| **direta** | o diff cabe numa frase, sem regra nova | teste que falha → correção → revisão → PR (sem spec: a pasta tem só o `status.md`) |
 | **rápida** | defeito ou ajuste ≤ 1 dia, comportamento certo já conhecido | `bugfix.md` + `tasks.md` → implementação → revisão → verificação → PR |
-| **padrão** | uma fatia do backlog | pesquisa → plano → **GATE do plano** → implementação (TDD) → revisão → verificação → PR → consolidação |
+| **padrão** | uma fatia do backlog: de um épico, ou sem épico com regra clara e ficha aprovada pelo P.O. | pesquisa → plano → **GATE do plano** → implementação (TDD) → revisão → verificação → PR → consolidação |
 | **épico** | funcionalidade com várias histórias ou decisão de produto em aberto | entrevista → PRD → **GATE do PRD** → ELM → fatias → **GATE do backlog** → planejamento → cada fatia na trilha padrão |
 | **atendimento** | o cliente pede consulta, extração ou explicação; nada muda no repositório | entrevista curta → `[ATD]` no EWM → banco (só leitura) e bundle → resposta com "ok" → horas |
 
@@ -31,6 +34,8 @@ Toda hora trabalhada cabe numa tarefa da sprint: `[ESP]` (especificação do ép
 fatia) e `[ATD]` (por atendimento). As horas são lançadas na conclusão de cada tarefa, nunca nos GATEs.
 
 ```
+ENTRADA       triar ─► backlog: EP rascunho · FT sem épico (padrão com ficha, rápida, direta) · AT ─► atender
+                │
 PRODUTO       entrevistar ─► PRD ─► GATE PRD ─► ELM (HF/REG/GL) ─► fatiar ─► GATE backlog ─► sprint (EWM)
                                                                                     │
 FATIA         iniciar ─► pesquisar ─► plano ─► GATE plano ─► implementar (TDD) ─► revisar ─► verificar ─► PR
@@ -71,7 +76,8 @@ Fatia **AFK**: o projeto pode dispensar o GATE do plano (a análise independente
 |---|---|
 | configurar o fluxo, os agentes e os toolkits no projeto | `sdd-setup` |
 | saber onde parei / o que fazer agora · fechar a sessão | `sdd-status` |
-| começar qualquer trabalho (fatia, defeito, item do EWM, pedido) | `sdd-iniciar` |
+| registrar qualquer demanda nova — pedido, defeito, ajuste, item ou lote do EWM (triagem) | `sdd-triar` |
+| começar ou retomar um trabalho já registrado e planejado (fatia, defeito, item do EWM) | `sdd-iniciar` |
 | alinhar decisões | `sdd-entrevistar` |
 | escrever o PRD de um épico | `sdd-prd` |
 | quebrar o PRD em fatias / refinar o backlog | `sdd-fatiar` |

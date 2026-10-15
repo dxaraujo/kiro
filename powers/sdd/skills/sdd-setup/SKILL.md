@@ -4,7 +4,7 @@ description: "Configura o fluxo sdd num projeto: entende o repositório (tipos d
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.1.0"
+  version: "2.3.0"
 ---
 
 # sdd-setup — Configurar o fluxo no projeto
@@ -173,7 +173,7 @@ pré-marcadas pelos `papeis` do toolkit e pelo tipo de projeto (formato em `tool
 
 | Agente | Já tem (do fluxo) | Sugestão de extras |
 |---|---|---|
-| `sdd-produto` | entrevistar, prd, fatiar, planejamento | skills de domínio/negócio |
+| `sdd-produto` | triar, entrevistar, prd, fatiar, planejamento, atender | skills de domínio/negócio |
 | `sdd-pesquisador` | pesquisar | skills de stack para ler o código (ex.: `java`) |
 | `sdd-codificador` | plano, implementar | skills de stack e de teste do toolkit (ex.: `spring-batch-job`, `java`) |
 | `sdd-revisor` | revisar | skills de padrões e de revisão da stack |
@@ -291,7 +291,7 @@ cada arquivo gravado em `.kiro/agents/`, `.kiro/hooks/` e `.kiro/workflows/` —
 Sugira o commit (`.kiro/steering/sdd.md`, `.kiro/agents/sdd-*.json`, `.kiro/hooks/`, `.kiro/workflows/`,
 `.kiro/sdd/`, `<produto>/`, `.gitignore` e o que a migração moveu ou removeu) — só com confirmação — e termine
 com o próximo passo:
-"nova demanda: …" (`sdd-iniciar`: faz a triagem e, se for épico, segue para a `sdd-prd`), "vamos trabalhar na <id>"
+"nova demanda: …" (`sdd-triar`: faz a triagem e registra no backlog; épico → `sdd-prd`), "vamos trabalhar na <id>"
 (`sdd-iniciar`) ou "onde parei?" (`sdd-status`).
 
 ## Regras

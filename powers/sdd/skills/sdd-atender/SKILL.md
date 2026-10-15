@@ -4,7 +4,7 @@ description: "Trilha de atendimento do fluxo sdd — demanda de cliente que não
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.1.0"
+  version: "2.3.0"
 ---
 
 # sdd-atender — Atender sem perder o rastro

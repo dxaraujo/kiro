@@ -10,6 +10,8 @@ depois. O sdd põe as pessoas onde elas têm mais alavanca — decidir o quê, a
 o resto com agentes de contexto limpo, presos a feedback automático.
 
 ```
+ENTRADA   triar ─► backlog: EP rascunho · FT sem épico (padrão com ficha, rápida, direta) · AT ─► atender
+            │
 PRODUTO   entrevistar ─► PRD ─► GATE PRD ─► ELM (HF/REG/GL) ─► fatiar ─► GATE backlog ─► sprint (EWM)
                                                                                  │
 FATIA     iniciar ─► pesquisar ─► plano (spec do Kiro) ─► GATE plano ─► implementar (TDD) ─► revisar ─► verificar ─► PR
@@ -64,7 +66,8 @@ Fontes no fim deste arquivo.
 | `sdd` | guia do fluxo: trilhas, gates, princípios, qual skill usar |
 | `sdd-setup` | configura o projeto: entende o repositório, descobre skills e toolkits, cria os agentes perguntando as skills de cada um |
 | `sdd-status` | painel "onde parei", WIP de revisão, próxima ação de maior alavanca |
-| `sdd-iniciar` | porta de entrada: triagem por trilha (inclusive atendimento), Definition of Ready, pasta, branch, item do EWM |
+| `sdd-triar` | entrada de toda demanda nova: triagem em qualquer trilha (inclusive atendimento), duplicados, ficha da fatia padrão sem épico, registro no backlog, importação de itens do EWM — não começa nada |
+| `sdd-iniciar` | compromisso e início: Definition of Ready, sprint (encaixe), WIP, pasta, branch, tarefa do EWM; retomada pela fase |
 | `sdd-entrevistar` | alinhamento em rodadas (grill), decisões e glossário |
 | `sdd-prd` | PRD do épico (o quê e por quê) e GATE do PRD |
 | `sdd-fatiar` | PRD → fatias verticais AFK/HITL, backlog e GATE do backlog |
@@ -146,8 +149,9 @@ e registra a pendência.
 
 1. Instale pelo painel **Powers** do Kiro (pasta `sdd` deste repositório ou uma cópia local).
 2. No projeto, peça **"configurar o sdd"** e responda às perguntas (uma por vez).
-3. Comece: **"nova demanda: …"** (a `sdd-iniciar` faz a triagem; épico → PRD), **"vamos trabalhar na FT-031"** (fatia), **"corrigir o defeito
-   4567"** (trilha rápida) — ou **"onde parei?"**.
+3. Comece: **"nova demanda: …"** (a `sdd-triar` faz a triagem e registra no backlog; épico → PRD), **"vamos trabalhar
+   na FT-031"** (`sdd-iniciar`), **"corrigir o defeito 4567"** (registra pela triagem, se preciso, e começa) — ou
+   **"onde parei?"**.
 
 Depois de atualizar o power ou um toolkit: "atualizar os agentes do sdd". Projeto configurado com o power
 `sdd2` ou com a v1 do `sdd`: desinstale o power antigo, instale este e peça "atualizar a configuração do sdd" — a

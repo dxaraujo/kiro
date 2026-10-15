@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "sdd",
-  "version": "2.2.0",
-  "description": "Engenharia agêntica orientada a especificação, com o IBM ELM como fonte oficial da documentação e planejamento ágil: entrevista de alinhamento, PRD, fatias verticais AFK/HITL, plano no formato de spec do Kiro, TDD com backpressure, revisão e verificação independentes, PR lido por uma pessoa, consolidação no ELM e aprendizado composto. A setup cria no projeto os agentes e liga a cada um as skills escolhidas, inclusive as dos toolkits de stack (backend, batch, frontend).",
+  "version": "2.3.0",
+  "description": "Engenharia agêntica orientada a especificação, com o IBM ELM como fonte oficial da documentação e planejamento ágil: triagem e registro de toda demanda no backlog, entrevista de alinhamento, PRD, fatias verticais AFK/HITL, plano no formato de spec do Kiro, TDD com backpressure, revisão e verificação independentes, PR lido por uma pessoa, consolidação no ELM e aprendizado composto. A setup cria no projeto os agentes e liga a cada um as skills escolhidas, inclusive as dos toolkits de stack (backend, batch, frontend).",
   "author": {
     "name": "Daniel Xavier Araújo",
     "email": "danielxaraujo@gmail.com"
@@ -25,6 +25,14 @@
     "onde parei",
     "publicar no elm",
     "nova demanda",
+    "triagem",
+    "triar",
+    "registrar a demanda",
+    "registra o defeito",
+    "coloca no backlog",
+    "importar do ewm",
+    "encaixe na sprint",
+    "retomar a fatia",
     "demanda",
     "nova funcionalidade",
     "vamos trabalhar na",

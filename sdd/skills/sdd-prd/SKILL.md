@@ -35,6 +35,10 @@ Leia antes: `.kiro/steering/sdd.md` (ELM, caminhos, papéis) e o steering de pro
    Registre o que achou como fontes (id ELM, `arquivo:linha`).
 3. Defina o id: próximo `EP-<nn>` livre em `<produto>/backlog.md` (crie o arquivo se não existir —
    formato na `sdd-fatiar`). Pasta: `<produto>/epicos/<EP>-<slug>/` (`slug` em kebab-case, sem acento).
+4. **Registre o épico no EWM já agora** (projeto com ELM): `sdd-elm` modo *backlog*, só o épico (`[EP-nn]
+   <título>`, descrição = o problema), com confirmação; o id vai para a coluna `elm` do `backlog.md`. Assim o pai
+   existe para a `[ESP]` do planejamento e para os IBs das fatias. Sem MCP → `ELM pendente: épico EP-nn` no rodapé
+   do PRD.
 
 ## Passo 2 — Entrevistar
 

@@ -10,12 +10,17 @@ foi feita. Os nomes reais de tipos, pastas, campos e links são da project area:
 
 | sdd (repositório) | ELM | Tipo padrão (ajustável) | Quando |
 |---|---|---|---|
-| Épico `EP-nn` | EWM — Épico (ou Item de Backlog pai) | `Épico` / `com.ibm.team.apt.workItemType.epic` | publicação do backlog |
+| Épico `EP-nn` | EWM — Épico, ou Item de Backlog pai quando a PA não tem Épico | `Épico` / `com.ibm.team.apt.workItemType.epic` ou `…workItemType.story` | quando o `EP-nn` nasce (`sdd-prd`) |
+| Sustentação · Atendimento | EWM — épico `[SUS-<ano>] Sustentação` e IB `Atendimento` filho dele | os mesmos tipos | uma vez por release/ano |
 | História `HF-nn` (conceito OKF em `elm/`) | DOORS Next — artefato | `História de Usuário` (título `HF - <nome>`) | GATE do PRD (`na-aprovacao`) ou merge (`no-merge`) |
 | Regra `REG-nn` (conceito OKF em `elm/`) | DOORS Next — artefato | `Regra` (título `REG - <nome>`) | idem, **antes** das histórias (elas embutem as regras) |
 | Termo `GL-<termo>` (conceito OKF em `elm/`) | DOORS Next — artefato | `Termos de Glossário` (título = o termo) | idem, antes das regras |
 | Fatia `FT-nnn` | EWM — Item de Backlog (story, *plan item*) | `com.ibm.team.apt.workItemType.story` | conforme `backlog no EWM` (seção ELM do `sdd.md`): ao fatiar ou na sprint |
-| Tarefas da fatia | EWM — Tarefa (filha do IB, *execution item*) | `task` | planejamento da sprint |
+| Tarefas `[DEV]` `[REV]` `[VER]` da fatia | EWM — Tarefa (filha do IB, *execution item*) | `task` | planejamento da sprint |
+| Tarefa `[ESP]` do épico | EWM — Tarefa (filha do épico) | `task` | planejamento da sprint |
+| Tarefa `[ATD]` do atendimento | EWM — Tarefa (filha de `Atendimento`) | `task` | abertura do atendimento |
+| Critérios de aceite da fatia | campo de texto rico do IB (ou seção da descrição) | linha do `sdd.md` | publicação do IB |
+| Horas | EWM — timesheet da tarefa | `ccm_add_timesheet` | conclusão de cada tarefa ou sob pedido |
 | ET as-built (opcional) | DOORS Next — artefato | `Especificação Técnica` (título `ET - <fatia>`) | consolidação (depois do merge) |
 | Cenário verificado | ETM — Caso de Teste | importação do `CT.csv` | consolidação |
 | Defeito (trilha rápida) | EWM — Defeito | `defect` | já existe; a fatia referencia |
@@ -29,7 +34,7 @@ foi feita. Os nomes reais de tipos, pastas, campos e links são da project area:
 | **afeta** | Defeito → História/Regra que ele viola | `link_workitem_and_requirement(…, "affects")` | trilha rápida |
 | **valida** | Caso de Teste → História | `link_testartifact_and_requirement(…, "validates")` | depois da importação do CT |
 | **testado por** | IB → Caso de Teste | `link_workitem_and_testartifact(…, "tests")` | depois da importação do CT |
-| **pai / filhos** | Épico → IB → Tarefa | `ccm_create_workitem(…, parent=…)` | criação |
+| **pai / filhos** | Épico → IB → Tarefa; Épico → `[ESP]`; Atendimento → `[ATD]` | `ccm_create_workitem(…, parent=…)`; troca: `ccm_update_workitem(…, parent=…)` | criação |
 | **depende de** | IB → IB (`bloqueada-por` do backlog) | atributo de link do `link-types` do `pa_*.json`, se mapeado | publicação do IB |
 | **embutido** | História → Regra (no texto) | `rm_update_requirement(…, embedded=[…])` | publicação da história |
 
@@ -43,8 +48,8 @@ relatório de velocidade do EWM funcionar. Padrão (ajustável no `sdd.md`): `P 
 
 ## O que o MCP `elm` não faz (passos manuais)
 
-Hoje o MCP grava título e texto de requisitos, work items, estados, comentários e links work item/teste ↔
-requisito. Não grava: atributos de requisito, links requisito ↔ requisito (*satisfaz*, *restringe*, *elabora*),
+Hoje o MCP grava título e texto de requisitos, work items (inclusive troca de pai e `plannedFor`), estados,
+comentários, horas e links work item/teste ↔ requisito. Não grava: atributos de requisito, links requisito ↔ requisito (*satisfaz*, *restringe*, *elabora*),
 módulos, change sets, baselines e casos de teste. Quando o processo do projeto exigir algum deles, a `sdd-elm`
 entrega um **roteiro manual** com os ids exatos, e o registra como `ELM pendente: <ação>` até a pessoa confirmar:
 

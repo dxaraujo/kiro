@@ -1,6 +1,6 @@
 ---
 name: sdd-elm
-description: "Alimenta o IBM ELM (sistema de registro da documentação do projeto) a partir dos artefatos do fluxo sdd, pelo power elm — modo requisitos (histórias, regras e termos do épico — conceitos OKF v0.2 na pasta da spec, aprovados com verified humano — publicados no DOORS Next de baixo para cima, HF → REG como embed, idempotente pelo resource/id do conceito, alteração do artefato existente em vez de duplicar), modo backlog (épico e itens de backlog das fatias no EWM, ligados às histórias por implementa/rastreia), modo sprint (iteração, tarefas filhas, responsáveis, virada), modo testes (CT.csv para o ETM e links valida/testado por), modo especificação técnica (ET as-built) e modo conclusão (estados). Sempre mostra a prévia e pede confirmação; o que o MCP não faz vira roteiro manual com pendência registrada. Use em \"publica no ELM\", \"sobe o PRD para o DOORS\", \"cria os itens no EWM\", \"publica a sprint\", \"liga os testes\", \"fecha no ELM\"."
+description: "Alimenta o IBM ELM (sistema de registro da documentação do projeto) a partir dos artefatos do fluxo sdd, pelo power elm — modo requisitos (histórias, regras e termos do épico — conceitos OKF v0.2 na pasta da spec, aprovados com verified humano — publicados no DOORS Next de baixo para cima, HF → REG como embed, idempotente pelo resource/id do conceito, alteração do artefato existente em vez de duplicar), modo backlog (épico — registrado quando o EP nasce —, épico de Sustentação, itens de backlog das fatias com critérios de aceite, ligados às histórias por implementa/rastreia), modo sprint (planos de backlog e da sprint, tarefas [ESP] [DEV] [REV] [VER] com pai, responsáveis, virada por plannedFor), modo atendimento ([ATD] por AT), modo horas (lançar e relatório por tipo e pessoa), modo testes (CT.csv para o ETM e links valida/testado por), modo especificação técnica (ET as-built) e modo conclusão (estados). Sempre mostra a prévia e pede confirmação; o que o MCP não faz vira roteiro manual com pendência registrada. Use em \"publica no ELM\", \"sobe o PRD para o DOORS\", \"cria os itens no EWM\", \"publica a sprint\", \"liga os testes\", \"fecha no ELM\", \"lança 4h\", \"relatório de horas\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -16,7 +16,7 @@ da área antes de chamar as tools. Ids da project area:
 `.kiro/config/power/elm/pa_*.json`. Tipos, pastas, prefixos e regras do projeto: seção **ELM** do
 `.kiro/steering/sdd.md`. Mapeamento e limites: [references/mapeamento.md](references/mapeamento.md).
 
-**Sem o MCP `elm` nesta sessão** (agentes, kiro-cli, outra máquina): não publique. Registre `ELM pendente:
+**Sem o MCP `elm` nesta sessão** (revisor, verificador, pesquisador, outra máquina) ou com falha: não publique. Registre `ELM pendente:
 <modo> <alvo>` no Histórico do `status.md` (fatia) ou no rodapé do PRD (épico) e siga — o ELM nunca trava o fluxo.
 Projeto sem ELM (`sdd.md` → ELM: não usa) → nada a fazer.
 
@@ -72,31 +72,83 @@ o MCP não os grava. Roteiro manual se o processo do projeto os exigir no ELM (a
 Depois: sugira a **`elm-sync`** para baixar ao bundle a versão oficial, que passa a ser a viva; os conceitos de
 `elm/` ficam como registro, com `resource` preenchido. Commits na base, como todo artefato de produto.
 
-## Modo backlog (fatias → EWM)
+## Modo backlog (épicos e fatias → EWM)
 
-Quando: `backlog no EWM` = `ao-fatiar` (logo após o GATE do backlog) ou `na-sprint` (só as fatias da sprint, no
-modo sprint).
+**Todo trabalho tem pai:** épico → IB → tarefa para o que vem de PRD; o épico de **Sustentação** (um por release ou
+ano) para o resto. Ordem obrigatória de criação: épico, depois IB, depois tarefa. `Planejado para` é obrigatório
+em IB e tarefa: use sempre a iteração que a pessoa indicar (no planejamento, a da sprint).
 
-1. **Épico** (se não tem `elm`): tipo do `sdd.md`, título `[EP-03] <título>`, descrição = problema +
-   solução do PRD + link do PRD no repositório; links **rastreia** → histórias publicadas.
-2. **Item de backlog por fatia:** título `[FT-031] <título>`, `parent` = épico, pontos pelo tamanho (tabela do
-   `sdd.md`), descrição com: cenários cobertos (texto), modo AFK/HITL, `bloqueada por`, pasta prevista;
-   responsável = P.O. (o IB é do produto). Links **implementa** → cada história que a fatia cobre; **depende de** →
-   IBs das fatias em `bloqueada-por` (se o `link-types` tiver; senão fica na descrição).
-3. `backlog.md` (na base): `elm` de cada fatia/épico.
+1. **Épico — nasce cedo:** a `sdd-prd` chama este modo assim que define o `EP-nn` (antes da entrevista), para o
+   pai existir quando o IB da fatia for criado. Tipo do `sdd.md` (a PA pode não ter "Épico": então é um **Item de
+   Backlog pai**), título `[EP-03] <título>`, descrição = problema (e, depois do GATE, solução do PRD + link do
+   PRD no repositório). Links **rastreia** → histórias, quando publicadas.
+2. **Sustentação e Atendimento** (uma vez por release/ano, se a linha do `sdd.md` estiver vazia): épico
+   `[SUS-<ano>] Sustentação` e, filho dele, o IB `Atendimento` (pai das `[ATD]`); ids na seção ELM do `sdd.md`.
+3. **Item de backlog por fatia** (`backlog no EWM` = `ao-fatiar`, logo após o GATE do backlog, ou `na-sprint`):
+   título `[FT-031] <título>`, `parent` = épico, pontos pelo tamanho (tabela do `sdd.md`), descrição com modo
+   AFK/HITL, `bloqueada por` e pasta prevista; responsável = P.O. (o IB é do produto). **Critérios de aceite:** os
+   cenários que a fatia cobre (`cobre`), em Dado / Quando / Então, copiados do PRD, no campo da linha "Critérios
+   de aceite no IB" do `sdd.md` (Markdown; o MCP grava como texto rico) — sem o campo, numa seção "Critérios de
+   aceite" da descrição. Fonte única é o PRD: o campo é cópia gerada, com o aviso "gerado do PRD — não edite
+   aqui"; atualize quando a fatia for refinada ou a `sdd-consolidar` registrar mudança as-built. Links
+   **implementa** → cada história que a fatia cobre; **depende de** → IBs das fatias em `bloqueada-por` (se o
+   `link-types` tiver; senão fica na descrição).
+4. **Fatia dividida:** conforme a linha do `sdd.md` — IBs novos filhos do IB original (que segue filho do épico),
+   ou fecha o original e cria novos. Pai errado → `ccm_update_workitem(id, parent=<novo pai>)`.
+5. `backlog.md` (na base): `elm` de cada fatia/épico.
 
 ## Modo sprint (planejamento → iteração)
 
-Entrada da `sdd-planejamento`: número da sprint, iteração, plano e time confirmados, fatias da sprint.
+Entrada da `sdd-planejamento` (sempre chamada depois do "ok" da sprint): número da sprint, iteração, time e as três
+seções do `sprint-<nn>.md` (fatias com responsável, revisor e verificador; especificação; reserva de atendimento).
 
-1. Iteração/plano inexistentes → ofereça criá-los pela `elm-setup` (exige a permissão de modificar iterações na
-   PA; as tools de criação usam serviços internos do EWM — se falharem, peça a quem administra a PA).
-2. Fatias sem IB → modo backlog primeiro. Para cada IB da sprint: `plannedFor` = iteração (o planejamento é de
-   quem planeja; o responsável continua o P.O.).
-3. **Tarefas** filhas pelo template do `sdd.md` (ex.: `[DEV] FT-031 Implementar`, `[VER] FT-031
-   Verificar`), com responsável e estimativa em horas se o planejamento informou.
-4. **Virada:** IBs/tarefas não concluídos da sprint que fechou → `plannedFor` da nova (move, nunca recria);
-   roteiro manual de **baseline** (componente RM + GC) se o projeto exige baseline por sprint.
+1. **Planos**, por iteração e time — os dois tipos que o fluxo usa: **plano de backlog**
+   (`com.ibm.team.apt.plantype.product.backlog`: épicos, IBs, Sustentação e "Atendimento") e **plano da sprint**
+   (`com.ibm.team.apt.plantype.default`: as tarefas). Faltou algum (ou a iteração) → crie pela `elm-setup`
+   (`ccm_create_iteration` / `ccm_create_iteration_plan`; exige a permissão de modificar iterações — se falhar,
+   peça a quem administra a PA).
+2. Fatias sem IB → modo backlog primeiro. Para cada IB da sprint: `plannedFor` = iteração (o responsável
+   continua o P.O.).
+3. **Tarefas**, com os títulos da linha "Tarefas" do `sdd.md`, responsável, estimativa em horas e `plannedFor` =
+   iteração:
+
+   | Tarefa | Uma por | Responsável | Pai |
+   |---|---|---|---|
+   | `[ESP] EP-05 Especificação` | épico na seção Especificação | quem especifica | o épico |
+   | `[DEV] FT-031 Implementar` | fatia | responsável da fatia | IB da fatia |
+   | `[REV] FT-031 Revisar` | fatia | revisor | IB da fatia |
+   | `[VER] FT-031 Verificar` | fatia | verificador | IB da fatia |
+
+   Trilha rápida com item de origem → pai = o item (sem IB novo); direta → uma `[DEV] <pedido>`, pai = item de
+   origem ou Sustentação. Campos obrigatórios da Tarefa (categoria de horas, OTR, classificação, Clarity) pela
+   `elm-ccm` (Criar) e pela linha "Classificação da tarefa" do `sdd.md`. Grave os ids na coluna "Tarefa ELM" do
+   `sprint-<nn>.md` e no `elm` do `backlog.md`.
+4. **Virada:** tarefas não concluídas (inclusive `[ESP]` e `[ATD]`) e IBs não concluídos → só o `plannedFor`
+   muda para a nova iteração (o pai não muda; move, nunca recria); roteiro manual de **baseline** (componente RM +
+   GC) se o projeto exige baseline por sprint.
+
+## Modo atendimento (`sdd-atender`)
+
+- **Abrir:** `[ATD] AT-<nnn> <título>`, filha do IB "Atendimento" (`sdd.md`), `plannedFor` = iteração da sprint
+  aberta (ou a que a pessoa indicar), responsável = quem atende, estimativa, estado em andamento.
+- **Concluir:** depois do lançamento das horas (modo horas), estado de conclusão da PA.
+
+## Modo horas
+
+**Lançar** — na conclusão de uma tarefa (chamado pela skill que conclui) ou sob pedido ("lança 4h", "lança 6h de
+ontem"):
+1. Tarefa: a informada; senão a atual — o `status.md` da branch dá a `[DEV]`, `[REV]` ou `[VER]` do papel de quem
+   pede; o AT aberto dá a `[ATD]`; a `[ESP]` vem do `sprint-<nn>.md`. Dúvida → pergunte.
+2. Horas já lançadas (`ccm_list_timesheet`) → mostre e desconte. Uma linha por data; data futura não.
+3. Regras do EWM: só o responsável lança; máximo 16 h por dia; time code e work type de `timesheet` no
+   `pa_*.json`. Confirme e `ccm_add_timesheet`. Lançar não conclui a tarefa (tarefa de vários dias); concluir é
+   do modo conclusão ou da skill que chamou.
+4. Sem MCP ou com falha → `ELM pendente: lançar <h>h em <tarefa> (<data>)` no `status.md`, no registro do AT ou no
+   `sprint-<nn>.md`; este modo lança depois.
+
+**Relatório** (virada ou sob pedido): `ccm_list_timesheet` das tarefas da sprint → horas por tipo (`[ESP]`
+`[DEV]` `[REV]` `[VER]` `[ATD]`) e por pessoa, planejadas × lançadas, e as tarefas concluídas **sem horas** (só no
+fechamento). Alimenta a retrospectiva e a recalibração da reserva de atendimento.
 
 ## Modo testes (verificação → ETM)
 
@@ -115,8 +167,8 @@ projeto), mostre, publique como os requisitos depois do `verified` humano, e lig
 
 ## Modo conclusão
 
-Tarefas e IB da fatia → estado de conclusão da PA (ação de `ccm_list_workitem_states`); épico quando todas as
-fatias concluírem. Comentário opcional no IB: PR, pasta e ids publicados.
+Tarefas e IB da fatia → estado de conclusão da PA (ação de `ccm_list_workitem_states`), depois das horas de cada
+tarefa (modo horas); épico quando todas as fatias concluírem. Comentário opcional no IB: PR, pasta e ids publicados.
 
 ## Saída
 

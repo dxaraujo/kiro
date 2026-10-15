@@ -65,13 +65,16 @@ Na worktree do `sdd-loop`: `cd .kiro/local/wt/<ft> && <comando>`. Falha de ambie
 
 | Item | Valor |
 |---|---|
-| Usa ELM | `<sim — <caminho do pa_*.json> | não>` (agentes `sdd-*` não têm o MCP do ELM: a sessão da pessoa usa o power `elm`) |
+| Usa ELM | `<sim — <caminho do pa_*.json> | não>` (MCP `elm` nos agentes `sdd-produto`, `sdd-codificador` e `sdd-orquestrador`; nos demais, a escrita vira `ELM pendente`) |
 | Publicar requisitos · backlog no EWM · ET | `<na-aprovacao | no-merge>` · `<ao-fatiar | na-sprint>` · `<não publica | as-built no merge>` |
 | Manual no DOORS Next | `<change set, módulo, links restringe, baseline | nada>` |
 | Fatia dividida no EWM | `<itens novos como filhos do item original | fecha o original e cria itens novos>` |
 | Tipo · pasta no RM | HF `<História de Usuário>` `<pasta>` · REG `<Regra>` `<pasta>` · GL `<Termos de Glossário>` `<pasta>` · ET `<… | —>` |
-| Tipo no EWM · pontos P/M/G | épico `<Épico>` · fatia `<Item de Backlog>` · `<2 · 3 · 5>` |
-| Tarefas por fatia na sprint | `<[DEV] FT-<nnn> Implementar>` (quem implementa) · `<[VER] FT-<nnn> Verificar>` (quem verifica) |
+| Tipo no EWM · pontos P/M/G | épico `<Épico | Item de Backlog (pai)>` · fatia `<Item de Backlog>` · `<2 · 3 · 5>` |
+| Sustentação · Atendimento | `<[SUS-<ano>] Sustentação — id | criar>` · `<Atendimento — id | criar>` |
+| Critérios de aceite no IB | `<nome do campo em workitem-types[IB].fields do pa_*.json | descrição>` |
+| Tarefas | `<[ESP] EP-<nn> Especificação>` · `<[DEV] FT-<nnn> Implementar>` · `<[REV] FT-<nnn> Revisar>` · `<[VER] FT-<nnn> Verificar>` · `<[ATD] AT-<nnn> <pedido>>` |
+| Classificação da tarefa | `<[ESP] Análise / Especificação · [DEV] Desenvolvimento · [REV] Outra - Não listada · [VER] Testes de Homologação · [ATD] Suporte / Apoio Técnico Especializado | a PA não tem>` |
 | `CT.csv` (colunas na ordem do template do ETM) | `<Tipo=Caso de Teste · Resumo · Responsável · Status=<inicial> · Categoria · Planejado para · Descrição>` |
 
 ## Agentes

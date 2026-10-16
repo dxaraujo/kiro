@@ -113,7 +113,7 @@ máxima das últimas sprints) quando houver histórico.
 
 | FT | Título | Tam. | Modo | Responsável | Revisor | Verificador | Status | Observação |
 |---|---|---|---|---|---|---|---|---|
-| FT-031 | Bloquear a conta após 3 tentativas | M | AFK | joao.lima | ana.souza | ana.souza | concluida | |
+| FT-031 | Bloquear a conta após 3 tentativas | M | HITL | joao.lima | ana.souza | ana.souza | concluida | |
 | FT-033 | Avisar o usuário do bloqueio | M | HITL | ana.souza | joao.lima | rita.melo | → sprint <nn+1> | aguardando texto do e-mail |
 
 ## Especificação

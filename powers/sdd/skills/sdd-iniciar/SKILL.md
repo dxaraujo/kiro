@@ -39,6 +39,8 @@ está em (1) nem (2) não está registrado.
 Próximo: use `<skill> <item>`   (agente: <agente>)
 ```
 
+Pedido em texto: `🔀 pedido não registrado — <resumo em uma linha>` · `Próximo: use sdd-triar`.
+
 Responda com a instrução e **pare**: nunca invoque nem simule a skill do papel — ela começa na própria invocação.
 
 ## "Minha próxima tarefa"
@@ -51,8 +53,8 @@ Responda com a instrução e **pare**: nunca invoque nem simule a skill do papel
    📋 Suas tarefas na sprint <nn> (<login>)
    | # | Tarefa | Item | Estado | Skill |
    |---|---|---|---|---|
-   | 1 | [REV] 669401 | FT-031 Bloquear a conta | Novo | sdd-revisar |
-   | 2 | [DEV] 669412 | FT-034 Exportar relatório | Em Desenvolvimento | sdd-desenvolver |
+   | 1 | [DEV] 669412 | FT-034 Exportar relatório | Em Desenvolvimento | sdd-desenvolver |
+   | 2 | [REV] 669401 | FT-031 Bloquear a conta | Novo | sdd-revisar |
    Qual? (número)
    ```
 3. A pessoa escolhe → Passo 2 com o item escolhido. Nenhuma tarefa → diga e ofereça "próxima fatia"

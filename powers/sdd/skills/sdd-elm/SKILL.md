@@ -205,8 +205,8 @@ Chamado pela skill do papel antes de trabalhar: `sdd-desenvolver` (`[DEV]`), `sd
    |---|---|
    | minha (`whoami`) e em andamento | **nada a fazer** — diga "já assumida" e siga |
    | sem responsável, ou minha e não iniciada | responsável = `whoami`; ação para o estado em andamento da PA (`ccm_list_workitem_states`; ex.: *Em Desenvolvimento*); estimativa se faltar (pergunte) |
-   | de outra pessoa | mostre quem é e pergunte se assume no lugar dela; sem "sim", pare |
-   | concluída | só se quem chamou disse **retrabalho**: ação de reabertura da PA (sem ação de reabertura → `ELM pendente: reabrir <tarefa>` e aviso); fora disso → avise e pare |
+   | de outra pessoa | mostre quem é e pergunte se assume no lugar dela; sem "sim", pare; com "sim", a ação da linha acima (responsável = `whoami`, em andamento) |
+   | concluída | só se quem chamou disse **retrabalho**: ação de reabertura da PA e, na mesma confirmação, responsável = `whoami` e em andamento (sem ação de reabertura → `ELM pendente: reabrir <tarefa>` e aviso); fora disso → avise e pare |
 
 3. **Uma** confirmação com o que muda (responsável, estado, estimativa); `ccm_update_workitem` com os campos e o
    `state` na mesma chamada.

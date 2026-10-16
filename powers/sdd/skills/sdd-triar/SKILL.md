@@ -110,8 +110,10 @@ no mesmo commit.
     origem, prazo, quem atende, critério de pronto). Regra de negócio em aberto → não é atendimento: volte ao
     Passo 2.
   - Próximo `AT-nnn` de "Próximos ids" (backlog antigo, sem `AT-`: regra de migração no formato do backlog).
-  - **Sprint sugerida:** a aberta (`sprint-<nn>.md` com `**Situação:** aberta`), pela regra da reserva — cabe na
-    reserva de atendimento → quem triou confirma; estourou → o P.O. decide (o atendimento não tira fatia sozinho).
+  - **Sprint sugerida:** a aberta (`sprint-<nn>.md` com `**Situação:** aberta`), pela regra da reserva — a reserva
+    está na seção Atendimento do `sprint-<nn>.md`; o usado é a soma das estimativas dos AT dela; cabe com a
+    estimativa deste (A-6) → quem triou confirma; estourou → `status` `backlog`, `[ATD]` sem `plannedFor`, e a
+    decisão é do P.O. pelo Encaixe da `sdd-planejamento` (o atendimento não tira fatia sozinho).
     Kanban (`acordos.md`) → a iteração corrente. Sem sprint aberta → `status` `backlog` e o aviso "sem sprint
     aberta: o AT entra no próximo planejamento". Responsável sugerido: quem tem `atende: true` no `equipe.json`.
   - Linha em `## Atendimentos` (`aberto` na sprint, `backlog` sem ela); `<produto>/atendimentos/AT-<nnn>-<slug>.md`
@@ -134,8 +136,8 @@ da ficha) e, se o item já foi criado no EWM, troque o `[FT-nnn]`/`[EP-nn]` do t
 ```
 📥 <FT-nnn | EP-nn | AT-nnn> — <título> · trilha <…> · <pronta | backlog: falta … | aberto na sprint <nn>> · modo <AFK | HITL | —>
 Origem: <DF 4567 | IB 611 | chamado | pedido> · Ficha: <caminho | —> · EWM: <id | criado <id> | pendente | sem ELM>
-Registrado. Para começar: use `sdd-iniciar <id>` (o hub encaminha para a skill do papel; fatia e épico precisam
-estar planejados na sprint).
+Registrado. Para começar: use `sdd-iniciar <id>` (o hub encaminha para a skill do papel; fatia, épico e AT
+precisam estar na sprint). AT fora da reserva → use `sdd-planejamento` (Encaixe) antes.
 Mais algum item para triar?
 ```
 

@@ -88,7 +88,7 @@ A única do fluxo — triagem, fatiamento, planejamento e `sdd-desenvolver` conf
 
 | Trilha | Pronta quando |
 |---|---|
-| padrão de épico | cenários de aceite em `cobre` num PRD `aprovado`/`fatiado`; `bloqueada-por` concluídas ou com o que a fatia precisa já na base |
+| padrão de épico | cenários de aceite em `cobre` num PRD `aprovado`/`fatiado`; `bloqueada-por` concluídas, ou planejadas na mesma sprint antes dela (ela só **começa** quando o que precisa está na base) |
 | padrão sem épico | ficha `aprovada por` o P.O., com cenários `C<n>` |
 | rápida | comportamento esperado claro (na origem ou na ficha), sem regra nova, tamanho ≤ M |
 | direta | o pedido cabe numa frase, sem regra nova, tamanho P |

@@ -74,7 +74,8 @@ Fatia `Modo: HITL` com a tarefa `[REV]` assumida (Passo 0) e `fase: pr-aberto` (
 revisão oficial é sua, na sua sessão:
 
 1. Vá para a branch do PR (`git switch <branch>` com "sim"; árvore suja → avise e pare) e `git pull --ff-only`.
-   `fase: em-revisao`; incremente "revisão do código" em Rodadas — a rodada é sua.
+   `fase: em-revisao`; incremente "revisão do código" em Rodadas — a rodada é sua (retomando `em-revisao` sem o
+   relatório desta rodada gravado, não incremente de novo).
    PR atualizado depois de um retrabalho pedido pela VER, com a `[REV]` já concluída → o Passo 0 a reabre (modo
    *assumir* com retrabalho): toda mudança no PR passa de novo pela revisão.
 2. Rubrica **C** (Passos 1–4) sobre `git diff origin/<base>...HEAD`, gravando `revisao-codigo-<N>.md`.

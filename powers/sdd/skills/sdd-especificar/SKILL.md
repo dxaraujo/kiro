@@ -43,11 +43,14 @@ nada a fazer. Sem MCP → `ELM pendente: assumir [ESP] EP-<nn>` no `rascunho.md`
 `.kiro/local/especificacao/<EP>-<slug>/` — é ali que a `sdd-entrevistar`, a `sdd-prd` e a revisão P trabalham até
 o GATE. Monte-a pela primeira fonte que existir:
 
-1. **Já existe nesta máquina** → use-a.
+1. **Já existe nesta máquina** → use-a, mas compare antes com a `[ESP]`: último comentário de sessão mais novo que
+   os arquivos locais (outra máquina trabalhou depois) → mostre as duas datas e pergunte se baixa os anexos (item 2)
+   por cima da pasta local.
 2. **A `[ESP]` tem anexos** (`ccm_list_attachments`) → outra pessoa ou máquina já trabalhou: baixe cada `.md`
    (`ccm_get_attachment`) para a pasta (os de `elm/` para `elm/`, pelo prefixo `elm-` do nome do anexo). Mostre a
    data do último comentário de sessão.
-3. **Só a base** → copie `rascunho.md` e `decisoes.md` de `<produto>/epicos/<EP>-<slug>/` (criados pela triagem).
+3. **Só a base** → copie `rascunho.md` e `decisoes.md` de `<produto>/epicos/<EP>-<slug>/` em `origin/<base>`
+   (`git show origin/<base>:<caminho>`, depois de `git fetch`; criados pela triagem).
    Sem essa pasta na base → crie-os: `rascunho.md` com o título e a descrição do item do EWM (sem dado inventado) e
    `decisoes.md` no o formato do Passo 3 da [`sdd-entrevistar`](../sdd-entrevistar/SKILL.md) (título `# Decisões — <EP-nn> <título>` e a tabela vazia).
 
@@ -77,7 +80,7 @@ Pergunta única, com prévia do que vai:
 📝 Sessão de especificação — EP-<nn> · <data>
 Comentário na [ESP] <id>: <resumo do levantamento · decisões D-nn novas · dúvidas para a próxima reunião>
 Anexos (última versão, substituem os anteriores): rascunho.md · decisoes.md · prd.md · elm-<arquivo>.md …
-Horas desta sessão na [ESP]: <h> h em <data>
+Horas desta sessão na [ESP]: <h> h em <data>   (pergunte à pessoa; nunca estime por ela)
 Registrar? (sim)
 ```
 

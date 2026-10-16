@@ -11,11 +11,11 @@ o resto com agentes de contexto limpo, presos a feedback automático.
 
 ```
 ENTRADA   triar ─► backlog: EP rascunho · FT sem épico (padrão com ficha, rápida, direta) · AT + [ATD] ─► "mais algum?"
-HUB       iniciar <item> ─► especificar · codificar · revisar · verificar · atender (cada uma assume a sua tarefa)
+HUB       iniciar <item> ─► especificar · desenvolver · revisar · verificar · atender (cada uma assume a sua tarefa)
             │
 PRODUTO   entrevistar ─► PRD ─► GATE PRD ─► ELM (HF/REG/GL) ─► fatiar ─► GATE backlog ─► sprint (EWM)
                                                                                  │
-FATIA     codificar ─► pesquisar ─► plano (spec do Kiro) ─► GATE plano ─► implementar (TDD) ─► revisar ─► verificar ─► PR
+FATIA     desenvolver ─► pesquisar ─► plano (spec do Kiro) ─► GATE plano ─► implementar (TDD) ─► revisar ─► verificar ─► PR
                                                                                                                   │
 DEPOIS    merge (pessoa) ─► consolidar (drift, ELM as-built, CTs, ADRs) ─► aprender (lições)
 ```
@@ -99,11 +99,11 @@ de `skills/sdd-setup/assets/`:
 | `.kiro/hooks/sdd.json` (opcional) | backpressure: compila e testa depois de cada tarefa de spec |
 | `.kiro/workflows/sdd-*.workflow.json` (opcional, experimental) | `planejar-fatia` e `entregar-fatia` nos Kiro Workflows — quem dispara é a pessoa, no chat do Kiro ("rode o workflow `sdd-entregar-fatia` para a FT-031" ou `/workflow-run`), uma fatia por vez; nenhum agente as dispara |
 | `.kiro/sdd/http.sh` (opcional) | única chamada HTTP que o verificador faz sem perguntar: só à URL de teste, com corpo da pasta `massa/` |
-| pasta do produto (perguntada na setup; padrão `.kiro/planejamento`) | `backlog.md`, épicos e PRDs, `planejamento/`, `atendimentos/`, `aprendizado/` — versionada; o que é local fica em `.kiro/local/` (fora do git) |
+| pasta do produto (proposta pela setup; padrão `.kiro/planejamento`) | `backlog.md`, épicos e PRDs, `planejamento/`, `atendimentos/`, `aprendizado/` — versionada; o que é local fica em `.kiro/local/` (fora do git) |
 
-O MCP do ELM entra só nos agentes que conduzem sessão com a pessoa (`sdd-produto`, `sdd-codificador`,
-`sdd-orquestrador`), pelo `mcp.json`, com leitura liberada e escrita com confirmação; revisor, verificador e
-pesquisador não o têm, e nenhum agente recebe os powers (sem `includePowers`). Sem o MCP, a escrita vira
+O MCP do ELM entra nos agentes que conduzem sessão com a pessoa (`sdd-produto`, `sdd-codificador`,
+`sdd-orquestrador`) e no revisor e no verificador só para a própria tarefa (assumir, horas, conclusão), pelo
+`mcp.json`, com leitura liberada e escrita com confirmação; o pesquisador não o tem, e nenhum agente recebe os powers (sem `includePowers`). Sem o MCP, a escrita vira
 pendência registrada.
 
 Cada agente tem as permissões mínimas do papel, nos dois blocos do formato universal (`toolsSettings` para a
@@ -118,7 +118,7 @@ só no orquestrador, com confirmação a cada um. Detalhes em
 O fluxo não sabe programar em nenhuma stack: o conhecimento de Java, Spring Batch, Angular, React etc. vem de
 **toolkits** — pacotes de skills mantidos fora do power, um por tipo de projeto ou stack. A `sdd-setup` é a única
 parte do fluxo que sabe procurá-los (`.kiro/toolkits/`, `~/.kiro/toolkits/`, powers instalados com `toolkit.json`,
-ou skills com `metadata.toolkit`), detecta o tipo do projeto e **pergunta, agente por agente**, quais skills ligar —
+ou skills com `metadata.toolkit`), detecta o tipo do projeto e **propõe, agente por agente**, as skills a ligar (uma confirmação por agente) —
 num projeto 100% Spring Batch, o codificador recebe as de batch e Java que a pessoa escolher, e não as de REST ou
 frontend. Contrato em [`skills/sdd-setup/references/toolkits.md`](skills/sdd-setup/references/toolkits.md) e
 schema em [`toolkit.schema.json`](skills/sdd-setup/assets/toolkit.schema.json).
@@ -148,10 +148,13 @@ e registra a pendência.
   CLI: `chat.enableWorkflows`) para as receitas experimentais.
 - Toolkits da stack do projeto (opcional — sem eles os agentes dependem do steering e do código vizinho).
 
+Horas: **lançar ≠ concluir** — lançar é registro de empenho, a qualquer momento numa tarefa iniciada (ao fechar a
+sessão, por exemplo); concluir é da skill do papel, com o saldo. No AFK só existe a `[DEV]`.
+
 ## Primeiros passos
 
 1. Instale pelo painel **Powers** do Kiro (pasta `sdd` deste repositório ou uma cópia local).
-2. No projeto, peça **"configurar o sdd"** e responda às perguntas (uma por vez).
+2. No projeto, peça **"configurar o sdd"** e confirme as propostas (os padrões vêm marcados; uma confirmação por bloco).
 3. Comece: **"nova demanda: …"** (a `sdd-triar` faz a triagem e registra no backlog; épico → PRD), **"iniciar a
    FT-031"** ou **"minha próxima tarefa"** (o hub `sdd-iniciar` diz a skill do papel), **"corrigir o defeito 4567"**
    (registra pela triagem, se preciso) — ou **"onde parei?"**.

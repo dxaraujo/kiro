@@ -12,7 +12,8 @@
     "file://.kiro/steering/sdd.md",
     "skill://{{POWER}}/skills/sdd-verificar/SKILL.md",
     "skill://{{POWER}}/skills/sdd-elm/SKILL.md",
-    "skill://{{POWER}}/skills/sdd-iniciar/SKILL.md"
+    "skill://{{POWER}}/skills/sdd-iniciar/SKILL.md",
+    "skill://{{POWER}}/skills/sdd-status/SKILL.md"
   ],
   "toolsSettings": {
     "read": {

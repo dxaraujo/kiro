@@ -106,7 +106,8 @@ ele precisa estar na branch antes da abertura.
 Incremente "verificação" em Rodadas e siga para a **`sdd-verificar`** (cenários de aceite executados de ponta a ponta, com evidência; de preferência
 pelo agente `sdd-verificador`). `ACEITO` → ela deixa a fatia em `fase: aceita`; `REJEITADO` → devolve para cá
 os cenários reprovados (Passo 0). Teto de 2 rodadas, como na revisão: 2ª rejeição seguida → `fase: bloqueada (de:
-verificando)` com as mesmas opções do Passo 3.
+verificando)` com as mesmas opções do Passo 3. Corrigida uma rejeição, volte ao Passo 2 e ao Passo 3 (a nova
+revisão conta no teto de rodadas) antes de verificar de novo.
 
 Com `ACEITO` ou `REJEITADO`: **commite imediatamente** `verificacao.md`, `CT.csv`, `evidencias/`, `massa/` e o
 `status.md` antes de prosseguir — mensagem no padrão do `sdd.md`, `registrar verificação`. O PR cita esses arquivos e eles precisam estar na branch antes da abertura.
@@ -137,12 +138,12 @@ Quem abre o PR é a sessão da pessoa (com o "sim" dela) ou o `sdd-orquestrador`
    O PR é para uma pessoa **ler o código**: pequeno, com a evidência e o caminho de leitura, sem despejar o plano.
 3. Numa só confirmação da pessoa: push e abertura do PR com a ferramenta do `sdd.md` (sem ferramenta →
    entregue título e descrição prontos).
-4. `status.md`: HITL → `fase: pr-aberto`; AFK → `fase: pronta-para-merge`; link do PR; commit e, com o mesmo
-   "sim", push (o `status.md` vai junto no PR). Retrabalho → o push atualiza o mesmo PR; linha de horas na tabela
-   Retrabalho.
-5. **Conclusão da `[DEV]`:** mostre as horas já lançadas (`ccm_list_timesheet`) e pergunte só o saldo →
+4. **Conclusão da `[DEV]`:** mostre as horas já lançadas (`ccm_list_timesheet`) e pergunte só o saldo →
    `sdd-elm` modo *horas*, depois modo *conclusão* só da `[DEV]`, numa confirmação. Sem MCP → `ELM pendente:
-   lançar <h>h e concluir [DEV] FT-<nnn>` no Histórico. HITL: avise que a `[REV]` está disponível para o revisor.
+   lançar <h>h e concluir [DEV] FT-<nnn>` no Histórico.
+5. `status.md`: HITL → `fase: pr-aberto`; AFK → `fase: pronta-para-merge`; link do PR, o resultado do item 4 no
+   Histórico (retrabalho: as horas na tabela Retrabalho); commit e, com o mesmo "sim", push (o `status.md` vai junto
+   no PR; retrabalho → atualiza o mesmo PR). HITL: avise que a `[REV]` está disponível para o revisor.
 
 O merge é de uma pessoa (HITL: depois de `pronta-para-merge`, quando a VER aceita). Depois do merge:
 **`sdd-consolidar`**.

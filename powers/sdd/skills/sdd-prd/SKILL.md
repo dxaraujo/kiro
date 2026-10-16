@@ -43,9 +43,9 @@ Leia antes: `.kiro/steering/sdd.md` (ELM, caminhos, papéis) e o steering de pro
    (`.kiro/local/especificacao/<EP>-<slug>/`, `slug` em kebab-case, sem acento); sem ela → "use
    `sdd-especificar EP-<nn>`" e pare (é ela que assume a `[ESP]` e monta a pasta).
 4. **Registre o épico no EWM já agora**, se a coluna `elm` dele está `—` ou `pendente` (projeto com ELM): `sdd-elm` modo *backlog*, só o épico (`[EP-nn]
-   <título>`, descrição = o problema), com confirmação; o id vai para a coluna `elm` do `backlog.md`. Assim o pai
-   existe para a `[ESP]` do planejamento e para os IBs das fatias. Sem MCP → `ELM pendente: épico EP-nn` no rodapé
-   do PRD.
+   <título>`, descrição = o problema), com confirmação; o id fica no `rascunho.md` da pasta de trabalho e vai para a coluna `elm`
+   do `backlog.md` no commit do GATE (até lá, nada da especificação vai para a base). Assim o pai existe para os
+   IBs das fatias. Sem MCP → `ELM pendente: épico EP-nn` no `rascunho.md`.
 
 ## Passo 2 — Entrevistar
 
@@ -124,7 +124,8 @@ Aprovar? (o P.O. ou quem ele delegou)
   triagem), com o `revisao-prd-<N>.md`; na linha do épico no `backlog.md`, `status` `aprovado` e `prd` = o link do
   `prd.md`. **Um** commit (padrão de commit do `sdd.md`), direto ou por PR curto, conforme "Artefatos de produto"
   no `sdd.md`; nunca numa branch de fatia. Antes, feche a sessão pela `sdd-especificar` (Passo 5), para a `[ESP]`
-  ter a versão aprovada.
+  ter a versão aprovada. Depois do commit, a pasta de trabalho local pode ser apagada pela pessoa (a skill não
+  apaga: a base é a fonte).
 - Próximo passo, na mesma resposta:
   1. **`sdd-elm`** modo *requisitos* — publicar HF/REG/GL no DOORS Next (se o projeto usa ELM e a publicação é
      `na-aprovacao` no `sdd.md`);

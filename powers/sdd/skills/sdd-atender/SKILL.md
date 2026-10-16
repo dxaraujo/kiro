@@ -25,7 +25,7 @@ Leia antes: `.kiro/steering/sdd.md`. Sem ele → ofereça a **`sdd-setup`** ("co
 
 | Entrada | Como ler |
 |---|---|
-| `AT-nnn` ou `[ATD] AT-nnn` | a linha em `## Atendimentos` do `backlog.md` da base e o `AT-<nnn>-<slug>.md` |
+| `AT-nnn` ou `[ATD] AT-nnn` | a linha em `## Atendimentos` do `backlog.md` e o `AT-<nnn>-<slug>.md`, na base (itens 1 e 5 do bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base): o registro é gravado ali durante todo o atendimento) |
 | número do EWM de uma `[ATD]` | a linha do `backlog.md` com esse id em `elm` |
 | pedido novo ("o cliente pediu …"), ou AT fora do backlog | não está registrado → "use `sdd-triar`" e pare — nunca abra AT aqui |
 | AT `concluido` ou `cancelado` | mostre a situação e pare; reabrir é um AT novo pela triagem |
@@ -60,10 +60,12 @@ siga.
 
 1. Grava no registro a resposta enviada (sem dado de cliente; o texto com dado real fica em `.kiro/local/`).
 2. **Saldo de horas:** mostre o que já foi lançado na `[ATD]` (`ccm_list_timesheet`) e pergunte só o que falta →
-   `sdd-elm` modo *horas*; depois `sdd-elm` modo *atendimento* (Concluir), com uma confirmação. Sem MCP ou com
+   `sdd-elm` modo *horas*; depois `sdd-elm` modo *atendimento* (Concluir), com uma confirmação. Cada lançamento
+   ganha uma linha na tabela Horas do registro. Sem MCP ou com
    falha → `ELM pendente: lançar <h>h e concluir [ATD] AT-<nnn>` no registro.
-3. Pelo bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base): `**Situação:** concluido` no registro; na linha do AT no `backlog.md`, `status`
-   `concluido` e `concluida-em`; a situação no `sprint-<nn>.md`.
+3. `**Situação:** concluido` no registro; na linha do AT no `backlog.md`, `status` `concluido` e `concluida-em`;
+   a situação no `sprint-<nn>.md`. O commit é **um só**, no fim do Passo 5 (com a Saída), pelos itens 3 e 4 do
+   bloco Gravar na base.
 
 ## Passo 5 — Desdobramentos
 
@@ -77,7 +79,8 @@ Pergunte o que mais sai do atendimento e registre a resposta em **Saída** no re
   4. consulta reaproveitável → lição pela `sdd-aprender`
 ```
 
-Só instrui e para: **nunca invoque nem simule outra skill**.
+Grave a resposta em **Saída** e faça agora o commit único do Passo 4, item 3 (registro, backlog e sprint). Só
+instrui e para: **nunca invoque nem simule outra skill**.
 
 ## Registro `AT-<nnn>-<slug>.md`
 

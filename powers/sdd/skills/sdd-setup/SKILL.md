@@ -180,8 +180,8 @@ pré-marcadas pelos `papeis` do toolkit e pelo tipo de projeto (formato em `tool
 | `sdd-produto` | triar, entrevistar, especificar, prd, fatiar, planejamento, atender, iniciar, status, elm | skills de domínio/negócio |
 | `sdd-pesquisador` | pesquisar | skills de stack para ler o código (ex.: `java`) |
 | `sdd-codificador` | desenvolver, plano, implementar, iniciar, status, elm | skills de stack e de teste do toolkit (ex.: `spring-batch-job`, `java`) |
-| `sdd-revisor` | revisar, iniciar, elm | skills de padrões e de revisão da stack |
-| `sdd-verificador` | verificar, iniciar, elm | skills de teste de aceite (Playwright, teste de job, API) |
+| `sdd-revisor` | revisar, iniciar, status, elm | skills de padrões e de revisão da stack |
+| `sdd-verificador` | verificar, iniciar, status, elm | skills de teste de aceite (Playwright, teste de job, API) |
 | `sdd-orquestrador` | loop, desenvolver, status, elm | normalmente nenhuma |
 
 Consolidar, aprender e setup rodam na **sessão padrão** (sem agente): a consolidação grava na base, publica a ET
@@ -191,7 +191,7 @@ Para cada agente, **uma mensagem só**: a proposta completa já marcada pelos pa
 o que muda — marcar/desmarcar uma skill, um MCP, trocar o modelo). Nada é perguntado item a item:
 
 ```
-🤖 sdd-codificador — já tem: plano, implementar
+🤖 sdd-codificador — já tem: desenvolver, plano, implementar, iniciar, status, elm
 Skills  [x] java (toolkit java)  [x] spring-batch-job (toolkit batch)  [ ] angular (toolkit front)
 MCPs    [x] elm (leitura; escrita com confirmação)  [x] banco: @<servidor>/<tool de consulta>
 Modelo  padrão do Kiro
@@ -204,8 +204,9 @@ Padrões da proposta:
 2. **MCPs:** o de banco entra como somente leitura em pesquisador, codificador, revisor e verificador — só a tool
    de consulta (`@<servidor>/<tool>`), nunca o servidor inteiro se ele tiver tool de escrita; browser/Playwright
    marcado no verificador em projeto `frontend`. **MCP `elm`** (projeto com ELM): marcado em `sdd-produto`,
-   `sdd-codificador` e `sdd-orquestrador`, com as tools de [references/agentes.md](references/agentes.md) (leitura
-   liberada, escrita com `ask`); **nunca** em revisor, verificador e pesquisador. Desmarcado pela pessoa → a escrita
+   `sdd-codificador`, `sdd-orquestrador`, `sdd-revisor` e `sdd-verificador` (estes dois só para a própria tarefa),
+   com as tools de [references/agentes.md](references/agentes.md) (leitura liberada, escrita com `ask`); **nunca**
+   no pesquisador. Desmarcado pela pessoa → a escrita
    no ELM vira `ELM pendente` naquele agente.
 3. **Modelo:** sempre o padrão do Kiro — não pergunte; a pessoa troca na proposta se quiser.
 4. Só codificador e orquestrador: **subagentes** — os `sdd-*` do fluxo marcados; agentes do projeto
@@ -276,7 +277,7 @@ cada arquivo gravado em `.kiro/agents/`, `.kiro/hooks/` e `.kiro/workflows/` —
 - JSON de cada agente faz parse; `name` = nome do arquivo; nenhum `{{…}}` sobrando; agente com `@<servidor>/…` em
   `tools` tem `"includeMcpJson": true` e a regra `mcp` (`allow` para as de leitura, que também estão em
   `allowedTools`; `ask` para as de escrita, que **não** estão em `allowedTools`); o MCP do ELM só em produto,
-  codificador e orquestrador, e o servidor dele existe no `mcp.json` do workspace ou do usuário; `.kiro/steering/` tem só o
+  codificador, orquestrador, revisor e verificador (nunca no pesquisador), com as tools da tabela de `agentes.md`, e o servidor dele existe no `mcp.json` do workspace ou do usuário; `.kiro/steering/` tem só o
   `sdd.md` do fluxo (nenhum `sdd2*.md` nem `sdd-projeto.md` sobrando), e nenhum `.kiro/agents/sdd2-*.json`.
 - Ferramentas que varrem a raiz do repositório (test runners, linters, `tsc`, varredura de arquivos) ignoram
   `.kiro/local/` — onde o loop cria as worktrees? Não ignoram → acrescente a exclusão na configuração delas (com

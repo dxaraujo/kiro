@@ -94,7 +94,7 @@ seguinte da mesma fatia.
 Depois de cada fase: grave a fase seguinte (`planejando` depois da pesquisa, `revisando` antes da revisão do
 código), atualize o log, as Rodadas e o Histórico do `status.md`; **commite imediatamente** na worktree os
 relatórios que chegaram nesta fase — `analise-plano-<N>.md` (fase 3), `revisao-codigo-<N>.md` (fase 6),
-`verificacao.md` e `CT.csv` (fase 7) — antes de iniciar a fase seguinte. Esses arquivos não são commitados
+`verificacao.md`, `CT.csv`, `evidencias/` e `massa/` (fase 7) — antes de iniciar a fase seguinte. Esses arquivos não são commitados
 pelos subagentes que os geram; o orquestrador é o responsável pelo commit deles.
 
 **Aprovação de plano pausado:** a pessoa lê o plano em `.kiro/local/wt/<ft>/.kiro/specs/<ft>-<slug>/` (ou na branch,

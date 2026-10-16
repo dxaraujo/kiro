@@ -27,8 +27,8 @@
      plano-em-revisao = o plano espera o GATE de uma pessoa; durante a análise independente a fase é planejando,
      e o passo é pulado na fatia AFK sem épico e na trilha rápida com `GATE na trilha rápida = não`.
      WIP esperando pessoa = plano-em-revisao + pr-aberto + em-revisao + em-verificacao + aceita + pronta-para-merge.
-     Quem grava a fase: quem conduz a sessão (a skill da fase) ou, no loop, o orquestrador; o pesquisador e o
-     revisor nunca gravam o status.md.
+     Quem grava a fase: quem conduz a sessão (a skill da fase) ou, no loop, o orquestrador; o pesquisador nunca
+     grava o status.md; o revisor e o verificador só no HITL (a rodada é deles).
      Rodadas: incrementadas por quem pede a rodada — sdd-plano (análise), sdd-implementar (revisão e
      verificação) ou, no loop, o orquestrador; nas receitas de workflow, o passo do codificador que vem depois.
      O revisor e o verificador não incrementam — exceto no HITL, em que eles mesmos conduzem a rodada sobre o PR.

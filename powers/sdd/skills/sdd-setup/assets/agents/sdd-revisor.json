@@ -12,7 +12,8 @@
     "file://.kiro/steering/sdd.md",
     "skill://{{POWER}}/skills/sdd-revisar/SKILL.md",
     "skill://{{POWER}}/skills/sdd-elm/SKILL.md",
-    "skill://{{POWER}}/skills/sdd-iniciar/SKILL.md"
+    "skill://{{POWER}}/skills/sdd-iniciar/SKILL.md",
+    "skill://{{POWER}}/skills/sdd-status/SKILL.md"
   ],
   "toolsSettings": {
     "read": {
@@ -38,7 +39,9 @@
         ".kiro/local/wt/*/.kiro/specs/*/analise-*.md",
         "{{PRODUTO}}/epicos/*/revisao-*.md",
         ".kiro/local/wf/*/plano.json",
-        ".kiro/local/wf/*/codigo.json"
+        ".kiro/local/wf/*/codigo.json",
+        ".kiro/specs/*/status.md",
+        ".kiro/local/wt/*/.kiro/specs/*/status.md"
       ]
     },
     "shell": {
@@ -222,7 +225,9 @@
           ".kiro/local/wt/*/.kiro/specs/*/analise-*.md",
           "{{PRODUTO}}/epicos/*/revisao-*.md",
           ".kiro/local/wf/*/plano.json",
-          ".kiro/local/wf/*/codigo.json"
+          ".kiro/local/wf/*/codigo.json",
+          ".kiro/specs/*/status.md",
+          ".kiro/local/wt/*/.kiro/specs/*/status.md"
         ],
         "effect": "allow"
       },

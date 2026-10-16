@@ -40,7 +40,7 @@
           "id": "registrar_revisao",
           "type": "step",
           "agent": "sdd-codificador",
-          "prompt": "Fatia {{fatia}}. AUTONOMO=true. Incremente \"revisão do código\" em Rodadas no status.md (quem incrementa é este passo) e registre o veredito do último revisao-codigo-<N>.md no Histórico. REVISAR → fase implementando, com os achados em 'Achados abertos'; se for a 2ª reprovação → fase bloqueada (de: revisando), com as opções da sdd-implementar (orientar a correção, voltar ao plano, aceitar os achados). Commite o revisao-codigo-<N>.md com o status.md (mensagem no padrão de commit do sdd.md, texto 'registrar revisão <N>'). Termine com send_message severity success (APROVADO ou REVISAR na 1ª rodada) ou error (bloqueada)."
+          "prompt": "Fatia {{fatia}}. AUTONOMO=true. Incremente \"revisão do código\" em Rodadas no status.md (quem incrementa é este passo) e registre o veredito do último revisao-codigo-<N>.md no Histórico. APROVADO → fase verificando. REVISAR → fase implementando, com os achados em 'Achados abertos'; se for a 2ª reprovação → fase bloqueada (de: revisando), com as opções da sdd-implementar (orientar a correção, voltar ao plano, aceitar os achados). Commite o revisao-codigo-<N>.md com o status.md (mensagem no padrão de commit do sdd.md, texto 'registrar revisão <N>'). Termine com send_message severity success (APROVADO ou REVISAR na 1ª rodada) ou error (bloqueada)."
         }
       ]
     },
@@ -54,7 +54,7 @@
       "id": "registrar_verificacao",
       "type": "step",
       "agent": "sdd-codificador",
-      "prompt": "Fatia {{fatia}}. AUTONOMO=true. Incremente \"verificação\" em Rodadas no status.md (quem incrementa é este passo) e registre o resultado no Histórico. Commite verificacao.md, CT.csv, evidencias/, massa/ e o status.md (mensagem no padrão de commit do sdd.md, texto 'registrar verificação'); a árvore da fatia termina limpa. Não faça push nem abra PR. Termine com send_message severity success (aceita: pronta para o PR) ou error (REJEITADO: os cenários reprovados voltam à sdd-implementar)."
+      "prompt": "Fatia {{fatia}}. AUTONOMO=true. Incremente \"verificação\" em Rodadas no status.md (quem incrementa é este passo) e registre o resultado no Histórico. 2ª rejeição seguida (o Histórico já tem uma rejeição desta verificação) → fase bloqueada (de: verificando), com as opções da sdd-implementar. Commite verificacao.md, CT.csv, evidencias/, massa/ e o status.md (mensagem no padrão de commit do sdd.md, texto 'registrar verificação'); a árvore da fatia termina limpa. Não faça push nem abra PR. Termine com send_message severity success (aceita: pronta para o PR) ou error (REJEITADO: os cenários reprovados voltam à sdd-implementar)."
     }
   ]
 }

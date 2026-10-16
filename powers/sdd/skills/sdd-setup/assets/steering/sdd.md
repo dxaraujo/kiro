@@ -71,7 +71,7 @@ Na worktree do `sdd-loop`: `cd .kiro/local/wt/<ft> && <comando>`. Falha de ambie
 | Abrir PR | `<gh pr create … | glab mr create … | entregar título e descrição>` |
 | Artefatos de produto (pasta do produto, glossário, ADRs, consolidação) | `<direto na branch base | PR curto para a base>` — nunca em branch de fatia; push ou PR com o "sim" da pessoa (o agente `sdd-produto` não faz push: entrega o comando) |
 | MCP de banco | `<@servidor/tool | não há>` — **somente leitura** (`SELECT`/`WITH`), exceto os scripts de massa; DDL fora do fluxo |
-| GATE na trilha rápida · paralelo no loop | `<sim | não>` · `<1>` (máx. 3) — GATE do plano: HITL sempre; AFK só na fatia de épico |
+| GATE na trilha rápida · paralelo no loop | `<sim | não>` · `<1>` (máx. 3) — GATE do plano: HITL sempre, exceto a trilha rápida com GATE = não; AFK só na fatia de épico |
 | Push e PR no loop | `<perguntar a cada lote (o Kiro confirma cada um) | não — a pessoa abre>` |
 | Instalados | hook `<sdd-backpressure | nenhum>` · workflows `<sdd-planejar-fatia, sdd-entregar-fatia | nenhum>` (disparados pela pessoa) |
 
@@ -79,7 +79,7 @@ Na worktree do `sdd-loop`: `cd .kiro/local/wt/<ft> && <comando>`. Falha de ambie
 
 | Item | Valor |
 |---|---|
-| Usa ELM | `<sim — <caminho do pa_*.json> | não>` (MCP `elm` nos agentes `sdd-produto`, `sdd-codificador` e `sdd-orquestrador`; nos demais, a escrita vira `ELM pendente`) |
+| Usa ELM | `<sim — <caminho do pa_*.json> | não>` (MCP `elm` em `sdd-produto`, `sdd-codificador`, `sdd-orquestrador` e, só para a própria tarefa, `sdd-revisor` e `sdd-verificador`; sem ele, a escrita vira `ELM pendente`) |
 | Publicar requisitos · backlog no EWM · ET | `<na-aprovacao | no-merge>` · `<ao-fatiar | na-sprint>` · `<não publica | as-built no merge>` |
 | Manual no DOORS Next | `<change set, módulo, links restringe, baseline | nada>` |
 | Fatia dividida no EWM | `<itens novos como filhos do item original | fecha o original e cria itens novos>` |

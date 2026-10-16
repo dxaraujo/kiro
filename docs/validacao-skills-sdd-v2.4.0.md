@@ -8279,6 +8279,22 @@ uma linha igual à do `plugin.json`.
 
 ### Etapa 9 — Revalidação
 
+> **✅ Feita (2026-10-15, power `sdd` 2.5.0).** Rodada enxuta: 5 agentes Sonnet, um por grupo (G1 hub/guia/setup/status ·
+> G2 triar/atender/entrevistar/especificar · G3 prd/fatiar/planejamento/elm · G4 desenvolver/pesquisar/plano/implementar
+> · G5 revisar/verificar/consolidar/aprender/loop), cada um com teste cego e conferência na fonte, somente leitura.
+>
+> | Resultado | |
+> |---|---|
+> | Altas da rodada anterior (26) | **25 fechadas**; S09-D1 com resíduo (dependência na mesma sprint × DoR) → corrigido |
+> | T1, T2, T3 do D0 | DETERMINÍSTICO, iguais ao desenho do dono |
+> | Fluxos do caminho principal | maioria DETERMINÍSTICO (hub, triagem em sequência, especificação com anexos, HITL em três sessões, retrabalho, loop AFK, workflows, consolidação com squash) |
+> | Alta nova (2) | regra antiga do MCP do ELM em README/steering/setup; revisor HITL sem escrita no `status.md` → **corrigidas** |
+> | Médias/Baixas novas (~25) | corrigidas as que tocam o caminho principal: ordem do commit na conclusão da `[DEV]` e do AT, `.config.kiro` no commit inicial, estimativa e reserva do AT (A-6), AT fora da reserva → Encaixe, retomada da especificação entre máquinas, épico no ELM sem tocar a base antes do GATE, roteiro do `equipe.json` (`atualizado`, `historico`, `ausencias`, Kanban, um P.O.), linhas migradas na sprint nova, assumir após "sim"/reabertura, VER antes do Passo 0, rodada não contada duas vezes, teto e revisão após rejeição da verificação, workflows (fase `verificando`, 2ª rejeição → bloqueada), diagramas com `desenvolver`, README alinhado |
+>
+> **Deixado de lado (Baixa):** "mesmo ambiente" no loop sem definição fina; IB de origem de um AT vindo do EWM;
+> soma de reserva com vários AT no mesmo lote; registro da pesquisa no Histórico quando a `sdd-plano` chama o agente
+> pesquisador; fallback sem ferramenta de PR na consolidação. **Pendente do dono:** revisão do fluxo Kanban (0.8).
+
 Rodar de novo este mesmo pipeline (Opus orquestra; Sonnet planeja e verifica arquivos; Haiku executa às cegas) sobre a
 versão corrigida, com os testes T1–T3 do D0 e um teste por divergência Alta fechada. Meta: zero `CONFLITO`, zero
 Alta aberta e `DETERMINÍSTICO` como maioria nos fluxos do caminho principal.

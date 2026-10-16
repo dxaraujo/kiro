@@ -21,7 +21,8 @@ unidade. "Feito" é uma afirmação; a evidência é a prova.
 
 Entrada: pasta da fatia com revisão `APROVADO`, na branch da fatia. **HITL** (tarefa `[VER]` assumida no
 Passo 0): só com `fase: em-verificacao` — a REV aprovou antes (sem isso, diga que a `[VER]` espera a revisão e
-pare); vá para a branch do PR (`git switch <branch>` com "sim", `git pull --ff-only`) e a rodada de verificação é sua. Tipo de projeto, como executar e onde ver o
+pare, **antes** do Passo 0, sem assumir a `[VER]`; retomando uma verificação interrompida, `em-verificacao` vale);
+vá para a branch do PR (`git switch <branch>` com "sim", `git pull --ff-only`) e a rodada de verificação é sua. Tipo de projeto, como executar e onde ver o
 resultado: seção **Verificação de aceite** do `.kiro/steering/sdd.md` (vem do toolkit, confirmado na setup).
 
 ## Passo 0 — Assumir a `[VER]` (só com a tarefa)
@@ -34,7 +35,7 @@ rodada.
 
 ## Passo 1 — Roteiro
 
-`status.md`: `fase: verificando`, linha no Histórico.
+`status.md`: AFK → `fase: verificando`; HITL → a fase continua `em-verificacao`; linha no Histórico.
 
 O roteiro parte do **contrato de pronto** do `design.md` (acordado no GATE do plano, antes do código) — não o
 afrouxe agora. Para cada cenário que a fatia cobre, escreva-o em `verificacao.md` **antes** de executar

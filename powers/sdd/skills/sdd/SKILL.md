@@ -49,11 +49,11 @@ no GATE do backlog, `[ATD]` ao finalizar.
 ```
 ENTRADA       triar ─► backlog: EP rascunho · FT sem épico (padrão com ficha, rápida, direta) · AT + [ATD] ─► "mais algum?"
                 │
-HUB           iniciar <item> ─► especificar · codificar · revisar · verificar · atender   (cada uma assume a sua tarefa)
+HUB           iniciar <item> ─► especificar · desenvolver · revisar · verificar · atender   (cada uma assume a sua tarefa)
                 │
 PRODUTO       especificar ─► entrevistar ─► PRD ─► GATE PRD ─► ELM (HF/REG/GL) ─► fatiar ─► GATE backlog ─► sprint (EWM)
                                                                                     │
-FATIA         codificar ─► pesquisar ─► plano ─► GATE plano ─► implementar (TDD) ─► revisar ─► verificar ─► PR
+FATIA         desenvolver ─► pesquisar ─► plano ─► GATE plano ─► implementar (TDD) ─► revisar ─► verificar ─► PR
                                                                                                          │
 DEPOIS        merge (pessoa) ─► consolidar (drift, ELM as-built, CTs, conclusão) ─► aprender (lições)
 ```

@@ -34,7 +34,9 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
    **verificar** — somadas em `horas-revisao-semana` —, para **especificar** (entrevista, PRD, fatiamento:
    `horas-especificacao-semana`; P.O. e Especificador) e quem **atende** demandas (`atende`). Grave no formato
    detectado — **só depois dos acordos (passo 2)**, que dão `cadencia`, `duracao-sprint-semanas` e
-   `pontos-por-tamanho` (antes deles o JSON não valida) — (`equipe.json` → validado contra `assets/equipe.schema.json`; `equipe.md` → valide só pela presença
+   `pontos-por-tamanho` (antes deles o JSON não valida; Kanban → `duracao-sprint-semanas` = a cadência da revisão de
+   backlog, padrão 1), com `atualizado` = hoje, `historico: []` e `ausencias: []` em quem não tem; confirme que há
+   **exatamente um** P.O. ativo — (`equipe.json` → validado contra `assets/equipe.schema.json`; `equipe.md` → valide só pela presença
    das colunas obrigatórias: Login, Papel, Horas/semana). Se nenhum arquivo existir ainda, prefira `equipe.json`
    (padrão com validação de schema); só use `equipe.md` se o time preferir edição direta em Markdown.
 
@@ -136,7 +138,8 @@ screenshot). Registre o retorno do P.O. no `sprint-<nn>.md`; pedido novo vira ce
    (planejadas × lançadas) e aponte as tarefas concluídas sem horas lançadas — só aqui, no fechamento.
 3. **Fechar:** concluídas contam na vazão e nos pontos; não concluídas — fatias, `[ESP]` e `[ATD]` — **migram**
    para a próxima sprint (no `sprint-<nn>.md` antigo ficam com "→ sprint <nn+1>"; o histórico não é apagado) e
-   ele fica com `**Situação:** fechada`. Fatia ou AT migrado → `sprint` = nn+1 na linha do `backlog.md` (fatias e
+   ele fica com `**Situação:** fechada`; no `sprint-<nn+1>.md` novo, cada item migrado ganha a sua linha (seção
+   Fatias, Especificação ou Atendimento) com a Observação `migrada da sprint <nn>`. Fatia ou AT migrado → `sprint` = nn+1 na linha do `backlog.md` (fatias e
    `## Atendimentos`), pelo bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base). AT em `backlog` (triado sem sprint aberta) entra no planejamento da próxima como as fatias.
 4. Recalcule vazão média, velocidade e horas por tipo (`equipe.json` → `historico`), recalibre a reserva de
    atendimento pelo consumido e replaneje a próxima pelo modo sprint (migradas consomem capacidade primeiro).

@@ -114,7 +114,7 @@ o caminho, e não comece.
    Grave os ids das tarefas no campo ELM do `status.md` — é por ele que as horas acham a tarefa. Chamada daqui, na
    branch da fatia, a `sdd-elm` não grava o `backlog.md` nem o `sprint-<nn>.md`: os ids ficam no `status.md`, e a
    `sdd-consolidar` os leva ao backlog. Sem o MCP: `ELM pendente: assumir [DEV] FT-<nnn>` no `status.md`.
-5. Commit pequeno do `status.md` e, com "sim", push da branch — é o sinal para o time de que a fatia começou.
+5. Commit pequeno do `status.md` e do `.config.kiro` e, com "sim", push da branch — é o sinal para o time de que a fatia começou.
 
 ## Passo 5 — Encaminhar
 

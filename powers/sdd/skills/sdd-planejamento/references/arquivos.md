@@ -43,7 +43,8 @@ URL abaixo, nunca um caminho local:
 ```
 
 - Chaves em kebab-case, exatamente as do exemplo; nada além delas (o schema recusa `horasSemana`, `capacidade`…).
-- `papel` é **um** valor: `P.O.`, `Analista`, `Dev`, `QA` ou `SM`; quem acumula papéis entra com o principal.
+- `papel` é **um** valor: `P.O.`, `Especificador`, `Dev`, `QA` ou `SM` (`Analista`, de versões antigas, é lido como
+  `Especificador`; o schema ainda o aceita); quem acumula papéis entra com o principal.
 - `horas-revisao-semana` soma revisar (planos, PRs) e verificar (aceite) e é parte de `horas-semana`.
 - `horas-especificacao-semana` (entrevista, PRD, fatiamento: tarefas `[ESP]`) também é parte de `horas-semana`;
   ausente = 0. Revisão + especificação nunca passam de `horas-semana`.

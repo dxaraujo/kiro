@@ -4,7 +4,7 @@ description: "Painel do fluxo sdd, somente leitura — onde parei e o que fazer 
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.3.0"
+  version: "2.5.0"
 ---
 
 # sdd-status — Onde parei
@@ -29,8 +29,8 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
    `sdd-planejamento` modo inicial).
 6. `<produto>/aprendizado/licoes.md`: lições com situação `proposta`.
    Sprint aberta (`sprint-<nn>.md`): seções Especificação e Atendimento (reserva × consumido) e as linhas
-   `ELM pendente:`. Atendimentos abertos: `<produto>/atendimentos/README.md` e os `AT-*.md` com `**Situação:**
-   aberto`.
+   `ELM pendente:`. Atendimentos abertos: as linhas `aberto` e `backlog` de `## Atendimentos` do `backlog.md`
+   (backlog antigo, sem a seção: os `AT-*.md` com `**Situação:** aberto`).
 7. Lotes autônomos em andamento: `.kiro/local/loop-*.md`.
 8. "Minhas" = responsável igual ao login da pessoa: `git config user.name` cruzado com `nome`/`login` do
    `equipe.json`; sem correspondência, pergunte o login uma vez.

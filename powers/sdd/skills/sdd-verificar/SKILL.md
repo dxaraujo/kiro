@@ -1,10 +1,10 @@
 ---
 name: sdd-verificar
-description: "Verificação de aceite de uma fatia do fluxo sdd — executa de ponta a ponta, na aplicação de verdade, cada cenário que a fatia cobre (API, job batch, tela no browser, carga de dados — conforme o tipo de projeto e o toolkit), com massa de teste, evidência por cenário (resposta, contagem, log, screenshot) e decisão ACEITO/REJEITADO; gera os casos de teste (CT.csv) para o ETM a partir dos cenários verificados. Cenário reprovado volta para a sdd-implementar com esperado × obtido. Use em \"verifica a FT-031\", \"testa a fatia\", \"executa os cenários\", \"teste de aceitação\", \"gera os CTs\"."
+description: "Verificação de aceite de uma fatia do fluxo sdd — executa de ponta a ponta, na aplicação de verdade, cada cenário que a fatia cobre (API, job batch, tela no browser, carga de dados — conforme o tipo de projeto e o toolkit), com massa de teste, evidência por cenário (resposta, contagem, log, screenshot) e decisão ACEITO/REJEITADO; gera os casos de teste (CT.csv) para o ETM a partir dos cenários verificados. Cenário reprovado volta para a sdd-implementar com esperado × obtido. Com a tarefa [VER] (direto ou pelo hub sdd-iniciar), assume-a antes no EWM (sdd-elm modo assumir). Use em \"verifica a FT-031\", \"pegar a [VER] da FT-031\", \"testa a fatia\", \"executa os cenários\", \"teste de aceitação\", \"gera os CTs\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.4.0"
+  version: "2.5.0"
 ---
 
 # sdd-verificar — O comportamento existe de verdade?
@@ -21,6 +21,14 @@ unidade. "Feito" é uma afirmação; a evidência é a prova.
 
 Entrada: pasta da fatia com revisão `APROVADO`, na branch da fatia. Tipo de projeto, como executar e onde ver o
 resultado: seção **Verificação de aceite** do `.kiro/steering/sdd.md` (vem do toolkit, confirmado na setup).
+
+## Passo 0 — Assumir a `[VER]` (só com a tarefa)
+
+Chamada com a tarefa `[VER] FT-nnn` — direto, pela pessoa do papel, ou pelo hub `sdd-iniciar` — numa sessão com o
+MCP do ELM: **`sdd-elm` modo *assumir*** (com "sim"): responsável = `whoami`, estado em andamento da PA; já minha e
+em andamento → nada a fazer. Sem MCP → `ELM pendente: assumir [VER] FT-<nnn>` no Histórico do `status.md`, e siga.
+Chamada como subagente por outra skill (a rodada de verificação do loop ou da implementação), sem a tarefa → pule este passo: quem chamou é o dono da
+rodada.
 
 ## Passo 1 — Roteiro
 

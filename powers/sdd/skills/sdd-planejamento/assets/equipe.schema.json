@@ -79,7 +79,7 @@
         "nome": { "type": "string", "minLength": 1 },
         "login": { "type": "string", "pattern": "^[^\\s@]+$", "description": "Login do ELM (members do pa_*.json), sem domínio." },
         "papel": {
-          "enum": ["P.O.", "Analista", "Dev", "QA", "SM"],
+          "enum": ["P.O.", "Especificador", "Analista", "Dev", "QA", "SM"],
           "description": "Um papel por pessoa: o principal. Quem acumula papéis entra com o que mais consome as horas dela."
         },
         "horas-semana": { "type": "number", "minimum": 0, "maximum": 60 },

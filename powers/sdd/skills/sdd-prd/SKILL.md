@@ -4,7 +4,7 @@ description: "Escreve o PRD de um épico ou demanda no fluxo sdd — o quê e o 
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.3.0"
+  version: "2.5.0"
 ---
 
 # sdd-prd — O quê e por quê (épico)
@@ -13,7 +13,8 @@ metadata:
 > power instalado (ex.: `~/.kiro/powers/installed/sdd/skills/sdd-prd/`), não no projeto: abra-os por esse
 > caminho, relativo a este `SKILL.md`. A busca no workspace não os encontra — não procure no projeto.
 
-Saída, em `<produto>/epicos/<EP>-<slug>/`: o `prd.md` no formato de
+Saída, na **pasta de trabalho** da especificação — `.kiro/local/especificacao/<EP>-<slug>/`, fora do git, montada
+pela **`sdd-especificar`** — até o GATE; no GATE, em `<produto>/epicos/<EP>-<slug>/`: o `prd.md` no formato de
 [references/prd-template.md](references/prd-template.md), o `decisoes.md` e a pasta `elm/` com **um conceito OKF
 v0.2 por história, regra e termo novo** — o formato de [references/okf-elm.md](references/okf-elm.md), o mesmo do
 bundle que a `elm-sync` mantém. São esses arquivos que sobem para o DOORS Next depois do GATE; até lá, ficam aqui.
@@ -38,8 +39,9 @@ Leia antes: `.kiro/steering/sdd.md` (ELM, caminhos, papéis) e o steering de pro
    - glossário e ADRs (caminhos na seção Projeto do `sdd.md`): termos e decisões que já valem.
    Registre o que achou como fontes (id ELM, `arquivo:linha`).
 3. Defina o id: o `EP-<nn>` que a `sdd-triar` registrou (linha `rascunho` com `prd` `—`); sem registro, a demanda
-   não passou pela triagem → carregue a `sdd-triar` antes. Pasta: `<produto>/epicos/<EP>-<slug>/` (`slug` em kebab-case, sem
-   acento); na linha do épico, `prd` = o link do `prd.md`.
+   não passou pela triagem → "use `sdd-triar`" e pare. Pasta de trabalho: a da `sdd-especificar`
+   (`.kiro/local/especificacao/<EP>-<slug>/`, `slug` em kebab-case, sem acento); sem ela → "use
+   `sdd-especificar EP-<nn>`" e pare (é ela que assume a `[ESP]` e monta a pasta).
 4. **Registre o épico no EWM já agora**, se a coluna `elm` dele está `—` ou `pendente` (projeto com ELM): `sdd-elm` modo *backlog*, só o épico (`[EP-nn]
    <título>`, descrição = o problema), com confirmação; o id vai para a coluna `elm` do `backlog.md`. Assim o pai
    existe para a `[ESP]` do planejamento e para os IBs das fatias. Sem MCP → `ELM pendente: épico EP-nn` no rodapé
@@ -47,7 +49,7 @@ Leia antes: `.kiro/steering/sdd.md` (ELM, caminhos, papéis) e o steering de pro
 
 ## Passo 2 — Entrevistar
 
-Rode a **`sdd-entrevistar`** sobre a demanda, gravando em `decisoes.md` da pasta do épico. Ela termina quando a
+Rode a **`sdd-entrevistar`** sobre a demanda, gravando em `decisoes.md` da pasta de trabalho. Ela termina quando a
 árvore de decisões está fechada ou a pessoa diz "chega".
 
 ## Passo 3 — Escrever
@@ -117,9 +119,13 @@ Aprovar? (o P.O. ou quem ele delegou)
 - Decisão **em aberto que muda comportamento** → não há aprovação; volte à entrevista.
 - Aprovado → no `prd.md`: `status: aprovado`, versão `1.0`, data e quem aprovou no rodapé. Em **cada** conceito de
   `elm/`: `status: stable` e um `verified` com `{ by: human:<login de quem aprovou>, at: <agora> }` — sem esse
-  `verified` humano a `sdd-elm` não publica. Entrada `**Update**` no `log.md`. Commit do PRD, do `decisoes.md`, de
-  `elm/` e do `backlog.md` (padrão de commit do `sdd.md`) — artefatos de produto vão para a **base**,
-  direto ou por PR curto, conforme "Artefatos de produto" no `sdd.md`; nunca numa branch de fatia.
+  `verified` humano a `sdd-elm` não publica. Entrada `**Update**` no `log.md`. Leve a pasta de trabalho para a
+  **base**: `git switch <base>` (com "sim") e `git pull --ff-only` (árvore suja ou falha → avise e pare, sem merge
+  nem rebase); copie-a para `<produto>/epicos/<EP>-<slug>/` (substitui o `rascunho.md` e o `decisoes.md` da
+  triagem), com o `revisao-prd-<N>.md`; na linha do épico no `backlog.md`, `status` `aprovado` e `prd` = o link do
+  `prd.md`. **Um** commit (padrão de commit do `sdd.md`), direto ou por PR curto, conforme "Artefatos de produto"
+  no `sdd.md`; nunca numa branch de fatia. Antes, feche a sessão pela `sdd-especificar` (Passo 5), para a `[ESP]`
+  ter a versão aprovada.
 - Próximo passo, na mesma resposta:
   1. **`sdd-elm`** modo *requisitos* — publicar HF/REG/GL no DOORS Next (se o projeto usa ELM e a publicação é
      `na-aprovacao` no `sdd.md`);

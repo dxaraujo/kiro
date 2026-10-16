@@ -1,10 +1,10 @@
 ---
 name: sdd-entrevistar
-description: "Entrevista de alinhamento do fluxo sdd (técnica \"grill me\"): percorre a árvore de decisões de uma demanda, PRD, fatia ou plano em rodadas (só as decisões da fronteira, numeradas, cada uma com a resposta recomendada) até haver entendimento compartilhado confirmado; responde sozinha o que o código, a documentação do ELM (bundle OKF) ou o glossário já respondem; registra cada decisão em decisoes.md e cada termo novo do domínio no glossário (linguagem ubíqua). Use em \"me entreviste\", \"grill me\", \"vamos alinhar\", \"quais decisões estão em aberto\", \"o que falta definir\", e sempre que sdd-prd, sdd-fatiar ou sdd-plano encontrarem decisão em aberto. Modo atendimento: uma rodada curta para abrir um AT (sdd-atender)."
+description: "Entrevista de alinhamento do fluxo sdd (técnica \"grill me\"): percorre a árvore de decisões de uma demanda, PRD, fatia ou plano em rodadas (só as decisões da fronteira, numeradas, cada uma com a resposta recomendada) até haver entendimento compartilhado confirmado; responde sozinha o que o código, a documentação do ELM (bundle OKF) ou o glossário já respondem; registra cada decisão em decisoes.md e cada termo novo do domínio no glossário (linguagem ubíqua). Use em \"me entreviste\", \"grill me\", \"vamos alinhar\", \"quais decisões estão em aberto\", \"o que falta definir\", e sempre que sdd-prd, sdd-fatiar ou sdd-plano encontrarem decisão em aberto. Modo atendimento: uma rodada curta para registrar um AT na triagem (sdd-triar)."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.3.0"
+  version: "2.5.0"
 ---
 
 # sdd-entrevistar — Alinhar antes de escrever
@@ -15,7 +15,8 @@ feche as decisões que as fontes não respondem — o agente **não** preenche l
 ## Entrada
 
 - **O que está sendo alinhado:** demanda (texto, work item do EWM), PRD, fatia ou plano técnico.
-- **Onde registrar:** a pasta do épico (`<produto>/epicos/<EP>-<slug>/decisoes.md`) ou da fatia
+- **Onde registrar:** a pasta do épico — até o GATE do PRD, a pasta de trabalho da `sdd-especificar`
+  (`.kiro/local/especificacao/<EP>-<slug>/decisoes.md`, fora do git); depois, `<produto>/epicos/<EP>-<slug>/` — ou da fatia
   (`.kiro/specs/<ft>-<slug>/decisoes.md`) — ou, na triagem de uma fatia sem épico, a seção Decisões da ficha
   (`<produto>/fatias/FT-<nnn>-<slug>.md`). Quem chamou informa; chamada direta → pergunte uma vez.
 - **Glossário:** o caminho está no `.kiro/steering/sdd.md` (seção Projeto; padrão `docs/glossario.md`).
@@ -105,7 +106,7 @@ Termos no glossário: <novos> novos · <alterados> alterados
 Em aberto (bloqueiam?): D-03 <tema> — <sim: muda o comportamento | não: detalhe de apresentação>
 ```
 
-## Modo atendimento (chamado pela `sdd-atender`)
+## Modo atendimento (chamado pela `sdd-triar`)
 
 Uma rodada só, no mesmo formato (numerada, com recomendação, "sim" aceita tudo), sem árvore nem glossário:
 
@@ -119,8 +120,9 @@ A-4 · Quem responde?                     Recomendo: joao.lima (atende: true no 
 A-5 · Critério de pronto?                Recomendo: planilha enviada e chamado respondido.
 ```
 
-As respostas vão para o cabeçalho do `AT-<nnn>-<slug>.md`, não para um `decisoes.md`. Regra de negócio em aberto
-que aparecer → não decide aqui: a `sdd-atender` encaminha para entrevista completa ou PRD.
+As respostas voltam para quem chamou (a `sdd-triar`), que as grava no cabeçalho do `AT-<nnn>-<slug>.md` — não num
+`decisoes.md`. Regra de negócio em aberto que aparecer → não decide aqui: não é atendimento, e a triagem a trata
+como fatia padrão ou épico.
 
 ## Regras
 

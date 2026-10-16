@@ -4,7 +4,7 @@ description: "Configura o fluxo sdd num projeto: entende o repositório (tipos d
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.4.0"
+  version: "2.5.0"
 ---
 
 # sdd-setup — Configurar o fluxo no projeto
@@ -239,12 +239,12 @@ Em memória:
    `.kiro/sdd/http.sh` ← [assets/scripts/http.sh](assets/scripts/http.sh) com `{{URL_TESTE}}` trocado pela URL
    base do ambiente de teste (sem barra no fim).
 4. `<produto>/` (só o que não existir): `backlog.md` mínimo
-   (`# Backlog — <nome>`, `Próximos ids: EP-01 · FT-001`, `Sustentação: —` e a tabela `## Épicos` vazia — formato na `sdd-fatiar`),
+   (`# Backlog — <nome>`, `Próximos ids: EP-01 · FT-001 · AT-001`, `Sustentação: —` e as tabelas `## Épicos`,
+   `## Fatias — sem épico` e `## Atendimentos` vazias — formato na `sdd-fatiar`),
    `planejamento/` com `equipe.json` (padrão, gerado pelo `sdd-planejamento` Modo inicial — use
    [assets/equipe-template.md](../sdd-planejamento/assets/equipe-template.md) como referência para o formato
-   Markdown alternativo); `<produto>/aprendizado/licoes.md` com o título `# Lições`; `<produto>/atendimentos/README.md`
-   com `# Atendimentos`, `Próximo: AT-001` e a tabela `| AT | Pedido | Situação |` vazia (formato na
-   `sdd-atender`). No modo atualização, acrescente só o que falta — nunca recrie o que existe.
+   Markdown alternativo); `<produto>/aprendizado/licoes.md` com o título `# Lições` (a pasta `atendimentos/` nasce
+   com o primeiro AT, pela `sdd-triar`). No modo atualização, acrescente só o que falta — nunca recrie o que existe.
 5. `.gitignore`: acrescente `.kiro/local/` se faltar. Migração do layout antigo (Passo 0), se aceita.
 
 Mostre o resumo e, no modo atualização, o diff de cada arquivo que muda:
@@ -293,8 +293,8 @@ cada arquivo gravado em `.kiro/agents/`, `.kiro/hooks/` e `.kiro/workflows/` —
 Sugira o commit (`.kiro/steering/sdd.md`, `.kiro/agents/sdd-*.json`, `.kiro/hooks/`, `.kiro/workflows/`,
 `.kiro/sdd/`, `<produto>/`, `.gitignore` e o que a migração moveu ou removeu) — só com confirmação — e termine
 com o próximo passo:
-"nova demanda: …" (`sdd-triar`: faz a triagem e registra no backlog; épico → `sdd-prd`), "vamos trabalhar na <id>"
-(`sdd-iniciar`) ou "onde parei?" (`sdd-status`).
+"nova demanda: …" (`sdd-triar`: faz a triagem e registra no backlog; épico → `sdd-prd`), "iniciar <id>" ou "minha próxima tarefa"
+(`sdd-iniciar`: o hub diz a skill do papel) ou "onde parei?" (`sdd-status`).
 
 ## Regras
 

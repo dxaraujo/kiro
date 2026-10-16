@@ -1,10 +1,10 @@
 ---
 name: sdd-triar
-description: "Entrada de todo trabalho novo no fluxo sdd — recebe um pedido em texto, um item do EWM (defeito, item de backlog — com o power elm) ou um lote de itens do EWM, procura duplicados e faz a triagem pelo tamanho: épico quando tem várias histórias ou decisão de produto em aberto; padrão para uma fatia com regra de negócio clara, sem épico, com uma ficha (regras e cenários) aprovada pelo P.O.; rápida para defeito ou ajuste ≤ 1 dia sem regra nova; direta quando o diff cabe numa frase; atendimento quando o cliente pede consulta ou extração sem mudar o repositório. Registra no backlog.md da base (épico EP-nn em rascunho ou fatia sem épico; EWM com confirmação) e não começa nada: no fim pergunta se começa agora (sdd-iniciar) ou fica para o planejamento. Use em \"nova demanda\", \"chegou um pedido\", \"o cliente pediu\", \"nova funcionalidade\", \"registra o defeito 4567\", \"coloca no backlog\", \"triagem\", \"aprova a ficha da FT-040\", \"importar do EWM\", \"triar os defeitos do time\"."
+description: "Entrada de todo trabalho novo no fluxo sdd — recebe um pedido em texto, um item do EWM (defeito, item de backlog — com o power elm) ou um lote de itens do EWM, procura duplicados e faz a triagem pelo tamanho: épico quando tem várias histórias ou decisão de produto em aberto; padrão para uma fatia com regra de negócio clara, sem épico, com uma ficha (regras e cenários) aprovada pelo P.O.; rápida para defeito ou ajuste ≤ 1 dia sem regra nova; direta quando o diff cabe numa frase; atendimento quando o cliente pede consulta ou extração sem mudar o repositório. Registra no backlog.md da base (épico EP-nn em rascunho, fatia sem épico ou atendimento AT-nnn com a sprint sugerida e a tarefa [ATD]; EWM com confirmação) e não começa nada: indica o hub sdd-iniciar e pergunta se há mais algum item para triar. Use em \"nova demanda\", \"chegou um pedido\", \"o cliente pediu\", \"nova funcionalidade\", \"registra o defeito 4567\", \"coloca no backlog\", \"triagem\", \"aprova a ficha da FT-040\", \"importar do EWM\", \"triar os defeitos do time\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.4.0"
+  version: "2.5.0"
 ---
 
 # sdd-triar — Triagem e registro
@@ -14,8 +14,9 @@ metadata:
 > caminho, relativo a este `SKILL.md`. A busca no workspace não os encontra — não procure no projeto.
 
 Toda demanda nova entra por aqui. Triar é decidir **se** ela entra, **em que trilha** e **com que informação** —
-sem começar nada. O que sai é uma linha no `backlog.md` (e, na fatia padrão sem épico, a ficha), que o planejamento
-puxa para a sprint. Começar é na **`sdd-iniciar`**, que confere o compromisso (sprint, WIP).
+sem começar nada. O que sai é uma linha no `backlog.md` (e, na fatia padrão sem épico, a ficha; no atendimento, o
+registro do AT e a `[ATD]`), que o planejamento puxa para a sprint. Começar é pelo hub **`sdd-iniciar`**, que
+encaminha o item para a skill do papel.
 
 Leia antes: `.kiro/steering/sdd.md`. Sem ele → ofereça a **`sdd-setup`** ("configurar o sdd") e pare. Formato do
 backlog e quem escreve cada coluna: [../sdd-fatiar/references/backlog.md](../sdd-fatiar/references/backlog.md).
@@ -35,14 +36,14 @@ nunca ofereça descartar, `stash` ou `reset`.
 | pedido de cliente sem mudança no repositório ("extrai as contas bloqueadas", "por que o caso X deu Y?") | trilha atendimento (Passo 2) |
 
 **Já existe?** Antes de triar, procure no `backlog.md` da base (ids `FT`/`EP`, colunas `origem` e `elm`, títulos
-parecidos), no `**Origem:**` dos `<produto>/atendimentos/AT-*.md` e nos `status.md` das branches
+parecidos, e a seção `## Atendimentos`), no `**Origem:**` dos `<produto>/atendimentos/AT-*.md` e nos `status.md` das branches
 (`git grep -l '<id>' <ref> -- '.kiro/specs/*/status.md'`). Achou → mostre a linha e:
 - **fatia sem épico que volta para cá** — `backlog` com `falta:`, ficha em `rascunho` ou a aprovar, mudança na
   ficha (pedida pela pessoa ou devolvida pela `sdd-plano` ou pela `sdd-consolidar`) ou trilha que não serve
   (devolvida pela `sdd-iniciar` ou pela `sdd-implementar`) → **retome a triagem dela**: Passo 2 com o mesmo `FT` e
   a ficha que existe; no Passo 3, só atualize a linha (sem id novo). Virou épico → `EP-nn` novo e a fatia
   `cancelada`, com `obs` `substituida-por EP-nn`;
-- o resto → pare: começar ou retomar é na **`sdd-iniciar`**; mudar uma fatia de épico é refinamento na
+- o resto → pare: começar ou retomar é pelo hub **`sdd-iniciar`**; mudar uma fatia de épico é refinamento na
   **`sdd-fatiar`**.
 
 ## Passo 2 — Triagem
@@ -53,7 +54,7 @@ parecidos), no `**Origem:**` dos `<produto>/atendimentos/AT-*.md` e nos `status.
 | **padrão** | uma fatia (≤ G) que cria ou muda regra de negócio **clara** — o P.O. decide aqui —, sem decisão de produto em aberto | fatia sem épico, com **ficha** (regras, cenários, decisões) aprovada pelo P.O. |
 | **rápida** | defeito ou ajuste ≤ 1 dia **sem** regra nova (o comportamento certo já está documentado ou é óbvio) | fatia sem épico, com `origem` (e ficha só se a origem não traz o comportamento esperado) |
 | **direta** | o diff cabe numa frase (texto, configuração, ajuste trivial), sem regra nova e sem risco de dado | fatia sem épico, tamanho `P` — também planejada: a `[DEV]` dela é onde as horas são lançadas |
-| **atendimento** | o cliente pede consulta, extração, explicação ou conferência; nada muda no repositório | `AT-nnn` pela **`sdd-atender`** (encaminhamento obrigatório; a triagem não executa o atendimento) |
+| **atendimento** | o cliente pede consulta, extração, explicação ou conferência; nada muda no repositório | `AT-nnn` na seção `## Atendimentos`, com o registro, a sprint sugerida e a `[ATD]` (a triagem registra; quem executa é a **`sdd-atender`**) |
 
 - Fatia de um épico não passa de novo por aqui: o épico foi triado na entrada e as fatias dele vêm da `sdd-fatiar`.
 - Diga a trilha e o motivo numa linha; dúvida entre duas → sim/não pela mais leve. Padrão que precisaria de mais de
@@ -105,10 +106,24 @@ no mesmo commit.
     origem e `backlog no EWM` = `ao-fatiar` → `sdd-elm` modo *backlog* cria o IB `[FT-nnn]` sob o épico de
     Sustentação, com confirmação; `na-sprint` → o planejamento cria. Direta: sem IB (a `[DEV]` nasce no
     planejamento ou no encaixe).
-- **Atendimento:** nada aqui; a `sdd-atender` numera, registra e abre a `[ATD]`.
+- **Atendimento:**
+  - **Entrevista curta:** `sdd-entrevistar` modo *atendimento* (uma rodada: o que o cliente precisa receber,
+    origem, prazo, quem atende, critério de pronto). Regra de negócio em aberto → não é atendimento: volte ao
+    Passo 2.
+  - Próximo `AT-nnn` de "Próximos ids" (backlog antigo, sem `AT-`: regra de migração no formato do backlog).
+  - **Sprint sugerida:** a aberta (`sprint-<nn>.md` com `**Situação:** aberta`), pela regra da reserva — cabe na
+    reserva de atendimento → quem triou confirma; estourou → o P.O. decide (o atendimento não tira fatia sozinho).
+    Kanban (`acordos.md`) → a iteração corrente. Sem sprint aberta → `status` `backlog` e o aviso "sem sprint
+    aberta: o AT entra no próximo planejamento". Responsável sugerido: quem tem `atende: true` no `equipe.json`.
+  - Linha em `## Atendimentos` (`aberto` na sprint, `backlog` sem ela); `<produto>/atendimentos/AT-<nnn>-<slug>.md`
+    no formato da [`sdd-atender`](../sdd-atender/SKILL.md), com as respostas da entrevista no cabeçalho e
+    `**Situação:** aberto`; na sprint, a linha na seção Atendimento do `sprint-<nn>.md`.
+  - EWM (com ELM): **`sdd-elm` modo *atendimento*** (Registrar), com "sim"; o id vai para a coluna `elm`. Sem o
+    MCP → `elm` = `pendente` (a `sdd-atender` registra antes de assumir).
 
-Atualize "Próximos ids" e faça um commit pequeno com o `backlog.md` e a ficha (padrão de commit do `sdd.md`); push ou
-PR curto com o "sim" da pessoa, como diz "Artefatos de produto" no `sdd.md`. **Conflito de id** no push (outra
+Atualize "Próximos ids". O commit é **um só, no fim da sessão de triagem** (Passo 4, resposta "não"), com o
+`backlog.md`, as fichas e os registros de AT (padrão de commit do `sdd.md`); push ou PR curto com o "sim" da pessoa,
+como diz "Artefatos de produto" no `sdd.md`. **Conflito de id** no push (outra
 pessoa registrou o mesmo número antes): o agente não faz merge nem rebase — peça à pessoa `git pull --rebase`; no
 conflito do `backlog.md`, mantenha o remoto, pegue o próximo id livre para a sua linha (e para o nome
 da ficha) e, se o item já foi criado no EWM, troque o `[FT-nnn]`/`[EP-nn]` do título (`ccm_update_workitem`, com
@@ -117,17 +132,19 @@ da ficha) e, se o item já foi criado no EWM, troque o `[FT-nnn]`/`[EP-nn]` do t
 ## Passo 4 — Encaminhar
 
 ```
-📥 <FT-nnn | EP-nn | AT> — <título> · trilha <…> · <pronta | backlog: falta …> · modo <AFK | HITL | —>
-Origem: <DF 4567 | IB 611 | pedido> · Ficha: <caminho | —> · EWM: <id | criado <id> | pendente | sem ELM>
-Registrado. Para o próximo passo:
-  - Épico → use `sdd-prd` (para especificar) ou aguarde o planejamento da sprint.
-  - Fatia `pronta` → use `sdd-iniciar FT-<nnn>` para começar (precisa estar na sprint ou ter encaixe aprovado).
-  - Fatia `backlog` → resolva o que falta (<item>) antes de iniciar.
-  - Atendimento → use `sdd-atender`.
+📥 <FT-nnn | EP-nn | AT-nnn> — <título> · trilha <…> · <pronta | backlog: falta … | aberto na sprint <nn>> · modo <AFK | HITL | —>
+Origem: <DF 4567 | IB 611 | chamado | pedido> · Ficha: <caminho | —> · EWM: <id | criado <id> | pendente | sem ELM>
+Registrado. Para começar: use `sdd-iniciar <id>` (o hub encaminha para a skill do papel; fatia e épico precisam
+estar planejados na sprint).
+Mais algum item para triar?
 ```
 
-A triagem termina aqui. **Nunca invoque nem simule outra skill** (nem `sdd-iniciar`, nem `sdd-atender`):
-responda com a instrução acima e pare. Cada skill começa na própria invocação.
+- **"sim"** → volte ao Passo 1 com o novo item, na mesma sessão e na base (sem novo `switch` nem `pull`).
+- **"não"** → mostre o resumo da sessão (ids, trilhas, pendências `falta:` e `ELM pendente`), faça o commit único
+  do Passo 3 e encerre; se a triagem trocou de branch no Passo 1, ofereça voltar à anterior.
+
+A triagem termina aqui. **Nunca invoque nem simule outra skill** (nem `sdd-iniciar`, nem a do papel): responda com
+a instrução acima e pare. Recomeçar a própria triagem com o próximo item não é invocar outra skill.
 
 ## Passo 5 — Lote do EWM
 
@@ -151,14 +168,14 @@ importação precisa do MCP e pare.
    | IB 611 | Item de Backlog | Portal de renegociação de dívidas | épico | rascunho | várias histórias, decisões de produto |
    | IB 613 | Item de Backlog | Limitar o desconto de pontualidade a 10% | padrão | backlog | regra nova clara; falta: ficha |
    | DF 4570 | Defeito | Erro ao consultar CPF sem máscara | rápida | backlog | falta: como reproduzir |
-   | IB 615 | Item de Backlog | Relação de contas bloqueadas para a auditoria | atendimento | — | extração, sem mudança |
+   | IB 615 | Item de Backlog | Relação de contas bloqueadas para a auditoria | atendimento | aberto · sprint 3 | extração, sem mudança |
    "sim" registra tudo · ou ajuste por linha (ex.: "DF 4570: não fazer")
    ```
 4. Com "sim": o Passo 3 para cada linha, com um commit para o lote e o EWM numa confirmação só (`sdd-elm`). Padrão
    no lote → ficha em `rascunho` só com o Pedido e `falta: regras, cenários e aprovação do P.O.` (a entrevista é uma
-   a uma, depois). Atendimentos não são abertos no lote: ficam listados para a `sdd-atender`
-   e voltam a cada lote até virarem AT (o `**Origem:**` do AT os tira).
-5. Saída: a tabela com os ids criados e o que ficou pendente.
+   a uma, depois). Atendimento no lote → registrado como no Passo 3, sem a entrevista curta (o item é o pedido;
+   prazo e critério de pronto ficam `—`), com a sprint e o responsável da tabela e a `[ATD]` na mesma confirmação.
+5. Saída: a tabela com os ids criados e o que ficou pendente — e **"Mais algum item para triar?"** (Passo 4).
 
 ## Regras
 

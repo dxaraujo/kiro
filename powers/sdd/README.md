@@ -10,11 +10,12 @@ depois. O sdd põe as pessoas onde elas têm mais alavanca — decidir o quê, a
 o resto com agentes de contexto limpo, presos a feedback automático.
 
 ```
-ENTRADA   triar ─► backlog: EP rascunho · FT sem épico (padrão com ficha, rápida, direta) · AT ─► atender
+ENTRADA   triar ─► backlog: EP rascunho · FT sem épico (padrão com ficha, rápida, direta) · AT + [ATD] ─► "mais algum?"
+HUB       iniciar <item> ─► especificar · codificar · revisar · verificar · atender (cada uma assume a sua tarefa)
             │
 PRODUTO   entrevistar ─► PRD ─► GATE PRD ─► ELM (HF/REG/GL) ─► fatiar ─► GATE backlog ─► sprint (EWM)
                                                                                  │
-FATIA     iniciar ─► pesquisar ─► plano (spec do Kiro) ─► GATE plano ─► implementar (TDD) ─► revisar ─► verificar ─► PR
+FATIA     codificar ─► pesquisar ─► plano (spec do Kiro) ─► GATE plano ─► implementar (TDD) ─► revisar ─► verificar ─► PR
                                                                                                                   │
 DEPOIS    merge (pessoa) ─► consolidar (drift, ELM as-built, CTs, ADRs) ─► aprender (lições)
 ```
@@ -66,13 +67,15 @@ Fontes no fim deste arquivo.
 | `sdd` | guia do fluxo: trilhas, gates, princípios, qual skill usar |
 | `sdd-setup` | configura o projeto: entende o repositório, descobre skills e toolkits, cria os agentes perguntando as skills de cada um |
 | `sdd-status` | painel "onde parei", WIP de revisão, próxima ação de maior alavanca |
-| `sdd-triar` | entrada de toda demanda nova: triagem em qualquer trilha (inclusive atendimento), duplicados, ficha da fatia padrão sem épico, registro no backlog, importação de itens do EWM — não começa nada |
-| `sdd-iniciar` | compromisso e início: Definition of Ready, sprint (encaixe), WIP, pasta, branch, tarefa do EWM; retomada pela fase |
+| `sdd-triar` | entrada de toda demanda nova: triagem em qualquer trilha, duplicados, ficha da fatia padrão sem épico, registro no backlog (inclusive o atendimento: AT-nnn, sprint sugerida, `[ATD]`), importação de itens do EWM, "mais algum item?" — não começa nada |
+| `sdd-iniciar` | hub: recebe o item registrado (ou "minha próxima tarefa") e diz a skill do papel |
+| `sdd-especificar` | Especificador: assume a `[ESP]`, conduz entrevista → PRD → fatias numa pasta local até o GATE e registra cada sessão na tarefa (comentário + anexos) |
+| `sdd-codificar` | Dev: compromisso (Definition of Ready, sprint/encaixe, WIP), branch, pasta, assume a `[DEV]`; retomada pela fase |
 | `sdd-entrevistar` | alinhamento em rodadas (grill), decisões e glossário |
 | `sdd-prd` | PRD do épico (o quê e por quê) e GATE do PRD |
 | `sdd-fatiar` | PRD → fatias verticais AFK/HITL, backlog e GATE do backlog |
 | `sdd-planejamento` | roadmap, acordos (cadência, DoR/DoD, WIP, reserva de atendimento), sprint com especificação e atendimento, review, retrospectiva, virada |
-| `sdd-atender` | atendimento de cliente sem mudar o repositório: AT-nnn, tarefa `[ATD]`, consulta só leitura, extração fora do git, horas |
+| `sdd-atender` | executa o atendimento já triado (AT-nnn): assume a `[ATD]`, consulta só leitura, extração fora do git, resposta, saldo de horas, desdobramentos |
 | `sdd-pesquisar` | pesquisa do código compactada em `research.md` |
 | `sdd-plano` | spec do Kiro (`requirements.md`/`bugfix.md`, `design.md`, `tasks.md`) e GATE do plano |
 | `sdd-implementar` | TDD + backpressure, commits pequenos, revisão e PR |
@@ -149,12 +152,14 @@ e registra a pendência.
 
 1. Instale pelo painel **Powers** do Kiro (pasta `sdd` deste repositório ou uma cópia local).
 2. No projeto, peça **"configurar o sdd"** e responda às perguntas (uma por vez).
-3. Comece: **"nova demanda: …"** (a `sdd-triar` faz a triagem e registra no backlog; épico → PRD), **"vamos trabalhar
-   na FT-031"** (`sdd-iniciar`), **"corrigir o defeito 4567"** (registra pela triagem, se preciso, e começa) — ou
-   **"onde parei?"**.
+3. Comece: **"nova demanda: …"** (a `sdd-triar` faz a triagem e registra no backlog; épico → PRD), **"iniciar a
+   FT-031"** ou **"minha próxima tarefa"** (o hub `sdd-iniciar` diz a skill do papel), **"corrigir o defeito 4567"**
+   (registra pela triagem, se preciso) — ou **"onde parei?"**.
 
-Depois de atualizar o power ou um toolkit: "atualizar os agentes do sdd" — na 2.3.0 é obrigatório: o
-`sdd-produto` passa a carregar a `sdd-triar`, por onde entra toda demanda. Projeto configurado com o power
+Depois de atualizar o power ou um toolkit: "atualizar os agentes do sdd" — na 2.5.0 é obrigatório: os agentes
+passam a carregar as skills de papel (`sdd-especificar`, `sdd-codificar`) e o hub `sdd-iniciar`, o `sdd-codificador`
+ganha `git switch`, o `sdd-produto` a pasta `.kiro/local/especificacao/` e os anexos do EWM, e o revisor e o
+verificador o MCP do ELM (só para a própria tarefa). O MCP `mcp-elm` precisa ser 1.0.37 ou mais novo (anexos). Projeto configurado com o power
 `sdd2` ou com a v1 do `sdd`: desinstale o power antigo, instale este e peça "atualizar a configuração do sdd" — a
 setup pergunta a pasta do produto, junta os steerings num só, renomeia hooks, workflows e agentes e move
 `.kiro/produto/` e `.kiro/aprendizado/` com `git mv`.

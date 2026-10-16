@@ -4,7 +4,7 @@ description: "Guia do fluxo sdd — engenharia agêntica orientada a especifica�
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.4.0"
+  version: "2.5.0"
 ---
 
 # sdd — Engenharia agêntica orientada a especificação
@@ -19,8 +19,18 @@ Configuração do projeto: `.kiro/steering/sdd.md` (gerado pela **`sdd-setup`**)
 
 ## Trilhas (o tamanho decide a cerimônia)
 
-Toda demanda nova entra pela **`sdd-triar`**: ela decide a trilha e registra o trabalho no backlog, sem começar. A
-**`sdd-iniciar`** começa o que já está registrado e planejado (Definition of Ready, sprint ou encaixe, WIP).
+Toda demanda nova entra pela **`sdd-triar`**: ela decide a trilha e registra o trabalho no backlog — inclusive o
+atendimento —, sem começar, e pergunta se há mais algum item. O hub **`sdd-iniciar`** recebe um item registrado e
+diz a skill do papel; cada skill de papel assume a própria tarefa no EWM (`sdd-elm` modo *assumir*) e pode ser
+chamada direto:
+
+| Papel | Tarefa | Skill |
+|---|---|---|
+| Especificador | `[ESP]` | `sdd-especificar` (entrevista → PRD → fatias) |
+| Dev | `[DEV]` | `sdd-codificar` (compromisso, branch) → pesquisar → plano → implementar → PR |
+| Revisor | `[REV]` | `sdd-revisar` |
+| Verificador (QA) | `[VER]` | `sdd-verificar` |
+| quem atende | `[ATD]` | `sdd-atender` |
 
 | Trilha | Quando | Caminho |
 |---|---|---|
@@ -28,17 +38,19 @@ Toda demanda nova entra pela **`sdd-triar`**: ela decide a trilha e registra o t
 | **rápida** | defeito ou ajuste ≤ 1 dia, comportamento certo já conhecido | `bugfix.md` + `tasks.md` → implementação → revisão → verificação → PR |
 | **padrão** | uma fatia do backlog: de um épico, ou sem épico com regra clara e ficha aprovada pelo P.O. | pesquisa → plano → **GATE do plano** → implementação (TDD) → revisão → verificação → PR → consolidação |
 | **épico** | funcionalidade com várias histórias ou decisão de produto em aberto | entrevista → PRD → **GATE do PRD** → ELM → fatias → **GATE do backlog** → planejamento → cada fatia na trilha padrão |
-| **atendimento** | o cliente pede consulta, extração ou explicação; nada muda no repositório | entrevista curta → `[ATD]` no EWM → banco (só leitura) e bundle → resposta com "ok" → horas |
+| **atendimento** | o cliente pede consulta, extração ou explicação; nada muda no repositório | triagem: entrevista curta → `AT-nnn` no backlog, sprint sugerida, `[ATD]` no EWM · `sdd-atender`: assume → banco (só leitura) e bundle → resposta com "ok" → saldo de horas → desdobramentos |
 
 Toda hora trabalhada cabe numa tarefa da sprint: `[ESP]` (especificação do épico), `[DEV]`, `[REV]`, `[VER]` (por
 fatia) e `[ATD]` (por atendimento). As horas são lançadas na conclusão de cada tarefa, nunca nos GATEs.
 
 ```
-ENTRADA       triar ─► backlog: EP rascunho · FT sem épico (padrão com ficha, rápida, direta) · AT ─► atender
+ENTRADA       triar ─► backlog: EP rascunho · FT sem épico (padrão com ficha, rápida, direta) · AT + [ATD] ─► "mais algum?"
                 │
-PRODUTO       entrevistar ─► PRD ─► GATE PRD ─► ELM (HF/REG/GL) ─► fatiar ─► GATE backlog ─► sprint (EWM)
+HUB           iniciar <item> ─► especificar · codificar · revisar · verificar · atender   (cada uma assume a sua tarefa)
+                │
+PRODUTO       especificar ─► entrevistar ─► PRD ─► GATE PRD ─► ELM (HF/REG/GL) ─► fatiar ─► GATE backlog ─► sprint (EWM)
                                                                                     │
-FATIA         iniciar ─► pesquisar ─► plano ─► GATE plano ─► implementar (TDD) ─► revisar ─► verificar ─► PR
+FATIA         codificar ─► pesquisar ─► plano ─► GATE plano ─► implementar (TDD) ─► revisar ─► verificar ─► PR
                                                                                                          │
 DEPOIS        merge (pessoa) ─► consolidar (drift, ELM as-built, CTs, conclusão) ─► aprender (lições)
 ```
@@ -77,13 +89,15 @@ Fatia **AFK**: o projeto pode dispensar o GATE do plano (a análise independente
 |---|---|
 | configurar o fluxo, os agentes e os toolkits no projeto | `sdd-setup` |
 | saber onde parei / o que fazer agora · fechar a sessão | `sdd-status` |
-| registrar qualquer demanda nova — pedido, defeito, ajuste, item ou lote do EWM (triagem) | `sdd-triar` |
-| começar ou retomar um trabalho já registrado e planejado (fatia, defeito, item do EWM, tarefa [REV]/[VER]/[ESP]) | `sdd-iniciar` |
+| registrar qualquer demanda nova — pedido, defeito, ajuste, pedido de cliente, item ou lote do EWM (triagem) | `sdd-triar` |
+| começar um item registrado, ou "minha próxima tarefa" (o hub diz a skill do papel) | `sdd-iniciar` |
+| especificar um épico (`[ESP]`) e registrar cada sessão com o cliente na tarefa | `sdd-especificar` |
+| começar ou retomar o código de uma fatia (`[DEV]`) | `sdd-codificar` |
 | alinhar decisões | `sdd-entrevistar` |
 | escrever o PRD de um épico | `sdd-prd` |
 | quebrar o PRD em fatias / refinar o backlog | `sdd-fatiar` |
 | planejar sprint, roadmap, virada, review | `sdd-planejamento` |
-| atender um pedido de cliente (consulta, extração) sem mudar o código | `sdd-atender` |
+| executar um atendimento já triado (`AT-nnn`, `[ATD]`) | `sdd-atender` |
 | lançar horas ou ver o relatório de horas | `sdd-elm` modo *horas* |
 | entender o código antes de planejar | `sdd-pesquisar` |
 | planejar uma fatia (spec do Kiro) | `sdd-plano` |
@@ -106,7 +120,7 @@ Fatia **AFK**: o projeto pode dispensar o GATE do plano (a análise independente
 | `.kiro/specs/<ft>-<slug>/` | uma pasta por fatia: `status.md`, `research.md`, spec do Kiro, revisões, verificação |
 | glossário · ADRs · bundle do ELM | caminhos na seção Projeto do `sdd.md` |
 | `.kiro/hooks/sdd.json` · `.kiro/workflows/sdd-*` · `.kiro/sdd/http.sh` | opcionais da setup: backpressure por tarefa, receitas, chamada HTTP do verificador |
-| `.kiro/local/` (fora do git) | worktrees do loop, vereditos dos workflows, log dos lotes, dados de cliente (extrações, evidências com dado real) |
+| `.kiro/local/` (fora do git) | worktrees do loop, vereditos dos workflows, log dos lotes, dados de cliente (extrações, evidências com dado real), especificação em andamento (`especificacao/<EP>/`, até o GATE do PRD) |
 
 ## Fronteiras de fase
 
@@ -120,14 +134,15 @@ Nunca compacte no meio de uma fase.
 - Toda escrita no ELM, troca de branch, push e alteração de work item só com "sim" de uma pessoa. Agente nunca faz
   merge nem `--force`.
 - O MCP do ELM fica nos agentes que conduzem sessão com a pessoa (`sdd-produto`, `sdd-codificador`,
-  `sdd-orquestrador`); revisor, verificador e pesquisador não o têm. Sem o MCP ou com falha, a escrita vira
+  `sdd-orquestrador`) e no revisor e no verificador, só para a própria tarefa (assumir, horas, conclusão); o
+  pesquisador não o tem. Sem o MCP ou com falha, a escrita vira
   `ELM pendente` registrada — o ELM nunca trava o fluxo.
 - Dado de cliente (resultado de consulta, extração, tela com dado real) nunca vai para o git: fica em
   `.kiro/local/<origem>/<id>/`; o registro versionado guarda consulta, contagem, caminho e resumo sem identificar
   pessoas.
 - **Skills sem agente exclusivo:** `sdd-consolidar` e `sdd-aprender` rodam na **sessão padrão** (com o power
-  carregado), não em agentes específicos. `sdd-iniciar` e `sdd-status` estão no `sdd-orquestrador`, mas também
-  funcionam na sessão padrão. Nenhuma skill depende de um agente para operar: o agente apenas recebe a skill
+  carregado), não em agentes específicos. O hub `sdd-iniciar` está em todos os agentes de papel, e a `sdd-status`
+  no `sdd-orquestrador`; os dois também funcionam na sessão padrão. Nenhuma skill depende de um agente para operar: o agente apenas recebe a skill
   pré-carregada para conveniência.
-- **Nenhuma skill cria branch ou `.kiro/specs/<ft>/status.md`** sem passar pelos Passos 3–4 do `sdd-iniciar`
+- **Nenhuma skill cria branch ou `.kiro/specs/<ft>/status.md`** sem passar pelos Passos 3–4 da `sdd-codificar`
   (DoR, sprint, WIP, branch, commit). O `sdd-loop` é a única exceção (opera em worktree como orquestrador).

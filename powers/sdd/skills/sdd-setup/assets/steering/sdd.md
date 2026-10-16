@@ -7,7 +7,8 @@ inclusion: always
 Este repositório usa o fluxo **sdd** (power `sdd`): alinhar antes de escrever, fatias verticais pequenas, plano
 aprovado por uma pessoa, teste primeiro com backpressure, revisão e verificação independentes, PR lido por uma
 pessoa, e o IBM ELM como registro oficial da documentação. Como funciona: skill `sdd`. Toda demanda nova: `sdd-triar`.
-Começar: `sdd-iniciar`. Onde parei ou fechar a sessão: `sdd-status`.
+Começar um item registrado: hub `sdd-iniciar` (diz a skill do papel: `sdd-especificar`, `sdd-codificar`,
+`sdd-revisar`, `sdd-verificar`, `sdd-atender`). Onde parei ou fechar a sessão: `sdd-status`.
 
 - Nada inventado (confirme no código, no banco — só leitura — ou no ELM). Nunca apague nem afrouxe teste.
 - Push, troca de branch e escrita no ELM só com "sim" de uma pessoa. Agente nunca faz merge nem `--force`.

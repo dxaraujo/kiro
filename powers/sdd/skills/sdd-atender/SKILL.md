@@ -1,53 +1,46 @@
 ---
 name: sdd-atender
-description: "Trilha de atendimento do fluxo sdd — demanda de cliente que não muda o repositório (consulta na base, extração de dados, explicação de regra, conferência de caso): abre o atendimento AT-nnn com entrevista curta e a tarefa [ATD] no EWM na sprint, executa pelo banco (somente leitura) e pelo bundle do ELM, com código só em escopo fechado, guarda extrações fora do git (.kiro/local/atendimentos/), redige a resposta para o \"ok\" da pessoa e conclui lançando as horas na [ATD]; encaminha a saída (defeito → trilha rápida, regra em aberto → entrevista ou PRD, consulta reaproveitável → lição). Use em \"novo atendimento\", \"extrai os dados de\", \"consulta na base para o cliente\", \"responde o chamado\", \"conclui o AT-012\", \"atendimentos abertos\"."
+description: "Skill de quem atende no fluxo sdd — executa um atendimento já registrado pela sdd-triar (AT-nnn, tarefa [ATD]): assume a [ATD] no EWM (sdd-elm modo assumir), consulta o banco (somente leitura) e o bundle do ELM, com código só em escopo fechado, guarda extrações fora do git (.kiro/local/atendimentos/), redige a resposta para o \"ok\" da pessoa e finaliza — registra a resposta, lança o saldo de horas, conclui a [ATD] e pergunta os desdobramentos (arquivar · alteração pela sdd-triar · regra pela sdd-entrevistar · lição pela sdd-aprender). Pedido novo não abre aqui: passa pela sdd-triar. Use em \"atender o AT-012\", \"pegar a [ATD] 669380\", \"extrai os dados do AT-012\", \"enviei a resposta\", \"conclui o AT-012\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.4.0"
+  version: "2.5.0"
 ---
 
 # sdd-atender — Atender sem perder o rastro
 
-Atendimento é trabalho real que não vira código: alguém pergunta, o time consulta, responde e segue. Sem trilha,
-ele some — não tem tarefa, não consome capacidade e não deixa registro. Aqui cada demanda ganha um número
-(`AT-nnn`), uma tarefa `[ATD]` na sprint e um registro versionado **sem dado de cliente**.
+Atendimento é trabalho real que não vira código: alguém pergunta, o time consulta, responde e segue. A
+**`sdd-triar`** registra a demanda (`AT-nnn`, linha no `backlog.md`, tarefa `[ATD]` na sprint); esta skill é a de
+quem **atende**: assume a `[ATD]`, executa e finaliza, deixando um registro versionado **sem dado de cliente**.
 
-Não é atendimento (devolva à `sdd-triar`): pedido que muda o comportamento do sistema (fatia, trilha rápida
-ou direta) e regra que ninguém decidiu (entrevista ou PRD).
+Leia antes: `.kiro/steering/sdd.md`. Sem ele → ofereça a **`sdd-setup`** ("configurar o sdd") e pare.
 
 ## Arquivos
 
-- `<produto>/atendimentos/README.md` — o próximo número no topo (`Próximo: AT-013`) e a lista dos atendimentos
-  (AT · pedido · situação). Número sequencial no projeto, **nunca reaproveitado**.
-- `<produto>/atendimentos/AT-<nnn>-<slug>.md` — o registro (formato no fim).
+- `<produto>/atendimentos/AT-<nnn>-<slug>.md` — o registro (formato no fim), criado pela triagem.
+- Linha do AT em `## Atendimentos` do `backlog.md` e na seção Atendimento do `sprints/sprint-<nn>.md`.
 - `.kiro/local/atendimentos/AT-<nnn>/` — extrações, telas e respostas com dado real. Fora do git.
-- Linha na seção Atendimento do `sprints/sprint-<nn>.md` aberto (`sdd-planejamento`): consome a reserva.
 
-## 1. Abrir ("novo atendimento: o cliente X pediu …")
+## Passo 1 — O que chegou
 
-**Pré-condição obrigatória:** toda demanda de atendimento passa pela triagem. Antes de qualquer passo desta
-skill, verifique se a demanda já foi classificada como `atendimento` pela `sdd-triar` nesta sessão ou numa
-sessão anterior (encaminhamento explícito ou linha `AT-nnn` existente em `<produto>/atendimentos/README.md`).
+| Entrada | Como ler |
+|---|---|
+| `AT-nnn` ou `[ATD] AT-nnn` | a linha em `## Atendimentos` do `backlog.md` da base e o `AT-<nnn>-<slug>.md` |
+| número do EWM de uma `[ATD]` | a linha do `backlog.md` com esse id em `elm` |
+| pedido novo ("o cliente pediu …"), ou AT fora do backlog | não está registrado → "use `sdd-triar`" e pare — nunca abra AT aqui |
+| AT `concluido` ou `cancelado` | mostre a situação e pare; reabrir é um AT novo pela triagem |
 
-Chegou direto (sem triagem)? Execute os **Passos 1 e 2 da `sdd-triar`** como pré-condição:
-1. Verifique duplicata (já existe AT, FT ou branch para esse pedido?).
-2. Classifique a trilha: **se não for atendimento** (o pedido muda o repositório, exige regra nova ou é
-   defeito) → **pare** e redirecione para a trilha correta; não continue em `sdd-atender`.
-3. Somente se a classificação for `atendimento` confirmado → prossiga para o item 1 abaixo.
+Não é atendimento (pedido que muda o comportamento do sistema, ou regra que ninguém decidiu) → devolva à
+`sdd-triar` para refazer a triagem e pare.
 
-1. **Número:** lê o `Próximo` do `README.md` e já o incrementa.
-2. **Entrevista curta** — `sdd-entrevistar` modo *atendimento* (uma rodada, com recomendação em cada pergunta):
-   o que o cliente precisa receber, origem (chamado, e-mail, DF), prazo, quem responde, critério de pronto.
-3. **EWM**, com confirmação — `sdd-elm` modo *atendimento*: tarefa `[ATD] AT-<nnn> <título>`, filha do item
-   "Atendimento", `plannedFor` = iteração da sprint aberta (a do `sprint-<nn>.md`; a pessoa pode indicar outra),
-   responsável = quem atende (verifique no `equipe.json` quem tem `atende: true` e sugira; se a pessoa indicada
-   não tem `atende: true`, confirme se ela deve ser incluída), estimativa, estado em andamento.
-4. Grava o `AT-<nnn>-<slug>.md`, a linha no `README.md` e a linha no `sprint-<nn>.md`; commit na base (artefato
-   de produto). Reserva estourada → avise: o P.O. decide se alguma fatia sai (o atendimento não tira fatia
-   sozinho).
+## Passo 2 — Assumir a `[ATD]`
 
-## 2. Executar
+**`sdd-elm` modo *assumir*** (com "sim"): responsável = `whoami`, estado em andamento da PA (ex.: *Em
+Desenvolvimento*); já minha e em andamento → nada a fazer. AT com `elm` `pendente` (registrado sem o MCP) → antes,
+`sdd-elm` modo *atendimento* (Registrar). Sem MCP → `ELM pendente: assumir [ATD] AT-<nnn>` no registro do AT, e
+siga.
+
+## Passo 3 — Executar
 
 1. **Fontes, nesta ordem** — subagente `sdd-pesquisador`, se houver: banco pelo MCP de consulta (**somente
    leitura**) e bundle do ELM (`<rm.download.path>` do `sdd.md`). Código só se necessário e em escopo fechado:
@@ -60,18 +53,33 @@ Chegou direto (sem triagem)? Execute os **Passos 1 e 2 da `sdd-triar`** como pr�
    ficam só a consulta (SQL), a contagem, o caminho do arquivo e um resumo **sem identificar pessoas**.
 3. **Rascunho da resposta** → "ok" da pessoa antes de enviar. Quem envia é a pessoa; o agente não manda e-mail
    nem responde chamado.
+4. **Horas** podem ser lançadas a qualquer momento (`sdd-elm` modo *horas*, com "sim"): lançar não conclui a
+   `[ATD]`.
 
-## 3. Concluir ("enviei", "conclui o AT-012")
+## Passo 4 — Finalizar ("enviei", "conclui o AT-012")
 
 1. Grava no registro a resposta enviada (sem dado de cliente; o texto com dado real fica em `.kiro/local/`).
-2. **Horas:** pergunta as horas, descontando o que já foi lançado na `[ATD]` → `sdd-elm` modo *horas* lança e
-   conclui a tarefa, com confirmação. Sem MCP ou com falha → `ELM pendente: lançar <h>h em [ATD] AT-<nnn>` no
-   registro, e o modo horas lança depois.
-3. Atualiza a situação no `README.md` e no `sprint-<nn>.md`; commit na base.
-4. **Encaminha a saída:**
-   - defeito encontrado → a `sdd-triar` registra a trilha rápida com `origem` `AT-<nnn>` (começar → `sdd-iniciar`);
-   - regra que ninguém decidiu → `sdd-entrevistar` ou `sdd-prd`;
-   - consulta reaproveitável → lição (`sdd-aprender`).
+2. **Saldo de horas:** mostre o que já foi lançado na `[ATD]` (`ccm_list_timesheet`) e pergunte só o que falta →
+   `sdd-elm` modo *horas*; depois `sdd-elm` modo *atendimento* (Concluir), com uma confirmação. Sem MCP ou com
+   falha → `ELM pendente: lançar <h>h e concluir [ATD] AT-<nnn>` no registro.
+3. Na base (`git switch <base>` com "sim", `git pull --ff-only`; árvore suja ou falha → avise e pare):
+   `**Situação:** concluido` no registro; na linha do AT no `backlog.md`, `status` `concluido` e `concluida-em`; a
+   situação no `sprint-<nn>.md`. Um commit; push ou PR curto com "sim", como diz "Artefatos de produto" no
+   `sdd.md`.
+
+## Passo 5 — Desdobramentos
+
+Pergunte o que mais sai do atendimento e registre a resposta em **Saída** no registro:
+
+```
+✅ AT-<nnn> concluído. Algum desdobramento?
+  1. arquivar — nada mais a fazer
+  2. gerar alteração (defeito ou mudança) → use `sdd-triar` com origem AT-<nnn>
+  3. regra que ninguém decidiu → use `sdd-entrevistar`
+  4. consulta reaproveitável → lição pela `sdd-aprender`
+```
+
+Só instrui e para: **nunca invoque nem simule outra skill**.
 
 ## Registro `AT-<nnn>-<slug>.md`
 
@@ -109,6 +117,6 @@ Arquivo: `.kiro/local/atendimentos/AT-012/contas-bloqueadas-2026-09.csv` (fora d
 - **Dado de cliente nunca vai para o git**: resultado de consulta, extração ou tela com dado real fica em
   `.kiro/local/atendimentos/AT-<nnn>/`. O registro guarda consulta, contagem, caminho e resumo anônimo.
 - Banco só em leitura. Pedido que exige escrita na base não é atendimento: vira fatia ou trilha rápida.
-- Um `[ATD]` por demanda, sem balde. O que não vira AT fica fora do plano.
-- Horas só na conclusão (ou sob pedido, pela `sdd-elm` modo *horas*); nunca no meio do atendimento.
+- Um `[ATD]` por demanda, sem balde. Registrar o AT é da `sdd-triar`; esta skill nunca numera nem abre AT.
+- Lançar horas é registro de empenho, a qualquer momento na `[ATD]` iniciada; concluir é o Passo 4, com o saldo.
 - Toda escrita no EWM e todo envio de resposta pedem confirmação da pessoa.

@@ -8044,6 +8044,13 @@ fica um só), listar e baixar a última versão. Testes offline em `tests/test_c
 
 ### Etapa 1 — Triagem única, hub e skills por papel (D0.3)
 
+> **✅ Feita (power `sdd` 2.5.0, branch `sdd-v2.5.0-etapa1`).** Além da tabela abaixo, entrou antes da hora o que a
+> Etapa 1 precisava para não quebrar: a `sdd-especificar` já nasce no fluxo A da 0.14 (pasta local + registro da
+> sessão na `[ESP]`), com a `sdd-prd` levando a pasta à base só no GATE (Etapa 3, item 4); o `sdd-codificador` ganha
+> `git switch` (Etapa 4); o `sdd-produto`, a escrita em `.kiro/local/especificacao/**` e os anexos. O
+> `status-template.md` mudou para `sdd-codificar/references/`. Ficam para a Etapa 2: Q8 no modo *sprint* (sem
+> `[REV]`/`[VER]` no AFK), fases HITL, retrabalho e `git add`/`commit` de revisor e verificador.
+
 **Objetivo:** toda demanda entra pela `sdd-triar` e vira uma linha do `backlog.md`; a `sdd-iniciar` só encaminha;
 cada papel tem a sua skill, que assume a própria tarefa.
 **Fecha:** D0.1 #1–11, S01-D1, S04-D1, S05-D1, S05-D2, S05-D3, S05-D4, S06-D1, S06-D2, S07-D1, linhas D0 de S03 e

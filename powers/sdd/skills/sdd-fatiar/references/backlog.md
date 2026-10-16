@@ -1,6 +1,6 @@
 # Backlog do produto — `<produto>/backlog.md`
 
-Fonte única dos ids locais (`EP-nn`, `FT-nnn`), do **planejamento** (o que existe, em que ordem, em que sprint) e do
+Fonte única dos ids locais (`EP-nn`, `FT-nnn`, `AT-nnn`), do **planejamento** (o que existe, em que ordem, em que sprint) e do
 mapeamento com o ELM. Versionado. Só markdown: editado direto, sem arquivo JSON por trás.
 
 **Onde é escrito:** só na **branch base** (direto ou por um PR curto, conforme "Artefatos de produto" no
@@ -13,7 +13,7 @@ andamento de uma fatia (fase, branch, PR) não mora aqui: mora no `status.md` da
 ```markdown
 # Backlog — Gestão de Acessos
 
-Próximos ids: EP-04 · FT-034
+Próximos ids: EP-04 · FT-034 · AT-013
 Sustentação: [SUS-2026] [612000](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612000) · Atendimento [612005](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612005)
 
 ## Épicos
@@ -32,10 +32,16 @@ Sustentação: [SUS-2026] [612000](https://elm.exemplo/ccm/resource/itemName/com
 
 | id | título | trilha | origem | ficha | tamanho | modo | prioridade | status | sprint | responsavel | elm | concluida-em | obs |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+## Atendimentos
+
+| id | título | origem | status | sprint | responsavel | elm | registro | concluida-em |
+|---|---|---|---|---|---|---|---|---|
+| AT-012 | Extração de contas bloqueadas em setembro | chamado 4521 | aberto | 3 | joao.lima | [ATD] [669380](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/669380) | [AT-012](atendimentos/AT-012-contas-bloqueadas.md) | — |
 ```
 
 Uma seção `## Fatias — <EP> <título>` por épico, na ordem de prioridade dos épicos, e uma `## Fatias — sem épico`
-no fim; linhas na ordem de `prioridade`. Célula vazia é `—`. Listas (`cobre`, `bloqueada-por`) separadas por vírgula. Cada fatia é **uma**
+no fim, e a `## Atendimentos` por último (linhas na ordem dos ids); fatias na ordem de `prioridade`. Célula vazia é `—`. Listas (`cobre`, `bloqueada-por`) separadas por vírgula. Cada fatia é **uma**
 linha da tabela — sem quebra de linha nem `|` dentro de célula (troque por `/`).
 
 | Coluna | Valores |
@@ -52,6 +58,9 @@ linha da tabela — sem quebra de linha nem `|` dentro de célula (troque por `/
 | `sprint` | número da sprint (`sdd-planejamento`) ou `—`; no Kanban, `—` |
 | `elm` | `—`, `pendente` (registrado sem o MCP; a `sdd-elm` cria depois) ou `[<id>](<url>)`; tarefas do EWM em seguida, `<prefixo> [<id>](<url>)`, separadas por ` · ` (gravado pela `sdd-elm`) |
 | `concluida-em` | data `AAAA-MM-DD` ou `—` |
+| atendimento `status` | `backlog` (sem sprint aberta) · `aberto` (na sprint ou na iteração corrente do Kanban) · `concluido` · `cancelado` |
+| atendimento `origem` | chamado, e-mail, `DF 4567`, `IB 615` ou `pedido` |
+| atendimento `registro` | `[AT-<nnn>](atendimentos/AT-<nnn>-<slug>.md)` |
 | linha `Sustentação:` | épico de Sustentação do ano e o IB `Atendimento` filho dele (pais do que não nasce de PRD); `—` até a `sdd-elm` criá-los |
 
 ## Quem escreve o quê
@@ -63,6 +72,8 @@ linha da tabela — sem quebra de linha nem `|` dentro de célula (troque por `/
 | fatias criadas, divididas, juntadas, canceladas · `pronta` (DoR conferida) | `sdd-fatiar` |
 | `sprint`, `responsavel`, prioridade · `pronta` (DoR conferida de novo no planejamento) · encaixe durante a sprint | `sdd-planejamento` |
 | fatia sem épico (padrão, rápida, direta), ficha e `falta:` em `obs` | `sdd-triar` (na base) |
+| atendimento registrado (`AT-nnn`, `backlog`/`aberto`, `sprint`, `responsavel`, registro) | `sdd-triar` (na base) |
+| atendimento `concluido`, `concluida-em` | `sdd-atender` (na base) |
 | `concluida`, `concluida-em` | `sdd-consolidar` (depois do merge, na base) |
 | linha `Sustentação:` | `sdd-elm` (modo backlog) |
 | `elm` (ids e urls) | `sdd-elm` |
@@ -77,6 +88,9 @@ modo AFK/HITL declarado. Deixou de valer (PRD reaberto, decisão nova em aberto)
 ## Regras
 
 - Ids nunca são reaproveitados nem renumerados; "Próximos ids" só cresce.
+- Backlog sem `AT-` em "Próximos ids" (antes da 2.5.0): o próximo é o maior entre o `Próximo:` do antigo
+  `<produto>/atendimentos/README.md` e os `AT-*.md` existentes, mais um; a próxima escrita da `sdd-triar` acrescenta
+  o `AT-` e a seção `## Atendimentos` (com os AT abertos do README) e deixa de gravar no README.
 - Backlog com a seção antiga `## Fatias — trilha rápida` (antes da 2.3.0): leia as linhas como `trilha` `rápida` e
   `ficha` `—`; a próxima escrita da `sdd-triar` renomeia a seção e acrescenta as colunas, sem perder linha.
 - Antes de gravar: `git switch <base>` e `git pull --ff-only`; depois, commit pequeno só com ele quando não houver

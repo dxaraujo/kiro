@@ -18,7 +18,7 @@ foi feita. Os nomes reais de tipos, pastas, campos e links são da project area:
 | Fatia `FT-nnn` | EWM — Item de Backlog (story, *plan item*) | `com.ibm.team.apt.workItemType.story` | conforme `backlog no EWM` (seção ELM do `sdd.md`): ao fatiar ou na sprint |
 | Tarefas `[DEV]` `[REV]` `[VER]` da fatia | EWM — Tarefa (filha do IB, *execution item*) | `task` | planejamento da sprint |
 | Tarefa `[ESP]` do épico | EWM — Tarefa (filha do épico) | `task` | planejamento da sprint |
-| Tarefa `[ATD]` do atendimento | EWM — Tarefa (filha de `Atendimento`) | `task` | abertura do atendimento |
+| Tarefa `[ATD]` do atendimento | EWM — Tarefa (filha de `Atendimento`) | `task` | triagem do atendimento (`sdd-triar`) |
 | Critérios de aceite da fatia | campo de texto rico do IB (ou seção da descrição) | linha do `sdd.md` | publicação do IB |
 | Horas | EWM — timesheet da tarefa | `ccm_add_timesheet` | conclusão de cada tarefa ou sob pedido |
 | ET as-built (opcional) | DOORS Next — artefato | `Especificação Técnica` (título `ET - <fatia>`) | consolidação (depois do merge) |

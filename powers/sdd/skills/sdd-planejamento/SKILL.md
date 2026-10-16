@@ -4,7 +4,7 @@ description: "Planejamento ágil do projeto no fluxo sdd, ajustado a times que t
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.4.0"
+  version: "2.5.0"
 ---
 
 # sdd-planejamento — Planejar o fluxo, não só o calendário
@@ -27,10 +27,10 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
 ## Modo inicial — acordos e roadmap
 
 1. **Equipe** (`equipe.json` ou `equipe.md` existe → mostre e pergunte só o que mudou): pessoas, papel (um só:
-   `P.O.`, `Analista`, `Dev`, `QA` ou `SM`), login do ELM (de `members` do `pa_*.json`, se houver), horas por
+   `P.O.`, `Especificador`, `Dev`, `QA` ou `SM`; `Analista` antigo é lido como `Especificador`), login do ELM (de `members` do `pa_*.json`, se houver), horas por
    semana, ausências. Pergunte também, por pessoa, quantas horas por semana vão para **revisar** (planos, PRs) e
    **verificar** — somadas em `horas-revisao-semana` —, para **especificar** (entrevista, PRD, fatiamento:
-   `horas-especificacao-semana`; P.O. e Analista) e quem **atende** demandas (`atende`). Grave no formato
+   `horas-especificacao-semana`; P.O. e Especificador) e quem **atende** demandas (`atende`). Grave no formato
    detectado (`equipe.json` → validado contra `assets/equipe.schema.json`; `equipe.md` → valide só pela presença
    das colunas obrigatórias: Login, Papel, Horas/semana). Se nenhum arquivo existir ainda, prefira `equipe.json`
    (padrão com validação de schema); só use `equipe.md` se o time preferir edição direta em Markdown.
@@ -113,7 +113,8 @@ Atendimento que estoura a reserva → mostre ao P.O. e ele decide qual fatia sai
 fatia sozinho.
 
 **Encaixe** — alguém quer começar uma fatia `pronta` (de qualquer trilha, inclusive a direta) que não está na sprint
-aberta; a `sdd-iniciar` manda para cá. Mostre ao P.O. a fatia (trilha, tamanho, modo, origem), o que sobra da
+aberta; a `sdd-codificar` manda para cá. Atendimento triado quando a reserva estourou é o mesmo encaixe (a
+`sdd-triar` manda para cá): a decisão do P.O. vai na linha do AT no `sprint-<nn>.md`. Mostre ao P.O. a fatia (trilha, tamanho, modo, origem), o que sobra da
 capacidade (revisão, vazão, HITL) e as opções, com a recomendada:
 - **entra na folga** — cabe sem tirar nada;
 - **entra no lugar de** `FT-…` — uma ainda não iniciada, que volta para `sprint` `—`;
@@ -123,7 +124,7 @@ Com a decisão do P.O. (ou de quem ele delegou): `sprint` e `responsavel` no `ba
 que não sejam quem implementa — as `[REV]`/`[VER]` precisam deles), uma linha no
 `sprint-<nn>.md` com a Observação `encaixe: <decisão> (<quem decidiu>, <data>)`, commit na base e a `sdd-elm` modo
 *sprint* para as tarefas da fatia. Na troca, as tarefas da fatia que sai vão
-para a próxima iteração (`sdd-elm`, só o `plannedFor`). Depois, volte à `sdd-iniciar` (Passo 3, item 4). Sem
+para a próxima iteração (`sdd-elm`, só o `plannedFor`). Depois, volte à `sdd-codificar` (Passo 3, item 4). Sem
 decisão, a fatia não começa; urgência acelera a decisão, não a dispensa.
 
 ## Review
@@ -141,7 +142,8 @@ screenshot). Registre o retorno do P.O. no `sprint-<nn>.md`; pedido novo vira ce
    (planejadas × lançadas) e aponte as tarefas concluídas sem horas lançadas — só aqui, no fechamento.
 3. **Fechar:** concluídas contam na vazão e nos pontos; não concluídas — fatias, `[ESP]` e `[ATD]` — **migram**
    para a próxima sprint (no `sprint-<nn>.md` antigo ficam com "→ sprint <nn+1>"; o histórico não é apagado) e
-   ele fica com `**Situação:** fechada`.
+   ele fica com `**Situação:** fechada`. AT migrado → `sprint` = nn+1 na linha de `## Atendimentos` do
+   `backlog.md`; AT em `backlog` (triado sem sprint aberta) entra no planejamento da próxima como as fatias.
 4. Recalcule vazão média, velocidade e horas por tipo (`equipe.json` → `historico`), recalibre a reserva de
    atendimento pelo consumido e replaneje a próxima pelo modo sprint (migradas consomem capacidade primeiro).
 5. **ELM** — `sdd-elm` modo *sprint*, virada: as tarefas não concluídas só mudam o `plannedFor` para a nova

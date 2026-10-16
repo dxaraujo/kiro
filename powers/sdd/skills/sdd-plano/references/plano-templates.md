@@ -8,7 +8,7 @@ de mostrá-las.
 
 ## `.config.kiro`
 
-Uma linha de JSON, criada pela `sdd-iniciar` junto com a pasta (a `sdd-plano` cria se faltar; `specId` = um
+Uma linha de JSON, criada pela `sdd-codificar` junto com a pasta (a `sdd-plano` cria se faltar; `specId` = um
 UUID novo: `uuidgen` ou `python3 -c "import uuid; print(uuid.uuid4())"`):
 
 ```json

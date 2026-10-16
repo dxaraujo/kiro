@@ -1,10 +1,10 @@
 ---
 name: sdd-elm
-description: "Alimenta o IBM ELM (registro oficial da documentação) a partir dos artefatos do fluxo sdd, sempre pelas skills do power elm, com prévia e confirmação — modos: similares (antes de especificar HF, REG ou GL, busca no bundle e no DOORS Next artefatos iguais, sobrepostos ou relacionados; só leitura), requisitos (conceitos OKF aprovados publicados no DOORS Next, termos → regras → histórias, HF embute REG, idempotente), backlog (épico, Sustentação e itens de backlog das fatias com critérios de aceite e links), sprint (planos e tarefas [ESP] [DEV] [REV] [VER], virada por plannedFor), atendimento ([ATD]), horas (lançar e relatório), testes (CT.csv no ETM e links), especificação técnica (ET as-built) e conclusão. O que o MCP não faz vira roteiro manual com pendência. Use em \"publica no ELM\", \"sobe o PRD para o DOORS\", \"cria os itens no EWM\", \"publica a sprint\", \"liga os testes\", \"fecha no ELM\", \"lança 4h\", \"relatório de horas\"."
+description: "Alimenta o IBM ELM (registro oficial da documentação) a partir dos artefatos do fluxo sdd, sempre pelas skills do power elm, com prévia e confirmação — modos: similares (antes de especificar HF, REG ou GL, busca no bundle e no DOORS Next artefatos iguais, sobrepostos ou relacionados; só leitura), requisitos (conceitos OKF aprovados publicados no DOORS Next, termos → regras → histórias, HF embute REG, idempotente), backlog (épico, Sustentação e itens de backlog das fatias com critérios de aceite e links), sprint (planos e tarefas [ESP] [DEV] [REV] [VER], virada por plannedFor), assumir (o Passo 0 de toda skill de papel: assume e inicia a própria tarefa, sem repetir o que já foi feito), atendimento ([ATD] registrada pela triagem, concluída pela sdd-atender), horas (lançar e relatório), testes (CT.csv no ETM e links), especificação técnica (ET as-built) e conclusão. O que o MCP não faz vira roteiro manual com pendência. Use em \"publica no ELM\", \"sobe o PRD para o DOORS\", \"cria os itens no EWM\", \"publica a sprint\", \"liga os testes\", \"fecha no ELM\", \"lança 4h\", \"relatório de horas\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.3.0"
+  version: "2.5.0"
 ---
 
 # sdd-elm — O ELM como fonte oficial
@@ -177,11 +177,34 @@ seções do `sprint-<nn>.md` (fatias com responsável, revisor e verificador; es
    muda para a nova iteração (o pai não muda; move, nunca recria); roteiro manual de **baseline** (componente RM +
    GC) se o projeto exige baseline por sprint.
 
-## Modo atendimento (`sdd-atender`)
+## Modo assumir (Passo 0 das skills de papel)
 
-- **Abrir:** `[ATD] AT-<nnn> <título>`, filha do IB "Atendimento" (linha `Sustentação:` do `backlog.md`), `plannedFor` = iteração da sprint
-  aberta (ou a que a pessoa indicar), responsável = quem atende, estimativa, estado em andamento.
-- **Concluir:** depois do lançamento das horas (modo horas), estado de conclusão da PA.
+Chamado pela skill do papel antes de trabalhar: `sdd-codificar` (`[DEV]`), `sdd-especificar` (`[ESP]`),
+`sdd-revisar` (`[REV]`), `sdd-verificar` (`[VER]`) e `sdd-atender` (`[ATD]`). A regra mora só aqui.
+
+1. **Tarefa:** a informada; senão pelo item — coluna `elm` do `backlog.md`, campo ELM do `status.md` da fatia ou
+   coluna "Tarefa ELM" do `sprint-<nn>.md`. Não achou → a skill que chamou diz como criar (modo *sprint* ou
+   *atendimento*); nunca crie tarefa por aqui.
+2. **Leia** (`ccm_get_workitem`) o responsável e o estado, e decida:
+
+   | Situação | Ação |
+   |---|---|
+   | minha (`whoami`) e em andamento | **nada a fazer** — diga "já assumida" e siga |
+   | sem responsável, ou minha e não iniciada | responsável = `whoami`; ação para o estado em andamento da PA (`ccm_list_workitem_states`; ex.: *Em Desenvolvimento*); estimativa se faltar (pergunte) |
+   | de outra pessoa | mostre quem é e pergunte se assume no lugar dela; sem "sim", pare |
+   | concluída | só se quem chamou disse **retrabalho**: ação de reabertura da PA (sem ação de reabertura → `ELM pendente: reabrir <tarefa>` e aviso); fora disso → avise e pare |
+
+3. **Uma** confirmação com o que muda (responsável, estado, estimativa); `ccm_update_workitem` com os campos e o
+   `state` na mesma chamada.
+4. Sem MCP nesta sessão ou com falha → `ELM pendente: assumir <tarefa>` onde a skill que chamou indicar, e siga.
+
+## Modo atendimento
+
+- **Registrar** (chamado pela `sdd-triar`): `[ATD] AT-<nnn> <título>`, filha do IB "Atendimento" (linha
+  `Sustentação:` do `backlog.md`), `plannedFor` = a iteração que a triagem confirmou (sprint aberta; Kanban → a
+  iteração corrente; sem sprint aberta → sem `plannedFor`), responsável = quem vai atender, estimativa. Fica no
+  estado inicial: quem atende a assume (modo *assumir*) ao executar.
+- **Concluir** (chamado pela `sdd-atender`): depois do saldo de horas (modo horas), estado de conclusão da PA.
 
 ## Modo horas
 

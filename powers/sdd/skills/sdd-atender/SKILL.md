@@ -35,9 +35,9 @@ Não é atendimento (pedido que muda o comportamento do sistema, ou regra que ni
 
 ## Passo 2 — Assumir a `[ATD]`
 
-**`sdd-elm` modo *assumir*** (com "sim"): responsável = `whoami`, estado em andamento da PA (ex.: *Em
-Desenvolvimento*); já minha e em andamento → nada a fazer. AT com `elm` `pendente` (registrado sem o MCP) → antes,
-`sdd-elm` modo *atendimento* (Registrar). Sem MCP → `ELM pendente: assumir [ATD] AT-<nnn>` no registro do AT, e
+**`sdd-elm` modo *assumir*** (com "sim"): responsável = quem está na sessão, estado em andamento da PA (ex.: *Em
+Desenvolvimento*); já minha e em andamento → nada a fazer. AT com `elm` `pendente` (registrado sem o power `elm`) → antes,
+`sdd-elm` modo *atendimento* (Registrar). Sem o power `elm` → `ELM pendente: assumir [ATD] AT-<nnn>` no registro do AT, e
 siga.
 
 ## Passo 3 — Executar
@@ -59,9 +59,9 @@ siga.
 ## Passo 4 — Finalizar ("enviei", "conclui o AT-012")
 
 1. Grava no registro a resposta enviada (sem dado de cliente; o texto com dado real fica em `.kiro/local/`).
-2. **Saldo de horas:** mostre o que já foi lançado na `[ATD]` (`ccm_list_timesheet`) e pergunte só o que falta →
+2. **Saldo de horas:** mostre o que já foi lançado na `[ATD]` (`elm-ccm` › horas lançadas) e pergunte só o que falta →
    `sdd-elm` modo *horas*; depois `sdd-elm` modo *atendimento* (Concluir), com uma confirmação. Cada lançamento
-   ganha uma linha na tabela Horas do registro. Sem MCP ou com
+   ganha uma linha na tabela Horas do registro. Sem o power `elm` ou com
    falha → `ELM pendente: lançar <h>h e concluir [ATD] AT-<nnn>` no registro.
 3. `**Situação:** concluido` no registro; na linha do AT no `backlog.md`, `status` `concluido` e `concluida-em`;
    a situação no `sprint-<nn>.md`. O commit é **um só**, no fim do Passo 5 (com a Saída), pelos itens 3 e 4 do

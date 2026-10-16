@@ -30,7 +30,7 @@ com "sim", `pull --ff-only`, árvore suja → pare; no fim, oferecer voltar).
 | Entrada | Como ler |
 |---|---|
 | pedido em texto ("nova demanda: …", "corrigir o cálculo de juros") | a própria descrição |
-| número do EWM (DF, IB) | skill `elm-ccm` do power `elm` (`ccm_get_workitem`, com descrição e comentários); sem o power → peça à pessoa o título, a descrição e o comportamento esperado — nunca invente dado de work item |
+| número do EWM (DF, IB) | `elm-ccm` › ler item (com descrição e comentários); sem o power → peça à pessoa o título, a descrição e o comportamento esperado — nunca invente dado de work item |
 | "importar do EWM", "triar os defeitos do time" | **lote** → Passo 5 |
 | pedido de cliente sem mudança no repositório ("extrai as contas bloqueadas", "por que o caso X deu Y?") | trilha atendimento (Passo 2) |
 
@@ -65,7 +65,7 @@ parecidos, e a seção `## Atendimentos`), no `**Origem:**` dos `<produto>/atend
   no formato da `sdd-entrevistar` (numerada, cada pergunta com a recomendação, "sim" aceita todas).
 - Fatos o agente busca (código, bundle do ELM, banco só leitura); decisões são da pessoa.
 - **Não fazer** (já entregue, fora do produto, recusado pelo P.O.) → nada no backlog; item do EWM → ofereça um
-  comentário `sdd: não fazer — <motivo>` (`add_comment_to_workitem`, com "sim"), que o tira dos próximos lotes;
+  comentário `sdd: não fazer — <motivo>` (`elm-ccm` › comentar, com "sim"), que o tira dos próximos lotes;
   fechar o item é do P.O., na UI.
 
 ## Passo 3 — Registrar (na base)
@@ -79,7 +79,7 @@ no mesmo commit.
   descrição = o problema), com confirmação; o id vai para a coluna `elm`. Veio de um item do EWM: se ele já é do
   tipo de épico do `sdd.md`, ele é o épico (grave o id, sem criar outro) — quando esse tipo é o mesmo do item
   (Item de Backlog pai), pergunte se ele vira o épico ou o filho; senão o épico é criado e o item de origem
-  vira filho dele, na mesma confirmação. Sem o MCP → `elm` = `pendente` (a `sdd-prd` ou o planejamento registram
+  vira filho dele, na mesma confirmação. Sem o power `elm` → `elm` = `pendente` (a `sdd-prd` ou o planejamento registram
   depois).
 
   **Pasta antecipada:** se o título tem mais de 3 palavras (slug formável), crie
@@ -121,7 +121,7 @@ no mesmo commit.
     no formato da [`sdd-atender`](../sdd-atender/SKILL.md), com as respostas da entrevista no cabeçalho e
     `**Situação:** aberto`; na sprint, a linha na seção Atendimento do `sprint-<nn>.md`.
   - EWM (com ELM): **`sdd-elm` modo *atendimento*** (Registrar), com "sim"; o id vai para a coluna `elm`. Sem o
-    MCP → `elm` = `pendente` (a `sdd-atender` registra antes de assumir).
+    power `elm` → `elm` = `pendente` (a `sdd-atender` registra antes de assumir).
 
 Atualize "Próximos ids". O commit é **um só, no fim da sessão de triagem** (Passo 4, resposta "não"), com o
 `backlog.md`, as fichas e os registros de AT (padrão de commit do `sdd.md`); push ou PR curto com o "sim" da pessoa,
@@ -129,7 +129,7 @@ como diz "Artefatos de produto" no `sdd.md` (no agente `sdd-produto`, que não f
 — a pessoa executa). **Conflito de id** no push (outra
 pessoa registrou o mesmo número antes): o agente não faz merge nem rebase — peça à pessoa `git pull --rebase`; no
 conflito do `backlog.md`, mantenha o remoto, pegue o próximo id livre para a sua linha (e para o nome
-da ficha) e, se o item já foi criado no EWM, troque o `[FT-nnn]`/`[EP-nn]` do título (`ccm_update_workitem`, com
+da ficha) e, se o item já foi criado no EWM, troque o `[FT-nnn]`/`[EP-nn]` do título (`elm-ccm` › atualizar item, com
 "sim"). Id que ainda não chegou à base pode mudar; o que já chegou, nunca.
 
 ## Passo 4 — Encaminhar
@@ -151,17 +151,17 @@ a instrução acima e pare. Recomeçar a própria triagem com o próximo item n�
 
 ## Passo 5 — Lote do EWM
 
-"Importar do EWM", "triar os defeitos do time" — precisa do power `elm` e do MCP nesta sessão; sem eles → diga que a
-importação precisa do MCP e pare.
+"Importar do EWM", "triar os defeitos do time" — precisa do power `elm` nesta sessão; sem ele → diga que a
+importação precisa do power `elm` e pare.
 
 1. **Filtro**, com padrão e uma confirmação: time do `pa_*.json` (vários → pergunte qual), tipos Defeito e Item de
-   Backlog, estado `Novo` (o nome do estado inicial na PA; a pessoa troca). `ccm_list_workitems` por tipo.
+   Backlog, estado `Novo` (o nome do estado inicial na PA; a pessoa troca). `elm-ccm` › listar itens, por tipo.
 2. **Fora do lote:** item cujo id já está no `backlog.md` (colunas `origem` e `elm`) ou no `**Origem:**` de um
    `<produto>/atendimentos/AT-*.md`, item criado pelo próprio fluxo (título com `[EP-`, `[FT-`, `[SUS-`, `[ESP]`,
    `[DEV]`, `[REV]`, `[VER]`, `[ATD]`), tarefas e, depois de ler o item (item 3), o que tem pai do fluxo (`[EP-`,
    `[SUS-`) ou o comentário `sdd: não fazer`. Mais de 15
    itens → mostre a contagem e peça um filtro mais fino.
-3. Leia cada item (`ccm_get_workitem`, com descrição e comentários) e proponha a triagem numa tabela, com **uma
+3. Leia cada item (`elm-ccm` › ler item, com descrição e comentários) e proponha a triagem numa tabela, com **uma
    confirmação para o lote**:
    ```
    📥 Lote EWM — <time> · <tipos> · estado <…> · <n> itens novos (<m> já no backlog)
@@ -187,4 +187,4 @@ importação precisa do MCP e pare.
 - Ficha aprovada só muda por pedido explícito: volta a `rascunho`, mostre a diferença e peça a aprovação de novo;
   fatia já iniciada que dependa da mudança → avise quem a conduz.
 - Nunca invente dado de work item, regra ou comportamento esperado: sem fonte e sem pessoa, fica `falta: …`.
-- Toda escrita no EWM só com "sim"; sem o MCP ou com falha → `pendente`, e o fluxo segue.
+- Toda escrita no EWM só com "sim"; sem o power `elm` ou com falha → `pendente`, e o fluxo segue.

@@ -4,7 +4,7 @@ description: "Access cross-application IBM ELM data through the `elm` MCP: users
 license: "MIT"
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "1.0.3"
+  version: "1.1.0"
 ---
 
 # elm-gc
@@ -100,6 +100,14 @@ link_workitem_and_requirement(<url do WI>, <url do requisito>, "implements")
 ```
 
 Se a conversa já trouxe as URLs (listas, leituras anteriores), não leia de novo.
+
+## Operações (contrato com outros powers)
+
+| Operação | Como |
+|---|---|
+| ligar item a requisito (implementa · rastreia · afeta) | `link_workitem_and_requirement(…, "implements" \| "tracks" \| "affects")` |
+| ligar caso de teste a requisito (valida) | `link_testartifact_and_requirement(…, "validates")` |
+| ligar item a caso de teste (testado por) | `link_workitem_and_testartifact(…, "tests")` |
 
 ## Erros
 

@@ -57,7 +57,7 @@ linha da tabela — sem quebra de linha nem `|` dentro de célula (troque por `/
 | `modo` | `AFK` · `HITL` |
 | fatia `status` | `backlog` → `pronta` (passou na Definition of Ready) → `concluida`; desvios `dividida` (`obs`: `substituida-por FT-…`), `cancelada` (`obs`: motivo). "Em andamento" não é gravado: é a fatia que tem `status.md` numa branch |
 | `sprint` | número da sprint (`sdd-planejamento`) ou `—`; no Kanban, `—` |
-| `elm` | `—`, `pendente` (registrado sem o MCP; a `sdd-elm` cria depois) ou `[<id>](<url>)`; tarefas do EWM em seguida, `<prefixo> [<id>](<url>)`, separadas por ` · ` (gravado pela `sdd-elm`) |
+| `elm` | `—`, `pendente` (registrado sem o power `elm`; a `sdd-elm` cria depois) ou `[<id>](<url>)`; tarefas do EWM em seguida, `<prefixo> [<id>](<url>)`, separadas por ` · ` (gravado pela `sdd-elm`) |
 | `concluida-em` | data `AAAA-MM-DD` ou `—` |
 | atendimento `status` | `backlog` (sem sprint aberta) · `aberto` (na sprint ou na iteração corrente do Kanban) · `concluido` · `cancelado` |
 | atendimento `origem` | chamado, e-mail, `DF 4567`, `IB 615` ou `pedido` |

@@ -96,7 +96,7 @@ fio:
    sessão.
 2. Marque no `tasks.md` só o que está realmente pronto e verde.
 3. **Horas da sessão** (com ELM): "Quanto tempo nesta sessão em `<tarefa>`?" — a tarefa do papel de quem fecha,
-   pelo campo ELM do `status.md` → `sdd-elm` modo *horas*, com "sim" (lança, não conclui). Sem MCP → `ELM
+   pelo campo ELM do `status.md` → `sdd-elm` modo *horas*, com "sim" (lança, não conclui). Sem o power `elm` → `ELM
    pendente: lançar <h>h em <tarefa> (<data>)` no Histórico.
 4. Mostre o `git status` e proponha o commit do que está pronto (padrão do `sdd.md`); grave só com "ok" e nunca
    faça push.

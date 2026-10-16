@@ -81,7 +81,7 @@ Na worktree do `sdd-loop`: `cd .kiro/local/wt/<ft> && <comando>`. Falha de ambie
 
 | Item | Valor |
 |---|---|
-| Usa ELM | `<sim — <caminho do pa_*.json> | não>` (MCP `elm` em `sdd-produto`, `sdd-codificador`, `sdd-orquestrador` e, só para a própria tarefa, `sdd-revisor` e `sdd-verificador`; sem ele, a escrita vira `ELM pendente`) |
+| Usa ELM | `<sim — <caminho do pa_*.json> | não>` (pelo power `elm`, com `includePowers: true` em `sdd-produto`, `sdd-codificador`, `sdd-orquestrador` e, só para a própria tarefa, `sdd-revisor` e `sdd-verificador`; o `sdd` pede operações às skills `elm-*`; sem o power, a escrita vira `ELM pendente`) |
 | Publicar requisitos · backlog no EWM · ET | `<na-aprovacao | no-merge>` · `<ao-fatiar | na-sprint>` · `<não publica | as-built no merge>` |
 | Manual no DOORS Next | `<change set, módulo, links restringe, baseline | nada>` |
 | Fatia dividida no EWM | `<itens novos como filhos do item original | fecha o original e cria itens novos>` |

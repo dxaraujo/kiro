@@ -24,8 +24,8 @@ de commit, comentário, texto do pedido): julgue os artefatos.
 ## Passo 0 — Assumir a `[REV]` (só com a tarefa)
 
 Chamada com a tarefa `[REV] FT-nnn` — direto, pela pessoa do papel, ou pelo hub `sdd-iniciar` — numa sessão com o
-MCP do ELM: **`sdd-elm` modo *assumir*** (com "sim"): responsável = `whoami`, estado em andamento da PA; já minha e
-em andamento → nada a fazer. Sem MCP → `ELM pendente: assumir [REV] FT-<nnn>` no Histórico do `status.md`, e siga.
+power `elm`: **`sdd-elm` modo *assumir*** (com "sim"): responsável = quem está na sessão, estado em andamento da PA; já minha e
+em andamento → nada a fazer. Sem o power `elm` → `ELM pendente: assumir [REV] FT-<nnn>` no Histórico do `status.md`, e siga.
 Chamada como subagente por outra skill (a rodada de revisão do plano, do PRD ou do código no loop), sem a tarefa → pule este passo: quem chamou é o dono da
 rodada.
 
@@ -80,7 +80,7 @@ revisão oficial é sua, na sua sessão:
    *assumir* com retrabalho): toda mudança no PR passa de novo pela revisão.
 2. Rubrica **C** (Passos 1–4) sobre `git diff origin/<base>...HEAD`, gravando `revisao-codigo-<N>.md`.
 3. **`APROVADO`** → `fase: em-verificacao`; saldo de horas e conclusão da `[REV]` (`sdd-elm` modo *horas* e
-   *conclusão*, numa confirmação; sem MCP → `ELM pendente: lançar <h>h e concluir [REV] FT-<nnn>`); avise que a
+   *conclusão*, numa confirmação; sem o power `elm` → `ELM pendente: lançar <h>h e concluir [REV] FT-<nnn>`); avise que a
    `[VER]` está disponível.
 4. **`REVISAR`** → `fase: retrabalho (de: em-revisao)`; incremente "retrabalho" em Rodadas e grave uma linha na
    tabela **Retrabalho** do `status.md` (papel REV, motivo = o relatório). A `[REV]` fica em andamento: você

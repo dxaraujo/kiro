@@ -104,7 +104,7 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
    ```
 7. "ok" → grave `sprints/sprint-<nn>.md`, `sprint`, `responsavel` e `status` no `backlog.md` pelo bloco
    [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base) e **chame sempre a `sdd-elm` modo *sprint*** (planos, IBs e tarefas `[DEV]` `[REV]`
-   `[VER]` `[ESP]` na iteração escolhida), para a sprint e o EWM ficarem iguais. Sem MCP ou com falha, a
+   `[VER]` `[ESP]` na iteração escolhida), para a sprint e o EWM ficarem iguais. Sem o power `elm` ou com falha, a
    coluna "Tarefa ELM" fica `pendente` e a `sdd-elm` publica depois.
 
 ## Durante a sprint

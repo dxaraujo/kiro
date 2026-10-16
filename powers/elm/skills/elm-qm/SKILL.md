@@ -4,7 +4,7 @@ description: "Query, search or list IBM ETM/RQM (QM) test artifacts through the 
 license: "MIT"
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "1.0.3"
+  version: "1.1.0"
 ---
 
 # elm-qm
@@ -94,6 +94,12 @@ Não suportados em `search_testartifact`: `customAttributeFilters`, `categoryFil
 categoria ou atributo custom, peça `properties` com o campo e filtre o resultado.
 
 `configuration` aceita UUID (`_...`) ou URL da configuração local do ETM.
+
+## Operações (contrato com outros powers)
+
+| Operação | Como |
+|---|---|
+| ler caso de teste | `get_testartifact(pa_qm, "TestCase", id=<n>)` (dá a URL para os links) |
 
 ## Fluxos
 

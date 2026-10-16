@@ -156,9 +156,10 @@ Nunca compacte no meio de uma fase.
 - Nada inventado: tabela, coluna, regra, id de work item — confirme no código, no banco (somente leitura) ou no ELM.
 - Toda escrita no ELM, troca de branch, push e alteração de work item só com "sim" de uma pessoa. Agente nunca faz
   merge nem `--force`.
-- O MCP do ELM fica nos agentes que conduzem sessão com a pessoa (`sdd-produto`, `sdd-codificador`,
-  `sdd-orquestrador`) e no revisor e no verificador, só para a própria tarefa (assumir, horas, conclusão); o
-  pesquisador não o tem. Sem o MCP ou com falha, a escrita vira
+- O ELM é do **power `elm`**: o `sdd` decide quando e o quê, e pede **operações** às skills `elm-*` (nunca chama
+  tool direto). Os agentes que conduzem sessão (`sdd-produto`, `sdd-codificador`, `sdd-orquestrador`) e o revisor e
+  o verificador (só para a própria tarefa) recebem o power com `includePowers: true`; o pesquisador não. Sem o
+  power ou com falha, a escrita vira
   `ELM pendente` registrada — o ELM nunca trava o fluxo.
 - Dado de cliente (resultado de consulta, extração, tela com dado real) nunca vai para o git: fica em
   `.kiro/local/<origem>/<id>/`; o registro versionado guarda consulta, contagem, caminho e resumo sem identificar

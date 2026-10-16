@@ -4,7 +4,7 @@ description: "Query, list, read, create, update, change state, comment or log ti
 license: "MIT"
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "1.0.8"
+  version: "1.1.0"
 ---
 
 # elm-ccm
@@ -225,6 +225,26 @@ Exemplo — "muda a estimativa do WI 1001 para 6h": `fields["Estimativa"]` → `
 - Alterar: leia com `ccm_get_workitem`, edite o corpo **sem** o cabeçalho YAML e **sem** `## Comentários`, e mande o
   corpo inteiro (substitui o atual). Ler → gravar → ler não muda o texto.
 - Citar outro WI: escreva o tipo e o número ("Tarefa 1002"); o EWM cria sozinho o link "Menções". Não há embed.
+
+## Operações (contrato com outros powers)
+
+Outros powers (ex.: `sdd`) pedem **operações** por estes nomes, nunca as tools: se a tool mudar, só esta tabela
+muda. Toda escrita é confirmada com a pessoa antes.
+
+| Operação | Como |
+|---|---|
+| quem sou eu | `whoami` (login) |
+| ler item | `ccm_get_workitem(id, fields, link_types)` |
+| listar itens | `ccm_list_workitems(pa, iteration?, team_areas?, owner?, state?, workitem_type?)` |
+| criar item (com pai) | `ccm_create_workitem(..., parent=<id>)` — campos obrigatórios da PA (seção Fluxos › Criar) |
+| atualizar item | `ccm_update_workitem(id, fields?, description?, state=<nome>)` — campos e estado numa chamada |
+| trocar o pai | `ccm_update_workitem(id, parent=<id do novo pai>)` |
+| assumir tarefa | ler o item; responsável = **quem sou eu**, estado em andamento da PA (`ccm_list_workitem_states` dá as ações), estimativa se faltar — numa só atualização. Já minha e em andamento → nada |
+| reabrir tarefa | estado de reabertura da PA (ação de `ccm_list_workitem_states`); sem ação de reabertura → diga e pare |
+| concluir tarefa | estado de conclusão da PA, pela mesma via |
+| comentar | `add_comment_to_workitem(id, comment)` |
+| anexar · listar anexos · baixar anexo | `ccm_put_attachment(id, path)` (mesmo nome substitui) · `ccm_list_attachments(id)` · `ccm_get_attachment(id, name, dest_dir)` |
+| horas lançadas · lançar horas | `ccm_list_timesheet(id)` · `ccm_add_timesheet(id, entries, time_code)` — regras do EWM na seção Timesheet (só o responsável lança, até 16 h por dia, sem data futura) |
 
 ## Fluxos
 

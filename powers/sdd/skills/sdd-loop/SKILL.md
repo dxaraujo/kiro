@@ -46,7 +46,7 @@ e pergunte se retoma. Retomar = continuar cada fatia da fase registrada no `stat
    há [REV] nem [VER]: revisão e verificação são dos subagentes
    Confirma?
    ```
-   Com "sim" e o MCP `elm`: assuma as `[DEV]` (`sdd-elm`); sem o MCP ou com falha → `ELM pendente: assumir a
+   Com "sim" e o power `elm`: assuma as `[DEV]` (`sdd-elm`); sem o power `elm` ou com falha → `ELM pendente: assumir a
    tarefa` no `status.md` de cada fatia.
 5. Log `.kiro/local/loop-<AAAA-MM-DD-HHMM>.md` (formato no fim).
 
@@ -116,10 +116,10 @@ Os **Kiro Workflows** do sdd (se instalados) não fazem parte do loop: são rece
   🤖 Loop AFK — resultado
   | FT | Resultado | PR | Rodadas (plano/código/aceite) | Observação |
   Aguardando pessoa: <planos para aprovar · PRs para revisar · bloqueios com pergunta>
-  ELM pendente: <o que falhou ou ficou sem o MCP>
+  ELM pendente: <o que falhou ou ficou sem o power `elm`>
   Lições para registrar: <correções que o loop precisou — sdd-aprender>
   ```
-- **Horas e conclusão, numa pergunta só** (com o MCP `elm`): uma tabela `tarefa | horas sugeridas` com as `[DEV]`
+- **Horas e conclusão, numa pergunta só** (com o power `elm`): uma tabela `tarefa | horas sugeridas` com as `[DEV]`
   das fatias que chegaram ao PR; a pessoa ajusta e confirma de uma vez → `sdd-elm` modo *horas* e modo
   *conclusão* da `[DEV]`. No AFK as horas só vão para a `[DEV]`, ao concluir: revisão e verificação por subagente
   não têm tarefa nem horas.
@@ -137,7 +137,7 @@ Os **Kiro Workflows** do sdd (se instalados) não fazem parte do loop: são rece
 ## Regras
 
 - Nunca merge, nunca `--force`, nunca push sem a autorização do lote.
-- ELM só pelo que o lote confirmou (assumir `[DEV]`, estados) e pelas horas do fim; nada mais. Sem o MCP ou com
+- ELM só pelo que o lote confirmou (assumir `[DEV]`, estados) e pelas horas do fim; nada mais. Sem o power `elm` ou com
   falha → `ELM pendente: …` no `status.md`.
 - Nunca relaxe um gate para o loop andar: bloqueio é informação, não falha.
 - Tipo de fatia que bloqueia com frequência → sugira na retrospectiva tratá-lo como HITL.

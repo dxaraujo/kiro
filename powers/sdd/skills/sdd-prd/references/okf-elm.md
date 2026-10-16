@@ -22,7 +22,7 @@ elm/
   HF-01-bloquear-conta.md
 ```
 
-- **Nunca dentro do bundle da `elm-sync`** (`<rm.download.path>`): lá só o MCP grava, e um sincronismo regravaria
+- **Nunca dentro do bundle da `elm-sync`** (`<rm.download.path>`): lá só a `elm-sync` grava, e um sincronismo regravaria
   ou apagaria o rascunho.
 - O **Concept ID** do OKF (o caminho do arquivo dentro de `elm/`, sem `.md`) é a chave estável do artefato. Ele não
   muda depois de criado; o id do ELM fica em `resource`/`id`.
@@ -93,8 +93,8 @@ prosa (§6.1):
 |---|---|---|
 | HF → REG | link relativo para o arquivo da REG | **embed**: `[<id>](<id>)` e o id em `embedded` |
 | HF/REG → termo | link relativo para o `GL-*.md` | hyperlink `[<id>](<id>)` |
-| restringe, satisfaz, elabora (requisito ↔ requisito) | prosa + link na seção `## Relações` | **não sobe** (o MCP não cria esse link): fica no arquivo como registro |
-| atributos (aprovação, prioridade) | `verified`, `status` | **não sobem** (o MCP não grava atributo) |
+| restringe, satisfaz, elabora (requisito ↔ requisito) | prosa + link na seção `## Relações` | **não sobe** (o power `elm` não cria esse link): fica no arquivo como registro |
+| atributos (aprovação, prioridade) | `verified`, `status` | **não sobem** (o power `elm` não grava atributo) |
 | conceito ainda sem id | link relativo | texto simples com o título |
 
 A seção `## Relações` é só local. O resto do corpo é o texto publicado.
@@ -140,7 +140,7 @@ houver, `## Relações`.
 | GATE do PRD | a pessoa aprova → cada conceito recebe `verified` humano e `status: stable` |
 | Publicação | `sdd-elm` publica de baixo para cima (GL → REG → HF), grava `resource` e `id`, e acrescenta ao `sources` a entrada do ELM com o `last_modified` |
 | Depois | a `elm-sync` baixa a versão oficial para o bundle, que passa a ser a versão viva; o rascunho fica como registro histórico, com `resource` preenchido |
-| Alteração de artefato existente | copie o arquivo do bundle para `elm/`, mantendo `resource`, `id` e o `sources` do ELM; `status: draft`, `generated` novo; edite. Na publicação, `rm_list_modified` mais novo que o `last_modified` desse `sources` = alguém mudou no ELM no meio-tempo → **conflito**: a pessoa decide |
+| Alteração de artefato existente | copie o arquivo do bundle para `elm/`, mantendo `resource`, `id` e o `sources` do ELM; `status: draft`, `generated` novo; edite. Na publicação, a última modificação (`elm-rm`) mais nova que o `last_modified` desse `sources` = alguém mudou no ELM no meio-tempo → **conflito**: a pessoa decide |
 | Obsoleto | `status: deprecated`; a remoção ou a marcação no ELM é passo manual na UI |
 
 ## `index.md` e `log.md`

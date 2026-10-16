@@ -101,10 +101,11 @@ de `skills/sdd-setup/assets/`:
 | `.kiro/sdd/http.sh` (opcional) | única chamada HTTP que o verificador faz sem perguntar: só à URL de teste, com corpo da pasta `massa/` |
 | pasta do produto (proposta pela setup; padrão `.kiro/planejamento`) | `backlog.md`, épicos e PRDs, `planejamento/`, `atendimentos/`, `aprendizado/` — versionada; o que é local fica em `.kiro/local/` (fora do git) |
 
-O MCP do ELM entra nos agentes que conduzem sessão com a pessoa (`sdd-produto`, `sdd-codificador`,
-`sdd-orquestrador`) e no revisor e no verificador só para a própria tarefa (assumir, horas, conclusão), pelo
-`mcp.json`, com leitura liberada e escrita com confirmação; o pesquisador não o tem, e nenhum agente recebe os powers (sem `includePowers`). Sem o MCP, a escrita vira
-pendência registrada.
+O ELM é do **power `elm`** (MCP `mcp-elm` + skills `elm-*`): o `sdd` decide quando e o quê registrar e pede
+**operações** às skills `elm-*`, nunca chama tool direto. Os agentes que conduzem sessão (`sdd-produto`,
+`sdd-codificador`, `sdd-orquestrador`) e o revisor e o verificador (só para a própria tarefa) recebem o power com
+`includePowers: true`; o pesquisador não. Requer power `elm` ≥ 1.3.0 e `mcp-elm` ≥ 1.0.37. Sem o power, a escrita
+vira pendência registrada.
 
 Cada agente tem as permissões mínimas do papel, nos dois blocos do formato universal (`toolsSettings` para a
 engine V2, `permissions` para a V3 e a IDE): lê o projeto e o power, mas não `.env`, chaves, `~/.ssh`, `~/.aws` nem
@@ -162,7 +163,8 @@ sessão, por exemplo); concluir é da skill do papel, com o saldo. No AFK só ex
 Depois de atualizar o power ou um toolkit: "atualizar os agentes do sdd" — na 2.5.0 é obrigatório: os agentes
 passam a carregar as skills de papel (`sdd-especificar`, `sdd-desenvolver`) e o hub `sdd-iniciar`, o `sdd-codificador`
 ganha `git switch`, o `sdd-produto` a pasta `.kiro/local/especificacao/` e os anexos do EWM, e o revisor e o
-verificador o MCP do ELM (só para a própria tarefa). O MCP `mcp-elm` precisa ser 1.0.37 ou mais novo (anexos). Projeto configurado com o power
+verificador o ELM pelo power `elm` (`includePowers: true`, só para a própria tarefa); o servidor `elm` sai do
+`mcp.json` do projeto. Requer o power `elm` ≥ 1.3.0 e o `mcp-elm` ≥ 1.0.37 (anexos). Projeto configurado com o power
 `sdd2` ou com a v1 do `sdd`: desinstale o power antigo, instale este e peça "atualizar a configuração do sdd" — a
 setup pergunta a pasta do produto, junta os steerings num só, renomeia hooks, workflows e agentes e move
 `.kiro/produto/` e `.kiro/aprendizado/` com `git mv`.

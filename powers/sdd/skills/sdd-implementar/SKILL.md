@@ -138,8 +138,8 @@ Quem abre o PR é a sessão da pessoa (com o "sim" dela) ou o `sdd-orquestrador`
    O PR é para uma pessoa **ler o código**: pequeno, com a evidência e o caminho de leitura, sem despejar o plano.
 3. Numa só confirmação da pessoa: push e abertura do PR com a ferramenta do `sdd.md` (sem ferramenta →
    entregue título e descrição prontos).
-4. **Conclusão da `[DEV]`:** mostre as horas já lançadas (`ccm_list_timesheet`) e pergunte só o saldo →
-   `sdd-elm` modo *horas*, depois modo *conclusão* só da `[DEV]`, numa confirmação. Sem MCP → `ELM pendente:
+4. **Conclusão da `[DEV]`:** mostre as horas já lançadas (`elm-ccm` › horas lançadas) e pergunte só o saldo →
+   `sdd-elm` modo *horas*, depois modo *conclusão* só da `[DEV]`, numa confirmação. Sem o power `elm` → `ELM pendente:
    lançar <h>h e concluir [DEV] FT-<nnn>` no Histórico.
 5. `status.md`: HITL → `fase: pr-aberto`; AFK → `fase: pronta-para-merge`; link do PR, o resultado do item 4 no
    Histórico (retrabalho: as horas na tabela Retrabalho); commit e, com o mesmo "sim", push (o `status.md` vai junto

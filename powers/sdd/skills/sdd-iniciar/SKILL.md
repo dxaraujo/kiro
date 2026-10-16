@@ -45,7 +45,7 @@ Responda com a instrução e **pare**: nunca invoque nem simule a skill do papel
 
 ## "Minha próxima tarefa"
 
-1. Com o MCP: `whoami` e `ccm_list_workitems(owner=<login>, iteration=<sprint aberta>)`; sem o MCP: as linhas do
+1. Com o power `elm`: `elm-ccm` › **quem sou eu** e **listar itens** (responsável = o login, iteração = a da sprint aberta); sem ele: as linhas do
    `sprint-<nn>.md` aberto com `responsavel` = a pessoa (login do `sdd.md` ou `git config user.email`).
 2. Mostre as tarefas abertas (não concluídas) de **qualquer tipo**, na ordem de prioridade da sprint — as que já
    estão em andamento primeiro:

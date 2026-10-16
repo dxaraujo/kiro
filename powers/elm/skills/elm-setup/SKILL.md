@@ -4,7 +4,7 @@ description: "Configure, create, update or review the IBM ELM/ELM (EWM, DOORS Ne
 license: "MIT"
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "1.0.6"
+  version: "1.1.0"
 ---
 
 # elm-setup
@@ -198,6 +198,12 @@ Mostre o resumo e peça confirmação antes. Depois de criar, inclua o item em `
   processo; confira o `plan-type` do plano criado.
 - Essas tools usam serviços internos da UI web: `HTTP 403`/`Permission Denied` = o usuário não tem a permissão de
   processo ("Modify structures of iterations" / planos). Informe e pare; **não tente variações** do payload.
+
+## Operações (contrato com outros powers)
+
+| Operação | Como |
+|---|---|
+| criar iteração · criar plano | seção "Criar iteração ou plano" acima (exige permissão de modificar iterações na PA) |
 
 ## Erros comuns
 

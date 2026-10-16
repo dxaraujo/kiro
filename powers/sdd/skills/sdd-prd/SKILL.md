@@ -45,7 +45,7 @@ Leia antes: `.kiro/steering/sdd.md` (ELM, caminhos, papéis) e o steering de pro
 4. **Registre o épico no EWM já agora**, se a coluna `elm` dele está `—` ou `pendente` (projeto com ELM): `sdd-elm` modo *backlog*, só o épico (`[EP-nn]
    <título>`, descrição = o problema), com confirmação; o id fica no `rascunho.md` da pasta de trabalho e vai para a coluna `elm`
    do `backlog.md` no commit do GATE (até lá, nada da especificação vai para a base). Assim o pai existe para os
-   IBs das fatias. Sem MCP → `ELM pendente: épico EP-nn` no `rascunho.md`.
+   IBs das fatias. Sem o power `elm` → `ELM pendente: épico EP-nn` no `rascunho.md`.
 
 ## Passo 2 — Entrevistar
 
@@ -57,7 +57,7 @@ Rode a **`sdd-entrevistar`** sobre a demanda, gravando em `decisoes.md` da pasta
 ### 3.1 Similares no ELM (obrigatório, antes de criar qualquer arquivo em `elm/`)
 
 Projeto com ELM: liste os artefatos que o PRD vai propor (tipo, título provisório, palavras-chave da entrevista e
-do glossário) e chame a **`sdd-elm` modo *similares*** — nunca o MCP direto. Mostre a tabela dela à pessoa e peça
+do glossário) e chame a **`sdd-elm` modo *similares*** — nunca as tools do `elm` direto. Mostre a tabela dela à pessoa e peça
 uma decisão por artefato com acerto:
 
 | Relação encontrada | Decisões possíveis (recomendada primeiro) |
@@ -69,7 +69,7 @@ uma decisão por artefato com acerto:
 
 Registre cada decisão no `decisoes.md` (`D-nn`: artefato, id do ELM encontrado, relação, decisão, motivo) e, na
 tabela de artefatos do PRD, a coluna **No ELM**: `reusa <id>` · `altera <id>` · `novo (verificado <AAAA-MM-DD>)`.
-Verificação ao vivo pendente (sem MCP) → `novo (só bundle <data>)`: a `sdd-elm` refaz a busca antes de publicar.
+Verificação ao vivo pendente (sem o power `elm`) → `novo (só bundle <data>)`: a `sdd-elm` refaz a busca antes de publicar.
 Artefato que surgir depois (na escrita, na revisão ou numa mudança depois de aprovado) passa por aqui antes de
 virar arquivo. Projeto sem ELM → pule.
 
@@ -87,7 +87,7 @@ só aponta para eles. Regras de escrita:
 - **Alteração** de comportamento documentado → copie o arquivo do artefato do bundle da `elm-sync`
   (`<rm.download.path>/…/<id>-<slug>.md`) para `elm/`, mantendo `resource`, `id` e o `sources` do ELM; ponha
   `status: draft` e um `generated` novo; reescreva no estado **depois** da mudança. Sem bundle, leia o artefato
-  pela `elm-rm` (`rm_get_requirement`) e grave a mesma estrutura. A `sdd-elm` atualiza o artefato existente em vez
+  pela `elm-rm` › ler requisito e grave a mesma estrutura. A `sdd-elm` atualiza o artefato existente em vez
   de criar outro. Na tabela do PRD, coluna "No ELM" = `altera <id>`.
 - **Reutilizar** (decisão do 3.1) → não crie conceito: a HF embute a REG existente (`[<id>](<id>)`), linka o termo
   existente e cita a HF existente; a linha na tabela do PRD fica com `reusa <id>` e sem arquivo em `elm/`.

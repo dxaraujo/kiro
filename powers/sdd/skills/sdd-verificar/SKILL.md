@@ -28,8 +28,8 @@ resultado: seção **Verificação de aceite** do `.kiro/steering/sdd.md` (vem d
 ## Passo 0 — Assumir a `[VER]` (só com a tarefa)
 
 Chamada com a tarefa `[VER] FT-nnn` — direto, pela pessoa do papel, ou pelo hub `sdd-iniciar` — numa sessão com o
-MCP do ELM: **`sdd-elm` modo *assumir*** (com "sim"): responsável = `whoami`, estado em andamento da PA; já minha e
-em andamento → nada a fazer. Sem MCP → `ELM pendente: assumir [VER] FT-<nnn>` no Histórico do `status.md`, e siga.
+power `elm`: **`sdd-elm` modo *assumir*** (com "sim"): responsável = quem está na sessão, estado em andamento da PA; já minha e
+em andamento → nada a fazer. Sem o power `elm` → `ELM pendente: assumir [VER] FT-<nnn>` no Histórico do `status.md`, e siga.
 Chamada como subagente por outra skill (a rodada de verificação do loop ou da implementação), sem a tarefa → pule este passo: quem chamou é o dono da
 rodada.
 
@@ -88,7 +88,7 @@ VERIFICACAO: ACEITO | REJEITADO
   - **AFK** (subagente do loop ou da `sdd-implementar`): `fase: aceita` e devolva para abrir o PR (Passo 5 da
     `sdd-implementar`). Não há `[VER]` no EWM (Q8).
   - **HITL**: `fase: pronta-para-merge`; saldo de horas e conclusão da `[VER]` (`sdd-elm` modo *horas* e
-    *conclusão*, numa confirmação; sem MCP → `ELM pendente: lançar <h>h e concluir [VER] FT-<nnn>`); commit de
+    *conclusão*, numa confirmação; sem o power `elm` → `ELM pendente: lançar <h>h e concluir [VER] FT-<nnn>`); commit de
     `verificacao.md`, `CT.csv`, `evidencias/`, `massa/` e `status.md` (`FT-<nnn> verificação: ACEITO`); o push é da
     pessoa. Avise que o PR está pronto para o merge.
 - **REJEITADO** → para cada cenário, esperado × obtido + evidência, registrados no `status.md` como achados.

@@ -4,7 +4,7 @@ description: "Query, search, read, create or update IBM DOORS Next (RM) artifact
 license: "MIT"
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.0.4"
+  version: "2.1.0"
 ---
 
 # elm-rm
@@ -286,6 +286,18 @@ rm_create_requirement(..., requirement_type=rm.requirements-types["História de 
 ```
 
 Aqui o 2001 fica embutido e a ET 2007 é citada por hyperlink.
+
+## Operações (contrato com outros powers)
+
+Outros powers pedem **operações** por estes nomes, nunca as tools. Toda escrita é confirmada antes.
+
+| Operação | Como |
+|---|---|
+| buscar requisitos | `rm_search_requirements(pa, component, configuration, text?, folder?, requirement_type?)` |
+| ler requisito | `rm_get_requirement(id)` |
+| última modificação | `rm_list_modified(pa, component, configuration, requirement_ids)` — data de modificação de cada id, sem ler o conteúdo |
+| criar requisito | `rm_create_requirement(pa, component, configuration, requirement_type, folder, title, text, embedded?)` — texto em Markdown |
+| atualizar requisito | `rm_update_requirement(pa, component, configuration, requirement_id, title?, text?, embedded?)` |
 
 ## Fluxos
 

@@ -20,7 +20,7 @@ foi feita. Os nomes reais de tipos, pastas, campos e links são da project area:
 | Tarefa `[ESP]` do épico | EWM — Tarefa (filha do épico) | `task` | planejamento da sprint |
 | Tarefa `[ATD]` do atendimento | EWM — Tarefa (filha de `Atendimento`) | `task` | triagem do atendimento (`sdd-triar`) |
 | Critérios de aceite da fatia | campo de texto rico do IB (ou seção da descrição) | linha do `sdd.md` | publicação do IB |
-| Horas | EWM — timesheet da tarefa | `ccm_add_timesheet` | conclusão de cada tarefa ou sob pedido |
+| Horas | EWM — timesheet da tarefa | `elm-ccm` › lançar horas | conclusão de cada tarefa ou sob pedido |
 | ET as-built (opcional) | DOORS Next — artefato | `Especificação Técnica` (título `ET - <fatia>`) | consolidação (depois do merge) |
 | Cenário verificado | ETM — Caso de Teste | importação do `CT.csv` | consolidação |
 | Defeito (trilha rápida) | EWM — Defeito | `defect` | já existe; a fatia referencia |
@@ -29,14 +29,14 @@ foi feita. Os nomes reais de tipos, pastas, campos e links são da project area:
 
 | Link | De → Para | Ferramenta (`elm-gc`) | Quando |
 |---|---|---|---|
-| **implementa** | IB da fatia → cada História (HF) que ela cobre | `link_workitem_and_requirement(…, "implements")` | publicação do IB |
-| **rastreia** | Épico → Histórias do PRD | `link_workitem_and_requirement(…, "tracks")` | publicação do épico |
-| **afeta** | Defeito → História/Regra que ele viola | `link_workitem_and_requirement(…, "affects")` | trilha rápida |
-| **valida** | Caso de Teste → História | `link_testartifact_and_requirement(…, "validates")` | depois da importação do CT |
-| **testado por** | IB → Caso de Teste | `link_workitem_and_testartifact(…, "tests")` | depois da importação do CT |
-| **pai / filhos** | Épico → IB → Tarefa; Épico → `[ESP]`; Atendimento → `[ATD]` | `ccm_create_workitem(…, parent=…)`; troca: `ccm_update_workitem(…, parent=…)` | criação |
+| **implementa** | IB da fatia → cada História (HF) que ela cobre | `elm-gc` › ligar item a requisito (implementa) | publicação do IB |
+| **rastreia** | Épico → Histórias do PRD | `elm-gc` › ligar item a requisito (rastreia) | publicação do épico |
+| **afeta** | Defeito → História/Regra que ele viola | `elm-gc` › ligar item a requisito (afeta) | trilha rápida |
+| **valida** | Caso de Teste → História | `elm-gc` › ligar caso de teste a requisito (valida) | depois da importação do CT |
+| **testado por** | IB → Caso de Teste | `elm-gc` › ligar item a caso de teste (testado por) | depois da importação do CT |
+| **pai / filhos** | Épico → IB → Tarefa; Épico → `[ESP]`; Atendimento → `[ATD]` | `elm-ccm` › criar item (com pai); troca: trocar o pai | criação |
 | **depende de** | IB → IB (`bloqueada-por` do backlog) | atributo de link do `link-types` do `pa_*.json`, se mapeado | publicação do IB |
-| **embutido** | História → Regra (no texto) | `rm_update_requirement(…, embedded=[…])` | publicação da história |
+| **embutido** | História → Regra (no texto) | `elm-rm` › atualizar requisito (embutidos) | publicação da história |
 
 Os links são gravados no lado do work item ou do teste (o DOORS Next mostra o backlink). As tools só
 **acrescentam**: antes de ligar, liste os existentes (`list_linked_*`) para não duplicar.
@@ -47,9 +47,9 @@ Opcional: o fluxo prevê pela vazão, não por pontos. Se o `sdd.md` tiver a tab
 velocidade do EWM), eles vão no campo de complexidade/pontos de história do IB (*plan item*), nunca nas tarefas.
 Sem a tabela → o campo fica vazio.
 
-## O que o MCP `elm` não faz (passos manuais)
+## O que o power `elm` não faz (passos manuais)
 
-Hoje o MCP grava título e texto de requisitos, work items (inclusive troca de pai e `plannedFor`), estados,
+Hoje o power `elm` grava título e texto de requisitos, work items (inclusive troca de pai e `plannedFor`), estados,
 comentários, horas e links work item/teste ↔ requisito. Não grava: atributos de requisito, links requisito ↔ requisito (*satisfaz*, *restringe*, *elabora*),
 módulos, change sets, baselines e casos de teste. Quando o processo do projeto exigir algum deles, a `sdd-elm`
 entrega um **roteiro manual** com os ids exatos, e o registra como `ELM pendente: <ação>` até a pessoa confirmar:

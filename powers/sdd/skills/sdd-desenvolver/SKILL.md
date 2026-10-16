@@ -102,7 +102,7 @@ o caminho, e não comece.
 3. **Backlog:** não muda aqui (ele só é escrito na base, pela `sdd-triar`, `sdd-fatiar`, `sdd-planejamento` e
    `sdd-consolidar`); a fatia em andamento é a que tem `status.md` numa branch.
 4. **Assumir a `[DEV]`** (com power `elm`; nunca sem "sim") — **`sdd-elm` modo *assumir***: responsável =
-   `whoami`, estado em andamento da PA, estimativa se faltar; já minha e em andamento → nada a fazer. O item de
+   quem está na sessão, estado em andamento da PA, estimativa se faltar; já minha e em andamento → nada a fazer. O item de
    backlog continua do P.O. Tarefa ainda não existe (encaixe aprovado agora, Kanban, ou publicação que falhou no
    planejamento) → antes, `sdd-elm` modo *sprint* cria as da trilha (pai sempre definido):
 
@@ -116,7 +116,7 @@ o caminho, e não comece.
 
    Grave os ids das tarefas no campo ELM do `status.md` — é por ele que as horas acham a tarefa. Chamada daqui, na
    branch da fatia, a `sdd-elm` não grava o `backlog.md` nem o `sprint-<nn>.md`: os ids ficam no `status.md`, e a
-   `sdd-consolidar` os leva ao backlog. Sem o MCP: `ELM pendente: assumir [DEV] FT-<nnn>` no `status.md`.
+   `sdd-consolidar` os leva ao backlog. Sem o power `elm`: `ELM pendente: assumir [DEV] FT-<nnn>` no `status.md`.
 5. Commit pequeno do `status.md` e do `.config.kiro` e, com "sim", push da branch — é o sinal para o time de que a fatia começou.
 
 ## Passo 5 — Encaminhar

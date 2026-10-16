@@ -35,8 +35,8 @@ ofereça a `sdd-planejamento` (seção Especificação); a pessoa pode seguir se
 
 ## Passo 2 — Assumir a `[ESP]`
 
-**`sdd-elm` modo *assumir*** (com "sim"): responsável = `whoami`, estado em andamento da PA; já minha e em andamento →
-nada a fazer. Sem MCP → `ELM pendente: assumir [ESP] EP-<nn>` no `rascunho.md` da pasta de trabalho.
+**`sdd-elm` modo *assumir*** (com "sim"): responsável = quem está na sessão, estado em andamento da PA; já minha e em andamento →
+nada a fazer. Sem o power `elm` → `ELM pendente: assumir [ESP] EP-<nn>` no `rascunho.md` da pasta de trabalho.
 
 ## Passo 3 — Pasta de trabalho (fora do git)
 
@@ -46,8 +46,8 @@ o GATE. Monte-a pela primeira fonte que existir:
 1. **Já existe nesta máquina** → use-a, mas compare antes com a `[ESP]`: último comentário de sessão mais novo que
    os arquivos locais (outra máquina trabalhou depois) → mostre as duas datas e pergunte se baixa os anexos (item 2)
    por cima da pasta local.
-2. **A `[ESP]` tem anexos** (`ccm_list_attachments`) → outra pessoa ou máquina já trabalhou: baixe cada `.md`
-   (`ccm_get_attachment`) para a pasta (os de `elm/` para `elm/`, pelo prefixo `elm-` do nome do anexo). Mostre a
+2. **A `[ESP]` tem anexos** (`elm-ccm` › listar anexos) → outra pessoa ou máquina já trabalhou: baixe cada `.md`
+   (`elm-ccm` › baixar anexo) para a pasta (os de `elm/` para `elm/`, pelo prefixo `elm-` do nome do anexo). Mostre a
    data do último comentário de sessão.
 3. **Só a base** → copie `rascunho.md` e `decisoes.md` de `<produto>/epicos/<EP>-<slug>/` em `origin/<base>`
    (`git show origin/<base>:<caminho>`, depois de `git fetch`; criados pela triagem).
@@ -84,9 +84,9 @@ Horas desta sessão na [ESP]: <h> h em <data>   (pergunte à pessoa; nunca estim
 Registrar? (sim)
 ```
 
-Com "sim": `add_comment_to_workitem` (o resumo), `ccm_put_attachment` para cada `.md` da pasta de trabalho (os de
+Com "sim": `elm-ccm` › **comentar** (o resumo), **anexar** cada `.md` da pasta de trabalho (os de
 `elm/` com o prefixo `elm-`, para não colidir com o nome de outro arquivo) e **`sdd-elm` modo *horas*** (lança;
-não conclui). Sem MCP ou com falha → `ELM pendente: registrar sessão [ESP] EP-<nn> (<data>)` no `rascunho.md`, e o
+não conclui). Sem o power `elm` ou com falha → `ELM pendente: registrar sessão [ESP] EP-<nn> (<data>)` no `rascunho.md`, e o
 próximo fechamento registra.
 
 ## Passo 6 — Do GATE do PRD ao fim da `[ESP]`
@@ -102,5 +102,5 @@ próximo fechamento registra.
   anexos), atualizado ao fechar cada sessão.
 - Nunca invente regra, valor ou ator: sem fonte e sem decisão de uma pessoa, é `em aberto`.
 - Dado de cliente identificável não vai para os anexos: no rascunho, só o resumo anônimo.
-- Toda escrita no EWM só com "sim"; sem o MCP, `ELM pendente`, e o fluxo segue.
+- Toda escrita no EWM só com "sim"; sem o power `elm`, `ELM pendente`, e o fluxo segue.
 - Não invoque outra skill por conta própria: diga a próxima e pare.

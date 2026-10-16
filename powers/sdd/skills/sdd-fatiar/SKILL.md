@@ -80,7 +80,7 @@ Ajuste e repita até "ok". Esse "ok" é o **GATE do backlog** (P.O. ou time no r
 4. **Conclusão da `[ESP]`** (com ELM): o GATE do backlog conclui a especificação do épico — mostre as horas já
    lançadas na `[ESP]` e pergunte só o saldo a quem especificou, e chame a `sdd-elm` modo *horas* (lançar) e modo *conclusão* na
    `[ESP] EP-nn`, com confirmação. Especificação que continua (refinamento na próxima sprint) → não conclui; a
-   virada só muda o `plannedFor`. Sem MCP → `ELM pendente: lançar <h>h em [ESP] EP-nn` no rodapé do PRD.
+   virada só muda o `plannedFor`. Sem o power `elm` → `ELM pendente: lançar <h>h em [ESP] EP-nn` no rodapé do PRD.
 
 ## Passo 4 — Próximos passos (na mesma resposta)
 

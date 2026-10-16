@@ -23,10 +23,10 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
    no campo `**ELM:**` dos `AT-*.md` abertos e na coluna "Tarefa ELM" `pendente` da sprint aberta).
 3. De cada `tasks.md`: `[x]`/total e o primeiro item pendente.
 4. `<produto>/backlog.md` (da base): épicos por status, fatias `pronta` sem `status.md` em nenhuma branch,
-   sprint atual (`planejamento/sprints/` de maior número com `**Situação:** aberta`) e a meta. "Em andamento" = fatia com
+   sprint atual (`<produto>/sprints/` de maior número com `**Situação:** aberta`) e a meta. "Em andamento" = fatia com
    `status.md` numa branch e fase diferente de `concluida`; o backlog não guarda isso.
    PRDs (`epicos/*/prd.md`): status e pendências `ELM pendente [<chave>]:` do rodapé.
-5. `<produto>/planejamento/acordos.md`: limites de WIP (sem o arquivo: 2 fatias esperando pessoa, e sugira a
+5. `<produto>/acordos.md`: limites de WIP (sem o arquivo: 2 fatias esperando pessoa, e sugira a
    `sdd-planejamento` modo inicial).
 6. `<produto>/aprendizado/licoes.md`: lições com situação `proposta`.
    Sprint aberta (`sprint-<nn>.md`): seções Especificação e Atendimento (reserva × consumido) e as linhas
@@ -76,8 +76,8 @@ trabalho de produto (PRD/fatiar) para manter o backlog com fatias prontas.
 - fase `pr-aberto` sem PR (nem `PR: texto entregue`), ou com tarefas pendentes no `tasks.md`;
 - fatia sem ficha (coluna `ficha` `—` ou arquivo inexistente) marcada `pronta`;
 - `ELM pendente` sem chave (formato antigo) — liste à parte, para a pessoa conferir à mão;
-- layout antigo do produto: `equipe.json`, `acordos.md` ou `roadmap.md` na raiz de `<produto>/` (o lugar é
-  `<produto>/planejamento/`) — ofereça a `sdd-setup` para mover (com "ok");
+- layout antigo do produto: subpasta `<produto>/planejamento/` (o lugar de `equipe.json`, `acordos.md`,
+  `roadmap.md` e `sprints/` é a raiz de `<produto>/`) — ofereça a `sdd-setup` para mover (com "ok");
 - fatia `concluida` no `status.md` e não no `backlog.md` (ou o contrário);
 - fatia em andamento sem commit há mais de 3 dias úteis;
 - `concluida` com Banco = `pendente` ou `aplicada em dev` (implantação bloqueada);

@@ -252,12 +252,13 @@ Em memória:
 4. `<produto>/` (só o que não existir): `backlog.md` mínimo
    (`# Backlog — <nome>`, `Próximos ids: EP-01 · FT-001 · AT-001`, `Sustentação: —` e as tabelas `## Épicos`,
    `## Fatias — sem épico` e `## Atendimentos` vazias — formato na `sdd-fatiar`),
-   `planejamento/` com `equipe.json` (padrão, gerado pelo `sdd-planejamento` Modo inicial — use
+   `equipe.json` na raiz (padrão, gerado pelo `sdd-planejamento` Modo inicial — use
    [assets/equipe-template.md](../sdd-planejamento/assets/equipe-template.md) como referência para o formato
    Markdown alternativo); `<produto>/aprendizado/licoes.md` com o título `# Lições` (a pasta `atendimentos/` nasce
    com o primeiro AT, pela `sdd-triar`) e `fatias/` (as fichas). No modo atualização, acrescente só o que falta —
-   nunca recrie o que existe; `equipe.json`, `acordos.md` ou `roadmap.md` na raiz de `<produto>/` (layout antigo) →
-   ofereça movê-los para `<produto>/planejamento/` com `git mv` (com "ok"), sem sobrescrever o que já estiver lá.
+   nunca recrie o que existe; subpasta `<produto>/planejamento/` (layout da 2.6.0) →
+   ofereça mover o conteúdo dela para a raiz de `<produto>/` com `git mv` (com "ok"), sem sobrescrever o que já
+   estiver lá, e apagar a subpasta vazia.
 5. `.gitignore`: acrescente `.kiro/local/` se faltar. Migração do layout antigo (Passo 0), se aceita.
 
 Mostre o resumo e, no modo atualização, o diff de cada arquivo que muda:

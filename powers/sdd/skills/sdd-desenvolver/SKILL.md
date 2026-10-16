@@ -80,7 +80,7 @@ o caminho, e não comece.
    **`sdd-planejamento`** (seção Encaixe); sem a decisão registrada, não comece. Kanban (`acordos.md`) → não há sprint nem encaixe: a `sdd-elm` modo
    *sprint* põe as tarefas na iteração corrente do EWM ao começar (Passo 4). Nenhuma sprint aberta e nada no
    `acordos.md` (planejamento ainda não feito) → não é encaixe: ofereça a `sdd-planejamento` e não comece.
-4. **WIP** (`<produto>/planejamento/acordos.md`; sem o arquivo, 2 fatias esperando pessoa). Conte as fatias em
+4. **WIP** (`<produto>/acordos.md`; sem o arquivo, 2 fatias esperando pessoa). Conte as fatias em
    `plano-em-revisao`, `pr-aberto`, `em-revisao`, `em-verificacao`, `aceita` e `pronta-para-merge` nos `status.md`
    das branches, como a `sdd-status`. No limite, ou com PR
    parado há mais tempo que o acordo (padrão 1 dia) → mostre quais e recomende destravar antes (aprovar o plano,

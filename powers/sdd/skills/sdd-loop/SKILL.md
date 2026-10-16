@@ -14,7 +14,7 @@ registra; cada fase é feita por um subagente que começa do zero e lê o estado
 loop, não dentro: aprova o lote no início e lê os PRs no fim.
 
 Leia antes: `.kiro/steering/sdd.md` (seções Git, banco e autonomia e Comandos) e
-`<produto>/planejamento/acordos.md` (WIP; sem o arquivo, limite 2).
+`<produto>/acordos.md` (WIP; sem o arquivo, limite 2).
 
 ## Passo 0 — Retomar?
 

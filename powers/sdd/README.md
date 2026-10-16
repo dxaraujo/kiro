@@ -99,7 +99,7 @@ de `skills/sdd-setup/assets/`:
 | `.kiro/hooks/sdd.json` (opcional) | backpressure: compila e testa depois de cada tarefa de spec |
 | `.kiro/workflows/sdd-*.workflow.json` (opcional, experimental) | `planejar-fatia` e `entregar-fatia` nos Kiro Workflows — quem dispara é a pessoa, no chat do Kiro ("rode o workflow `sdd-entregar-fatia` para a FT-031" ou `/workflow-run`), uma fatia por vez; nenhum agente as dispara |
 | `.kiro/sdd/http.sh` (opcional) | única chamada HTTP que o verificador faz sem perguntar: só à URL de teste, com corpo da pasta `massa/` |
-| pasta do produto (proposta pela setup; padrão `.kiro/planejamento`) | `backlog.md`, épicos e PRDs, `planejamento/`, `atendimentos/`, `aprendizado/` — versionada; o que é local fica em `.kiro/local/` (fora do git) |
+| pasta do produto (proposta pela setup; padrão `.kiro/planejamento`) | `backlog.md`, épicos e PRDs, `equipe.json`, `acordos.md`, `roadmap.md`, `sprints/`, `atendimentos/`, `aprendizado/` — versionada; o que é local fica em `.kiro/local/` (fora do git) |
 
 O ELM é do **power `elm`** (MCP `mcp-elm` + skills `elm-*`): o `sdd` decide quando e o quê registrar e pede
 **operações** às skills `elm-*`, nunca chama tool direto. Os agentes que conduzem sessão (`sdd-produto`,
@@ -168,7 +168,8 @@ verificador o ELM pelo power `elm` (`includePowers: true`, só para a própria t
 Na 2.6.0, "atualizar os agentes do sdd" de novo: o `sdd-revisor` passa a gravar a revisão do PRD na pasta de
 trabalho local, e o `sdd.md` ganha a linha "Padrões do EWM" ("atualizar a configuração do sdd"). Na 2.6.1, nada nasce no EWM
 fora de sprint: épico, item de backlog e `[ATD]` são criados quando entram na sprint, com "Planejado para" = a
-iteração dela; saem a opção `backlog no EWM` e a iteração de backlog dos "Padrões do EWM". Projeto configurado com o power
+iteração dela; saem a opção `backlog no EWM` e a iteração de backlog dos "Padrões do EWM". `equipe.json`,
+`acordos.md`, `roadmap.md` e `sprints/` voltam para a raiz da pasta do produto (sem a subpasta `planejamento/`). Projeto configurado com o power
 `sdd2` ou com a v1 do `sdd`: desinstale o power antigo, instale este e peça "atualizar a configuração do sdd" — a
 setup pergunta a pasta do produto, junta os steerings num só, renomeia hooks, workflows e agentes e move
 `.kiro/produto/` e `.kiro/aprendizado/` com `git mv`.

@@ -25,7 +25,7 @@ fura a fila ou estoura o WIP.
 Toda hora do time cabe numa tarefa da sprint, em cinco frentes: entrega `[DEV]`, revisão `[REV]`, verificação
 `[VER]`, especificação `[ESP]` e atendimento `[ATD]`.
 
-Arquivos em `<produto>/planejamento/` (formatos em [references/arquivos.md](references/arquivos.md)):
+Arquivos na raiz de `<produto>/` (formatos em [references/arquivos.md](references/arquivos.md)):
 `equipe.json`, `acordos.md`, `roadmap.md`, `sprints/sprint-<nn>.md`. Fatias: `<produto>/backlog.md`.
 
 Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.

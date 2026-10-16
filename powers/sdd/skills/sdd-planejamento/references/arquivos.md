@@ -1,4 +1,4 @@
-# Arquivos do planejamento — `<produto>/planejamento/`
+# Arquivos do planejamento — raiz de `<produto>/`
 
 Todos versionados. Antes de gravar: `git pull --ff-only` (falhou → a branch local divergiu: peça à pessoa que a
 atualize); mostre o diff e grave só com "ok".

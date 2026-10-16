@@ -4,7 +4,7 @@
 |---|---|
 | Fatia | FT-<nnn> · épico <EP-nn — título \| — (sem épico)> |
 | Origem | <PRD EP-nn \| ficha \| DF 4567 \| IB 611 \| pedido: …> |
-| Trilha | <padrao \| rapida \| direta> |
+| Trilha | <padrão \| rápida \| direta> (como na coluna `trilha` do backlog) |
 | Modo | <AFK \| HITL> (o da fatia no `backlog.md`; vale para todos os papéis) |
 | Cobre | <HF-01#1.1, HF-01#1.2, REG-01 \| —> |
 | Branch | `<branch>` |

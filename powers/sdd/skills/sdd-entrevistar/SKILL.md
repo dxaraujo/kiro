@@ -65,7 +65,7 @@ D-05 · O que a tela mostra para a conta bloqueada?
 
 ## Passo 3 — Registrar
 
-`decisoes.md` (cria na primeira; só acréscimo — decisão revista ganha nova linha que **substitui** a antiga):
+`decisoes.md` — o formato único do fluxo (triagem, especificação e PRD criam por este) — (cria na primeira; só acréscimo — decisão revista ganha nova linha que **substitui** a antiga):
 
 ```markdown
 # Decisões — <EP-xx | FT-xxx> <título>

@@ -49,7 +49,7 @@ o GATE. Monte-a pela primeira fonte que existir:
    data do último comentário de sessão.
 3. **Só a base** → copie `rascunho.md` e `decisoes.md` de `<produto>/epicos/<EP>-<slug>/` (criados pela triagem).
    Sem essa pasta na base → crie-os: `rascunho.md` com o título e a descrição do item do EWM (sem dado inventado) e
-   `decisoes.md` só com o cabeçalho da tabela `D | Pergunta | Decisão | Fonte | Data | Situação`.
+   `decisoes.md` no o formato do Passo 3 da [`sdd-entrevistar`](../sdd-entrevistar/SKILL.md) (título `# Decisões — <EP-nn> <título>` e a tabela vazia).
 
 O `rascunho.md` é o **caderno do levantamento**: o que o cliente contou, exemplos reais, dúvidas para a próxima
 reunião, com a data de cada sessão. Decisões vão para o `decisoes.md` (`D-nn`), nunca só para o rascunho.

@@ -8257,6 +8257,13 @@ zera uma pendência de exemplo.
 
 ### Etapa 8 — Formatos e consistência
 
+> **✅ Feita (power `sdd` 2.5.0, branch `sdd-v2.5.0-etapa5a8`).** Modo inicial do planejamento coleta nome do
+> projeto, início da sprint 1 e `ativo`, e grava o `equipe.json` só depois dos acordos; o exemplo do `arquivos.md`
+> passa no `equipe.schema.json` (jsonschema, Draft 2020-12); `equipe.md` aponta para o `equipe-template.md` (com
+> `Ativo`); `decisoes.md` com formato único (o da `sdd-entrevistar`), citado por triar e especificar; tabela de
+> mensagens de commit do fluxo no steering, dentro do padrão do projeto; `trilha` com acento também no
+> `status.md`; versão única: as 21 skills e o `plugin.json` em `2.5.0`.
+
 **Fecha:** S10-D1, X9, cabeçalho do `decisoes.md`, `trilha` com/sem acento, mensagens de commit, demais Baixas.
 
 1. `sdd-planejamento` modo inicial coleta `projeto.nome`, `inicio`, `membros[].ativo` e grava o `equipe.json` só

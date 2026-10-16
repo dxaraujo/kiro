@@ -26,36 +26,28 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
 
 ## Modo inicial — acordos e roadmap
 
-1. **Equipe** (`equipe.json` ou `equipe.md` existe → mostre e pergunte só o que mudou): pessoas, papel (um só:
+1. **Equipe** (`equipe.json` ou `equipe.md` existe → mostre e pergunte só o que mudou): nome do projeto, data de
+   início da sprint 1 (Kanban: a da primeira revisão de backlog), pessoas (todas `ativo: true`; quem sai fica
+   `false`, nunca é apagado), papel (um só:
    `P.O.`, `Especificador`, `Dev`, `QA` ou `SM`; `Analista` antigo é lido como `Especificador`), login do ELM (de `members` do `pa_*.json`, se houver), horas por
    semana, ausências. Pergunte também, por pessoa, quantas horas por semana vão para **revisar** (planos, PRs) e
    **verificar** — somadas em `horas-revisao-semana` —, para **especificar** (entrevista, PRD, fatiamento:
    `horas-especificacao-semana`; P.O. e Especificador) e quem **atende** demandas (`atende`). Grave no formato
-   detectado (`equipe.json` → validado contra `assets/equipe.schema.json`; `equipe.md` → valide só pela presença
+   detectado — **só depois dos acordos (passo 2)**, que dão `cadencia`, `duracao-sprint-semanas` e
+   `pontos-por-tamanho` (antes deles o JSON não valida) — (`equipe.json` → validado contra `assets/equipe.schema.json`; `equipe.md` → valide só pela presença
    das colunas obrigatórias: Login, Papel, Horas/semana). Se nenhum arquivo existir ainda, prefira `equipe.json`
    (padrão com validação de schema); só use `equipe.md` se o time preferir edição direta em Markdown.
 
-   **equipe.md** (formato Markdown, alternativo): leia pelo parser de tabelas Markdown; as colunas mapeiam 1:1
-   para os campos do schema. Não valide contra `equipe.schema.json` neste caso — valide pela presença das colunas
-   obrigatórias (Login, Papel, Horas/semana). Formato das tabelas:
-   ```
-   ## Pessoas
-   | Login | Nome | Papel | Horas/semana | Horas revisão/semana | Horas especificação/semana | Atende |
-   |---|---|---|---|---|---|---|
-
-   ## Ausências planejadas
-   | Login | Início | Fim | Horas ausentes |
-   |---|---|---|---|
-
-   ## Histórico de sprints
-   | Sprint | Fatias concluídas | Pontos | Horas DEV | Horas REV | Horas VER | Horas ESP | Horas ATD |
-   |---|---|---|---|---|---|---|---|
-   ```
+   **equipe.md** (formato Markdown, alternativo): o formato é o de
+   [assets/equipe-template.md](assets/equipe-template.md) (cabeçalho com cadência, duração, início e pontos; tabelas
+   Pessoas — com `Ativo` —, Ausências e Histórico), que mapeia 1:1 para os campos do schema. Não valide contra
+   `equipe.schema.json` neste caso — valide pela presença das colunas obrigatórias (Login, Nome, Papel,
+   Horas/semana).
 2. **Acordos** (`acordos.md`) — proponha e ajuste:
    - cadência: **Scrum** (sprints de N semanas, cerimônias, iteração no EWM) ou **Kanban** (fluxo contínuo,
      revisão de backlog semanal); padrão: sprints de 2 semanas com fluxo puxado dentro da sprint;
-   - **WIP:** uma fatia por sessão de agente; fatias esperando pessoa (`plano-em-revisao` + `aceita` +
-     `pr-aberto`) ≤ capacidade de revisão (ex.: 2 por revisor); PR parado há mais de 1 dia → recomendar destravá-lo
+   - **WIP:** uma fatia por sessão de agente; fatias esperando pessoa (`plano-em-revisao`, `pr-aberto`,
+     `em-revisao`, `em-verificacao`, `aceita`, `pronta-para-merge`) ≤ capacidade de revisão (ex.: 2 por revisor); PR parado há mais de 1 dia → recomendar destravá-lo
      antes de começar fatia nova (seguir mesmo assim fica registrado: `WIP excedido`);
    - **Definition of Ready** e **Definition of Done** (padrão no `arquivos.md`);
    - tamanho: `P`/`M`/`G` e a tabela de pontos (padrão `2/3/5`);

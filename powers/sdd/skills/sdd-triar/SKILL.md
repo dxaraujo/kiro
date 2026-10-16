@@ -86,7 +86,7 @@ no mesmo commit.
   `<produto>/epicos/<EP>-<slug>/` com:
   - `rascunho.md`: o pedido original (nas palavras de quem pediu, sem dado inventado) + origem (EWM id,
     chamado, texto livre);
-  - `decisoes.md`: só o cabeçalho da tabela `D | Pergunta | Decisão | Fonte | Data | Situação` (vazio).
+  - `decisoes.md`: o formato do Passo 3 da [`sdd-entrevistar`](../sdd-entrevistar/SKILL.md) (título `# Decisões — <EP-nn> <título>` e a tabela vazia).
   A pasta só é criada aqui; o `sdd-prd` completa com `prd.md`, `elm/` e os demais artefatos.
   Inclua o caminho relativo da pasta na coluna `pasta` do `backlog.md` (nova coluna após `prd`):
   `[pasta](epicos/<EP>-<slug>/)` ou `—` se não criada.

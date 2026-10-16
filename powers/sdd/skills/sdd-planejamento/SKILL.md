@@ -59,9 +59,8 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
    - **Definition of Ready** e **Definition of Done** (padrão no `arquivos.md`);
    - tamanho: `P`/`M`/`G` — só para a Definition of Ready e para saber quando dividir (maior que G → dividir);
      pontos por tamanho, só se o time os quiser no EWM;
-   - **reserva de atendimento** (padrão 20% das horas de quem atende) — esta reserva cobre **atendimentos novos**
-     e **retrabalho da sprint anterior** (fatias migradas que ainda consomem esforço); as fatias migradas consomem
-     capacidade **antes** da seleção de novas fatias; e a **cadência de lançamento de horas** (padrão: ao fechar cada sessão; lançar ≠ concluir).
+   - **reserva de atendimento e retrabalho** (padrão **20% das horas da sprint do time**) — cobre os
+     **atendimentos** (`[ATD]`) e o **retrabalho da sprint anterior** (o que falta das fatias migradas); e a **cadência de lançamento de horas** (padrão: ao fechar cada sessão; lançar ≠ concluir).
 3. **Roadmap** (`roadmap.md`): épicos do `backlog.md` em ordem de valor e risco (maior incerteza mais cedo),
    agrupados em releases com um objetivo cada; épico sem PRD aparece como "a descobrir" (`sdd-prd`).
 
@@ -73,9 +72,10 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
    - **vazão**: média de fatias concluídas nas últimas 3 sprints, incluídas as puxadas (primeira sprint: comece
      com 1 fatia por dev por semana e ajuste na virada), e o lead time médio por fatia;
    - **especificação**: horas de especificação da sprint (`horas-especificacao-semana`);
-   - **reserva de atendimento**: o percentual do `acordos.md` sobre as horas de quem atende, descontado antes de
-     selecionar fatias. **Fatias migradas da sprint anterior** consomem capacidade antes das fatias novas — inclua-as
-     no cálculo antes de selecionar novos itens.
+   - **reserva de atendimento e retrabalho**: o percentual do `acordos.md` sobre as **horas da sprint do time
+     inteiro** (todos os ativos, menos ausências), descontado antes de selecionar fatias. Dentro dela entram primeiro
+     as **fatias migradas** da sprint anterior (horas que faltam, pela estimativa da `[DEV]` restante); o resto fica
+     para os atendimentos da sprint. Migradas que passam da reserva consomem a capacidade das fatias novas.
 2. **Especificação:** épicos que entram em entrevista, PRD ou fatiamento nesta sprint (do `roadmap.md`, os "a
    descobrir" do topo, e os `EP` em `rascunho` com `prd` `—` do `backlog.md` que o roadmap ainda não tem —
    proponha a posição deles), um `[ESP]` por épico, com responsável e horas previstas dentro da capacidade de
@@ -98,7 +98,7 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
    | Prioridade | FT | Título | Tam. | Modo | Depende de | Responsável | Revisor | Verificador |
    Especificação
    | EP | Responsável | Horas previstas |
-   Atendimento: reserva <h>h (<p>% de <pessoas>)
+   Reserva (atendimento + retrabalho): <h>h (<p>% da sprint) · retrabalho migrado <x>h · livre para atendimento <y>h
    Capacidade: revisão <h>h (usa <x>h) · especificação <h>h (usa <x>h) · vazão prevista <n> fatias · lead time médio <d> dias · HITL <h>h
    Próximas a puxar (fora da previsão, na ordem): <FT…>
    ```
@@ -148,7 +148,7 @@ screenshot). Registre o retorno do P.O. no `sprint-<nn>.md`; pedido novo vira ce
    ele fica com `**Situação:** fechada`; no `sprint-<nn+1>.md` novo, cada item migrado ganha a sua linha (seção
    Fatias, Especificação ou Atendimento) com a Observação `migrada da sprint <nn>`. Fatia ou AT migrado → `sprint` = nn+1 na linha do `backlog.md` (fatias e
    `## Atendimentos`), pelo bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base). AT em `backlog` (triado sem sprint aberta) entra no planejamento da próxima como as fatias.
-4. Recalcule vazão média, lead time médio e horas por tipo (`equipe.json` → `historico`), recalibre a reserva de
+4. Recalcule vazão média, lead time médio e horas por tipo (`equipe.json` → `historico`), recalibre a reserva (atendimento + retrabalho) de
    atendimento pelo consumido e replaneje a próxima pelo modo sprint (migradas consomem capacidade primeiro).
 5. **ELM** — `sdd-elm` modo *sprint*, virada: as tarefas não concluídas só mudam o `plannedFor` para a nova
    iteração (o pai não muda) e as novas são publicadas; roteiro manual de baseline, se o projeto exige.

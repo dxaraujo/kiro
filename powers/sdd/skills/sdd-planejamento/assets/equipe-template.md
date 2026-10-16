@@ -12,7 +12,7 @@
 
 > Colunas obrigatórias: Login, Nome, Papéis, Horas/semana.  
 > Papéis (um ou mais, separados por vírgula): `P.O.` · `Especificador` · `Dev` · `QA` · `SM` — exatamente um P.O. ativo  
-> Atende: `true` = participa da reserva de atendimento ([ATD]); `false` ou em branco = não.  
+> Atende: `true` = pode atender demandas ([ATD]); `false` ou em branco = não. A reserva (atendimento + retrabalho) é das horas do time inteiro.  
 > Ativo: `false` = saiu (histórico preservado).
 
 | Login | Nome | Papéis | Horas/semana | Horas revisão/semana | Horas especificação/semana | Atende | Ativo |

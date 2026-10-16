@@ -59,7 +59,7 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
 - EP-04 PRD em-revisao · EP-05 a descobrir
 - Especificação na sprint: EP-05 (rita.melo) PRD · 8/16 h
 
-🎧 Atendimento: reserva <h>h · consumido <h>h · abertos: AT-012 (joao.lima, prazo 2026-10-16)
+🎧 Reserva (atendimento + retrabalho): <h>h · consumido <h>h (retrabalho <x>h · AT <y>h) · abertos: AT-012 (joao.lima, prazo 2026-10-16)
 
 🏛️ ELM pendente: <n> (lista) · 🔁 Lições propostas: <n>
 ⚠️ Inconsistências: <lista | nenhuma>

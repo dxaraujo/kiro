@@ -111,7 +111,8 @@ no mesmo commit.
     Passo 2.
   - Próximo `AT-nnn` de "Próximos ids" (backlog antigo, sem `AT-`: regra de migração no formato do backlog).
   - **Sprint sugerida:** a aberta (`sprint-<nn>.md` com `**Situação:** aberta`), pela regra da reserva — a reserva
-    está na seção Atendimento do `sprint-<nn>.md`; o usado é a soma das estimativas dos AT dela; cabe com a
+    (atendimento + retrabalho) está na seção Atendimento do `sprint-<nn>.md`; o usado é o retrabalho migrado mais a
+    soma das estimativas dos AT dela; cabe com a
     estimativa deste (A-6) → quem triou confirma; estourou → `status` `backlog`, `[ATD]` sem `plannedFor`, e a
     decisão é do P.O. pelo Encaixe da `sdd-planejamento` (o atendimento não tira fatia sozinho).
     Kanban (`acordos.md`) → a iteração corrente. Sem sprint aberta → `status` `backlog` e o aviso "sem sprint

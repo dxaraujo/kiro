@@ -47,7 +47,8 @@ URL abaixo, nunca um caminho local:
 - `horas-revisao-semana` soma revisar (planos, PRs) e verificar (aceite) e é parte de `horas-semana`.
 - `horas-especificacao-semana` (entrevista, PRD, fatiamento: tarefas `[ESP]`) também é parte de `horas-semana`;
   ausente = 0. Revisão + especificação nunca passam de `horas-semana`.
-- `atende: true` marca quem atende demandas (`[ATD]`); a reserva de atendimento sai das horas dessas pessoas.
+- `atende: true` marca quem atende demandas (`[ATD]`: responsável sugerido na triagem); a reserva é das horas do time
+  inteiro, não só dessas pessoas.
 - `historico[].horas-lancadas` e `reserva-atendimento` são gravados na virada, com o relatório da `sdd-elm` modo
   *horas*.
 - Capacidade da sprint e totais **não** são gravados: calcule na hora. `historico` fica dentro de `projeto`.
@@ -67,7 +68,7 @@ URL abaixo, nunca um caminho local:
 | Cerimônias | planejamento (seg, 1h) · review (última qui, 30 min) · retrospectiva (última qui, 30 min) |
 | WIP | 1 fatia por sessão de agente · revisão + PR aberto ≤ 2 por revisor · PR parado > 1 dia: destravar antes de fatia nova (exceção fica registrada: `WIP excedido`) |
 | Tamanhos | P (horas) · M (≈ 1 dia) · G (2–3 dias) · maior → dividir (sem pontos; a previsão é pela vazão) |
-| Reserva de atendimento | 20% das horas de quem atende (`atende: true`), recalibrada na virada |
+| Reserva de atendimento e retrabalho | 20% das horas da sprint do time, para atendimentos e retrabalho da sprint anterior (fatias migradas primeiro), recalibrada na virada |
 | Lançamento de horas | Cadência do time (padrão: ao fechar cada sessão de trabalho), em qualquer tarefa iniciada; na conclusão, só o saldo. Lançar não conclui |
 
 ## Definition of Ready (fatia)

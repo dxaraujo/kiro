@@ -105,7 +105,7 @@
                 "type": "number",
                 "minimum": 0,
                 "maximum": 1,
-                "description": "Reserva de atendimento da sprint (0.2 = 20% das horas de quem atende)."
+                "description": "Reserva da sprint para atendimento e retrabalho da sprint anterior (0.2 = 20% das horas da sprint do time)."
               }
             }
           }
@@ -201,7 +201,7 @@
         },
         "atende": {
           "type": "boolean",
-          "description": "Atende demandas (tarefas [ATD]); a reserva de atendimento sai das horas de quem atende. Ausente = false."
+          "description": "Atende demandas (tarefas [ATD]): responsável sugerido na triagem. A reserva é das horas do time inteiro. Ausente = false."
         },
         "ativo": {
           "type": "boolean",

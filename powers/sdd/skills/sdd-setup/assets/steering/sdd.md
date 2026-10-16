@@ -11,6 +11,10 @@ Começar um item registrado: hub `sdd-iniciar` (diz a skill do papel: `sdd-espec
 `sdd-revisar`, `sdd-verificar`, `sdd-atender`). Onde parei ou fechar a sessão: `sdd-status`.
 
 - Nada inventado (confirme no código, no banco — só leitura — ou no ELM). Nunca apague nem afrouxe teste.
+- Estado limpo entre sessões: quem grava um passo na pasta da fatia commita o que gravou **com o `status.md`**,
+  antes de seguir. AFK: quem pede a rodada (plano, implementação, loop) commita o relatório do subagente assim que o
+  recebe — revisor, verificador e pesquisador como subagentes não commitam. HITL: cada papel commita o seu
+  relatório e a fase na branch do PR; o push é da pessoa.
 - Push, troca de branch e escrita no ELM só com "sim" de uma pessoa. Agente nunca faz merge nem `--force`.
 - Dado de cliente (consulta, extração, tela com dado real) nunca vai para o git: fica em `.kiro/local/<origem>/<id>/`;
   o versionado guarda consulta, contagem, caminho e resumo sem identificar pessoas.

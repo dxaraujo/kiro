@@ -8115,6 +8115,19 @@ antes do merge.
 
 ### Etapa 3 — Estado limpo entre sessões (commits e `status.md`)
 
+> **✅ Feita (power `sdd` 2.5.0, branch `sdd-v2.5.0-etapa3`).** Regra única de commit no steering (quem grava
+> commita com o `status.md`; AFK: quem pede a rodada; HITL: cada papel na branch do PR). `sdd-plano`: o relatório
+> da análise (OK ou AJUSTAR) commitado com o `status.md`; **todo** ramo que termina em `implementando` (ou espera o
+> GATE) faz um commit com `research.md`, `.config.kiro`, `requirements`/`bugfix`, `design`, `tasks` e `status.md`;
+> `.config.kiro` corrigido se o `specType` não bate com a trilha. `sdd-implementar`: Histórico antes do commit de
+> cada tarefa (o `status.md` e o `tasks.md` vão juntos); Passo 0 aceita `status.md`/`tasks.md` só com fase,
+> Rodadas, Histórico ou marcação; revisão e verificação commitadas com o `status.md`, `evidencias/` e `massa/`.
+> Mensagens "no padrão do `sdd.md`" (S14-D12). Workflows: `sdd-planejar-fatia` com passo final `registrar`
+> (implementando / plano-em-revisao / bloqueada + commit); `sdd-entregar-fatia` com `registrar_revisao` e
+> `registrar_verificacao` (o codificador incrementa a rodada e commita; o revisor e o verificador não commitam; o
+> REJEITADO chega ao registro antes de sinalizar erro). Item 4 já entrou na Etapa 1. Validação dos workflows:
+> `json.load` ok; `kiro-cli` indisponível.
+
 **Objetivo:** depois de qualquer passo que grava, a árvore da fatia fica limpa; o Passo 0 da próxima sessão nunca
 para por causa do próprio fluxo.
 **Fecha:** S14-D1, S13-D1, S13-D2, S13-D4, S14-D2, S16-D1, S08-D1, S15 (`revisao-prd-<N>.md`), S12 (`research.md`).

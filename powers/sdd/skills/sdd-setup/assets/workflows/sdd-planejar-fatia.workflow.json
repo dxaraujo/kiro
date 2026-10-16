@@ -1,6 +1,6 @@
 {
   "name": "sdd-planejar-fatia",
-  "description": "sdd — pesquisa e plano de UMA fatia (spec do Kiro) com análise independente; a pessoa dispara na branch da fatia, no checkout principal; cada passo roda numa sessão nova. Termina no GATE do plano, que é de uma pessoa.",
+  "description": "sdd — pesquisa e plano de UMA fatia (spec do Kiro) com análise independente; a pessoa dispara na branch da fatia, no checkout principal; cada passo roda numa sessão nova. Termina com o plano commitado: em implementando quando a regra do GATE o dispensa (fatia AFK sem épico, trilha rápida com GATE na trilha rápida = não), senão em plano-em-revisao, esperando o GATE de uma pessoa.",
   "inputs": {
     "fatia": "string"
   },
@@ -46,9 +46,15 @@
           "type": "step",
           "id": "ajustar",
           "agent": "sdd-codificador",
-          "prompt": "Fatia {{fatia}}. AUTONOMO=true. Leia .kiro/local/wf/{{fatia}}/plano.json. Se for AJUSTAR: corrija no plano só os achados do último analise-plano-<N>.md que são do plano; achado do PRD é lacuna de negócio. Se for OK: não mexa no plano. No status.md, incremente \"revisão do plano\" em Rodadas (a rodada que o revisor acabou de fazer) e registre o resultado no Histórico; OK sem GATE pendente → nada mais; OK com aprovação humana → fase plano-em-revisao. Lacuna de negócio ou divergência com o plano: registre a pergunta (ou Esperado / Encontrado / Por que importa) no status.md e termine com send_message severity warning trazendo-a — a execução pausa até a pessoa responder neste passo; com a resposta, registre a decisão, conclua e termine com severity success. Bloqueio técnico (build quebrado na base, ferramenta ou ambiente fora): send_message severity error com o motivo."
+          "prompt": "Fatia {{fatia}}. AUTONOMO=true. Leia .kiro/local/wf/{{fatia}}/plano.json. Se for AJUSTAR: corrija no plano só os achados do último analise-plano-<N>.md que são do plano; achado do PRD é lacuna de negócio. Se for OK: não mexa no plano. No status.md, incremente \"revisão do plano\" em Rodadas (a rodada que o revisor acabou de fazer — quem incrementa é este passo) e registre o resultado no Histórico. Commite o analise-plano-<N>.md com o status.md (mensagem no padrão de commit do sdd.md, texto 'registrar análise do plano <N>'). Lacuna de negócio ou divergência com o plano: registre a pergunta (ou Esperado / Encontrado / Por que importa) no status.md e termine com send_message severity warning trazendo-a — a execução pausa até a pessoa responder neste passo; com a resposta, registre a decisão, conclua e termine com severity success. Bloqueio técnico (build quebrado na base, ferramenta ou ambiente fora): send_message severity error com o motivo."
         }
       ]
+    },
+    {
+      "id": "registrar",
+      "type": "step",
+      "agent": "sdd-codificador",
+      "prompt": "Fatia {{fatia}}. AUTONOMO=true. Leia .kiro/local/wf/{{fatia}}/plano.json. Se for OK, aplique a regra do GATE do Passo 5 da skill sdd-plano: fatia AFK sem épico, ou trilha rápida com 'GATE na trilha rápida = não' no sdd.md → fase implementando, Histórico 'análise basta' (ou 'rápida sem GATE'); senão → fase plano-em-revisao (espera o GATE de uma pessoa). Se não for OK (duas rodadas sem OK) → fase bloqueada (de: planejando), com os achados abertos e a pergunta à pessoa. Em todos os casos, faça um commit com research.md, .config.kiro, requirements.md ou bugfix.md, design.md, tasks.md e status.md (mensagem no padrão de commit do sdd.md, texto 'registrar plano'); a árvore da fatia termina limpa. Termine com send_message severity success (implementando), warning (plano-em-revisao: o GATE é da pessoa) ou error (bloqueada)."
     }
   ]
 }

@@ -20,7 +20,9 @@ regras aprendidas).
 
 - Branch = a do `status.md` (senão avise e pare). `git status` limpo, **descontados** os relatórios que outros
   papéis gravaram na pasta da fatia (`revisao-*.md`, `analise-*.md`, `verificacao.md`, `CT.csv`, `evidencias/`,
-  `massa/`): commite-os primeiro (`FT-<nnn> registrar revisão/verificação`). Qualquer outra alteração → avise e pare.
+  `massa/`) e o `status.md`/`tasks.md` com mudança só de fase, Rodadas, Histórico, Achados ou marcação de tarefa:
+  commite-os primeiro (mensagem no padrão do `sdd.md`, `registrar revisão/verificação`). Qualquer outra alteração →
+  avise e pare.
 - Atualize: a branch tem upstream → `git pull --ff-only`; não tem (worktree nova) → `git fetch` basta.
 - Retome do **primeiro item não marcado** do `tasks.md`. Achados abertos viram as próximas tarefas, numeradas em
   sequência no fim do `tasks.md` (`- [ ] 7. [R1] <achado> — origem: revisao-codigo-2.md`): os da seção "Achados
@@ -48,8 +50,9 @@ Para cada tarefa do `tasks.md`, nesta ordem:
    Refatorar código existente não é desta tarefa: vira sugestão para a revisão ou fatia própria.
 5. **Backpressure:** compilar + testes da área + lint (comandos do `sdd.md`). Falhou → corrija antes de
    seguir; não acumule vermelho.
-6. Marque `- [x]` e faça **commit** pequeno (padrão do `sdd.md`), com o id da fatia.
-7. Uma linha no Histórico do `status.md`: `<data> — tarefa N ok · <testes> · <commit curto>`.
+6. Marque `- [x]` e acrescente a linha no Histórico do `status.md`: `<data> — tarefa N ok · <testes>`.
+7. **Commit** pequeno (padrão do `sdd.md`, com o id da fatia) com o código, os testes, o `tasks.md` e o
+   `status.md` — a árvore fica limpa a cada tarefa.
 
 Regras do ciclo:
 - **Nunca** apague, desabilite, pule ou enfraqueça um teste para ficar verde. Teste que parece errado → pare e
@@ -66,8 +69,8 @@ Regras do ciclo:
   continue numa sessão nova a partir dele (contexto poluído piora a terceira tentativa); persistindo,
   `fase: bloqueada`.
 - Banco: somente leitura pelo MCP; DDL é do time de banco (registre no `status.md`, campo Banco).
-- Contexto cheio ou sessão longa → atualize o `status.md` (o que foi feito, próximo passo, decisões) e continue
-  numa sessão nova a partir dele. O estado vive nos arquivos, não na conversa.
+- Contexto cheio ou sessão longa → atualize o `status.md` (o que foi feito, próximo passo, decisões), **commite-o**
+  e continue numa sessão nova a partir dele. O estado vive nos arquivos, não na conversa.
 
 ## Passo 2 — Validação completa
 
@@ -88,8 +91,9 @@ rubrica **C** passando só: id da fatia, pasta, branch/worktree e rodada — **n
 `revisao-codigo-<N>.md`. Sem subagente disponível (você é um agente sem essa ferramenta) → pare aqui e devolva a
 quem chamou: "pronta para a revisão (rodada <N>)".
 
-Assim que o `revisao-codigo-<N>.md` estiver gravado, **commite-o imediatamente** antes de prosseguir:
-`FT-<nnn> registrar revisão <N>` — não espere a próxima sessão nem o Passo 0. O PR cita esse arquivo e
+Assim que o `revisao-codigo-<N>.md` estiver gravado, **commite-o imediatamente com o `status.md`** (fase,
+Rodadas) antes de prosseguir — mensagem no padrão do `sdd.md`, `registrar revisão <N>`; não espere a próxima
+sessão nem o Passo 0. O PR cita esse arquivo e
 ele precisa estar na branch antes da abertura.
 
 - `VEREDITO: APROVADO` → Passo 4.
@@ -103,8 +107,8 @@ Incremente "verificação" em Rodadas e siga para a **`sdd-verificar`** (cenári
 pelo agente `sdd-verificador`). `ACEITO` → ela deixa a fatia em `fase: aceita`; `REJEITADO` → devolve para cá
 os cenários reprovados (Passo 0).
 
-Com `ACEITO`: **commite imediatamente** `verificacao.md` e `CT.csv` antes de prosseguir para o Passo 5:
-`FT-<nnn> registrar verificação`. O PR cita esses arquivos e eles precisam estar na branch antes da abertura.
+Com `ACEITO` ou `REJEITADO`: **commite imediatamente** `verificacao.md`, `CT.csv`, `evidencias/`, `massa/` e o
+`status.md` antes de prosseguir — mensagem no padrão do `sdd.md`, `registrar verificação`. O PR cita esses arquivos e eles precisam estar na branch antes da abertura.
 
 ## Passo 5 — PR e conclusão da `[DEV]`
 

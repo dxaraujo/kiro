@@ -1,6 +1,6 @@
 {
   "name": "sdd-entregar-fatia",
-  "description": "sdd — implementa UMA fatia de plano aprovado (teste primeiro + backpressure), com revisão independente em até 2 rodadas e verificação de aceite; a pessoa dispara na branch da fatia, no checkout principal; cada passo roda numa sessão nova. Termina com a fatia aceita, pronta para o PR que uma pessoa abre e revisa.",
+  "description": "sdd — implementa UMA fatia de plano aprovado (teste primeiro + backpressure), com revisão independente em até 2 rodadas e verificação de aceite; a pessoa dispara na branch da fatia, no checkout principal; cada passo roda numa sessão nova. Receita do modo AFK (revisão e verificação por subagente); fatia HITL termina no PR pela sdd-implementar. Termina com a fatia aceita e commitada, pronta para o PR que uma pessoa abre e revisa.",
   "inputs": {
     "fatia": "string"
   },
@@ -28,13 +28,19 @@
           "type": "step",
           "id": "implementar",
           "agent": "sdd-codificador",
-          "prompt": "Fatia {{fatia}}. AUTONOMO=true. Siga a skill sdd-implementar, Passos 0 a 2: implemente as tarefas pendentes do tasks.md e os achados do último revisao-codigo-<N>.md com veredito REVISAR, se houver. Não peça revisão, não faça push nem abra PR. No status.md: se existe revisao-codigo-<N>.md mais novo que a última rodada registrada, incremente \"revisão do código\" em Rodadas; ao terminar as tarefas, fase revisando. Lacuna de negócio ou divergência com o plano: registre a pergunta (ou Esperado / Encontrado / Por que importa) no status.md e termine com send_message severity warning trazendo-a — a execução pausa até a pessoa responder neste passo; com a resposta, registre a decisão, conclua e termine com severity success. Bloqueio técnico (build quebrado na base, ferramenta ou ambiente fora): send_message severity error com o motivo."
+          "prompt": "Fatia {{fatia}}. AUTONOMO=true. Siga a skill sdd-implementar, Passos 0 a 2: implemente as tarefas pendentes do tasks.md e os achados do último revisao-codigo-<N>.md com veredito REVISAR, se houver. Não peça revisão, não faça push nem abra PR. No status.md, ao terminar as tarefas: fase revisando, commitado com o último commit de tarefa (as Rodadas são do passo registrar_revisao). Lacuna de negócio ou divergência com o plano: registre a pergunta (ou Esperado / Encontrado / Por que importa) no status.md e termine com send_message severity warning trazendo-a — a execução pausa até a pessoa responder neste passo; com a resposta, registre a decisão, conclua e termine com severity success. Bloqueio técnico (build quebrado na base, ferramenta ou ambiente fora): send_message severity error com o motivo."
         },
         {
           "type": "step",
           "id": "revisar",
           "agent": "sdd-revisor",
-          "prompt": "Fatia {{fatia}}. Revise o código pela rubrica C da skill sdd-revisar (diff contra a branch base do sdd.md), eixos spec e padrões separados. Grave o revisao-codigo-<N>.md na pasta da fatia e .kiro/local/wf/{{fatia}}/codigo.json com {\"veredito\": \"APROVADO\"} ou {\"veredito\": \"REVISAR\"}. Não conseguiu revisar (build quebrado sem relação com a fatia, ferramenta ou ambiente fora): send_message severity error com o motivo."
+          "prompt": "Fatia {{fatia}}. Revise o código pela rubrica C da skill sdd-revisar (diff contra a branch base do sdd.md), eixos spec e padrões separados. Grave o revisao-codigo-<N>.md na pasta da fatia e .kiro/local/wf/{{fatia}}/codigo.json com {\"veredito\": \"APROVADO\"} ou {\"veredito\": \"REVISAR\"}. Não conseguiu revisar (build quebrado sem relação com a fatia, ferramenta ou ambiente fora): send_message severity error com o motivo. Não altere o status.md nem faça commit: o passo seguinte registra."
+        },
+        {
+          "id": "registrar_revisao",
+          "type": "step",
+          "agent": "sdd-codificador",
+          "prompt": "Fatia {{fatia}}. AUTONOMO=true. Incremente \"revisão do código\" em Rodadas no status.md (quem incrementa é este passo) e registre o veredito do último revisao-codigo-<N>.md no Histórico. REVISAR → fase implementando, com os achados em 'Achados abertos'; se for a 2ª reprovação → fase bloqueada (de: revisando), com as opções da sdd-implementar (orientar a correção, voltar ao plano, aceitar os achados). Commite o revisao-codigo-<N>.md com o status.md (mensagem no padrão de commit do sdd.md, texto 'registrar revisão <N>'). Termine com send_message severity success (APROVADO ou REVISAR na 1ª rodada) ou error (bloqueada)."
         }
       ]
     },
@@ -42,7 +48,13 @@
       "type": "step",
       "id": "verificar",
       "agent": "sdd-verificador",
-      "prompt": "Fatia {{fatia}}. Incremente \"verificação\" em Rodadas no status.md e siga a skill sdd-verificar com o contrato de pronto do design.md. Grave verificacao.md e, se ACEITO, o CT.csv. No status.md: fase aceita (ACEITO) ou implementando com os cenários rejeitados (REJEITADO). Termine com send_message severity success se ACEITO; REJEITADO → severity error com os cenários reprovados (esperado × obtido); ambiente fora do ar → severity error com o motivo."
+      "prompt": "Fatia {{fatia}}. Siga a skill sdd-verificar com o contrato de pronto do design.md. Grave verificacao.md e, se ACEITO, o CT.csv. No status.md: fase aceita (ACEITO) ou implementando com os cenários rejeitados (REJEITADO). Não faça commit: o passo seguinte registra. Termine com send_message severity success, ACEITO ou REJEITADO (o passo seguinte registra e sinaliza o REJEITADO com os cenários reprovados, esperado × obtido); só ambiente fora do ar → severity error com o motivo."
+    },
+    {
+      "id": "registrar_verificacao",
+      "type": "step",
+      "agent": "sdd-codificador",
+      "prompt": "Fatia {{fatia}}. AUTONOMO=true. Incremente \"verificação\" em Rodadas no status.md (quem incrementa é este passo) e registre o resultado no Histórico. Commite verificacao.md, CT.csv, evidencias/, massa/ e o status.md (mensagem no padrão de commit do sdd.md, texto 'registrar verificação'); a árvore da fatia termina limpa. Não faça push nem abra PR. Termine com send_message severity success (aceita: pronta para o PR) ou error (REJEITADO: os cenários reprovados voltam à sdd-implementar)."
     }
   ]
 }

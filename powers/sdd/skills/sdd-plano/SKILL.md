@@ -37,7 +37,7 @@ recomendada (HITL) ou decida e registre (AFK) em "Decisões técnicas".
 
 ## Passo 3 — Escrever
 
-0. **`.config.kiro`** (se não existe): `specType` `feature` (padrão) ou `bugfix` (rápida) — é o que faz o painel
+0. **`.config.kiro`** (se não existe ou o `specType` não bate com a trilha): `specType` `feature` (padrão) ou `bugfix` (rápida) — é o que faz o painel
    de specs do Kiro reconhecer a pasta.
 1. **`requirements.md`** (padrão) ou **`bugfix.md`** (trilha rápida). Cada critério EARS é **falsificável na
    base**: diga a observação que hoje mostra que ele é falso — se ela não existe, o critério já passa e não serve
@@ -61,8 +61,10 @@ Incremente "revisão do plano" em Rodadas. Peça ao agente **`sdd-revisor`** (su
 ([../sdd-revisar/references/rubricas.md](../sdd-revisar/references/rubricas.md)) — passe só a pasta da fatia e a
 rodada; ele grava o `analise-plano-<N>.md`. Sem subagente disponível (agente sem essa ferramenta, passo de workflow)
 → pare e devolva a quem chamou: "plano pronto para análise".
-- `ANALISE: OK` → commite o `analise-plano-<N>.md` imediatamente (`FT-<nnn> registrar análise do plano <N>`)
-  antes de seguir para o Passo 5. O GATE e a implementação citam esse arquivo; ele precisa estar na branch.
+Assim que o relatório chegar (`OK` ou `AJUSTAR`), commite-o **com o `status.md`** (Rodadas, Histórico) —
+mensagem no padrão do `sdd.md`, com o texto `registrar análise do plano <N>`. O GATE e a implementação citam esse
+arquivo; ele precisa estar na branch.
+- `ANALISE: OK` → Passo 5.
 - `AJUSTAR`: falta **do plano** → corrija e peça nova análise (até 2 rodadas); falta **do PRD** → Passo 2.
 
 ## Passo 5 — GATE do plano
@@ -84,9 +86,14 @@ Esperando a aprovação de uma pessoa → `fase: plano-em-revisao` (conta no WIP
 - **AFK, fatia de épico** → sempre uma pessoa aprova (o plano rende mais quando vem de um PRD).
 - **Trilha rápida** → a trilha decide antes do modo (é alteração pequena, sem regra nova): `GATE na trilha rápida`
   do `sdd.md` = `não` → segue com `ANALISE: OK`, também no HITL (a pessoa revisa no PR); `sim` → como HITL.
-- Aprovado → `fase: implementando`, linha no Histórico (quem aprovou), commit dos arquivos do plano. Próximo:
-  **`sdd-implementar`** — numa sessão nova, de preferência (o plano está no disco; o contexto da pesquisa não é
-  mais necessário).
+- Aprovado → linha no Histórico com quem aprovou.
+
+**Todo ramo que termina em `implementando`** (aprovado, AFK sem épico, rápida sem GATE): `fase: implementando`,
+linha no Histórico (quem aprovou, ou "análise basta" / "rápida sem GATE") e **um commit** com `research.md`,
+`.config.kiro`, `requirements.md`/`bugfix.md`, `design.md`, `tasks.md` e `status.md` — mensagem no padrão do
+`sdd.md`, com o texto `registrar plano`. Esperando o GATE (`plano-em-revisao`) → o mesmo commit, com essa fase.
+Próximo: **`sdd-implementar`** — numa sessão nova, de preferência (o plano está no disco; o contexto da pesquisa
+não é mais necessário).
 
 ## Replanejar
 

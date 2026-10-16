@@ -71,6 +71,7 @@ C09b → C10 → C11 → C12 → C13 → limpeza**. O C06 vem primeiro porque pr
 | 2 | `git switch -c sdd-teste/base desenvolvimento` — **branch base de teste**, só local, nunca enviada | `git branch --show-current` |
 | 3 | No steering **de teste** (passo 3.3): `Branch base` = `sdd-teste/base`, prefixo `sdd-teste/` | as branches de fatia nascem de `sdd-teste/base` |
 | 4 | Push e PR **sempre "não"** nas confirmações; o "merge" é local: `git switch sdd-teste/base && git merge --squash sdd-teste/<ft> && git commit` | nenhum `git push` no histórico do shell |
+| 5 | `.kiro/config/power/elm/pa_pab.json`: `ccm.clarity-identifier` = `xxxxxx` (restaurar com `git checkout --` na limpeza) | tarefas novas com Clarity `xxxxxx` |
 
 > "Não commitar" vale para as branches reais. O fluxo **exige** commits (backlog, `status.md`, relatórios), e eles
 > ficam só em `sdd-teste/*`, que é apagada no fim.
@@ -104,7 +105,8 @@ O `<produto>` vem do steering, e os agentes só escrevem no `{{PRODUTO}}` que a 
 | Prefixo em **todo** título criado | `[TESTE-SDD]`, para achar e cancelar no fim |
 | Pais de teste | épico `[TESTE-SDD] SUS-teste` e IB `[TESTE-SDD] Atendimento` (filho dele), criados no C00 e gravados na linha `Sustentação:` do `backlog.md` de teste |
 | DOORS (RM) e ETM | **DOORS:** publicar na pasta **`14-Lixeira`** do RM da PAB (`FR_PBbe9XBeEeqlM7DFIH2SZA`; vazia em 2026-10-16), com os tipos reais HF/REG/GL/ET. **ETM:** o usuário não enxerga área de projeto da PAB no ETM (só Janela Sisben, PA_MASTER, Prova de Vida, RPV e SIBE) → a importação do `CT.csv` **não é testável**; testar o roteiro manual e a pendência, e registrar o achado A-ETM (o steering do pab-batch configura colunas de `CT.csv` para um ETM que não existe para o projeto). Requisito publicado não se apaga pelo fluxo: fica na Lixeira |
-| Pessoas | Dev, P.O. e Especificador = `daniel.xavier`; **Revisor/QA = uma segunda pessoa** (a regra "revisor ≠ quem implementa" exige). Sem uma segunda pessoa → o mesmo login, com o desvio registrado no resultado |
+| Pessoas | Dev, P.O. e Especificador = `daniel.xavier`; **Revisor e Verificador (QA) = `ricardo.saboia`**. O EWM só deixa o responsável lançar horas, e *assumir* grava o responsável = quem está na sessão: as sessões de REV e VER rodam **com o login do Ricardo** (ELM dele em `~/.config/mcp-elm/`, na máquina dele ou numa sessão dele). No `sp` de teste, revisor e verificador das fatias HITL = `ricardo.saboia` |
+| Clarity (horas fora da apuração da empresa) | no `pa_pab.json`, `ccm.clarity-identifier` = **`xxxxxx`** durante o teste (o campo "ID do Produto (Clarity)" da Tarefa é texto livre e opcional — conferido em 2026-10-16); toda tarefa `[TESTE-SDD]` nasce com ele, e as horas lançadas não entram no produto real `AP1648`. Restaurar na limpeza |
 
 ### 3.5 Material de código das fatias
 
@@ -372,11 +374,11 @@ Depois do último passo de cada cenário, sem pedir nada ao fluxo, conferir **po
 
 | # | Ação | Verificação |
 |---|---|---|
-| 1 | `git switch desenvolvimento`; restaurar `.kiro/steering/sdd.md` e `.kiro/agents/` (`git checkout --`) | `git diff` vazio |
+| 1 | `git switch desenvolvimento`; restaurar `.kiro/steering/sdd.md`, `.kiro/agents/` e `.kiro/config/power/elm/pa_pab.json` (`git checkout --`) | `git diff` vazio; `clarity-identifier` de volta a `AP1648` |
 | 2 | remover worktrees `.kiro/local/wt/*` (`git worktree remove`, sem `--force`) | `git worktree list` |
 | 3 | apagar as branches `sdd-teste/*` (`git branch -D`, pela pessoa) | `git branch --list 'sdd-teste/*'` vazio |
 | 4 | apagar `.kiro/planejamento2/`, `.kiro/local/especificacao/`, `.kiro/local/atendimentos/AT-*` e `.kiro/local/verificacao/` de teste | `ls` |
-| 5 | EWM: todos os itens `[TESTE-SDD]` → estado **Cancelado** (o fluxo nunca apaga; cancelar pela `elm-ccm`, com "sim", ou na UI) | busca por `[TESTE-SDD]` na PA PAB só com cancelados |
+| 5 | EWM: todos os itens `[TESTE-SDD]` → estado **Cancelado** (as horas lançadas neles ficam no EWM, mas com Clarity `xxxxxx`) (o fluxo nunca apaga; cancelar pela `elm-ccm`, com "sim", ou na UI) | busca por `[TESTE-SDD]` na PA PAB só com cancelados |
 | 5a | DOORS: os requisitos de teste ficam na `14-Lixeira`; se o time quiser, a pessoa os remove na UI | `14-Lixeira` só com itens `[TESTE-SDD]` |
 | 6 | conferir que nada foi enviado: `git log origin/desenvolvimento..desenvolvimento` vazio; nenhum PR aberto | — |
 
@@ -388,6 +390,7 @@ Uma linha por passo executado (planilha ou `.kiro/local/teste-sdd/resultado.md`,
 |---|---|---|---|---|---|---|
 
 **Pontos de atenção já conhecidos** (testar de propósito):
+0. Toda tarefa criada no teste tem "ID do Produto (Clarity)" = `xxxxxx` (conferir no EWM antes do primeiro lançamento de horas); se alguma nascer com `AP1648`, pare e corrija antes de lançar.
 1. Trilha direta: quando a `[DEV]` é concluída (a seção Trilha direta não chama o Passo 5, item 4).
 2. Direta HITL termina em `pr-aberto` e vai direto ao merge, sem `pronta-para-merge`.
 3. `includePowers: true`: o agente recebe o MCP do `elm`? Toda tool pede confirmação (nenhuma em `allowedTools`)?

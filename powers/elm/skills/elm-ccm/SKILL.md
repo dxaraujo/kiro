@@ -4,7 +4,7 @@ description: "Query, list, read, create, update, change state, comment or log ti
 license: "MIT"
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "1.0.7"
+  version: "1.0.8"
 ---
 
 # elm-ccm
@@ -107,6 +107,9 @@ coluna). Termo que não está aqui nem em `workitem-types` → pergunte o tipo; 
 | `ccm_update_workitem(workitem_id, fields?, description?, state?, parent?)` | `description` **substitui** a inteira; `state` = **nome** do estado destino (a tool acha a ação e confere a mudança); `parent` = id do novo pai (troca o pai) | `resumo` |
 | `ccm_list_workitem_states(workitem_id)` | — | `{state, actions: [{name, result-state}]}` |
 | `add_comment_to_workitem(workitem_id, comment, mentions?)` | `mentions` = logins (viram `@login`) | comentário |
+| `ccm_list_attachments(workitem_id)` | — | `[{id, name, size, content_type, created, url}]` |
+| `ccm_put_attachment(workitem_id, path)` | arquivo local; o nome do anexo = nome do arquivo. Anexo de **mesmo nome** é substituído (fica só a última versão) | `{id, name, size, url, replaced: [ids]}` |
+| `ccm_get_attachment(workitem_id, name, dest_dir)` | baixa para `dest_dir/<name>` (sobrescreve); com nomes repetidos, o mais recente | `{path, size}` |
 
 ### Assinatura exata dos parâmetros
 
@@ -140,6 +143,12 @@ coluna). Termo que não está aqui nem em `workitem-types` → pergunte o tipo; 
 | `add_comment_to_workitem` | `workitem_id` | `string` | ✓ |
 | | `comment` | `string` | ✓ |
 | | `mentions` | `list[string]` | |
+| `ccm_list_attachments` | `workitem_id` | `string` | ✓ |
+| `ccm_put_attachment` | `workitem_id` | `string` | ✓ |
+| | `path` | `string` | ✓ |
+| `ccm_get_attachment` | `workitem_id` | `string` | ✓ |
+| | `name` | `string` | ✓ |
+| | `dest_dir` | `string` | ✓ |
 | `ccm_list_timesheet` | `workitem_id` | `string` | ✓ |
 | `ccm_list_time_codes` | `project_area_identifier` | `string` | ✓ |
 | `ccm_add_timesheet` | `workitem_id` | `string` | ✓ |
@@ -245,6 +254,8 @@ Exemplo — "muda a estimativa do WI 1001 para 6h": `fields["Estimativa"]` → `
   campos e estado podem ir na mesma chamada. Erro de estado → `ccm_list_workitem_states(id)` e ofereça os
   `result-state`.
 - **Comentar:** `add_comment_to_workitem(id, comment, mentions=[logins])`.
+- **Anexar:** confirme (o anexo é visível ao time) e `ccm_put_attachment(id, path)`; reanexar o mesmo nome substitui
+  a versão anterior no item. Baixar: `ccm_get_attachment(id, name, dest_dir)`.
 - **Pai:** na criação, `ccm_create_workitem(..., parent=<id do pai>)`; num item que já existe,
   `ccm_update_workitem(id, parent=<id do novo pai>)` troca o pai (confirme antes).
 - **Outros links entre work items** (relacionado, bloqueia...): o MCP só grava **na criação** —
@@ -266,6 +277,7 @@ Exemplo — "muda a estimativa do WI 1001 para 6h": `fields["Estimativa"]` → `
 | HTTP 400/409 ao criar | Faltou obrigatório ou valor inválido: confira com `ccm_list_field_values` |
 | HTTP 412 | Edição concorrente: releia o item e repita **uma** vez |
 | `O servidor aceitou, mas ... não apareceu` | Peça para conferir na UI; não repita às cegas |
+| `Upload do anexo recusado` | Mostre a mensagem do servidor (permissão ou tamanho) e pare |
 | `Você não é o responsável` (timesheet) | Só o owner lança horas; pergunte se quer assumir a responsabilidade primeiro |
 | `Horas devem ser entre 0 e 16` (timesheet) | Máximo 16h por dia; ajuste o valor |
 

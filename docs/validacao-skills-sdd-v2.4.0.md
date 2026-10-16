@@ -8029,17 +8029,18 @@ power, com a versão subindo (`2.5.0`, `2.5.1`…) em `plugin.json` **e** em tod
 
 ### Etapa 0.5 — MCP `elm`: comentário e anexo em work item (pré-requisito da 0.14)
 
-**Objetivo:** o MCP hoje só **lê** comentários (`ccm_get_workitem`) e não tem anexo; o fluxo A da especificação
-depende dos dois.
+**✅ Feita (mcp-elm 1.0.37).** O comentário já existia (`add_comment_to_workitem`, usado pela `sdd-triar`); faltava
+só o anexo.
 
 | Ferramenta (`mcps/elm/mcp_elm/ccm.py`) | Comportamento |
 |---|---|
-| `ccm_add_comment(workitem_id, text)` | Markdown → HTML do EWM (mesmo conversor da descrição); acrescenta um comentário |
-| `ccm_put_attachment(workitem_id, path)` | anexa o arquivo; já existe anexo de mesmo nome → substitui (última versão) |
-| `ccm_list_attachments(workitem_id)` / `ccm_get_attachment(workitem_id, name, dest)` | lista e baixa — para retomar a especificação em outra máquina |
+| `add_comment_to_workitem(workitem_id, comment)` | já existente: registro da sessão na `[ESP]` |
+| `ccm_put_attachment(workitem_id, path)` | upload pelo `IAttachmentRestService` + `addLink` pelo `postWorkItem2`; anexo de mesmo nome → `removeLink` no mesmo save (fica só a última versão; o arquivo antigo fica órfão no servidor, como na UI) |
+| `ccm_list_attachments(workitem_id)` / `ccm_get_attachment(workitem_id, name, dest_dir)` | lista e baixa — para retomar a especificação em outra máquina |
 
-**Pronto quando:** num work item de teste do EWM real, comentar, anexar, reanexar o mesmo nome (fica um só) e baixar
-devolvem o esperado; sem acesso ao servidor, os testes cobrem a montagem das requisições.
+**Verificado** no EWM real (PAB, work item de teste 662316): anexar, reanexar o mesmo nome (`replaced` = o antigo;
+fica um só), listar e baixar a última versão. Testes offline em `tests/test_ccm.py`. **Falta:** publicar o
+`mcp-elm` 1.0.37 (o power `elm` usa `mcp-elm@latest`) e dar as tools ao `sdd-produto` (Etapa 1/4).
 
 ### Etapa 1 — Triagem única, hub e skills por papel (D0.3)
 

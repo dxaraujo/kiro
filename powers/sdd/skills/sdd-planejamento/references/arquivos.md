@@ -69,7 +69,7 @@ URL abaixo, nunca um caminho local:
 | WIP | 1 fatia por sessão de agente · revisão + PR aberto ≤ 2 por revisor · PR parado > 1 dia: destravar antes de fatia nova (exceção fica registrada: `WIP excedido`) |
 | Tamanhos | P (horas) = 2 pts · M (≈ 1 dia) = 3 pts · G (2–3 dias) = 5 pts · maior → dividir |
 | Reserva de atendimento | 20% das horas de quem atende (`atende: true`), recalibrada na virada |
-| Lançamento de horas | Na conclusão de cada tarefa (e sob pedido a qualquer momento); nunca nos GATEs intermediários |
+| Lançamento de horas | Cadência do time (padrão: ao fechar cada sessão de trabalho), em qualquer tarefa iniciada; na conclusão, só o saldo. Lançar não conclui |
 
 ## Definition of Ready (fatia)
 

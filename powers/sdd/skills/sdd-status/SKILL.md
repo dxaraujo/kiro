@@ -1,6 +1,6 @@
 ---
 name: sdd-status
-description: "Painel do fluxo sdd, somente leitura — onde parei e o que fazer agora: fatias em andamento (nesta branch, nas worktrees e nas branches remotas) com fase, trilha, modo AFK/HITL, progresso do tasks.md, achados abertos e PR; WIP de revisão humana contra o acordo do time; sprint atual e meta, com especificação e atendimento (reserva × consumido); fatias prontas para começar; épicos e PRDs pendentes de aprovação; pendências de ELM; lições propostas; e inconsistências. Também fecha a sessão de trabalho numa fatia (atualiza o status.md, deixa o git pronto para commit e diz como retomar). SEMPRE use esta skill (leia-a antes de responder) em \"onde parei\", \"status\", \"painel\", \"bom dia\", \"o que tem pendente\", \"qual a próxima fatia\", \"como está a sprint\", \"retomar\", \"fechar a sessão\", \"encerrar por hoje\"."
+description: "Painel do fluxo sdd, somente leitura — onde parei e o que fazer agora: fatias em andamento (nesta branch, nas worktrees e nas branches remotas) com fase, trilha, modo AFK/HITL, progresso do tasks.md, achados abertos e PR; WIP de revisão humana contra o acordo do time; sprint atual e meta, com especificação e atendimento (reserva × consumido); fatias prontas para começar; épicos e PRDs pendentes de aprovação; pendências de ELM; lições propostas; e inconsistências. Também fecha a sessão de trabalho numa fatia (atualiza o status.md, lança as horas da sessão com confirmação, deixa o git pronto para commit e diz como retomar). SEMPRE use esta skill (leia-a antes de responder) em \"onde parei\", \"status\", \"painel\", \"bom dia\", \"o que tem pendente\", \"qual a próxima fatia\", \"como está a sprint\", \"retomar\", \"fechar a sessão\", \"encerrar por hoje\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -19,7 +19,8 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
    `HEAD`; `git ls-tree -r --name-only <ref> -- .kiro/specs/` e `git show <ref>:<caminho>`). A pasta da fatia
    costuma existir só na branch dela.
 2. De cada `status.md`: fatia, título, trilha, modo, fase, responsável, rodadas, achados abertos, PR, ELM,
-   Banco, última linha do Histórico (data) e pendências `ELM pendente:` sem `ELM feito:` correspondente.
+   Banco, última linha do Histórico (data) e pendências `ELM pendente:` sem `ELM feito:` correspondente (também
+   no campo `**ELM:**` dos `AT-*.md` abertos e na coluna "Tarefa ELM" `pendente` da sprint aberta).
 3. De cada `tasks.md`: `[x]`/total e o primeiro item pendente.
 4. `<produto>/backlog.md` (da base): épicos por status, fatias `pronta` sem `status.md` em nenhuma branch,
    sprint atual (`planejamento/sprints/` de maior número com `**Situação:** aberta`) e a meta. "Em andamento" = fatia com
@@ -94,6 +95,9 @@ fio:
 1. Acrescente ao Histórico do `status.md` da fatia o que foi feito, o **próximo passo exato** e as decisões desta
    sessão.
 2. Marque no `tasks.md` só o que está realmente pronto e verde.
-3. Mostre o `git status` e proponha o commit do que está pronto (padrão do `sdd.md`); grave só com "ok" e nunca
+3. **Horas da sessão** (com ELM): "Quanto tempo nesta sessão em `<tarefa>`?" — a tarefa do papel de quem fecha,
+   pelo campo ELM do `status.md` → `sdd-elm` modo *horas*, com "sim" (lança, não conclui). Sem MCP → `ELM
+   pendente: lançar <h>h em <tarefa> (<data>)` no Histórico.
+4. Mostre o `git status` e proponha o commit do que está pronto (padrão do `sdd.md`); grave só com "ok" e nunca
    faça push.
-4. Termine com a frase para retomar numa sessão nova (ex.: "vamos trabalhar na FT-031").
+5. Termine com a frase para retomar numa sessão nova (ex.: "vamos trabalhar na FT-031").

@@ -61,7 +61,7 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
    - tamanho: `P`/`M`/`G` e a tabela de pontos (padrão `2/3/5`);
    - **reserva de atendimento** (padrão 20% das horas de quem atende) — esta reserva cobre **atendimentos novos**
      e **retrabalho da sprint anterior** (fatias migradas que ainda consomem esforço); as fatias migradas consomem
-     capacidade **antes** da seleção de novas fatias; e **lançamento de horas** (na conclusão de cada tarefa).
+     capacidade **antes** da seleção de novas fatias; e a **cadência de lançamento de horas** (padrão: ao fechar cada sessão; lançar ≠ concluir).
 3. **Roadmap** (`roadmap.md`): épicos do `backlog.md` em ordem de valor e risco (maior incerteza mais cedo),
    agrupados em releases com um objetivo cada; épico sem PRD aparece como "a descobrir" (`sdd-prd`).
 

@@ -8212,6 +8212,13 @@ S10-F* (virada) e S17-F* (squash merge) dá `DETERMINÍSTICO`.
 
 ### Etapa 6 — ELM: idempotência e pendências
 
+> **✅ Feita (power `sdd` 2.5.0, branch `sdd-v2.5.0-etapa5a8`).** Publicação interrompida: tarefa achada por prefixo
+> + id + **mesmo pai** (`[DEV] FT-031`, `[ESP] EP-03`, `[ATD] AT-012`); `sdd-fatiar` cria itens no EWM só com
+> `ao-fatiar`; `ELM pendente` com lugar único por artefato (fatia, épico, AT, sprint), listado pela `sdd-status` e
+> respondido com `ELM feito:`; horas: lançar ≠ concluir em `sdd-elm` modo *horas*, `arquivos.md`, acordos do
+> planejamento e conclusão da `[ESP]` (só o saldo); a `sdd-status` pergunta as horas da sessão ao fechar. As demais
+> passagens do D0.8 já tinham saído nas Etapas 1–2.
+
 **Fecha:** S11-D2, S09-D2, S11-D3, X5.
 
 1. `sdd-elm` regra 2 de publicação: procurar tarefa por `<tipo> FT-nnn` (e `AT-nnn`, `EP-nn`) + pai, não por

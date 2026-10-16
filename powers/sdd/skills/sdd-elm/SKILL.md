@@ -20,8 +20,18 @@ da área antes de chamar as tools. Ids da project area:
 `.kiro/config/power/elm/pa_*.json`. Tipos, pastas, prefixos e regras do projeto: seção **ELM** do
 `.kiro/steering/sdd.md`. Mapeamento e limites: [references/mapeamento.md](references/mapeamento.md).
 
-**Sem o MCP `elm` nesta sessão** (revisor, verificador, pesquisador, outra máquina) ou com falha: não publique. Registre `ELM pendente:
-<modo> <alvo>` no Histórico do `status.md` (fatia) ou no rodapé do PRD (épico) e siga — o ELM nunca trava o fluxo.
+**Sem o MCP `elm` nesta sessão** (pesquisador, outra máquina) ou com falha: não publique. Registre `ELM pendente:
+<modo> <alvo>` no **lugar único** do artefato e siga — o ELM nunca trava o fluxo:
+
+| Artefato | Onde mora a pendência |
+|---|---|
+| fatia | Histórico do `status.md` |
+| épico | rodapé do `prd.md` (antes do GATE, o `rascunho.md` da pasta de trabalho) |
+| atendimento | campo `**ELM:**` do `AT-<nnn>-<slug>.md` (e `elm` `pendente` na linha do backlog enquanto a `[ATD]` não existe) |
+| sprint | coluna "Tarefa ELM" do `sprint-<nn>.md` (`pendente`) |
+
+**Baixar pendências** ("resolve as pendências do ELM"): a `sdd-status` as lista; para cada uma, rode o modo
+indicado e acrescente `ELM feito: <ação> (<data>)` no mesmo lugar — a pendência nunca é apagada, só respondida.
 Projeto sem ELM (`sdd.md` → ELM: não usa) → nada a fazer.
 
 ## Regras de toda publicação
@@ -32,8 +42,9 @@ Projeto sem ELM (`sdd.md` → ELM: não usa) → nada a fazer.
    a linha do `backlog.md` (épico, fatia). Antes de criar:
    - o repositório já tem o id (`resource`/`id` do conceito; coluna `elm` do `backlog.md`) → **atualizar** o mesmo id;
    - não tem → procure no ELM uma publicação interrompida (requisito: `rm_search_requirements(text=<título>)`
-     filtrado pelo tipo e pela pasta do conceito; EWM: título com `[FT-031]`) — achou um candidato → mostre e
-     pergunte se é ele (sim → grave o id e trate como atualização);
+     filtrado pelo tipo e pela pasta do conceito; EWM: item de backlog ou épico pelo título com `[FT-031]`/`[EP-03]`;
+     **tarefa** pelo prefixo e o id — `[DEV] FT-031`, `[ESP] EP-03`, `[ATD] AT-012` — **e o mesmo pai**, entre os
+     filhos do pai) — achou um candidato → mostre e pergunte se é ele (sim → grave o id e trate como atualização);
    - não achou → criar.
 3. **Conflito:** o artefato mudou no ELM depois da última vez que o vimos (`rm_list_modified` mais novo que o
    `last_modified` da entrada do ELM em `sources` do conceito) → mostre os dois lados e **pergunte** qual fica.
@@ -211,8 +222,9 @@ Chamado pela skill do papel antes de trabalhar: `sdd-desenvolver` (`[DEV]`), `sd
 
 ## Modo horas
 
-**Lançar** — na conclusão de uma tarefa (chamado pela skill que conclui) ou sob pedido ("lança 4h", "lança 6h de
-ontem"):
+**Lançar** é registro de empenho, não conclusão: a qualquer momento numa tarefa iniciada — ao fechar a sessão
+(`sdd-status`), numa fronteira de fase, sob pedido ("lança 4h", "lança 6h de ontem") — e, na conclusão, só o saldo
+(chamado pela skill do papel):
 1. Tarefa: a informada; senão a atual — o `status.md` da branch dá a `[DEV]`, `[REV]` ou `[VER]` do papel de quem
    pede; o AT aberto dá a `[ATD]`; a `[ESP]` vem do `sprint-<nn>.md`. Dúvida → pergunte.
 2. Horas já lançadas (`ccm_list_timesheet`) → mostre e desconte. Uma linha por data; data futura não.

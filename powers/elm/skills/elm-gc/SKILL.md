@@ -86,6 +86,10 @@ Escolha do `link_type` pelo pedido:
 - O link é gravado **no work item** ou **no teste**; o DOORS Next mostra o backlink. Por isso
   `list_linked_workitems(url de requisito)` pode vir vazio mesmo havendo link: consulte pelo lado do work item ou
   do teste antes de afirmar que não há.
+- **Conferir um link gravado:** `list_linked_requirements(<url do WI>)`. Não use `get_workitem` sem `fetch_all`
+  (filtra os links e devolve `links: {}`) nem o "Implementado por" da UI do requisito, que com configuração global
+  pode levar minutos para aparecer. O link WI ↔ requisito não precisa de `gc_context`: passe a URL do requisito
+  como está (a tool tira o `?oslc_config.context`).
 - As tools só **acrescentam**: não há como remover pelo MCP. Antes de ligar, liste os links existentes para não
   duplicar e **confirme** mostrando `<código> — <título>` dos dois lados e o tipo do link.
 

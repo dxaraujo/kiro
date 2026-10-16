@@ -103,6 +103,16 @@
 |---|---|---|
 | A8, A19, A-ETM | dados do pab-batch | A19 feito (`b65813f11`); A8: classificação por prefixo no `pa_pab.json`; A-ETM: pedir acesso ao ETM da PAB |
 | A28 | mcp-elm `ccm_list_timesheet` | feito no 1.0.39: `total_hours` com −1 ms ("sem horas") vira 0, com teste — publicar no PyPI |
-| A34 | mcp-elm `rm_count_folder` | investigar (0 com 4 itens na pasta) |
+| A34 | mcp-elm `rm_count_folder` | sem bug: atraso de índice do servidor logo após criar — conferido em 2026-10-17, `rm_count_folder` e `rm_list_folder` dão 12 e 12 na `14-Lixeira`, com os itens do teste |
 | A37 | mcp-elm | corrigido no 1.0.38 |
 | A64 | PA PAB | 3 tarefas filhas de IB cancelado não mudam de estado — cancelar na UI |
+
+## Pós-correção (2026-10-17)
+
+- Descrições da `sdd-elm` e da `sdd-triar` passavam de 1024 caracteres (já antes desta rodada) e o Kiro pulava as
+  duas skills: encurtadas (`116e375`); as 33 skills com frontmatter válido.
+- pab-batch (`desenvolvimento`, sem commit): `sdd.md` com a linha "Padrões do EWM" (Atendido por `Manutenção-CE`,
+  iteração de backlog a definir) e o texto novo do GATE; `sdd-revisor.json` com a permissão da revisão do PRD local.
+  As 3 fatias do backlog real já têm ficha. O layout é o antigo (A1): `acordos.md`, `equipe.json` e `sprints/` na
+  raiz de `.kiro/planejamento/` — a `sdd-setup` oferece mover.
+

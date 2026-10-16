@@ -76,7 +76,7 @@
     "io.github.dxaraujo.sdd": {
       "requires": {
         "power:elm": ">=1.3.0",
-        "pypi:mcp-elm": ">=1.0.41"
+        "pypi:mcp-elm": ">=1.0.42"
       },
       "note": "Opcional: só para projetos com ELM. A sdd-setup confere as versões; o sdd pede operações às skills elm-* (contrato), nunca as tools do MCP."
     }

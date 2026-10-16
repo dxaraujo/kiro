@@ -58,7 +58,8 @@ Responda com a tabela Código | Título das `localConfigs`, com uma coluna App (
 
 | `link_type` | Mostrar |
 |---|---|
-| `calm:implementsRequirement` | implementa |
+| `oslc_cm:implementsRequirement` | implementa |
+| `calm:implementsRequirement` | implementa (forma legada) |
 | `oslc_cm:affectsRequirement` | afeta |
 | `oslc_cm:tracksRequirement` | rastreia |
 | `oslc_cm:testedByTestCase` | testado por |

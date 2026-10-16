@@ -29,7 +29,7 @@ URL abaixo, nunca um caminho local:
     {
       "nome": "Ana Souza",
       "login": "ana.souza",
-      "papel": "P.O.",
+      "papeis": ["P.O.", "Especificador"],
       "horas-semana": 10,
       "horas-revisao-semana": 4,
       "horas-especificacao-semana": 4,
@@ -42,7 +42,8 @@ URL abaixo, nunca um caminho local:
 ```
 
 - Chaves em kebab-case, exatamente as do exemplo; nada além delas (o schema recusa `horasSemana`, `capacidade`…).
-- `papel` é **um** valor: `P.O.`, `Especificador`, `Dev`, `QA` ou `SM`; quem acumula papéis entra com o principal.
+- `papeis` é uma lista com um ou mais de `P.O.`, `Especificador`, `Dev`, `QA` e `SM` (ex.: `["Dev", "QA"]`); as horas de
+  revisão e de especificação já dizem quanto do tempo vai para cada frente. Exatamente **um** membro ativo tem `P.O.`.
 - `horas-revisao-semana` soma revisar (planos, PRs) e verificar (aceite) e é parte de `horas-semana`.
 - `horas-especificacao-semana` (entrevista, PRD, fatiamento: tarefas `[ESP]`) também é parte de `horas-semana`;
   ausente = 0. Revisão + especificação nunca passam de `horas-semana`.

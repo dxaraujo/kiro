@@ -120,13 +120,19 @@
       },
       "contains": {
         "properties": {
-          "papel": {
-            "const": "P.O."
-          },
           "ativo": {
             "const": true
+          },
+          "papeis": {
+            "contains": {
+              "const": "P.O."
+            }
           }
-        }
+        },
+        "required": [
+          "papeis",
+          "ativo"
+        ]
       },
       "minContains": 1,
       "maxContains": 1,
@@ -144,7 +150,7 @@
       "required": [
         "nome",
         "login",
-        "papel",
+        "papeis",
         "horas-semana",
         "horas-revisao-semana",
         "ativo",
@@ -161,15 +167,20 @@
           "pattern": "^[^\\s@]+$",
           "description": "Login do ELM (members do pa_*.json), sem domínio."
         },
-        "papel": {
-          "enum": [
-            "P.O.",
-            "Especificador",
-            "Dev",
-            "QA",
-            "SM"
-          ],
-          "description": "Um papel por pessoa: o principal. Quem acumula papéis entra com o que mais consome as horas dela."
+        "papeis": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "P.O.",
+              "Especificador",
+              "Dev",
+              "QA",
+              "SM"
+            ]
+          },
+          "description": "Papéis da pessoa (um ou mais). As horas de revisão e de especificação já separam o tempo de cada frente."
         },
         "horas-semana": {
           "type": "number",

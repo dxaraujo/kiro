@@ -10,15 +10,15 @@
 
 ## Pessoas
 
-> Colunas obrigatórias: Login, Nome, Papel, Horas/semana.  
-> Papel (um por pessoa): `P.O.` · `Especificador` · `Dev` · `QA` · `SM`  
+> Colunas obrigatórias: Login, Nome, Papéis, Horas/semana.  
+> Papéis (um ou mais, separados por vírgula): `P.O.` · `Especificador` · `Dev` · `QA` · `SM` — exatamente um P.O. ativo  
 > Atende: `true` = participa da reserva de atendimento ([ATD]); `false` ou em branco = não.  
 > Ativo: `false` = saiu (histórico preservado).
 
-| Login | Nome | Papel | Horas/semana | Horas revisão/semana | Horas especificação/semana | Atende | Ativo |
+| Login | Nome | Papéis | Horas/semana | Horas revisão/semana | Horas especificação/semana | Atende | Ativo |
 |---|---|---|---|---|---|---|---|
 | joao.lima | João Lima | Dev | 40 | 6 | 0 | false | true |
-| maria.silva | Maria Silva | QA | 40 | 8 | 2 | true | true |
+| maria.silva | Maria Silva | QA, Especificador | 40 | 8 | 2 | true | true |
 
 ---
 

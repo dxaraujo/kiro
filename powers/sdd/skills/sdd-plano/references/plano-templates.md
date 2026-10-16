@@ -2,8 +2,21 @@
 
 Os arquivos ficam em `.kiro/specs/<ft>-<slug>/` no formato de spec do Kiro: o painel de specs reconhece a pasta e o
 `tasks.md` ganha **Start task** / **Run all tasks**. O texto é no idioma do projeto; os marcadores que o Kiro lê
-(`.config.kiro`, `- [ ]`, `- [ ]*`, `_Requirements: …_`, `**Validates: Requirements …**`) ficam exatamente como
-abaixo. Plano curto: quem aprova tem de ler tudo numa sentada — um plano de 1.000 linhas esconde decisões em vez
+(`.config.kiro`, `- [ ]`, `- [ ]*`, `_Requirements: …_`, `**Validates: Requirements …**`) e **os títulos que o
+Kiro valida** ficam exatamente como abaixo, em inglês — traduzido, o Kiro acusa `Missing required section`:
+
+| Arquivo | Títulos fixos (nesta ordem) |
+|---|---|
+| `requirements.md` | `# Requirements Document` · `## Introduction` · `## Glossary` · `## Requirements` · `### Requirement N: …` · `#### Acceptance Criteria` |
+| `bugfix.md` | `# Bugfix Requirements Document` · `## Introduction` · `## Bug Analysis` · `### Current Behavior (Defect)` · `### Expected Behavior (Correct)` · `### Unchanged Behavior (Regression Prevention)` · `### Bug Condition` · `### Fix Property` · `### Preservation Property` |
+| `design.md` | `# Design Document: …` · `## Overview` · `## Architecture` · `## Components and Interfaces` · `## Data Models` · `## Correctness Properties` · `## Error Handling` · `## Testing Strategy` |
+| `tasks.md` | `# Implementation Plan: …` · `## Overview` · `## Tasks` · `## Task Dependency Graph` · `## Notes` |
+
+Os demais subtítulos do sdd ("Padrões a seguir", "Decisões técnicas", "Riscos"…) vão no idioma do projeto. **Toda
+seção fixa aparece sempre**, nas duas trilhas; sem o que dizer, ela leva só `Sem mudança.` ou `Não se aplica.` —
+nunca conteúdo inventado para preenchê-la.
+
+Plano curto: quem aprova tem de ler tudo numa sentada — um plano de 1.000 linhas esconde decisões em vez
 de mostrá-las.
 
 ## `.config.kiro`
@@ -142,8 +155,10 @@ falhas numa janela de 15 minutos.
 <concorrência, volume, dependências, DDL pendente>
 ```
 
-Na trilha rápida, o `design.md` é curto: Overview, causa raiz (com `arquivo:linha` da research), a correção, e a
-Testing Strategy com exploração da condição do defeito, verificação da correção e da preservação.
+Na trilha rápida, o `design.md` é curto, mas com todas as seções fixas: a causa raiz (com `arquivo:linha` da
+research) no Overview, a correção em Architecture/Components and Interfaces, e a Testing Strategy com exploração
+da condição do defeito, verificação da correção e da preservação. Seção que a correção não toca (ex.: Data Models)
+→ `Sem mudança.` / `Não se aplica.`.
 
 ## `tasks.md`
 
@@ -170,6 +185,11 @@ Testing Strategy com exploração da condição do defeito, verificação da cor
 - [ ] 4. Checkpoint — validação completa (compilar, suíte inteira, lint, cobertura)
   - A revisão não é tarefa daqui: é da `sdd-revisar`, em outro contexto (quem implementou não se revisa)
 
+## Task Dependency Graph
+- 1 → 2 (2 usa `BloqueioConta` criada em 1)
+- 1 → 3
+- 1, 2, 3 → 4
+
 ## Notes
 - Tarefas com `*` são opcionais.
 ```
@@ -177,8 +197,8 @@ Testing Strategy com exploração da condição do defeito, verificação da cor
 - Uma tarefa = um comportamento, começando pelo teste que falha (corretiva: o teste que reproduz o defeito).
 - Toda tarefa diz o comando que prova que terminou.
 - Ordem de dependência. O **Run all tasks** do Kiro deduz quais tarefas dependem de quais e roda as
-  independentes ao mesmo tempo — deixe explícito quando uma depende da outra (inclusive quando duas mexem no
-  mesmo arquivo).
+  independentes ao mesmo tempo — registre no `## Task Dependency Graph` quando uma depende da outra (inclusive
+  quando duas mexem no mesmo arquivo); sem dependência → `Não se aplica.`.
 - Mudança em código compartilhado → primeiro a tarefa de **preparação** ("deixar a mudança fácil"), depois a
   mudança; refatoração larga usa expandir → migrar → contrair, em fatias próprias.
 - DDL não vira tarefa: vai para Riscos e para o campo Banco do `status.md`.

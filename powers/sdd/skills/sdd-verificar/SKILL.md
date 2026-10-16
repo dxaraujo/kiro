@@ -19,7 +19,9 @@ cenário do PRD diz. Prefira o agente **`sdd-verificador`** (contexto limpo; nã
 Seja cético: quem implementou tende a achar que terminou, e funcionalidade pela metade costuma passar em teste de
 unidade. "Feito" é uma afirmação; a evidência é a prova.
 
-Entrada: pasta da fatia com revisão `APROVADO`, na branch da fatia. Tipo de projeto, como executar e onde ver o
+Entrada: pasta da fatia com revisão `APROVADO`, na branch da fatia. **HITL** (tarefa `[VER]` assumida no
+Passo 0): só com `fase: em-verificacao` — a REV aprovou antes (sem isso, diga que a `[VER]` espera a revisão e
+pare); vá para a branch do PR (`git switch` com "sim", `git pull --ff-only`) e a rodada de verificação é sua. Tipo de projeto, como executar e onde ver o
 resultado: seção **Verificação de aceite** do `.kiro/steering/sdd.md` (vem do toolkit, confirmado na setup).
 
 ## Passo 0 — Assumir a `[VER]` (só com a tarefa)
@@ -81,16 +83,18 @@ Cenários: <a> aceitos · <r> rejeitados · <e> ambiente
 VERIFICACAO: ACEITO | REJEITADO
 ```
 
-- **ACEITO** (todos aceitos) → gere o `CT.csv` (Passo 5), `fase: aceita` no `status.md` e devolva para a
-  `sdd-implementar` abrir o PR (Passo 5 dela). **Horas da `[VER]`:** pergunte as horas a quem verificou
-  (descontando o já lançado) → `sdd-elm` modo *horas* na `[VER] FT-nnn`, com confirmação — **lance as horas mas
-  não conclua a tarefa aqui**: a `[VER]` é concluída pelo `sdd-consolidar` após o merge, junto com `[DEV]` e
-  `[REV]` (mudança pedida no PR reabre a verificação, e a tarefa precisa estar aberta). Registre no `status.md`:
-  `ELM: horas lançadas em [VER] FT-nnn · conclusão: pendente (merge)`. Sem o MCP nesta sessão (agente
-  `sdd-verificador`) → `ELM pendente: lançar <h>h em [VER] FT-nnn` no Histórico do `status.md`.
-- **REJEITADO** → para cada cenário, esperado × obtido + evidência, registrados no `status.md` como achados;
-  `fase: implementando`; a `sdd-implementar` corrige e a verificação roda de novo (só os rejeitados + os de
-  repetição). Se o problema é o cenário estar errado no PRD, diga isso: é com o P.O., não com o código.
+- **ACEITO** (todos aceitos) → gere o `CT.csv` (Passo 5).
+  - **AFK** (subagente do loop ou da `sdd-implementar`): `fase: aceita` e devolva para abrir o PR (Passo 5 da
+    `sdd-implementar`). Não há `[VER]` no EWM (Q8).
+  - **HITL**: `fase: pronta-para-merge`; saldo de horas e conclusão da `[VER]` (`sdd-elm` modo *horas* e
+    *conclusão*, numa confirmação; sem MCP → `ELM pendente: lançar <h>h e concluir [VER] FT-<nnn>`); commit de
+    `verificacao.md`, `CT.csv`, `evidencias/`, `massa/` e `status.md` (`FT-<nnn> verificação: ACEITO`); o push é da
+    pessoa. Avise que o PR está pronto para o merge.
+- **REJEITADO** → para cada cenário, esperado × obtido + evidência, registrados no `status.md` como achados.
+  AFK: `fase: implementando`; a `sdd-implementar` corrige e a verificação roda de novo (só os rejeitados + os de
+  repetição). HITL: `fase: retrabalho (de: em-verificacao)`, "retrabalho" +1 em Rodadas e uma linha na tabela
+  **Retrabalho** (papel VER); a `[VER]` fica em andamento; commit como no aceito e avise o codificador. Se o
+  problema é o cenário estar errado no PRD, diga isso: é com o P.O., não com o código.
 - Só `⚠️ ambiente` → `fase: bloqueada` com o que falta; ninguém corrige código.
 
 ## Passo 5 — Casos de teste para o ETM

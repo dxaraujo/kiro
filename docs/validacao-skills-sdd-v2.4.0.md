@@ -8078,6 +8078,18 @@ S08–S11, gatilho órfão "atendimentos abertos".
 
 ### Etapa 2 — Modos de execução: HITL assíncrono e AFK em fluxo único (D0.4)
 
+> **✅ Feita (power `sdd` 2.5.0, branch `sdd-v2.5.0-etapa2`).** Fases HITL/AFK e tabela Retrabalho no
+> `status-template.md`; `sdd-implementar` HITL termina no PR (revisão automática C por subagente antes, `[DEV]`
+> concluída no PR; retrabalho reabre a `[DEV]` e atualiza o mesmo PR); `sdd-revisar`/`sdd-verificar` com o modo
+> HITL sobre o PR (aprovar/aceitar conclui a própria tarefa; reprovar → `retrabalho`; VER só depois da REV; PR
+> atualizado reabre a REV); `sdd-consolidar` não conclui mais tarefas de papel; `sdd-loop` = AFK (só `[DEV]`,
+> GATE só na fatia de épico, horas só na `[DEV]`, fim em `pronta-para-merge`); `sdd-plano` com o GATE por modo e
+> a precedência da trilha rápida (0.9); `sdd-elm` modo *sprint* sem `[REV]`/`[VER]` no AFK (Q8) e conclusão por
+> papel; planejamento aloca revisor/verificador só na fatia HITL; `sdd-status` e WIP com as fases novas; revisor e
+> verificador com `git switch/add/commit` (push segue da pessoa); a config `Plano AFK` saiu do steering. **Ficam**
+> para a Etapa 3 os workflows (`sdd-planejar-fatia`, `sdd-entregar-fatia`) e para a Etapa 6 o texto do modo
+> *horas* da `sdd-elm` ("na conclusão de uma tarefa").
+
 **Objetivo:** o texto descreve os dois modos. Hoje só existe o AFK, inclusive para HITL: revisão e verificação
 acontecem antes do PR, por subagente.
 **Depende de:** Etapa 1. Decisões Q1–Q7 tomadas (D0.7), exceto Q4 (horas no AFK), que fica para depois.

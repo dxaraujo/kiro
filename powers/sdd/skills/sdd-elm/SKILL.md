@@ -166,8 +166,11 @@ seções do `sprint-<nn>.md` (fatias com responsável, revisor e verificador; es
    |---|---|---|---|
    | `[ESP] EP-05 Especificação` | épico na seção Especificação | quem especifica | o épico |
    | `[DEV] FT-031 Implementar` | fatia | responsável da fatia | IB da fatia |
-   | `[REV] FT-031 Revisar` | fatia | revisor | IB da fatia |
-   | `[VER] FT-031 Verificar` | fatia | verificador | IB da fatia |
+   | `[REV] FT-031 Revisar` | fatia **HITL** | revisor | IB da fatia |
+   | `[VER] FT-031 Verificar` | fatia **HITL** | verificador | IB da fatia |
+
+   Fatia **AFK** (`modo` do `backlog.md`): só a `[DEV]` — revisão e verificação são subagentes, sem tarefa nem
+   horas.
 
    Fatia sem épico com item de origem → pai = o item (sem IB novo); direta → só a `[DEV] FT-<nnn> <pedido>`, pai = item de
    origem ou Sustentação. Campos obrigatórios da Tarefa (categoria de horas, OTR, classificação, Clarity) pela
@@ -240,8 +243,10 @@ projeto), mostre, publique como os requisitos depois do `verified` humano, e lig
 
 ## Modo conclusão
 
-Tarefas e IB da fatia → estado de conclusão da PA (ação de `ccm_list_workitem_states`), depois das horas de cada
-tarefa (modo horas); épico quando todas as fatias concluírem. Comentário opcional no IB: PR, pasta e ids publicados.
+Uma tarefa por vez, chamada pela skill do papel que terminou (`[DEV]` no PR, `[REV]` ao aprovar, `[VER]` ao
+aceitar, `[ESP]` no GATE do backlog, `[ATD]` ao finalizar) → estado de conclusão da PA (ação de
+`ccm_list_workitem_states`), depois do saldo de horas (modo horas). O IB da fatia, pela `sdd-consolidar` depois do
+merge; o épico quando todas as fatias concluírem. Comentário opcional no IB: PR, pasta e ids publicados.
 
 ## Saída
 

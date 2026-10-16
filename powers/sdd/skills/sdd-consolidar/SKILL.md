@@ -13,12 +13,12 @@ O plano da fatia (`research`, `design`, `tasks`) é andaime: cumpriu o papel qua
 fica valendo é a documentação oficial no ELM — e ela tem de descrever o que **foi** construído. Esta skill fecha a
 distância entre os dois.
 
-Entrada: fatia em `pr-aberto` cujo PR foi **mergeado** (confira: `git branch -r --merged origin/<base>` ou a
+Entrada: fatia em `pronta-para-merge` (ou, de versões antigas, `pr-aberto`/`aceita`) cujo PR foi **mergeado** (confira: `git branch -r --merged origin/<base>` ou a
 ferramenta de PR; não mergeado → pare). Tudo aqui é gravado na **base**: confirmado o merge, "Troco para
 `<base>`? (sim)" e `git pull --ff-only` (alterações locais não commitadas → avise e pare; nunca ofereça descartar,
 `stash` ou `reset`).
 
-Trilha direta: só as *horas* e o *backlog* do Passo 2 e o Passo 4 — não há plano nem cenário para conferir.
+Trilha direta: só o *backlog* do Passo 2 e o Passo 4 — não há plano nem cenário para conferir.
 
 ## Passo 1 — Drift
 
@@ -45,14 +45,12 @@ Pela **`sdd-elm`**, numa confirmação só:
 - *especificação técnica* — se o projeto publica ET: gerar a ET **as-built** da fatia a partir do `design.md` e do
   código final (interfaces, dados, integrações) e publicar;
 - *testes* — `CT.csv` pronto para importar no ETM; após a importação, links "valida" com as histórias;
-- *horas* — o merge conclui a `[DEV]`, a `[REV]` e a `[VER]` (direta: só a `[DEV]`): pergunte as horas de cada
-  uma (descontando o já lançado) e lance pela `sdd-elm` modo *horas*. A `[VER]` tem as horas já lançadas
-  pelo `sdd-verificar` — verifique no `status.md` o campo `ELM: horas lançadas em [VER]` e conclua a tarefa
-  (modo *conclusão*) sem relançar; se o campo estiver como `ELM pendente`, lance as horas primeiro. O EWM
-  só aceita horas do responsável: a tarefa de outra pessoa fica com `ELM pendente: lançar <h>h em [REV|VER]
-  FT-nnn (<login>)`, que ela lança na sessão dela ("lança 2h na REV da FT-031");
-- *backlog* — concluir as tarefas e o item de backlog da fatia no EWM (estado de conclusão da PA). Tarefa
-  concluída sem horas não trava: a virada aponta.
+- *tarefas* — o merge **não** lança horas nem conclui `[DEV]`, `[REV]` ou `[VER]`: cada skill de papel concluiu
+  a sua (a `[DEV]` no PR, a `[REV]` ao aprovar, a `[VER]` ao aceitar; no AFK só existe a `[DEV]`). Tarefa da fatia
+  ainda aberta → mostre qual e de quem, e registre `ELM pendente: concluir <tarefa> (<login>)`, que a pessoa faz
+  na sessão dela;
+- *backlog* — concluir o item de backlog da fatia no EWM (estado de conclusão da PA). Tarefa concluída sem horas
+  não trava: a virada aponta.
 
 Sem o MCP `elm` nesta sessão ou com falha → `ELM pendente: <ação>` no Histórico do `status.md`; o `sdd-status`
 lista as pendências até alguém fazê-las numa sessão com o MCP.

@@ -75,7 +75,8 @@ pelo `mcp.json`, com as tools da tabela abaixo); nunca o campo `hooks` (a IDE ig
   regras), não com `cat`/`grep` no shell.
 - **Shell:** git de leitura (`status`, `diff`, `log`, `show`, `grep`, `ls-files`, `ls-tree`, `rev-parse`, listagem de
   branches, `worktree list`, `for-each-ref`, `config user.name/email`) e `cd .kiro/local/wt/*`; codificador e produto
-  também `add`, `commit`, `fetch`, `pull --ff-only` (produto: `switch`); orquestrador: `add`, `commit`, `fetch`,
+  também `add`, `commit`, `fetch`, `pull --ff-only`, `switch`; revisor e verificador os mesmos, para o modo HITL
+  (commit do relatório e da fase na branch do PR; o push é da pessoa); orquestrador: `add`, `commit`, `fetch`,
   `worktree add .kiro/local/wt/*`, e push/PR com `ask`; verificador: `sh .kiro/sdd/http.sh *`.
 - **Negados em todos:** `git -C` (com ele as regras não enxergam o subcomando: `git -C <dir> push …` passaria por um
   allow de `git -C <dir> show*`), `git -c`, merge, rebase (inclusive `pull --rebase`), `reset --hard`, `clean`,

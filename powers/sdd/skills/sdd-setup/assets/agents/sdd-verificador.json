@@ -66,7 +66,12 @@
         "git config user\\.name",
         "git config user\\.email",
         "cd \\.kiro/local/wt/.*",
-        "sh \\.kiro/sdd/http\\.sh .*"
+        "sh \\.kiro/sdd/http\\.sh .*",
+        "git fetch.*",
+        "git pull --ff-only.*",
+        "git switch .*",
+        "git add .*",
+        "git commit .*"
       ],
       "deniedCommands": [
         "git -C .*",
@@ -93,8 +98,6 @@
         ".*--force.*",
         ".*--delete.*",
         ".*--no-verify.*",
-        ".*git add.* -f.*",
-        ".*git switch.* -f.*",
         ".*--discard-changes.*",
         ".*gh pr merge.*",
         ".*glab mr merge.*",
@@ -105,10 +108,9 @@
         ".*find .*-delete.*",
         ".*rg .*--pre.*",
         ".*git push.*",
-        ".*git add.*",
-        ".*git commit.*",
-        ".*git switch.*",
-        ".*git worktree add.*"
+        ".*git worktree add.*",
+        ".*git add.* -f.*",
+        ".*git switch.* -f.*"
       ],
       "autoAllowReadonly": true
     }
@@ -140,7 +142,12 @@
           "git config user.name",
           "git config user.email",
           "cd .kiro/local/wt/*",
-          "sh .kiro/sdd/http.sh *"
+          "sh .kiro/sdd/http.sh *",
+          "git fetch*",
+          "git pull --ff-only*",
+          "git switch *",
+          "git add *",
+          "git commit *"
         ],
         "effect": "allow"
       },
@@ -183,9 +190,6 @@
           "*find *-delete*",
           "*rg *--pre*",
           "*git push*",
-          "*git add*",
-          "*git commit*",
-          "*git switch*",
           "*git worktree add*"
         ],
         "effect": "deny"

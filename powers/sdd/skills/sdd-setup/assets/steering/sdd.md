@@ -14,7 +14,9 @@ Começar um item registrado: hub `sdd-iniciar` (diz a skill do papel: `sdd-espec
 - Push, troca de branch e escrita no ELM só com "sim" de uma pessoa. Agente nunca faz merge nem `--force`.
 - Dado de cliente (consulta, extração, tela com dado real) nunca vai para o git: fica em `.kiro/local/<origem>/<id>/`;
   o versionado guarda consulta, contagem, caminho e resumo sem identificar pessoas.
-- Toda hora tem tarefa (`[ESP]` `[DEV]` `[REV]` `[VER]` `[ATD]`); horas lançadas na conclusão, nunca nos GATEs.
+- Toda hora tem tarefa (`[ESP]` `[DEV]` `[REV]` `[VER]` `[ATD]`; no AFK, só a `[DEV]`). Lançar horas é registro de
+  empenho, a qualquer momento na tarefa iniciada; concluir é da skill do papel, com o saldo: `[DEV]` no PR, `[REV]`
+  ao aprovar, `[VER]` ao aceitar, `[ESP]` no GATE do backlog, `[ATD]` ao finalizar.
 - Estado em disco: cada fatia em `.kiro/specs/<ft>-<slug>/` (comece pelo `status.md`); produto na pasta abaixo.
 
 > Gerado pela `sdd-setup` (power `sdd` <x.y.z>) em <AAAA-MM-DD>. Para mudar: "atualizar a configuração do sdd".
@@ -61,7 +63,7 @@ Na worktree do `sdd-loop`: `cd .kiro/local/wt/<ft> && <comando>`. Falha de ambie
 | Abrir PR | `<gh pr create … | glab mr create … | entregar título e descrição>` |
 | Artefatos de produto (pasta do produto, glossário, ADRs, consolidação) | `<direto na branch base | PR curto para a base>` — nunca em branch de fatia; push ou PR com o "sim" da pessoa (o agente `sdd-produto` não faz push: entrega o comando) |
 | MCP de banco | `<@servidor/tool | não há>` — **somente leitura** (`SELECT`/`WITH`), exceto os scripts de massa; DDL fora do fluxo |
-| Plano AFK · GATE na trilha rápida · paralelo no loop | `<aprovação humana | análise basta>` · `<sim | não>` · `<1>` (máx. 3) |
+| GATE na trilha rápida · paralelo no loop | `<sim | não>` · `<1>` (máx. 3) — GATE do plano: HITL sempre; AFK só na fatia de épico |
 | Push e PR no loop | `<perguntar a cada lote (o Kiro confirma cada um) | não — a pessoa abre>` |
 | Instalados | hook `<sdd-backpressure | nenhum>` · workflows `<sdd-planejar-fatia, sdd-entregar-fatia | nenhum>` (disparados pela pessoa) |
 

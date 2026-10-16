@@ -84,8 +84,10 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
    nas que deixaram de passar). Entram as `pronta` — de épico e sem épico, inclusive as diretas (toda hora tem
    tarefa) —, respeitando `bloqueada-por` — a fatia só entra se as
    dependências entram antes ou já estão concluídas. Pare ao atingir a menor das capacidades. Fatia não `pronta` no
-   topo → aponte o que falta (decisão, PRD, fatiar) antes de pular para a próxima. Cada fatia ganha **revisor** e
-   **verificador** (não quem implementa), e a soma das revisões e verificações cabe nas horas de revisão de cada um.
+   topo → aponte o que falta (decisão, PRD, fatiar) antes de pular para a próxima. Cada fatia **HITL** ganha **revisor**
+   e **verificador** (não quem implementa), e a soma das revisões e verificações cabe nas horas de revisão de cada
+   um; fatia **AFK** não tem (revisão e verificação por subagente, sem `[REV]`/`[VER]`) — a revisão humana dela é a
+   leitura do PR.
 4. **Meta da sprint:** uma frase de resultado de negócio que as fatias entregam juntas.
 5. **Iteração:** pergunte a iteração do EWM da sprint (de `iterations` do `pa_*.json`); é o `plannedFor` de
    todos os IBs e tarefas desta sprint.
@@ -120,8 +122,8 @@ capacidade (revisão, vazão, HITL) e as opções, com a recomendada:
 - **entra no lugar de** `FT-…` — uma ainda não iniciada, que volta para `sprint` `—`;
 - **fica para a próxima sprint**.
 
-Com a decisão do P.O. (ou de quem ele delegou): `sprint` e `responsavel` no `backlog.md` (e revisor e verificador,
-que não sejam quem implementa — as `[REV]`/`[VER]` precisam deles), uma linha no
+Com a decisão do P.O. (ou de quem ele delegou): `sprint` e `responsavel` no `backlog.md` (e, na fatia HITL, revisor e
+verificador, que não sejam quem implementa — as `[REV]`/`[VER]` precisam deles), uma linha no
 `sprint-<nn>.md` com a Observação `encaixe: <decisão> (<quem decidiu>, <data>)`, commit na base e a `sdd-elm` modo
 *sprint* para as tarefas da fatia. Na troca, as tarefas da fatia que sai vão
 para a próxima iteração (`sdd-elm`, só o `plannedFor`). Depois, volte à `sdd-codificar` (Passo 3, item 4). Sem

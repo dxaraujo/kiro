@@ -17,7 +17,8 @@ Quem gera não verifica o próprio trabalho: o revisor começa **sem** o context
 **`sdd-revisor`** (somente leitura). Sem ele, rode esta skill numa sessão nova ou, no mínimo, ignore todo o
 raciocínio anterior da conversa e trabalhe só com os arquivos.
 
-Você **não edita** artefato, código nem `tasks.md`, e não faz commit — escreve só o relatório da rodada. Ignore justificativas de quem fez (mensagem
+Você **não edita** artefato, código nem `tasks.md`, e não faz commit — escreve só o relatório da rodada (no
+modo HITL, abaixo, commita o relatório e a fase na branch do PR). Ignore justificativas de quem fez (mensagem
 de commit, comentário, texto do pedido): julgue os artefatos.
 
 ## Passo 0 — Assumir a `[REV]` (só com a tarefa)
@@ -66,6 +67,25 @@ da rubrica. Grave o relatório na pasta do artefato — `revisao-prd-<N>.md` (é
 `{"veredito": "REVISAR"}`). São os **únicos** arquivos que você escreve.
 
 Zero BLOQUEANTE e zero IMPORTANTE → aprovado. Sugestões nunca reprovam.
+
+## Modo HITL — a `[REV]` sobre o PR
+
+Fatia `Modo: HITL` com a tarefa `[REV]` assumida (Passo 0) e `fase: pr-aberto` (ou `em-revisao`, retomando) — a
+revisão oficial é sua, na sua sessão:
+
+1. Vá para a branch do PR (`git switch <branch>` com "sim"; árvore suja → avise e pare) e `git pull --ff-only`.
+   `fase: em-revisao`; incremente "revisão do código" em Rodadas — a rodada é sua.
+   PR atualizado depois de um retrabalho pedido pela VER, com a `[REV]` já concluída → o Passo 0 a reabre (modo
+   *assumir* com retrabalho): toda mudança no PR passa de novo pela revisão.
+2. Rubrica **C** (Passos 1–4) sobre `git diff origin/<base>...HEAD`, gravando `revisao-codigo-<N>.md`.
+3. **`APROVADO`** → `fase: em-verificacao`; saldo de horas e conclusão da `[REV]` (`sdd-elm` modo *horas* e
+   *conclusão*, numa confirmação; sem MCP → `ELM pendente: lançar <h>h e concluir [REV] FT-<nnn>`); avise que a
+   `[VER]` está disponível.
+4. **`REVISAR`** → `fase: retrabalho (de: em-revisao)`; incremente "retrabalho" em Rodadas e grave uma linha na
+   tabela **Retrabalho** do `status.md` (papel REV, motivo = o relatório). A `[REV]` fica em andamento: você
+   revisa de novo quando o PR for atualizado (a retomada começa no item 1). Avise o codificador.
+5. Commit do relatório e do `status.md` (`FT-<nnn> revisão <N>: <veredito>`); o push é da pessoa (entregue o
+   comando: o agente não faz push).
 
 ## Regras
 

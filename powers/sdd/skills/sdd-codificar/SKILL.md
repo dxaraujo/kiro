@@ -80,7 +80,8 @@ o caminho, e não comece.
    *sprint* põe as tarefas na iteração corrente do EWM ao começar (Passo 4). Nenhuma sprint aberta e nada no
    `acordos.md` (planejamento ainda não feito) → não é encaixe: ofereça a `sdd-planejamento` e não comece.
 4. **WIP** (`<produto>/planejamento/acordos.md`; sem o arquivo, 2 fatias esperando pessoa). Conte as fatias em
-   `plano-em-revisao`, `aceita` e `pr-aberto` nos `status.md` das branches, como a `sdd-status`. No limite, ou com PR
+   `plano-em-revisao`, `pr-aberto`, `em-revisao`, `em-verificacao`, `aceita` e `pronta-para-merge` nos `status.md`
+   das branches, como a `sdd-status`. No limite, ou com PR
    parado há mais tempo que o acordo (padrão 1 dia) → mostre quais e recomende destravar antes (aprovar o plano,
    revisar o PR). A pessoa pode seguir mesmo assim: `WIP excedido: <motivo>` vai no Histórico do `status.md` ao
    criá-lo (Passo 4).
@@ -113,6 +114,8 @@ o caminho, e não comece.
    | sem épico, com item de origem (DF, IB) | `[DEV]` `[REV]` `[VER]` — direta: só a `[DEV]` | o próprio item de origem — **sem IB novo** |
    | sem épico, pedido em texto | `[DEV]` `[REV]` `[VER]` — direta: só a `[DEV]` | IB `[FT-nnn]`, filho do épico de Sustentação — direta: o épico de Sustentação |
 
+   Fatia **AFK**: só a `[DEV]`, em qualquer linha — revisão e verificação são subagentes, sem tarefa.
+
    Grave os ids das tarefas no campo ELM do `status.md` — é por ele que as horas acham a tarefa. Chamada daqui, na
    branch da fatia, a `sdd-elm` não grava o `backlog.md` nem o `sprint-<nn>.md`: os ids ficam no `status.md`, e a
    `sdd-consolidar` os leva ao backlog. Sem o MCP: `ELM pendente: assumir [DEV] FT-<nnn>` no `status.md`.
@@ -129,10 +132,12 @@ Próximo: <skill>
 | Fase | Próxima skill |
 |---|---|
 | `pesquisando`, `planejando`, `plano-em-revisao` | `sdd-plano` (que começa pela `sdd-pesquisar`) |
-| `implementando`, `revisando` | `sdd-implementar` (trilha direta: a seção Trilha direta) |
-| `verificando` | `sdd-verificar` |
+| `implementando`, `revisando`, `retrabalho (de: …)` | `sdd-implementar` (trilha direta: a seção Trilha direta) |
+| `verificando` | `sdd-verificar` (AFK) |
 | `aceita` | `sdd-implementar` (Passo 5 — abrir o PR) |
-| `pr-aberto` | aguardar o merge; mergeado → `sdd-consolidar` |
+| `pr-aberto`, `em-revisao` | HITL: com o revisor — `[REV]` pela `sdd-revisar` |
+| `em-verificacao` | HITL: com o verificador — `[VER]` pela `sdd-verificar` |
+| `pronta-para-merge` | o merge é de uma pessoa; mergeado → `sdd-consolidar` |
 | `bloqueada (de: <fase>)` | mostre o motivo e a pergunta; resolvido → volta à skill da fase de origem |
 
 Modo AFK e várias fatias padrão ou rápida prontas na sprint → ofereça o **`sdd-loop`** (o agente leva cada uma até

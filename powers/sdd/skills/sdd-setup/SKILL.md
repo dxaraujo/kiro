@@ -208,8 +208,9 @@ Padrões da proposta:
 Registre também as skills **oferecidas e recusadas** por agente (coluna própria no `sdd.md`): no modo
 atualização, só skill que não está em nenhuma das duas colunas é "nova".
 
-Depois, a autonomia (seção Git, banco e autonomia do template), **sem perguntas** — Padrões aplicados: plano de
-fatia AFK com aprovação humana (até o time confiar); trilha rápida sem GATE do plano (a análise independente basta);
+Depois, a autonomia (seção Git, banco e autonomia do template), **sem perguntas** — Padrões aplicados: GATE do
+plano em toda fatia HITL e na fatia AFK de épico (fixo; a fatia AFK sem épico segue com a análise independente);
+trilha rápida sem GATE do plano (a análise independente basta);
 paralelismo do loop `1`; push e PR no loop perguntando a cada lote (o orquestrador tem regra `ask` para push e PR, então
 o Kiro confirma cada um; a pessoa muda para "não — a pessoa abre" → a regra vira `deny`); e, se a verificação chama a
 aplicação por HTTP, o **script de chamada** do verificador `.kiro/sdd/http.sh` (o verificador roda só esse script sem

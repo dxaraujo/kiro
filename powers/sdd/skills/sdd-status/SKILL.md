@@ -43,10 +43,13 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
 🔨 Em andamento
 | FT | Título | Fase | Modo | Tarefas | Achados | PR | Parada há | Próximo passo |
 
-👀 Esperando pessoa (WIP de revisão: <n>/<limite> — plano-em-revisao + aceita + pr-aberto)
+👀 Esperando pessoa (WIP de revisão: <n>/<limite> — plano-em-revisao + pr-aberto + em-revisao + em-verificacao + aceita + pronta-para-merge)
 - FT-031 plano-em-revisao há 1 dia → aprovar o plano (sdd-plano)
-- FT-030 aceita → abrir o PR (sdd-implementar)
-- FT-029 pr-aberto há 2 dias → revisar o PR <link>
+- FT-029 pr-aberto há 2 dias → esperando revisão: [REV] de <revisor> (sdd-revisar) <link>
+- FT-028 em-verificacao → esperando verificação: [VER] de <verificador> (sdd-verificar)
+- FT-027 pronta-para-merge → merge do PR <link>
+- FT-030 aceita (AFK) → abrir o PR (sdd-implementar)
+🔁 Retrabalho: FT-026 (de: em-revisao) → o codificador retoma no mesmo PR (sdd-implementar)
 
 ✅ Prontas para começar (por prioridade)
 | FT | Título | Tam. | Modo | Depende de |

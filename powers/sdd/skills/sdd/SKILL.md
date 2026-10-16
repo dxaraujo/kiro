@@ -41,7 +41,10 @@ chamada direto:
 | **atendimento** | o cliente pede consulta, extração ou explicação; nada muda no repositório | triagem: entrevista curta → `AT-nnn` no backlog, sprint sugerida, `[ATD]` no EWM · `sdd-atender`: assume → banco (só leitura) e bundle → resposta com "ok" → saldo de horas → desdobramentos |
 
 Toda hora trabalhada cabe numa tarefa da sprint: `[ESP]` (especificação do épico), `[DEV]`, `[REV]`, `[VER]` (por
-fatia) e `[ATD]` (por atendimento). As horas são lançadas na conclusão de cada tarefa, nunca nos GATEs.
+fatia; no AFK só a `[DEV]`) e `[ATD]` (por atendimento). **Lançar ≠ concluir:** lançar horas é registro de
+empenho, a qualquer momento numa tarefa iniciada (inclusive antes de um GATE); concluir é da skill do papel quando
+o trabalho dela termina, perguntando só o saldo — `[DEV]` no PR, `[REV]` ao aprovar, `[VER]` ao aceitar, `[ESP]`
+no GATE do backlog, `[ATD]` ao finalizar.
 
 ```
 ENTRADA       triar ─► backlog: EP rascunho · FT sem épico (padrão com ficha, rápida, direta) · AT + [ATD] ─► "mais algum?"
@@ -65,7 +68,20 @@ DEPOIS        merge (pessoa) ─► consolidar (drift, ELM as-built, CTs, conclu
 | Plano | dev (de preferência quem vai revisar o PR) | a forma do programa e o contrato de pronto — maior alavanca |
 | PR | quem revisa | o código, lido de verdade, com a evidência de aceite |
 
-Fatia **AFK**: o projeto pode dispensar o GATE do plano (a análise independente basta) — o PR nunca é dispensado.
+GATE do plano: sempre no HITL; no AFK, só na fatia de épico (a fatia AFK sem épico segue com a análise
+independente); na trilha rápida, `GATE na trilha rápida` do `sdd.md` decide antes do modo. PRD e backlog nunca são
+AFK. O PR e o merge nunca são dispensados.
+
+## Modos — o `modo` da fatia vale para todos os papéis
+
+| | **HITL** — pessoas nos papéis, subfluxos assíncronos | **AFK** — a IA coordena, um fluxo só |
+|---|---|---|
+| Quem roda | cada pessoa, a skill do seu papel | `sdd-loop` (`sdd-orquestrador` + subagentes) |
+| Codificador | revisão automática (rubrica C, subagente) → PR → `[DEV]` concluída | o loop leva a fatia até o PR |
+| Revisão | o revisor assume a `[REV]` e revisa o PR: aprova → VER; reprova → retrabalho | subagente, até 2 rodadas |
+| Verificação | o verificador assume a `[VER]` (só depois da REV): aceita → `pronta-para-merge`; rejeita → retrabalho | subagente |
+| Retrabalho | a `[DEV]` é reaberta e o codificador corrige no mesmo PR, que passa de novo pela REV | volta à implementação |
+| Tarefas no EWM | `[DEV]` `[REV]` `[VER]`, cada uma da sua pessoa | só a `[DEV]`, de quem disparou |
 
 ## Princípios
 

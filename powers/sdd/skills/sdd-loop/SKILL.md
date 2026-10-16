@@ -30,7 +30,8 @@ e pergunte se retoma. Retomar = continuar cada fatia da fase registrada no `stat
 2. Fica de fora (diga o motivo): HITL; trilha direta (é da sessão da pessoa); Definition of Ready não atendida; `bloqueada-por` não concluída e não
    presente antes no lote; já em andamento com outra pessoa.
 3. **Limite:** paralelismo do `sdd.md` (padrão 1, máximo 3) **e** vagas de WIP de revisão humana (limite
-   dos acordos menos as fatias já esperando pessoa: `plano-em-revisao`, `aceita`, `pr-aberto`). PR que ninguém vai
+   dos acordos menos as fatias já esperando pessoa: `plano-em-revisao`, `pr-aberto`, `em-revisao`,
+   `em-verificacao`, `aceita`, `pronta-para-merge`). PR que ninguém vai
    revisar hoje não deve ser produzido hoje.
 4. Proposta — **uma confirmação para o lote todo**:
    ```
@@ -38,10 +39,11 @@ e pergunte se retoma. Retomar = continuar cada fatia da fase registrada no `stat
    | FT | Título | Branch | Worktree |
    |---|---|---|---|
    | FT-031 | Bloquear a conta após 3 tentativas | feature/ft-031-bloquear-conta | .kiro/local/wt/ft-031 |
-   Plano AFK: <aprovação humana → o loop para no GATE do plano | análise basta → segue até o PR>
+   GATE do plano: fatias sem épico seguem com a análise L · fatias de épico param no GATE (uma pessoa aprova)
    Ao fim de cada fatia aprovada e aceita: push + PR? (sim/não)   — nunca merge; só se o sdd.md diz
    "perguntar a cada lote" (com "não — a pessoa abre", omita a linha: o loop para em `aceita`)
-   EWM: assumir as [DEV] do lote (responsável: <login de quem dispara>) e colocá-las em andamento
+   EWM: assumir as [DEV] do lote (responsável: <login de quem dispara>) e colocá-las em andamento — no AFK não
+   há [REV] nem [VER]: revisão e verificação são dos subagentes
    Confirma?
    ```
    Com "sim" e o MCP `elm`: assuma as `[DEV]` (`sdd-elm`); sem o MCP ou com falha → `ELM pendente: assumir a
@@ -83,11 +85,11 @@ seguinte da mesma fatia.
 | 1 | pesquisa | `sdd-pesquisador` (`sdd-pesquisar`) | `research.md` gravado |
 | 2 | plano | `sdd-codificador` (`sdd-plano`, Passos 2–3) | spec do Kiro gravada · ou `bloqueada` |
 | 3 | análise do plano | `sdd-revisor` (rubrica L) → `sdd-codificador` corrige | `ANALISE: OK` · 2 rodadas sem OK → `bloqueada` |
-| 4 | GATE do plano | você | Plano AFK = aprovação humana → commit do plano na worktree, **pare esta fatia** em `plano-em-revisao` e siga com as outras · "análise basta" → grave `fase: implementando` e siga |
+| 4 | GATE do plano | você | fatia **de épico** → commit do plano na worktree, **pare esta fatia** em `plano-em-revisao` e siga com as outras (retoma depois do GATE) · fatia **sem épico** → grave `fase: implementando` e siga |
 | 5 | implementação | `sdd-codificador` (`sdd-implementar`, Passos 0–2) | tarefas `[x]` e backpressure verde · ou `bloqueada` |
 | 6 | revisão do código | `sdd-revisor` (rubrica C) → volta à 5 com os achados | `VEREDITO: APROVADO` · 2ª reprovação → `bloqueada` |
 | 7 | verificação | `sdd-verificador` (`sdd-verificar`) | `ACEITO` · `REJEITADO` → volta à 5 uma vez; de novo → `bloqueada` |
-| 8 | entrega | você | `fase: aceita`; commit do que faltar; push + PR se autorizado no lote (texto do Passo 5 da `sdd-implementar`; o Kiro ainda pode pedir confirmação a cada push, conforme as permissões) → `fase: pr-aberto` |
+| 8 | entrega | você | `fase: aceita`; commit do que faltar; push + PR se autorizado no lote (texto do Passo 5 da `sdd-implementar`; o Kiro ainda pode pedir confirmação a cada push, conforme as permissões) → `fase: pronta-para-merge` |
 
 Depois de cada fase: grave a fase seguinte (`planejando` depois da pesquisa, `revisando` antes da revisão do
 código), atualize o log, as Rodadas e o Histórico do `status.md`; **commite imediatamente** na worktree os
@@ -116,9 +118,10 @@ Os **Kiro Workflows** do sdd (se instalados) não fazem parte do loop: são rece
   ELM pendente: <o que falhou ou ficou sem o MCP>
   Lições para registrar: <correções que o loop precisou — sdd-aprender>
   ```
-- **Horas, numa pergunta só** (com o MCP `elm`): uma tabela `tarefa | horas sugeridas` com as `[DEV]` do lote;
-  a pessoa ajusta e confirma de uma vez → `sdd-elm` modo *horas*. As `[REV]` e `[VER]` são lançadas por quem
-  revisa e verifica, na conclusão de cada uma.
+- **Horas e conclusão, numa pergunta só** (com o MCP `elm`): uma tabela `tarefa | horas sugeridas` com as `[DEV]`
+  das fatias que chegaram ao PR; a pessoa ajusta e confirma de uma vez → `sdd-elm` modo *horas* e modo
+  *conclusão* da `[DEV]`. No AFK as horas só vão para a `[DEV]`, ao concluir: revisão e verificação por subagente
+  não têm tarefa nem horas.
 - Worktrees ficam até o merge; remova depois (`git worktree remove .kiro/local/wt/<ft>`, sem `--force`).
 
 ## Log `.kiro/local/loop-<data>.md`

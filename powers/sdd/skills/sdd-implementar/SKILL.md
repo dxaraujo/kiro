@@ -1,6 +1,6 @@
 ---
 name: sdd-implementar
-description: "Implementa uma fatia do fluxo sdd a partir do plano aprovado (tasks.md), uma tarefa por vez, em ciclo de teste (vermelho → verde → refatorar), com backpressure — compilar, testes, lint e cobertura do sdd.md têm de passar antes de marcar a tarefa; commits pequenos, progresso registrado no status.md, revisão independente (sdd-revisar, rubrica C, até 2 rodadas) e abertura do PR. Usa as skills do toolkit ligadas ao agente codificador antes de escrever cada artefato. Também corrige achados da revisão, da verificação e do PR. Use em \"implementa a FT-031\", \"executa as tasks\", \"continua a implementação\", \"Start task\", \"abre o PR\", \"corrige os achados\"."
+description: "Implementa uma fatia do fluxo sdd a partir do plano aprovado (tasks.md), uma tarefa por vez, em ciclo de teste (vermelho → verde → refatorar), com backpressure — compilar, testes, lint e cobertura do sdd.md têm de passar antes de marcar a tarefa; commits pequenos, progresso registrado no status.md e abertura do PR. HITL: revisão automática (rubrica C por subagente) como backpressure antes do PR, que encerra a [DEV]; revisão e verificação oficiais são das pessoas, sobre o PR. AFK: revisão (até 2 rodadas) e verificação por subagente antes do PR. Retoma o retrabalho reaberto na REV ou na VER, no mesmo PR. Usa as skills do toolkit ligadas ao agente codificador antes de escrever cada artefato. Também corrige achados da revisão, da verificação e do PR. Use em \"implementa a FT-031\", \"executa as tasks\", \"continua a implementação\", \"Start task\", \"abre o PR\", \"corrige os achados\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -9,8 +9,9 @@ metadata:
 
 # sdd-implementar — Ciclo curto, verificação sempre
 
-Entrada: `.kiro/specs/<ft>-<slug>/` com o plano aprovado (`status.md` com fase `implementando`), na branch da
-fatia. No Kiro, cada tarefa também pode ser executada pelo **"Start task"** do `tasks.md` — as regras valem igual.
+Entrada: `.kiro/specs/<ft>-<slug>/` com o plano aprovado (`status.md` com fase `implementando` ou `retrabalho (de:
+…)`), na branch da fatia. O **modo** do `status.md` decide o fim: **HITL** termina no PR (Passo 5), com a `[DEV]`
+concluída; **AFK** passa antes pela revisão e pela verificação por subagente (Passos 3–4). No Kiro, cada tarefa também pode ser executada pelo **"Start task"** do `tasks.md` — as regras valem igual.
 
 Leia antes: `design.md` inteiro, `research.md`, `.kiro/steering/sdd.md` (comandos, regras críticas,
 regras aprendidas).
@@ -25,6 +26,10 @@ regras aprendidas).
   sequência no fim do `tasks.md` (`- [ ] 7. [R1] <achado> — origem: revisao-codigo-2.md`): os da seção "Achados
   abertos" do `status.md` (PR, pessoa), os do último `revisao-codigo-<N>.md` com `VEREDITO: REVISAR` e os cenários
   rejeitados do `verificacao.md`. Como as anteriores estão marcadas, elas são as primeiras não marcadas.
+- **Retrabalho** (`fase: retrabalho (de: em-revisao | em-verificacao)`, HITL): **`sdd-elm` modo *assumir***
+  com retrabalho — reabre a `[DEV]` (com "sim"; sem ação de reabertura na PA → `ELM pendente: reabrir [DEV]
+  FT-<nnn>` e aviso). Os achados vêm do último `revisao-codigo-<N>.md` ou dos cenários rejeitados do
+  `verificacao.md`; `fase: implementando`, linha no Histórico. Ao fim, o mesmo PR é atualizado (Passo 5).
 - Rode o comando de **testes** uma vez antes de mexer: vermelho antes de começar = problema do ambiente ou da
   base, não seu. Registre e avise; não "conserte" o que não é da fatia.
 
@@ -72,7 +77,13 @@ no `status.md`, não código.
 
 ## Passo 3 — Revisão independente
 
-`fase: revisando`; incremente "revisão do código" em Rodadas. Peça ao agente **`sdd-revisor`** (subagente) a
+**HITL — revisão automática (backpressure):** peça ao agente **`sdd-revisor`** (subagente) a rubrica **C**
+passando id, pasta, branch e "pré-PR" — relatório só na conversa, sem `revisao-codigo-<N>.md` e sem contar rodada.
+`REVISAR` → corrija os achados (tarefas `[R<n>]`) e repita, até 2 vezes; persistindo, mostre à pessoa, que decide
+seguir para o PR (os achados vão listados no texto do PR) ou corrigir antes. `APROVADO` → **Passo 5**: a revisão
+oficial (`[REV]`) e a verificação (`[VER]`) são das pessoas, sobre o PR. Sem subagente → siga para o Passo 5.
+
+**AFK:** `fase: revisando`; incremente "revisão do código" em Rodadas. Peça ao agente **`sdd-revisor`** (subagente) a
 rubrica **C** passando só: id da fatia, pasta, branch/worktree e rodada — **nunca** o seu raciocínio. Ele grava o
 `revisao-codigo-<N>.md`. Sem subagente disponível (você é um agente sem essa ferramenta) → pare aqui e devolva a
 quem chamou: "pronta para a revisão (rodada <N>)".
@@ -86,7 +97,7 @@ ele precisa estar na branch antes da abertura.
 - 2ª reprovação → `fase: bloqueada`; mostre à pessoa os relatórios e as opções: orientar a correção (zera as
   rodadas), voltar ao plano, ou aceitar explicitamente os achados restantes (quem e por quê no `status.md`).
 
-## Passo 4 — Verificação de aceite
+## Passo 4 — Verificação de aceite (só AFK)
 
 Incremente "verificação" em Rodadas e siga para a **`sdd-verificar`** (cenários de aceite executados de ponta a ponta, com evidência; de preferência
 pelo agente `sdd-verificador`). `ACEITO` → ela deixa a fatia em `fase: aceita`; `REJEITADO` → devolve para cá
@@ -95,9 +106,9 @@ os cenários reprovados (Passo 0).
 Com `ACEITO`: **commite imediatamente** `verificacao.md` e `CT.csv` antes de prosseguir para o Passo 5:
 `FT-<nnn> registrar verificação`. O PR cita esses arquivos e eles precisam estar na branch antes da abertura.
 
-## Passo 5 — PR
+## Passo 5 — PR e conclusão da `[DEV]`
 
-Com `fase: aceita` (revisão `APROVADO` e verificação `ACEITO`):
+Com a revisão automática feita (HITL) ou com `fase: aceita` (AFK: revisão `APROVADO` e verificação `ACEITO`):
 
 Quem abre o PR é a sessão da pessoa (com o "sim" dela) ou o `sdd-orquestrador` no loop. Como agente
 `sdd-codificador`, que não faz push, pare em "pronta para o PR" e entregue o título e a descrição do item 2.
@@ -112,7 +123,7 @@ Quem abre o PR é a sessão da pessoa (com o "sim" dela) ou o `sdd-orquestrador`
    O quê: <1–3 linhas do comportamento entregue>
    Cobre: HF-01 · 1.1, 1.2 · REG-01   (ELM: <ids | pendente>)
    Plano: .kiro/specs/<ft>-<slug>/ (research · requirements · design · tasks)
-   Revisão: revisao-codigo-<N>.md (APROVADO) · Aceite: verificacao.md (ACEITO, <n> cenários com evidência)
+   Revisão: <AFK: revisao-codigo-<N>.md (APROVADO) · Aceite: verificacao.md (ACEITO, <n> cenários) | HITL: revisão automática OK (achados aceitos: …) — revisão e aceite no PR>
    Backpressure: compilar ok · testes ok · lint ok · cobertura <x% | sem gate>
    Banco (DDL): <não se aplica | pendente — implantação bloqueada>
    Como ler: <ordem sugerida dos arquivos — do teste do cenário principal para o código que ele exercita>
@@ -121,9 +132,15 @@ Quem abre o PR é a sessão da pessoa (com o "sim" dela) ou o `sdd-orquestrador`
    O PR é para uma pessoa **ler o código**: pequeno, com a evidência e o caminho de leitura, sem despejar o plano.
 3. Numa só confirmação da pessoa: push e abertura do PR com a ferramenta do `sdd.md` (sem ferramenta →
    entregue título e descrição prontos).
-4. `status.md`: `fase: pr-aberto`, link do PR; commit e, com o mesmo "sim", push (o `status.md` vai junto no PR).
+4. `status.md`: HITL → `fase: pr-aberto`; AFK → `fase: pronta-para-merge`; link do PR; commit e, com o mesmo
+   "sim", push (o `status.md` vai junto no PR). Retrabalho → o push atualiza o mesmo PR; linha de horas na tabela
+   Retrabalho.
+5. **Conclusão da `[DEV]`:** mostre as horas já lançadas (`ccm_list_timesheet`) e pergunte só o saldo →
+   `sdd-elm` modo *horas*, depois modo *conclusão* só da `[DEV]`, numa confirmação. Sem MCP → `ELM pendente:
+   lançar <h>h e concluir [DEV] FT-<nnn>` no Histórico. HITL: avise que a `[REV]` está disponível para o revisor.
 
-O merge é de uma pessoa. Depois do merge: **`sdd-consolidar`**.
+O merge é de uma pessoa (HITL: depois de `pronta-para-merge`, quando a VER aceita). Depois do merge:
+**`sdd-consolidar`**.
 
 ## Trilha direta
 

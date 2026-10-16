@@ -4,7 +4,7 @@ description: "Alimenta o IBM ELM (registro oficial da documentação) a partir d
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.5.0"
+  version: "2.6.2"
 ---
 
 # sdd-elm — O ELM como fonte oficial

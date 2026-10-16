@@ -20,7 +20,7 @@ foi feita. Os nomes reais de tipos, pastas, campos e links são da project area:
 | Tarefa `[ESP]` do épico | EWM — Tarefa (filha do épico) | `task` | planejamento da sprint |
 | Tarefa `[ATD]` do atendimento | EWM — Tarefa (filha de `Atendimento`) | `task` | quando o AT entra na sprint (triagem com sprint aberta, encaixe ou planejamento) |
 | Critérios de aceite da fatia | campo de texto rico do IB (ou seção da descrição) | linha do `sdd.md` | publicação do IB |
-| Horas | EWM — timesheet da tarefa | `elm-ccm` › lançar horas | conclusão de cada tarefa ou sob pedido |
+| Horas | EWM — timesheet da tarefa | `elm-ccm` › lançar horas | a qualquer momento numa tarefa iniciada (padrão: ao fechar cada sessão) ou sob pedido; na conclusão, o saldo |
 | ET as-built (opcional) | DOORS Next — artefato | `Especificação Técnica` (título `ET - <fatia>`) | consolidação (depois do merge) |
 | Cenário verificado | ETM — Caso de Teste | importação do `CT.csv` | consolidação |
 | Defeito (trilha rápida) | EWM — Defeito | `defect` | já existe; a fatia referencia |

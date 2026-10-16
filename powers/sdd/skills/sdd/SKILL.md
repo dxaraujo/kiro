@@ -4,7 +4,7 @@ description: "Guia do fluxo sdd — engenharia agêntica orientada a especifica�
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.5.0"
+  version: "2.6.2"
 ---
 
 # sdd — Engenharia agêntica orientada a especificação
@@ -168,7 +168,7 @@ Nunca compacte no meio de uma fase.
   o power carregado), não em agentes específicos: gravam onde nenhum agente pode (steering, agentes, ET *as-built*,
   remoção de worktree). **O que os agentes não fazem:** push e PR (exceto o orquestrador no loop, com `ask`) — a
   skill entrega o comando pronto e a pessoa executa; merge, `--force`, `worktree remove` — nunca. O hub `sdd-iniciar` está em todos os agentes de papel, e a `sdd-status`
-  no `sdd-orquestrador`; os dois também funcionam na sessão padrão. Nenhuma skill depende de um agente para operar: o agente apenas recebe a skill
+  em todos os agentes, menos o `sdd-pesquisador`; os dois também funcionam na sessão padrão. Nenhuma skill depende de um agente para operar: o agente apenas recebe a skill
   pré-carregada para conveniência.
 - **Nenhuma skill cria branch ou `.kiro/specs/<ft>/status.md`** sem passar pelos Passos 3–4 da `sdd-desenvolver`
   (DoR, sprint, WIP, branch, commit). O `sdd-loop` é a única exceção (opera em worktree como orquestrador).

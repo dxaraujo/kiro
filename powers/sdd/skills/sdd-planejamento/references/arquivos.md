@@ -113,7 +113,7 @@ máxima das últimas sprints) quando houver histórico.
 
 | FT | Título | Tam. | Modo | Responsável | Revisor | Verificador | Status | Tarefa ELM | Observação |
 |---|---|---|---|---|---|---|---|---|---|
-| FT-031 | Bloquear a conta após 3 tentativas | M | HITL | joao.lima | ana.souza | ana.souza | concluida | DEV 669401 · REV 669402 · VER 669403 | |
+| FT-031 | Bloquear a conta após 3 tentativas | M | AFK | joao.lima | — | — | concluida | DEV 669401 | |
 | FT-033 | Avisar o usuário do bloqueio | M | HITL | ana.souza | joao.lima | rita.melo | → sprint <nn+1> | DEV 669410 · REV 669411 · VER 669412 | aguardando texto do e-mail |
 | FT-034 | Corrigir o texto do e-mail | P | — | joao.lima | — | — | concluida | DEV 669420 | puxada |
 

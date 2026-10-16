@@ -4,7 +4,7 @@ description: "Quebra um PRD aprovado do fluxo sdd em fatias verticais (tracer bu
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.5.0"
+  version: "2.6.2"
 ---
 
 # sdd-fatiar — PRD → fatias verticais

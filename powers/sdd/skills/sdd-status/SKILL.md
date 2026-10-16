@@ -4,7 +4,7 @@ description: "Painel do fluxo sdd, somente leitura — onde parei e o que fazer 
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.5.0"
+  version: "2.6.2"
 ---
 
 # sdd-status — Onde parei

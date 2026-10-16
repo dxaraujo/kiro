@@ -127,7 +127,7 @@ capacidade (revisão, vazão, HITL) e as opções, com a recomendada:
 Com a decisão do P.O. (ou de quem ele delegou): `sprint` e `responsavel` no `backlog.md` (e, na fatia HITL, revisor e
 verificador, que não sejam quem implementa — as `[REV]`/`[VER]` precisam deles), uma linha no
 `sprint-<nn>.md` com a Observação `encaixe: <decisão> (<quem decidiu>, <data>)`, pelo bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base), e a `sdd-elm` modo
-*sprint* para as tarefas da fatia. Na troca, as tarefas da fatia que sai vão
+*sprint* para as tarefas da fatia (AT: modo *atendimento*, Registrar). Na troca, as tarefas da fatia que sai vão
 para a próxima iteração (`sdd-elm`, só o `plannedFor`). Depois, volte à `sdd-desenvolver` (Passo 3, item 4). Sem
 decisão, a fatia não começa; urgência acelera a decisão, não a dispensa.
 

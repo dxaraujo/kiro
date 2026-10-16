@@ -65,7 +65,7 @@ Projeto sem ELM (`sdd.md` → ELM: não usa) → nada a fazer.
    do `sdd.md` que não bate exato com nenhum valor → o valor cujo nome **começa** com ele, e diga qual foi usado.
 6. **Campos que a PA exige** (os erros 403 "The '<atributo>' attribute needs to be set" dizem quais): a linha
    "Padrões do EWM" da seção ELM do `sdd.md` guarda os valores que o fluxo usa sempre (ex.: "Atendido por" /
-   categoria do time na Tarefa, a iteração de backlog para "Planejado para" de épico, IB e `[ATD]` fora da sprint);
+   categoria do time na Tarefa; "Planejado para" é sempre a iteração da sprint — nada nasce no EWM fora dela);
    recusa por atributo que falta → mostre o atributo, peça o valor uma vez e ofereça gravá-lo nessa linha.
 7. Nunca apague nada no ELM. Artefato que deixou de valer → peça à pessoa a marcação de obsoleto/remoção do módulo
    na UI (roteiro manual).
@@ -143,26 +143,26 @@ Depois: sugira a **`elm-sync`** para baixar ao bundle a versão oficial, que pas
 
 ## Modo backlog (épicos e fatias → EWM)
 
-**Todo trabalho tem pai:** épico → IB → tarefa para o que vem de PRD; o épico de **Sustentação** (um por release ou
-ano) para o resto. Ordem obrigatória de criação: épico, depois IB, depois tarefa. `Planejado para` é obrigatório
-em IB e tarefa: use sempre a iteração que a pessoa indicar (no planejamento, a da sprint).
+**Só nasce no EWM o que entra numa sprint:** o backlog do produto (épicos, fatias e atendimentos à espera) mora no
+`backlog.md`; quem chama este modo é o modo *sprint*, quando o item entra na sprint — nunca a triagem, o PRD ou o
+fatiamento. **Todo trabalho tem pai:** épico → IB → tarefa para o que vem de PRD; o épico de **Sustentação** (um por
+release ou ano) para o resto. Ordem obrigatória de criação: épico, depois IB, depois tarefa. `Planejado para` = a
+iteração da sprint, em todos.
 
-1. **Épico — nasce cedo:** a `sdd-triar` chama este modo ao registrar o `EP-nn` (a `sdd-prd`, se ficou
-   `pendente`), para o
-   pai existir quando o IB da fatia for criado. Tipo do `sdd.md` (a PA pode não ter "Épico": então é um **Item de
+1. **Épico — nasce na primeira sprint dele** (pela `[ESP]` da seção Especificação ou pela primeira fatia), antes
+   dos filhos. Tipo do `sdd.md` (a PA pode não ter "Épico": então é um **Item de
    Backlog pai**), título `[EP-03] <título>`, descrição mínima (problema, quem pede, resultado esperado; depois do
-   GATE, solução do PRD + link do PRD no repositório), responsável = o `po` da linha do épico e, se a PA exige
-   "Planejado para", a **iteração de backlog** ("Padrões do EWM" do `sdd.md`; sem ela, pergunte e ofereça gravar). Links **rastreia** → histórias, quando publicadas. Épico que nasce de um item do EWM: se
-   o item já é do tipo de épico, ele é o épico; senão o item vira filho do épico novo
+   GATE, solução do PRD + link do PRD no repositório), responsável = o `po` da linha do épico e "Planejado para" = a
+   iteração da sprint (não concluído na virada → só o `plannedFor` muda). Links **rastreia** → histórias, quando publicadas. Épico que nasce de um item do EWM (`origem: <id>` na
+   `obs` da linha do épico): se o item já é do tipo de épico, ele é o épico; senão o item vira filho do épico novo
    (`elm-ccm` › **trocar o pai** para o épico).
 2. **Sustentação e Atendimento** (uma vez por release/ano, se a linha `Sustentação:` do `backlog.md` estiver
    vazia): épico `[SUS-<ano>] Sustentação` e, filho dele, o IB `Atendimento` (pai das `[ATD]`); ids nessa linha.
-3. **Item de backlog por fatia** (`backlog no EWM` = `ao-fatiar`, logo após o GATE do backlog — na fatia sem épico,
-   ao registrar na `sdd-triar` —, ou `na-sprint`):
+3. **Item de backlog por fatia** (quando a fatia entra na sprint):
    título `[FT-031] <título>`, `parent` = épico (fatia sem épico sem item de origem: o épico de
    Sustentação; com item de origem não há IB novo; direta: sem IB), pontos pelo tamanho só se o `sdd.md` tiver a tabela de pontos (opcional), descrição com modo
    AFK/HITL, `bloqueada por` e pasta prevista; responsável = P.O. (o IB é do produto; sem responsável a PA pode
-   recusar qualquer mudança de estado depois); "Planejado para" = a iteração de backlog, quando a PA exige. **Critérios de aceite:** os
+   recusar qualquer mudança de estado depois); "Planejado para" = a iteração da sprint. **Critérios de aceite:** os
    cenários que a fatia cobre (`cobre`), em Dado / Quando / Então, copiados do PRD (fatia sem épico: da ficha —
    cenários, comportamento esperado ou "pronto quando", conforme a trilha), no campo da linha "Critérios
    de aceite no IB" do `sdd.md` (Markdown; o power `elm` grava como texto rico) — sem o campo, numa seção "Critérios de
@@ -206,8 +206,9 @@ seções do `sprint-<nn>.md` (fatias com responsável, revisor e verificador; es
    origem ou Sustentação. Campos obrigatórios da Tarefa (categoria de horas, OTR, classificação, Clarity) pela
    `elm-ccm` (Criar), pela linha "Classificação da tarefa" do `sdd.md` e pela linha "Padrões do EWM" do `sdd.md` (regra 6).
    Grave os ids na coluna "Tarefa ELM" do `sprint-<nn>.md` (fatias: `DEV <id> · REV <id> · VER <id>`) e no `elm`
-   do `backlog.md`.
-4. **Virada:** tarefas não concluídas (inclusive `[ESP]` e `[ATD]`) e IBs não concluídos → só o `plannedFor`
+   do `backlog.md`. AT da seção Atendimento sem `elm` → modo *atendimento* (Registrar), no mesmo lote.
+4. **Virada:** tarefas não concluídas (inclusive `[ESP]` e `[ATD]`), IBs e épicos não concluídos (inclusive
+   Sustentação e Atendimento) → só o `plannedFor`
    muda para a nova iteração (o pai não muda; move, nunca recria); roteiro manual de **baseline** (componente RM +
    GC) se o projeto exige baseline por sprint.
 
@@ -238,9 +239,9 @@ Chamado pela skill do papel antes de trabalhar: `sdd-desenvolver` (`[DEV]`), `sd
 ## Modo atendimento
 
 - **Registrar** (chamado pela `sdd-triar`): `[ATD] AT-<nnn> <título>`, filha do IB "Atendimento" (linha
-  `Sustentação:` do `backlog.md`), `plannedFor` = a iteração que a triagem confirmou (sprint aberta; Kanban → a
-  iteração corrente; sem sprint aberta, ou acima da reserva → sem `plannedFor`, ou, se a PA exige "Planejado
-  para", a iteração de backlog dos "Padrões do EWM" do `sdd.md`), responsável = quem vai atender, estimativa. Fica no
+  `Sustentação:` do `backlog.md`), `plannedFor` = a iteração da sprint em que o AT entrou (Kanban → a iteração corrente). AT
+  sem sprint (`backlog`) não é registrado: a `[ATD]` nasce quando a triagem, o encaixe ou o planejamento o põe numa
+  sprint. Responsável = quem vai atender, estimativa. Fica no
   estado inicial: quem atende a assume (modo *assumir*) ao executar.
 - **Concluir** (chamado pela `sdd-atender`): depois do saldo de horas (modo horas), estado de conclusão da PA.
 

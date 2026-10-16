@@ -45,10 +45,8 @@ sem pessoa na conversa) → "PRD, backlog e atendimento nunca são AFK — espec
    não passou pela triagem → "use `sdd-triar`" e pare. Pasta de trabalho: a da `sdd-especificar`
    (`.kiro/local/especificacao/<EP>-<slug>/`, `slug` em kebab-case, sem acento); sem ela → "use
    `sdd-especificar EP-<nn>`" e pare (é ela que assume a `[ESP]` e monta a pasta).
-4. **Registre o épico no EWM já agora**, se a coluna `elm` dele está `—` ou `pendente` (projeto com ELM): `sdd-elm` modo *backlog*, só o épico (`[EP-nn]
-   <título>`, descrição = o problema), com confirmação; o id fica no `rascunho.md` da pasta de trabalho e vai para a coluna `elm`
-   do `backlog.md` no commit do GATE (até lá, nada da especificação vai para a base). Assim o pai existe para os
-   IBs das fatias. Sem o power `elm` → `ELM pendente [<chave>]: épico EP-nn` no `rascunho.md`.
+4. **EWM:** nada a registrar aqui — o épico já existe se a `[ESP]` dele está numa sprint (o modo *sprint* da
+   `sdd-elm` o cria antes da tarefa); fora de sprint, nasce quando entrar numa.
 
 ## Passo 2 — Entrevistar
 

@@ -1,6 +1,6 @@
 ---
 name: sdd-fatiar
-description: "Quebra um PRD aprovado do fluxo sdd em fatias verticais (tracer bullets) — cada fatia atravessa todas as camadas, entrega um comportamento verificável de ponta a ponta, cita as histórias e cenários que cobre, as dependências (bloqueada por), o tamanho (P/M/G, nunca maior) e o modo de autonomia (AFK: o agente faz sozinho até o PR · HITL: precisa de uma pessoa no meio). Grava o backlog em <produto>/backlog.md, conduz o GATE do backlog e, com ELM, publica as fatias como itens de backlog no EWM pela sdd-elm. Use em \"fatiar o PRD\", \"quebrar em histórias\", \"gerar o backlog\", \"criar os itens de backlog\", \"PRD para issues\", \"refinar o backlog\"."
+description: "Quebra um PRD aprovado do fluxo sdd em fatias verticais (tracer bullets) — cada fatia atravessa todas as camadas, entrega um comportamento verificável de ponta a ponta, cita as histórias e cenários que cobre, as dependências (bloqueada por), o tamanho (P/M/G, nunca maior) e o modo de autonomia (AFK: o agente faz sozinho até o PR · HITL: precisa de uma pessoa no meio). Grava o backlog em <produto>/backlog.md, conduz o GATE do backlog e deixa os itens do EWM para quando as fatias entram na sprint. Use em \"fatiar o PRD\", \"quebrar em histórias\", \"gerar o backlog\", \"criar os itens de backlog\", \"PRD para issues\", \"refinar o backlog\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -97,10 +97,8 @@ fatia ponta a ponta.
 
 ## Passo 4 — Próximos passos (na mesma resposta)
 
-- Com ELM e `backlog no EWM` = `ao-fatiar` no `sdd.md`: **`sdd-elm`** modo *backlog* — cria o épico (se ainda não existe no EWM) e um item de backlog por fatia,
-  ligados às histórias do DOORS Next ("implementa") e ao épico (pai), com os critérios de aceite de cada fatia;
-  `Planejado para` = a iteração que a pessoa indicar (no backlog do produto, a da entrega ou release). Com
-  `na-sprint` → nada aqui: o planejamento cria os itens das fatias que entram na sprint.
+- Com ELM: nada no EWM aqui — o item de backlog de cada fatia nasce quando ela entra na sprint (o planejamento
+  chama a `sdd-elm`).
 - **`sdd-planejamento`** — encaixar as fatias na sprint (ou no fluxo Kanban).
 - Para começar uma fatia já: "vamos trabalhar na FT-031" (`sdd-desenvolver`, ou o hub `sdd-iniciar`).
 

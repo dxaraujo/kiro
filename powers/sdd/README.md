@@ -166,7 +166,9 @@ ganha `git switch`, o `sdd-produto` a pasta `.kiro/local/especificacao/` e os an
 verificador o ELM pelo power `elm` (`includePowers: true`, só para a própria tarefa); o servidor `elm` sai do
 `mcp.json` do projeto. Requer o power `elm` ≥ 1.3.0 e o `mcp-elm` ≥ 1.0.38 (anexos; mudança de estado em várias transições).
 Na 2.6.0, "atualizar os agentes do sdd" de novo: o `sdd-revisor` passa a gravar a revisão do PRD na pasta de
-trabalho local, e o `sdd.md` ganha a linha "Padrões do EWM" ("atualizar a configuração do sdd"). Projeto configurado com o power
+trabalho local, e o `sdd.md` ganha a linha "Padrões do EWM" ("atualizar a configuração do sdd"). Na 2.6.1, nada nasce no EWM
+fora de sprint: épico, item de backlog e `[ATD]` são criados quando entram na sprint, com "Planejado para" = a
+iteração dela; saem a opção `backlog no EWM` e a iteração de backlog dos "Padrões do EWM". Projeto configurado com o power
 `sdd2` ou com a v1 do `sdd`: desinstale o power antigo, instale este e peça "atualizar a configuração do sdd" — a
 setup pergunta a pasta do produto, junta os steerings num só, renomeia hooks, workflows e agentes e move
 `.kiro/produto/` e `.kiro/aprendizado/` com `git mv`.

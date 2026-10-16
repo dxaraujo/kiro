@@ -139,7 +139,6 @@ Falhou ao rodar → mostre o erro; a pessoa decide (corrigir o comando, seguir a
      |---|---|
      | Tipos e pastas (HF, REG, GL, épico, fatia) | pelos nomes de `rm.requirements-types`/`rm.folders`/`workitem-types`, por proximidade |
      | Publicar requisitos | `na-aprovacao` (no GATE do PRD) |
-     | Backlog no EWM | `na-sprint` (sprints futuras mudam) |
      | ET as-built | `não publica` |
      | Manual no DOORS Next | `nada` |
      | Pontos P/M/G no EWM | `não` (o fluxo prevê pela vazão; `2 · 3 · 5` se o time usa o relatório de velocidade do EWM) |
@@ -149,9 +148,8 @@ Falhou ao rodar → mostre o erro; a pessoa decide (corrigir o comando, seguir a
      Tipo ou pasta sem nome parecido no `pa_*.json` → aí sim pergunte, só esse. Também sem perguntar: os títulos das tarefas (linha "Tarefas", padrão do template); o tipo do épico (Item de Backlog
      pai se a PA não tem Épico); o campo de critérios de aceite (o de `workitem-types[IB].fields` com "aceite" no
      nome; não há → `descrição`); a classificação de cada tarefa (valores da `elm-setup` etapa 4d; a PA não tem o
-     campo → "a PA não tem"). **Padrões do EWM:** a iteração de backlog (de `ccm.iterations`, a que o time usa
-     como backlog do produto; não há → `—`) e a categoria do time para "Atendido por"/`filedAgainst` da Tarefa (a do
-     time de `ccm.team-areas`), propostos numa linha só; outros atributos obrigatórios aparecem nas recusas da PA e a
+     campo → "a PA não tem"). **Padrões do EWM:** a categoria do time para "Atendido por"/`filedAgainst` da Tarefa (a do
+     time de `ccm.team-areas`); "Planejado para" não entra — é sempre a iteração da sprint; outros atributos obrigatórios aparecem nas recusas da PA e a
      `sdd-elm` oferece gravá-los depois. Sustentação e Atendimento não são perguntados: a `sdd-elm` os cria na primeira
      sprint e grava os ids no `backlog.md`.
    - **ELM nos agentes:** pelo **power `elm`** instalado, com `includePowers: true` nos agentes que usam ELM — o

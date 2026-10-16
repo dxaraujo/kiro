@@ -15,7 +15,7 @@ foi feita. Os nomes reais de tipos, pastas, campos e links são da project area:
 | História `HF-nn` (conceito OKF em `elm/`) | DOORS Next — artefato | `História de Usuário` (título `HF - <nome>`) | GATE do PRD (`na-aprovacao`) ou merge (`no-merge`) |
 | Regra `REG-nn` (conceito OKF em `elm/`) | DOORS Next — artefato | `Regra` (título `REG - <nome>`) | idem, **antes** das histórias (elas embutem as regras) |
 | Termo `GL-<termo>` (conceito OKF em `elm/`) | DOORS Next — artefato | `Termos de Glossário` (título = o termo) | idem, antes das regras |
-| Fatia `FT-nnn` | EWM — Item de Backlog (story, *plan item*) | `com.ibm.team.apt.workItemType.story` | conforme `backlog no EWM` (seção ELM do `sdd.md`): ao fatiar ou na sprint |
+| Fatia `FT-nnn` | EWM — Item de Backlog (story, *plan item*) | `com.ibm.team.apt.workItemType.story` | quando a fatia entra na sprint |
 | Tarefas `[DEV]` `[REV]` `[VER]` da fatia | EWM — Tarefa (filha do IB, *execution item*) | `task` | planejamento da sprint |
 | Tarefa `[ESP]` do épico | EWM — Tarefa (filha do épico) | `task` | planejamento da sprint |
 | Tarefa `[ATD]` do atendimento | EWM — Tarefa (filha de `Atendimento`) | `task` | triagem do atendimento (`sdd-triar`) |

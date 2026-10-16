@@ -89,7 +89,7 @@ próximo fechamento registra.
 ## Passo 6 — Do GATE do PRD ao fim da `[ESP]`
 
 - **GATE do PRD** (`sdd-prd`): aprovado → a pasta de trabalho vai para `<produto>/epicos/<EP>-<slug>/` num único
-  commit na base, com a revisão P (a `sdd-prd` faz). A partir daí a base é a fonte; a pasta local pode ser apagada
+  commit na base, com a revisão P (a `sdd-prd` faz, pelo bloco Gravar na base). A partir daí a base é a fonte; a pasta local pode ser apagada
   pela pessoa.
 - **GATE do backlog** (`sdd-fatiar`): conclui a `[ESP]`, perguntando só o saldo de horas ainda não lançado.
 

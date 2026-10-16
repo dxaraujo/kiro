@@ -72,11 +72,9 @@ URL abaixo, nunca um caminho local:
 | Lançamento de horas | Na conclusão de cada tarefa (e sob pedido a qualquer momento); nunca nos GATEs intermediários |
 
 ## Definition of Ready (fatia)
-- [ ] Cenários de aceite definidos no PRD aprovado (ou defeito com comportamento esperado claro)
-- [ ] Nenhuma decisão bloqueante em aberto
-- [ ] Dependências concluídas ou na mesma sprint antes dela
-- [ ] Tamanho ≤ G · modo AFK/HITL declarado
-- [ ] Cabe em uma janela de contexto: o agente consegue pesquisar, planejar e implementar sem perder o fio
+
+A do fluxo, por trilha: [../../sdd-fatiar/references/backlog.md](../../sdd-fatiar/references/backlog.md#definition-of-ready-o-que-faz-uma-fatia-pronta).
+O time só acrescenta itens próprios aqui (ex.: "massa de teste disponível"), nunca afrouxa os de lá.
 
 ## Definition of Done (fatia)
 - [ ] Plano aprovado (GATE do plano) e seguido; desvios registrados no design.md

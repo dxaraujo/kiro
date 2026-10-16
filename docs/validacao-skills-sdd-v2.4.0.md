@@ -8182,6 +8182,14 @@ explicitamente que ela roda só na sessão padrão.
 
 ### Etapa 5 — Base e backlog com dono por coluna
 
+> **✅ Feita (power `sdd` 2.5.0, branch `sdd-v2.5.0-etapa5a8`).** Bloco único **Gravar na base** no formato do
+> backlog (troca com "sim", `pull --ff-only` sem merge/rebase, commit, push/PR curto ou comando entregue, voltar à
+> branch), citado por triar, atender, prd, entrevistar (glossário), planejamento, consolidar e aprender; coluna
+> `pasta` em `## Épicos`; dono de cada transição do `status` do épico; **uma** Definition of Ready, por trilha, no
+> formato do backlog (`arquivos.md` e `sdd-desenvolver` apontam para ela); virada grava `sprint` = nn+1 das fatias
+> e AT migrados; consolidar confirma o merge pela ferramenta de PR (`--merged` não vê squash); loop fase 8 grava o
+> link do PR e commita. `grep 'commit na base'` só acha linhas que citam o bloco.
+
 **Objetivo:** um único bloco "Gravar na base" e uma tabela "quem escreve o quê" que todas as skills citam.
 **Fecha:** S04-D3, S04-D4, S04-D5, S06-D3, S10-D2, S10-D3, S17-D1, S17-D2, S18-D1, S09-D1, X4.
 

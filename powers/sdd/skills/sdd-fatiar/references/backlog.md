@@ -18,9 +18,9 @@ Sustentação: [SUS-2026] [612000](https://elm.exemplo/ccm/resource/itemName/com
 
 ## Épicos
 
-| id | título | status | prioridade | prd | elm |
-|---|---|---|---|---|---|
-| EP-03 | Bloqueio por tentativas de login | fatiado | 1 | [prd](epicos/EP-03-bloqueio-login/prd.md) | [612001](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612001) |
+| id | título | status | prioridade | prd | pasta | elm |
+|---|---|---|---|---|---|---|
+| EP-03 | Bloqueio por tentativas de login | fatiado | 1 | [prd](epicos/EP-03-bloqueio-login/prd.md) | [pasta](epicos/EP-03-bloqueio-login/) | [612001](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612001) |
 
 ## Fatias — EP-03 Bloqueio por tentativas de login
 
@@ -47,6 +47,7 @@ linha da tabela — sem quebra de linha nem `|` dentro de célula (troque por `/
 | Coluna | Valores |
 |---|---|
 | épico `status` | `rascunho` · `em-revisao` · `aprovado` · `fatiado` · `concluido` · `cancelado` (o mesmo do frontmatter do PRD; publicação no ELM fica no `elm` do PRD, não no status) · `rascunho` com `prd` `—` = registrado pela `sdd-triar`, PRD ainda não escrito ("a descobrir" no roadmap) |
+| épico `pasta` | `[pasta](epicos/<EP>-<slug>/)` (criada pela `sdd-triar`) ou `—`; backlog antigo sem a coluna → a próxima escrita a acrescenta |
 | `trilha` | só nas fatias sem épico: `padrão` · `rápida` · `direta` (fatia de épico é sempre padrão) |
 | fatia `origem` | só nas fatias sem épico: o item ou o pedido que a originou — `DF 4567`, `IB 611`, `AT-012`, `pedido: <resumo>` |
 | `ficha` | só nas fatias sem épico: `[ficha](fatias/FT-<nnn>-<slug>.md)` ou `—` — obrigatória na padrão (formato na `sdd-triar`, `references/ficha.md`) |
@@ -67,8 +68,11 @@ linha da tabela — sem quebra de linha nem `|` dentro de célula (troque por `/
 
 | Transição | Skill |
 |---|---|
-| épico registrado (`rascunho`, `prd` `—`) | `sdd-triar` |
-| status do PRD | `sdd-prd` |
+| épico registrado (`rascunho`, `prd` `—`, `pasta`) | `sdd-triar` |
+| épico `aprovado` e `prd` (no GATE do PRD; antes, o estado mora no `prd.md` da pasta de trabalho) | `sdd-prd` |
+| épico `fatiado` (GATE do backlog) | `sdd-fatiar` |
+| épico `concluido` (última fatia concluída) | `sdd-consolidar` |
+| épico `cancelado` | o P.O., pela `sdd-fatiar` (refinamento) |
 | fatias criadas, divididas, juntadas, canceladas · `pronta` (DoR conferida) | `sdd-fatiar` |
 | `sprint`, `responsavel`, prioridade · `pronta` (DoR conferida de novo no planejamento) · encaixe durante a sprint | `sdd-planejamento` |
 | fatia sem épico (padrão, rápida, direta), ficha e `falta:` em `obs` | `sdd-triar` (na base) |
@@ -80,10 +84,32 @@ linha da tabela — sem quebra de linha nem `|` dentro de célula (troque por `/
 
 ## Definition of Ready (o que faz uma fatia `pronta`)
 
-Cenários de aceite definidos (`cobre`) num PRD `aprovado` (ou `fatiado`) — ou, na fatia sem épico: padrão com a
-ficha aprovada pelo P.O.; rápida com o comportamento esperado claro, sem regra nova e tamanho ≤ M; direta com o
-pedido numa frase e tamanho P; nenhuma decisão bloqueante `em aberto`; dependências concluídas ou planejadas antes; tamanho ≤ G;
-modo AFK/HITL declarado. Deixou de valer (PRD reaberto, decisão nova em aberto) → volta a `backlog`.
+A única do fluxo — triagem, fatiamento, planejamento e `sdd-desenvolver` conferem por aqui.
+
+| Trilha | Pronta quando |
+|---|---|
+| padrão de épico | cenários de aceite em `cobre` num PRD `aprovado`/`fatiado`; `bloqueada-por` concluídas ou com o que a fatia precisa já na base |
+| padrão sem épico | ficha `aprovada por` o P.O., com cenários `C<n>` |
+| rápida | comportamento esperado claro (na origem ou na ficha), sem regra nova, tamanho ≤ M |
+| direta | o pedido cabe numa frase, sem regra nova, tamanho P |
+| todas | nenhuma decisão bloqueante `em aberto` (`decisoes.md` ou ficha); tamanho ≤ G; modo AFK/HITL declarado; cabe numa janela de contexto |
+
+Deixou de valer (PRD reaberto, decisão nova em aberto) → volta a `backlog`.
+
+## Gravar na base
+
+O bloco único para todo artefato de produto (`backlog.md`, fichas, PRD, `sprint-<nn>.md`, registro de AT, glossário,
+ADRs, lições, `sdd.md` Regras aprendidas). As skills citam este bloco em vez de repetir:
+
+1. **Base:** fora dela → "Troco para `<base>`? (sim)" — sem "sim", pare; árvore com alterações não commitadas →
+   avise e pare (nunca ofereça descartar, `stash` ou `reset`). Na base: `git pull --ff-only`; falhou (divergiu) →
+   avise e pare, sem merge nem rebase.
+2. **Grave** só o que a skill manda.
+3. **Commit** pequeno, só com o que gravou, mensagem no padrão do `sdd.md`.
+4. **Publicar:** push direto ou PR curto, conforme "Artefatos de produto" no `sdd.md`, com o "sim" da pessoa
+   (agente sem push → entregue o comando pronto; PR curto → diga o nome da branch e o link). Conflito de id no
+   push → a regra de conflito abaixo.
+5. Ao terminar, ofereça voltar à branch anterior.
 
 ## Regras
 

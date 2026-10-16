@@ -102,8 +102,8 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
    Capacidade: revisão <h>h (usa <x>h) · especificação <h>h (usa <x>h) · vazão prevista <n> fatias / <p> pts · HITL <h>h
    Fica de fora (por capacidade): <FT…>
    ```
-7. "ok" → grave `sprints/sprint-<nn>.md`, `sprint`, `responsavel` e `status` no `backlog.md`, commit na base
-   (artefato de produto) e **chame sempre a `sdd-elm` modo *sprint*** (planos, IBs e tarefas `[DEV]` `[REV]`
+7. "ok" → grave `sprints/sprint-<nn>.md`, `sprint`, `responsavel` e `status` no `backlog.md` pelo bloco
+   [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base) e **chame sempre a `sdd-elm` modo *sprint*** (planos, IBs e tarefas `[DEV]` `[REV]`
    `[VER]` `[ESP]` na iteração escolhida), para a sprint e o EWM ficarem iguais. Sem MCP ou com falha, a
    coluna "Tarefa ELM" fica `pendente` e a `sdd-elm` publica depois.
 
@@ -124,7 +124,7 @@ capacidade (revisão, vazão, HITL) e as opções, com a recomendada:
 
 Com a decisão do P.O. (ou de quem ele delegou): `sprint` e `responsavel` no `backlog.md` (e, na fatia HITL, revisor e
 verificador, que não sejam quem implementa — as `[REV]`/`[VER]` precisam deles), uma linha no
-`sprint-<nn>.md` com a Observação `encaixe: <decisão> (<quem decidiu>, <data>)`, commit na base e a `sdd-elm` modo
+`sprint-<nn>.md` com a Observação `encaixe: <decisão> (<quem decidiu>, <data>)`, pelo bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base), e a `sdd-elm` modo
 *sprint* para as tarefas da fatia. Na troca, as tarefas da fatia que sai vão
 para a próxima iteração (`sdd-elm`, só o `plannedFor`). Depois, volte à `sdd-desenvolver` (Passo 3, item 4). Sem
 decisão, a fatia não começa; urgência acelera a decisão, não a dispensa.
@@ -144,8 +144,8 @@ screenshot). Registre o retorno do P.O. no `sprint-<nn>.md`; pedido novo vira ce
    (planejadas × lançadas) e aponte as tarefas concluídas sem horas lançadas — só aqui, no fechamento.
 3. **Fechar:** concluídas contam na vazão e nos pontos; não concluídas — fatias, `[ESP]` e `[ATD]` — **migram**
    para a próxima sprint (no `sprint-<nn>.md` antigo ficam com "→ sprint <nn+1>"; o histórico não é apagado) e
-   ele fica com `**Situação:** fechada`. AT migrado → `sprint` = nn+1 na linha de `## Atendimentos` do
-   `backlog.md`; AT em `backlog` (triado sem sprint aberta) entra no planejamento da próxima como as fatias.
+   ele fica com `**Situação:** fechada`. Fatia ou AT migrado → `sprint` = nn+1 na linha do `backlog.md` (fatias e
+   `## Atendimentos`), pelo bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base). AT em `backlog` (triado sem sprint aberta) entra no planejamento da próxima como as fatias.
 4. Recalcule vazão média, velocidade e horas por tipo (`equipe.json` → `historico`), recalibre a reserva de
    atendimento pelo consumido e replaneje a próxima pelo modo sprint (migradas consomem capacidade primeiro).
 5. **ELM** — `sdd-elm` modo *sprint*, virada: as tarefas não concluídas só mudam o `plannedFor` para a nova

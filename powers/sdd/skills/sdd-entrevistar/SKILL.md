@@ -83,7 +83,9 @@ Situações: `decidida` (uma pessoa respondeu) · `confirmada` (fonte encontrada
 
 ## Passo 4 — Linguagem ubíqua
 
-Todo termo de negócio que apareceu (novo, renomeado ou desambiguado) vai para o glossário do projeto:
+Todo termo de negócio que apareceu (novo, renomeado ou desambiguado) vai para o glossário do projeto (artefato de
+produto: pelo bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base); durante uma especificação em andamento, o termo fica no `decisoes.md` da pasta de
+trabalho e vai ao glossário no GATE do PRD):
 
 ```markdown
 | Termo | Definição | Evitar | Fonte | ELM |

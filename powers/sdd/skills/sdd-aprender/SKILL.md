@@ -16,9 +16,8 @@ resolve hoje; corrigir o ambiente resolve para sempre. Arquivos (versionados):
 - a seção **Regras aprendidas** do `.kiro/steering/sdd.md` — regras promovidas de **julgamento** (o revisor
   cobra, o plano respeita; o steering é sempre carregado, então cada regra é curta, imperativa, com exemplo).
 
-Os dois só mudam na **branch base** (artefato de produto): antes de gravar, `git switch <base>` e
-`git pull --ff-only` (com alterações pendentes na branch da fatia → commite-as ou peça à pessoa); depois, commit
-pequeno e push ou PR curto com o "sim" da pessoa, como diz "Artefatos de produto" no `sdd.md`.
+Os dois só mudam na **branch base** (artefato de produto), pelo bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base) (com
+"sim" na troca de branch; alterações pendentes na branch da fatia → commite-as ou peça à pessoa antes).
 
 **Ordem de preferência da correção:** (1) erro **mecânico** → checagem determinística (lint, teste, hook, CI) —
 ponto final, não vira texto; (2) regra de **julgamento** → seção Regras aprendidas do `sdd.md` (o revisor

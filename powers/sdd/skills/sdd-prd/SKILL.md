@@ -120,8 +120,7 @@ Aprovar? (o P.O. ou quem ele delegou)
 - Aprovado → no `prd.md`: `status: aprovado`, versão `1.0`, data e quem aprovou no rodapé. Em **cada** conceito de
   `elm/`: `status: stable` e um `verified` com `{ by: human:<login de quem aprovou>, at: <agora> }` — sem esse
   `verified` humano a `sdd-elm` não publica. Entrada `**Update**` no `log.md`. Leve a pasta de trabalho para a
-  **base**: `git switch <base>` (com "sim") e `git pull --ff-only` (árvore suja ou falha → avise e pare, sem merge
-  nem rebase); copie-a para `<produto>/epicos/<EP>-<slug>/` (substitui o `rascunho.md` e o `decisoes.md` da
+  **base**, pelo bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base): copie-a para `<produto>/epicos/<EP>-<slug>/` (substitui o `rascunho.md` e o `decisoes.md` da
   triagem), com o `revisao-prd-<N>.md`; na linha do épico no `backlog.md`, `status` `aprovado` e `prd` = o link do
   `prd.md`. **Um** commit (padrão de commit do `sdd.md`), direto ou por PR curto, conforme "Artefatos de produto"
   no `sdd.md`; nunca numa branch de fatia. Antes, feche a sessão pela `sdd-especificar` (Passo 5), para a `[ESP]`

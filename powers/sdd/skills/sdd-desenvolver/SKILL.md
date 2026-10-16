@@ -61,14 +61,9 @@ item, a trilha registrada não serve (a "rápida" tem regra de negócio nova, a 
 Vale para todas as trilhas. Tudo conferido **antes** de criar branch ou mexer no EWM; falhou um item → diga qual e
 o caminho, e não comece.
 
-1. **Definition of Ready.**
-   - Padrão de épico: a fatia está `pronta` no `backlog.md` ou passa agora — cenários de aceite em `cobre`, PRD
-     `aprovado`/`fatiado`, nenhuma decisão bloqueante `em aberto` (`decisoes.md`), `bloqueada-por` concluídas ou com
-     o que a fatia precisa já na base, tamanho ≤ G, modo AFK/HITL declarado.
-   - Padrão sem épico: ficha `aprovada por` o P.O., com cenários `C<n>` e nenhuma decisão `em aberto`, tamanho ≤ G,
-     modo declarado.
-   - Rápida: comportamento esperado claro, sem regra nova, tamanho ≤ M, modo declarado.
-   - Direta: o pedido cabe numa frase, sem regra nova, tamanho P.
+1. **Definition of Ready** da trilha — a do formato do backlog
+   ([../sdd-fatiar/references/backlog.md](../sdd-fatiar/references/backlog.md#definition-of-ready-o-que-faz-uma-fatia-pronta),
+   mais os itens próprios do `acordos.md`): a fatia está `pronta` ou passa agora.
    - Falhou → `sdd-entrevistar`, `sdd-fatiar` (refinamento) ou `sdd-triar` (retomar a triagem: ficha e `falta:` das
      fatias sem épico).
 2. **Responsável.** A coluna `responsavel` do `backlog.md` é outra pessoa → pergunte se ela sabe; trocar é do

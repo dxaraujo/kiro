@@ -24,9 +24,8 @@ Ficha da fatia sem épico: [references/ficha.md](references/ficha.md).
 
 ## Passo 1 — O que chegou
 
-**Antes de tudo** — a triagem lê e escreve na base: fora dela → "Troco para `<base>` para triar? (sim)" e, no fim,
-ofereça voltar à branch anterior; depois `git pull --ff-only`. Alterações locais não commitadas → avise e pare;
-nunca ofereça descartar, `stash` ou `reset`.
+**Antes de tudo** — a triagem lê e escreve na base: itens 1 e 5 do bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base) (troca
+com "sim", `pull --ff-only`, árvore suja → pare; no fim, oferecer voltar).
 
 | Entrada | Como ler |
 |---|---|

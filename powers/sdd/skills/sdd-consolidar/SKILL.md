@@ -13,10 +13,9 @@ O plano da fatia (`research`, `design`, `tasks`) é andaime: cumpriu o papel qua
 fica valendo é a documentação oficial no ELM — e ela tem de descrever o que **foi** construído. Esta skill fecha a
 distância entre os dois.
 
-Entrada: fatia em `pronta-para-merge` (ou, de versões antigas, `pr-aberto`/`aceita`) cujo PR foi **mergeado** (confira: `git branch -r --merged origin/<base>` ou a
-ferramenta de PR; não mergeado → pare). Tudo aqui é gravado na **base**: confirmado o merge, "Troco para
-`<base>`? (sim)" e `git pull --ff-only` (alterações locais não commitadas → avise e pare; nunca ofereça descartar,
-`stash` ou `reset`).
+Entrada: fatia em `pronta-para-merge` (ou, de versões antigas, `pr-aberto`/`aceita`) cujo PR foi **mergeado** — confira pela ferramenta de PR do `sdd.md` (estado `merged`);
+`git branch -r --merged origin/<base>` é só atalho e não enxerga *squash* nem *rebase merge*. Não mergeado → pare. Tudo aqui é gravado na **base**, pelo bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base)
+(confirmado o merge, a troca e o `pull --ff-only` vêm antes de qualquer passo).
 
 Trilha direta: só o *backlog* do Passo 2 e o Passo 4 — não há plano nem cenário para conferir.
 

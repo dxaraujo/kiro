@@ -62,10 +62,8 @@ siga.
 2. **Saldo de horas:** mostre o que já foi lançado na `[ATD]` (`ccm_list_timesheet`) e pergunte só o que falta →
    `sdd-elm` modo *horas*; depois `sdd-elm` modo *atendimento* (Concluir), com uma confirmação. Sem MCP ou com
    falha → `ELM pendente: lançar <h>h e concluir [ATD] AT-<nnn>` no registro.
-3. Na base (`git switch <base>` com "sim", `git pull --ff-only`; árvore suja ou falha → avise e pare):
-   `**Situação:** concluido` no registro; na linha do AT no `backlog.md`, `status` `concluido` e `concluida-em`; a
-   situação no `sprint-<nn>.md`. Um commit; push ou PR curto com "sim", como diz "Artefatos de produto" no
-   `sdd.md`.
+3. Pelo bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base): `**Situação:** concluido` no registro; na linha do AT no `backlog.md`, `status`
+   `concluido` e `concluida-em`; a situação no `sprint-<nn>.md`.
 
 ## Passo 5 — Desdobramentos
 

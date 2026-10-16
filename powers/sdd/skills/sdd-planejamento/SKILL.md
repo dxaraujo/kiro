@@ -35,12 +35,11 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
 1. **Equipe** (`equipe.json` ou `equipe.md` existe → mostre e pergunte só o que mudou): nome do projeto, data de
    início da sprint 1 (Kanban: a da primeira revisão de backlog), pessoas (todas `ativo: true`; quem sai fica
    `false`, nunca é apagado), papel (um só:
-   `P.O.`, `Especificador`, `Dev`, `QA` ou `SM`; `Analista` antigo é lido como `Especificador`), login do ELM (de `members` do `pa_*.json`, se houver), horas por
+   `P.O.`, `Especificador`, `Dev`, `QA` ou `SM`), login do ELM (de `members` do `pa_*.json`, se houver), horas por
    semana, ausências. Pergunte também, por pessoa, quantas horas por semana vão para **revisar** (planos, PRs) e
    **verificar** — somadas em `horas-revisao-semana` —, para **especificar** (entrevista, PRD, fatiamento:
    `horas-especificacao-semana`; P.O. e Especificador) e quem **atende** demandas (`atende`). Grave no formato
-   detectado — **só depois dos acordos (passo 2)**, que dão `cadencia`, `duracao-sprint-semanas` e
-   `pontos-por-tamanho` (antes deles o JSON não valida; Kanban → `duracao-sprint-semanas` = a cadência da revisão de
+   detectado — **só depois dos acordos (passo 2)**, que dão `cadencia` e `duracao-sprint-semanas` (antes deles o JSON não valida; Kanban → `duracao-sprint-semanas` = a cadência da revisão de
    backlog, padrão 1), com `atualizado` = hoje, `historico: []` e `ausencias: []` em quem não tem; confirme que há
    **exatamente um** P.O. ativo — (`equipe.json` → validado contra `assets/equipe.schema.json`; `equipe.md` → valide só pela presença
    das colunas obrigatórias: Login, Papel, Horas/semana). Se nenhum arquivo existir ainda, prefira `equipe.json`

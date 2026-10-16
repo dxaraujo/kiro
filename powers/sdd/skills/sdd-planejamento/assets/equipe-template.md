@@ -11,7 +11,7 @@
 ## Pessoas
 
 > Colunas obrigatórias: Login, Nome, Papel, Horas/semana.  
-> Papel (um por pessoa): `P.O.` · `Especificador` · `Dev` · `QA` · `SM` (`Analista`, de versões antigas, vale como `Especificador`)  
+> Papel (um por pessoa): `P.O.` · `Especificador` · `Dev` · `QA` · `SM`  
 > Atende: `true` = participa da reserva de atendimento ([ATD]); `false` ou em branco = não.  
 > Ativo: `false` = saiu (histórico preservado).
 

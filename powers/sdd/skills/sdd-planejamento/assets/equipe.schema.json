@@ -47,30 +47,6 @@
           "$ref": "#/$defs/data",
           "description": "Início da sprint 1."
         },
-        "pontos-por-tamanho": {
-          "type": "object",
-          "required": [
-            "P",
-            "M",
-            "G"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "P": {
-              "type": "integer",
-              "minimum": 1
-            },
-            "M": {
-              "type": "integer",
-              "minimum": 1
-            },
-            "G": {
-              "type": "integer",
-              "minimum": 1
-            }
-          },
-          "description": "Opcional: só para quem usa pontos no IB do EWM; o planejamento prevê pela vazão."
-        },
         "historico": {
           "type": "array",
           "description": "Uma entrada por sprint fechada, gravada na virada.",
@@ -87,10 +63,6 @@
                 "minimum": 1
               },
               "fatias-concluidas": {
-                "type": "integer",
-                "minimum": 0
-              },
-              "pontos": {
                 "type": "integer",
                 "minimum": 0
               },
@@ -193,7 +165,6 @@
           "enum": [
             "P.O.",
             "Especificador",
-            "Analista",
             "Dev",
             "QA",
             "SM"

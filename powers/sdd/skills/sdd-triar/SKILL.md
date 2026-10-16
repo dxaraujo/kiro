@@ -123,7 +123,8 @@ no mesmo commit.
 
 Atualize "Próximos ids". O commit é **um só, no fim da sessão de triagem** (Passo 4, resposta "não"), com o
 `backlog.md`, as fichas e os registros de AT (padrão de commit do `sdd.md`); push ou PR curto com o "sim" da pessoa,
-como diz "Artefatos de produto" no `sdd.md`. **Conflito de id** no push (outra
+como diz "Artefatos de produto" no `sdd.md` (no agente `sdd-produto`, que não faz push, entregue o comando pronto
+— a pessoa executa). **Conflito de id** no push (outra
 pessoa registrou o mesmo número antes): o agente não faz merge nem rebase — peça à pessoa `git pull --rebase`; no
 conflito do `backlog.md`, mantenha o remoto, pegue o próximo id livre para a sua linha (e para o nome
 da ficha) e, se o item já foi criado no EWM, troque o `[FT-nnn]`/`[EP-nn]` do título (`ccm_update_workitem`, com

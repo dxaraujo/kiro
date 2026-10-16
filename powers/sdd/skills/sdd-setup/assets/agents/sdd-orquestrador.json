@@ -78,7 +78,9 @@
         "git commit .*",
         "git fetch.*",
         "git worktree add \\.kiro/local/wt/.*",
-        "uuidgen.*"
+        "uuidgen.*",
+        "git pull --ff-only.*",
+        "git switch .*"
       ],
       "deniedCommands": [
         "git -C .*",
@@ -171,7 +173,9 @@
           "git commit *",
           "git fetch*",
           "git worktree add .kiro/local/wt/*",
-          "uuidgen*"
+          "uuidgen*",
+          "git pull --ff-only*",
+          "git switch *"
         ],
         "effect": "allow"
       },

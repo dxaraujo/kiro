@@ -8154,6 +8154,16 @@ para por causa do próprio fluxo.
 
 ### Etapa 4 — Agentes e permissões
 
+> **✅ Feita (power `sdd` 2.5.0, branch `sdd-v2.5.0-etapa4`).** `git switch` no codificador (Etapa 1), no revisor
+> e no verificador (Etapa 2) e no orquestrador (+ `pull --ff-only`, que roda a `sdd-desenvolver`); `sdd-status` nos
+> `resources` do produto e do codificador (S03-D3); ET *as-built* só pela `sdd-consolidar` na sessão padrão (0.16,
+> sem mudar permissão); a `sdd-consolidar` remove a worktree do loop, sem `--force` (0.10); setup só na sessão
+> padrão (S02-D10) e tabela "Já tem" com as skills novas e a `sdd-elm` (S02-D15); push do `sdd-produto` → o agente
+> entrega o comando (S04-D2); o guia lista o que os agentes não fazem. **Checagem por script** (todo `git` citado
+> numa skill é permitido em ao menos um agente que a carrega; skills da sessão padrão e duas exceções que o texto
+> já devolve à pessoa — `merge` da base na `sdd-implementar`, `worktree remove` na `sdd-loop`): **ok**. Caminhos de
+> escrita não entraram na checagem (o texto das skills não os lista de forma extraível).
+
 **Objetivo:** cada skill roda no agente que a carrega, com os comandos e caminhos que ela manda usar — ou o guia diz
 explicitamente que ela roda só na sessão padrão.
 **Fecha:** S05-D3, S05-D4, S11-D1, S19-D1, S04-D2, S02/S03 (resources/write), X3.

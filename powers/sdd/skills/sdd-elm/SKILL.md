@@ -236,7 +236,9 @@ fechamento). Alimenta a retrospectiva e a recalibração da reserva de atendimen
 
 ## Modo especificação técnica (opcional, as-built)
 
-Só se a linha ET da seção ELM do `sdd.md` disser `as-built no merge`. Gere `ET - FT-031 <título>` a partir do `design.md` e do
+Só se a linha ET da seção ELM do `sdd.md` disser `as-built no merge`, e **só chamado pela `sdd-consolidar`**, na
+sessão padrão (é a única que grava em `.kiro/specs/*/elm/` e publica no ELM); pedido direto num agente → "use a
+`sdd-consolidar`". Gere `ET - FT-031 <título>` a partir do `design.md` e do
 código **final** (interfaces, contratos, dados, integrações, decisões técnicas — nada do que não foi feito),
 grave-a como conceito OKF em `.kiro/specs/<ft>-<slug>/elm/ET-<slug>.md` (mesmo formato; `type` = o tipo de ET do
 projeto), mostre, publique como os requisitos depois do `verified` humano, e ligue ao IB (**implementa**).

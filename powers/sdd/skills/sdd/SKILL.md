@@ -156,8 +156,10 @@ Nunca compacte no meio de uma fase.
 - Dado de cliente (resultado de consulta, extração, tela com dado real) nunca vai para o git: fica em
   `.kiro/local/<origem>/<id>/`; o registro versionado guarda consulta, contagem, caminho e resumo sem identificar
   pessoas.
-- **Skills sem agente exclusivo:** `sdd-consolidar` e `sdd-aprender` rodam na **sessão padrão** (com o power
-  carregado), não em agentes específicos. O hub `sdd-iniciar` está em todos os agentes de papel, e a `sdd-status`
+- **Skills sem agente exclusivo:** `sdd-setup`, `sdd-consolidar` e `sdd-aprender` rodam na **sessão padrão** (com
+  o power carregado), não em agentes específicos: gravam onde nenhum agente pode (steering, agentes, ET *as-built*,
+  remoção de worktree). **O que os agentes não fazem:** push e PR (exceto o orquestrador no loop, com `ask`) — a
+  skill entrega o comando pronto e a pessoa executa; merge, `--force`, `worktree remove` — nunca. O hub `sdd-iniciar` está em todos os agentes de papel, e a `sdd-status`
   no `sdd-orquestrador`; os dois também funcionam na sessão padrão. Nenhuma skill depende de um agente para operar: o agente apenas recebe a skill
   pré-carregada para conveniência.
 - **Nenhuma skill cria branch ou `.kiro/specs/<ft>/status.md`** sem passar pelos Passos 3–4 da `sdd-desenvolver`

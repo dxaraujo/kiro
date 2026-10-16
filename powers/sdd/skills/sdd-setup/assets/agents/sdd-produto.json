@@ -20,7 +20,8 @@
     "skill://{{POWER}}/skills/sdd-atender/SKILL.md",
     "skill://{{POWER}}/skills/sdd-elm/SKILL.md",
     "skill://{{POWER}}/skills/sdd-especificar/SKILL.md",
-    "skill://{{POWER}}/skills/sdd-iniciar/SKILL.md"
+    "skill://{{POWER}}/skills/sdd-iniciar/SKILL.md",
+    "skill://{{POWER}}/skills/sdd-status/SKILL.md"
   ],
   "toolsSettings": {
     "read": {

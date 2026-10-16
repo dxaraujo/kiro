@@ -21,7 +21,7 @@ unidade. "Feito" é uma afirmação; a evidência é a prova.
 
 Entrada: pasta da fatia com revisão `APROVADO`, na branch da fatia. **HITL** (tarefa `[VER]` assumida no
 Passo 0): só com `fase: em-verificacao` — a REV aprovou antes (sem isso, diga que a `[VER]` espera a revisão e
-pare); vá para a branch do PR (`git switch` com "sim", `git pull --ff-only`) e a rodada de verificação é sua. Tipo de projeto, como executar e onde ver o
+pare); vá para a branch do PR (`git switch <branch>` com "sim", `git pull --ff-only`) e a rodada de verificação é sua. Tipo de projeto, como executar e onde ver o
 resultado: seção **Verificação de aceite** do `.kiro/steering/sdd.md` (vem do toolkit, confirmado na setup).
 
 ## Passo 0 — Assumir a `[VER]` (só com a tarefa)

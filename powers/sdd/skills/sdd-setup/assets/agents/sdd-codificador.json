@@ -16,7 +16,8 @@
     "skill://{{POWER}}/skills/sdd-implementar/SKILL.md",
     "skill://{{POWER}}/skills/sdd-elm/SKILL.md",
     "skill://{{POWER}}/skills/sdd-desenvolver/SKILL.md",
-    "skill://{{POWER}}/skills/sdd-iniciar/SKILL.md"
+    "skill://{{POWER}}/skills/sdd-iniciar/SKILL.md",
+    "skill://{{POWER}}/skills/sdd-status/SKILL.md"
   ],
   "toolsSettings": {
     "read": {

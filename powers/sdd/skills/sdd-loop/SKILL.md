@@ -122,7 +122,8 @@ Os **Kiro Workflows** do sdd (se instalados) não fazem parte do loop: são rece
   das fatias que chegaram ao PR; a pessoa ajusta e confirma de uma vez → `sdd-elm` modo *horas* e modo
   *conclusão* da `[DEV]`. No AFK as horas só vão para a `[DEV]`, ao concluir: revisão e verificação por subagente
   não têm tarefa nem horas.
-- Worktrees ficam até o merge; remova depois (`git worktree remove .kiro/local/wt/<ft>`, sem `--force`).
+- Worktrees ficam até o merge; quem as remove é a **`sdd-consolidar`** (sessão padrão), depois do merge — os
+  agentes não podem (`git worktree remove` é negado a todos).
 
 ## Log `.kiro/local/loop-<data>.md`
 

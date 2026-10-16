@@ -77,6 +77,9 @@ Bundle do ELM no repositório (`rm.download.path`) → sugira rodar a `elm-sync`
   `fase: concluida` e data; `backlog.md` com `status: concluida`, `concluida-em` e os ids de tarefa do campo ELM
   do `status.md` que a coluna `elm` ainda não tem; ADRs e glossário do Passo 3.
 - Todas as fatias do épico concluídas → épico `concluido` (PRD e backlog).
+- Fatia do loop (worktree em `.kiro/local/wt/<ft>`): com "sim", `git worktree remove .kiro/local/wt/<ft>` — **sem
+  `--force`**. Falhou por arquivos não rastreados ou alterados → mostre quais (evidência com dado real fica em
+  `.kiro/local/verificacao/`, fora da worktree) e deixe a pessoa decidir; nunca force.
 - **`sdd-aprender`** modo registrar para cada correção humana da fatia (achados da revisão que chegaram à pessoa,
   verificações rejeitadas, mudanças pedidas no PR) — e modo retrospectiva se a pessoa quiser.
 - Commit (padrão do `sdd.md`) com `status.md`, `backlog.md` e o que mudou. Branch da

@@ -5,7 +5,6 @@
 > **Cadência:** scrum | kanban  
 > **Duração da sprint:** N semanas  
 > **Início (sprint 1):** AAAA-MM-DD  
-> **Pontos por tamanho:** P = 2 · M = 3 · G = 5
 
 ---
 
@@ -38,5 +37,5 @@
 > Gravado na virada de cada sprint.  
 > Horas (DEV/REV/VER/ESP/ATD) vêm do `sdd-elm` modo horas na virada.
 
-| Sprint | Fatias concluídas | Pontos | Lead time médio (dias) | Horas DEV | Horas REV | Horas VER | Horas ESP | Horas ATD | Reserva AT (%) |
-|---|---|---|---|---|---|---|---|---|---|
+| Sprint | Fatias concluídas | Lead time médio (dias) | Horas DEV | Horas REV | Horas VER | Horas ESP | Horas ATD | Reserva AT (%) |
+|---|---|---|---|---|---|---|---|---|

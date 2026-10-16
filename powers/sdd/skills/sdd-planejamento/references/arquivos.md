@@ -19,9 +19,8 @@ URL abaixo, nunca um caminho local:
     "cadencia": "scrum",
     "duracao-sprint-semanas": 2,
     "inicio": "2026-10-06",
-    "pontos-por-tamanho": { "P": 2, "M": 3, "G": 5 },
     "historico": [
-      { "sprint": 1, "fatias-concluidas": 5, "pontos": 15, "lead-time-medio-dias": 3.2, "horas-revisao": 22,
+      { "sprint": 1, "fatias-concluidas": 5, "lead-time-medio-dias": 3.2, "horas-revisao": 22,
         "horas-lancadas": { "entrega": 120, "revisao": 18, "verificacao": 6, "especificacao": 24, "atendimento": 9 },
         "reserva-atendimento": 0.2 }
     ]
@@ -67,7 +66,7 @@ URL abaixo, nunca um caminho local:
 | Cadência | Scrum, sprints de 2 semanas, fluxo puxado dentro da sprint |
 | Cerimônias | planejamento (seg, 1h) · review (última qui, 30 min) · retrospectiva (última qui, 30 min) |
 | WIP | 1 fatia por sessão de agente · revisão + PR aberto ≤ 2 por revisor · PR parado > 1 dia: destravar antes de fatia nova (exceção fica registrada: `WIP excedido`) |
-| Tamanhos | P (horas) = 2 pts · M (≈ 1 dia) = 3 pts · G (2–3 dias) = 5 pts · maior → dividir |
+| Tamanhos | P (horas) · M (≈ 1 dia) · G (2–3 dias) · maior → dividir (sem pontos; a previsão é pela vazão) |
 | Reserva de atendimento | 20% das horas de quem atende (`atende: true`), recalibrada na virada |
 | Lançamento de horas | Cadência do time (padrão: ao fechar cada sessão de trabalho), em qualquer tarefa iniciada; na conclusão, só o saldo. Lançar não conclui |
 
@@ -131,7 +130,7 @@ Reserva: <h>h · consumido: <h>h
 | AT-012 | Extração de contas bloqueadas em setembro | chamado 4521 | joao.lima | 3 | 669380 | concluido |
 
 ## Capacidade
-Revisão: <h>h · HITL: <h>h · Especificação: <h>h · Reserva de atendimento: <h>h · Vazão prevista: <n> fatias / <p> pts
+Revisão: <h>h · HITL: <h>h · Especificação: <h>h · Reserva de atendimento: <h>h · Vazão prevista: <n> fatias (previsão; o compromisso é a meta)
 
 ## Review
 <retorno do P.O. por fatia; pedidos novos → backlog>
@@ -141,7 +140,7 @@ Revisão: <h>h · HITL: <h>h · Especificação: <h>h · Reserva de atendimento:
 |---|---|---|
 
 ## Números
-Concluídas: <n> fatias / <p> pts · lead time médio <d> dias · rodadas de revisão por fatia <x> · correções humanas <n>
+Concluídas: <n> fatias (<p> previstas · <q> puxadas) · meta: <atingida | não — por quê> · lead time médio <d> dias · rodadas de revisão por fatia <x> · correções humanas <n>
 
 | Tipo | Planejadas (h) | Lançadas (h) |
 |---|---|---|

@@ -43,8 +43,9 @@ Os links são gravados no lado do work item ou do teste (o DOORS Next mostra o b
 
 ## Pontos e tamanho
 
-O IB é *plan item*: os pontos vão no campo de complexidade/pontos de história do IB (nunca nas tarefas), para o
-relatório de velocidade do EWM funcionar. Padrão (ajustável no `sdd.md`): `P = 2`, `M = 3`, `G = 5`.
+Opcional: o fluxo prevê pela vazão, não por pontos. Se o `sdd.md` tiver a tabela de pontos (para o relatório de
+velocidade do EWM), eles vão no campo de complexidade/pontos de história do IB (*plan item*), nunca nas tarefas.
+Sem a tabela → o campo fica vazio.
 
 ## O que o MCP `elm` não faz (passos manuais)
 

@@ -58,6 +58,10 @@ FATIA         desenvolver ─► pesquisar ─► plano ─► GATE plano ─►
 DEPOIS        merge (pessoa) ─► consolidar (drift, ELM as-built, CTs, conclusão) ─► aprender (lições)
 ```
 
+**Cadência:** a sprint é ritmo de inspeção (meta, review, retro), não escopo congelado. O compromisso é a meta; a
+seleção é previsão, e dentro da sprint o fluxo é puxado (a `pronta` do topo entra quando o WIP de revisão tem
+folga). Previsão pela vazão e pelo lead time, sem pontos.
+
 ## Gates — sempre de uma pessoa
 
 | Gate | Quem | O que se aprova |

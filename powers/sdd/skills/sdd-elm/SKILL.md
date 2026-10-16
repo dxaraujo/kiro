@@ -146,7 +146,7 @@ em IB e tarefa: use sempre a iteração que a pessoa indicar (no planejamento, a
 3. **Item de backlog por fatia** (`backlog no EWM` = `ao-fatiar`, logo após o GATE do backlog — na fatia sem épico,
    ao registrar na `sdd-triar` —, ou `na-sprint`):
    título `[FT-031] <título>`, `parent` = épico (fatia sem épico sem item de origem: o épico de
-   Sustentação; com item de origem não há IB novo; direta: sem IB), pontos pelo tamanho (tabela do `sdd.md`), descrição com modo
+   Sustentação; com item de origem não há IB novo; direta: sem IB), pontos pelo tamanho só se o `sdd.md` tiver a tabela de pontos (opcional), descrição com modo
    AFK/HITL, `bloqueada por` e pasta prevista; responsável = P.O. (o IB é do produto). **Critérios de aceite:** os
    cenários que a fatia cobre (`cobre`), em Dado / Quando / Então, copiados do PRD (fatia sem épico: da ficha), no campo da linha "Critérios
    de aceite no IB" do `sdd.md` (Markdown; o MCP grava como texto rico) — sem o campo, numa seção "Critérios de

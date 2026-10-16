@@ -75,6 +75,8 @@ Bundle do ELM no repositório (`rm.download.path`) → sugira rodar a `elm-sync`
   no `sdd.md` — várias fatias podem ir no mesmo PR de consolidação): `status.md` da fatia com
   `fase: concluida` e data; `backlog.md` com `status: concluida`, `concluida-em` e os ids de tarefa do campo ELM
   do `status.md` que a coluna `elm` ainda não tem; ADRs e glossário do Passo 3.
+- Fatia puxada (`Puxada para a sprint <nn>` no Histórico): `sprint` = <nn> na linha do `backlog.md` e uma linha na
+  seção Fatias do `sprint-<nn>.md`, com a Observação `puxada` — ela conta na vazão da sprint.
 - Todas as fatias do épico concluídas → épico `concluido` (PRD e backlog).
 - Fatia do loop (worktree em `.kiro/local/wt/<ft>`): com "sim", `git worktree remove .kiro/local/wt/<ft>` — **sem
   `--force`**. Falhou por arquivos não rastreados ou alterados → mostre quais (evidência com dado real fica em

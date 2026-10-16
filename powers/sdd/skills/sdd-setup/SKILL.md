@@ -142,7 +142,7 @@ Falhou ao rodar → mostre o erro; a pessoa decide (corrigir o comando, seguir a
      | Backlog no EWM | `na-sprint` (sprints futuras mudam) |
      | ET as-built | `não publica` |
      | Manual no DOORS Next | `nada` |
-     | Pontos P/M/G | `2 · 3 · 5` |
+     | Pontos P/M/G no EWM | `não` (o fluxo prevê pela vazão; `2 · 3 · 5` se o time usa o relatório de velocidade do EWM) |
      | Fatia dividida no EWM | itens novos como filhos do item original |
      | `CT.csv` | colunas da linha `CT.csv` do template; um template de importação do ETM no repositório ajusta a ordem |
 

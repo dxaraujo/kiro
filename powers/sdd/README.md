@@ -33,7 +33,7 @@ DEPOIS    merge (pessoa) ─► consolidar (drift, ELM as-built, CTs, ADRs) ─�
 | ELM publicado antes do código | ELM como **registro oficial**: requisitos no GATE do PRD, **as-built** e drift na consolidação |
 | retrabalho por causa raiz | **aprendizado composto**: erro mecânico vira checagem, julgamento vira regra do revisor |
 | lote de IBs | **AFK/HITL** por fatia e **loop AFK** limitado pela capacidade de revisão humana |
-| planejamento por pontos/hora e Excel | **vazão** de fatias, WIP de revisão, meta da sprint; pontos mantidos no EWM |
+| planejamento por pontos/hora e Excel | sprint como cadência (compromisso com a **meta**), fluxo puxado dentro dela, previsão pela **vazão** e lead time; pontos só opcionais no EWM |
 | agentes JSON com permissões amplas | agentes no **formato universal** do Kiro (IDE e as duas engines do CLI), permissões mínimas por papel e **skills de toolkit escolhidas por agente** |
 
 ## Fundamentos

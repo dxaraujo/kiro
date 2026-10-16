@@ -21,6 +21,8 @@ Começar um item registrado: hub `sdd-iniciar` (diz a skill do papel: `sdd-espec
 - Push, troca de branch e escrita no ELM só com "sim" de uma pessoa. Agente nunca faz merge nem `--force`.
 - Dado de cliente (consulta, extração, tela com dado real) nunca vai para o git: fica em `.kiro/local/<origem>/<id>/`;
   o versionado guarda consulta, contagem, caminho e resumo sem identificar pessoas.
+- Sprint é cadência (meta, review, retro), não contêiner de escopo: o compromisso é a meta; dentro dela, fluxo
+  puxado — a `pronta` do topo entra quando o WIP de revisão tem folga. Previsão pela vazão, sem pontos.
 - Toda hora tem tarefa (`[ESP]` `[DEV]` `[REV]` `[VER]` `[ATD]`; no AFK, só a `[DEV]`). Lançar horas é registro de
   empenho, a qualquer momento na tarefa iniciada; concluir é da skill do papel, com o saldo: `[DEV]` no PR, `[REV]`
   ao aprovar, `[VER]` ao aceitar, `[ESP]` no GATE do backlog, `[ATD]` ao finalizar.
@@ -84,7 +86,7 @@ Na worktree do `sdd-loop`: `cd .kiro/local/wt/<ft> && <comando>`. Falha de ambie
 | Manual no DOORS Next | `<change set, módulo, links restringe, baseline | nada>` |
 | Fatia dividida no EWM | `<itens novos como filhos do item original | fecha o original e cria itens novos>` |
 | Tipo · pasta no RM | HF `<História de Usuário>` `<pasta>` · REG `<Regra>` `<pasta>` · GL `<Termos de Glossário>` `<pasta>` · ET `<… | —>` |
-| Tipo no EWM · pontos P/M/G | épico `<Épico | Item de Backlog (pai)>` · fatia `<Item de Backlog>` · `<2 · 3 · 5>` |
+| Tipo no EWM · pontos P/M/G | épico `<Épico | Item de Backlog (pai)>` · fatia `<Item de Backlog>` · `<não | 2 · 3 · 5>` (opcional; o planejamento prevê pela vazão) |
 | Critérios de aceite no IB | `<nome do campo em workitem-types[IB].fields do pa_*.json | descrição>` |
 | Tarefas (títulos padrão; editáveis à mão) | `[ESP] EP-<nn> Especificação` · `[DEV] FT-<nnn> Implementar` · `[REV] FT-<nnn> Revisar` · `[VER] FT-<nnn> Verificar` · `[ATD] AT-<nnn> <pedido>` |
 | Classificação da tarefa | `<[ESP] Análise / Especificação · [DEV] Desenvolvimento · [REV] Outra - Não listada · [VER] Testes de Homologação · [ATD] Suporte / Apoio Técnico Especializado | a PA não tem>` |

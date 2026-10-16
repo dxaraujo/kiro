@@ -33,7 +33,7 @@ inventa dado de work item: (1) `status.md` nas branches (atual, worktrees, remot
 | `FT-nnn` | `<produto>/backlog.md` (+ o PRD do épico ou a ficha da fatia sem épico) |
 | número do EWM (DF, IB) | a linha do `backlog.md` com esse id em `origem` ou `elm` |
 | tarefa `[DEV] FT-nnn` | a fatia do pai |
-| "próxima fatia" | a `pronta` de maior prioridade da sprint aberta sem `status.md` em nenhuma branch (no Kanban, a do topo do backlog) |
+| "próxima fatia" | a `pronta` de maior prioridade da sprint aberta sem `status.md` em nenhuma branch; nenhuma → a `pronta` do topo do backlog (puxada; no Kanban, sempre esta) |
 | `[REV]`, `[VER]`, `EP-nn`/`[ESP]`, `AT-nnn`/`[ATD]` | não é deste papel → "use `sdd-iniciar <item>`" e pare |
 | pedido em texto, ou id que não está no backlog | não está registrado → "use `sdd-triar`" e pare |
 
@@ -70,8 +70,11 @@ o caminho, e não comece.
    planejamento, não grave aqui.
 3. **Sprint.** Nada começa sem item planejado, nem a direta: é na tarefa da sprint que as horas são lançadas. A
    fatia está na sprint aberta (`sprint` do `backlog.md` = a do `sprint-<nn>.md` com `**Situação:** aberta`)? Não
-   está → **Encaixe**: a decisão é do P.O., pela **`sdd-planejamento`** (seção Encaixe);
-   sem a decisão registrada, não comece. Kanban (`acordos.md`) → não há sprint nem encaixe: a `sdd-elm` modo
+   está → **puxe** (fluxo puxado, a sprint é cadência): se ela é a `pronta` do topo do backlog — nenhuma `pronta`
+   de prioridade maior esperando, dentro ou fora da sprint — e o WIP do item 4 tem folga, ela entra na sprint
+   aberta sem cerimônia: `Puxada para a sprint <nn>` no Histórico ao criar o `status.md`, e as tarefas nascem na
+   iteração da sprint (Passo 4). Fura a fila ou estoura o WIP → **Encaixe**: a decisão é do P.O., pela
+   **`sdd-planejamento`** (seção Encaixe); sem a decisão registrada, não comece. Kanban (`acordos.md`) → não há sprint nem encaixe: a `sdd-elm` modo
    *sprint* põe as tarefas na iteração corrente do EWM ao começar (Passo 4). Nenhuma sprint aberta e nada no
    `acordos.md` (planejamento ainda não feito) → não é encaixe: ofereça a `sdd-planejamento` e não comece.
 4. **WIP** (`<produto>/planejamento/acordos.md`; sem o arquivo, 2 fatias esperando pessoa). Conte as fatias em

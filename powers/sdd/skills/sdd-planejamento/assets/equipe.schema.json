@@ -4,56 +4,137 @@
   "title": "Equipe do sdd",
   "description": "<produto>/planejamento/equipe.json: projeto, cadência, histórico de vazão e de horas e membros com a capacidade de trabalho, de revisão, de especificação e de atendimento. Chaves em kebab-case; valores derivados (capacidade da sprint, totais) não são gravados, são calculados na hora.",
   "type": "object",
-  "required": ["atualizado", "projeto", "membros"],
+  "required": [
+    "atualizado",
+    "projeto",
+    "membros"
+  ],
   "additionalProperties": false,
   "properties": {
-    "$schema": { "type": "string" },
-    "atualizado": { "$ref": "#/$defs/data" },
+    "$schema": {
+      "type": "string"
+    },
+    "atualizado": {
+      "$ref": "#/$defs/data"
+    },
     "projeto": {
       "type": "object",
-      "required": ["nome", "cadencia", "duracao-sprint-semanas", "inicio", "pontos-por-tamanho", "historico"],
+      "required": [
+        "nome",
+        "cadencia",
+        "duracao-sprint-semanas",
+        "inicio",
+        "historico"
+      ],
       "additionalProperties": false,
       "properties": {
-        "nome": { "type": "string", "minLength": 1 },
-        "cadencia": { "enum": ["scrum", "kanban"] },
-        "duracao-sprint-semanas": { "type": "integer", "minimum": 1, "maximum": 4 },
-        "inicio": { "$ref": "#/$defs/data", "description": "Início da sprint 1." },
+        "nome": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cadencia": {
+          "enum": [
+            "scrum",
+            "kanban"
+          ]
+        },
+        "duracao-sprint-semanas": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4
+        },
+        "inicio": {
+          "$ref": "#/$defs/data",
+          "description": "Início da sprint 1."
+        },
         "pontos-por-tamanho": {
           "type": "object",
-          "required": ["P", "M", "G"],
+          "required": [
+            "P",
+            "M",
+            "G"
+          ],
           "additionalProperties": false,
           "properties": {
-            "P": { "type": "integer", "minimum": 1 },
-            "M": { "type": "integer", "minimum": 1 },
-            "G": { "type": "integer", "minimum": 1 }
-          }
+            "P": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "M": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "G": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          "description": "Opcional: só para quem usa pontos no IB do EWM; o planejamento prevê pela vazão."
         },
         "historico": {
           "type": "array",
           "description": "Uma entrada por sprint fechada, gravada na virada.",
           "items": {
             "type": "object",
-            "required": ["sprint", "fatias-concluidas", "pontos"],
+            "required": [
+              "sprint",
+              "fatias-concluidas"
+            ],
             "additionalProperties": false,
             "properties": {
-              "sprint": { "type": "integer", "minimum": 1 },
-              "fatias-concluidas": { "type": "integer", "minimum": 0 },
-              "pontos": { "type": "integer", "minimum": 0 },
-              "lead-time-medio-dias": { "type": "number", "minimum": 0 },
-              "horas-revisao": { "type": "number", "minimum": 0 },
+              "sprint": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "fatias-concluidas": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "pontos": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "lead-time-medio-dias": {
+                "type": "number",
+                "minimum": 0
+              },
+              "horas-revisao": {
+                "type": "number",
+                "minimum": 0
+              },
               "horas-lancadas": {
                 "type": "object",
                 "description": "Horas lançadas no EWM na sprint por tipo de tarefa ([DEV] entrega, [REV] revisao, [VER] verificacao, [ESP] especificacao, [ATD] atendimento); vem da sdd-elm modo horas na virada.",
                 "additionalProperties": false,
                 "properties": {
-                  "entrega": { "type": "number", "minimum": 0 },
-                  "revisao": { "type": "number", "minimum": 0 },
-                  "verificacao": { "type": "number", "minimum": 0 },
-                  "especificacao": { "type": "number", "minimum": 0 },
-                  "atendimento": { "type": "number", "minimum": 0 }
+                  "entrega": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "revisao": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "verificacao": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "especificacao": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "atendimento": {
+                    "type": "number",
+                    "minimum": 0
+                  }
                 }
               },
-              "reserva-atendimento": { "type": "number", "minimum": 0, "maximum": 1, "description": "Reserva de atendimento da sprint (0.2 = 20% das horas de quem atende)." }
+              "reserva-atendimento": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "description": "Reserva de atendimento da sprint (0.2 = 20% das horas de quem atende)."
+              }
             }
           }
         }
@@ -62,27 +143,68 @@
     "membros": {
       "type": "array",
       "minItems": 1,
-      "items": { "$ref": "#/$defs/membro" },
-      "contains": { "properties": { "papel": { "const": "P.O." }, "ativo": { "const": true } } },
+      "items": {
+        "$ref": "#/$defs/membro"
+      },
+      "contains": {
+        "properties": {
+          "papel": {
+            "const": "P.O."
+          },
+          "ativo": {
+            "const": true
+          }
+        }
+      },
       "minContains": 1,
       "maxContains": 1,
       "$comment": "Exatamente um P.O. ativo."
     }
   },
   "$defs": {
-    "data": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$", "format": "date" },
+    "data": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "format": "date"
+    },
     "membro": {
       "type": "object",
-      "required": ["nome", "login", "papel", "horas-semana", "horas-revisao-semana", "ativo", "ausencias"],
+      "required": [
+        "nome",
+        "login",
+        "papel",
+        "horas-semana",
+        "horas-revisao-semana",
+        "ativo",
+        "ausencias"
+      ],
       "additionalProperties": false,
       "properties": {
-        "nome": { "type": "string", "minLength": 1 },
-        "login": { "type": "string", "pattern": "^[^\\s@]+$", "description": "Login do ELM (members do pa_*.json), sem domínio." },
+        "nome": {
+          "type": "string",
+          "minLength": 1
+        },
+        "login": {
+          "type": "string",
+          "pattern": "^[^\\s@]+$",
+          "description": "Login do ELM (members do pa_*.json), sem domínio."
+        },
         "papel": {
-          "enum": ["P.O.", "Especificador", "Analista", "Dev", "QA", "SM"],
+          "enum": [
+            "P.O.",
+            "Especificador",
+            "Analista",
+            "Dev",
+            "QA",
+            "SM"
+          ],
           "description": "Um papel por pessoa: o principal. Quem acumula papéis entra com o que mais consome as horas dela."
         },
-        "horas-semana": { "type": "number", "minimum": 0, "maximum": 60 },
+        "horas-semana": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 60
+        },
         "horas-revisao-semana": {
           "type": "number",
           "minimum": 0,
@@ -95,19 +217,38 @@
           "maximum": 60,
           "description": "Horas por semana de especificação (entrevista, PRD, fatiamento: tarefas [ESP]); parte de horas-semana. Ausente = 0."
         },
-        "atende": { "type": "boolean", "description": "Atende demandas (tarefas [ATD]); a reserva de atendimento sai das horas de quem atende. Ausente = false." },
-        "ativo": { "type": "boolean", "description": "Quem sai fica false (preserva o histórico)." },
+        "atende": {
+          "type": "boolean",
+          "description": "Atende demandas (tarefas [ATD]); a reserva de atendimento sai das horas de quem atende. Ausente = false."
+        },
+        "ativo": {
+          "type": "boolean",
+          "description": "Quem sai fica false (preserva o histórico)."
+        },
         "ausencias": {
           "type": "array",
           "items": {
             "type": "object",
-            "required": ["inicio", "fim", "motivo"],
+            "required": [
+              "inicio",
+              "fim",
+              "motivo"
+            ],
             "additionalProperties": false,
             "properties": {
-              "inicio": { "$ref": "#/$defs/data" },
-              "fim": { "$ref": "#/$defs/data" },
+              "inicio": {
+                "$ref": "#/$defs/data"
+              },
+              "fim": {
+                "$ref": "#/$defs/data"
+              },
               "motivo": {
-                "enum": ["férias", "folga", "treinamento", "outro"],
+                "enum": [
+                  "férias",
+                  "folga",
+                  "treinamento",
+                  "outro"
+                ],
                 "description": "Genérico de propósito: sem dado pessoal (nada de saúde ou motivo particular)."
               }
             }

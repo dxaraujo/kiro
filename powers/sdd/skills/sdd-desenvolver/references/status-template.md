@@ -12,6 +12,7 @@
 | Responsável | <login \| agente:sdd-orquestrador> |
 | Rodadas | revisão do plano 0 · revisão do código 0 · verificação 0 · retrabalho 0 |
 | PR | — |
+| Bloqueio | — (ou: `<motivo>` · pergunta: `<pergunta exata>` — junto com `Fase: bloqueada (de: <fase>)`) |
 | ELM | <IB <id> · [DEV] <id> · [REV] <id> · [VER] <id> (direta: só [DEV]) \| sem ELM \| pendente> |
 | Banco (DDL) | <não se aplica \| pendente \| aplicada em dev \| aplicada em prod> |
 

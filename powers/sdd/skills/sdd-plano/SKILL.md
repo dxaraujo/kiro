@@ -50,7 +50,7 @@ recomendada (HITL) ou decida e registre (AFK) em "Decisões técnicas".
    última é o checkpoint de validação completa + revisão.
 4. Skills do toolkit ligadas ao agente: consulte a da stack para a forma do programa (camadas, nomes, testes).
 5. Limite: plano que passa de ~200 linhas no total ou de ~8 tarefas → a fatia está grande: proponha à pessoa
-   dividi-la (`sdd-fatiar`, refinamento) em vez de escrever um plano maior. Modo autônomo → `fase: bloqueada`
+   dividi-la (`sdd-fatiar`, refinamento) em vez de escrever um plano maior. Modo autônomo → `fase: bloqueada (de: planejando)`
    com a proposta de divisão.
 
 `status.md`: fase `planejando` (vale também durante a análise do Passo 4).
@@ -104,4 +104,4 @@ a parte alterada.
 ## Modo autônomo
 
 `AUTONOMO=true`: sem perguntas; decisão técnica com alternativas → escolha a recomendada e registre; lacuna de
-negócio → `fase: bloqueada` com a pergunta para o P.O.
+negócio → `fase: bloqueada (de: planejando)` com a pergunta para o P.O.

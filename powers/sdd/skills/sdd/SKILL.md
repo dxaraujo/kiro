@@ -146,6 +146,9 @@ Nunca compacte no meio de uma fase.
 
 ## Regras de ouro
 
+- **Falha de escrita:** pasta inexistente → crie; permissão negada ou confirmação recusada → `fase: bloqueada (de:
+  <fase>)` com o caminho e o que faltou (fora de fatia: diga e pare); gravação parcial → o próximo passo retoma pelo
+  que está no disco. Nunca siga como se tivesse gravado.
 - Nada inventado: tabela, coluna, regra, id de work item — confirme no código, no banco (somente leitura) ou no ELM.
 - Toda escrita no ELM, troca de branch, push e alteração de work item só com "sim" de uma pessoa. Agente nunca faz
   merge nem `--force`.

@@ -11,6 +11,9 @@ Começar um item registrado: hub `sdd-iniciar` (diz a skill do papel: `sdd-espec
 `sdd-revisar`, `sdd-verificar`, `sdd-atender`). Onde parei ou fechar a sessão: `sdd-status`.
 
 - Nada inventado (confirme no código, no banco — só leitura — ou no ELM). Nunca apague nem afrouxe teste.
+- **Falha de escrita:** pasta inexistente → crie; permissão negada ou confirmação recusada → `fase: bloqueada (de:
+  <fase>)` com o caminho e o que faltou (fora de fatia: diga e pare); gravação parcial → o próximo passo retoma pelo
+  que está no disco. Nunca siga como se tivesse gravado.
 - Estado limpo entre sessões: quem grava um passo na pasta da fatia commita o que gravou **com o `status.md`**,
   antes de seguir. AFK: quem pede a rodada (plano, implementação, loop) commita o relatório do subagente assim que o
   recebe — revisor, verificador e pesquisador como subagentes não commitam. HITL: cada papel commita o seu

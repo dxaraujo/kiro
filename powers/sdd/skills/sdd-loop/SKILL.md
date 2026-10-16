@@ -108,8 +108,9 @@ Os **Kiro Workflows** do sdd (se instalados) não fazem parte do loop: são rece
 
 - **Fatia bloqueada** (lacuna de negócio, divergência com o plano, 2 reprovações, verificação rejeitada duas
   vezes) → registre o motivo e a pergunta exata no `status.md`; siga com as outras.
-- **Problema sistêmico** (build quebrado na base, ambiente fora do ar, mesmo erro em duas fatias) → **pare o lote
-  inteiro**: o loop não conserta ambiente.
+- **Problema sistêmico** (build quebrado na base, o mesmo `⚠️ ambiente` ou o mesmo erro em **duas** fatias) →
+  **pare o lote inteiro**: o loop não conserta ambiente. `⚠️ ambiente` numa fatia só → ela fica `bloqueada (de:
+  verificando)` e o lote segue com as outras.
 - Ao fim, o resumo:
   ```
   🤖 Loop AFK — resultado

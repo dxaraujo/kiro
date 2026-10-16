@@ -62,7 +62,7 @@ escapou de uma revisão antes (lição com causa `revisao-branda`): suba uma sev
 
 No formato do fim de [references/rubricas.md](references/rubricas.md). A **última linha** é exatamente o fecho
 da rubrica. Grave o relatório na pasta do artefato — `revisao-prd-<N>.md` (épico), `analise-plano-<N>.md` ou
-`revisao-codigo-<N>.md` (fatia), `<N>` = próxima rodada — e, se quem chamou pediu (workflow, loop), o veredito em
+`revisao-codigo-<N>.md` (fatia), `<N>` = a rodada que quem chamou passou (sem ela: 1 + o maior `<N>` já existente na pasta; HITL: a sua) — e, se quem chamou pediu (workflow, loop), o veredito em
 `.kiro/local/wf/<id>/`: `plano.json` (`{"resultado": "OK"}` · `{"resultado": "AJUSTAR"}`) ou `codigo.json` (`{"veredito": "APROVADO"}` ·
 `{"veredito": "REVISAR"}`). São os **únicos** arquivos que você escreve.
 

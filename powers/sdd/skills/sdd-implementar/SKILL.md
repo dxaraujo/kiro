@@ -67,7 +67,7 @@ Regras do ciclo:
 - Nada de funcionalidade que a fatia não pediu, mesmo "aproveitando".
 - Duas correções seguidas sem sair do lugar → pare de tentar variações: registre no `status.md` o que foi tentado e
   continue numa sessão nova a partir dele (contexto poluído piora a terceira tentativa); persistindo,
-  `fase: bloqueada`.
+  `fase: bloqueada (de: implementando)`, com motivo e pergunta.
 - Banco: somente leitura pelo MCP; DDL é do time de banco (registre no `status.md`, campo Banco).
 - Contexto cheio ou sessão longa → atualize o `status.md` (o que foi feito, próximo passo, decisões), **commite-o**
   e continue numa sessão nova a partir dele. O estado vive nos arquivos, não na conversa.
@@ -98,14 +98,15 @@ ele precisa estar na branch antes da abertura.
 
 - `VEREDITO: APROVADO` → Passo 4.
 - `REVISAR` → corrija **só** os achados (como tarefas `[R<n>]`, Passo 0) e volte ao Passo 2. Até 2 rodadas.
-- 2ª reprovação → `fase: bloqueada`; mostre à pessoa os relatórios e as opções: orientar a correção (zera as
+- 2ª reprovação → `fase: bloqueada (de: revisando)`; mostre à pessoa os relatórios e as opções: orientar a correção (zera as
   rodadas), voltar ao plano, ou aceitar explicitamente os achados restantes (quem e por quê no `status.md`).
 
 ## Passo 4 — Verificação de aceite (só AFK)
 
 Incremente "verificação" em Rodadas e siga para a **`sdd-verificar`** (cenários de aceite executados de ponta a ponta, com evidência; de preferência
 pelo agente `sdd-verificador`). `ACEITO` → ela deixa a fatia em `fase: aceita`; `REJEITADO` → devolve para cá
-os cenários reprovados (Passo 0).
+os cenários reprovados (Passo 0). Teto de 2 rodadas, como na revisão: 2ª rejeição seguida → `fase: bloqueada (de:
+verificando)` com as mesmas opções do Passo 3.
 
 Com `ACEITO` ou `REJEITADO`: **commite imediatamente** `verificacao.md`, `CT.csv`, `evidencias/`, `massa/` e o
 `status.md` antes de prosseguir — mensagem no padrão do `sdd.md`, `registrar verificação`. O PR cita esses arquivos e eles precisam estar na branch antes da abertura.
@@ -159,7 +160,7 @@ comportamento → pare: devolva à `sdd-triar` (é trilha rápida ou padrão).
 ## Modo autônomo
 
 `AUTONOMO=true` (chamado pelo `sdd-orquestrador`/`sdd-loop`): sem perguntas; trabalhe só na worktree recebida;
-**não** faça push nem abra PR (o orquestrador faz); bloqueio vira `fase: bloqueada` com o motivo, e você para.
+**não** faça push nem abra PR (o orquestrador faz); bloqueio vira `fase: bloqueada (de: <fase>)` com o motivo e a pergunta, e você para.
 
 ## Regras
 

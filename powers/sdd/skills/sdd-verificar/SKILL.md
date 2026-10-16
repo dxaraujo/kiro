@@ -95,7 +95,10 @@ VERIFICACAO: ACEITO | REJEITADO
   repetição). HITL: `fase: retrabalho (de: em-verificacao)`, "retrabalho" +1 em Rodadas e uma linha na tabela
   **Retrabalho** (papel VER); a `[VER]` fica em andamento; commit como no aceito e avise o codificador. Se o
   problema é o cenário estar errado no PRD, diga isso: é com o P.O., não com o código.
-- Só `⚠️ ambiente` → `fase: bloqueada` com o que falta; ninguém corrige código.
+- Só `⚠️ ambiente` → `fase: bloqueada (de: verificando)` com o que falta; ninguém corrige código. Cenário misto
+  (❌ + ⚠️) → REJEITADO, e o ⚠️ também vai para Achados como "ambiente".
+- Cenário errado no PRD (não no código) → `fase: bloqueada (de: verificando)` com a pergunta ao P.O.; a
+  correção é a mudança do PRD depois de aprovado (`sdd-prd`), não o código.
 
 ## Passo 5 — Casos de teste para o ETM
 

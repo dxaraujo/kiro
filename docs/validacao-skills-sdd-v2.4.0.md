@@ -8236,6 +8236,13 @@ zera uma pendência de exemplo.
 
 ### Etapa 7 — Bordas: falha de escrita, rodadas, bloqueio, ambiente
 
+> **✅ Feita (power `sdd` 2.5.0, branch `sdd-v2.5.0-etapa5a8`).** Regra de ouro "falha de escrita" no guia e no
+> steering; `bloqueada` sempre `(de: <fase>)`, com campo **Bloqueio** (motivo · pergunta) no `status-template.md`
+> e as ocorrências de plano, implementar e verificar corrigidas; `<N>` do relatório = a rodada passada por quem
+> chamou (sem ela, 1 + o maior existente); teto de 2 rodadas também na verificação fora do loop; cenário errado
+> no PRD e cenário misto (❌ + ⚠️) com estado; loop: `⚠️ ambiente` numa fatia bloqueia só ela, o mesmo em duas
+> fatias para o lote. O critério "Parte 4 refeita" fica para a Etapa 9.
+
 **Fecha:** X6, X7 (rodadas, `bloqueada`), X8, S19-D2, S16-D8, S13-D7, S15-D2 e os `SEM REGRA` de borda das Partes 3.
 
 1. **Regra de ouro "falha de escrita"** no guia e no steering: pasta inexistente → crie; permissão negada ou

@@ -93,7 +93,7 @@ O `<produto>` vem do steering, e os agentes só escrevem no `{{PRODUTO}}` que a 
 |---|---|---|
 | 1 | `.kiro/steering/sdd.md`: `Pasta do produto` = `.kiro/planejamento2`; `Branch base` = `sdd-teste/base`; prefixo `sdd-teste/` | `git checkout -- .kiro/steering/sdd.md` |
 | 2 | `.kiro/agents/sdd-*.json`: trocar `.kiro/planejamento/` por `.kiro/planejamento2/` nas regras de escrita e leitura | `git checkout -- .kiro/agents` |
-| 3 | Tipo · pasta no RM: apontar HF, REG e GL para a pasta `99-TESTE-SDD` (só no steering de teste); `Publicar requisitos` = `na-aprovacao` | restaurado no item 1 |
+| 3 | Tipo · pasta no RM: apontar HF, REG, GL e ET para a pasta `14-Lixeira` (só no steering de teste); `Publicar requisitos` = `na-aprovacao` | restaurado no item 1 |
 
 ### 3.4 ELM (PA PAB, iteração Sprint Jandaia)
 
@@ -103,7 +103,7 @@ O `<produto>` vem do steering, e os agentes só escrevem no `{{PRODUTO}}` que a 
 | Iteração | **Sprint Jandaia** · `_ck8NALeGEfGZGNAHniZkPA` (2026-10-01 → 2026-12-18) |
 | Prefixo em **todo** título criado | `[TESTE-SDD]`, para achar e cancelar no fim |
 | Pais de teste | épico `[TESTE-SDD] SUS-teste` e IB `[TESTE-SDD] Atendimento` (filho dele), criados no C00 e gravados na linha `Sustentação:` do `backlog.md` de teste |
-| DOORS (RM) e ETM | **testar também**: publicar numa **pasta de teste** do RM (`99-TESTE-SDD`, criada pela pessoa antes, com os tipos HF/REG/GL) e importar o `CT.csv` numa pasta/categoria de teste do ETM. Sem a pasta de teste → recusar a publicação e testar o caminho `ELM pendente` (B07), registrando a lacuna. Requisito e caso de teste não se apagam pelo fluxo: a pessoa os remove na UI na limpeza |
+| DOORS (RM) e ETM | **DOORS:** publicar na pasta **`14-Lixeira`** do RM da PAB (`FR_PBbe9XBeEeqlM7DFIH2SZA`; vazia em 2026-10-16), com os tipos reais HF/REG/GL/ET. **ETM:** o usuário não enxerga área de projeto da PAB no ETM (só Janela Sisben, PA_MASTER, Prova de Vida, RPV e SIBE) → a importação do `CT.csv` **não é testável**; testar o roteiro manual e a pendência, e registrar o achado A-ETM (o steering do pab-batch configura colunas de `CT.csv` para um ETM que não existe para o projeto). Requisito publicado não se apaga pelo fluxo: fica na Lixeira |
 | Pessoas | Dev, P.O. e Especificador = `daniel.xavier`; **Revisor/QA = uma segunda pessoa** (a regra "revisor ≠ quem implementa" exige). Sem uma segunda pessoa → o mesmo login, com o desvio registrado no resultado |
 
 ### 3.5 Material de código das fatias
@@ -179,7 +179,7 @@ Legenda: `sm` = `status.md`; `bk` = `backlog.md`; `sp` = `sprint-01.md`.
 | 6 | "fechar a sessão de especificação" | `[ESP]` com 1 comentário (resumo, D-nn, dúvidas) e **anexos** `.md` (`elm-*` prefixados); horas lançadas, `[ESP]` **não** concluída | nenhum arquivo versionado | — |
 | 7 | **Outra máquina** (simular: apagar a pasta local) · "retomar a especificação do EP-01" | pasta local recriada **pelos anexos**; mostra a data do último comentário | pasta local idêntica à do passo 6 | `sdd-prd` |
 | 8 | Alterar algo localmente, depois retomar de novo, com a `[ESP]` mais nova | pergunta se baixa os anexos por cima (comparação de datas) | — | — |
-| 9 | `sdd-prd` · GATE: "aprova o PRD" · `sdd-elm` modo *requisitos* (similares antes, na pasta de teste) | base: `prd.md` `aprovado` v1.0; conceitos `stable` + `verified` (lista) + `resource`/`id` do DOORS gravados de volta; `bk` EP-01 `aprovado` + link `prd`; repetir a publicação **não** cria duplicado | pasta copiada para `epicos/EP-01-<slug>/` (substitui rascunho e decisões da triagem) + `revisao-prd-1.md`; **1 commit** | `sdd-fatiar` |
+| 9 | `sdd-prd` · GATE: "aprova o PRD" · `sdd-elm` modo *requisitos* (similares antes; publicação na `14-Lixeira`) | base: `prd.md` `aprovado` v1.0; conceitos `stable` + `verified` (lista) + `resource`/`id` do DOORS gravados de volta; `bk` EP-01 `aprovado` + link `prd`; repetir a publicação **não** cria duplicado | pasta copiada para `epicos/EP-01-<slug>/` (substitui rascunho e decisões da triagem) + `revisao-prd-1.md`; **1 commit** | `sdd-fatiar` |
 | 10 | `sdd-fatiar` · fatiar e GATE do backlog | `bk` FT-001 e FT-002 em `## Fatias — EP-01`, `pronta`, modos HITL e AFK; EP-01 `fatiado`; `[ESP]` **concluída** com o **saldo** de horas; nada criado no EWM (`na-sprint`) | `bk`, `prd.md` (status), commit | `sdd-planejamento` |
 
 ### C01 · Direta · HITL
@@ -229,7 +229,7 @@ Fatia FT-001 do C06. Diferenças em relação ao C04:
 | 7a | Dev corrige | `[DEV]` reaberta → `pr-aberto` |
 | 7b | Revisor | o PR mudou → a `[REV]` **já concluída é reaberta** (modo *assumir* com retrabalho) → revisão 2 → `em-verificacao` |
 | 7c | Verificador | rodada 2 → ACEITO → `pronta-para-merge` |
-| 8 | consolidar | ET *as-built* gerada e publicada na pasta de teste (sessão padrão); `CT.csv` importado no ETM (pasta de teste), links **valida** e **testado por** criados; ids no `verificacao.md` e no `sm` |
+| 8 | consolidar | ET *as-built* gerada e publicada na `14-Lixeira` (sessão padrão); `CT.csv`: sem ETM da PAB → roteiro manual + `ELM pendente: importar CT FT-001`, links **valida**/**testado por** pendentes (conferir que o fluxo diz isso em vez de travar) |
 
 ### C03 · Rápida · AFK (`sdd-loop`)
 
@@ -377,7 +377,7 @@ Depois do último passo de cada cenário, sem pedir nada ao fluxo, conferir **po
 | 3 | apagar as branches `sdd-teste/*` (`git branch -D`, pela pessoa) | `git branch --list 'sdd-teste/*'` vazio |
 | 4 | apagar `.kiro/planejamento2/`, `.kiro/local/especificacao/`, `.kiro/local/atendimentos/AT-*` e `.kiro/local/verificacao/` de teste | `ls` |
 | 5 | EWM: todos os itens `[TESTE-SDD]` → estado **Cancelado** (o fluxo nunca apaga; cancelar pela `elm-ccm`, com "sim", ou na UI) | busca por `[TESTE-SDD]` na PA PAB só com cancelados |
-| 5a | DOORS e ETM: a pessoa remove a pasta `99-TESTE-SDD` e os casos de teste importados, na UI | busca vazia |
+| 5a | DOORS: os requisitos de teste ficam na `14-Lixeira`; se o time quiser, a pessoa os remove na UI | `14-Lixeira` só com itens `[TESTE-SDD]` |
 | 6 | conferir que nada foi enviado: `git log origin/desenvolvimento..desenvolvimento` vazio; nenhum PR aberto | — |
 
 ## 10. Registro de resultados

@@ -303,7 +303,7 @@ vários subfluxos assíncronos**, um por papel, ligados pelo PR e pelas tarefas 
 | Revisão | subfluxo 2: o revisor assume a `[REV]` e revisa o PR. Aprovado → segue para a VER; reprovado → **a `[DEV]` é reaberta**, o retrabalho é anotado e volta ao codificador | subagente revisor, rubrica C, até 2 rodadas |
 | Verificação | subfluxo 3: o verificador assume a `[VER]`. Aceito → **PR pronto para o merge**; rejeitado → volta ao codificador (retrabalho) | subagente verificador |
 | Gates | GATE do plano e merge (pessoas) | fatia **sem épico**: sem GATE do plano (a análise L basta) · fatia **de épico**: mantém o GATE do plano · PRD e backlog do épico nunca são AFK · merge sempre de uma pessoa |
-| Responsável pelas tarefas | cada pessoa, a sua tarefa | quem disparou o fluxo: `[DEV]`, `[REV]` e `[VER]` |
+| Responsável pelas tarefas | cada pessoa, a sua tarefa (`[DEV]`, `[REV]`, `[VER]` criadas no ELM) | quem disparou o fluxo: só a `[DEV]` — `[REV]`/`[VER]` não são criadas no ELM (Q8) |
 | Onde mora o estado | `status.md` na branch do PR; cada papel commita o seu relatório e a fase | idem, commitado pelo orquestrador |
 
 **Hoje o texto implementa só o modelo AFK, também para o HITL.** A `sdd-implementar` chama revisão e verificação
@@ -327,7 +327,7 @@ WIP esperando pessoa (HITL) = plano-em-revisao + pr-aberto + em-revisao + em-ver
 `sdd-consolidar` deixa de concluir `[DEV]`/`[REV]`/`[VER]`; fica com o item de backlog, o ELM *as-built*, os CTs e a
 documentação. **Retrabalho:** a `[DEV]` é reaberta (ação de reabertura da PA, pelo modo *assumir*), as horas do
 retrabalho são lançadas nela e ela é concluída de novo quando o PR é atualizado; a PA sem ação de reabertura →
-`ELM pendente: reabrir [DEV] FT-nnn` e aviso. **Horas no AFK:** em análise (Q4).
+`ELM pendente: reabrir [DEV] FT-nnn` e aviso. **Horas no AFK:** só na `[DEV]`, o saldo ao concluir (Q4).
 
 Para isso, **revisor e verificador passam a ter o MCP do ELM** (assumir, reabrir, lançar horas). Só o pesquisador
 continua sem ele; a regra de ouro do guia muda junto.
@@ -399,7 +399,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  S(["pessoa dispara · sdd-loop ou sdd-codificar AFK"]) --> A["assume DEV · REV · VER<br/>responsável = quem disparou"]
+  S(["pessoa dispara · sdd-loop ou sdd-codificar AFK"]) --> A["assume só a DEV · sem REV/VER no ELM (Q8)<br/>responsável = quem disparou"]
   A --> P["subagente pesquisador · plano"]
   P --> L{"análise L do plano"}
   L -->|"AJUSTAR"| P
@@ -412,7 +412,7 @@ flowchart TD
   C -->|"APROVADO"| V{"subagente verificador"}
   V -->|"REJEITADO"| I
   V -->|"ACEITO"| PR["abre o PR · pronta-para-merge"]
-  PR --> H["conclusão de DEV · REV · VER<br/>horas em análise"]
+  PR --> H["horas e conclusão da DEV (Q4)"]
   H --> M{{"merge · pessoa"}}
   M --> K[["sdd-consolidar"]]
   class A,H novo
@@ -448,11 +448,12 @@ flowchart TD
 |---|---|---|---|
 | Q1 | Retrabalho com a `[DEV]` já concluída | **reabrir a `[DEV]`** | modo *assumir* da `sdd-elm` também reabre (ação da PA); horas do retrabalho na própria `[DEV]`; concluída de novo no PR atualizado |
 | Q2 | Como revisor e verificador assumem a tarefa | **os agentes deles têm acesso ao ELM**, também para lançar horas | `sdd-revisor.json` e `sdd-verificador.json` ganham o MCP; a regra de ouro "revisor e verificador não têm o MCP" sai do guia e do steering |
-| Q3 | AFK dispensa o GATE do plano? | **sim, mas não para épicos** | leitura do orquestrador, com a qual concordo: fatia sem épico em AFK dispensa o GATE do plano; **fatia de épico mantém o GATE do plano** (comportamento novo vindo do PRD, onde aprovar o plano rende mais); PRD e backlog do épico nunca são AFK. *Confirmar esta leitura* |
-| Q4 | Horas no AFK | **analisar depois** | fica em aberto; o texto marca "em análise" |
+| Q3 | AFK dispensa o GATE do plano? | **sim, mas não para épicos** | leitura do orquestrador, com a qual concordo: fatia sem épico em AFK dispensa o GATE do plano; **fatia de épico mantém o GATE do plano** (comportamento novo vindo do PRD, onde aprovar o plano rende mais); PRD e backlog do épico nunca são AFK. **Leitura confirmada pelo dono** |
+| Q4 | Horas no AFK | **só na `[DEV]`, ao concluir** | no AFK lança-se uma vez, o saldo na `[DEV]` quando a fatia chega ao PR; revisão e verificação por subagente não lançam horas (não há tarefa delas, Q8) |
 | Q5 | HITL: revisão automática antes do PR | **sim** | `sdd-implementar` roda a rubrica C por subagente como backpressure antes do PR, sem relatório oficial nem rodada; a `[REV]` humana continua |
 | Q6 | A VER só começa com a REV aprovada | **sim** | sequencial: `em-revisao` → `em-verificacao` |
 | Q7 | Mistura de modos por papel | **não: o modo é da fatia**, definido na triagem (sem épico) ou no fatiamento/planejamento (de épico) | o `modo` do `backlog.md` vale para todos os papéis; o `status.md` copia o modo da fatia |
+| Q8 | Tarefas `[REV]`/`[VER]` no AFK | **REV e VER existem no AFK como etapas do fluxo, disparadas automaticamente pela IA com subagentes, sem intervenção humana — por isso não têm tarefa no ELM**; **fatia HITL cria as duas** | `sdd-elm` modo *sprint* e `sdd-planejamento` criam `[REV]`/`[VER]` só para fatia `modo: HITL`; no AFK a `sdd-loop` assume e conclui só a `[DEV]` (responsável = quem disparou); a capacidade de revisão/verificação do AFK sai da reserva de `[REV]`/`[VER]` da sprint |
 
 ### D0.8 Conceito do dono: lançar horas ≠ concluir a tarefa
 
@@ -8005,17 +8006,40 @@ power, com a versão subindo (`2.5.0`, `2.5.1`…) em `plugin.json` **e** em tod
 | 0.5 | A `sdd-triar` termina perguntando **"mais algum item para triar?"** e recomeça |
 
 | 0.6 | **Lançar horas ≠ concluir** (D0.8): lançamento é registro de empenho em tarefa iniciada, a qualquer momento; conclusão é evento separado |
-| 0.6b | Q1–Q7 do D0.7: retrabalho **reabre a `[DEV]`**; revisor e verificador **com MCP do ELM**; AFK sem GATE do plano **exceto fatia de épico** (leitura a confirmar); revisão automática antes do PR no HITL; REV → VER em sequência; o **modo é da fatia** (triagem/planejamento) |
+| 0.6b | Q1–Q7 do D0.7: retrabalho **reabre a `[DEV]`**; revisor e verificador **com MCP do ELM**; AFK sem GATE do plano **exceto fatia de épico** (confirmado); revisão automática antes do PR no HITL; REV → VER em sequência; o **modo é da fatia** (triagem/planejamento) |
 
-**Em aberto:** Q4 (horas no AFK, para depois), a confirmação da leitura do Q3, e estas:
+| 0.7 | AT na **sprint atual**: **regra da reserva** — dentro da reserva de atendimento, quem triou confirma; reserva estourada, o P.O. decide |
+| 0.8 | AT em **Kanban** → iteração corrente; **sem sprint aberta** → fica `backlog` com aviso. **Obs. do dono:** o fluxo Kanban está descrito nas skills mas **nunca foi testado** — revisar o fluxo Kanban por inteiro depois, principalmente as integrações com o ELM (iteração, planos, tarefas) |
+| 0.11 | Skill de código: **`sdd-codificar`** (casa com o agente `sdd-codificador`) |
+| 0.12 | Q3 confirmado; **Q8**: fatia AFK não cria `[REV]`/`[VER]` no ELM; fatia HITL cria (D0.7) |
+
+| 0.10 | Remoção de **worktree** (S19-D1): a **`sdd-consolidar`** (sessão padrão) remove a worktree da fatia mergeada, sem `--force` |
+| 0.13 | **Q4**: horas no AFK só na `[DEV]`, o saldo ao concluir |
+| 0.14 | **Especificação antes do GATE do PRD (Etapa 3, item 4 · S08-D1) — fluxo A.** O rascunho é trabalho da `[ESP]` e registra o levantamento com o cliente (regras, definições). **Sem branch de especificação e sem commit na base antes do GATE.** A `sdd-especificar`, ao assumir a `[ESP]`, copia `rascunho.md` e `decisoes.md` da pasta do épico (criada pela triagem, na base) para a área local `.kiro/local/especificacao/<EP>/`, fora do git; `prd.md` e `elm/` nascem lá. **Fim de cada sessão:** "Registrar a sessão na `[ESP]`?" → `sdd-elm` grava um comentário na `[ESP]` (resumo do levantamento, decisões `D-nn` novas, dúvidas para a próxima reunião) e **anexa cada artefato como `.md` separado, só a última versão** (`rascunho.md`, `decisoes.md`, `prd.md`, `elm/*.md`: o anexo de mesmo nome é substituído; o histórico fica nos comentários). Outra máquina retoma baixando os anexos para a área local. E "Horas desta sessão?" → lança na `[ESP]` (não conclui). Sem MCP → `ELM pendente: registrar sessão [ESP] EP-nn` no `rascunho.md` local. **No GATE do PRD:** a pasta local vai para `<produto>/epicos/<EP>-<slug>/` num único commit na base (bloco "Gravar na base", Etapa 5), com `revisao-prd-<N>.md`. Alternativas descartadas: commit na base a cada sessão (polui a `desenvolvimento`), branch `esp/` (recusada), repositório de produto separado (estrutural, fora desta rodada), só local sem registro |
+| 0.9 | **GATE da rápida × HITL** (S13-D3): **a trilha decide**. A rápida é alteração pequena, sem mudança de regra; com `GATE na trilha rápida = não` pula o GATE do plano também em HITL — a pessoa revisa no PR (`[REV]`) |
+| 0.16 | **ET as-built** (S11-D1): **só a `sdd-consolidar`** gera e publica, na sessão padrão; nenhuma permissão de agente muda; pedido direto no `sdd-produto` → "use a `sdd-consolidar`" |
+| 0.17 | **S08-D2 `verified.by`**: login de **quem aprovou** (inclusive aprovação delegada), e `verified` é **lista** desde a v1.0 — cada nova aprovação acrescenta uma entrada (Etapa 8) |
+| 0.15 | **Revisor e verificador da fatia (Etapa 5, item 1)**: **só no `sprint-<nn>.md`**. O `backlog.md` é a visão de produto (o quê e em que ordem); quem revisa/verifica é alocação da sprint |
+
+**Em aberto:**
 
 | # | Decisão | Opções | Recomendação |
 |---|---|---|---|
-| 0.7 | Quem confirma o AT na **sprint atual** | quem triou · o P.O. · regra da reserva | regra da reserva (dentro dela → quem triou; estourou → P.O.) |
-| 0.8 | AT em **Kanban** ou **sem sprint aberta** | iteração corrente · fica `backlog` | Kanban → iteração corrente; sem sprint → `backlog` + aviso |
-| 0.9 | Precedência **GATE da rápida × HITL** (S13-D3) | a trilha decide · o modo decide | a trilha decide, dito no texto |
-| 0.10 | Remoção de **worktree** (S19-D1) | a pessoa · a consolidação na sessão padrão | a consolidação, sem `--force` |
-| 0.11 | Nome da skill de código | `sdd-codificar` · `sdd-desenvolver` · manter na `sdd-implementar` | `sdd-codificar` (casa com o agente `sdd-codificador`) |
+| 0.8 obs | Revisão do fluxo **Kanban** (nunca testado), sobretudo as integrações com o ELM | — | **pendente para depois**, fora das Etapas 1–9 |
+
+### Etapa 0.5 — MCP `elm`: comentário e anexo em work item (pré-requisito da 0.14)
+
+**Objetivo:** o MCP hoje só **lê** comentários (`ccm_get_workitem`) e não tem anexo; o fluxo A da especificação
+depende dos dois.
+
+| Ferramenta (`mcps/elm/mcp_elm/ccm.py`) | Comportamento |
+|---|---|
+| `ccm_add_comment(workitem_id, text)` | Markdown → HTML do EWM (mesmo conversor da descrição); acrescenta um comentário |
+| `ccm_put_attachment(workitem_id, path)` | anexa o arquivo; já existe anexo de mesmo nome → substitui (última versão) |
+| `ccm_list_attachments(workitem_id)` / `ccm_get_attachment(workitem_id, name, dest)` | lista e baixa — para retomar a especificação em outra máquina |
+
+**Pronto quando:** num work item de teste do EWM real, comentar, anexar, reanexar o mesmo nome (fica um só) e baixar
+devolvem o esperado; sem acesso ao servidor, os testes cobrem a montagem das requisições.
 
 ### Etapa 1 — Triagem única, hub e skills por papel (D0.3)
 
@@ -8056,7 +8080,7 @@ acontecem antes do PR, por subagente.
 | `sdd-implementar/SKILL.md` | HITL: revisão automática C por subagente como backpressure (Q5) → Passo 5 (PR + horas e conclusão da `[DEV]`); verificação por subagente só no AFK; `retrabalho` → reabre a `[DEV]` e retoma no mesmo PR (Q1) |
 | `sdd-revisar/SKILL.md` | HITL: revisa o PR na sessão do revisor; aprovado → horas e conclusão da `[REV]`, `fase: em-verificacao`; reprovado → `retrabalho`; commit do relatório e da fase na branch do PR, push com "sim" |
 | `sdd-verificar/SKILL.md` | HITL: aceito → horas e conclusão da `[VER]`, `fase: pronta-para-merge`; rejeitado → `retrabalho` |
-| `sdd-loop/SKILL.md` | é o modo AFK: assume `[DEV]`/`[REV]`/`[VER]` em nome de quem disparou; GATE do plano só na fatia de épico (Q3); horas: em análise (Q4) |
+| `sdd-loop/SKILL.md` | é o modo AFK: assume só a `[DEV]` em nome de quem disparou (sem `[REV]`/`[VER]` no ELM, Q8); GATE do plano só na fatia de épico (Q3); horas só na `[DEV]`, ao concluir (Q4) |
 | `sdd-consolidar/SKILL.md` | deixa de concluir `[DEV]`/`[REV]`/`[VER]`; entra com `pronta-para-merge` + merge |
 | `sdd-status/SKILL.md`, `sdd-codificar` (WIP) | painel e WIP com as fases novas, por papel |
 | `sdd-plano/SKILL.md` | GATE do plano: obrigatório no HITL e em toda fatia de épico; dispensado no AFK só na fatia sem épico (Q3) |
@@ -8084,8 +8108,10 @@ para por causa do próprio fluxo.
 3. `sdd-plano`: o commit e o Histórico saem do ramo "Aprovado" e valem para qualquer ramo que termine em
    `implementando`; o commit nomeia `research.md`, `.config.kiro`, `requirements`/`bugfix`, `design`, `tasks`,
    `status.md`.
-4. `sdd-prd`: rascunho na base desde o Passo 1 (`switch` + `pull --ff-only`) e commit do rascunho (ou dizer que
-   fica sem commit e que nada troca de branch até o GATE); o commit do GATE inclui `revisao-prd-<N>.md`.
+4. `sdd-prd`/`sdd-especificar` (0.14, fluxo A): até o GATE, o trabalho fica em `.kiro/local/especificacao/<EP>/`
+   (fora do git), e cada sessão termina com o registro na `[ESP]` (comentário + horas, com "sim"); no GATE, a pasta
+   vai para `<produto>/epicos/<EP>-<slug>/` num único commit na base, com `revisao-prd-<N>.md`. A `sdd-elm` ganha o
+   registro de sessão (comentário na tarefa).
 5. Workflows (`sdd-setup/assets/workflows/`): `sdd-planejar-fatia` grava `implementando` + Histórico no "OK sem
    GATE" e tem passo final de commit; `sdd-entregar-fatia` ganha passo `registrar` depois de `revisar` e de
    `verificar`, e fixa quem incrementa a rodada.
@@ -8103,7 +8129,7 @@ explicitamente que ela roda só na sessão padrão.
 |---|---|
 | `sdd-codificador.json` | `git switch .*` no `allowedCommands` (a `sdd-codificar` cria a branch; hoje só tem `fetch`/`pull --ff-only`) |
 | `sdd-orquestrador.json` | `git switch .*` e `git pull --ff-only.*`, se o orquestrador também rodar a `sdd-codificar` fora do loop |
-| `sdd-produto.json` | `.kiro/specs/*/elm/**` no `write` (ET as-built) ou mover a ET para a consolidação na sessão padrão; os `resources` novos vêm da Etapa 1 |
+| `sdd-produto.json` | `.kiro/local/especificacao/**` no `write` (0.14); ET as-built fica só na `sdd-consolidar`, sessão padrão (0.16) — sem mudar o `write` para `.kiro/specs/*/elm/**`; os `resources` novos vêm da Etapa 1 |
 | todos | `git worktree remove .kiro/local/wt/.*` continua negado; a `sdd-consolidar` (sessão padrão) passa a remover a worktree da fatia mergeada |
 | `sdd-setup/SKILL.md` | tabela "skill → agente → comandos/caminhos" gerada a partir dos JSON; conferir na setup |
 | `sdd/SKILL.md` | o parágrafo "Skills sem agente exclusivo" lista também o que cada agente **não** pode (push no `sdd-produto` → a skill entrega o comando) |
@@ -8118,8 +8144,8 @@ explicitamente que ela roda só na sessão padrão.
 
 1. `sdd-fatiar/references/backlog.md`: bloco **"Gravar na base"** (troca para a base com "sim", `pull --ff-only`,
    falhou → avise e pare, sem merge/rebase; árvore suja → avise e pare; commit; push ou PR curto com "sim", nomeando
-   a branch do PR). Coluna `pasta` em `## Épicos`; colunas de revisor/verificador decididas (backlog ou só
-   `sprint-<nn>.md`); quem escreve `status` do épico em cada transição.
+   a branch do PR). Coluna `pasta` em `## Épicos`; revisor/verificador da fatia só no `sprint-<nn>.md`, sem coluna no
+   `backlog.md` (0.15); quem escreve `status` do épico em cada transição.
 2. Citar o bloco em: triar, atender (Concluir), prd, entrevistar (glossário), planejamento, consolidar, aprender
    (com "sim" na troca de branch).
 3. `sdd-setup` cria o `backlog.md` mínimo com `## Épicos` **e** `## Fatias — sem épico` (e `## Atendimentos`, da

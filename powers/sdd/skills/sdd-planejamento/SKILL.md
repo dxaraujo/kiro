@@ -71,7 +71,9 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
    - **HITL**: fatias HITL consomem horas de dev acompanhando;
    - **vazão**: média de fatias concluídas nas últimas 3 sprints, incluídas as puxadas (primeira sprint: comece
      com 1 fatia por dev por semana e ajuste na virada), e o lead time médio por fatia;
-   - **especificação**: horas de especificação da sprint (`horas-especificacao-semana`);
+   - **especificação**: horas de especificação da sprint (`horas-especificacao-semana`); zero no time inteiro e
+     épico a especificar no topo → avise antes de seguir (sem horas não há `[ESP]`: alguém ganha horas de
+     especificação no `equipe.json`, ou o épico fica para depois);
    - **reserva de atendimento e retrabalho**: o percentual do `acordos.md` sobre as **horas da sprint do time
      inteiro** (todos os ativos, menos ausências), descontado antes de selecionar fatias. Dentro dela entram primeiro
      as **fatias migradas** da sprint anterior (horas que faltam, pela estimativa da `[DEV]` restante); o resto fica
@@ -148,10 +150,14 @@ screenshot). Registre o retorno do P.O. no `sprint-<nn>.md`; pedido novo vira ce
    ele fica com `**Situação:** fechada`; no `sprint-<nn+1>.md` novo, cada item migrado ganha a sua linha (seção
    Fatias, Especificação ou Atendimento) com a Observação `migrada da sprint <nn>`. Fatia ou AT migrado → `sprint` = nn+1 na linha do `backlog.md` (fatias e
    `## Atendimentos`), pelo bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base). AT em `backlog` (triado sem sprint aberta) entra no planejamento da próxima como as fatias.
-4. Recalcule vazão média, lead time médio e horas por tipo (`equipe.json` → `historico`), recalibre a reserva (atendimento + retrabalho) de
-   atendimento pelo consumido e replaneje a próxima pelo modo sprint (migradas consomem capacidade primeiro).
+4. Recalcule vazão média, lead time médio e horas por tipo (`equipe.json` → `historico`). Reserva (atendimento +
+   retrabalho): o % é o do `acordos.md`; mostre o consumido da sprint (horas das `[ATD]` + retrabalho) contra ela
+   e, se ficou muito acima ou abaixo, **proponha** um novo % ao P.O. — muda o acordo só com "ok". Replaneje a
+   próxima pelo modo sprint (migradas consomem capacidade primeiro).
 5. **ELM** — `sdd-elm` modo *sprint*, virada: as tarefas não concluídas só mudam o `plannedFor` para a nova
-   iteração (o pai não muda) e as novas são publicadas; roteiro manual de baseline, se o projeto exige.
+   iteração (o pai não muda) e as novas são publicadas; roteiro manual de baseline, se o projeto exige. Iteração do
+   EWM mais longa que a sprint (a mesma cobre as duas) → nada muda no EWM; diga isso, e o relatório de horas da
+   sprint conta só as tarefas listadas no `sprint-<nn>.md`, não a iteração inteira.
 
 ## Regras
 

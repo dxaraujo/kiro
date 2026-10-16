@@ -30,10 +30,10 @@ inventa dado de work item: (1) `status.md` nas branches (atual, worktrees, remot
 
 | Entrada | Como ler |
 |---|---|
-| `FT-nnn` | `<produto>/backlog.md` (+ o PRD do épico ou a ficha da fatia sem épico) |
+| `FT-nnn` | `<produto>/backlog.md` e a ficha da fatia (coluna `ficha`; de épico, também o PRD que ela cobre) |
 | número do EWM (DF, IB) | a linha do `backlog.md` com esse id em `origem` ou `elm` |
 | tarefa `[DEV] FT-nnn` | a fatia do pai |
-| "próxima fatia" | a `pronta` de maior prioridade da sprint aberta sem `status.md` em nenhuma branch; nenhuma → a `pronta` do topo do backlog (puxada; no Kanban, sempre esta) |
+| "próxima fatia" | a `pronta` de maior prioridade da sprint aberta sem `status.md` em nenhuma branch; nenhuma → a `pronta` do topo do backlog, também sem `status.md` em branch ou worktree (puxada; no Kanban, sempre esta) |
 | `[REV]`, `[VER]`, `EP-nn`/`[ESP]`, `AT-nnn`/`[ATD]` | não é deste papel → "use `sdd-iniciar <item>`" e pare |
 | pedido em texto, ou id que não está no backlog | não está registrado → "use `sdd-triar`" e pare |
 
@@ -41,7 +41,10 @@ Fatia já iniciada (tem pasta em `.kiro/specs/` nesta branch, em worktrees ou em
 `git grep -l '<id>' <ref> -- '.kiro/specs/*/status.md'`) → leia o `status.md` e **retome**: Passo 4, item 4
 (assumir: a `sdd-elm` modo *assumir* não repete o que já foi feito) e Passo 5, sem repetir o Passo 3. Branch
 diferente da atual → pergunte se troca (alterações locais não commitadas → avise e pare; nunca ofereça descartar,
-`stash` ou `reset`).
+`stash` ou `reset`). O `modo` do `backlog.md` mudou desde a criação (difere do `Modo` do `status.md`) → vale o
+backlog: mostre a diferença e, com "sim", atualize o `status.md` (linha no Histórico) e as tarefas — HITL → AFK:
+`[REV]`/`[VER]` ainda não iniciadas são canceladas; AFK → HITL: o modo *sprint* da `sdd-elm` cria as que faltam,
+com revisor e verificador escolhidos agora.
 
 ## Passo 2 — Trilha
 
@@ -54,7 +57,7 @@ item, a trilha registrada não serve (a "rápida" tem regra de negócio nova, a 
 |---|---|
 | **padrão** | pesquisa → plano → **GATE do plano** → implementação → revisão → verificação → PR |
 | **rápida** | pesquisa curta → `bugfix.md` + `tasks.md` (o teste que reproduz primeiro) → implementação → revisão → verificação → PR |
-| **direta** | pasta só com o `status.md`, sem spec: teste que falha (quando houver comportamento) → mudança → backpressure → revisão (`sdd-revisar`, rubrica C sobre o diff, com o pedido no lugar dos critérios) → PR |
+| **direta** | pasta só com o `status.md`, sem spec: teste que falha (quando houver comportamento) → mudança → backpressure → revisão (`sdd-revisar`, rubrica C sobre o diff, com a ficha — pronto quando, não muda — no lugar dos critérios) → evidência do "como verificar" → PR → conclusão da `[DEV]` |
 
 ## Passo 3 — Compromisso
 
@@ -85,7 +88,8 @@ o caminho, e não comece.
    criá-lo (Passo 4).
 5. **Registro publicado.** A linha da fatia, a ficha e o encaixe já estão em `origin/<base>`
    (`git grep -q '<FT>' origin/<base> -- <produto>/backlog.md`)? Só no local → peça o push (ou o merge do PR curto)
-   antes: a branch nasce de `origin/<base>`, e um id que ainda não chegou lá pode mudar.
+   antes: a branch nasce de `origin/<base>`, e um id que ainda não chegou lá pode mudar. Repositório sem remoto
+   (ou base nunca publicada) → não há o que conferir: a branch nasce da base local; diga isso e siga.
 
 ## Passo 4 — Branch, pasta e `[DEV]`
 
@@ -112,11 +116,15 @@ o caminho, e não comece.
    | sem épico, com item de origem (DF, IB) | `[DEV]` `[REV]` `[VER]` — direta: só a `[DEV]` | o próprio item de origem — **sem IB novo** |
    | sem épico, pedido em texto | `[DEV]` `[REV]` `[VER]` — direta: só a `[DEV]` | IB `[FT-nnn]`, filho do épico de Sustentação — direta: o épico de Sustentação |
 
-   Fatia **AFK**: só a `[DEV]`, em qualquer linha — revisão e verificação são subagentes, sem tarefa.
+   Fatia **AFK**: só a `[DEV]`, em qualquer linha — revisão e verificação são subagentes, sem tarefa. Fatia
+   **HITL puxada** (não passou pelo planejamento, sem revisor nem verificador na sprint) → antes de criar `[REV]`
+   e `[VER]`, pergunte quem revisa e quem verifica (sugira pelo `equipe.json`: papéis e `horas-revisao-semana`,
+   nunca quem implementa) e grave no Histórico ao lado de `Puxada para a sprint <nn>`; a `sdd-consolidar` leva
+   para a linha `puxada` do `sprint-<nn>.md`.
 
    Grave os ids das tarefas no campo ELM do `status.md` — é por ele que as horas acham a tarefa. Chamada daqui, na
    branch da fatia, a `sdd-elm` não grava o `backlog.md` nem o `sprint-<nn>.md`: os ids ficam no `status.md`, e a
-   `sdd-consolidar` os leva ao backlog. Sem o power `elm`: `ELM pendente: assumir [DEV] FT-<nnn>` no `status.md`.
+   `sdd-consolidar` os leva ao backlog. Sem o power `elm`: `ELM pendente [<chave>]: assumir [DEV] FT-<nnn>` no `status.md`.
 5. Commit pequeno do `status.md` e do `.config.kiro` e, com "sim", push da branch — é o sinal para o time de que a fatia começou.
 
 ## Passo 5 — Encaminhar

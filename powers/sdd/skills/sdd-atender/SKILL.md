@@ -37,7 +37,7 @@ Não é atendimento (pedido que muda o comportamento do sistema, ou regra que ni
 
 **`sdd-elm` modo *assumir*** (com "sim"): responsável = quem está na sessão, estado em andamento da PA (ex.: *Em
 Desenvolvimento*); já minha e em andamento → nada a fazer. AT com `elm` `pendente` (registrado sem o power `elm`) → antes,
-`sdd-elm` modo *atendimento* (Registrar). Sem o power `elm` → `ELM pendente: assumir [ATD] AT-<nnn>` no registro do AT, e
+`sdd-elm` modo *atendimento* (Registrar). Sem o power `elm` → `ELM pendente [<chave>]: assumir [ATD] AT-<nnn>` no registro do AT, e
 siga.
 
 ## Passo 3 — Executar
@@ -62,7 +62,7 @@ siga.
 2. **Saldo de horas:** mostre o que já foi lançado na `[ATD]` (`elm-ccm` › horas lançadas) e pergunte só o que falta →
    `sdd-elm` modo *horas*; depois `sdd-elm` modo *atendimento* (Concluir), com uma confirmação. Cada lançamento
    ganha uma linha na tabela Horas do registro. Sem o power `elm` ou com
-   falha → `ELM pendente: lançar <h>h e concluir [ATD] AT-<nnn>` no registro.
+   falha → `ELM pendente [<chave>]: lançar <h>h e concluir [ATD] AT-<nnn>` no registro.
 3. `**Situação:** concluido` no registro; na linha do AT no `backlog.md`, `status` `concluido` e `concluida-em`;
    a situação no `sprint-<nn>.md`. O commit é **um só**, no fim do Passo 5 (com a Saída), pelos itens 3 e 4 do
    bloco Gravar na base.
@@ -89,7 +89,7 @@ instrui e para: **nunca invoque nem simule outra skill**.
 
 **Origem:** chamado 4521 · **Pedido por:** área de segurança · **Prazo:** 2026-10-16
 **Responsável:** joao.lima · **Tarefa ELM:** 669380 · **Situação:** aberto | concluido
-**Critério de pronto:** planilha com as contas bloqueadas por tentativas, por dia
+**Critério de pronto:** planilha com as contas bloqueadas por tentativas, por dia · **Estimativa:** 3 h
 
 ## Pedido
 <o que o cliente precisa receber, nas palavras dele, sem dado pessoal>

@@ -22,7 +22,7 @@ de mostrá-las.
 ## `.config.kiro`
 
 Uma linha de JSON, criada pela `sdd-desenvolver` junto com a pasta (a `sdd-plano` cria se faltar; `specId` = um
-UUID novo: `uuidgen` ou `python3 -c "import uuid; print(uuid.uuid4())"`):
+UUID novo: `uuidgen`, em minúsculas — é o comando que os agentes podem rodar):
 
 ```json
 {"specId": "<uuid>", "workflowType": "requirements-first", "specType": "feature"}
@@ -70,7 +70,8 @@ FT-<nnn> — <título>. <O comportamento que esta fatia entrega, em 2–3 frases
 # Bugfix Requirements Document
 
 ## Introduction
-FT-<nnn> — <título> (DF <id>). Fonte do comportamento correto: <HF/REG do ELM | decisão D-nn | regra óbvia>.
+FT-<nnn> — <título> (DF <id>). Ficha: `<produto>/fatias/FT-<nnn>-<slug>.md`. Fonte do comportamento correto:
+<HF/REG do ELM | decisão D-nn | regra óbvia>.
 
 ## Bug Analysis
 
@@ -96,7 +97,15 @@ Para toda entrada sem `condicaoDoDefeito`, o resultado é igual ao de antes da c
 ```
 
 As primeiras tarefas do `tasks.md` de um bugfix são sempre: **1.** teste que reproduz a condição do defeito
-(vermelho) e **2.** testes de preservação (verdes antes e depois da correção).
+(vermelho) e **2.** testes de preservação (verdes antes e depois da correção). A tarefa 1 e a da correção fecham
+num **ciclo só** (um commit, verde — `sdd-implementar` Passo 1).
+
+**Testes existentes que mudam** (qualquer trilha): a correção ou o comportamento novo contradiz o esperado de um
+teste que já existe → declare no `bugfix.md` (em Expected Behavior, um item `2.x` com o teste, o esperado de hoje
+e o novo) ou no `requirements.md` (critério com o teste citado), com a **fonte da decisão** (pessoa, `D-nn`) — e
+uma tarefa própria para mudar a expectativa. Isso força o GATE do plano (`sdd-plano` Passo 5), mesmo na rápida
+com `GATE na trilha rápida = não`. Sem decisão de uma pessoa → é lacuna de negócio: pergunte (ou, autônomo,
+`bloqueada`).
 
 ## `design.md`
 
@@ -146,6 +155,9 @@ falhas numa janela de 15 minutos.
 | Cenário | Como executar | Esperado | Onde verificar |
 |---|---|---|---|
 | HF-01 · 1.2 | 4× `POST /login` com senha errada (massa: usuário `teste.bloqueio`) | 4ª resposta 423, conta **Bloqueada** | resposta + `SELECT situacao FROM conta WHERE login=…` |
+
+O Esperado repete o **"Então" do cenário** com os mesmos valores visíveis (texto, rótulo, mensagem, nome de
+arquivo) — palavra por palavra; o valor interno que o produz (enum, código) vai em Data Models, nunca no lugar dele.
 
 ## Decisões técnicas
 | Decisão | Alternativas | Motivo | Vira ADR? |

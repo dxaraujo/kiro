@@ -104,7 +104,7 @@ de `skills/sdd-setup/assets/`:
 O ELM é do **power `elm`** (MCP `mcp-elm` + skills `elm-*`): o `sdd` decide quando e o quê registrar e pede
 **operações** às skills `elm-*`, nunca chama tool direto. Os agentes que conduzem sessão (`sdd-produto`,
 `sdd-codificador`, `sdd-orquestrador`) e o revisor e o verificador (só para a própria tarefa) recebem o power com
-`includePowers: true`; o pesquisador não. Requer power `elm` ≥ 1.3.0 e `mcp-elm` ≥ 1.0.37. Sem o power, a escrita
+`includePowers: true`; o pesquisador não. Requer power `elm` ≥ 1.3.0 e `mcp-elm` ≥ 1.0.38. Sem o power, a escrita
 vira pendência registrada.
 
 Cada agente tem as permissões mínimas do papel, nos dois blocos do formato universal (`toolsSettings` para a
@@ -164,7 +164,9 @@ Depois de atualizar o power ou um toolkit: "atualizar os agentes do sdd" — na 
 passam a carregar as skills de papel (`sdd-especificar`, `sdd-desenvolver`) e o hub `sdd-iniciar`, o `sdd-codificador`
 ganha `git switch`, o `sdd-produto` a pasta `.kiro/local/especificacao/` e os anexos do EWM, e o revisor e o
 verificador o ELM pelo power `elm` (`includePowers: true`, só para a própria tarefa); o servidor `elm` sai do
-`mcp.json` do projeto. Requer o power `elm` ≥ 1.3.0 e o `mcp-elm` ≥ 1.0.37 (anexos). Projeto configurado com o power
+`mcp.json` do projeto. Requer o power `elm` ≥ 1.3.0 e o `mcp-elm` ≥ 1.0.38 (anexos; mudança de estado em várias transições).
+Na 2.6.0, "atualizar os agentes do sdd" de novo: o `sdd-revisor` passa a gravar a revisão do PRD na pasta de
+trabalho local, e o `sdd.md` ganha a linha "Padrões do EWM" ("atualizar a configuração do sdd"). Projeto configurado com o power
 `sdd2` ou com a v1 do `sdd`: desinstale o power antigo, instale este e peça "atualizar a configuração do sdd" — a
 setup pergunta a pasta do produto, junta os steerings num só, renomeia hooks, workflows e agentes e move
 `.kiro/produto/` e `.kiro/aprendizado/` com `git mv`.

@@ -23,12 +23,16 @@ e pergunte se retoma. Retomar = continuar cada fatia da fase registrada no `stat
 
 ## Passo 1 — Fronteira e lote
 
-1. Candidatas: as fatias pedidas, ou as `pronta` + `AFK` da sprint atual, em ordem de prioridade. Fatia pedida
-   que não está na sprint aberta → fica de fora até o encaixe (`sdd-planejamento`, seção Encaixe). Kanban
+1. Candidatas: as fatias pedidas, ou as `pronta` + `AFK` da sprint atual, em ordem de prioridade — sempre **sem
+   `status.md`** em nenhuma branch ou worktree (já em andamento). Fatia pedida fora da sprint aberta → a regra de
+   puxar da `sdd-desenvolver` (Passo 3, item 3): é a `pronta` do topo e o WIP tem folga → entra no lote como
+   **puxada** (`Puxada para a sprint <nn>` no Histórico); fura a fila → fica de fora até o encaixe
+   (`sdd-planejamento`, seção Encaixe). Kanban
    (`acordos.md`): não há sprint nem encaixe — vale a `pronta` do topo do backlog, e as `[DEV]` do lote nascem na
    confirmação (`sdd-elm` modo *sprint*, iteração corrente).
-2. Fica de fora (diga o motivo): HITL; trilha direta (é da sessão da pessoa); Definition of Ready não atendida; `bloqueada-por` não concluída e não
-   presente antes no lote; já em andamento com outra pessoa.
+2. Fica de fora (diga o motivo): HITL; trilha direta (é da sessão da pessoa); `EP-nn`, PRD, fatiamento e `AT-nnn`
+   ("PRD, backlog e atendimento nunca são AFK"); Definition of Ready não atendida; `bloqueada-por` não concluída e
+   não presente antes no lote; já em andamento (tem `status.md`).
 3. **Limite:** paralelismo do `sdd.md` (padrão 1, máximo 3) **e** vagas de WIP de revisão humana (limite
    dos acordos menos as fatias já esperando pessoa: `plano-em-revisao`, `pr-aberto`, `em-revisao`,
    `em-verificacao`, `aceita`, `pronta-para-merge`). PR que ninguém vai
@@ -46,7 +50,8 @@ e pergunte se retoma. Retomar = continuar cada fatia da fase registrada no `stat
    há [REV] nem [VER]: revisão e verificação são dos subagentes
    Confirma?
    ```
-   Com "sim" e o power `elm`: assuma as `[DEV]` (`sdd-elm`); sem o power `elm` ou com falha → `ELM pendente: assumir a
+   Com "sim" e o power `elm`: fatia sem `[DEV]` (puxada, ou publicação que falhou) → `sdd-elm` modo *sprint* cria
+   (só a `[DEV]`, AFK); depois assuma as `[DEV]` (`sdd-elm` modo *assumir*, que também inicia o IB); sem o power `elm` ou com falha → `ELM pendente [<chave>]: assumir a
    tarefa` no `status.md` de cada fatia.
 5. Log `.kiro/local/loop-<AAAA-MM-DD-HHMM>.md` (formato no fim).
 
@@ -85,10 +90,10 @@ seguinte da mesma fatia.
 | 1 | pesquisa | `sdd-pesquisador` (`sdd-pesquisar`) | `research.md` gravado |
 | 2 | plano | `sdd-codificador` (`sdd-plano`, Passos 2–3) | spec do Kiro gravada · ou `bloqueada` |
 | 3 | análise do plano | `sdd-revisor` (rubrica L) → `sdd-codificador` corrige | `ANALISE: OK` · 2 rodadas sem OK → `bloqueada` |
-| 4 | GATE do plano | você | fatia **de épico** → commit do plano na worktree, **pare esta fatia** em `plano-em-revisao` e siga com as outras (retoma depois do GATE) · fatia **sem épico** → grave `fase: implementando` e siga |
+| 4 | GATE do plano | você | a regra do Passo 5 da `sdd-plano`, na ordem dela (teste existente que muda → rápida com `GATE na trilha rápida` → épico): pede pessoa → commit do plano na worktree, **pare esta fatia** em `plano-em-revisao` (`Responsável` = quem aprova) e siga com as outras (retoma depois do GATE) · não pede → grave `fase: implementando` e siga |
 | 5 | implementação | `sdd-codificador` (`sdd-implementar`, Passos 0–2) | tarefas `[x]` e backpressure verde · ou `bloqueada` |
 | 6 | revisão do código | `sdd-revisor` (rubrica C) → volta à 5 com os achados | `VEREDITO: APROVADO` · 2ª reprovação → `bloqueada` |
-| 7 | verificação | `sdd-verificador` (`sdd-verificar`) | `ACEITO` · `REJEITADO` → volta à 5 uma vez; de novo → `bloqueada` |
+| 7 | verificação | `sdd-verificador` (`sdd-verificar`) | `ACEITO` · `REJEITADO` → volta à 5 com os cenários rejeitados (retrabalho: linha na tabela Retrabalho do `status.md`, Rodadas `retrabalho` + 1) e **passa de novo pela 6** antes da 7; de novo rejeitado → `bloqueada` |
 | 8 | entrega | você | `fase: aceita`; commit do que faltar; push + PR se autorizado no lote (texto do Passo 5 da `sdd-implementar`; o Kiro ainda pode pedir confirmação a cada push, conforme as permissões) → `fase: pronta-para-merge` com o link do PR no `status.md`, commit e push (item 4 do Passo 5 da `sdd-implementar`); sem PR autorizado → fica `aceita` |
 
 Depois de cada fase: grave a fase seguinte (`planejando` depois da pesquisa, `revisando` antes da revisão do
@@ -116,11 +121,11 @@ Os **Kiro Workflows** do sdd (se instalados) não fazem parte do loop: são rece
   🤖 Loop AFK — resultado
   | FT | Resultado | PR | Rodadas (plano/código/aceite) | Observação |
   Aguardando pessoa: <planos para aprovar · PRs para revisar · bloqueios com pergunta>
-  ELM pendente: <o que falhou ou ficou sem o power `elm`>
+  ELM pendente [<chave>]: <o que falhou ou ficou sem o power `elm`>
   Lições para registrar: <correções que o loop precisou — sdd-aprender>
   ```
 - **Horas e conclusão, numa pergunta só** (com o power `elm`): uma tabela `tarefa | horas sugeridas` com as `[DEV]`
-  das fatias que chegaram ao PR; a pessoa ajusta e confirma de uma vez → `sdd-elm` modo *horas* e modo
+  das fatias que chegaram a `aceita` (com ou sem PR aberto); a pessoa ajusta e confirma de uma vez → `sdd-elm` modo *horas* e modo
   *conclusão* da `[DEV]`. No AFK as horas só vão para a `[DEV]`, ao concluir: revisão e verificação por subagente
   não têm tarefa nem horas.
 - Worktrees ficam até o merge; quem as remove é a **`sdd-consolidar`** (sessão padrão), depois do merge — os
@@ -138,6 +143,6 @@ Os **Kiro Workflows** do sdd (se instalados) não fazem parte do loop: são rece
 
 - Nunca merge, nunca `--force`, nunca push sem a autorização do lote.
 - ELM só pelo que o lote confirmou (assumir `[DEV]`, estados) e pelas horas do fim; nada mais. Sem o power `elm` ou com
-  falha → `ELM pendente: …` no `status.md`.
+  falha → `ELM pendente [<chave>]: …` no `status.md`.
 - Nunca relaxe um gate para o loop andar: bloqueio é informação, não falha.
 - Tipo de fatia que bloqueia com frequência → sugira na retrospectiva tratá-lo como HITL.

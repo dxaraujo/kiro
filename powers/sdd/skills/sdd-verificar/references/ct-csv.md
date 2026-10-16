@@ -19,7 +19,7 @@ linha `CT.csv` da seção ELM do `sdd.md` — o template de importação do ETM 
 |---|---|---|
 | 1 | Tipo | tipo de artefato de teste da importação (padrão: Caso de Teste) |
 | 2 | Resumo | `<FT-nnn> <título curto> : CT<nn> - <título do cenário>` |
-| 3 | Responsável | login do ELM de quem verificou |
+| 3 | Responsável | login do ELM de quem verificou (AFK, verificado por subagente: quem disparou o loop ou o workflow — o responsável da `[DEV]`) |
 | 4 | Status | estado inicial (padrão do projeto) |
 | 5 | Categoria | do projeto, se houver |
 | 6 | Planejado para | sprint (iteração do EWM), se houver |

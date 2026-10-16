@@ -1,6 +1,6 @@
 {
   "name": "sdd-planejar-fatia",
-  "description": "sdd — pesquisa e plano de UMA fatia (spec do Kiro) com análise independente; a pessoa dispara na branch da fatia, no checkout principal; cada passo roda numa sessão nova. Termina com o plano commitado: em implementando quando a regra do GATE o dispensa (fatia AFK sem épico, trilha rápida com GATE na trilha rápida = não), senão em plano-em-revisao, esperando o GATE de uma pessoa.",
+  "description": "sdd — pesquisa e plano de UMA fatia (spec do Kiro) com análise independente; a pessoa dispara na branch da fatia, no checkout principal; cada passo roda numa sessão nova. Termina com o plano commitado: em implementando quando a regra do GATE o dispensa (fatia AFK sem épico, trilha rápida com GATE na trilha rápida = não), senão em plano-em-revisao, esperando o GATE de uma pessoa. Informe a fatia sempre do mesmo jeito (o id do backlog, ex.: FT-031): o estado da execução fica em .kiro/local/wf/<fatia como digitada>/.",
   "inputs": {
     "fatia": "string"
   },
@@ -21,7 +21,7 @@
       "type": "step",
       "id": "plano",
       "agent": "sdd-codificador",
-      "prompt": "Fatia {{fatia}}. AUTONOMO=true. Siga a skill sdd-plano, Passos 2 e 3 (o research.md já existe). Não rode a análise nem o GATE. No status.md: fase planejando (o plano em análise continua em planejando). Lacuna de negócio ou divergência com o plano: registre a pergunta (ou Esperado / Encontrado / Por que importa) no status.md e termine com send_message severity warning trazendo-a — a execução pausa até a pessoa responder neste passo; com a resposta, registre a decisão, conclua e termine com severity success. Bloqueio técnico (build quebrado na base, ferramenta ou ambiente fora): send_message severity error com o motivo."
+      "prompt": "Fatia {{fatia}}. AUTONOMO=true. Siga a skill sdd-plano, Passos 2 e 3 (o research.md já existe). Não rode a análise nem o GATE. No status.md: fase planejando (o plano em análise continua em planejando). Commite o plano (research.md, .config.kiro, requirements.md ou bugfix.md, design.md, tasks.md e status.md; mensagem no padrão de commit do sdd.md, texto 'registrar plano (rascunho)'), para que a análise seja de um plano que está no git. Lacuna de negócio ou divergência com o plano: registre a pergunta (ou Esperado / Encontrado / Por que importa) no status.md e termine com send_message severity warning trazendo-a — a execução pausa até a pessoa responder neste passo; com a resposta, registre a decisão, conclua e termine com severity success. Bloqueio técnico (build quebrado na base, ferramenta ou ambiente fora): send_message severity error com o motivo."
     },
     {
       "type": "repeat",
@@ -54,7 +54,7 @@
       "id": "registrar",
       "type": "step",
       "agent": "sdd-codificador",
-      "prompt": "Fatia {{fatia}}. AUTONOMO=true. Leia .kiro/local/wf/{{fatia}}/plano.json. Se for OK, aplique a regra do GATE do Passo 5 da skill sdd-plano: fatia AFK sem épico, ou trilha rápida com 'GATE na trilha rápida = não' no sdd.md → fase implementando, Histórico 'análise basta' (ou 'rápida sem GATE'); senão → fase plano-em-revisao (espera o GATE de uma pessoa). Se não for OK (duas rodadas sem OK) → fase bloqueada (de: planejando), com os achados abertos e a pergunta à pessoa. Em todos os casos, faça um commit com research.md, .config.kiro, requirements.md ou bugfix.md, design.md, tasks.md e status.md (mensagem no padrão de commit do sdd.md, texto 'registrar plano'); a árvore da fatia termina limpa. Termine com send_message severity success (implementando), warning (plano-em-revisao: o GATE é da pessoa) ou error (bloqueada)."
+      "prompt": "Fatia {{fatia}}. AUTONOMO=true. Leia .kiro/local/wf/{{fatia}}/plano.json. Se for OK, aplique a regra do GATE do Passo 5 da skill sdd-plano, na ordem dela: plano que muda a expectativa de teste existente → plano-em-revisao; trilha rápida → 'GATE na trilha rápida' do sdd.md decide (não → implementando, Histórico 'rápida sem GATE'; sim → plano-em-revisao), em qualquer modo; HITL ou fatia de épico → plano-em-revisao (Responsável = quem aprova); AFK sem épico → implementando, Histórico 'análise basta'. Se não for OK (duas rodadas sem OK) → fase bloqueada (de: planejando), com os achados abertos e a pergunta à pessoa. Em todos os casos, faça um commit com research.md, .config.kiro, requirements.md ou bugfix.md, design.md, tasks.md e status.md (mensagem no padrão de commit do sdd.md, texto 'registrar plano'); a árvore da fatia termina limpa. Termine com send_message severity success (implementando), warning (plano-em-revisao: o GATE é da pessoa) ou error (bloqueada)."
     }
   ]
 }

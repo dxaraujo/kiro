@@ -57,6 +57,9 @@ Responda com a instrução e **pare**: nunca invoque nem simule a skill do papel
    | 2 | [REV] 669401 | FT-031 Bloquear a conta | Novo | sdd-revisar |
    Qual? (número)
    ```
+   Tarefa sem tipo do sdd no título (`[DEV]`, `[REV]`, `[VER]`, `[ESP]`, `[ATD]` não aparecem): mostre no fim, com
+   Skill `— (fora do sdd)`; escolhida → diga que não é do fluxo e ofereça a `sdd-triar` se ela deve virar trabalho
+   do fluxo.
 3. A pessoa escolhe → Passo 2 com o item escolhido. Nenhuma tarefa → diga e ofereça "próxima fatia"
    (`sdd-desenvolver`) ou a `sdd-status`.
 

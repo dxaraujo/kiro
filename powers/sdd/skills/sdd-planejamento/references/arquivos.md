@@ -68,7 +68,7 @@ URL abaixo, nunca um caminho local:
 | Cerimônias | planejamento (seg, 1h) · review (última qui, 30 min) · retrospectiva (última qui, 30 min) |
 | WIP | 1 fatia por sessão de agente · revisão + PR aberto ≤ 2 por revisor · PR parado > 1 dia: destravar antes de fatia nova (exceção fica registrada: `WIP excedido`) |
 | Tamanhos | P (horas) · M (≈ 1 dia) · G (2–3 dias) · maior → dividir (sem pontos; a previsão é pela vazão) |
-| Reserva de atendimento e retrabalho | 20% das horas da sprint do time, para atendimentos e retrabalho da sprint anterior (fatias migradas primeiro), recalibrada na virada |
+| Reserva de atendimento e retrabalho | 20% das horas da sprint do time, para atendimentos e retrabalho da sprint anterior (fatias migradas primeiro); na virada, o P.O. pode mudar o % olhando o consumido (muda aqui, com "ok") |
 | Lançamento de horas | Cadência do time (padrão: ao fechar cada sessão de trabalho), em qualquer tarefa iniciada; na conclusão, só o saldo. Lançar não conclui |
 
 ## Definition of Ready (fatia)
@@ -111,10 +111,11 @@ máxima das últimas sprints) quando houver histórico.
 
 ## Fatias
 
-| FT | Título | Tam. | Modo | Responsável | Revisor | Verificador | Status | Observação |
-|---|---|---|---|---|---|---|---|---|
-| FT-031 | Bloquear a conta após 3 tentativas | M | HITL | joao.lima | ana.souza | ana.souza | concluida | |
-| FT-033 | Avisar o usuário do bloqueio | M | HITL | ana.souza | joao.lima | rita.melo | → sprint <nn+1> | aguardando texto do e-mail |
+| FT | Título | Tam. | Modo | Responsável | Revisor | Verificador | Status | Tarefa ELM | Observação |
+|---|---|---|---|---|---|---|---|---|---|
+| FT-031 | Bloquear a conta após 3 tentativas | M | HITL | joao.lima | ana.souza | ana.souza | concluida | DEV 669401 · REV 669402 · VER 669403 | |
+| FT-033 | Avisar o usuário do bloqueio | M | HITL | ana.souza | joao.lima | rita.melo | → sprint <nn+1> | DEV 669410 · REV 669411 · VER 669412 | aguardando texto do e-mail |
+| FT-034 | Corrigir o texto do e-mail | P | — | joao.lima | — | — | concluida | DEV 669420 | puxada |
 
 ## Especificação
 
@@ -124,14 +125,14 @@ máxima das últimas sprints) quando houver histórico.
 
 ## Atendimento
 
-Reserva: <h>h · consumido: <h>h
+Reserva (atendimento + retrabalho): <h>h · consumido: <h>h · retrabalho migrado: <h>h
 
 | AT | Pedido | Origem | Responsável | Horas | Tarefa ELM | Situação |
 |---|---|---|---|---|---|---|
 | AT-012 | Extração de contas bloqueadas em setembro | chamado 4521 | joao.lima | 3 | 669380 | concluido |
 
 ## Capacidade
-Revisão: <h>h · HITL: <h>h · Especificação: <h>h · Reserva de atendimento: <h>h · Vazão prevista: <n> fatias (previsão; o compromisso é a meta)
+Revisão: <h>h · HITL: <h>h · Especificação: <h>h · Reserva (atendimento + retrabalho): <h>h · Vazão prevista: <n> fatias (previsão; o compromisso é a meta)
 
 ## Review
 <retorno do P.O. por fatia; pedidos novos → backlog>
@@ -153,6 +154,9 @@ Concluídas: <n> fatias (<p> previstas · <q> puxadas) · meta: <atingida | não
 ```
 
 Situação da especificação: `entrevista`, `PRD`, `fatiamento`, `concluida` ou `→ sprint <nn+1>`. Situação do
-atendimento: `aberto`, `concluido` ou `→ sprint <nn+1>`. "Tarefa ELM" é o id da tarefa no EWM, ou `pendente`.
+atendimento: `aberto`, `concluido` ou `→ sprint <nn+1>`. "Tarefa ELM" é o id da tarefa no EWM, ou `pendente`
+(nas fatias, as tarefas com prefixo — `DEV <id> · REV <id> · VER <id>`; AFK e direta, só a `DEV`), gravada pela
+`sdd-elm` modo *sprint* (e pela `sdd-consolidar` na fatia puxada). Observação: `puxada`, `encaixe: <decisão>
+(<quem>, <data>)`, `migrada da sprint <nn>` ou texto livre.
 
 A coluna Status espelha o `backlog.md` do produto no fechamento; durante a sprint, o painel (`sdd-status`) é a fonte.

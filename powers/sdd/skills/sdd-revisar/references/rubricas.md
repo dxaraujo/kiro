@@ -29,9 +29,9 @@ Fecho: `RESULTADO: PRONTO` ou `RESULTADO: AJUSTAR`.
 
 | # | Verificação | Severidade |
 |---|---|---|
-| L1 | Todo cenário que a fatia cobre (backlog `cobre`, ou os `C<n>` da ficha da fatia sem épico) tem critério de aceite em `requirements.md`, e nenhum critério sai do que a fatia cobre. Trilha rápida (`cobre` vazio): o `bugfix.md` tem comportamento atual com evidência, esperado com fonte e o que não muda | BLOQUEANTE |
+| L1 | Todo cenário que a fatia cobre (backlog `cobre`, ou os `C<n>` da ficha da fatia sem épico) tem critério de aceite em `requirements.md`, e nenhum critério sai do que a fatia cobre. Trilha rápida: o `bugfix.md` tem o comportamento atual com evidência, o esperado com fonte e o que não muda, como na ficha. **Todo valor visível ao usuário no "Então" do cenário** (texto, rótulo, mensagem, nome de arquivo, formato) aparece **igual, palavra por palavra**, no critério e no Esperado do contrato de pronto do `design.md` — nome de enum, código interno ou tradução não servem | BLOQUEANTE |
 | L2 | Todo critério (ou item 2.x/3.x do `bugfix.md`) tem ao menos uma tarefa no `tasks.md` (`_Requirements: N.M_`); bugfix começa pelo teste da condição do defeito e pelos testes de preservação | BLOQUEANTE |
-| L3 | Nenhuma regra de negócio que não esteja no PRD/ELM, no `decisoes.md` ou na ficha da fatia sem épico (Regras e Decisões) | BLOQUEANTE |
+| L3 | Nenhuma regra de negócio que não esteja no PRD/ELM, no `decisoes.md` ou na ficha da fatia sem épico (Regras e Decisões). O plano muda a expectativa de um **teste existente** → está na seção "Testes existentes que mudam", com a fonte da decisão (pessoa, `D-nn`) e com o GATE forçado (`sdd-plano` Passo 5) | BLOQUEANTE |
 | L4 | Os caminhos, classes e análogos citados existem (conferir com `glob`/`read`) — ou estão marcados "a criar" | BLOQUEANTE |
 | L5 | O design segue o steering de tecnologia/estrutura, as regras críticas do `sdd.md` e as lições promovidas | BLOQUEANTE |
 | L6 | Tarefas em ciclo de teste: cada comportamento começa por um teste que falha; corretiva começa pelo teste que reproduz o defeito | IMPORTANTE |
@@ -54,9 +54,9 @@ Reprovação em qualquer eixo é `REVISAR`.
 | # | Verificação | Severidade |
 |---|---|---|
 | C1 | Cada critério de `requirements.md`/`bugfix.md` tem implementação (`critério → arquivo:linha`), citando a linha do critério | BLOQUEANTE |
-| C2 | Cada cenário da fatia tem teste automatizado que o exercita pelo ponto de teste do `design.md` (`cenário → teste`) | BLOQUEANTE |
-| C3 | Os comandos de backpressure do `sdd.md` passam (compilar, testes, lint, cobertura se houver gate) — **executar** | BLOQUEANTE |
-| C4 | Oráculo protegido: nenhum teste removido, desabilitado, ignorado, com assert vazio, enfraquecido ou tautológico (esperado recalculado como o código calcula); nenhuma exceção engolida | BLOQUEANTE |
+| C2 | Cada cenário da fatia tem teste automatizado que o exercita pelo ponto de teste do `design.md` (`cenário → teste`), e o esperado do teste usa o valor visível do "Então" do cenário, igual | BLOQUEANTE |
+| C3 | Os comandos de backpressure do `sdd.md` passam (compilar, testes, lint, cobertura se houver gate, medida no que o diff criou ou alterou — falta pré-existente fora do diff não reprova) — **executar** | BLOQUEANTE |
+| C4 | Oráculo protegido: nenhum teste removido, desabilitado, ignorado, com assert vazio, enfraquecido ou tautológico (esperado recalculado como o código calcula); nenhuma exceção engolida. Expectativa de teste existente alterada só se está em "Testes existentes que mudam" do plano, com a decisão registrada | BLOQUEANTE |
 | C5 | Reexecução segura: rodar de novo não duplica nem corrompe (chave, situação gravada, transação) | BLOQUEANTE |
 | C6 | Tarefas `[x]` do `tasks.md` têm código correspondente no diff | BLOQUEANTE |
 | C7 | Escopo: nada além da fatia — funcionalidade não pedida, arquivos fora do `design.md` (exceto testes e a pasta da fatia), refatoração oportunista | IMPORTANTE |

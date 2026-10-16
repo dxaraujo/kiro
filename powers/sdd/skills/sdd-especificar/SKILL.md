@@ -36,7 +36,7 @@ ofereça a `sdd-planejamento` (seção Especificação); a pessoa pode seguir se
 ## Passo 2 — Assumir a `[ESP]`
 
 **`sdd-elm` modo *assumir*** (com "sim"): responsável = quem está na sessão, estado em andamento da PA; já minha e em andamento →
-nada a fazer. Sem o power `elm` → `ELM pendente: assumir [ESP] EP-<nn>` no `rascunho.md` da pasta de trabalho.
+nada a fazer. Sem o power `elm` → `ELM pendente [<chave>]: assumir [ESP] EP-<nn>` no `rascunho.md` da pasta de trabalho.
 
 ## Passo 3 — Pasta de trabalho (fora do git)
 
@@ -44,7 +44,8 @@ nada a fazer. Sem o power `elm` → `ELM pendente: assumir [ESP] EP-<nn>` no `ra
 o GATE. Monte-a pela primeira fonte que existir:
 
 1. **Já existe nesta máquina** → use-a, mas compare antes com a `[ESP]`: último comentário de sessão mais novo que
-   os arquivos locais (outra máquina trabalhou depois) → mostre as duas datas e pergunte se baixa os anexos (item 2)
+   a última sessão registrada no `rascunho.md` local (outra máquina trabalhou depois) — compare as duas em UTC (o
+   EWM devolve UTC; o rascunho, hora local) e nunca pelo mtime dos arquivos, que muda a cada download → mostre as duas datas e pergunte se baixa os anexos (item 2)
    por cima da pasta local.
 2. **A `[ESP]` tem anexos** (`elm-ccm` › listar anexos) → outra pessoa ou máquina já trabalhou: baixe cada `.md`
    (`elm-ccm` › baixar anexo) para a pasta (os de `elm/` para `elm/`, pelo prefixo `elm-` do nome do anexo). Mostre a
@@ -86,7 +87,7 @@ Registrar? (sim)
 
 Com "sim": `elm-ccm` › **comentar** (o resumo), **anexar** cada `.md` da pasta de trabalho (os de
 `elm/` com o prefixo `elm-`, para não colidir com o nome de outro arquivo) e **`sdd-elm` modo *horas*** (lança;
-não conclui). Sem o power `elm` ou com falha → `ELM pendente: registrar sessão [ESP] EP-<nn> (<data>)` no `rascunho.md`, e o
+não conclui). Sem o power `elm` ou com falha → `ELM pendente [<chave>]: registrar sessão [ESP] EP-<nn> (<data>)` no `rascunho.md`, e o
 próximo fechamento registra.
 
 ## Passo 6 — Do GATE do PRD ao fim da `[ESP]`
@@ -95,6 +96,9 @@ próximo fechamento registra.
   commit na base, com a revisão P (a `sdd-prd` faz, pelo bloco Gravar na base). A partir daí a base é a fonte; a pasta local pode ser apagada
   pela pessoa.
 - **GATE do backlog** (`sdd-fatiar`): conclui a `[ESP]`, perguntando só o saldo de horas ainda não lançado.
+- A Situação do épico na seção Especificação do `sprint-<nn>.md` acompanha os GATEs, gravada por quem os faz:
+  `fatiamento` no GATE do PRD (`sdd-prd`), `concluida` no GATE do backlog (`sdd-fatiar`); antes deles, `entrevista`
+  ou `PRD`, como o planejamento gravou.
 
 ## Regras
 

@@ -78,14 +78,20 @@ Análise: OK na rodada <N>
 Aprovar? Leia de preferência: forma do programa e contrato de pronto.
 ```
 
-Esperando a aprovação de uma pessoa → `fase: plano-em-revisao` (conta no WIP de revisão humana).
+Esperando a aprovação de uma pessoa → `fase: plano-em-revisao` (conta no WIP de revisão humana), com
+`Responsável` = quem vai aprovar (sugestão: quem revisa o PR; fatia de épico sem revisor, o `po` do épico).
 
+A regra, **nesta ordem** (a primeira que se aplica decide):
+
+- **O plano muda a expectativa de um teste existente** ("Testes existentes que mudam" no template) → sempre uma
+  pessoa aprova, em qualquer trilha e modo.
+- **Trilha rápida** → a trilha decide antes do modo (é alteração pequena, sem regra nova): `GATE na trilha rápida`
+  do `sdd.md` = `não` → segue com `ANALISE: OK`, também no HITL (a pessoa revisa no PR); `sim` → uma pessoa aprova,
+  também no AFK.
 - **HITL** → sempre uma pessoa aprova. Sugira que seja quem vai revisar o PR (alinha antes do código).
 - **AFK, fatia sem épico** → a análise basta: segue com `ANALISE: OK` (quem conduz grava `fase: implementando`);
   a pessoa revisa no PR.
 - **AFK, fatia de épico** → sempre uma pessoa aprova (o plano rende mais quando vem de um PRD).
-- **Trilha rápida** → a trilha decide antes do modo (é alteração pequena, sem regra nova): `GATE na trilha rápida`
-  do `sdd.md` = `não` → segue com `ANALISE: OK`, também no HITL (a pessoa revisa no PR); `sim` → como HITL.
 - Aprovado → linha no Histórico com quem aprovou.
 
 **Todo ramo que termina em `implementando`** (aprovado, AFK sem épico, rápida sem GATE): `fase: implementando`,

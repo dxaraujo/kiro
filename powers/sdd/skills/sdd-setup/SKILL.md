@@ -149,12 +149,15 @@ Falhou ao rodar → mostre o erro; a pessoa decide (corrigir o comando, seguir a
      Tipo ou pasta sem nome parecido no `pa_*.json` → aí sim pergunte, só esse. Também sem perguntar: os títulos das tarefas (linha "Tarefas", padrão do template); o tipo do épico (Item de Backlog
      pai se a PA não tem Épico); o campo de critérios de aceite (o de `workitem-types[IB].fields` com "aceite" no
      nome; não há → `descrição`); a classificação de cada tarefa (valores da `elm-setup` etapa 4d; a PA não tem o
-     campo → "a PA não tem"). Sustentação e Atendimento não são perguntados: a `sdd-elm` os cria na primeira
+     campo → "a PA não tem"). **Padrões do EWM:** a iteração de backlog (de `ccm.iterations`, a que o time usa
+     como backlog do produto; não há → `—`) e a categoria do time para "Atendido por"/`filedAgainst` da Tarefa (a do
+     time de `ccm.team-areas`), propostos numa linha só; outros atributos obrigatórios aparecem nas recusas da PA e a
+     `sdd-elm` oferece gravá-los depois. Sustentação e Atendimento não são perguntados: a `sdd-elm` os cria na primeira
      sprint e grava os ids no `backlog.md`.
    - **ELM nos agentes:** pelo **power `elm`** instalado, com `includePowers: true` nos agentes que usam ELM — o
      MCP e as skills `elm-*` chegam pelo power, nunca por entrada no `mcp.json` do projeto nem por tool listada no
      agente (as skills do `sdd` pedem **operações** às skills `elm-*`). Confira a versão: power `elm` ≥ 1.3.0 e
-     `mcp-elm` ≥ 1.0.37 (requisitos do `plugin.json` do `sdd`); mais antigo → avise que anexos e o contrato de
+     `mcp-elm` ≥ 1.0.38 (requisitos do `plugin.json` do `sdd`); mais antigo → avise que anexos e o contrato de
      operações não funcionam e peça a atualização. Projeto com `elm` no `mcp.json` (setup antiga) → ofereça remover
      (com "ok"), para não haver dois servidores `elm`.
    - **Bundle do RM:** o caminho de download do `pa_*.json` (`rm.download.path`) e pastas com `index.md` de
@@ -254,7 +257,9 @@ Em memória:
    `planejamento/` com `equipe.json` (padrão, gerado pelo `sdd-planejamento` Modo inicial — use
    [assets/equipe-template.md](../sdd-planejamento/assets/equipe-template.md) como referência para o formato
    Markdown alternativo); `<produto>/aprendizado/licoes.md` com o título `# Lições` (a pasta `atendimentos/` nasce
-   com o primeiro AT, pela `sdd-triar`). No modo atualização, acrescente só o que falta — nunca recrie o que existe.
+   com o primeiro AT, pela `sdd-triar`) e `fatias/` (as fichas). No modo atualização, acrescente só o que falta —
+   nunca recrie o que existe; `equipe.json`, `acordos.md` ou `roadmap.md` na raiz de `<produto>/` (layout antigo) →
+   ofereça movê-los para `<produto>/planejamento/` com `git mv` (com "ok"), sem sobrescrever o que já estiver lá.
 5. `.gitignore`: acrescente `.kiro/local/` se faltar. Migração do layout antigo (Passo 0), se aceita.
 
 Mostre o resumo e, no modo atualização, o diff de cada arquivo que muda:

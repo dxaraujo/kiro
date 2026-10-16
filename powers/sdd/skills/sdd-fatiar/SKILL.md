@@ -14,7 +14,12 @@ metadata:
 > caminho, relativo a este `SKILL.md`. A busca no workspace não os encontra — não procure no projeto.
 
 Entrada: PRD `aprovado` (`<produto>/epicos/<EP>-<slug>/prd.md`). Saída: fatias no
-`<produto>/backlog.md` (formato em [references/backlog.md](references/backlog.md)).
+`<produto>/backlog.md` (formato em [references/backlog.md](references/backlog.md)) e a ficha de cada uma
+(`<produto>/fatias/FT-<nnn>-<slug>.md`, formato "padrão de épico" da
+[`sdd-triar`](../sdd-triar/references/ficha.md)).
+
+Fatiar é decisão de uma pessoa (o GATE do backlog): chamada em modo autônomo (`AUTONOMO=true`, pelo loop ou por um
+agente sem pessoa na conversa) → "PRD, backlog e atendimento nunca são AFK — fatie numa sessão com o P.O." e pare.
 
 ## O que é uma boa fatia
 
@@ -55,19 +60,24 @@ Entrada: PRD `aprovado` (`<produto>/epicos/<EP>-<slug>/prd.md`). Saída: fatias 
 
 3. Confira a **cobertura**: todo cenário de todas as histórias do PRD aparece em exatamente uma fatia (cenário
    compartilhado → a primeira que o entrega). Cenário sem fatia ou fatia sem cenário → corrija antes de mostrar.
+4. Confira o **ponta a ponta**: ao menos uma fatia (a primeira) atravessa do gatilho do PRD (agendamento, chamada,
+   tela, arquivo de entrada) até a saída que o ator observa (arquivo, resposta, tela, registro). Cobertura completa
+   com fatias que só entregam peças internas (classificador, DAO, regra isolada) **não** passa: falta a fatia que
+   liga as peças ao gatilho — acrescente-a (ou engrosse a primeira) antes de mostrar.
 
 ## Passo 2 — Perguntar à pessoa (uma vez, com a tabela)
 
 ```
 🍰 EP-<nn> — <n> fatias · <a> AFK · <h> HITL · tamanhos <P/M/G>
 <tabela>
-Cobertura: <c>/<c> cenários · Primeira fatia (tracer bullet): FT-<…>
+Cobertura: <c>/<c> cenários · Ponta a ponta (tracer bullet): FT-<…> — <gatilho> → <saída observável>
 - A granularidade está boa? (muito grossa / muito fina)
 - As dependências estão certas?
 - Alguma fatia deveria ser HITL/AFK ao contrário?
 ```
 
-Ajuste e repita até "ok". Esse "ok" é o **GATE do backlog** (P.O. ou time no refinamento).
+Ajuste e repita até "ok". Esse "ok" é o **GATE do backlog** (P.O. ou time no refinamento) — e não vale sem a
+fatia ponta a ponta.
 
 ## Passo 3 — Gravar
 
@@ -75,12 +85,15 @@ Ajuste e repita até "ok". Esse "ok" é o **GATE do backlog** (P.O. ou time no r
    uma linha por fatia com prioridade (ordem da tabela, respeitando dependências), `elm` `—` e `status`
    `pronta` se passa na **Definition of Ready** (seção do [references/backlog.md](references/backlog.md)) ou
    `backlog` com o que falta. Ids `FT-<nnn>` sequenciais no projeto, **nunca reaproveitados**.
-2. PRD: `status: fatiado`.
-3. Commit (padrão do `sdd.md`): `backlog.md`, `prd.md`.
-4. **Conclusão da `[ESP]`** (com ELM): o GATE do backlog conclui a especificação do épico — mostre as horas já
+2. **Fichas** das fatias (`<produto>/fatias/FT-<nnn>-<slug>.md`, formato "padrão de épico"): Objetivo, Cobre (links
+   para os cenários do PRD, sem copiar) e Como verificar; a coluna `ficha` aponta para elas.
+3. PRD: `status: fatiado`; no `sprint-<nn>.md` aberto, a linha do épico na seção Especificação com Situação
+   `concluida`.
+4. Commit (padrão do `sdd.md`): `backlog.md`, fichas, `prd.md`, `sprint-<nn>.md`.
+5. **Conclusão da `[ESP]`** (com ELM): o GATE do backlog conclui a especificação do épico — mostre as horas já
    lançadas na `[ESP]` e pergunte só o saldo a quem especificou, e chame a `sdd-elm` modo *horas* (lançar) e modo *conclusão* na
    `[ESP] EP-nn`, com confirmação. Especificação que continua (refinamento na próxima sprint) → não conclui; a
-   virada só muda o `plannedFor`. Sem o power `elm` → `ELM pendente: lançar <h>h em [ESP] EP-nn` no rodapé do PRD.
+   virada só muda o `plannedFor`. Sem o power `elm` → `ELM pendente [<chave>]: lançar <h>h em [ESP] EP-nn` no rodapé do PRD.
 
 ## Passo 4 — Próximos passos (na mesma resposta)
 
@@ -95,7 +108,7 @@ Ajuste e repita até "ok". Esse "ok" é o **GATE do backlog** (P.O. ou time no r
 
 "Refinar o backlog", "a FT-033 está grande demais", "faltou uma fatia":
 - **Dividir:** a fatia original fica `status: dividida` com `substituida-por: [FT-x, FT-y]`; as novas herdam a
-  cobertura (repartida), as dependências e o épico. No EWM, a `sdd-elm` faz o que diz "Fatia dividida no EWM" no
+  cobertura (repartida), as dependências, o épico e uma ficha cada. No EWM, a `sdd-elm` faz o que diz "Fatia dividida no EWM" no
   `sdd.md` (filhos do item original, ou fecha o original e cria itens novos).
 - **Juntar:** só fatias ainda em `backlog`; a que some fica `status: cancelada` com `motivo`.
 - **Nova fatia:** cenário novo exige PRD alterado antes (`sdd-prd`, mudança depois de aprovado).

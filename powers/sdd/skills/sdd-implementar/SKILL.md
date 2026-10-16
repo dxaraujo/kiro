@@ -30,7 +30,7 @@ regras aprendidas).
   abertos" do `status.md` (PR, pessoa), os do último `revisao-codigo-<N>.md` com `VEREDITO: REVISAR` e os cenários
   rejeitados do `verificacao.md`. Como as anteriores estão marcadas, elas são as primeiras não marcadas.
 - **Retrabalho** (`fase: retrabalho (de: em-revisao | em-verificacao)`, HITL): **`sdd-elm` modo *assumir***
-  com retrabalho — reabre a `[DEV]` (com "sim"; sem ação de reabertura na PA → `ELM pendente: reabrir [DEV]
+  com retrabalho — reabre a `[DEV]` (com "sim"; sem ação de reabertura na PA → `ELM pendente [<chave>]: reabrir [DEV]
   FT-<nnn>` e aviso). Os achados vêm do último `revisao-codigo-<N>.md` ou dos cenários rejeitados do
   `verificacao.md`; `fase: implementando`, linha no Histórico. Ao fim, o mesmo PR é atualizado (Passo 5).
 - Rode o comando de **testes** uma vez antes de mexer: vermelho antes de começar = problema do ambiente ou da
@@ -45,7 +45,9 @@ Para cada tarefa do `tasks.md`, nesta ordem:
 2. **Vermelho:** escreva o teste do comportamento (um cenário ou critério por vez), **pelo ponto de teste do
    `design.md`** — interface pública, sem mock de detalhe interno, sem recalcular o esperado do jeito que o código
    calcula — e rode só ele (comando de teste único). Ele tem de **falhar pelo motivo certo**. Corretiva: o teste
-   que reproduz o defeito vem primeiro.
+   que reproduz o defeito vem primeiro, e ele e a correção são **um ciclo só** — marcados e commitados juntos, já
+   verdes (o vermelho fica registrado no Histórico: `teste do defeito vermelho: <falha observada>`); os testes de
+   preservação rodam verdes antes da correção.
 3. **Verde:** a menor mudança de produção que faz o teste passar, imitando o análogo do `design.md`.
 4. **Arrumar** só o que você acabou de escrever (nomes do glossário, duplicação), com os testes verdes.
    Refatorar código existente não é desta tarefa: vira sugestão para a revisão ou fatia própria.
@@ -76,8 +78,9 @@ Regras do ciclo:
 ## Passo 2 — Validação completa
 
 Todas as tarefas `[x]`: rode compilar, a suíte **inteira** de testes e o lint; a cobertura, com o gate do
-`sdd.md` (se houver), é medida nos arquivos que a fatia criou ou alterou. Erro de ambiente → `AMBIENTE`
-no `status.md`, não código.
+`sdd.md` (se houver), é medida no que a fatia criou ou alterou — as linhas e os ramos do diff. Falta de cobertura
+que já existia no arquivo antes da fatia (fora do diff) não é tarefa dela: registre no Histórico (`cobertura
+pré-existente: <arquivo> <o que falta>`) e siga. Erro de ambiente → `AMBIENTE` no `status.md`, não código.
 
 ## Passo 3 — Revisão independente
 
@@ -140,9 +143,10 @@ Quem abre o PR é a sessão da pessoa (com o "sim" dela) ou o `sdd-orquestrador`
 3. Numa só confirmação da pessoa: push e abertura do PR com a ferramenta do `sdd.md` (sem ferramenta →
    entregue título e descrição prontos).
 4. **Conclusão da `[DEV]`:** mostre as horas já lançadas (`elm-ccm` › horas lançadas) e pergunte só o saldo →
-   `sdd-elm` modo *horas*, depois modo *conclusão* só da `[DEV]`, numa confirmação. Sem o power `elm` → `ELM pendente:
+   `sdd-elm` modo *horas*, depois modo *conclusão* só da `[DEV]`, numa confirmação. Sem o power `elm` → `ELM pendente [<chave>]:
    lançar <h>h e concluir [DEV] FT-<nnn>` no Histórico.
-5. `status.md`: HITL → `fase: pr-aberto`; AFK → `fase: pronta-para-merge`; link do PR, o resultado do item 4 no
+5. `status.md`: HITL → `fase: pr-aberto`; AFK → `fase: pronta-para-merge`; link do PR (sem PR aberto — push "não"
+   ou sem ferramenta — `PR: texto entregue`, e a fase é a mesma), o resultado do item 4 no
    Histórico (retrabalho: as horas na tabela Retrabalho); commit e, com o mesmo "sim", push (o `status.md` vai junto
    no PR; retrabalho → atualiza o mesmo PR). HITL: avise que a `[REV]` está disponível para o revisor.
 
@@ -151,13 +155,17 @@ O merge é de uma pessoa (HITL: depois de `pronta-para-merge`, quando a VER acei
 
 ## Trilha direta
 
-Sem spec nem `tasks.md` — a pasta da fatia tem só o `status.md` (a triagem, na `sdd-triar`, decidiu que o diff
-cabe numa frase):
+Sem spec nem `tasks.md` — a pasta da fatia tem só o `status.md`; o critério é a **ficha** de três linhas
+(`<produto>/fatias/FT-<nnn>-<slug>.md`: pronto quando · como verificar · não muda):
 1. Teste que falha, quando há comportamento (texto e configuração pura não têm); 2. a mudança; 3. backpressure;
-4. revisão pela **`sdd-revisar`** (rubrica C sobre o diff, com o **pedido** no lugar dos critérios; relatório na
-conversa); 5. PR curto: `FT-<nnn> — <pedido> (<id do item | —>)` · `O quê` · `Backpressure` · `Revisão: APROVADO` ·
-`Como ler`; `status.md` com `fase: pr-aberto` e o link do PR. Se no caminho aparecer regra de negócio ou mais de um
-comportamento → pare: devolva à `sdd-triar` (é trilha rápida ou padrão).
+4. revisão pela **`sdd-revisar`** (rubrica C sobre o diff, com a ficha no lugar dos critérios: "pronto quando"
+cumprido, "não muda" preservado; relatório na conversa); 5. **como verificar**: execute o que a ficha diz e guarde
+a evidência (saída, log, print) para o PR; 6. PR curto: `FT-<nnn> — <título> (<id do item | —>)` · `O quê` ·
+`Pronto quando` · `Evidência` (do item 5) · `Backpressure` · `Revisão: APROVADO` · `Como ler`; 7. **conclusão da
+`[DEV]`** como no Passo 5, item 4 (saldo de horas e conclusão, numa confirmação); 8. `status.md` com
+`fase: pr-aberto` e o link do PR — sem PR aberto (push "não" ou sem ferramenta) → `PR: texto entregue` e a mesma
+fase; o merge é de uma pessoa e a `sdd-consolidar` aceita a direta em `pr-aberto`. Se no caminho aparecer regra de
+negócio ou mais de um comportamento → pare: devolva à `sdd-triar` (é trilha rápida ou padrão).
 
 ## Modo autônomo
 

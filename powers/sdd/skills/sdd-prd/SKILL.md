@@ -29,6 +29,9 @@ Leia antes: `.kiro/steering/sdd.md` (ELM, caminhos, papéis) e o steering de pro
 
 ## Passo 1 — Entender a demanda
 
+PRD é decisão de uma pessoa (o GATE do PRD): chamada em modo autônomo (`AUTONOMO=true`, pelo loop ou por um agente
+sem pessoa na conversa) → "PRD, backlog e atendimento nunca são AFK — especifique numa sessão com o P.O." e pare.
+
 1. Peça (ou leia, se veio da `sdd-triar`) a descrição **longa** da demanda: quem pediu, o problema, exemplos
    reais, prazos. Work item do EWM → pela skill `elm-ccm` do power `elm` (se instalado), com descrição e
    comentários.
@@ -45,7 +48,7 @@ Leia antes: `.kiro/steering/sdd.md` (ELM, caminhos, papéis) e o steering de pro
 4. **Registre o épico no EWM já agora**, se a coluna `elm` dele está `—` ou `pendente` (projeto com ELM): `sdd-elm` modo *backlog*, só o épico (`[EP-nn]
    <título>`, descrição = o problema), com confirmação; o id fica no `rascunho.md` da pasta de trabalho e vai para a coluna `elm`
    do `backlog.md` no commit do GATE (até lá, nada da especificação vai para a base). Assim o pai existe para os
-   IBs das fatias. Sem o power `elm` → `ELM pendente: épico EP-nn` no `rascunho.md`.
+   IBs das fatias. Sem o power `elm` → `ELM pendente [<chave>]: épico EP-nn` no `rascunho.md`.
 
 ## Passo 2 — Entrevistar
 
@@ -122,7 +125,7 @@ Aprovar? (o P.O. ou quem ele delegou)
   `verified` humano a `sdd-elm` não publica. Entrada `**Update**` no `log.md`. Leve a pasta de trabalho para a
   **base**, pelo bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base): copie-a para `<produto>/epicos/<EP>-<slug>/` (substitui o `rascunho.md` e o `decisoes.md` da
   triagem), com o `revisao-prd-<N>.md`; na linha do épico no `backlog.md`, `status` `aprovado` e `prd` = o link do
-  `prd.md`. **Um** commit (padrão de commit do `sdd.md`), direto ou por PR curto, conforme "Artefatos de produto"
+  `prd.md`; no `sprint-<nn>.md` aberto, a linha do épico na seção Especificação com Situação `fatiamento`. **Um** commit (padrão de commit do `sdd.md`), direto ou por PR curto, conforme "Artefatos de produto"
   no `sdd.md`; nunca numa branch de fatia. Antes, feche a sessão pela `sdd-especificar` (Passo 5), para a `[ESP]`
   ter a versão aprovada. Depois do commit, a pasta de trabalho local pode ser apagada pela pessoa (a skill não
   apaga: a base é a fonte).

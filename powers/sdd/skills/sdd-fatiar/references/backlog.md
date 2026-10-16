@@ -18,15 +18,15 @@ Sustentação: [SUS-2026] [612000](https://elm.exemplo/ccm/resource/itemName/com
 
 ## Épicos
 
-| id | título | status | prioridade | prd | pasta | elm |
-|---|---|---|---|---|---|---|
-| EP-03 | Bloqueio por tentativas de login | fatiado | 1 | [prd](epicos/EP-03-bloqueio-login/prd.md) | [pasta](epicos/EP-03-bloqueio-login/) | [612001](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612001) |
+| id | título | status | prioridade | po | prd | pasta | elm |
+|---|---|---|---|---|---|---|---|
+| EP-03 | Bloqueio por tentativas de login | fatiado | 1 | ana.souza | [prd](epicos/EP-03-bloqueio-login/prd.md) | [pasta](epicos/EP-03-bloqueio-login/) | [612001](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612001) |
 
 ## Fatias — EP-03 Bloqueio por tentativas de login
 
-| id | título | cobre | bloqueada-por | tamanho | modo | prioridade | status | sprint | responsavel | elm | concluida-em | obs |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| FT-031 | Bloquear a conta após 3 tentativas inválidas | HF-01#1.1, HF-01#1.2, REG-01 | — | M | AFK | 1 | pronta | 3 | joao.lima | — | — | — |
+| id | título | cobre | ficha | bloqueada-por | tamanho | modo | prioridade | status | sprint | responsavel | elm | concluida-em | obs |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| FT-031 | Bloquear a conta após 3 tentativas inválidas | HF-01#1.1, HF-01#1.2, REG-01 | [ficha](fatias/FT-031-bloquear-conta.md) | — | M | AFK | 1 | pronta | 3 | joao.lima | — | — | — |
 
 ## Fatias — sem épico
 
@@ -47,14 +47,15 @@ linha da tabela — sem quebra de linha nem `|` dentro de célula (troque por `/
 | Coluna | Valores |
 |---|---|
 | épico `status` | `rascunho` · `em-revisao` · `aprovado` · `fatiado` · `concluido` · `cancelado` (o mesmo do frontmatter do PRD; publicação no ELM fica no `elm` do PRD, não no status) · `rascunho` com `prd` `—` = registrado pela `sdd-triar`, PRD ainda não escrito ("a descobrir" no roadmap) |
+| épico `po` | login do P.O. do épico (padrão: o P.O. ativo do `equipe.json`); é o responsável do épico no EWM e quem aprova o PRD; backlog antigo sem a coluna → a próxima escrita a acrescenta com o P.O. ativo |
 | épico `pasta` | `[pasta](epicos/<EP>-<slug>/)` (criada pela `sdd-triar`) ou `—`; backlog antigo sem a coluna → a próxima escrita a acrescenta |
 | `trilha` | só nas fatias sem épico: `padrão` · `rápida` · `direta` (fatia de épico é sempre padrão) |
 | fatia `origem` | só nas fatias sem épico: o item ou o pedido que a originou — `DF 4567`, `IB 611`, `AT-012`, `pedido: <resumo>` |
-| `ficha` | só nas fatias sem épico: `[ficha](fatias/FT-<nnn>-<slug>.md)` ou `—` — obrigatória na padrão (formato na `sdd-triar`, `references/ficha.md`) |
+| `ficha` | toda fatia: `[ficha](fatias/FT-<nnn>-<slug>.md)` — formato por trilha na `sdd-triar`, `references/ficha.md` (sem épico: escrita pela `sdd-triar`; de épico: pela `sdd-fatiar`). Backlog antigo com `—` ou sem a coluna → a fatia fica `backlog` com `falta: ficha` até alguém escrevê-la |
 | `cobre` | `HF-nn#c.c` (cenário) e `REG-nn` do PRD do épico; não existe nas fatias sem épico (os cenários da padrão ficam na ficha, `C<n>`) |
 | fatia `obs` | texto livre; convenções: `falta: <…>` (o que impede a Definition of Ready), `substituida-por FT-…`, o motivo do cancelamento |
 | `tamanho` | `P` · `M` · `G` |
-| `modo` | `AFK` · `HITL` |
+| `modo` | `AFK` · `HITL` (padrão e rápida) · `—` (direta: feita na sessão da pessoa) |
 | fatia `status` | `backlog` → `pronta` (passou na Definition of Ready) → `concluida`; desvios `dividida` (`obs`: `substituida-por FT-…`), `cancelada` (`obs`: motivo). "Em andamento" não é gravado: é a fatia que tem `status.md` numa branch |
 | `sprint` | número da sprint (`sdd-planejamento`) ou `—`; no Kanban, `—` |
 | `elm` | `—`, `pendente` (registrado sem o power `elm`; a `sdd-elm` cria depois) ou `[<id>](<url>)`; tarefas do EWM em seguida, `<prefixo> [<id>](<url>)`, separadas por ` · ` (gravado pela `sdd-elm`) |
@@ -68,12 +69,12 @@ linha da tabela — sem quebra de linha nem `|` dentro de célula (troque por `/
 
 | Transição | Skill |
 |---|---|
-| épico registrado (`rascunho`, `prd` `—`, `pasta`) | `sdd-triar` |
+| épico registrado (`rascunho`, `prd` `—`, `po`, `pasta`) | `sdd-triar` |
 | épico `aprovado` e `prd` (no GATE do PRD; antes, o estado mora no `prd.md` da pasta de trabalho) | `sdd-prd` |
 | épico `fatiado` (GATE do backlog) | `sdd-fatiar` |
 | épico `concluido` (última fatia concluída) | `sdd-consolidar` |
 | épico `cancelado` | o P.O., pela `sdd-fatiar` (refinamento) |
-| fatias criadas, divididas, juntadas, canceladas · `pronta` (DoR conferida) | `sdd-fatiar` |
+| fatias criadas, divididas, juntadas, canceladas, fichas das fatias de épico · `pronta` (DoR conferida) | `sdd-fatiar` |
 | `sprint`, `responsavel`, prioridade · `pronta` (DoR conferida de novo no planejamento) · encaixe durante a sprint | `sdd-planejamento` |
 | fatia sem épico (padrão, rápida, direta), ficha e `falta:` em `obs` | `sdd-triar` (na base) |
 | atendimento registrado (`AT-nnn`, `backlog`/`aberto`, `sprint`, `responsavel`, registro) | `sdd-triar` (na base) |
@@ -88,11 +89,12 @@ A única do fluxo — triagem, fatiamento, planejamento e `sdd-desenvolver` conf
 
 | Trilha | Pronta quando |
 |---|---|
-| padrão de épico | cenários de aceite em `cobre` num PRD `aprovado`/`fatiado`; `bloqueada-por` concluídas, ou planejadas na mesma sprint antes dela (ela só **começa** quando o que precisa está na base) |
+| épico (para a `sdd-prd`) | descrição mínima — o problema, quem pede, o resultado esperado — e `po` preenchido |
+| padrão de épico | ficha com Objetivo, Cobre e Como verificar; cenários de aceite em `cobre` num PRD `aprovado`/`fatiado`; `bloqueada-por` concluídas, ou planejadas na mesma sprint antes dela (ela só **começa** quando o que precisa está na base) |
 | padrão sem épico | ficha `aprovada por` o P.O., com cenários `C<n>` |
-| rápida | comportamento esperado claro (na origem ou na ficha), sem regra nova, tamanho ≤ M |
-| direta | o pedido cabe numa frase, sem regra nova, tamanho P |
-| todas | nenhuma decisão bloqueante `em aberto` (`decisoes.md` ou ficha); tamanho ≤ G; modo AFK/HITL declarado; cabe numa janela de contexto |
+| rápida | ficha com o atual (com evidência), o esperado (com fonte), o que não muda e como verificar; sem regra nova; tamanho ≤ M |
+| direta | ficha com pronto quando, como verificar e não muda — uma linha cada; sem regra nova; tamanho P |
+| todas | a ficha existe no caminho da coluna `ficha`; nenhuma decisão bloqueante `em aberto` (`decisoes.md` ou ficha); tamanho ≤ G; modo declarado (AFK/HITL; direta `—`); cabe numa janela de contexto |
 
 Deixou de valer (PRD reaberto, decisão nova em aberto) → volta a `backlog`.
 
@@ -103,7 +105,8 @@ ADRs, lições, `sdd.md` Regras aprendidas). As skills citam este bloco em vez d
 
 1. **Base:** fora dela → "Troco para `<base>`? (sim)" — sem "sim", pare; árvore com alterações não commitadas →
    avise e pare (nunca ofereça descartar, `stash` ou `reset`). Na base: `git pull --ff-only`; falhou (divergiu) →
-   avise e pare, sem merge nem rebase.
+   avise e pare, sem merge nem rebase. Base sem upstream (repositório só local, ou branch nunca publicada) →
+   `git fetch` basta, e diga que o registro fica só local até alguém publicar.
 2. **Grave** só o que a skill manda.
 3. **Commit** pequeno, só com o que gravou, mensagem no padrão do `sdd.md`.
 4. **Publicar:** push direto ou PR curto, conforme "Artefatos de produto" no `sdd.md`, com o "sim" da pessoa

@@ -13,11 +13,15 @@ O plano da fatia (`research`, `design`, `tasks`) é andaime: cumpriu o papel qua
 fica valendo é a documentação oficial no ELM — e ela tem de descrever o que **foi** construído. Esta skill fecha a
 distância entre os dois.
 
-Entrada: fatia em `pronta-para-merge` (ou, de versões antigas, `pr-aberto`/`aceita`) cujo PR foi **mergeado** — confira pela ferramenta de PR do `sdd.md` (estado `merged`);
-`git branch -r --merged origin/<base>` é só atalho e não enxerga *squash* nem *rebase merge*. Não mergeado → pare. Tudo aqui é gravado na **base**, pelo bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base)
+Entrada: fatia em `pronta-para-merge` — ou `pr-aberto` na trilha direta, que não tem verificação; `aceita` no AFK
+sem PR autorizado — cujo PR foi **mergeado**: confira pela ferramenta de PR do `sdd.md` (estado `merged`);
+`git branch -r --merged origin/<base>` é só atalho e não enxerga *squash* nem *rebase merge*. Sem PR (push "não",
+sem ferramenta, merge local) → pergunte à pessoa se foi mergeado e confira pelo conteúdo: `git diff <base>
+<branch> -- <arquivos que a fatia mudou>` vazio (fora a pasta da fatia). Não mergeado → pare. Tudo aqui é gravado na **base**, pelo bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base)
 (confirmado o merge, a troca e o `pull --ff-only` vêm antes de qualquer passo).
 
-Trilha direta: só o *backlog* do Passo 2 e o Passo 4 — não há plano nem cenário para conferir.
+Trilha direta: só o *backlog* do Passo 2 e o Passo 4 — não há plano nem cenário para conferir (a ficha de três
+linhas foi julgada na revisão).
 
 ## Passo 1 — Drift
 
@@ -46,12 +50,12 @@ Pela **`sdd-elm`**, numa confirmação só:
 - *testes* — `CT.csv` pronto para importar no ETM; após a importação, links "valida" com as histórias;
 - *tarefas* — o merge **não** lança horas nem conclui `[DEV]`, `[REV]` ou `[VER]`: cada skill de papel concluiu
   a sua (a `[DEV]` no PR, a `[REV]` ao aprovar, a `[VER]` ao aceitar; no AFK só existe a `[DEV]`). Tarefa da fatia
-  ainda aberta → mostre qual e de quem, e registre `ELM pendente: concluir <tarefa> (<login>)`, que a pessoa faz
+  ainda aberta → mostre qual e de quem, e registre `ELM pendente [<chave>]: concluir <tarefa> (<login>)`, que a pessoa faz
   na sessão dela;
 - *backlog* — concluir o item de backlog da fatia no EWM (estado de conclusão da PA). Tarefa concluída sem horas
   não trava: a virada aponta.
 
-Sem o power `elm` nesta sessão ou com falha → `ELM pendente: <ação>` no Histórico do `status.md`; o `sdd-status`
+Sem o power `elm` nesta sessão ou com falha → `ELM pendente [<chave>]: <ação>` no Histórico do `status.md`; o `sdd-status`
 lista as pendências até alguém fazê-las numa sessão com o power `elm`.
 
 Bundle do ELM no repositório (`rm.download.path`) → sugira rodar a `elm-sync` para trazer o que foi publicado
@@ -76,8 +80,11 @@ Bundle do ELM no repositório (`rm.download.path`) → sugira rodar a `elm-sync`
   `fase: concluida` e data; `backlog.md` com `status: concluida`, `concluida-em` e os ids de tarefa do campo ELM
   do `status.md` que a coluna `elm` ainda não tem; ADRs e glossário do Passo 3.
 - Fatia puxada (`Puxada para a sprint <nn>` no Histórico): `sprint` = <nn> na linha do `backlog.md` e uma linha na
-  seção Fatias do `sprint-<nn>.md`, com a Observação `puxada` — ela conta na vazão da sprint.
-- Todas as fatias do épico concluídas → épico `concluido` (PRD e backlog).
+  seção Fatias do `sprint-<nn>.md` (revisor e verificador do Histórico, Tarefa ELM com os ids do `status.md`), com
+  a Observação `puxada` — ela conta na vazão da sprint.
+- Todas as fatias do épico concluídas → épico `concluido` (PRD e backlog) e, com ELM, o item do épico no EWM
+  concluído (`sdd-elm` modo *conclusão*, na mesma confirmação do Passo 2; sem o power → `ELM pendente
+  [EP-<nn> concluir]` no rodapé do PRD).
 - Fatia do loop (worktree em `.kiro/local/wt/<ft>`): com "sim", `git worktree remove .kiro/local/wt/<ft>` — **sem
   `--force`**. Falhou por arquivos não rastreados ou alterados → mostre quais (evidência com dado real fica em
   `.kiro/local/verificacao/`, fora da worktree) e deixe a pessoa decidir; nunca force.

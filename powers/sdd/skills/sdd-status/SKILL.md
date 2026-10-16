@@ -19,18 +19,18 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
    `HEAD`; `git ls-tree -r --name-only <ref> -- .kiro/specs/` e `git show <ref>:<caminho>`). A pasta da fatia
    costuma existir só na branch dela.
 2. De cada `status.md`: fatia, título, trilha, modo, fase, responsável, rodadas, achados abertos, PR, ELM,
-   Banco, última linha do Histórico (data) e pendências `ELM pendente:` sem `ELM feito:` correspondente (também
+   Banco, última linha do Histórico (data) e pendências `ELM pendente [<chave>]:` sem `ELM feito` com a **mesma chave** (pendência antiga, sem chave → liste com "sem chave: confira") (também
    no campo `**ELM:**` dos `AT-*.md` abertos e na coluna "Tarefa ELM" `pendente` da sprint aberta).
 3. De cada `tasks.md`: `[x]`/total e o primeiro item pendente.
 4. `<produto>/backlog.md` (da base): épicos por status, fatias `pronta` sem `status.md` em nenhuma branch,
    sprint atual (`planejamento/sprints/` de maior número com `**Situação:** aberta`) e a meta. "Em andamento" = fatia com
    `status.md` numa branch e fase diferente de `concluida`; o backlog não guarda isso.
-   PRDs (`epicos/*/prd.md`): status e pendências `ELM pendente:` do rodapé.
+   PRDs (`epicos/*/prd.md`): status e pendências `ELM pendente [<chave>]:` do rodapé.
 5. `<produto>/planejamento/acordos.md`: limites de WIP (sem o arquivo: 2 fatias esperando pessoa, e sugira a
    `sdd-planejamento` modo inicial).
 6. `<produto>/aprendizado/licoes.md`: lições com situação `proposta`.
    Sprint aberta (`sprint-<nn>.md`): seções Especificação e Atendimento (reserva × consumido) e as linhas
-   `ELM pendente:`. Atendimentos abertos: as linhas `aberto` e `backlog` de `## Atendimentos` do `backlog.md`
+   `ELM pendente [<chave>]:`. Atendimentos abertos: as linhas `aberto` e `backlog` de `## Atendimentos` do `backlog.md`
    (backlog antigo, sem a seção: os `AT-*.md` com `**Situação:** aberto`).
 7. Lotes autônomos em andamento: `.kiro/local/loop-*.md`.
 8. "Minhas" = responsável igual ao login da pessoa: `git config user.name` cruzado com `nome`/`login` do
@@ -73,7 +73,11 @@ trabalho de produto (PRD/fatiar) para manter o backlog com fatias prontas.
 
 ## Inconsistências a apontar
 
-- fase `pr-aberto` sem PR, ou com tarefas pendentes no `tasks.md`;
+- fase `pr-aberto` sem PR (nem `PR: texto entregue`), ou com tarefas pendentes no `tasks.md`;
+- fatia sem ficha (coluna `ficha` `—` ou arquivo inexistente) marcada `pronta`;
+- `ELM pendente` sem chave (formato antigo) — liste à parte, para a pessoa conferir à mão;
+- layout antigo do produto: `equipe.json`, `acordos.md` ou `roadmap.md` na raiz de `<produto>/` (o lugar é
+  `<produto>/planejamento/`) — ofereça a `sdd-setup` para mover (com "ok");
 - fatia `concluida` no `status.md` e não no `backlog.md` (ou o contrário);
 - fatia em andamento sem commit há mais de 3 dias úteis;
 - `concluida` com Banco = `pendente` ou `aplicada em dev` (implantação bloqueada);

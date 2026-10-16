@@ -1,11 +1,20 @@
-# Ficha da fatia sem épico — `<produto>/fatias/FT-<nnn>-<slug>.md`
+# Ficha da fatia — `<produto>/fatias/FT-<nnn>-<slug>.md`
 
-O que o PRD é para um épico, a ficha é para uma fatia sem épico: o registro do pedido, das decisões e do contrato
-de aceite, escrito na triagem (`sdd-triar`) e lido pela pesquisa, pelo plano, pela revisão e pela consolidação.
-Artefato de produto: só na branch base. Obrigatória na trilha **padrão**; na **rápida**, só quando a origem não
-traz o comportamento esperado escrito (pedido em texto, defeito sem descrição); na **direta**, nunca.
+**Toda fatia tem ficha**: o que fazer, os critérios de aceite e como verificar, num arquivo que a pesquisa, o
+plano, a revisão, a verificação e a consolidação leem. Quem escreve: a **`sdd-triar`** (fatia sem épico) ou a
+**`sdd-fatiar`** (fatia de épico). Artefato de produto: só na branch base. A coluna `ficha` do `backlog.md` é
+sempre preenchida e a Definition of Ready confere o arquivo. O conteúdo muda com a trilha:
 
-## Formato
+| Trilha | Seções | De onde vem o critério |
+|---|---|---|
+| padrão sem épico | Pedido · Regras · Cenários de aceite · Decisões · Fora de escopo (formato abaixo) | os cenários `C<n>` da própria ficha |
+| padrão de épico | Objetivo · Cobre (links para os cenários do PRD, sem copiar) · Como verificar | o PRD (`cobre`) |
+| rápida | Comportamento (atual com evidência · esperado com fonte · o que não muda) · Como verificar | a ficha — é o que o `bugfix.md` detalha |
+| direta | Pronto quando · Como verificar · Não muda — **uma linha cada** | a ficha; não cabe em uma linha → não é direta |
+
+Atendimento não tem ficha (tem o `AT-<nnn>-<slug>.md`).
+
+## Formato — padrão sem épico
 
 ```markdown
 # FT-040 · Limitar o desconto de pontualidade a 10% da parcela
@@ -41,9 +50,54 @@ Então o desconto aplicado é de R$ 50,00
 - Parcelas já pagas não são recalculadas.
 ```
 
+## Formato — padrão de épico (escrita pela `sdd-fatiar`)
+
+```markdown
+# FT-031 · Bloquear a conta após 3 tentativas inválidas
+
+**Trilha:** padrão · **Épico:** EP-03 · **Modo:** AFK · **Tamanho:** M
+
+## Objetivo
+<o comportamento que a fatia entrega, em 1–2 frases>
+
+## Cobre
+- [HF-01 · 1.1](../epicos/EP-03-<slug>/elm/HF-01-<slug>.md) · [HF-01 · 1.2](…) · [REG-01](…)
+
+## Como verificar
+<o ponto de observação: chamada, job, tela, consulta — o detalhe fica no contrato de pronto do `design.md`>
+```
+
+## Formato — rápida
+
+```markdown
+# FT-044 · Não gerar espaço duplo ao remover pontuação do nome
+
+**Trilha:** rápida · **Origem:** DF 4567 · **Modo:** AFK · **Tamanho:** P
+
+## Comportamento
+- **Atual:** `"Maria - Joao"` sai `"Maria  Joao"` (evidência: <log, teste, passo a passo>)
+- **Esperado:** um espaço entre as palavras — fonte: <DF, HF/REG do ELM, decisão D-nn, regra óbvia>
+- **Não muda:** nome nulo ou em branco continua nulo; pontuação sem espaços em volta só é removida
+
+## Como verificar
+<chamada, teste ou execução que mostra o esperado>
+```
+
+## Formato — direta
+
+```markdown
+# FT-045 · Usar placeholder no log de inicialização da conexão
+
+**Trilha:** direta · **Origem:** pedido · **Tamanho:** P
+
+- **Pronto quando:** o log de inicialização usa `{}` no lugar da concatenação
+- **Como verificar:** subir a aplicação e ler a linha do log de inicialização
+- **Não muda:** o texto e o nível da mensagem
+```
+
 ## Regras de escrita
 
-- **Situação:** `rascunho` ou `aprovada por <login do P.O.> em <data>`. Regra nova ou alterada só vale aprovada;
+- **Situação** (padrão sem épico): `rascunho` ou `aprovada por <login do P.O.> em <data>`. Regra nova ou alterada só vale aprovada;
   sem isso, a fatia fica `backlog` com `falta: aprovação do P.O.`.
 - **Cenários** como na `sdd-prd`: caminho feliz, o que **não** deve ser aceito, repetição, erro em um item — ou por
   que não se aplica; "Então" sempre verificável. Numerados `C1`, `C2`… — são o `cobre` da fatia: o plano, a
@@ -51,8 +105,10 @@ Então o desconto aplicado é de R$ 50,00
 - **Regras:** uma por linha, com valores e a fonte (`D-nn` ou id do ELM). Antes de escrever uma regra nova ou
   alterada, a `sdd-elm` modo *similares* (só leitura); "No ELM" = `reusa <id>` · `altera <id>` ·
   `novo (verificado <data>)`. A regra vai para o DOORS Next na consolidação, as-built (`sdd-consolidar`).
-- **Rápida:** no lugar de Regras e Cenários, uma seção `## Comportamento` com o atual (e a evidência), o esperado
-  (e a fonte) e o que não muda — é o que o `bugfix.md` vai detalhar.
+- **Rápida e direta:** sem Regras nem Cenários — o que está no formato delas. A direta é perguntada numa rodada
+  (cada linha com a recomendação, "sim" aceita) e não precisa de aprovação do P.O.; a rápida, só se a fonte do
+  esperado é uma decisão nova (aí é `D-nn` aprovada).
+- **Padrão de épico:** nada de regra ou cenário copiado do PRD — só os links; o PRD continua a fonte.
 - **Decisões** no formato do `decisoes.md` da `sdd-entrevistar`, aqui dentro (a ficha não tem pasta).
 - Termos do glossário em todo o texto; termo novo vai para o glossário (a triagem roda na base).
 - Mais de ~3 cenários de comportamentos diferentes, ou mais de uma regra nova independente → não é uma fatia: a

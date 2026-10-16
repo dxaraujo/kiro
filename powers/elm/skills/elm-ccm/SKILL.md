@@ -236,7 +236,7 @@ muda. Toda escrita é confirmada com a pessoa antes.
 | quem sou eu | `whoami` (login) |
 | ler item | `ccm_get_workitem(id, fields, link_types)` |
 | listar itens | `ccm_list_workitems(pa, iteration?, team_areas?, owner?, state?, workitem_type?)` |
-| criar item (com pai) | `ccm_create_workitem(..., parent=<id>)` — campos obrigatórios da PA (seção Fluxos › Criar) |
+| criar item (com pai) | `ccm_create_workitem(..., parent=<id>)` — campos obrigatórios da PA (seção Fluxos › Criar); enumeração (categoria, classificação, OTR, "Atendido por") sempre pelo **identifier** de `ccm_list_field_values`, nunca pelo nome (409 "Illegal value"); 403 "The '<atributo>' attribute needs to be set" → devolva o atributo que falta a quem pediu |
 | atualizar item | `ccm_update_workitem(id, fields?, description?, state=<nome>)` — campos e estado numa chamada |
 | trocar o pai | `ccm_update_workitem(id, parent=<id do novo pai>)` |
 | assumir tarefa | ler o item; responsável = **quem sou eu**, estado em andamento da PA (`ccm_list_workitem_states` dá as ações), estimativa se faltar — numa só atualização. Já minha e em andamento → nada |
@@ -263,6 +263,8 @@ muda. Toda escrita é confirmada com a pessoa antes.
      valor pela tabela acima. Só chame `ccm_list_field_values` para kinds que não estão no elm.json — e uma vez
      por attribute, não para conferir o que o arquivo já tem.
   2. A categoria define o time do item (não dá para escolher o time direto): use uma categoria do time desejado.
+     PA que exige "Atendido por" (`filedAgainst`) ou "Planejado para" recusa com 403 sem eles: o valor vem de quem
+     pediu (o `sdd` guarda os padrões no `sdd.md`); falta → pergunte, nunca invente.
   3. **Para Tarefa**: se o campo "ID do Produto (Clarity)" estiver em `fields` e `ccm.clarity-identifier` existir
      no elm.json, use-o como valor padrão (mostre ao usuário para confirmar). Se estiverem em `fields`:
      "Categoria de Integração de Horas" é **sempre "Aplicativo"**; "OTR" é obrigatório — com "Aplicativo" o

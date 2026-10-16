@@ -52,7 +52,7 @@ Sem a tabela → o campo fica vazio.
 Hoje o power `elm` grava título e texto de requisitos, work items (inclusive troca de pai e `plannedFor`), estados,
 comentários, horas e links work item/teste ↔ requisito. Não grava: atributos de requisito, links requisito ↔ requisito (*satisfaz*, *restringe*, *elabora*),
 módulos, change sets, baselines e casos de teste. Quando o processo do projeto exigir algum deles, a `sdd-elm`
-entrega um **roteiro manual** com os ids exatos, e o registra como `ELM pendente: <ação>` até a pessoa confirmar:
+entrega um **roteiro manual** com os ids exatos, e o registra como `ELM pendente [<chave>]: <ação>` até a pessoa confirmar:
 
 | Exigência do projeto (seção ELM do `sdd.md`) | Roteiro manual |
 |---|---|

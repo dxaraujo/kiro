@@ -32,7 +32,8 @@
      Rodadas: incrementadas por quem pede a rodada — sdd-plano (análise), sdd-implementar (revisão e
      verificação) ou, no loop, o orquestrador; nas receitas de workflow, o passo do codificador que vem depois.
      O revisor e o verificador não incrementam — exceto no HITL, em que eles mesmos conduzem a rodada sobre o PR.
-     Retrabalho: incrementado por quem reprova (revisor ou verificador, HITL). -->
+     Retrabalho: incrementado por quem reprova (revisor ou verificador, HITL) ou, no AFK, pelo orquestrador ou pelo
+     passo do workflow que registra a verificação REJEITADA. -->
 
 ## Achados abertos
 
@@ -44,8 +45,9 @@
 
 ## Retrabalho
 
-<!-- Só no HITL: uma linha por reprovação na REV ou na VER. Gravada por quem reprovou; as horas, pelo codificador
-     ao concluir a [DEV] de novo. -->
+<!-- HITL: uma linha por reprovação na REV ou na VER, gravada por quem reprovou; as horas, pelo codificador ao
+     concluir a [DEV] de novo. AFK: uma linha por verificação REJEITADA (Papel `verificação (AFK)`), gravada pelo
+     orquestrador ou pelo passo registrar_verificacao do workflow; a [DEV] não reabre (só conclui no fim), Horas `—`. -->
 
 | # | Papel | Motivo (relatório) | Data | Horas na [DEV] reaberta |
 |---|---|---|---|---|
@@ -53,6 +55,6 @@
 ## Histórico
 
 <!-- Só acréscimo, sempre no fim. É o arquivo de progresso: quem retoma a fatia (pessoa, agente, sessão nova)
-     começa por aqui. Pendências de ELM: "ELM pendente: <ação>" → depois "ELM feito: <ação>". -->
+     começa por aqui. Pendências de ELM: "ELM pendente [<chave>]: <ação>" → depois "ELM feito [<chave>]: <ação>". -->
 
 - <AAAA-MM-DD HH:MM> — fatia iniciada (sdd-desenvolver) · trilha <…> · modo <…>

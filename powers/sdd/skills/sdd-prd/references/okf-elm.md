@@ -9,7 +9,7 @@ no repositório, então o rascunho e a versão oficial se leem do mesmo jeito.
 
 | Origem | Pasta (um bundle OKF pequeno) |
 |---|---|
-| épico (PRD) | `<produto>/epicos/<EP>-<slug>/elm/` |
+| épico (PRD) | até o GATE do PRD, na pasta de trabalho local `.kiro/local/especificacao/<EP>-<slug>/elm/` (fora do git, anexada na `[ESP]`); aprovado, `<produto>/epicos/<EP>-<slug>/elm/` na base |
 | ET as-built de uma fatia (`sdd-elm`, na consolidação) | `.kiro/specs/<ft>-<slug>/elm/` |
 | regra da ficha de uma fatia padrão sem épico (`sdd-consolidar`, as-built) | `.kiro/specs/<ft>-<slug>/elm/` |
 
@@ -58,7 +58,7 @@ generated: { by: sdd/2.1.0, at: 2026-10-14T13:00:00Z }   # §5.2: quem escreveu 
 | `resource` | **ausente até publicar**; depois, a URI do artefato no ELM. Decide criar × atualizar |
 | `sources` | o PRD, as decisões e, numa alteração, o próprio artefato do ELM (`resource` = URI, `last_modified` = última modificação no ELM vista por nós) |
 | `generated` | `by: sdd/<versão do power>` (ator `<producer>/<version>`, §7); `at` = última mudança de conteúdo |
-| `verified` | **aprovação no GATE**: `{ by: human:<login do P.O.>, at: <instante> }` (§5.2). Sem `verified` humano o conceito é *unverified* (§5.3) e **não é publicado** |
+| `verified` | **aprovação no GATE**: `{ by: human:<login de quem aprovou — o P.O. ou quem ele delegou>, at: <instante> }` (§5.2), um registro por aprovação. Sem `verified` humano o conceito é *unverified* (§5.3) e **não é publicado** |
 | `status` | `draft` enquanto não aprovado (obrigatório escrever: no OKF, ausência = `stable`), `stable` depois do GATE, `deprecated` quando deixa de valer |
 
 **Uma extensão só** (OKF §4.1 permite chaves do produtor): `id` — o id numérico do DOORS Next, gravado na

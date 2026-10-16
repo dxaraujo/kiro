@@ -24,8 +24,10 @@ da área antes de chamar as tools. Ids da project area:
 `.kiro/config/power/elm/pa_*.json`. Tipos, pastas, prefixos e regras do projeto: seção **ELM** do
 `.kiro/steering/sdd.md`. Mapeamento e limites: [references/mapeamento.md](references/mapeamento.md).
 
-**Sem o power `elm` nesta sessão** (pesquisador, outra máquina) ou com falha: não publique. Registre `ELM pendente:
-<modo> <alvo>` no **lugar único** do artefato e siga — o ELM nunca trava o fluxo:
+**Sem o power `elm` nesta sessão** (pesquisador, outra máquina) ou com falha: não publique. Registre `ELM pendente
+[<chave>]: <o que falta>` no **lugar único** do artefato e siga — o ELM nunca trava o fluxo. A **chave** identifica
+a ação e o alvo, curta e única no artefato (`[DEV 669412 concluir]`, `[IB FT-031 concluir]`, `[REG-01 publicar]`,
+`[CT FT-031 importar]`); uma pendência por chave:
 
 | Artefato | Onde mora a pendência |
 |---|---|
@@ -35,7 +37,8 @@ da área antes de chamar as tools. Ids da project area:
 | sprint | coluna "Tarefa ELM" do `sprint-<nn>.md` (`pendente`) |
 
 **Baixar pendências** ("resolve as pendências do ELM"): a `sdd-status` as lista; para cada uma, rode o modo
-indicado e acrescente `ELM feito: <ação> (<data>)` no mesmo lugar — a pendência nunca é apagada, só respondida.
+indicado e acrescente `ELM feito [<chave>]: <o que foi feito> (<data>)` no mesmo lugar, com a **mesma chave** — a
+pendência nunca é apagada, só respondida; a `sdd-status` casa as duas pela chave.
 Projeto sem ELM (`sdd.md` → ELM: não usa) → nada a fazer.
 
 ## Regras de toda publicação
@@ -57,8 +60,14 @@ Projeto sem ELM (`sdd.md` → ELM: não usa) → nada a fazer.
    `sources` do conceito, mais uma linha no `log.md`; backlog: `elm`). Commit ao final
    (`<FT|EP> - Publicar no ELM`). Falha no meio → os já publicados ficam registrados; rode de novo (o passo 2
    retoma).
-5. Mostre nomes de tipo, pasta e iteração — nunca `FR_`/`OT_`/uuids.
-6. Nunca apague nada no ELM. Artefato que deixou de valer → peça à pessoa a marcação de obsoleto/remoção do módulo
+5. Mostre nomes de tipo, pasta e iteração — nunca `FR_`/`OT_`/uuids. Ao gravar, o contrário: enumeração (categoria,
+   classificação, OTR, estado) vai pelo **identifier** que a `elm-ccm` lista para o atributo, nunca pelo nome; nome
+   do `sdd.md` que não bate exato com nenhum valor → o valor cujo nome **começa** com ele, e diga qual foi usado.
+6. **Campos que a PA exige** (os erros 403 "The '<atributo>' attribute needs to be set" dizem quais): a linha
+   "Padrões do EWM" da seção ELM do `sdd.md` guarda os valores que o fluxo usa sempre (ex.: "Atendido por" /
+   categoria do time na Tarefa, a iteração de backlog para "Planejado para" de épico, IB e `[ATD]` fora da sprint);
+   recusa por atributo que falta → mostre o atributo, peça o valor uma vez e ofereça gravá-lo nessa linha.
+7. Nunca apague nada no ELM. Artefato que deixou de valer → peça à pessoa a marcação de obsoleto/remoção do módulo
    na UI (roteiro manual).
 
 ## Modo similares (antes de especificar — só leitura)
@@ -141,8 +150,9 @@ em IB e tarefa: use sempre a iteração que a pessoa indicar (no planejamento, a
 1. **Épico — nasce cedo:** a `sdd-triar` chama este modo ao registrar o `EP-nn` (a `sdd-prd`, se ficou
    `pendente`), para o
    pai existir quando o IB da fatia for criado. Tipo do `sdd.md` (a PA pode não ter "Épico": então é um **Item de
-   Backlog pai**), título `[EP-03] <título>`, descrição = problema (e, depois do GATE, solução do PRD + link do
-   PRD no repositório). Links **rastreia** → histórias, quando publicadas. Épico que nasce de um item do EWM: se
+   Backlog pai**), título `[EP-03] <título>`, descrição mínima (problema, quem pede, resultado esperado; depois do
+   GATE, solução do PRD + link do PRD no repositório), responsável = o `po` da linha do épico e, se a PA exige
+   "Planejado para", a **iteração de backlog** ("Padrões do EWM" do `sdd.md`; sem ela, pergunte e ofereça gravar). Links **rastreia** → histórias, quando publicadas. Épico que nasce de um item do EWM: se
    o item já é do tipo de épico, ele é o épico; senão o item vira filho do épico novo
    (`elm-ccm` › **trocar o pai** para o épico).
 2. **Sustentação e Atendimento** (uma vez por release/ano, se a linha `Sustentação:` do `backlog.md` estiver
@@ -151,8 +161,10 @@ em IB e tarefa: use sempre a iteração que a pessoa indicar (no planejamento, a
    ao registrar na `sdd-triar` —, ou `na-sprint`):
    título `[FT-031] <título>`, `parent` = épico (fatia sem épico sem item de origem: o épico de
    Sustentação; com item de origem não há IB novo; direta: sem IB), pontos pelo tamanho só se o `sdd.md` tiver a tabela de pontos (opcional), descrição com modo
-   AFK/HITL, `bloqueada por` e pasta prevista; responsável = P.O. (o IB é do produto). **Critérios de aceite:** os
-   cenários que a fatia cobre (`cobre`), em Dado / Quando / Então, copiados do PRD (fatia sem épico: da ficha), no campo da linha "Critérios
+   AFK/HITL, `bloqueada por` e pasta prevista; responsável = P.O. (o IB é do produto; sem responsável a PA pode
+   recusar qualquer mudança de estado depois); "Planejado para" = a iteração de backlog, quando a PA exige. **Critérios de aceite:** os
+   cenários que a fatia cobre (`cobre`), em Dado / Quando / Então, copiados do PRD (fatia sem épico: da ficha —
+   cenários, comportamento esperado ou "pronto quando", conforme a trilha), no campo da linha "Critérios
    de aceite no IB" do `sdd.md` (Markdown; o power `elm` grava como texto rico) — sem o campo, numa seção "Critérios de
    aceite" da descrição. Fonte única é o PRD: o campo é cópia gerada, com o aviso "gerado do PRD — não edite
    aqui"; atualize quando a fatia for refinada ou a `sdd-consolidar` registrar mudança as-built. Links
@@ -171,8 +183,11 @@ seções do `sprint-<nn>.md` (fatias com responsável, revisor e verificador; es
    (`com.ibm.team.apt.plantype.product.backlog`: épicos, IBs, Sustentação e "Atendimento") e **plano da sprint**
    (`com.ibm.team.apt.plantype.default`: as tarefas). Faltou algum (ou a iteração) → crie pela `elm-setup`
    (`elm-setup` › **criar iteração · criar plano**; exige a permissão de modificar iterações — se falhar,
-   peça a quem administra a PA).
-2. Fatias sem IB e épicos com `elm` `pendente` ou `—` (projeto com ELM) → modo backlog primeiro (a `[ESP]` nunca nasce sem pai). Para cada IB da sprint: `plannedFor` = iteração (o responsável
+   peça a quem administra a PA). Plano criado → grave o id em `ccm.iterations[<iteração>].plans` do `pa_*.json`
+   (com a confirmação do lote), para a próxima sprint achá-lo.
+2. Linha `Sustentação:` vazia → crie a Sustentação e o Atendimento antes (item 2 do modo backlog): a direta e o
+   atendimento dependem deles e não passam pelo modo backlog. Fatias sem IB e épicos com `elm` `pendente` ou `—`
+   (projeto com ELM) → modo backlog primeiro (a `[ESP]` nunca nasce sem pai). Para cada IB da sprint: `plannedFor` = iteração (o responsável
    continua o P.O.).
 3. **Tarefas**, com os títulos da linha "Tarefas" do `sdd.md`, responsável, estimativa em horas e `plannedFor` =
    iteração:
@@ -189,8 +204,9 @@ seções do `sprint-<nn>.md` (fatias com responsável, revisor e verificador; es
 
    Fatia sem épico com item de origem → pai = o item (sem IB novo); direta → só a `[DEV] FT-<nnn> <pedido>`, pai = item de
    origem ou Sustentação. Campos obrigatórios da Tarefa (categoria de horas, OTR, classificação, Clarity) pela
-   `elm-ccm` (Criar) e pela linha "Classificação da tarefa" do `sdd.md`. Grave os ids na coluna "Tarefa ELM" do
-   `sprint-<nn>.md` e no `elm` do `backlog.md`.
+   `elm-ccm` (Criar), pela linha "Classificação da tarefa" do `sdd.md` e pela linha "Padrões do EWM" do `sdd.md` (regra 6).
+   Grave os ids na coluna "Tarefa ELM" do `sprint-<nn>.md` (fatias: `DEV <id> · REV <id> · VER <id>`) e no `elm`
+   do `backlog.md`.
 4. **Virada:** tarefas não concluídas (inclusive `[ESP]` e `[ATD]`) e IBs não concluídos → só o `plannedFor`
    muda para a nova iteração (o pai não muda; move, nunca recria); roteiro manual de **baseline** (componente RM +
    GC) se o projeto exige baseline por sprint.
@@ -210,17 +226,21 @@ Chamado pela skill do papel antes de trabalhar: `sdd-desenvolver` (`[DEV]`), `sd
    | minha (`elm-ccm` › **quem sou eu**) e em andamento | **nada a fazer** — diga "já assumida" e siga |
    | sem responsável, ou minha e não iniciada | `elm-ccm` › **assumir tarefa** (responsável = quem sou eu, estado em andamento da PA, ex.: *Em Desenvolvimento*; estimativa se faltar — pergunte) |
    | de outra pessoa | mostre quem é e pergunte se assume no lugar dela; sem "sim", pare; com "sim", **assumir tarefa** como na linha acima |
-   | concluída | só se quem chamou disse **retrabalho**: `elm-ccm` › **reabrir tarefa** e **assumir tarefa**, na mesma confirmação (sem ação de reabertura → `ELM pendente: reabrir <tarefa>` e aviso); fora disso → avise e pare |
+   | concluída | só se quem chamou disse **retrabalho**: duas transições, na mesma confirmação — `elm-ccm` › **reabrir tarefa** (ação que leva ao estado inicial da PA, ex.: *Novo*) e **assumir tarefa** (estado em andamento), mesmo que a PA tenha uma ação direta de concluída para em andamento (sem ação de reabertura → `ELM pendente [<tarefa> reabrir]` e aviso); fora disso → avise e pare |
 
 3. **Uma** confirmação com o que muda (responsável, estado, estimativa); **atualizar item** com os campos e o
    `state` na mesma chamada.
-4. Sem o power `elm` nesta sessão ou com falha → `ELM pendente: assumir <tarefa>` onde a skill que chamou indicar, e siga.
+   **`[DEV]` e o item de backlog:** ao iniciar a `[DEV]` de uma fatia com IB, leia o IB; ainda no estado inicial →
+   na mesma confirmação, leve-o ao estado em andamento da PA (responsável continua o P.O.; sem responsável, grave o
+   `po`/P.O. — a PA recusa mudança de estado sem ele). Assim a consolidação o encontra pronto para concluir.
+4. Sem o power `elm` nesta sessão ou com falha → `ELM pendente [<tarefa> assumir]` onde a skill que chamou indicar, e siga.
 
 ## Modo atendimento
 
 - **Registrar** (chamado pela `sdd-triar`): `[ATD] AT-<nnn> <título>`, filha do IB "Atendimento" (linha
   `Sustentação:` do `backlog.md`), `plannedFor` = a iteração que a triagem confirmou (sprint aberta; Kanban → a
-  iteração corrente; sem sprint aberta → sem `plannedFor`), responsável = quem vai atender, estimativa. Fica no
+  iteração corrente; sem sprint aberta, ou acima da reserva → sem `plannedFor`, ou, se a PA exige "Planejado
+  para", a iteração de backlog dos "Padrões do EWM" do `sdd.md`), responsável = quem vai atender, estimativa. Fica no
   estado inicial: quem atende a assume (modo *assumir*) ao executar.
 - **Concluir** (chamado pela `sdd-atender`): depois do saldo de horas (modo horas), estado de conclusão da PA.
 
@@ -235,7 +255,7 @@ Chamado pela skill do papel antes de trabalhar: `sdd-desenvolver` (`[DEV]`), `sd
 3. Confirme e `elm-ccm` › **lançar horas** (as regras do EWM — quem pode lançar, limite por dia, time code — são
    da `elm-ccm`; recusa dela → mostre o motivo e registre a pendência). Lançar não conclui a tarefa (tarefa de vários dias); concluir é
    do modo conclusão ou da skill que chamou.
-4. Sem o power `elm` ou com falha → `ELM pendente: lançar <h>h em <tarefa> (<data>)` no `status.md`, no registro do AT ou no
+4. Sem o power `elm` ou com falha → `ELM pendente [<chave>]: lançar <h>h em <tarefa> (<data>)` no `status.md`, no registro do AT ou no
    `sprint-<nn>.md`; este modo lança depois.
 
 **Relatório** (virada ou sob pedido): **horas lançadas** das tarefas da sprint → horas por tipo (`[ESP]`
@@ -264,7 +284,10 @@ projeto), mostre, publique como os requisitos depois do `verified` humano, e lig
 Uma tarefa por vez, chamada pela skill do papel que terminou (`[DEV]` no PR, `[REV]` ao aprovar, `[VER]` ao
 aceitar, `[ESP]` no GATE do backlog, `[ATD]` ao finalizar) → estado de conclusão da PA (ação de
 `elm-ccm` › **concluir tarefa**), depois do saldo de horas (modo horas). O IB da fatia, pela `sdd-consolidar` depois do
-merge; o épico quando todas as fatias concluírem. Comentário opcional no IB: PR, pasta e ids publicados.
+merge, e o épico quando todas as fatias concluírem: leia os estados e as ações do item e percorra as transições até
+o estado de conclusão (ex.: *Em Desenvolvimento* → *Pronto*; ainda no inicial → passe pelo em andamento antes),
+numa confirmação. O servidor aceitou e o estado não mudou, ou recusou por atributo → mostre a pré-condição (ex.:
+responsável vazio) e registre `ELM pendente [IB FT-<nnn> concluir]` com ela. Comentário opcional no IB: PR, pasta e ids publicados.
 
 ## Saída
 

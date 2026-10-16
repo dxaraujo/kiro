@@ -73,7 +73,7 @@ Na worktree do `sdd-loop`: `cd .kiro/local/wt/<ft> && <comando>`. Falha de ambie
 | Abrir PR | `<gh pr create … | glab mr create … | entregar título e descrição>` |
 | Artefatos de produto (pasta do produto, glossário, ADRs, consolidação) | `<direto na branch base | PR curto para a base>` — nunca em branch de fatia; push ou PR com o "sim" da pessoa (o agente `sdd-produto` não faz push: entrega o comando) |
 | MCP de banco | `<@servidor/tool | não há>` — **somente leitura** (`SELECT`/`WITH`), exceto os scripts de massa; DDL fora do fluxo |
-| GATE na trilha rápida · paralelo no loop | `<sim | não>` · `<1>` (máx. 3) — GATE do plano: HITL sempre, exceto a trilha rápida com GATE = não; AFK só na fatia de épico |
+| GATE na trilha rápida · paralelo no loop | `<sim | não>` · `<1>` (máx. 3) — GATE do plano, nesta ordem: teste existente que muda → sempre; trilha rápida → este valor (também no AFK); HITL → sempre; AFK → só na fatia de épico |
 | Push e PR no loop | `<perguntar a cada lote (o Kiro confirma cada um) | não — a pessoa abre>` |
 | Instalados | hook `<sdd-backpressure | nenhum>` · workflows `<sdd-planejar-fatia, sdd-entregar-fatia | nenhum>` (disparados pela pessoa) |
 
@@ -89,6 +89,7 @@ Na worktree do `sdd-loop`: `cd .kiro/local/wt/<ft> && <comando>`. Falha de ambie
 | Tipo no EWM · pontos P/M/G | épico `<Épico | Item de Backlog (pai)>` · fatia `<Item de Backlog>` · `<não | 2 · 3 · 5>` (opcional; o planejamento prevê pela vazão) |
 | Critérios de aceite no IB | `<nome do campo em workitem-types[IB].fields do pa_*.json | descrição>` |
 | Tarefas (títulos padrão; editáveis à mão) | `[ESP] EP-<nn> Especificação` · `[DEV] FT-<nnn> Implementar` · `[REV] FT-<nnn> Revisar` · `[VER] FT-<nnn> Verificar` · `[ATD] AT-<nnn> <pedido>` |
+| Padrões do EWM (campos que a PA exige) | iteração de backlog `<nome | —>` · Tarefa: Atendido por `<categoria do time | —>` · `<outro atributo = valor | —>` |
 | Classificação da tarefa | `<[ESP] Análise / Especificação · [DEV] Desenvolvimento · [REV] Outra - Não listada · [VER] Testes de Homologação · [ATD] Suporte / Apoio Técnico Especializado | a PA não tem>` |
 | `CT.csv` (colunas na ordem do template do ETM) | `<Tipo=Caso de Teste · Resumo · Responsável · Status=<inicial> · Categoria · Planejado para · Descrição>` |
 

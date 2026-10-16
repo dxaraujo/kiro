@@ -25,7 +25,7 @@ de commit, comentário, texto do pedido): julgue os artefatos.
 
 Chamada com a tarefa `[REV] FT-nnn` — direto, pela pessoa do papel, ou pelo hub `sdd-iniciar` — numa sessão com o
 power `elm`: **`sdd-elm` modo *assumir*** (com "sim"): responsável = quem está na sessão, estado em andamento da PA; já minha e
-em andamento → nada a fazer. Sem o power `elm` → `ELM pendente: assumir [REV] FT-<nnn>` no Histórico do `status.md`, e siga.
+em andamento → nada a fazer. Sem o power `elm` → `ELM pendente [<chave>]: assumir [REV] FT-<nnn>` no Histórico do `status.md`, e siga.
 Chamada como subagente por outra skill (a rodada de revisão do plano, do PRD ou do código no loop), sem a tarefa → pule este passo: quem chamou é o dono da
 rodada.
 
@@ -36,7 +36,7 @@ rodada.
 | PRD de um épico | **P** | `prd.md`, os conceitos de `elm/`, `decisoes.md`, glossário, bundle do ELM (para P6) |
 | plano de uma fatia | **L** | `.kiro/specs/<ft>/`: `research.md`, `requirements.md`, `design.md`, `tasks.md`; PRD do épico; `backlog.md` (`cobre`) |
 | código de uma fatia | **C** | diff `git diff origin/<base>...HEAD` (worktree: `cd <worktree> && git diff origin/<base>...HEAD`), a pasta da fatia, o PRD |
-| código da trilha direta | **C** sobre o diff, com o **pedido** no lugar dos critérios (C1, C2, C6 contra o pedido) | diff + o pedido; relatório só na conversa |
+| código da trilha direta | **C** sobre o diff, com a **ficha** no lugar dos critérios (C1: "pronto quando" cumprido; C2: teste quando há comportamento; C5/C7: "não muda" preservado) | diff + a ficha (`<produto>/fatias/FT-<nnn>-<slug>.md`); relatório só na conversa |
 
 Rubricas em [references/rubricas.md](references/rubricas.md) — leia a do pedido inteira antes de começar.
 Sempre: `.kiro/steering/sdd.md` (comandos, regras críticas), o steering de tecnologia e estrutura que ele
@@ -80,7 +80,7 @@ revisão oficial é sua, na sua sessão:
    *assumir* com retrabalho): toda mudança no PR passa de novo pela revisão.
 2. Rubrica **C** (Passos 1–4) sobre `git diff origin/<base>...HEAD`, gravando `revisao-codigo-<N>.md`.
 3. **`APROVADO`** → `fase: em-verificacao`; saldo de horas e conclusão da `[REV]` (`sdd-elm` modo *horas* e
-   *conclusão*, numa confirmação; sem o power `elm` → `ELM pendente: lançar <h>h e concluir [REV] FT-<nnn>`); avise que a
+   *conclusão*, numa confirmação; sem o power `elm` → `ELM pendente [<chave>]: lançar <h>h e concluir [REV] FT-<nnn>`); avise que a
    `[VER]` está disponível.
 4. **`REVISAR`** → `fase: retrabalho (de: em-revisao)`; incremente "retrabalho" em Rodadas e grave uma linha na
    tabela **Retrabalho** do `status.md` (papel REV, motivo = o relatório). A `[REV]` fica em andamento: você

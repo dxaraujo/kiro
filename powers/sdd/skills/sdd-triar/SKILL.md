@@ -14,13 +14,13 @@ metadata:
 > caminho, relativo a este `SKILL.md`. A busca no workspace não os encontra — não procure no projeto.
 
 Toda demanda nova entra por aqui. Triar é decidir **se** ela entra, **em que trilha** e **com que informação** —
-sem começar nada. O que sai é uma linha no `backlog.md` (e, na fatia padrão sem épico, a ficha; no atendimento, o
+sem começar nada. O que sai é uma linha no `backlog.md` (e, em toda fatia sem épico, a ficha; no atendimento, o
 registro do AT e a `[ATD]`), que o planejamento puxa para a sprint. Começar é pelo hub **`sdd-iniciar`**, que
 encaminha o item para a skill do papel.
 
 Leia antes: `.kiro/steering/sdd.md`. Sem ele → ofereça a **`sdd-setup`** ("configurar o sdd") e pare. Formato do
 backlog e quem escreve cada coluna: [../sdd-fatiar/references/backlog.md](../sdd-fatiar/references/backlog.md).
-Ficha da fatia sem épico: [references/ficha.md](references/ficha.md).
+Ficha da fatia (toda trilha): [references/ficha.md](references/ficha.md).
 
 ## Passo 1 — O que chegou
 
@@ -42,6 +42,9 @@ parecidos, e a seção `## Atendimentos`), no `**Origem:**` dos `<produto>/atend
   (devolvida pela `sdd-iniciar` ou pela `sdd-implementar`) → **retome a triagem dela**: Passo 2 com o mesmo `FT` e
   a ficha que existe; no Passo 3, só atualize a linha (sem id novo). Virou épico → `EP-nn` novo e a fatia
   `cancelada`, com `obs` `substituida-por EP-nn`;
+- **épico em `rascunho` com `prd` `—`** que voltou (falta de informação para o PRD, P.O. ou EWM pendentes —
+  devolvido pela `sdd-prd`, pela `sdd-especificar` ou pela Definition of Ready) → **complete o registro**: o que
+  falta da linha (`po`, descrição mínima, `elm`), sem id novo, e siga para o Passo 4;
 - o resto → pare: começar ou retomar é pelo hub **`sdd-iniciar`**; mudar uma fatia de épico é refinamento na
   **`sdd-fatiar`**.
 
@@ -51,8 +54,8 @@ parecidos, e a seção `## Atendimentos`), no `**Origem:**` dos `<produto>/atend
 |---|---|---|
 | **épico** | funcionalidade nova com várias histórias ou fatias, mais de ~3 dias, mais de um objetivo, ou decisão de produto em aberto | `EP-nn` em `rascunho` → depois `sdd-prd` → `sdd-fatiar` |
 | **padrão** | uma fatia (≤ G) que cria ou muda regra de negócio **clara** — o P.O. decide aqui —, sem decisão de produto em aberto | fatia sem épico, com **ficha** (regras, cenários, decisões) aprovada pelo P.O. |
-| **rápida** | defeito ou ajuste ≤ 1 dia **sem** regra nova (o comportamento certo já está documentado ou é óbvio) | fatia sem épico, com `origem` (e ficha só se a origem não traz o comportamento esperado) |
-| **direta** | o diff cabe numa frase (texto, configuração, ajuste trivial), sem regra nova e sem risco de dado | fatia sem épico, tamanho `P` — também planejada: a `[DEV]` dela é onde as horas são lançadas |
+| **rápida** | defeito ou ajuste ≤ 1 dia **sem** regra nova (o comportamento certo já está documentado ou é óbvio) | fatia sem épico, com ficha de **comportamento** (atual · esperado · não muda) e como verificar |
+| **direta** | o diff cabe numa frase (texto, configuração, ajuste trivial), sem regra nova e sem risco de dado | fatia sem épico, tamanho `P`, ficha de três linhas (pronto quando · como verificar · não muda) — também planejada: a `[DEV]` dela é onde as horas são lançadas |
 | **atendimento** | o cliente pede consulta, extração, explicação ou conferência; nada muda no repositório | `AT-nnn` na seção `## Atendimentos`, com o registro, a sprint sugerida e a `[ATD]` (a triagem registra; quem executa é a **`sdd-atender`**) |
 
 - Fatia de um épico não passa de novo por aqui: o épico foi triado na entrada e as fatias dele vêm da `sdd-fatiar`.
@@ -61,8 +64,10 @@ parecidos, e a seção `## Atendimentos`), no `**Origem:**` dos `<produto>/atend
 - **Padrão:** rodadas da `sdd-entrevistar` até as regras e os cenários fecharem, gravando na seção Decisões da
   ficha (ela nasce aqui, com o próximo `FT-nnn` de "Próximos ids"); regra nova ou alterada → **`sdd-elm` modo *similares*** (só leitura) antes de escrevê-la; no fim, o P.O.
   aprova a ficha. Sem a aprovação, a fatia fica `backlog` com `falta: aprovação do P.O.`.
-- **Rápida e direta:** falta informação (o comportamento esperado, onde acontece, como reproduzir) → **uma** rodada
-  no formato da `sdd-entrevistar` (numerada, cada pergunta com a recomendação, "sim" aceita todas).
+- **Rápida e direta:** **uma** rodada no formato da `sdd-entrevistar` (numerada, cada pergunta com a recomendação,
+  "sim" aceita todas) para o que a ficha da trilha pede e a origem não traz — rápida: atual com evidência, esperado
+  com fonte, o que não muda, como verificar; direta: pronto quando, como verificar, não muda (uma linha cada; não
+  coube → não é direta, triagem de novo como rápida).
 - Fatos o agente busca (código, bundle do ELM, banco só leitura); decisões são da pessoa.
 - **Não fazer** (já entregue, fora do produto, recusado pelo P.O.) → nada no backlog; item do EWM → ofereça um
   comentário `sdd: não fazer — <motivo>` (`elm-ccm` › comentar, com "sim"), que o tira dos próximos lotes;
@@ -75,8 +80,12 @@ para `## Fatias — sem épico` e acrescente as colunas `trilha` (`rápida` nas 
 no mesmo commit.
 
 - **Épico:** próximo `EP-nn` de "Próximos ids"; linha em `## Épicos` com `status` `rascunho`, prioridade `—` (quem
-  prioriza é o planejamento) e `prd` `—`. Com ELM: **`sdd-elm` modo *backlog***, só o épico (`[EP-nn] <título>`,
-  descrição = o problema), com confirmação; o id vai para a coluna `elm`. Veio de um item do EWM: se ele já é do
+  prioriza é o planejamento), `prd` `—` e `po` = o P.O. ativo do `equipe.json` (outro, se a pessoa disser).
+  Descrição mínima (a mesma que a Definition of Ready do épico confere): o problema, quem pede e o resultado
+  esperado — falta algum → pergunte numa rodada; sem resposta, `rascunho` com `obs` `falta: <o quê>`. Com ELM:
+  **`sdd-elm` modo *backlog***, só o épico (`[EP-nn] <título>`, descrição mínima, responsável = o `po`, e
+  "Planejado para" = a iteração de backlog dos "Padrões do EWM" do `sdd.md` quando a PA exige), com confirmação; o id vai para a
+  coluna `elm`. Veio de um item do EWM: se ele já é do
   tipo de épico do `sdd.md`, ele é o épico (grave o id, sem criar outro) — quando esse tipo é o mesmo do item
   (Item de Backlog pai), pergunte se ele vira o épico ou o filho; senão o épico é criado e o item de origem
   vira filho dele, na mesma confirmação. Sem o power `elm` → `elm` = `pendente` (a `sdd-prd` ou o planejamento registram
@@ -92,18 +101,17 @@ no mesmo commit.
   `[pasta](epicos/<EP>-<slug>/)` ou `—` se não criada.
 - **Fatia sem épico** (padrão, rápida, direta): próximo `FT-nnn`; linha em `## Fatias — sem épico` com:
   - `trilha`; `origem` (`DF 4567`, `IB 611`, `AT-012`, `pedido: <resumo>`); `ficha`
-    (`[ficha](fatias/FT-<nnn>-<slug>.md)` ou `—`);
-  - `tamanho` (padrão `P`/`M`/`G`; rápida `P`/`M`; direta `P`); `modo` (`AFK` quando o esperado e o teste são
-    claros e não há dado sensível; senão `HITL`); prioridade, `sprint` e `responsavel` `—`;
-  - `status` `pronta` se passa na Definition of Ready da trilha (padrão: ficha aprovada; rápida: comportamento
-    esperado claro, sem regra nova, tamanho ≤ M; direta: o pedido cabe numa frase), senão `backlog` com `obs`
-    `falta: <o quê>`.
-  - **Ficha** (`<produto>/fatias/FT-<nnn>-<slug>.md`, formato em [references/ficha.md](references/ficha.md); crie a
-    pasta se não existir): obrigatória na padrão; na rápida, só quando a origem não traz o comportamento esperado
-    escrito; na direta, nunca.
+    (`[ficha](fatias/FT-<nnn>-<slug>.md)`, sempre);
+  - `tamanho` (padrão `P`/`M`/`G`; rápida `P`/`M`; direta `P`); `modo` — padrão e rápida: `AFK` quando o esperado
+    e o teste são claros e não há dado sensível, senão `HITL`; direta: `—` (é feita na sessão da pessoa, sem loop
+    nem `[REV]`/`[VER]`); prioridade, `sprint` e `responsavel` `—`;
+  - `status` `pronta` se passa na Definition of Ready da trilha (formato do backlog — a ficha da trilha completa),
+    senão `backlog` com `obs` `falta: <o quê>`.
+  - **Ficha** (`<produto>/fatias/FT-<nnn>-<slug>.md`, formato da trilha em [references/ficha.md](references/ficha.md);
+    crie a pasta se não existir): sempre.
   - EWM (com ELM): item de origem no EWM → nada a criar (ele será o pai das tarefas). Padrão ou rápida sem item de
     origem e `backlog no EWM` = `ao-fatiar` → `sdd-elm` modo *backlog* cria o IB `[FT-nnn]` sob o épico de
-    Sustentação, com confirmação; `na-sprint` → o planejamento cria. Direta: sem IB (a `[DEV]` nasce no
+    Sustentação (responsável = o P.O.; "Planejado para" = a iteração de backlog quando a PA exige), com confirmação; `na-sprint` → o planejamento cria. Direta: sem IB (a `[DEV]` nasce no
     planejamento ou no encaixe).
 - **Atendimento:**
   - **Entrevista curta:** `sdd-entrevistar` modo *atendimento* (uma rodada: o que o cliente precisa receber,
@@ -113,18 +121,20 @@ no mesmo commit.
   - **Sprint sugerida:** a aberta (`sprint-<nn>.md` com `**Situação:** aberta`), pela regra da reserva — a reserva
     (atendimento + retrabalho) está na seção Atendimento do `sprint-<nn>.md`; o usado é o retrabalho migrado mais a
     soma das estimativas dos AT dela; cabe com a
-    estimativa deste (A-6) → quem triou confirma; estourou → `status` `backlog`, `[ATD]` sem `plannedFor`, e a
-    decisão é do P.O. pelo Encaixe da `sdd-planejamento` (o atendimento não tira fatia sozinho).
+    estimativa deste (A-6) → quem triou confirma; estourou → `status` `backlog`, `[ATD]` sem `plannedFor` (PA que
+    exige "Planejado para" → a iteração de backlog dos "Padrões do EWM" do `sdd.md`), e a decisão é do P.O. pelo Encaixe da
+    `sdd-planejamento` (o atendimento não tira fatia sozinho).
     Kanban (`acordos.md`) → a iteração corrente. Sem sprint aberta → `status` `backlog` e o aviso "sem sprint
     aberta: o AT entra no próximo planejamento". Responsável sugerido: quem tem `atende: true` no `equipe.json`.
   - Linha em `## Atendimentos` (`aberto` na sprint, `backlog` sem ela); `<produto>/atendimentos/AT-<nnn>-<slug>.md`
-    no formato da [`sdd-atender`](../sdd-atender/SKILL.md), com as respostas da entrevista no cabeçalho e
-    `**Situação:** aberto`; na sprint, a linha na seção Atendimento do `sprint-<nn>.md`.
+    no formato da [`sdd-atender`](../sdd-atender/SKILL.md), com as respostas da entrevista no cabeçalho (A-6 em
+    `**Estimativa:**`) e `**Situação:** aberto`; na sprint, a linha na seção Atendimento do `sprint-<nn>.md`.
   - EWM (com ELM): **`sdd-elm` modo *atendimento*** (Registrar), com "sim"; o id vai para a coluna `elm`. Sem o
     power `elm` → `elm` = `pendente` (a `sdd-atender` registra antes de assumir).
 
 Atualize "Próximos ids". O commit é **um só, no fim da sessão de triagem** (Passo 4, resposta "não"), com o
-`backlog.md`, as fichas e os registros de AT (padrão de commit do `sdd.md`); push ou PR curto com o "sim" da pessoa,
+`backlog.md`, as fichas e os registros de AT (padrão de commit do `sdd.md`, com o id do épico de Sustentação —
+ou do épico triado, quando a sessão só triou épicos —, porque a triagem não tem tarefa própria); push ou PR curto com o "sim" da pessoa,
 como diz "Artefatos de produto" no `sdd.md` (no agente `sdd-produto`, que não faz push, entregue o comando pronto
 — a pessoa executa). **Conflito de id** no push (outra
 pessoa registrou o mesmo número antes): o agente não faz merge nem rebase — peça à pessoa `git pull --rebase`; no
@@ -175,8 +185,8 @@ importação precisa do power `elm` e pare.
    "sim" registra tudo · ou ajuste por linha (ex.: "DF 4570: não fazer")
    ```
 4. Com "sim": o Passo 3 para cada linha, com um commit para o lote e o EWM numa confirmação só (`sdd-elm`). Padrão
-   no lote → ficha em `rascunho` só com o Pedido e `falta: regras, cenários e aprovação do P.O.` (a entrevista é uma
-   a uma, depois). Atendimento no lote → registrado como no Passo 3, sem a entrevista curta (o item é o pedido;
+   no lote → ficha em `rascunho` só com o Pedido e `falta: regras, cenários e aprovação do P.O.`; rápida e direta
+   sem o que a ficha da trilha pede → `backlog` com `falta: <o quê>` (a entrevista é uma a uma, depois). Atendimento no lote → registrado como no Passo 3, sem a entrevista curta (o item é o pedido;
    prazo e critério de pronto ficam `—`), com a sprint e o responsável da tabela e a `[ATD]` na mesma confirmação.
 5. Saída: a tabela com os ids criados e o que ficou pendente — e **"Mais algum item para triar?"** (Passo 4).
 

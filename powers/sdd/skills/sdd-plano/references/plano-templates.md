@@ -174,7 +174,7 @@ da condição do defeito, verificação da correção e da preservação. Seçã
 
 ## `tasks.md`
 
-```markdown
+````markdown
 # Implementation Plan: FT-<nnn> <título>
 
 ## Overview
@@ -198,19 +198,32 @@ da condição do defeito, verificação da correção e da preservação. Seçã
   - A revisão não é tarefa daqui: é da `sdd-revisar`, em outro contexto (quem implementou não se revisa)
 
 ## Task Dependency Graph
-- 1 → 2 (2 usa `BloqueioConta` criada em 1)
-- 1 → 3
-- 1, 2, 3 → 4
+
+```json
+{
+  "waves": [
+    { "id": 0, "tasks": ["1.1"] },
+    { "id": 1, "tasks": ["1.2"] },
+    { "id": 2, "tasks": ["2.1", "3"] },
+    { "id": 3, "tasks": ["2.2"] }
+  ]
+}
+```
 
 ## Notes
 - Tarefas com `*` são opcionais.
-```
+- 2.1 depende de 1.2 (usa `BloqueioConta`); 3 testa a Property 1, implementada em 1.2.
+````
 
 - Uma tarefa = um comportamento, começando pelo teste que falha (corretiva: o teste que reproduz o defeito).
 - Toda tarefa diz o comando que prova que terminou.
-- Ordem de dependência. O **Run all tasks** do Kiro deduz quais tarefas dependem de quais e roda as
-  independentes ao mesmo tempo — registre no `## Task Dependency Graph` quando uma depende da outra (inclusive
-  quando duas mexem no mesmo arquivo); sem dependência → `Não se aplica.`.
+- Ordem de dependência. O **Run all tasks** do Kiro roda as tarefas pelas *waves* do `## Task Dependency Graph`:
+  as de uma wave rodam ao mesmo tempo, e a wave N só começa quando 0..N-1 terminaram. O bloco ```` ```json ```` com
+  `waves` não vazio é obrigatório (sem ele o Kiro acusa `tasks/missing-dag-json`) — nunca `Não se aplica.` nem
+  lista de setas. Regras: toda tarefa folha não marcada (subtarefa `N.M`, ou `N` sem subtarefas) aparece em
+  exatamente uma wave, inclusive as opcionais `*`; checkpoint e tarefa-mãe ficam de fora; ids de wave contíguos a
+  partir de 0; dependente (ou que mexe no mesmo arquivo) vai numa wave posterior; sem dependência → uma wave só.
+  O porquê de cada dependência, se não for óbvio, vai em `## Notes`.
 - Mudança em código compartilhado → primeiro a tarefa de **preparação** ("deixar a mudança fácil"), depois a
   mudança; refatoração larga usa expandir → migrar → contrair, em fatias próprias.
 - DDL não vira tarefa: vai para Riscos e para o campo Banco do `status.md`.

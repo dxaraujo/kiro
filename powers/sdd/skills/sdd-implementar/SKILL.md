@@ -26,7 +26,7 @@ regras aprendidas).
 - Atualize: a branch tem upstream → `git pull --ff-only`; não tem (worktree nova) → `git fetch` basta.
 - Retome do **primeiro item não marcado** do `tasks.md`. Achados abertos viram as próximas tarefas, numeradas em
   sequência no fim da seção `## Tasks` do `tasks.md` (`- [ ] 7. [R1] <achado> — origem: revisao-codigo-2.md`;
-  dependência de outra tarefa → linha no `## Task Dependency Graph`): os da seção "Achados
+  e cada uma entra numa wave nova no fim do JSON do `## Task Dependency Graph`): os da seção "Achados
   abertos" do `status.md` (PR, pessoa), os do último `revisao-codigo-<N>.md` com `VEREDITO: REVISAR` e os cenários
   rejeitados do `verificacao.md`. Como as anteriores estão marcadas, elas são as primeiras não marcadas.
 - **Retrabalho** (`fase: retrabalho (de: em-revisao | em-verificacao)`, HITL): **`sdd-elm` modo *assumir***

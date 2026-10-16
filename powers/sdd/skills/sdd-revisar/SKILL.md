@@ -4,7 +4,7 @@ description: "Revisão independente do fluxo sdd, com contexto limpo, sem altera
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.6.2"
+  version: "2.6.3"
 ---
 
 # sdd-revisar — Verificação independente

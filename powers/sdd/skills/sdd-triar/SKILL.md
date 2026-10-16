@@ -4,7 +4,7 @@ description: "Entrada de todo trabalho novo no fluxo sdd — recebe um pedido em
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.6.2"
+  version: "2.6.3"
 ---
 
 # sdd-triar — Triagem e registro

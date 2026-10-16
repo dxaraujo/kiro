@@ -4,7 +4,7 @@ description: "Hub de início do fluxo sdd — recebe um work item já registrado
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.6.2"
+  version: "2.6.3"
 ---
 
 # sdd-iniciar — Hub: qual skill faz este item

@@ -171,7 +171,8 @@ fora de sprint: épico, item de backlog e `[ATD]` são criados quando entram na 
 iteração dela; saem a opção `backlog no EWM` e a iteração de backlog dos "Padrões do EWM". `equipe.json`,
 `acordos.md`, `roadmap.md` e `sprints/` voltam para a raiz da pasta do produto (sem a subpasta `planejamento/`). Na 2.6.2, a triagem commita na tarefa `[GB] Gerenciamento do backlog` (filha da
 Sustentação, criada pela `sdd-elm` com ela) e a `sdd-elm` procura no EWM a iteração que falta no `pa_*.json` antes de
-propor criar (requer o power `elm` ≥ 1.3.2). Projeto configurado com o power
+propor criar (requer o power `elm` ≥ 1.3.2). A 2.6.3 só acerta textos e exemplos (sem regra nova) e alinha a versão
+das skills à do power. Projeto configurado com o power
 `sdd2` ou com a v1 do `sdd`: desinstale o power antigo, instale este e peça "atualizar a configuração do sdd" — a
 setup pergunta a pasta do produto, junta os steerings num só, renomeia hooks, workflows e agentes e move
 `.kiro/produto/` e `.kiro/aprendizado/` com `git mv`.

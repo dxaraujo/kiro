@@ -70,7 +70,7 @@ Fontes no fim deste arquivo.
 | `sdd-triar` | entrada de toda demanda nova: triagem em qualquer trilha, duplicados, ficha da fatia padrão sem épico, registro no backlog (inclusive o atendimento: AT-nnn, sprint sugerida, `[ATD]`), importação de itens do EWM, "mais algum item?" — não começa nada |
 | `sdd-iniciar` | hub: recebe o item registrado (ou "minha próxima tarefa") e diz a skill do papel |
 | `sdd-especificar` | Especificador: assume a `[ESP]`, conduz entrevista → PRD → fatias numa pasta local até o GATE e registra cada sessão na tarefa (comentário + anexos) |
-| `sdd-codificar` | Dev: compromisso (Definition of Ready, sprint/encaixe, WIP), branch, pasta, assume a `[DEV]`; retomada pela fase |
+| `sdd-desenvolver` | Dev: compromisso (Definition of Ready, sprint/encaixe, WIP), branch, pasta, assume a `[DEV]`; retomada pela fase |
 | `sdd-entrevistar` | alinhamento em rodadas (grill), decisões e glossário |
 | `sdd-prd` | PRD do épico (o quê e por quê) e GATE do PRD |
 | `sdd-fatiar` | PRD → fatias verticais AFK/HITL, backlog e GATE do backlog |
@@ -157,7 +157,7 @@ e registra a pendência.
    (registra pela triagem, se preciso) — ou **"onde parei?"**.
 
 Depois de atualizar o power ou um toolkit: "atualizar os agentes do sdd" — na 2.5.0 é obrigatório: os agentes
-passam a carregar as skills de papel (`sdd-especificar`, `sdd-codificar`) e o hub `sdd-iniciar`, o `sdd-codificador`
+passam a carregar as skills de papel (`sdd-especificar`, `sdd-desenvolver`) e o hub `sdd-iniciar`, o `sdd-codificador`
 ganha `git switch`, o `sdd-produto` a pasta `.kiro/local/especificacao/` e os anexos do EWM, e o revisor e o
 verificador o MCP do ELM (só para a própria tarefa). O MCP `mcp-elm` precisa ser 1.0.37 ou mais novo (anexos). Projeto configurado com o power
 `sdd2` ou com a v1 do `sdd`: desinstale o power antigo, instale este e peça "atualizar a configuração do sdd" — a

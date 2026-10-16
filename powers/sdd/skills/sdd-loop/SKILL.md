@@ -61,7 +61,7 @@ git worktree add .kiro/local/wt/<ft> -b <branch> origin/<base>     # nova
 git worktree add .kiro/local/wt/<ft> <branch>                      # já existe
 ```
 
-Dentro da worktree, faça só os itens 2 e o commit do item 5 do Passo 4 da **`sdd-codificar`** (pasta, `status.md`
+Dentro da worktree, faça só os itens 2 e o commit do item 5 do Passo 4 da **`sdd-desenvolver`** (pasta, `status.md`
 com `Responsável: agente:sdd-orquestrador`, `.config.kiro`), sem perguntas — o lote já foi confirmado. O EWM
 já foi tratado na confirmação do lote (Passo 1) e não há push nesta hora. O `backlog.md` não muda
 (ele só é escrito na base).

@@ -54,4 +54,4 @@
 <!-- Só acréscimo, sempre no fim. É o arquivo de progresso: quem retoma a fatia (pessoa, agente, sessão nova)
      começa por aqui. Pendências de ELM: "ELM pendente: <ação>" → depois "ELM feito: <ação>". -->
 
-- <AAAA-MM-DD HH:MM> — fatia iniciada (sdd-codificar) · trilha <…> · modo <…>
+- <AAAA-MM-DD HH:MM> — fatia iniciada (sdd-desenvolver) · trilha <…> · modo <…>

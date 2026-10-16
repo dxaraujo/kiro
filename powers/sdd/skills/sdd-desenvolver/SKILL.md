@@ -1,5 +1,5 @@
 ---
-name: sdd-codificar
+name: sdd-desenvolver
 description: "Skill do papel Dev no fluxo sdd — começa ou retoma o código de uma fatia já registrada no backlog (FT-031, de épico ou sem épico, em qualquer trilha: padrão, rápida, direta), de um item do EWM que o backlog já conhece (DF, IB) ou da tarefa [DEV] de uma fatia. É o ponto de compromisso: confere a Definition of Ready da trilha, o responsável, se a fatia está na sprint aberta (fora dela, o encaixe é decisão do P.O. pela sdd-planejamento) e os limites de WIP; cria a branch (sugere o nome e aguarda), a pasta da fatia em .kiro/specs/ com o status.md, assume a [DEV] no EWM (sdd-elm modo assumir, com confirmação) e encaminha pela fase: pesquisar → plano → implementar → PR. Pedido novo ou item fora do backlog passa antes pela sdd-triar; [REV], [VER], [ESP] e atendimento têm skill própria (o hub sdd-iniciar encaminha). Use em \"vamos trabalhar na FT-031\", \"pegar a [DEV] da FT-031\", \"corrigir o defeito 4567\", \"próxima fatia\", \"retomar a FT-031\"."
 license: MIT
 metadata:
@@ -7,10 +7,10 @@ metadata:
   version: "2.5.0"
 ---
 
-# sdd-codificar — Compromisso e início do código
+# sdd-desenvolver — Compromisso e início do código
 
 > **Arquivos desta skill** (`references/`, `assets/` e os `../<skill>/…` citados abaixo) ficam na pasta da skill, dentro do
-> power instalado (ex.: `~/.kiro/powers/installed/sdd/skills/sdd-codificar/`), não no projeto: abra-os por esse
+> power instalado (ex.: `~/.kiro/powers/installed/sdd/skills/sdd-desenvolver/`), não no projeto: abra-os por esse
 > caminho, relativo a este `SKILL.md`. A busca no workspace não os encontra — não procure no projeto.
 
 Começar é um compromisso: daqui em diante a fatia consome a capacidade do time e o lead time corre. Por isso esta
@@ -141,7 +141,9 @@ Próximo: <skill>
 | `bloqueada (de: <fase>)` | mostre o motivo e a pergunta; resolvido → volta à skill da fase de origem |
 
 Modo AFK e várias fatias padrão ou rápida prontas na sprint → ofereça o **`sdd-loop`** (o agente leva cada uma até
-o PR).
+o PR). Uma fatia só, com as receitas instaladas (`.kiro/workflows/sdd-*`) → diga que a pessoa pode dispará-las no
+chat ("rode o workflow `sdd-planejar-fatia` com fatia FT-<nnn>"; AFK, depois `sdd-entregar-fatia`) — quem dispara
+receita é sempre a pessoa, nunca uma skill ou agente.
 
 ## Regras
 

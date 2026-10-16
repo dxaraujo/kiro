@@ -27,7 +27,7 @@ chamada direto:
 | Papel | Tarefa | Skill |
 |---|---|---|
 | Especificador | `[ESP]` | `sdd-especificar` (entrevista → PRD → fatias) |
-| Dev | `[DEV]` | `sdd-codificar` (compromisso, branch) → pesquisar → plano → implementar → PR |
+| Dev | `[DEV]` | `sdd-desenvolver` (compromisso, branch) → pesquisar → plano → implementar → PR |
 | Revisor | `[REV]` | `sdd-revisar` |
 | Verificador (QA) | `[VER]` | `sdd-verificar` |
 | quem atende | `[ATD]` | `sdd-atender` |
@@ -108,7 +108,7 @@ AFK. O PR e o merge nunca são dispensados.
 | registrar qualquer demanda nova — pedido, defeito, ajuste, pedido de cliente, item ou lote do EWM (triagem) | `sdd-triar` |
 | começar um item registrado, ou "minha próxima tarefa" (o hub diz a skill do papel) | `sdd-iniciar` |
 | especificar um épico (`[ESP]`) e registrar cada sessão com o cliente na tarefa | `sdd-especificar` |
-| começar ou retomar o código de uma fatia (`[DEV]`) | `sdd-codificar` |
+| começar ou retomar o código de uma fatia (`[DEV]`) | `sdd-desenvolver` |
 | alinhar decisões | `sdd-entrevistar` |
 | escrever o PRD de um épico | `sdd-prd` |
 | quebrar o PRD em fatias / refinar o backlog | `sdd-fatiar` |
@@ -160,5 +160,5 @@ Nunca compacte no meio de uma fase.
   carregado), não em agentes específicos. O hub `sdd-iniciar` está em todos os agentes de papel, e a `sdd-status`
   no `sdd-orquestrador`; os dois também funcionam na sessão padrão. Nenhuma skill depende de um agente para operar: o agente apenas recebe a skill
   pré-carregada para conveniência.
-- **Nenhuma skill cria branch ou `.kiro/specs/<ft>/status.md`** sem passar pelos Passos 3–4 da `sdd-codificar`
+- **Nenhuma skill cria branch ou `.kiro/specs/<ft>/status.md`** sem passar pelos Passos 3–4 da `sdd-desenvolver`
   (DoR, sprint, WIP, branch, commit). O `sdd-loop` é a única exceção (opera em worktree como orquestrador).

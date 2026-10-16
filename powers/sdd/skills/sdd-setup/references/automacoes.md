@@ -22,10 +22,13 @@ sem elas.
 `kiroAgent.workflows.enabled`; no CLI, `chat.enableWorkflows` (e reiniciar). Sem a opção **Workflows** nas
 configurações, o recurso ainda não está disponível para a conta.
 
-| Receita | Faz | Termina |
-|---|---|---|
-| `sdd-planejar-fatia` | zera o veredito → pesquisa → plano → análise ↔ ajuste (até 2 rodadas) | no GATE do plano, que é de uma pessoa |
-| `sdd-entregar-fatia` | zera o veredito → implementação ↔ revisão (até 2 rodadas) → verificação | fatia `aceita`, pronta para o PR que uma pessoa abre |
+| Receita | Para | Faz | Termina |
+|---|---|---|---|
+| `sdd-planejar-fatia` | fatia HITL ou AFK | zera o veredito → pesquisa → plano → análise ↔ ajuste (até 2 rodadas) → registrar | plano commitado: `implementando` (AFK sem épico, rápida sem GATE) ou `plano-em-revisao` (GATE de uma pessoa) |
+| `sdd-entregar-fatia` | só fatia **AFK** | zera o veredito → implementação ↔ revisão (até 2 rodadas, cada uma registrada) → verificação → registrar | fatia `aceita` e commitada, pronta para o PR que uma pessoa abre |
+
+As receitas são o caminho AFK de **uma** fatia sem o `sdd-loop` (que leva várias, em worktrees). Fatia HITL não
+usa a `sdd-entregar-fatia`: a `sdd-implementar` termina no PR, e a revisão e a verificação são das pessoas.
 
 - **Quem dispara: a pessoa**, no chat principal do Kiro (com o agente padrão ou qualquer outro), **uma fatia por
   vez**, na branch da fatia, no checkout principal: "rode o workflow `sdd-entregar-fatia` com fatia FT-031" ou, na

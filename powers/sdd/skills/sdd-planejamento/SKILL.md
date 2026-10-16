@@ -115,7 +115,7 @@ Atendimento que estoura a reserva → mostre ao P.O. e ele decide qual fatia sai
 fatia sozinho.
 
 **Encaixe** — alguém quer começar uma fatia `pronta` (de qualquer trilha, inclusive a direta) que não está na sprint
-aberta; a `sdd-codificar` manda para cá. Atendimento triado quando a reserva estourou é o mesmo encaixe (a
+aberta; a `sdd-desenvolver` manda para cá. Atendimento triado quando a reserva estourou é o mesmo encaixe (a
 `sdd-triar` manda para cá): a decisão do P.O. vai na linha do AT no `sprint-<nn>.md`. Mostre ao P.O. a fatia (trilha, tamanho, modo, origem), o que sobra da
 capacidade (revisão, vazão, HITL) e as opções, com a recomendada:
 - **entra na folga** — cabe sem tirar nada;
@@ -126,7 +126,7 @@ Com a decisão do P.O. (ou de quem ele delegou): `sprint` e `responsavel` no `ba
 verificador, que não sejam quem implementa — as `[REV]`/`[VER]` precisam deles), uma linha no
 `sprint-<nn>.md` com a Observação `encaixe: <decisão> (<quem decidiu>, <data>)`, commit na base e a `sdd-elm` modo
 *sprint* para as tarefas da fatia. Na troca, as tarefas da fatia que sai vão
-para a próxima iteração (`sdd-elm`, só o `plannedFor`). Depois, volte à `sdd-codificar` (Passo 3, item 4). Sem
+para a próxima iteração (`sdd-elm`, só o `plannedFor`). Depois, volte à `sdd-desenvolver` (Passo 3, item 4). Sem
 decisão, a fatia não começa; urgência acelera a decisão, não a dispensa.
 
 ## Review

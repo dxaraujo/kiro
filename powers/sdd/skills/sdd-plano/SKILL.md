@@ -17,7 +17,7 @@ O plano existe para que as decisões de desenho sejam tomadas **com** uma pessoa
 code review. Ele é curto, concreto e descartável: depois do merge, o que vale é o código, o ELM, o glossário e os
 ADRs. Templates: [references/plano-templates.md](references/plano-templates.md).
 
-Entrada: pasta `.kiro/specs/<ft>-<slug>/` criada pela `sdd-codificar`, na branch da fatia.
+Entrada: pasta `.kiro/specs/<ft>-<slug>/` criada pela `sdd-desenvolver`, na branch da fatia.
 Leia: `status.md`, a fatia no `backlog.md`, o PRD do épico (histórias e regras cobertas), a ficha da fatia sem
 épico (`<produto>/fatias/`) ou o defeito,
 `.kiro/steering/sdd.md` (com as regras aprendidas) e o steering de tecnologia/estrutura.

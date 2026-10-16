@@ -88,7 +88,7 @@ Ajuste e repita até "ok". Esse "ok" é o **GATE do backlog** (P.O. ou time no r
   ligados às histórias do DOORS Next ("implementa") e ao épico (pai), com os critérios de aceite de cada fatia;
   `Planejado para` = a iteração que a pessoa indicar (no backlog do produto, a da entrega ou release).
 - **`sdd-planejamento`** — encaixar as fatias na sprint (ou no fluxo Kanban).
-- Para começar uma fatia já: "vamos trabalhar na FT-031" (`sdd-codificar`, ou o hub `sdd-iniciar`).
+- Para começar uma fatia já: "vamos trabalhar na FT-031" (`sdd-desenvolver`, ou o hub `sdd-iniciar`).
 
 ## Refinamento (backlog já existe)
 

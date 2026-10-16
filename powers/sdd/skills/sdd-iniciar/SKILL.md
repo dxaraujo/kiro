@@ -1,6 +1,6 @@
 ---
 name: sdd-iniciar
-description: "Hub de início do fluxo sdd — recebe um work item já registrado (FT-031, EP-03, AT-012, DF ou IB que o backlog conhece, tarefa [DEV] [REV] [VER] [ESP] [ATD]) ou \"minha próxima tarefa\", descobre o tipo e diz qual skill de papel usar: sdd-codificar (Dev), sdd-revisar (Revisor), sdd-verificar (QA), sdd-especificar (Especificador) ou sdd-atender (atendimento); pedido novo ou item fora do backlog vai para a sdd-triar. Não tem regra própria: cada skill de papel assume a sua tarefa no EWM e confere o compromisso. Use em \"iniciar\", \"começar\", \"pegar a task 123\", \"vamos trabalhar na FT-031\", \"iniciar o AT-012\", \"minha próxima tarefa\", \"o que eu pego agora?\"."
+description: "Hub de início do fluxo sdd — recebe um work item já registrado (FT-031, EP-03, AT-012, DF ou IB que o backlog conhece, tarefa [DEV] [REV] [VER] [ESP] [ATD]) ou \"minha próxima tarefa\", descobre o tipo e diz qual skill de papel usar: sdd-desenvolver (Dev), sdd-revisar (Revisor), sdd-verificar (QA), sdd-especificar (Especificador) ou sdd-atender (atendimento); pedido novo ou item fora do backlog vai para a sdd-triar. Não tem regra própria: cada skill de papel assume a sua tarefa no EWM e confere o compromisso. Use em \"iniciar\", \"começar\", \"pegar a task 123\", \"vamos trabalhar na FT-031\", \"iniciar o AT-012\", \"minha próxima tarefa\", \"o que eu pego agora?\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -29,7 +29,7 @@ está em (1) nem (2) não está registrado.
 |---|---|---|
 | pedido em texto, ou id que não está no backlog | **`sdd-triar`** | P.O. / `sdd-produto` |
 | `EP-nn`, tarefa `[ESP]` | **`sdd-especificar`** | Especificador / `sdd-produto` |
-| `FT-nnn`, DF ou IB do backlog, tarefa `[DEV]`, "próxima fatia" | **`sdd-codificar`** | Dev / `sdd-codificador` |
+| `FT-nnn`, DF ou IB do backlog, tarefa `[DEV]`, "próxima fatia" | **`sdd-desenvolver`** | Dev / `sdd-codificador` |
 | tarefa `[REV]` | **`sdd-revisar`** (rubrica C sobre o PR) | Revisor / `sdd-revisor` |
 | tarefa `[VER]` | **`sdd-verificar`** | Verificador (QA) / `sdd-verificador` |
 | `AT-nnn`, tarefa `[ATD]` | **`sdd-atender`** | quem atende / `sdd-produto` |
@@ -52,11 +52,11 @@ Responda com a instrução e **pare**: nunca invoque nem simule a skill do papel
    | # | Tarefa | Item | Estado | Skill |
    |---|---|---|---|---|
    | 1 | [REV] 669401 | FT-031 Bloquear a conta | Novo | sdd-revisar |
-   | 2 | [DEV] 669412 | FT-034 Exportar relatório | Em Desenvolvimento | sdd-codificar |
+   | 2 | [DEV] 669412 | FT-034 Exportar relatório | Em Desenvolvimento | sdd-desenvolver |
    Qual? (número)
    ```
 3. A pessoa escolhe → Passo 2 com o item escolhido. Nenhuma tarefa → diga e ofereça "próxima fatia"
-   (`sdd-codificar`) ou a `sdd-status`.
+   (`sdd-desenvolver`) ou a `sdd-status`.
 
 ## Regras
 

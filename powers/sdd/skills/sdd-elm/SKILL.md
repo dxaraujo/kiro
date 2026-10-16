@@ -182,7 +182,7 @@ seções do `sprint-<nn>.md` (fatias com responsável, revisor e verificador; es
 
 ## Modo assumir (Passo 0 das skills de papel)
 
-Chamado pela skill do papel antes de trabalhar: `sdd-codificar` (`[DEV]`), `sdd-especificar` (`[ESP]`),
+Chamado pela skill do papel antes de trabalhar: `sdd-desenvolver` (`[DEV]`), `sdd-especificar` (`[ESP]`),
 `sdd-revisar` (`[REV]`), `sdd-verificar` (`[VER]`) e `sdd-atender` (`[ATD]`). A regra mora só aqui.
 
 1. **Tarefa:** a informada; senão pelo item — coluna `elm` do `backlog.md`, campo ELM do `status.md` da fatia ou

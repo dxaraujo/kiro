@@ -8010,7 +8010,7 @@ power, com a versão subindo (`2.5.0`, `2.5.1`…) em `plugin.json` **e** em tod
 
 | 0.7 | AT na **sprint atual**: **regra da reserva** — dentro da reserva de atendimento, quem triou confirma; reserva estourada, o P.O. decide |
 | 0.8 | AT em **Kanban** → iteração corrente; **sem sprint aberta** → fica `backlog` com aviso. **Obs. do dono:** o fluxo Kanban está descrito nas skills mas **nunca foi testado** — revisar o fluxo Kanban por inteiro depois, principalmente as integrações com o ELM (iteração, planos, tarefas) |
-| 0.11 | Skill de código: **`sdd-codificar`** (casa com o agente `sdd-codificador`) |
+| 0.11 | Skill de código: **`sdd-desenvolver`** (o papel Dev; revisado em 2026-10-15 — nasceu `sdd-codificar` na Etapa 1 e foi renomeada porque quem escreve código é a `sdd-implementar`; o agente continua `sdd-codificador`). Workflows: disparados sempre pela pessoa; a `sdd-desenvolver` os indica para fatia AFK única |
 | 0.12 | Q3 confirmado; **Q8**: fatia AFK não cria `[REV]`/`[VER]` no ELM; fatia HITL cria (D0.7) |
 
 | 0.10 | Remoção de **worktree** (S19-D1): a **`sdd-consolidar`** (sessão padrão) remove a worktree da fatia mergeada, sem `--force` |

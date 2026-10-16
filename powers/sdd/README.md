@@ -169,7 +169,9 @@ Na 2.6.0, "atualizar os agentes do sdd" de novo: o `sdd-revisor` passa a gravar 
 trabalho local, e o `sdd.md` ganha a linha "Padrões do EWM" ("atualizar a configuração do sdd"). Na 2.6.1, nada nasce no EWM
 fora de sprint: épico, item de backlog e `[ATD]` são criados quando entram na sprint, com "Planejado para" = a
 iteração dela; saem a opção `backlog no EWM` e a iteração de backlog dos "Padrões do EWM". `equipe.json`,
-`acordos.md`, `roadmap.md` e `sprints/` voltam para a raiz da pasta do produto (sem a subpasta `planejamento/`). Projeto configurado com o power
+`acordos.md`, `roadmap.md` e `sprints/` voltam para a raiz da pasta do produto (sem a subpasta `planejamento/`). Na 2.6.2, a triagem commita na tarefa `[GB] Gerenciamento do backlog` (filha da
+Sustentação, criada pela `sdd-elm` com ela) e a `sdd-elm` procura no EWM a iteração que falta no `pa_*.json` antes de
+propor criar (requer o power `elm` ≥ 1.3.2). Projeto configurado com o power
 `sdd2` ou com a v1 do `sdd`: desinstale o power antigo, instale este e peça "atualizar a configuração do sdd" — a
 setup pergunta a pasta do produto, junta os steerings num só, renomeia hooks, workflows e agentes e move
 `.kiro/produto/` e `.kiro/aprendizado/` com `git mv`.

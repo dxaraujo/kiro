@@ -91,7 +91,7 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
    um; fatia **AFK** não tem (revisão e verificação por subagente, sem `[REV]`/`[VER]`) — a revisão humana dela é a
    leitura do PR.
 4. **Meta da sprint:** uma frase de resultado de negócio que as fatias entregam juntas.
-5. **Iteração:** pergunte a iteração do EWM da sprint (de `iterations` do `pa_*.json`); é o `plannedFor` de
+5. **Iteração:** pergunte a iteração do EWM da sprint (de `iterations` do `pa_*.json`; não está lá → a `sdd-elm` procura no EWM antes de propor criar); é o `plannedFor` de
    todos os IBs e tarefas desta sprint.
 6. **Proposta**, com as três seções:
    ```

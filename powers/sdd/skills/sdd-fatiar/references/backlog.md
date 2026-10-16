@@ -14,7 +14,7 @@ andamento de uma fatia (fase, branch, PR) não mora aqui: mora no `status.md` da
 # Backlog — Gestão de Acessos
 
 Próximos ids: EP-04 · FT-034 · AT-013
-Sustentação: [SUS-2026] [612000](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612000) · Atendimento [612005](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612005)
+Sustentação: [SUS-2026] [612000](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612000) · Atendimento [612005](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612005) · Backlog [GB] [612006](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612006)
 
 ## Épicos
 
@@ -63,7 +63,7 @@ linha da tabela — sem quebra de linha nem `|` dentro de célula (troque por `/
 | atendimento `status` | `backlog` (sem sprint aberta) · `aberto` (na sprint ou na iteração corrente do Kanban) · `concluido` · `cancelado` |
 | atendimento `origem` | chamado, e-mail, `DF 4567`, `IB 615` ou `pedido` |
 | atendimento `registro` | `[AT-<nnn>](atendimentos/AT-<nnn>-<slug>.md)` |
-| linha `Sustentação:` | épico de Sustentação do ano e o IB `Atendimento` filho dele (pais do que não nasce de PRD); `—` até a `sdd-elm` criá-los |
+| linha `Sustentação:` | épico de Sustentação do ano, o IB `Atendimento` filho dele (pais do que não nasce de PRD) e a tarefa `[GB] Gerenciamento do backlog` (commits da triagem); `—` até a `sdd-elm` criá-los |
 
 ## Quem escreve o quê
 

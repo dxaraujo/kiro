@@ -203,6 +203,7 @@ Mostre o resumo e peça confirmação antes. Depois de criar, inclua o item em `
 
 | Operação | Como |
 |---|---|
+| buscar iteração · listar planos | `ccm_list_iterations(project_area_identifier=pa)` filtrado pelo nome; `ccm_list_iteration_plans(project_area_identifier=pa, iteration_identifiers=[<a achada>])`. Achou → mostre e, com "sim", grave em `ccm.iterations[<nome>]` (com `plans`) do `pa_*.json`, no formato da etapa 5 |
 | criar iteração · criar plano | seção "Criar iteração ou plano" acima (exige permissão de modificar iterações na PA) |
 
 ## Erros comuns

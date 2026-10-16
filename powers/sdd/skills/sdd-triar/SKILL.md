@@ -131,8 +131,11 @@ no mesmo commit.
     `pendente` (a `sdd-atender` registra antes de assumir).
 
 Atualize "Próximos ids". O commit é **um só, no fim da sessão de triagem** (Passo 4, resposta "não"), com o
-`backlog.md`, as fichas e os registros de AT (padrão de commit do `sdd.md`, com o id do épico de Sustentação —
-ou do épico triado, quando a sessão só triou épicos —, porque a triagem não tem tarefa própria); push ou PR curto com o "sim" da pessoa,
+`backlog.md`, as fichas e os registros de AT (padrão de commit do `sdd.md`). A triagem não tem tarefa própria e os
+itens triados só nascem no EWM na sprint: o padrão é a tarefa **`[GB] Gerenciamento do backlog`** da linha
+`Sustentação:` do `backlog.md` — mostre-a e confirme (a pessoa pode indicar outra). Linha sem `[GB]` → sugira
+criá-la (`sdd-elm` modo *backlog*, item 2, que cria também a Sustentação se faltar; só com sprint aberta, que dá a
+iteração) ou pergunte a tarefa. Sem tarefa, não commite: deixe os arquivos e o comando pronto; push ou PR curto com o "sim" da pessoa,
 como diz "Artefatos de produto" no `sdd.md` (no agente `sdd-produto`, que não faz push, entregue o comando pronto
 — a pessoa executa). **Conflito de id** no push (outra
 pessoa registrou o mesmo número antes): o agente não faz merge nem rebase — peça à pessoa `git pull --rebase`; no

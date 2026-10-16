@@ -88,9 +88,9 @@ Na worktree do `sdd-loop`: `cd .kiro/local/wt/<ft> && <comando>`. Falha de ambie
 | Tipo · pasta no RM | HF `<História de Usuário>` `<pasta>` · REG `<Regra>` `<pasta>` · GL `<Termos de Glossário>` `<pasta>` · ET `<… | —>` |
 | Tipo no EWM · pontos P/M/G | épico `<Épico | Item de Backlog (pai)>` · fatia `<Item de Backlog>` · `<não | 2 · 3 · 5>` (opcional; o planejamento prevê pela vazão) |
 | Critérios de aceite no IB | `<nome do campo em workitem-types[IB].fields do pa_*.json | descrição>` |
-| Tarefas (títulos padrão; editáveis à mão) | `[ESP] EP-<nn> Especificação` · `[DEV] FT-<nnn> Implementar` · `[REV] FT-<nnn> Revisar` · `[VER] FT-<nnn> Verificar` · `[ATD] AT-<nnn> <pedido>` |
+| Tarefas (títulos padrão; editáveis à mão) | `[ESP] EP-<nn> Especificação` · `[DEV] FT-<nnn> Implementar` · `[REV] FT-<nnn> Revisar` · `[VER] FT-<nnn> Verificar` · `[ATD] AT-<nnn> <pedido>` · `[GB] Gerenciamento do backlog` |
 | Padrões do EWM (campos que a PA exige) | Tarefa: Atendido por `<categoria do time | —>` · `<outro atributo = valor | —>` |
-| Classificação da tarefa | `<[ESP] Análise / Especificação · [DEV] Desenvolvimento · [REV] Outra - Não listada · [VER] Testes de Homologação · [ATD] Suporte / Apoio Técnico Especializado | a PA não tem>` |
+| Classificação da tarefa | `<[ESP] Análise / Especificação · [DEV] Desenvolvimento · [REV] Outra - Não listada · [VER] Testes de Homologação · [ATD] Suporte / Apoio Técnico Especializado · [GB] Outra - Não listada | a PA não tem>` |
 | `CT.csv` (colunas na ordem do template do ETM) | `<Tipo=Caso de Teste · Resumo · Responsável · Status=<inicial> · Categoria · Planejado para · Descrição>` |
 
 ## Agentes

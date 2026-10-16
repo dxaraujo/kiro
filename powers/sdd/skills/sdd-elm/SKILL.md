@@ -158,6 +158,9 @@ iteração da sprint, em todos.
    (`elm-ccm` › **trocar o pai** para o épico).
 2. **Sustentação e Atendimento** (uma vez por release/ano, se a linha `Sustentação:` do `backlog.md` estiver
    vazia): épico `[SUS-<ano>] Sustentação` e, filho dele, o IB `Atendimento` (pai das `[ATD]`); ids nessa linha.
+   Junto, a tarefa **`[GB] Gerenciamento do backlog`**, filha do épico de Sustentação, responsável = o P.O. ativo
+   do `equipe.json`, `plannedFor` = a iteração da sprint: recebe os commits do que não tem tarefa
+   própria (a triagem); id na mesma linha (`· Backlog [GB] <id>`). Na virada, como as demais, só o `plannedFor` muda.
 3. **Item de backlog por fatia** (quando a fatia entra na sprint):
    título `[FT-031] <título>`, `parent` = épico (fatia sem épico sem item de origem: o épico de
    Sustentação; com item de origem não há IB novo; direta: sem IB), pontos pelo tamanho só se o `sdd.md` tiver a tabela de pontos (opcional), descrição com modo
@@ -181,10 +184,12 @@ seções do `sprint-<nn>.md` (fatias com responsável, revisor e verificador; es
 
 1. **Planos**, por iteração e time — os dois tipos que o fluxo usa: **plano de backlog**
    (`com.ibm.team.apt.plantype.product.backlog`: épicos, IBs, Sustentação e "Atendimento") e **plano da sprint**
-   (`com.ibm.team.apt.plantype.default`: as tarefas). Faltou algum (ou a iteração) → crie pela `elm-setup`
-   (`elm-setup` › **criar iteração · criar plano**; exige a permissão de modificar iterações — se falhar,
-   peça a quem administra a PA). Plano criado → grave o id em `ccm.iterations[<iteração>].plans` do `pa_*.json`
-   (com a confirmação do lote), para a próxima sprint achá-lo.
+   (`com.ibm.team.apt.plantype.default`: as tarefas). Procure a iteração e os planos nesta
+   ordem: (a) `ccm.iterations` do `pa_*.json`; (b) não estão lá → no EWM (`elm-setup` › **buscar iteração · listar
+   planos**, pelo nome) — achou → grave em `ccm.iterations[<iteração>]` (com os planos) do `pa_*.json`, na
+   confirmação do lote; (c) só o que não existe no EWM → proponha criar (`elm-setup` › **criar iteração · criar
+   plano**; exige a permissão de modificar iterações — se falhar, peça a quem administra a PA). Plano criado → grave o
+   id em `ccm.iterations[<iteração>].plans` do `pa_*.json` (com a confirmação do lote), para a próxima sprint achá-lo.
 2. Linha `Sustentação:` vazia → crie a Sustentação e o Atendimento antes (item 2 do modo backlog): a direta e o
    atendimento dependem deles e não passam pelo modo backlog. Fatias sem IB e épicos com `elm` `pendente` ou `—`
    (projeto com ELM) → modo backlog primeiro (a `[ESP]` nunca nasce sem pai). Para cada IB da sprint: `plannedFor` = iteração (o responsável

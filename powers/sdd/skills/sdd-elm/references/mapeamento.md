@@ -10,15 +10,15 @@ foi feita. Os nomes reais de tipos, pastas, campos e links são da project area:
 
 | sdd (repositório) | ELM | Tipo padrão (ajustável) | Quando |
 |---|---|---|---|
-| Épico `EP-nn` | EWM — Épico, ou Item de Backlog pai quando a PA não tem Épico | `Épico` / `com.ibm.team.apt.workItemType.epic` ou `…workItemType.story` | quando o `EP-nn` nasce (`sdd-prd`) |
-| Sustentação · Atendimento | EWM — épico `[SUS-<ano>] Sustentação` e IB `Atendimento` filho dele | os mesmos tipos | uma vez por release/ano |
+| Épico `EP-nn` | EWM — Épico, ou Item de Backlog pai quando a PA não tem Épico | `Épico` / `com.ibm.team.apt.workItemType.epic` ou `…workItemType.story` | quando o épico entra na sprint (`[ESP]` ou primeira fatia) |
+| Sustentação · Atendimento · `[GB]` | EWM — épico `[SUS-<ano>] Sustentação`, IB `Atendimento` e Tarefa `[GB] Gerenciamento do backlog` filhos dele | os mesmos tipos · `task` | primeira sprint do release/ano (ou a triagem, para a `[GB]`, com sprint aberta) |
 | História `HF-nn` (conceito OKF em `elm/`) | DOORS Next — artefato | `História de Usuário` (título `HF - <nome>`) | GATE do PRD (`na-aprovacao`) ou merge (`no-merge`) |
 | Regra `REG-nn` (conceito OKF em `elm/`) | DOORS Next — artefato | `Regra` (título `REG - <nome>`) | idem, **antes** das histórias (elas embutem as regras) |
 | Termo `GL-<termo>` (conceito OKF em `elm/`) | DOORS Next — artefato | `Termos de Glossário` (título = o termo) | idem, antes das regras |
 | Fatia `FT-nnn` | EWM — Item de Backlog (story, *plan item*) | `com.ibm.team.apt.workItemType.story` | quando a fatia entra na sprint |
 | Tarefas `[DEV]` `[REV]` `[VER]` da fatia | EWM — Tarefa (filha do IB, *execution item*) | `task` | planejamento da sprint |
 | Tarefa `[ESP]` do épico | EWM — Tarefa (filha do épico) | `task` | planejamento da sprint |
-| Tarefa `[ATD]` do atendimento | EWM — Tarefa (filha de `Atendimento`) | `task` | triagem do atendimento (`sdd-triar`) |
+| Tarefa `[ATD]` do atendimento | EWM — Tarefa (filha de `Atendimento`) | `task` | quando o AT entra na sprint (triagem com sprint aberta, encaixe ou planejamento) |
 | Critérios de aceite da fatia | campo de texto rico do IB (ou seção da descrição) | linha do `sdd.md` | publicação do IB |
 | Horas | EWM — timesheet da tarefa | `elm-ccm` › lançar horas | conclusão de cada tarefa ou sob pedido |
 | ET as-built (opcional) | DOORS Next — artefato | `Especificação Técnica` (título `ET - <fatia>`) | consolidação (depois do merge) |

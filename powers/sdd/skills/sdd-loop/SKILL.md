@@ -12,7 +12,7 @@ metadata:
 Quem executa é o agente **`sdd-orquestrador`** (ou a sessão da pessoa, com os mesmos passos). Ele coordena e
 registra; cada fase é feita por um subagente que começa do zero e lê o estado do disco. A pessoa fica **sobre** o
 loop, não dentro: aprova o lote no início, um Dev Sênior aprova os planos que pedem GATE e lê cada PR no fim (tarefas
-`[APR]`); quem disparou o loop é o Dev responsável e faz o merge de cada PR aprovado (Passo 6 da `sdd-implementar`).
+`[APR]`); quem disparou o loop é o Dev responsável e faz o merge de cada PR aprovado (Passo 6 da `sdd-desenvolver`).
 
 Leia antes: `.kiro/steering/sdd.md` (seções Git, banco e autonomia e Comandos) e
 `<produto>/acordos.md` (WIP; sem o arquivo, limite 2).
@@ -139,17 +139,17 @@ Os **Kiro Workflows** do sdd (se instalados) não fazem parte do loop: são rece
   | FT | Resultado | PR | Rodadas (plano/código/aceite) | Observação |
   Aguardando pessoa: <planos para aprovar ([APR] de <login>) · PRs para ler e aprovar ([APR] de <login>) · trocas
   para HITL (P.O., `sdd-planejamento`) · bloqueios com pergunta>
-  Merge: cada PR com a [APR] concluída → você, pela `sdd-implementar` Passo 6 ("mergeia a FT-<nnn>")
+  Merge: cada PR com a [APR] concluída → você, pela `sdd-desenvolver` Passo 6 ("mergeia a FT-<nnn>")
   ELM pendente [<chave>]: <o que falhou ou ficou sem o power `elm`>
   Lições para registrar: <correções que o loop precisou — sdd-aprender>
   ```
 - **Horas, numa pergunta só** (com o power `elm`): uma tabela `tarefa | horas sugeridas` com as `[DEV]` das
   fatias que chegaram a `aceita` (com ou sem PR aberto) ou pararam para a troca para HITL; a pessoa ajusta e confirma de uma vez → `sdd-elm` modo
-  *horas* (lança, não conclui). A conclusão da `[DEV]` é no merge de cada fatia (Passo 6 da `sdd-implementar`), com
+  *horas* (lança, não conclui). A conclusão da `[DEV]` é no merge de cada fatia (Passo 6 da `sdd-desenvolver`), com
   o saldo. No AFK, revisão e verificação por subagente não têm tarefa nem horas; as das `[APR]` são lançadas por
   quem aprova, na sessão dele.
 - Worktrees ficam até o merge; quem conduz o merge as remove logo depois (item 8 do Passo 6 da
-  `sdd-implementar`), sem `--force` — os agentes não podem (`git worktree remove` é negado a todos): entregam o
+  `sdd-desenvolver`), sem `--force` — os agentes não podem (`git worktree remove` é negado a todos): entregam o
   comando e a pessoa o roda.
 
 ## Log `.kiro/local/loop-<data>.md`

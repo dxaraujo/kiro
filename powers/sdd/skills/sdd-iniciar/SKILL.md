@@ -35,7 +35,7 @@ está em (1) nem (2) não está registrado.
 | tarefa `[APR] FT-nnn Aprovar PR` | **`sdd-revisar`** (seção "Aprovação do PR — a `[APR]`") | Aprovador (Dev Sênior) / `sdd-revisor` |
 | tarefa `[VER]` | **`sdd-verificar`** | Verificador (QA) / `sdd-verificador` |
 | `AT-nnn`, tarefa `[ATD]` | **`sdd-atender`** | quem atende / `sdd-produto` |
-| fatia em `pronta-para-merge` (qualquer item dela, menos a `[APR]`) | **`sdd-desenvolver`** → `sdd-implementar` Passo 6 (merge do PR aprovado) | Dev responsável / `sdd-codificador` |
+| fatia em `pronta-para-merge` (qualquer item dela, menos a `[APR]`) | **`sdd-desenvolver`** (Passo 6 — merge do PR aprovado) | Dev responsável / `sdd-codificador` |
 | fatia em `bloqueada` com `aguardando troca para HITL` | **`sdd-planejamento`** (Troca de modo, na base); feita a troca, o Dev retoma pela **`sdd-desenvolver`** | P.O. ou SM / `sdd-produto` · Dev / `sdd-codificador` |
 | fatia em `mergeada` (e não `concluida` na base: `status.md` ou `backlog.md` da base — depois do merge vale a base) | **`sdd-consolidar`** (processo de produto; horas na `[GB]`) | P.O. ou SM / `sdd-produto` |
 | tarefa `[GB] Gerenciamento do backlog` | fatias em `mergeada` → **`sdd-consolidar`** (uma por vez); nenhuma → **`sdd-triar`** | P.O. ou SM / `sdd-produto` |

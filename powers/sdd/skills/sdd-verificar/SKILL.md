@@ -103,7 +103,7 @@ ser o do PRD ou da ficha, por decisão registrada). HITL: grave-o no campo do `s
        siga: diga o que falta;
     4. só então: saldo de horas e conclusão da `[VER]` (`sdd-elm` modo *horas* e *conclusão*, numa confirmação; sem
        o power `elm` → `ELM pendente [<chave>]: lançar <h>h e concluir [VER] FT-<nnn>`) e avise o **Dev
-       responsável** de que a fatia está pronta para o merge (Passo 6 da `sdd-implementar`).
+       responsável** de que a fatia está pronta para o merge (Passo 6 da `sdd-desenvolver`).
 - **REJEITADO** → para cada cenário, esperado × obtido + evidência, registrados no `status.md` como achados.
   AFK: `fase: implementando`; a `sdd-implementar` corrige e a verificação roda de novo (só os rejeitados + os de
   repetição). HITL: `fase: retrabalho (de: em-verificacao)`, "retrabalho" +1 em Rodadas e uma linha na tabela
@@ -131,3 +131,5 @@ pedido direto de uma pessoa, incremente você.
 - Nunca rode contra produção, nem com dado real de pessoa. Evidência ou trecho de resposta que traga dado real
   (homologação com cópia de produção, por exemplo) vai para `.kiro/local/verificacao/<ft>/`, fora do git; no
   `verificacao.md` ficam a consulta, a contagem, o caminho e um resumo sem identificar pessoas.
+- Não invoque nem simule outra skill do fluxo: termine com a decisão (e, com a `[VER]`, o aviso ao Dev) e pare. Como
+  subagente, devolva o relatório a quem chamou.

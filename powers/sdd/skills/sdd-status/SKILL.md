@@ -52,7 +52,7 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
 - FT-031 plano-em-revisao há 1 dia → aprovar o plano: [APR] de <Dev Sênior> (sdd-plano, Quem aprova)
 - FT-029 pr-aberto há 2 dias → esperando revisão: [REV] de <revisor> (sdd-revisar) <link>
 - FT-028 em-verificacao → esperando verificação: [VER] de <verificador> (sdd-verificar)
-- FT-027 pronta-para-merge → merge pelo Dev responsável (<login>, sdd-implementar Passo 6) <link> · AFK, antes: [APR] Aprovar PR de <Dev Sênior> (sdd-revisar)
+- FT-027 pronta-para-merge → merge pelo Dev responsável (<login>, sdd-desenvolver Passo 6) <link> · AFK, antes: [APR] Aprovar PR de <Dev Sênior> (sdd-revisar)
 - FT-026 bloqueada: aguardando troca para HITL → P.O. (sdd-planejamento, Troca de modo)
 - FT-025 mergeada há 1 dia → consolidar: P.O. ou SM (sdd-consolidar, agente sdd-produto, horas na [GB])
 - FT-030 aceita (AFK) → abrir o PR (sdd-implementar)

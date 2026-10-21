@@ -1,6 +1,6 @@
 ---
 name: sdd-desenvolver
-description: "Skill do papel Dev no fluxo sdd — começa ou retoma o código de uma fatia já registrada no backlog (FT-031, de épico ou sem épico, em qualquer trilha: padrão ou rápida), de um item do EWM que o backlog já conhece (DF, IB) ou da tarefa [DEV] de uma fatia. É o ponto de compromisso: confere a Definition of Ready da trilha, o responsável, se a fatia está na sprint aberta (fora dela, o encaixe é decisão do P.O. pela sdd-planejamento) e os limites de WIP; cria a branch (sugere o nome e aguarda), a pasta da fatia em .kiro/specs/ com o status.md, assume a [DEV] no EWM (sdd-elm modo assumir, com confirmação) e encaminha pela fase: pesquisar → plano → implementar → PR → merge (pronta-para-merge é do Dev). Pedido novo ou item fora do backlog passa antes pela sdd-triar; [REV], [VER], [ESP] e atendimento têm skill própria (o hub sdd-iniciar encaminha). Use em \"vamos trabalhar na FT-031\", \"pegar a [DEV] da FT-031\", \"corrigir o defeito 4567\", \"próxima fatia\", \"retomar a FT-031\"."
+description: "Skill do papel Dev no fluxo sdd — começa ou retoma o código de uma fatia já registrada no backlog (FT-031, de épico ou sem épico, em qualquer trilha: padrão ou rápida), de um item do EWM que o backlog já conhece (DF, IB) ou da tarefa [DEV] de uma fatia. É o ponto de compromisso: confere a Definition of Ready da trilha, o responsável, se a fatia está na sprint aberta (fora dela, o encaixe é decisão do P.O. pela sdd-planejamento) e os limites de WIP; cria a branch (sugere o nome e aguarda), a pasta da fatia em .kiro/specs/ com o status.md, assume a [DEV] no EWM (sdd-elm modo assumir, com confirmação) e encaminha pela fase: pesquisar → plano → implementar → PR; em pronta-para-merge, faz o merge do PR aprovado e conclui a [DEV] (Passo 6). Pedido novo ou item fora do backlog passa antes pela sdd-triar; [REV], [VER], [ESP] e atendimento têm skill própria (o hub sdd-iniciar encaminha). Use em \"vamos trabalhar na FT-031\", \"pegar a [DEV] da FT-031\", \"corrigir o defeito 4567\", \"próxima fatia\", \"retomar a FT-031\", \"mergeia a FT-031\", \"o PR da FT-031 foi aprovado\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -15,7 +15,7 @@ metadata:
 
 Começar é um compromisso: daqui em diante a fatia consome a capacidade do time e o lead time corre. Por isso esta
 skill só começa o que já está registrado e planejado; a entrada de trabalho novo é da **`sdd-triar`**. É a skill do
-papel **Dev**: assume a `[DEV]` da fatia e a leva até o merge (a `[DEV]` é concluída no merge do PR aprovado). Revisão (`[REV]`), verificação (`[VER]`), especificação
+papel **Dev**: assume a `[DEV]` da fatia (Passo 4), encaminha cada fase para a skill dela (Passo 5) e encerra a `[DEV]` no merge do PR aprovado (Passo 6). Revisão (`[REV]`), verificação (`[VER]`), especificação
 (`[ESP]`) e atendimento (`[ATD]`) têm skill própria; na dúvida sobre o item, o hub **`sdd-iniciar`** diz qual.
 
 Leia antes: `.kiro/steering/sdd.md`. Sem ele → ofereça a **`sdd-setup`** ("configurar o sdd") e pare.
@@ -156,14 +156,59 @@ Próximo: <skill>
 | `aceita` | `sdd-implementar` (Passo 5 — abrir o PR) |
 | `pr-aberto`, `em-revisao` | HITL: com o revisor — `[REV]` pela `sdd-revisar` |
 | `em-verificacao` | HITL: com o verificador — `[VER]` pela `sdd-verificar` |
-| `pronta-para-merge` | Dev: `sdd-implementar` (Passo 6 — merge do PR aprovado e conclusão da `[DEV]`) |
-| `mergeada` | consolidação pelo P.O. ou SM — `sdd-consolidar` (agente `sdd-produto`) |
+| `pronta-para-merge` | Dev: **Passo 6** desta skill (merge do PR aprovado e conclusão da `[DEV]`) |
+| `mergeada` | nada para o Dev: a consolidação é do P.O. ou do SM — `sdd-consolidar` (agente `sdd-produto`) |
 | `bloqueada (de: <fase>)` | mostre o motivo e a pergunta; resolvido → volta à skill da fase de origem. `aguardando troca para HITL` → a troca é do P.O. (`sdd-planejamento`, Troca de modo); registrada, a Troca AFK → HITL do Passo 1 |
 
 Modo AFK e várias fatias padrão ou rápida prontas na sprint → ofereça o **`sdd-loop`** (o agente leva cada uma até
 o PR). Uma fatia só, com as receitas instaladas (`.kiro/workflows/sdd-*`) → diga que a pessoa pode dispará-las no
 chat ("rode o workflow `sdd-planejar-fatia` com fatia FT-<nnn>"; AFK, depois `sdd-entregar-fatia`) — quem dispara
 receita é sempre a pessoa, nunca uma skill ou agente.
+
+Diga a próxima e **pare**: nunca invoque nem simule a skill da fase — ela começa na própria invocação. A
+exceção é `pronta-para-merge`: o Passo 6 é desta skill.
+
+## Passo 6 — Encerrar a `[DEV]`: merge do PR aprovado
+
+A fatia chegou a `pronta-para-merge`: o merge e a conclusão da `[DEV]` são do Dev responsável, aqui. Vale a aprovação
+**registrada**, nunca a dita na conversa ("o PR foi aprovado", "pode mergear"; o P.O. não aprova PR):
+- **HITL:** revisão `APROVADO` e verificação `ACEITO` registradas (é o que leva a fatia a `pronta-para-merge`);
+- **AFK:** a `[APR] FT-<nnn> Aprovar PR` está **concluída** e tem o comentário `PR aprovado, sha <sha>` (`sdd-elm`
+  → `elm-ccm` › **ler item**, só leitura). Sem o power `elm` → a linha `PR aprovado por <login>, sha <sha>` que o
+  aprovador entregou. Sem a aprovação → avise que o PR espera a leitura do Dev Sênior e pare.
+
+1. **Leia o PR:** `gitlab_obter_mr` pelo `iid` do link no `status.md`. Tem de estar aberto, sem WIP/Draft e sem
+   conflito. `merged` → vá ao item 5; `closed`, WIP ou conflito → avise e pare (conflito: atualize a branch pelo
+   item 1 do Passo 5 da [`sdd-implementar`](../sdd-implementar/SKILL.md), e a mudança passa de novo pela revisão).
+2. **Commit aprovado:** o `sha` do PR = `git rev-parse origin/<branch>` e é o commit que foi aprovado — HITL: o da
+   entrega da verificação (o último commit que mudou o `verificacao.md`, `git log -1 --format=%H -- <pasta da fatia>/verificacao.md`, e nele o veredito `ACEITO` — não depende do padrão de mensagem do projeto); AFK: o `sha` do
+   comentário da `[APR]`. Commit depois da aprovação → não mergeie:
+   a mudança volta à revisão.
+3. **Resumo e confirmação:**
+   ```
+   🔀 Merge FT-<nnn> — <título>
+   PR !<iid> <origem> → <destino> · sha <curto> · aprovado: <REV APROVADO + VER ACEITO | por <login>>
+   Mergear? (sim/não)
+   ```
+4. **Merge:** `gitlab_mesclar_mr(iid, sha=<sha aprovado>, remover_origem=false)` — o Kiro também confirma; a branch
+   fica até a consolidação (guarda o `status.md` com `mergeada`). Sem o MCP, sem permissão de merge ou recusa do
+   GitLab → a pessoa faz o merge na UI do GitLab e diz "mergeado".
+5. **Confira:** `gitlab_obter_mr(iid)` (ou `gitlab_listar_mrs(origem=<branch>, estado=merged)`) com estado `merged`
+   — inclusive no merge pela UI. Sem o MCP → `git fetch` e `git diff origin/<base> origin/<branch> -- <arquivos que
+   a fatia mudou>` vazio. Não mergeado → pare.
+6. `status.md` (na branch da fatia): `fase: mergeada`; no Histórico, `merge do PR <link> por <login>` (AFK: antes,
+   `PR aprovado por <login>`). Commit, push e conferência como nos itens 1–3 da Entrega do Passo 5 da `sdd-implementar`.
+7. **Conclusão da `[DEV]`:** mostre as horas já lançadas (`elm-ccm` › horas lançadas) e pergunte só o saldo →
+   `sdd-elm` modo *horas* e modo *conclusão* da `[DEV]`, numa confirmação. Sem o power `elm` → `ELM pendente
+   [<chave>]: lançar <h>h e concluir [DEV] FT-<nnn>` no Histórico (commit e push), junto com a pendência da `[APR]`
+   que o aprovador entregou (AFK).
+8. **Worktree do loop** (`.kiro/local/wt/<ft>`): depois do merge, `git worktree remove .kiro/local/wt/<ft>` —
+   **sem `--force`**; os agentes não podem (negado a todos): entregue o comando e a pessoa o roda. Falhou por arquivos
+   não rastreados ou alterados → mostre quais (evidência com dado real fica em `.kiro/local/verificacao/`, fora da
+   worktree) e deixe a pessoa decidir; nunca force.
+9. **Avise o P.O. ou o SM** de que a fatia está pronta para a consolidação (**`sdd-consolidar`**, no agente
+   `sdd-produto`, com horas na `[GB]`) e **pare**: a consolidação não é do Dev — o `sdd-codificador` nem grava na pasta do
+   produto.
 
 ## Regras
 
@@ -172,3 +217,5 @@ receita é sempre a pessoa, nunca uma skill ou agente.
 - O EWM (ou a pessoa) é a fonte dos dados do item; o código, do comportamento atual; o `status.md`, da fase.
 - Toda troca/criação de branch e toda alteração no EWM só com "sim".
 - Nunca invente dados de work item.
+- Não invoque nem simule outra skill do fluxo: diga a próxima (Passo 5) e pare. A `sdd-elm`, que os passos mandam
+  chamar, faz parte desta skill.

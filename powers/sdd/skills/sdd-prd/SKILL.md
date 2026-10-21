@@ -146,3 +146,6 @@ fatias novas; não altere fatia concluída.
 - Nunca invente regra, valor ou ator: sem fonte e sem decisão de uma pessoa, é `em aberto`.
 - O PRD não tem caminho de arquivo, nome de classe nem SQL — isso é do plano da fatia.
 - Escreva no idioma do projeto; nomes de sistemas, tabelas e campos na forma original.
+- Não invoque nem simule outra skill além das que os passos mandam chamar (`sdd-entrevistar`, `sdd-elm` modo
+  *similares*, o subagente revisor, o fechamento da sessão da `sdd-especificar` no GATE): depois do GATE, diga as
+  próximas e pare.

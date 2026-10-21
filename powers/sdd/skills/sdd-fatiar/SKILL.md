@@ -123,3 +123,5 @@ fatia ponta a ponta.
   na mesma fatia é a mesma fatia.
 - Nunca altere fatia `concluida`. Mudança de comportamento entregue = fatia nova.
 - Tamanho não é promessa de prazo: é o sinal de que a fatia cabe num PR revisável.
+- Não invoque nem simule outra skill além das que os passos mandam chamar (subagente pesquisador, `sdd-elm`): depois
+  do GATE do backlog, diga os próximos passos (Passo 4) e pare.

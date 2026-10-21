@@ -72,7 +72,7 @@ Fontes no fim deste arquivo.
 | `sdd-triar` | entrada de toda demanda nova: triagem em qualquer trilha, duplicados, ficha da fatia padrão sem épico, registro no backlog (inclusive o atendimento: AT-nnn, sprint sugerida, `[ATD]`), importação de itens do EWM, "mais algum item?" — não começa nada |
 | `sdd-iniciar` | hub: recebe o item registrado (ou "minha próxima tarefa") e diz a skill do papel |
 | `sdd-especificar` | Especificador: assume a `[ESP]`, conduz entrevista → PRD → fatias numa pasta local até o GATE e registra cada sessão na tarefa (comentário + anexos) |
-| `sdd-desenvolver` | Dev: compromisso (Definition of Ready, sprint/encaixe, WIP), branch, pasta, assume a `[DEV]`; retomada pela fase |
+| `sdd-desenvolver` | Dev: compromisso (Definition of Ready, sprint/encaixe, WIP), branch, pasta, assume a `[DEV]`; retomada pela fase; merge do PR aprovado e conclusão da `[DEV]` |
 | `sdd-entrevistar` | alinhamento em rodadas (grill), decisões e glossário |
 | `sdd-prd` | PRD do épico (o quê e por quê) e GATE do PRD |
 | `sdd-fatiar` | PRD → fatias verticais AFK/HITL, backlog e GATE do backlog |
@@ -80,7 +80,7 @@ Fontes no fim deste arquivo.
 | `sdd-atender` | executa o atendimento já triado (AT-nnn): assume a `[ATD]`, consulta só leitura, extração fora do git, resposta, saldo de horas, desdobramentos |
 | `sdd-pesquisar` | pesquisa do código compactada em `research.md` |
 | `sdd-plano` | spec do Kiro (`requirements.md`/`bugfix.md`, `design.md`, `tasks.md`) e GATE do plano |
-| `sdd-implementar` | TDD + backpressure, commits pequenos, revisão e PR |
+| `sdd-implementar` | TDD + backpressure, commits pequenos, revisão e PR (termina no PR) |
 | `sdd-revisar` | revisão independente: PRD (P), plano (L), código (C, dois eixos) |
 | `sdd-verificar` | aceite de ponta a ponta com evidência; `CT.csv` para o ETM |
 | `sdd-consolidar` | pós-merge, processo de produto (P.O. ou SM, agente `sdd-produto`, horas na `[GB]`): drift marcado pela revisão e pela verificação, ELM as-built (requisitos, ET, casos de teste criados no ETM), ADRs do PR, glossário, conclusão |

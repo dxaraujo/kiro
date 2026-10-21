@@ -18,7 +18,7 @@ as horas vão na tarefa **`[GB] Gerenciamento do backlog`** (linha `Sustentaçã
 não repete a revisão nem a verificação: o drift de negócio já vem marcado por elas no `status.md`; os ADRs já vêm
 escritos no PR.
 
-Entrada: fatia em `mergeada` (o Dev responsável mergeou o PR aprovado — Passo 6 da `sdd-implementar`; a fase
+Entrada: fatia em `mergeada` (o Dev responsável mergeou o PR aprovado — Passo 6 da `sdd-desenvolver`; a fase
 está no `status.md` da branch da fatia). **Já consolidada?** Depois do merge vale a fase da **base** (`git fetch` e
 `git show origin/<base>:.kiro/specs/<ft>-<slug>/status.md`; e o `status` da linha no `backlog.md` da base):
 `concluida` em qualquer um dos dois → diga "já consolidada em <data>" e pare — nada se repete (ADR, lições,
@@ -119,3 +119,5 @@ Lições: <n> registradas
   faz).
 - Toda escrita no ELM só com confirmação, pela `sdd-elm`.
 - Não escreve código: a correção que o glossário ou o drift pedirem no código vira fatia.
+- Não invoque nem simule outra skill além das que os passos mandam chamar (`sdd-elm`; `sdd-prd` ou `sdd-triar` no
+  drift; `sdd-aprender` modo registrar): termine com o Passo 5 e pare.

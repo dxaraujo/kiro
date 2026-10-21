@@ -137,7 +137,7 @@ loop, a fatia para sozinha e o lote segue.
 | registrar qualquer demanda nova — pedido, defeito, ajuste, pedido de cliente, item ou lote do EWM (triagem) | `sdd-triar` |
 | começar um item registrado, ou "minha próxima tarefa" (o hub diz a skill do papel) | `sdd-iniciar` |
 | especificar um épico (`[ESP]`) e registrar cada sessão com o cliente na tarefa | `sdd-especificar` |
-| começar ou retomar o código de uma fatia (`[DEV]`) | `sdd-desenvolver` |
+| começar ou retomar o código de uma fatia (`[DEV]`), mergear o PR aprovado | `sdd-desenvolver` |
 | alinhar decisões | `sdd-entrevistar` |
 | escrever o PRD de um épico | `sdd-prd` |
 | quebrar o PRD em fatias / refinar o backlog | `sdd-fatiar` |
@@ -146,7 +146,7 @@ loop, a fatia para sozinha e o lote segue.
 | lançar horas ou ver o relatório de horas | `sdd-elm` modo *horas* |
 | entender o código antes de planejar | `sdd-pesquisar` |
 | planejar uma fatia (spec do Kiro) | `sdd-plano` |
-| implementar, abrir o PR e mergear o PR aprovado | `sdd-implementar` |
+| implementar e abrir o PR | `sdd-implementar` |
 | revisar PRD, plano ou código | `sdd-revisar` |
 | verificar o aceite de ponta a ponta | `sdd-verificar` |
 | fechar a fatia depois do merge (P.O. ou SM, agente `sdd-produto`) | `sdd-consolidar` |
@@ -171,7 +171,8 @@ loop, a fatia para sozinha e o lote segue.
 
 Ao terminar uma fase, nesta ordem: seguir na mesma sessão se o contexto ainda serve → sessão nova se o contexto
 anterior não importa mais (o estado está nos arquivos) → mandar para um agente se a próxima fase pode correr AFK.
-Nunca compacte no meio de uma fase.
+Nunca compacte no meio de uma fase. Quem segue é a pessoa (ou o orquestrador, no loop): toda skill termina dizendo
+a próxima e para — nunca invoca nem simula a do passo seguinte.
 
 ## Regras de ouro
 

@@ -158,3 +158,9 @@ negócio → `fase: bloqueada (de: planejando)` com a pergunta para o P.O. Passo
 `fase: bloqueada (de: planejando)`, `aguardando troca para HITL` com o risco (a sugestão vai ao P.O.); GATE → Sênior
 segue para `implementando`; Pleno → a escolha do lote que quem chamou passou (sem ela: `plano-em-revisao`, e a
 pergunta fica para a sessão dele); nada de ELM (`ELM pendente`).
+
+## Regras
+
+- Não invoque nem simule outra skill do fluxo: termine dizendo a próxima (`sdd-implementar`, o Dev Sênior da `[APR]`
+  ou o P.O. na troca de modo) e pare. A `sdd-pesquisar`, o subagente revisor e a `sdd-elm`, que os passos mandam
+  chamar, fazem parte desta skill.

@@ -22,6 +22,9 @@ Começar um item registrado: hub `sdd-iniciar` (diz a skill do papel: `sdd-espec
   `git rev-parse origin/<branch>`) → só então lançar horas ou concluir a tarefa do papel e avisar o próximo. Push
   pelo agente com a confirmação do Kiro, só da branch da fatia; sem ela, o comando pronto e a pessoa diz que
   publicou. Subagente do AFK não faz push (quem conduz commita).
+- **Uma skill por vez:** cada skill termina dizendo a próxima e para — nunca invoca nem simula a do passo seguinte
+  (os subagentes e a `sdd-elm` que ela manda chamar fazem parte dela); quem chama a próxima é a pessoa, ou o
+  orquestrador no loop. Consolidar (fatia `mergeada`) é do P.O. ou do SM, no `sdd-produto` — nunca do agente do Dev.
 - Push, troca de branch e escrita no ELM só com "sim" de uma pessoa; push nunca para a base. Merge só do PR
   aprovado, pelo **Dev responsável** (`gitlab_mesclar_mr`, com confirmação); nunca `--force`.
 - Dado de cliente (consulta, extração, tela com dado real) nunca vai para o git: fica em `.kiro/local/<origem>/<id>/`;

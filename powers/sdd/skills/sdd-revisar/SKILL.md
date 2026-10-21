@@ -119,7 +119,7 @@ revisão e a verificação já foram feitas por subagentes; aqui uma pessoa **l�
    você aponta, ela decide.
 5. **Aprovado** → **não commite na branch** (o `sha` que o Dev vai mergear não pode mudar): pela `sdd-elm`, numa
    confirmação, o comentário `PR aprovado, sha <sha>` na `[APR]` (`elm-ccm` › **comentar**), o saldo de horas e a
-   conclusão (modos *horas* e *conclusão*). Avise o Dev responsável: o merge é dele (Passo 6 da `sdd-implementar`),
+   conclusão (modos *horas* e *conclusão*). Avise o Dev responsável: o merge é dele (Passo 6 da `sdd-desenvolver`),
    que confere essa `[APR]`. Sem o power `elm` → entregue ao Dev a linha `PR aprovado por <login>, sha <sha>` e a
    pendência `ELM pendente [APR FT-<nnn> concluir]: lançar <h>h e concluir (<login>)` — ele as grava no commit do
    merge.
@@ -134,3 +134,5 @@ revisão e a verificação já foram feitas por subagentes; aqui uma pessoa **l�
 - Achado sem evidência não entra.
 - Não proponha reescrever o que funciona; a correção é a menor mudança que fecha o achado.
 - Não amplie o escopo: problema real fora da fatia vira **SUGESTÃO** com "fora do escopo — abrir item no backlog".
+- Não invoque nem simule outra skill do fluxo: termine com o veredito (e, com a tarefa, o aviso ao próximo papel) e
+  pare. Como subagente, devolva o relatório a quem chamou.

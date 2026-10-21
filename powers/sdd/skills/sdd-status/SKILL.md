@@ -27,7 +27,8 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
 3. De cada `tasks.md`: `[x]`/total e o primeiro item pendente.
 4. `<produto>/backlog.md` (da base): épicos por status, fatias `pronta` sem `status.md` em nenhuma branch,
    sprint atual (`<produto>/sprints/` de maior número com `**Situação:** aberta`) e a meta. "Em andamento" = fatia com
-   `status.md` numa branch e fase diferente de `concluida`; o backlog não guarda isso.
+   `status.md` numa branch e fase diferente de `concluida`, e não `concluida` na base (a branch mergeada fica em
+   `mergeada`; quem fecha é a consolidação, na base); o backlog não guarda isso.
    PRDs (`epicos/*/prd.md`): status e pendências `ELM pendente [<chave>]:` do rodapé.
 5. `<produto>/acordos.md`: limites de WIP (sem o arquivo: 2 fatias esperando pessoa, e sugira a
    `sdd-planejamento` modo inicial).

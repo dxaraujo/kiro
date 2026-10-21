@@ -19,7 +19,10 @@ não repete a revisão nem a verificação: o drift de negócio já vem marcado 
 escritos no PR.
 
 Entrada: fatia em `mergeada` (o Dev responsável mergeou o PR aprovado — Passo 6 da `sdd-implementar`; a fase
-está no `status.md` da branch da fatia) — confira que o PR foi mesmo **mergeado** pelo MCP `gitlabpr`
+está no `status.md` da branch da fatia). **Já consolidada?** Depois do merge vale a fase da **base** (`git fetch` e
+`git show origin/<base>:.kiro/specs/<ft>-<slug>/status.md`; e o `status` da linha no `backlog.md` da base):
+`concluida` em qualquer um dos dois → diga "já consolidada em <data>" e pare — nada se repete (ADR, lições,
+glossário, CT, ELM). Senão, confira que o PR foi mesmo **mergeado** pelo MCP `gitlabpr`
 (`gitlab_obter_mr` com o `iid` do link no `status.md`, ou `gitlab_listar_mrs(origem=<branch>, estado=all)`: estado
 `merged`); `git branch -r --merged origin/<base>` é só atalho e não enxerga *squash* nem *rebase merge*. Sem PR
 (push "não", sem ferramenta, merge local) → pergunte à pessoa se foi mergeado e confira pelo conteúdo: `git diff

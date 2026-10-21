@@ -39,7 +39,7 @@ parecidos, e a seção `## Atendimentos`), no `**Origem:**` dos `<produto>/atend
 (`git grep -l '<id>' <ref> -- '.kiro/specs/*/status.md'`). Achou → mostre a linha e:
 - **fatia sem épico que volta para cá** — `backlog` com `falta:`, ficha em `rascunho` ou a aprovar, mudança na
   ficha (pedida pela pessoa ou devolvida pela `sdd-plano` ou pela `sdd-consolidar`) ou trilha que não serve
-  (devolvida pela `sdd-iniciar` ou pela `sdd-implementar`) → **retome a triagem dela**: Passo 2 com o mesmo `FT` e
+  (devolvida pela `sdd-desenvolver`) → **retome a triagem dela**: Passo 2 com o mesmo `FT` e
   a ficha que existe; no Passo 3, só atualize a linha (sem id novo). Virou épico → `EP-nn` novo e a fatia
   `cancelada`, com `obs` `substituida-por EP-nn`;
 - **épico em `rascunho` com `prd` `—`** que voltou (falta de informação para o PRD, P.O. ou EWM pendentes —
@@ -146,8 +146,8 @@ da ficha) e, se o item já foi criado no EWM, troque o `[FT-nnn]`/`[EP-nn]` do t
 ```
 📥 <FT-nnn | EP-nn | AT-nnn> — <título> · trilha <…> · <pronta | backlog: falta … | aberto na sprint <nn>> · modo <AFK | HITL>
 Origem: <DF 4567 | IB 611 | chamado | pedido> · Ficha: <caminho | —> · EWM: <id | criado <id> | pendente | sem ELM>
-Registrado. Para começar: use `sdd-iniciar <id>` (o hub encaminha para a skill do papel; fatia, épico e AT
-precisam estar na sprint). AT fora da reserva → use `sdd-planejamento` (Encaixe) antes.
+Registrado. Para começar: use `sdd-iniciar <id>` (o hub encaminha para a skill do papel; épico e AT
+precisam estar na sprint; a fatia fora dela a `sdd-desenvolver` puxa, Passo 3). AT fora da reserva → use `sdd-planejamento` (Encaixe) antes.
 Mais algum item para triar?
 ```
 

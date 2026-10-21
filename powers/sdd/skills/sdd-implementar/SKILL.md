@@ -189,7 +189,7 @@ Quando o Dev responsável retoma a fatia em `pronta-para-merge` (a `sdd-desenvol
    conflito. `merged` → vá ao item 5; `closed`, WIP ou conflito → avise e pare (conflito: atualize a branch pelo
    item 1 do Passo 5, e a mudança passa de novo pela revisão).
 2. **Commit aprovado:** o `sha` do PR = `git rev-parse origin/<branch>` e é o commit que foi aprovado — HITL: o da
-   entrega da verificação (`git log -1 --format=%s <sha>` = `FT-<nnn> verificação: ACEITO`); AFK: o `sha` do
+   entrega da verificação (o último commit que mudou o `verificacao.md`, `git log -1 --format=%H -- <pasta da fatia>/verificacao.md`, e nele o veredito `ACEITO` — não depende do padrão de mensagem do projeto); AFK: o `sha` do
    comentário da `[APR]`. Commit depois da aprovação → não mergeie:
    a mudança volta à revisão.
 3. **Resumo e confirmação:**

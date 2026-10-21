@@ -52,7 +52,7 @@ ou concluir a tarefa e avisar o próximo — quem vem depois só acha no remoto 
 ```
 ENTRADA       triar ─► backlog: EP rascunho · FT sem épico (padrão com ficha, rápida) · AT + [ATD] ─► "mais algum?"
                 │
-HUB           iniciar <item> ─► especificar · desenvolver · revisar · verificar · atender   (cada uma assume a sua tarefa)
+HUB           iniciar <item> ─► especificar · desenvolver · plano ([APR]) · revisar · verificar · atender · planejamento (troca) · consolidar   (cada uma assume a sua tarefa)
                 │
 PRODUTO       especificar ─► entrevistar ─► PRD ─► GATE PRD ─► ELM (HF/REG/GL) ─► fatiar ─► GATE backlog ─► sprint (EWM)
                                                                                     │

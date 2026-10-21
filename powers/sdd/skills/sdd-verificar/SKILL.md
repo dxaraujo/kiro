@@ -107,9 +107,9 @@ ser o do PRD ou da ficha, por decisão registrada). HITL: grave-o no campo do `s
   **Retrabalho** (papel VER); a `[VER]` fica em andamento; entrega como no aceito (commit `FT-<nnn> verificação: REJEITADO` → push →
   conferir no remoto) e avise o Dev responsável. Se o
   problema é o cenário estar errado no PRD, diga isso: é com o P.O., não com o código.
-- Só `⚠️ ambiente` → `fase: bloqueada (de: verificando)` com o que falta; ninguém corrige código. Cenário misto
+- Só `⚠️ ambiente` → `fase: bloqueada (de: verificando)` (HITL: `de: em-verificacao`) com o que falta; ninguém corrige código. Cenário misto
   (❌ + ⚠️) → REJEITADO, e o ⚠️ também vai para Achados como "ambiente".
-- Cenário errado no PRD (não no código) → `fase: bloqueada (de: verificando)` com a pergunta ao P.O.; a
+- Cenário errado no PRD (não no código) → `fase: bloqueada (de: verificando)` (HITL: `de: em-verificacao`) com a pergunta ao P.O.; a
   correção é a mudança do PRD depois de aprovado (`sdd-prd`), não o código.
 
 ## Passo 5 — Casos de teste para o ETM

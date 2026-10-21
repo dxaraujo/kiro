@@ -144,7 +144,7 @@ Depois: sugira a **`elm-sync`** para baixar ao bundle a versão oficial, que pas
 ## Modo backlog (épicos e fatias → EWM)
 
 **Só nasce no EWM o que entra numa sprint:** o backlog do produto (épicos, fatias e atendimentos à espera) mora no
-`backlog.md`; quem chama este modo é o modo *sprint*, quando o item entra na sprint — nunca a triagem, o PRD ou o
+`backlog.md`; quem chama este modo é o modo *sprint*, quando o item entra na sprint — nunca a triagem (salvo a `[GB]`, item 2), o PRD ou o
 fatiamento. **Todo trabalho tem pai:** épico → IB → tarefa para o que vem de PRD; o épico de **Sustentação** (um por
 release ou ano) para o resto. Ordem obrigatória de criação: épico, depois IB, depois tarefa. `Planejado para` = a
 iteração da sprint, em todos.
@@ -234,8 +234,8 @@ seções do `sprint-<nn>.md` (fatias com responsável, revisor e verificador; es
 ## Modo assumir (Passo 0 das skills de papel)
 
 Chamado pela skill do papel antes de trabalhar: `sdd-desenvolver` (`[DEV]`), `sdd-especificar` (`[ESP]`),
-`sdd-revisar` (`[REV]` e `[APR]` do PR), `sdd-verificar` (`[VER]`), `sdd-plano` (`[APR]` do plano) e `sdd-atender`
-(`[ATD]`). A regra mora só aqui.
+`sdd-revisar` (`[REV]` e `[APR]` do PR), `sdd-verificar` (`[VER]`), `sdd-plano` (`[APR]` do plano), `sdd-atender`
+(`[ATD]`), `sdd-implementar` (`[DEV]` no retrabalho, só confere) e `sdd-loop` (as `[DEV]` do lote). A regra mora só aqui.
 
 1. **Tarefa:** a informada; senão pelo item — coluna `elm` do `backlog.md`, campo ELM do `status.md` da fatia ou
    coluna "Tarefa ELM" do `sprint-<nn>.md`. Não achou → a skill que chamou diz como criar (modo *sprint* ou

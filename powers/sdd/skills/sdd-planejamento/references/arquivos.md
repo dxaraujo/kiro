@@ -91,7 +91,7 @@ A do fluxo, por trilha: [../../sdd-fatiar/references/backlog.md](../../sdd-fatia
 O time só acrescenta itens próprios aqui (ex.: "massa de teste disponível"), nunca afrouxa os de lá.
 
 ## Definition of Done (fatia)
-- [ ] Plano aprovado (GATE do plano) e seguido; desvios registrados no design.md
+- [ ] Plano aprovado (GATE do plano pela senioridade, ou plano do Sênior / Pleno que dispensou) e seguido; desvios registrados no design.md
 - [ ] Backpressure verde: compilar, testes, lint, cobertura (gate do projeto)
 - [ ] Revisão independente APROVADO
 - [ ] Verificação de aceite ACEITO com evidência por cenário

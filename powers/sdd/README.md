@@ -11,7 +11,7 @@ o resto com agentes de contexto limpo, presos a feedback automático.
 
 ```
 ENTRADA   triar ─► backlog: EP rascunho · FT sem épico (padrão com ficha, rápida) · AT + [ATD] ─► "mais algum?"
-HUB       iniciar <item> ─► especificar · desenvolver · revisar · verificar · atender (cada uma assume a sua tarefa)
+HUB       iniciar <item> ─► especificar · desenvolver · plano ([APR]) · revisar · verificar · atender · planejamento (troca) · consolidar (cada uma assume a sua tarefa)
             │
 PRODUTO   entrevistar ─► PRD ─► GATE PRD ─► ELM (HF/REG/GL) ─► fatiar ─► GATE backlog ─► sprint (EWM)
                                                                                  │
@@ -106,7 +106,7 @@ de `skills/sdd-setup/assets/`:
 O ELM é do **power `elm`** (MCP `mcp-elm` + skills `elm-*`): o `sdd` decide quando e o quê registrar e pede
 **operações** às skills `elm-*`, nunca chama tool direto. Os agentes que conduzem sessão (`sdd-produto`,
 `sdd-codificador`, `sdd-orquestrador`) e o revisor e o verificador (só para a própria tarefa) recebem o power com
-`includePowers: true`; o pesquisador não. Requer power `elm` ≥ 1.3.0 e `mcp-elm` ≥ 1.0.42. Sem o power, a escrita
+`includePowers: true`; o pesquisador também o recebe (traz o `okf`), mas não pede nada ao ELM. Requer power `elm` ≥ 1.4.0 e `mcp-elm` ≥ 1.0.43. Sem o power, a escrita
 vira pendência registrada.
 
 Cada agente tem as permissões mínimas do papel, nos dois blocos do formato universal (`toolsSettings` para a

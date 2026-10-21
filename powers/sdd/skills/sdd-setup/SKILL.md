@@ -154,8 +154,8 @@ Falhou ao rodar → mostre o erro; a pessoa decide (corrigir o comando, seguir a
      sprint e grava os ids no `backlog.md`.
    - **ELM nos agentes:** pelo **power `elm`** instalado, com `includePowers: true` nos agentes que usam ELM — o
      MCP e as skills `elm-*` chegam pelo power, nunca por entrada no `mcp.json` do projeto nem por tool listada no
-     agente (as skills do `sdd` pedem **operações** às skills `elm-*`). Confira a versão: power `elm` ≥ 1.3.0 e
-     `mcp-elm` ≥ 1.0.38 (requisitos do `plugin.json` do `sdd`); mais antigo → avise que anexos e o contrato de
+     agente (as skills do `sdd` pedem **operações** às skills `elm-*`). Confira a versão: power `elm` ≥ 1.4.0 e
+     `mcp-elm` ≥ 1.0.43 (requisitos do `plugin.json` do `sdd`); mais antigo → avise que anexos e o contrato de
      operações não funcionam e peça a atualização. Projeto com `elm` no `mcp.json` (setup antiga) → ofereça remover
      (com "ok"), para não haver dois servidores `elm`.
    - **Bundle do RM:** o caminho de download do `pa_*.json` (`rm.download.path`) e pastas com `index.md` de
@@ -186,7 +186,7 @@ pré-marcadas pelos `papeis` do toolkit e pelo tipo de projeto (formato em `tool
 | `sdd-codificador` | desenvolver, plano, implementar, iniciar, status, elm | skills de stack e de teste do toolkit (ex.: `spring-batch-job`, `java`) |
 | `sdd-revisor` | revisar, iniciar, status, elm | skills de padrões e de revisão da stack |
 | `sdd-verificador` | verificar, iniciar, status, elm | skills de teste de aceite (Playwright, teste de job, API) |
-| `sdd-orquestrador` | loop, desenvolver, status, elm | normalmente nenhuma |
+| `sdd-orquestrador` | loop, desenvolver, plano, implementar, status, elm | normalmente nenhuma |
 
 Aprender e setup rodam na **sessão padrão** (sem agente). A consolidação é do P.O. ou do SM, no `sdd-produto`
 (grava na base, publica a ET *as-built* e os casos de teste).
@@ -209,7 +209,7 @@ Padrões da proposta:
    de consulta (`@<servidor>/<tool>`), nunca o servidor inteiro se ele tiver tool de escrita; browser/Playwright
    marcado no verificador em projeto `frontend`. **ELM** (projeto com ELM): `includePowers: true` em
    `sdd-produto`, `sdd-codificador`, `sdd-orquestrador`, `sdd-revisor` e `sdd-verificador` (estes dois só para a
-   própria tarefa); **nunca** no pesquisador (`includePowers: false`). Desmarcado pela pessoa → a escrita no ELM
+   própria tarefa); o pesquisador também recebe o power (`includePowers` é de todos os powers e traz o `okf`), mas nunca pede nada ao ELM. Desmarcado pela pessoa → a escrita no ELM
    vira `ELM pendente` naquele agente.
 3. **Modelo:** sempre o padrão do Kiro — não pergunte; a pessoa troca na proposta se quiser.
 4. Só codificador e orquestrador: **subagentes** — os `sdd-*` do fluxo marcados; agentes do projeto

@@ -24,7 +24,8 @@ partir do bloco V2 e receberam depois as regras que só existem na V3 (tabela ab
 | comando negado | `toolsSettings.shell.deniedCommands`: `.*git push.*` | `shell` `deny`: `*git push*` |
 | subagente | `tools`: `subagent/<nome>` · `toolsSettings.subagent.availableAgents` e `trustedAgents`: `<nome>` | `subagent` `allow`: `<nome>` |
 | tool de MCP | `tools` e `allowedTools`: `@<servidor>/<tool>` · `"includeMcpJson": true` | `mcp` `allow`: `<servidor>/<tool>` (com `/`, nunca `<servidor>::<tool>`) |
-| **só V3** | — | `skill` `allow` (todos) · `shell` `ask` de push/PR (orquestrador) · `shell` `ask` de `curl`/`wget` (verificador) |
+| tool de MCP de **power** | `tools` e `allowedTools`: `@<servidor>/<tool>` (o `kiro-cli` V2 não carrega powers: sem efeito lá) | `power` (não `mcp`): `<power>/<servidor>/<tool>` — a IDE chama pela tool `kiro_powers` e sobe o servidor como `power-<power>-<servidor>`, que regra `mcp` `<servidor>/…` não casa |
+| **só V3** | — | `skill` `allow` (todos) · `shell` `ask` de push (orquestrador) · `power` `ask` de `sdd/gitlabpr/gitlab_criar_mr` (codificador, produto e orquestrador) e de `sdd/gitlabpr/gitlab_mesclar_mr` (codificador) · `shell` `ask` de `curl`/`wget` (verificador) |
 
 Regex → glob: `.*` → `*` e tire o escape (`\.` → `.`). Um padrão por **comando simples**: o Kiro separa um comando
 composto (`;`, `&&`, `||`, `|`) e avalia cada parte — `cd .kiro/local/wt/<ft> && mvn test` precisa do `cd` (já
@@ -44,33 +45,38 @@ permissão, compare as regras dele com as do orquestrador.
 | `{{POWER}}` (nos dois blocos) | a pasta do power (Passo 0) |
 | `{{PRODUTO}}` (produto, revisor, codificador; nos dois blocos) | a pasta do produto (Passo 4), padrão `.kiro/planejamento` |
 | `{{GLOSSARIO}}`, `{{ADR}}` (produto, nos dois blocos) | os caminhos do Passo 4 |
+| `{{BUNDLE}}` (todos, leitura negada, nos dois blocos) | o bundle do ELM (Passo 4): a consulta é pelo MCP `okf`, nunca pelos arquivos. "não há" → remova a linha |
 | `{{SKILLS_EXTRAS}}` (no `prompt`) | `Skills do projeto ligadas a você: `a`, `b` — carregue a do artefato antes de escrevê-lo.` ou nada |
 | `{{SUBAGENTES}}` (no `prompt`) | `Subagentes do projeto: `x` (<tipo de tarefa>)` ou nada |
 | `resources` | `file://` do steering de produto/tecnologia/estrutura e dos extras; `skill://` de cada skill escolhida |
-| leitura | a pasta de cada skill escolhida que fique fora do projeto e do power (`~/.kiro/skills/<skill>/**`, `~/.kiro/powers/installed/<toolkit>/**`) e o bundle do ELM, se estiver fora do projeto |
+| leitura | a pasta de cada skill escolhida que fique fora do projeto e do power (`~/.kiro/skills/<skill>/**`, `~/.kiro/powers/installed/<toolkit>/**`) |
 | comandos | codificador e revisor: compilar, testes, teste único, lint, cobertura · verificador: executar, testes, scripts de massa · orquestrador: todos esses e `sh .kiro/sdd/http.sh *` (se instalado) |
 | escrita do verificador | a pasta de massa do projeto, se houver |
 | MCP de banco | só a tool de consulta, em **quatro** lugares: `tools` e `allowedTools` (`@<servidor>/<tool>`), `"includeMcpJson": true` (o template vem com `false`: sem trocar, o agente não carrega nenhum MCP) e a regra `mcp` `allow` `<servidor>/<tool>` |
-| ELM (projeto com `Usa ELM: sim`) | `"includePowers": true` em `sdd-produto`, `sdd-codificador`, `sdd-orquestrador`, `sdd-revisor` e `sdd-verificador` — o power `elm` traz o MCP e as skills `elm-*`; nenhuma tool `@elm/…` no agente nem servidor `elm` no `mcp.json` (as skills do `sdd` pedem operações às `elm-*`). Pesquisador: `false` (sem ELM) |
+| ELM (projeto com `Usa ELM: sim`) | `"includePowers": true` (fixo em todos) — o power `elm` traz o MCP e as skills `elm-*`; nenhuma tool `@elm/…` no agente nem servidor `elm` no `mcp.json` (as skills do `sdd` pedem operações às `elm-*`). O pesquisador recebe o power pelo `okf`, mas não pede nada ao ELM |
 | subagentes do projeto | como na tabela acima (codificador e orquestrador) |
 | `model` | o modelo escolhido, se houver |
-| push e PR no loop = "não — a pessoa abre" | no orquestrador, a regra `ask` de push/PR vira `deny` |
+| push e PR no loop = "não — a pessoa abre" | no orquestrador, as regras `ask` de push (`shell`) e de `sdd/gitlabpr/gitlab_criar_mr` (`power`) viram `deny` |
 
-Fixos em todos: `"allowedTools"` sem `read` (liberaria a leitura do disco inteiro); `"includePowers"`: `true` nos
-agentes com ELM e `false` no pesquisador (independência); nunca o campo `hooks` (a IDE ignora agentes que o têm).
+Fixos em todos: `"allowedTools"` sem `read` (liberaria a leitura do disco inteiro); `"includePowers"`: `true` em
+todos — o próprio `sdd` traz os MCPs `okf` e `gitlabpr`; nunca o campo `hooks` (a IDE ignora agentes que o têm).
 Com o power, o Kiro pede confirmação para as tools do `elm` que o agente não tem em `allowedTools` — nenhuma
-está lá: toda chamada ao ELM é confirmada, além do "sim" da skill.
+está lá: toda chamada ao ELM é confirmada, além do "sim" da skill. Já liberadas em todos (`tools`, `allowedTools` e `power` `allow`, como `sdd/okf/<tool>` e `sdd/gitlabpr/<tool>`):
+as de leitura do `okf` (`okf_index`, `okf_search`, `okf_get_document`, `okf_list_documents`) e do `gitlabpr`
+(`gitlab_listar_mrs`, `gitlab_obter_mr`). `gitlab_criar_mr`: `ask` no codificador, no produto e no orquestrador (abrem o PR depois do
+push), `deny` no pesquisador, no revisor e no verificador. `gitlab_mesclar_mr`: `ask` só no codificador (o merge do PR
+aprovado), `deny` nos demais.
 
 ## O que os templates já trazem
 
-- **Leitura:** o projeto (`./**`) e o power; negadas `.env`, `.env.*`, `*.pem`, `*.key`, `~/.ssh`, `~/.aws` e a
-  pasta de credenciais do ELM. Os agentes leem e procuram arquivos com as ferramentas do Kiro (que respeitam essas
+- **Leitura:** o projeto (`./**`) e o power; negadas `.env`, `.env.*`, `*.pem`, `*.key`, `~/.ssh`, `~/.aws`, as
+  pastas de credenciais do ELM e do GitLab (`~/.config/mcp-gitlabpr`) e o bundle do ELM (`{{BUNDLE}}`). Os agentes leem e procuram arquivos com as ferramentas do Kiro (que respeitam essas
   regras), não com `cat`/`grep` no shell.
 - **Shell:** git de leitura (`status`, `diff`, `log`, `show`, `grep`, `ls-files`, `ls-tree`, `rev-parse`, listagem de
   branches, `worktree list`, `for-each-ref`, `config user.name/email`) e `cd .kiro/local/wt/*`; codificador e produto
   também `add`, `commit`, `fetch`, `pull --ff-only`, `switch`; revisor e verificador os mesmos, para o modo HITL
   (commit do relatório e da fase na branch do PR; o push é da pessoa); orquestrador: `add`, `commit`, `fetch`,
-  `worktree add .kiro/local/wt/*`, e push/PR com `ask`; verificador: `sh .kiro/sdd/http.sh *`.
+  `worktree add .kiro/local/wt/*`, e push com `ask` (o PR, pela `gitlab_criar_mr`, também com `ask`); verificador: `sh .kiro/sdd/http.sh *`.
 - **Negados em todos:** `git -C` (com ele as regras não enxergam o subcomando: `git -C <dir> push …` passaria por um
   allow de `git -C <dir> show*`), `git -c`, merge, rebase (inclusive `pull --rebase`), `reset --hard`, `clean`,
   `checkout --`/`checkout .`, `restore`, `stash`, `worktree remove`, `branch -D/-M`, `--force`, `--delete`,

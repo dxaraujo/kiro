@@ -43,7 +43,7 @@ siga.
 ## Passo 3 — Executar
 
 1. **Fontes, nesta ordem** — subagente `sdd-pesquisador`, se houver: banco pelo MCP de consulta (**somente
-   leitura**) e bundle do ELM (`<rm.download.path>` do `sdd.md`). Código só se necessário e em escopo fechado:
+   leitura**) e bundle do ELM pelo MCP `okf` (`okf_search`, `okf_get_document`). Código só se necessário e em escopo fechado:
    termos ou arquivos indicados e um limite de leitura, para não gastar tokens. Se a demanda envolver lógica de
    negócio complexa (regras de cálculo, fluxos condicionais, comportamentos do sistema) — e não for uma extração
    simples de dados — considere acionar o **`sdd-pesquisar`** antes das consultas SQL para entender o contexto

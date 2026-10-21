@@ -114,7 +114,7 @@ Falhou ao rodar → mostre o erro; a pessoa decide (corrigir o comando, seguir a
 | Branch base | `git symbolic-ref refs/remotes/origin/HEAD`; `develop`/`main`/`master` |
 | Prefixo da branch | branches remotas existentes; padrão `feature/` |
 | Padrão de commit | `git log --oneline -20` (Task/IB do EWM? Conventional Commits?) |
-| Abrir PR | **pelo host do `origin`, nunca pela ferramenta que estiver no PATH**: GitHub (`github.com` ou GitHub Enterprise) → `gh pr create`; GitLab (`gitlab` no host, ou `.gitlab-ci.yml` no repositório) → `glab mr create` (merge request); outro host → "entregar título e descrição". A ferramenta certa não está no PATH (ou não está autenticada) → padrão "entregar título e descrição", com o aviso de como instalar (GitLab: `brew install glab` e `glab auth login --hostname <host do origin>`) e trocar depois por "atualizar a configuração do sdd". Nunca `gh` para GitLab nem `glab` para GitHub |
+| PR (merge request) | pelo MCP **`gitlabpr`** do power (GitLab, API v4, CE 10.8+; projeto vem do `origin`). Teste uma vez com `gitlab_listar_mrs(limite=1)`: respondeu → `MCP gitlabpr`. Erro de credencial → mostre o modelo de `~/.config/mcp-gitlabpr/gitlabpr.properties` (`url` do GitLab e `token` pessoal com escopo `api`; a pessoa cria o arquivo, o agente não lê nem grava credencial) e teste de novo. `origin` fora do GitLab, ou a pessoa segue sem credencial → "entregar título e descrição" (troca depois por "atualizar a configuração do sdd"). Nunca `gh` nem `glab` |
 | MCP de banco | servidores em `.kiro/settings/mcp.json` e `~/.kiro/settings/mcp.json` — qual é o de consulta e **qual tool** só consulta (ou "não há"); recomende um usuário de banco somente leitura |
 | Artefatos de produto | a base é protegida? → `PR curto para a base`; senão o padrão também é `PR curto para a base` (a pessoa troca por `direto na branch base` na tabela) |
 
@@ -160,8 +160,9 @@ Falhou ao rodar → mostre o erro; a pessoa decide (corrigir o comando, seguir a
      (com "ok"), para não haver dois servidores `elm`.
    - **Bundle do RM:** o caminho de download do `pa_*.json` (`rm.download.path`) e pastas com `index.md` de
      `okf_version` → mostre o que achou e confirme; nada achado → pergunte. Registre na seção Projeto: é a base
-     que os agentes leem (fora do projeto → entra na leitura permitida deles; no `.gitignore` → avise que só
-     existe nesta máquina, depois da `elm-sync`).
+     que os agentes consultam **pelo MCP `okf`**, nunca lendo os arquivos — rode `okf_index` (`root` = raiz do repositório
+     + `rm.download.path` do `pa_*.json`, absoluto) até `restantes=0` e mostre quantos documentos há; o caminho vai no `{{BUNDLE}}` dos agentes, como
+     leitura negada (no `.gitignore` → avise que só existe nesta máquina, depois da `elm-sync`).
 
 ## Passo 5 — Inventário de skills e toolkits
 
@@ -279,10 +280,11 @@ cada arquivo gravado em `.kiro/agents/`, `.kiro/hooks/` e `.kiro/workflows/` —
 
 ## Passo 9 — Validar
 
-- JSON de cada agente faz parse; `name` = nome do arquivo; nenhum `{{…}}` sobrando; agente com `@<servidor>/…` em
-  `tools` tem `"includeMcpJson": true` e a regra `mcp` (`allow` para as de leitura, que também estão em
-  `allowedTools`; `ask` para as de escrita, que **não** estão em `allowedTools`); o ELM pelo power: `includePowers: true` em produto,
-  codificador, orquestrador, revisor e verificador e `false` no pesquisador, nenhuma tool `@elm/…` listada em agente
+- JSON de cada agente faz parse; `name` = nome do arquivo; nenhum `{{…}}` sobrando; agente com `@<servidor>/…` de MCP do
+  projeto em `tools` tem `"includeMcpJson": true` e a regra `mcp` (`allow` para as de leitura, que também estão em
+  `allowedTools`; `ask` para as de escrita, que **não** estão em `allowedTools`); as do `okf` e do `gitlabpr` (MCPs do power)
+  ficam na regra `power` (`sdd/okf/<tool>`, `sdd/gitlabpr/<tool>`), nunca na `mcp`; `includePowers: true` em todos,
+  nenhuma tool `@elm/…` listada em agente
   e nenhum servidor `elm` no `mcp.json` do projeto; `.kiro/steering/` tem só o
   `sdd.md` do fluxo (nenhum `sdd2*.md` nem `sdd-projeto.md` sobrando), e nenhum `.kiro/agents/sdd2-*.json`.
 - Ferramentas que varrem a raiz do repositório (test runners, linters, `tsc`, varredura de arquivos) ignoram

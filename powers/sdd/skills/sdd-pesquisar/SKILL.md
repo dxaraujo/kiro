@@ -40,7 +40,8 @@ Antes de abrir o código, escreva de 3 a 7 perguntas que o plano vai precisar re
 - **Reaproveitamento:** serviços, utilitários, componentes, queries e clientes de integração existentes.
 - **Dados:** schema real pelo MCP de banco (somente leitura) ou pelos modelos/migrações; volumetria se importar.
   No `research.md` vão só a consulta e a contagem — nunca linhas com dado real (o arquivo vai para o git).
-- **Documentação:** histórias e regras do bundle do ELM (`<rm.download.path>`) que tratam do mesmo comportamento —
+- **Documentação:** histórias e regras do bundle do ELM que tratam do mesmo comportamento, pelo MCP `okf`
+  (`okf_search`, `okf_get_document`; nunca lendo os arquivos) —
   divergência entre código e documentação é um achado importante.
 - **Testes:** como rodar só os testes da área (comando de teste único do `sdd.md`) e o que já cobrem.
 - Skills do toolkit do projeto ligadas a você: carregue a da stack antes de interpretar código dela.

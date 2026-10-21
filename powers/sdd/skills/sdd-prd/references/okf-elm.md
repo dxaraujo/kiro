@@ -140,7 +140,7 @@ houver, `## Relações`.
 | GATE do PRD | a pessoa aprova → cada conceito recebe `verified` humano e `status: stable` |
 | Publicação | `sdd-elm` publica de baixo para cima (GL → REG → HF), grava `resource` e `id`, e acrescenta ao `sources` a entrada do ELM com o `last_modified` |
 | Depois | a `elm-sync` baixa a versão oficial para o bundle, que passa a ser a versão viva; o rascunho fica como registro histórico, com `resource` preenchido |
-| Alteração de artefato existente | copie o arquivo do bundle para `elm/`, mantendo `resource`, `id` e o `sources` do ELM; `status: draft`, `generated` novo; edite. Na publicação, a última modificação (`elm-rm`) mais nova que o `last_modified` desse `sources` = alguém mudou no ELM no meio-tempo → **conflito**: a pessoa decide |
+| Alteração de artefato existente | traga o arquivo do bundle pelo `okf_get_document` (MCP `okf`) e grave-o em `elm/`, mantendo `resource`, `id` e o `sources` do ELM; `status: draft`, `generated` novo; edite. Na publicação, a última modificação (`elm-rm`) mais nova que o `last_modified` desse `sources` = alguém mudou no ELM no meio-tempo → **conflito**: a pessoa decide |
 | Obsoleto | `status: deprecated`; a remoção ou a marcação no ELM é passo manual na UI |
 
 ## `index.md` e `log.md`

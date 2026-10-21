@@ -36,7 +36,8 @@ sem pessoa na conversa) → "PRD, backlog e atendimento nunca são AFK — espec
    reais, prazos. Work item do EWM → pela skill `elm-ccm` do power `elm` (se instalado), com descrição e
    comentários.
 2. **Explore antes de perguntar** (subagente `sdd-pesquisador`, se houver; senão você mesmo, só leitura):
-   - documentação atual no bundle do ELM (`<rm.download.path>`): histórias e regras que já tratam do assunto —
+   - documentação atual no bundle do ELM, pelo MCP `okf` (`okf_search`, `okf_get_document`): histórias e regras
+     que já tratam do assunto —
      o PRD **altera** o que existe, não duplica;
    - código: onde o comportamento mora hoje, funcionalidades análogas;
    - glossário e ADRs (caminhos na seção Projeto do `sdd.md`): termos e decisões que já valem.
@@ -85,8 +86,8 @@ só aponta para eles. Regras de escrita:
   o que **não** deve ser aceito, repetição/reexecução, erro em um item (a operação continua? o que fica
   registrado?). "Então" sempre verificável — nada de "corretamente".
 - **Regras** testáveis, com valores, uma por bloco, citando a decisão de origem (`D-nn`) ou a fonte.
-- **Alteração** de comportamento documentado → copie o arquivo do artefato do bundle da `elm-sync`
-  (`<rm.download.path>/…/<id>-<slug>.md`) para `elm/`, mantendo `resource`, `id` e o `sources` do ELM; ponha
+- **Alteração** de comportamento documentado → traga o artefato do bundle da `elm-sync` pelo
+  `okf_get_document` (`ref` = o id; o `markdown` devolvido é o arquivo inteiro) e grave-o em `elm/`, mantendo `resource`, `id` e o `sources` do ELM; ponha
   `status: draft` e um `generated` novo; reescreva no estado **depois** da mudança. Sem bundle, leia o artefato
   pela `elm-rm` › ler requisito e grave a mesma estrutura. A `sdd-elm` atualiza o artefato existente em vez
   de criar outro. Na tabela do PRD, coluna "No ELM" = `altera <id>`.

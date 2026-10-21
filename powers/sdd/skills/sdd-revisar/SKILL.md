@@ -33,7 +33,7 @@ rodada.
 
 | Pedido | Rubrica | Entrada |
 |---|---|---|
-| PRD de um épico | **P** | `prd.md`, os conceitos de `elm/`, `decisoes.md`, glossário, bundle do ELM (para P6) |
+| PRD de um épico | **P** | `prd.md`, os conceitos de `elm/`, `decisoes.md`, glossário, bundle do ELM pelo `okf` (para P6) |
 | plano de uma fatia | **L** | `.kiro/specs/<ft>/`: `research.md`, `requirements.md`, `design.md`, `tasks.md`; PRD do épico; `backlog.md` (`cobre`) |
 | código de uma fatia | **C** | diff `git diff origin/<base>...HEAD` (worktree: `cd <worktree> && git diff origin/<base>...HEAD`), a pasta da fatia, o PRD |
 | código da trilha direta | **C** sobre o diff, com a **ficha** no lugar dos critérios (C1: "pronto quando" cumprido; C2: teste quando há comportamento; C5/C7: "não muda" preservado) | diff + a ficha (`<produto>/fatias/FT-<nnn>-<slug>.md`); relatório só na conversa |
@@ -73,7 +73,8 @@ Zero BLOQUEANTE e zero IMPORTANTE → aprovado. Sugestões nunca reprovam.
 Fatia `Modo: HITL` com a tarefa `[REV]` assumida (Passo 0) e `fase: pr-aberto` (ou `em-revisao`, retomando) — a
 revisão oficial é sua, na sua sessão:
 
-1. Vá para a branch do PR (`git switch <branch>` com "sim"; árvore suja → avise e pare) e `git pull --ff-only`.
+1. Leia o PR pelo `gitlab_obter_mr` (iid do link no `status.md`): `merged` ou `closed` → avise e pare;
+   `conflitos` → anote no relatório. Vá para a branch do PR (`git switch <branch>` com "sim"; árvore suja → avise e pare) e `git pull --ff-only`.
    `fase: em-revisao`; incremente "revisão do código" em Rodadas — a rodada é sua (retomando `em-revisao` sem o
    relatório desta rodada gravado, não incremente de novo).
    PR atualizado depois de um retrabalho pedido pela VER, com a `[REV]` já concluída → o Passo 0 a reabre (modo

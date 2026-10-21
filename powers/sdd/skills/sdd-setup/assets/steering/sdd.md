@@ -40,7 +40,7 @@ Começar um item registrado: hub `sdd-iniciar` (diz a skill do papel: `sdd-espec
 | Toolkits | <nome (origem) | nenhum> |
 | Steering | produto `<product.md>` · tecnologia `<tech.md>` · estrutura `<structure.md>` · extras `<… | nenhum>` |
 | Glossário · ADRs | `<docs/glossario.md>` · `<docs/adr | não há>` |
-| Bundle do ELM (OKF da `elm-sync`) | `<docs/elm/<pa>> | não há` |
+| Bundle do ELM (cópia local em Markdown, baixada pela `elm-sync`) | `<rm.download.path do pa_*.json — hoje docs/elm/<pa>> | não há` — consulta **só pelo MCP `okf`**: `okf_search` para achar, `okf_get_document` para ler, `root` = caminho absoluto de `rm.download.path` do `pa_*.json` (o da linha "Usa ELM"): raiz do repositório + o `path`, a mesma `dest` da `elm-sync` (leia o `pa_*.json` a cada sessão: ele é a fonte, este valor é cópia); `okf_index` antes da primeira busca da sessão. Nunca leia nem busque os arquivos dela |
 
 **Regras críticas** (BLOQUEANTE na revisão):
 - <ex.: escrita em lote sempre idempotente por chave de negócio>
@@ -70,7 +70,7 @@ Na worktree do `sdd-loop`: `cd .kiro/local/wt/<ft> && <comando>`. Falha de ambie
 |---|---|
 | Branch base · prefixo · commit | `<develop>` · `<feature/>` · `<FT-<nnn> <verbo> <descrição> | Task <id> - …>` |
 | Mensagens do fluxo (dentro do padrão acima) | fatia: `<id> registrar plano` · `registrar análise do plano <N>` · `registrar revisão <N>` · `registrar verificação` · tarefa: `<id> <o que a tarefa fez>` · triagem: `backlog: triagem <ids>` · AT: `AT-<nnn> concluir` · sprint: `sprint <nn>: <planejar | encaixe | virada>` · PRD: `EP-<nn> aprovar PRD` · ELM: `<id> publicar no ELM` · consolidação: `<id> consolidar` |
-| Abrir PR | `<gh pr create … | glab mr create … | entregar título e descrição>` |
+| PR (merge request) | `<MCP gitlabpr — gitlab_listar_mrs · gitlab_obter_mr · gitlab_criar_mr (origem e destino sempre explícitos) | entregar título e descrição>` — nunca `gh` nem `glab` |
 | Artefatos de produto (pasta do produto, glossário, ADRs, consolidação) | `<direto na branch base | PR curto para a base>` — nunca em branch de fatia; push ou PR com o "sim" da pessoa (o agente `sdd-produto` não faz push: entrega o comando) |
 | MCP de banco | `<@servidor/tool | não há>` — **somente leitura** (`SELECT`/`WITH`), exceto os scripts de massa; DDL fora do fluxo |
 | GATE na trilha rápida · paralelo no loop | `<sim | não>` · `<1>` (máx. 3) — GATE do plano, nesta ordem: teste existente que muda → sempre; trilha rápida → este valor (também no AFK); HITL → sempre; AFK → só na fatia de épico |

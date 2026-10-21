@@ -121,7 +121,8 @@ Com `ACEITO` ou `REJEITADO`: **commite imediatamente** `verificacao.md`, `CT.csv
 Com a revisão automática feita (HITL) ou com `fase: aceita` (AFK: revisão `APROVADO` e verificação `ACEITO`):
 
 Quem abre o PR é a sessão da pessoa (com o "sim" dela) ou o `sdd-orquestrador` no loop. Como agente
-`sdd-codificador`, que não faz push, pare em "pronta para o PR" e entregue o título e a descrição do item 2.
+`sdd-codificador`, que não faz push, pare em "pronta para o PR" e entregue o título e a descrição do item 2;
+com a branch no remoto, o PR é aberto pelo item 3.
 
 1. Branch atualizada com a base? (`git fetch` e compare com `origin/<base>`). Desatualizada → numa sessão com a
    pessoa, com o "sim" dela, `git merge origin/<base>` (conflito → resolva e repita Passos 2–4); como agente,
@@ -140,13 +141,16 @@ Quem abre o PR é a sessão da pessoa (com o "sim" dela) ou o `sdd-orquestrador`
    Reversível? <sim, só reverter o PR | não: dado migrado/contrato publicado — o que fazer>
    ```
    O PR é para uma pessoa **ler o código**: pequeno, com a evidência e o caminho de leitura, sem despejar o plano.
-3. Numa só confirmação da pessoa: push e abertura do PR com a ferramenta do `sdd.md` (sem ferramenta →
-   entregue título e descrição prontos).
+3. Numa só confirmação da pessoa: push e, com a branch no remoto, o PR pelo MCP `gitlabpr`:
+   `gitlab_listar_mrs(origem=<branch>, estado=opened)` — já existe → é esse (o push o atualiza); senão
+   `gitlab_criar_mr(titulo, destino=<base>, origem=<branch>, descricao=<texto do item 2>)`, que o Kiro confirma. O
+   link do PR é a `url` devolvida. Sem o MCP no `sdd.md`, ou com falha → título e descrição prontos, e o link vem da
+   pessoa.
 4. **Conclusão da `[DEV]`:** mostre as horas já lançadas (`elm-ccm` › horas lançadas) e pergunte só o saldo →
    `sdd-elm` modo *horas*, depois modo *conclusão* só da `[DEV]`, numa confirmação. Sem o power `elm` → `ELM pendente [<chave>]:
    lançar <h>h e concluir [DEV] FT-<nnn>` no Histórico.
 5. `status.md`: HITL → `fase: pr-aberto`; AFK → `fase: pronta-para-merge`; link do PR (sem PR aberto — push "não"
-   ou sem ferramenta — `PR: texto entregue`, e a fase é a mesma), o resultado do item 4 no
+   ou sem o MCP — `PR: texto entregue`, e a fase é a mesma), o resultado do item 4 no
    Histórico (retrabalho: as horas na tabela Retrabalho); commit e, com o mesmo "sim", push (o `status.md` vai junto
    no PR; retrabalho → atualiza o mesmo PR). HITL: avise que a `[REV]` está disponível para o revisor.
 
@@ -161,9 +165,10 @@ Sem spec nem `tasks.md` — a pasta da fatia tem só o `status.md`; o critério 
 4. revisão pela **`sdd-revisar`** (rubrica C sobre o diff, com a ficha no lugar dos critérios: "pronto quando"
 cumprido, "não muda" preservado; relatório na conversa); 5. **como verificar**: execute o que a ficha diz e guarde
 a evidência (saída, log, print) para o PR; 6. PR curto: `FT-<nnn> — <título> (<id do item | —>)` · `O quê` ·
-`Pronto quando` · `Evidência` (do item 5) · `Backpressure` · `Revisão: APROVADO` · `Como ler`; 7. **conclusão da
+`Pronto quando` · `Evidência` (do item 5) · `Backpressure` · `Revisão: APROVADO` · `Como ler`, aberto como no
+Passo 5, item 3; 7. **conclusão da
 `[DEV]`** como no Passo 5, item 4 (saldo de horas e conclusão, numa confirmação); 8. `status.md` com
-`fase: pr-aberto` e o link do PR — sem PR aberto (push "não" ou sem ferramenta) → `PR: texto entregue` e a mesma
+`fase: pr-aberto` e o link do PR — sem PR aberto (push "não" ou sem o MCP) → `PR: texto entregue` e a mesma
 fase; o merge é de uma pessoa e a `sdd-consolidar` aceita a direta em `pr-aberto`. Se no caminho aparecer regra de
 negócio ou mais de um comportamento → pare: devolva à `sdd-triar` (é trilha rápida ou padrão).
 

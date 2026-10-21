@@ -110,7 +110,8 @@ ADRs, lições, `sdd.md` Regras aprendidas). As skills citam este bloco em vez d
 2. **Grave** só o que a skill manda.
 3. **Commit** pequeno, só com o que gravou, mensagem no padrão do `sdd.md`.
 4. **Publicar:** push direto ou PR curto, conforme "Artefatos de produto" no `sdd.md`, com o "sim" da pessoa
-   (agente sem push → entregue o comando pronto; PR curto → diga o nome da branch e o link). Conflito de id no
+   (agente sem push → entregue o comando pronto; PR curto → com a branch no remoto, `gitlab_criar_mr` com
+   `destino` = a base e `origem` = a branch curta — sem o MCP, diga o nome da branch — e mostre o link). Conflito de id no
    push → a regra de conflito abaixo.
 5. Ao terminar, ofereça voltar à branch anterior.
 

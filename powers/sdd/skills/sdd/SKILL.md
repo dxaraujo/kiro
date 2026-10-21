@@ -158,16 +158,26 @@ Nunca compacte no meio de uma fase.
   merge nem `--force`.
 - O ELM é do **power `elm`**: o `sdd` decide quando e o quê, e pede **operações** às skills `elm-*` (nunca chama
   tool direto). Os agentes que conduzem sessão (`sdd-produto`, `sdd-codificador`, `sdd-orquestrador`) e o revisor e
-  o verificador (só para a própria tarefa) recebem o power com `includePowers: true`; o pesquisador não. Sem o
+  o verificador (só para a própria tarefa) recebem o power com `includePowers: true`; o pesquisador também o recebe (pelo `okf`), mas não pede nada ao ELM. Sem o
   power ou com falha, a escrita vira
   `ELM pendente` registrada — o ELM nunca trava o fluxo.
+- **Bundle do ELM e PR, só pelos MCPs do power:** a documentação baixada pela `elm-sync` (`<rm.download.path>`) —
+  cópia local, em Markdown, dos artefatos do ELM, válida até o último sincronismo (o ELM ao vivo é pela `elm-rm`) — é
+  consultada pelo **`okf`** — `okf_search` para achar, `okf_get_document` para ler um artefato, `okf_list_documents`
+  para listar uma pasta (`root` = caminho absoluto de `rm.download.path` do `pa_*.json` (o da linha "Usa ELM"): raiz do repositório + o `path`, a mesma `dest` da `elm-sync`; `okf_index` antes da primeira busca da sessão) —, nunca
+  lendo ou buscando os arquivos (os agentes nem têm leitura nessa pasta). PR é o merge request do GitLab, pelo
+  **`gitlabpr`**: `gitlab_listar_mrs`, `gitlab_obter_mr` e `gitlab_criar_mr` (com o "sim" da pessoa; `origem` e
+  `destino` sempre explícitos, porque o MCP roda no checkout principal, não na worktree) — nunca `gh` nem `glab`.
+  MCP indisponível → diga e siga sem ele: bundle → o ELM ao vivo pela `elm-rm`; PR → título e descrição entregues.
 - Dado de cliente (resultado de consulta, extração, tela com dado real) nunca vai para o git: fica em
   `.kiro/local/<origem>/<id>/`; o registro versionado guarda consulta, contagem, caminho e resumo sem identificar
   pessoas.
 - **Skills sem agente exclusivo:** `sdd-setup`, `sdd-consolidar` e `sdd-aprender` rodam na **sessão padrão** (com
   o power carregado), não em agentes específicos: gravam onde nenhum agente pode (steering, agentes, ET *as-built*,
-  remoção de worktree). **O que os agentes não fazem:** push e PR (exceto o orquestrador no loop, com `ask`) — a
-  skill entrega o comando pronto e a pessoa executa; merge, `--force`, `worktree remove` — nunca. O hub `sdd-iniciar` está em todos os agentes de papel, e a `sdd-status`
+  remoção de worktree). **O que os agentes não fazem:** push (exceto o orquestrador no loop, com `ask`) — a
+  skill entrega o comando pronto e a pessoa executa; com a branch no remoto, o PR é aberto pela `gitlab_criar_mr`,
+  que o Kiro confirma (`ask` no codificador, no produto e no orquestrador; negada aos demais); merge (exceto a
+  `gitlab_mesclar_mr` no codificador, com `ask`), `--force`, `worktree remove` — nunca. O hub `sdd-iniciar` está em todos os agentes de papel, e a `sdd-status`
   em todos os agentes, menos o `sdd-pesquisador`; os dois também funcionam na sessão padrão. Nenhuma skill depende de um agente para operar: o agente apenas recebe a skill
   pré-carregada para conveniência.
 - **Nenhuma skill cria branch ou `.kiro/specs/<ft>/status.md`** sem passar pelos Passos 3–4 da `sdd-desenvolver`

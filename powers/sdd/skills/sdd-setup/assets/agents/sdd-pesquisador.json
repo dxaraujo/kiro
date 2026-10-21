@@ -5,9 +5,22 @@
   "tools": [
     "read",
     "shell",
-    "write"
+    "write",
+    "@okf/okf_index",
+    "@okf/okf_search",
+    "@okf/okf_get_document",
+    "@okf/okf_list_documents",
+    "@gitlabpr/gitlab_listar_mrs",
+    "@gitlabpr/gitlab_obter_mr"
   ],
-  "allowedTools": [],
+  "allowedTools": [
+    "@okf/okf_index",
+    "@okf/okf_search",
+    "@okf/okf_get_document",
+    "@okf/okf_list_documents",
+    "@gitlabpr/gitlab_listar_mrs",
+    "@gitlabpr/gitlab_obter_mr"
+  ],
   "resources": [
     "file://.kiro/steering/sdd.md",
     "skill://{{POWER}}/skills/sdd-pesquisar/SKILL.md"
@@ -25,7 +38,9 @@
         "**/*.key",
         "~/.ssh/**",
         "~/.aws/**",
-        "~/.config/mcp-elm/**"
+        "~/.config/mcp-elm/**",
+        "~/.config/mcp-gitlabpr/**",
+        "{{BUNDLE}}/**"
       ]
     },
     "write": {
@@ -102,7 +117,7 @@
     }
   },
   "includeMcpJson": false,
-  "includePowers": false,
+  "includePowers": true,
   "welcomeMessage": "Qual fatia (FT-nnn) ou pergunta sobre o código devo pesquisar?",
   "permissions": {
     "rules": [
@@ -198,7 +213,9 @@
           "**/*.key/**",
           "~/.ssh/**",
           "~/.aws/**",
-          "~/.config/mcp-elm/**"
+          "~/.config/mcp-elm/**",
+          "~/.config/mcp-gitlabpr/**",
+          "{{BUNDLE}}/**"
         ],
         "effect": "deny"
       },
@@ -209,6 +226,26 @@
           ".kiro/local/wt/*/.kiro/specs/*/research.md"
         ],
         "effect": "allow"
+      },
+      {
+        "capability": "power",
+        "match": [
+          "sdd/okf/okf_index",
+          "sdd/okf/okf_search",
+          "sdd/okf/okf_get_document",
+          "sdd/okf/okf_list_documents",
+          "sdd/gitlabpr/gitlab_listar_mrs",
+          "sdd/gitlabpr/gitlab_obter_mr"
+        ],
+        "effect": "allow"
+      },
+      {
+        "capability": "power",
+        "match": [
+          "sdd/gitlabpr/gitlab_criar_mr",
+          "sdd/gitlabpr/gitlab_mesclar_mr"
+        ],
+        "effect": "deny"
       },
       {
         "capability": "skill",

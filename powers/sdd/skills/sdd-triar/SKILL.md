@@ -68,7 +68,7 @@ parecidos, e a seção `## Atendimentos`), no `**Origem:**` dos `<produto>/atend
   "sim" aceita todas) para o que a ficha da trilha pede e a origem não traz — rápida: atual com evidência, esperado
   com fonte, o que não muda, como verificar; direta: pronto quando, como verificar, não muda (uma linha cada; não
   coube → não é direta, triagem de novo como rápida).
-- Fatos o agente busca (código, bundle do ELM, banco só leitura); decisões são da pessoa.
+- Fatos o agente busca (código, bundle do ELM pelo `okf`, banco só leitura); decisões são da pessoa.
 - **Não fazer** (já entregue, fora do produto, recusado pelo P.O.) → nada no backlog; item do EWM → ofereça um
   comentário `sdd: não fazer — <motivo>` (`elm-ccm` › comentar, com "sim"), que o tira dos próximos lotes;
   fechar o item é do P.O., na UI.

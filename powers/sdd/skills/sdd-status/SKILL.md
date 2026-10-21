@@ -21,6 +21,9 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
 2. De cada `status.md`: fatia, título, trilha, modo, fase, responsável, rodadas, achados abertos, PR, ELM,
    Banco, última linha do Histórico (data) e pendências `ELM pendente [<chave>]:` sem `ELM feito` com a **mesma chave** (pendência antiga, sem chave → liste com "sem chave: confira") (também
    no campo `**ELM:**` dos `AT-*.md` abertos e na coluna "Tarefa ELM" `pendente` da sprint aberta).
+   PR das fatias em `pr-aberto`, `em-revisao`, `em-verificacao`, `retrabalho` ou `pronta-para-merge`:
+   `gitlab_listar_mrs(origem=<branch>, estado=all)` (MCP `gitlabpr`, só leitura) — estado, conflitos e link;
+   `merged` → próximo passo `sdd-consolidar`; `closed` sem merge → inconsistência. Sem o MCP → o link do `status.md`.
 3. De cada `tasks.md`: `[x]`/total e o primeiro item pendente.
 4. `<produto>/backlog.md` (da base): épicos por status, fatias `pronta` sem `status.md` em nenhuma branch,
    sprint atual (`<produto>/sprints/` de maior número com `**Situação:** aberta`) e a meta. "Em andamento" = fatia com

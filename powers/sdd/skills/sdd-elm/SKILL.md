@@ -78,14 +78,14 @@ conceito novo. Só lê: não pede confirmação. Entrada: a lista de artefatos p
 título provisório e 3–6 palavras-chave do domínio (termos do glossário, sinônimos que apareceram na entrevista,
 valores e atores centrais).
 
-1. **Bundle** (`<rm.download.path>` do `sdd.md`, se existe): busca de texto do Kiro pelo título e por cada
-   palavra-chave. Anote a data do último sincronismo da `elm-sync`.
+1. **Bundle** (`rm.download.path` do `pa_*.json`, se existe), pelo MCP `okf`: um `okf_search` pelo título e um por
+   palavra-chave (nunca a busca de texto nos arquivos). Anote a data do último sincronismo da `elm-sync`.
 2. **DOORS Next ao vivo**, pela skill **`elm-rm`**: uma **buscar requisitos** por palavra-chave
    e pelo título (só `text` — com `folder`/`requirement_type` junto o DOORS Next devolve HTTP 400), filtrando o
    resultado pelos tipos do mapeamento do projeto; e **última modificação** dos já conhecidos desde o último sincronismo, para ver o que
    outro time criou ou mudou depois da `elm-sync`. Sem o power `elm` nesta sessão → só o bundle, e a saída diz
    `verificação no ELM ao vivo pendente`.
-3. **Ler e classificar** cada acerto (corpo do bundle pelo `path`, ou `elm-rm` › **ler requisito**):
+3. **Ler e classificar** cada acerto (corpo do bundle pelo `okf_get_document` com o `path`, ou `elm-rm` › **ler requisito**):
    - **igual** — o mesmo comportamento, a mesma regra (com o mesmo valor) ou o mesmo termo;
    - **sobrepõe** — parte do mesmo comportamento, a mesma regra com outro valor, ou o mesmo termo com outra definição;
    - **relacionado** — mesmo assunto, comportamento diferente;

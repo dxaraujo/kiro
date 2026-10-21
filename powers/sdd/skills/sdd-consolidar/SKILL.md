@@ -14,7 +14,8 @@ fica valendo é a documentação oficial no ELM — e ela tem de descrever o que
 distância entre os dois.
 
 Entrada: fatia em `pronta-para-merge` — ou `pr-aberto` na trilha direta, que não tem verificação; `aceita` no AFK
-sem PR autorizado — cujo PR foi **mergeado**: confira pela ferramenta de PR do `sdd.md` (estado `merged`);
+sem PR autorizado — cujo PR foi **mergeado**: confira pelo MCP `gitlabpr` (`gitlab_obter_mr` com o `iid` do link no `status.md`, ou
+`gitlab_listar_mrs(origem=<branch>, estado=all)`: estado `merged`);
 `git branch -r --merged origin/<base>` é só atalho e não enxerga *squash* nem *rebase merge*. Sem PR (push "não",
 sem ferramenta, merge local) → pergunte à pessoa se foi mergeado e confira pelo conteúdo: `git diff <base>
 <branch> -- <arquivos que a fatia mudou>` vazio (fora a pasta da fatia). Não mergeado → pare. Tudo aqui é gravado na **base**, pelo bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base)
@@ -32,7 +33,7 @@ Compare o entregue com a documentação:
 | `design.md` → Decisões técnicas, achados aceitos da revisão | alguma decisão mudou comportamento visível? |
 | `verificacao.md` | algum cenário foi ajustado durante a verificação? |
 | `decisoes.md` (épico e fatia) ou a ficha (fatia sem épico) | decisão nova depois do GATE do PRD ou da aprovação da ficha? |
-| conceitos de `elm/` (histórias e regras cobertas) × bundle do ELM | o ELM já reflete o aprovado? (conceito `stable` sem `resource` = publicação pendente; corpo do bundle diferente do conceito publicado = alguém mudou no ELM) |
+| conceitos de `elm/` (histórias e regras cobertas) × bundle do ELM | o ELM já reflete o aprovado? (conceito `stable` sem `resource` = publicação pendente; corpo no bundle (`okf_get_document`) diferente do conceito publicado = alguém mudou no ELM) |
 
 Drift de **negócio** (regra, cenário, valor) → o PRD precisa de nova versão: mostre a diferença e acione a
 `sdd-prd` (mudança depois de aprovado) antes de publicar — na fatia sem épico, a ficha, pela `sdd-triar`. Drift só técnico → nada no PRD.
@@ -59,7 +60,8 @@ Sem o power `elm` nesta sessão ou com falha → `ELM pendente [<chave>]: <açã
 lista as pendências até alguém fazê-las numa sessão com o power `elm`.
 
 Bundle do ELM no repositório (`rm.download.path`) → sugira rodar a `elm-sync` para trazer o que foi publicado
-(é a base de conhecimento que os agentes leem na próxima pesquisa).
+(é a base de conhecimento que os agentes consultam pelo `okf` na próxima pesquisa; depois dela, `okf_index`
+reindexa só o que mudou).
 
 ## Passo 3 — Conhecimento que dura
 
@@ -70,7 +72,7 @@ Bundle do ELM no repositório (`rm.download.path`) → sugira rodar a `elm-sync`
   fatia — estão no glossário? Faltando ou divergente → corrija o glossário (com "ok") ou abra a correção do código
   como fatia.
 - **Lint do conhecimento** (a cada épico concluído, ou quando a pessoa pedir): procure contradições entre
-  glossário, ADRs, bundle do ELM e steering — termo com duas definições, ADR superado sem marcação, regra do ELM
+  glossário, ADRs, bundle do ELM (pelo `okf_search`) e steering — termo com duas definições, ADR superado sem marcação, regra do ELM
   que o código não segue. Liste como achados; cada um vira correção na fonte ou fatia nova.
 
 ## Passo 4 — Fechar

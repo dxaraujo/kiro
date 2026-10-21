@@ -94,7 +94,7 @@ seguinte da mesma fatia.
 | 5 | implementação | `sdd-codificador` (`sdd-implementar`, Passos 0–2) | tarefas `[x]` e backpressure verde · ou `bloqueada` |
 | 6 | revisão do código | `sdd-revisor` (rubrica C) → volta à 5 com os achados | `VEREDITO: APROVADO` · 2ª reprovação → `bloqueada` |
 | 7 | verificação | `sdd-verificador` (`sdd-verificar`) | `ACEITO` · `REJEITADO` → volta à 5 com os cenários rejeitados (retrabalho: linha na tabela Retrabalho do `status.md`, Rodadas `retrabalho` + 1) e **passa de novo pela 6** antes da 7; de novo rejeitado → `bloqueada` |
-| 8 | entrega | você | `fase: aceita`; commit do que faltar; push + PR se autorizado no lote (texto do Passo 5 da `sdd-implementar`; o Kiro ainda pode pedir confirmação a cada push, conforme as permissões) → `fase: pronta-para-merge` com o link do PR no `status.md`, commit e push (item 4 do Passo 5 da `sdd-implementar`); sem PR autorizado → fica `aceita` |
+| 8 | entrega | você | `fase: aceita`; commit do que faltar; push + PR se autorizado no lote (texto e `gitlab_criar_mr` do Passo 5 da `sdd-implementar`, com `origem` = a branch da worktree — o MCP roda no checkout principal e não a enxerga; o Kiro ainda pode pedir confirmação a cada push e a cada PR, conforme as permissões) → `fase: pronta-para-merge` com o link do PR no `status.md`, commit e push (item 4 do Passo 5 da `sdd-implementar`); sem PR autorizado → fica `aceita` |
 
 Depois de cada fase: grave a fase seguinte (`planejando` depois da pesquisa, `revisando` antes da revisão do
 código), atualize o log, as Rodadas e o Histórico do `status.md`; **commite imediatamente** na worktree os

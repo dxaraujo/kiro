@@ -191,7 +191,9 @@ para. A `sdd-implementar` termina no PR; o merge do PR aprovado, as lições da 
 para a `sdd-desenvolver` (Passo 6). A `[APR]` do plano sai da `sdd-plano` para a `sdd-revisar`, no `sdd-revisor`.
 A ET *as-built* é escrita pelo Dev no PR, e a consolidação só a publica. A `sdd-especificar` leva o PRD aprovado
 para a base e conclui a `[ESP]`, e a `sdd-prd` e a `sdd-fatiar` só conduzem o próprio GATE. O `equipe.json` é da
-`sdd-planejamento` (modo inicial), não da setup. Projeto configurado com o power
+`sdd-planejamento` (modo inicial), não da setup. A 2.8.1 só encurta as descrições de `sdd-desenvolver`,
+`sdd-implementar` e `sdd-revisar`, que passavam do limite de 1024 caracteres e eram puladas pelo Kiro (sem regra
+nova; reinstale o power). Projeto configurado com o power
 `sdd2` ou com a v1 do `sdd`: desinstale o power antigo, instale este e peça "atualizar a configuração do sdd" — a
 setup pergunta a pasta do produto, junta os steerings num só, renomeia hooks, workflows e agentes e move
 `.kiro/produto/` e `.kiro/aprendizado/` com `git mv`.

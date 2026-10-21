@@ -4,7 +4,7 @@ description: "Skill do papel Dev no fluxo sdd — começa ou retoma uma fatia j�
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.8.0"
+  version: "2.8.1"
 ---
 
 # sdd-desenvolver — Compromisso e início do código

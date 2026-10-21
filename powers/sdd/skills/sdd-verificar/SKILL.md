@@ -87,14 +87,20 @@ VERIFICACAO: ACEITO | REJEITADO
 - **ACEITO** (todos aceitos) → gere o `CT.csv` (Passo 5).
   - **AFK** (subagente do loop ou da `sdd-implementar`): `fase: aceita` e devolva para abrir o PR (Passo 5 da
     `sdd-implementar`). Não há `[VER]` no EWM (Q8).
-  - **HITL**: `fase: pronta-para-merge`; saldo de horas e conclusão da `[VER]` (`sdd-elm` modo *horas* e
-    *conclusão*, numa confirmação; sem o power `elm` → `ELM pendente [<chave>]: lançar <h>h e concluir [VER] FT-<nnn>`); commit de
-    `verificacao.md`, `CT.csv`, `evidencias/`, `massa/` e `status.md` (`FT-<nnn> verificação: ACEITO`); o push é da
-    pessoa. Avise que o PR está pronto para o merge.
+  - **HITL**: `fase: pronta-para-merge`, e a **entrega**, nesta ordem — o Dev só acha o seu trabalho no remoto:
+    1. commit de `verificacao.md`, `CT.csv`, `evidencias/`, `massa/` e `status.md` (`FT-<nnn> verificação: ACEITO`);
+    2. push da branch do PR (`git push origin <branch>`, nunca a base; o Kiro pergunta). Sem a pergunta (agente na
+       V2, push negado) → entregue o comando pronto e espere a pessoa dizer que publicou;
+    3. **confira no remoto:** `git fetch` e `git rev-parse HEAD` = `git rev-parse origin/<branch>`. Diferente → não
+       siga: diga o que falta;
+    4. só então: saldo de horas e conclusão da `[VER]` (`sdd-elm` modo *horas* e *conclusão*, numa confirmação; sem
+       o power `elm` → `ELM pendente [<chave>]: lançar <h>h e concluir [VER] FT-<nnn>`) e avise o **Dev
+       responsável** de que a fatia está pronta para o merge (Passo 6 da `sdd-implementar`).
 - **REJEITADO** → para cada cenário, esperado × obtido + evidência, registrados no `status.md` como achados.
   AFK: `fase: implementando`; a `sdd-implementar` corrige e a verificação roda de novo (só os rejeitados + os de
   repetição). HITL: `fase: retrabalho (de: em-verificacao)`, "retrabalho" +1 em Rodadas e uma linha na tabela
-  **Retrabalho** (papel VER); a `[VER]` fica em andamento; commit como no aceito e avise o codificador. Se o
+  **Retrabalho** (papel VER); a `[VER]` fica em andamento; entrega como no aceito (commit `FT-<nnn> verificação: REJEITADO` → push →
+  conferir no remoto) e avise o Dev responsável. Se o
   problema é o cenário estar errado no PRD, diga isso: é com o P.O., não com o código.
 - Só `⚠️ ambiente` → `fase: bloqueada (de: verificando)` com o que falta; ninguém corrige código. Cenário misto
   (❌ + ⚠️) → REJEITADO, e o ⚠️ também vai para Achados como "ambiente".

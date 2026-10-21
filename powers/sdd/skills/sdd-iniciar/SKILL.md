@@ -33,6 +33,8 @@ está em (1) nem (2) não está registrado.
 | tarefa `[REV]` | **`sdd-revisar`** (rubrica C sobre o PR) | Revisor / `sdd-revisor` |
 | tarefa `[VER]` | **`sdd-verificar`** | Verificador (QA) / `sdd-verificador` |
 | `AT-nnn`, tarefa `[ATD]` | **`sdd-atender`** | quem atende / `sdd-produto` |
+| fatia em `pronta-para-merge` (qualquer item dela) | **`sdd-desenvolver`** → `sdd-implementar` Passo 6 (merge do PR aprovado) | Dev responsável / `sdd-codificador` |
+| fatia em `mergeada` | **`sdd-consolidar`** (sessão padrão) | P.O. / sessão padrão |
 
 ```
 🔀 <item> — <título> · <tipo> · <fase do status.md | status do backlog>

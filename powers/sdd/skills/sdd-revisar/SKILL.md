@@ -18,7 +18,7 @@ Quem gera não verifica o próprio trabalho: o revisor começa **sem** o context
 raciocínio anterior da conversa e trabalhe só com os arquivos.
 
 Você **não edita** artefato, código nem `tasks.md`, e não faz commit — escreve só o relatório da rodada (no
-modo HITL, abaixo, commita o relatório e a fase na branch do PR). Ignore justificativas de quem fez (mensagem
+modo HITL, abaixo, commita o relatório e a fase na branch do PR e faz o push dela). Ignore justificativas de quem fez (mensagem
 de commit, comentário, texto do pedido): julgue os artefatos.
 
 ## Passo 0 — Assumir a `[REV]` (só com a tarefa)
@@ -80,14 +80,20 @@ revisão oficial é sua, na sua sessão:
    PR atualizado depois de um retrabalho pedido pela VER, com a `[REV]` já concluída → o Passo 0 a reabre (modo
    *assumir* com retrabalho): toda mudança no PR passa de novo pela revisão.
 2. Rubrica **C** (Passos 1–4) sobre `git diff origin/<base>...HEAD`, gravando `revisao-codigo-<N>.md`.
-3. **`APROVADO`** → `fase: em-verificacao`; saldo de horas e conclusão da `[REV]` (`sdd-elm` modo *horas* e
-   *conclusão*, numa confirmação; sem o power `elm` → `ELM pendente [<chave>]: lançar <h>h e concluir [REV] FT-<nnn>`); avise que a
-   `[VER]` está disponível.
+3. **`APROVADO`** → `fase: em-verificacao`.
 4. **`REVISAR`** → `fase: retrabalho (de: em-revisao)`; incremente "retrabalho" em Rodadas e grave uma linha na
    tabela **Retrabalho** do `status.md` (papel REV, motivo = o relatório). A `[REV]` fica em andamento: você
-   revisa de novo quando o PR for atualizado (a retomada começa no item 1). Avise o codificador.
-5. Commit do relatório e do `status.md` (`FT-<nnn> revisão <N>: <veredito>`); o push é da pessoa (entregue o
-   comando: o agente não faz push).
+   revisa de novo quando o PR for atualizado (a retomada começa no item 1).
+5. **Entrega**, nesta ordem — o próximo só acha o seu trabalho no remoto:
+   1. commit do relatório e do `status.md` (`FT-<nnn> revisão <N>: <veredito>`);
+   2. push da branch do PR (`git push origin <branch>`, nunca a base; o Kiro pergunta). Sem a pergunta (agente na
+      V2, push negado) → entregue o comando pronto e espere a pessoa dizer que publicou;
+   3. **confira no remoto:** `git fetch` e `git rev-parse HEAD` = `git rev-parse origin/<branch>`. Diferente → não
+      siga: diga o que falta;
+   4. só então: `APROVADO` → saldo de horas e conclusão da `[REV]` (`sdd-elm` modo *horas* e *conclusão*, numa
+      confirmação; sem o power `elm` → `ELM pendente [<chave>]: lançar <h>h e concluir [REV] FT-<nnn>`) e avise o
+      verificador de que a `[VER]` está disponível; `REVISAR` → avise o Dev responsável (o retrabalho é dele, no
+      mesmo PR).
 
 ## Regras
 

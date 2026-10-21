@@ -111,7 +111,7 @@ Falhou ao rodar → mostre o erro; a pessoa decide (corrigir o comando, seguir a
 
 | Item | Como detectar |
 |---|---|
-| Branch base | `git symbolic-ref refs/remotes/origin/HEAD`; `develop`/`main`/`master` |
+| Branch base | `git symbolic-ref refs/remotes/origin/HEAD`; `develop`/`main`/`master` — vai também no `{{BASE}}` dos agentes (push para a base negado) |
 | Prefixo da branch | branches remotas existentes; padrão `feature/` |
 | Padrão de commit | `git log --oneline -20` (Task/IB do EWM? Conventional Commits?) |
 | PR (merge request) | pelo MCP **`gitlabpr`** do power (GitLab, API v4, CE 10.8+; projeto vem do `origin`). Teste uma vez com `gitlab_listar_mrs(limite=1)`: respondeu → `MCP gitlabpr`. Erro de credencial → mostre o modelo de `~/.config/mcp-gitlabpr/gitlabpr.properties` (`url` do GitLab e `token` pessoal com escopo `api`; a pessoa cria o arquivo, o agente não lê nem grava credencial) e teste de novo. `origin` fora do GitLab, ou a pessoa segue sem credencial → "entregar título e descrição" (troca depois por "atualizar a configuração do sdd"). Nunca `gh` nem `glab` |
@@ -223,7 +223,11 @@ Depois, a autonomia (seção Git, banco e autonomia do template), **sem pergunta
 plano em toda fatia HITL e na fatia AFK de épico (fixo; a fatia AFK sem épico segue com a análise independente);
 trilha rápida sem GATE do plano (a análise independente basta);
 paralelismo do loop `1`; push e PR no loop perguntando a cada lote (o orquestrador tem regra `ask` para push e PR, então
-o Kiro confirma cada um; a pessoa muda para "não — a pessoa abre" → a regra vira `deny`); e, se a verificação chama a
+o Kiro confirma cada um; a pessoa muda para "não — a pessoa abre" → a regra vira `deny`); **push pelo agente**
+no codificador, no revisor e no verificador (fixo, não é perguntado): no bloco V3, `git push *` com `ask` (o Kiro
+pergunta sempre), com as negações do orquestrador (`--force`, `-f`, `+ref`, `:ref`, `--mirror`, `--all`, `--prune`,
+`--delete`) e a do push para a branch base (`{{BASE}}`); revisor e verificador só publicam a branch do PR; no bloco
+V2 (sem `ask`) o push fica negado — o agente entrega o comando pronto e espera a pessoa dizer que publicou; e, se a verificação chama a
 aplicação por HTTP, o **script de chamada** do verificador `.kiro/sdd/http.sh` (o verificador roda só esse script sem
 perguntar, só contra a URL de teste e com corpo da pasta `massa/`; precisa de `sh` e `curl`; a pessoa pode trocar por
 "nenhum": cada `curl` pede confirmação, e no loop a verificação fica para a sessão dela). A única pergunta aqui é a

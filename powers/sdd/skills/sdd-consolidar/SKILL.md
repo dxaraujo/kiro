@@ -13,8 +13,8 @@ O plano da fatia (`research`, `design`, `tasks`) é andaime: cumpriu o papel qua
 fica valendo é a documentação oficial no ELM — e ela tem de descrever o que **foi** construído. Esta skill fecha a
 distância entre os dois.
 
-Entrada: fatia em `pronta-para-merge` — ou `pr-aberto` na trilha direta, que não tem verificação; `aceita` no AFK
-sem PR autorizado — cujo PR foi **mergeado**: confira pelo MCP `gitlabpr` (`gitlab_obter_mr` com o `iid` do link no `status.md`, ou
+Entrada: fatia em `mergeada` (o Dev responsável mergeou o PR aprovado — Passo 6 da `sdd-implementar`; a fase
+está no `status.md` da branch da fatia) — confira que o PR foi mesmo **mergeado**: confira pelo MCP `gitlabpr` (`gitlab_obter_mr` com o `iid` do link no `status.md`, ou
 `gitlab_listar_mrs(origem=<branch>, estado=all)`: estado `merged`);
 `git branch -r --merged origin/<base>` é só atalho e não enxerga *squash* nem *rebase merge*. Sem PR (push "não",
 sem ferramenta, merge local) → pergunte à pessoa se foi mergeado e confira pelo conteúdo: `git diff <base>

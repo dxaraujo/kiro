@@ -27,7 +27,7 @@ chamada direto:
 | Papel | Tarefa | Skill |
 |---|---|---|
 | Especificador | `[ESP]` | `sdd-especificar` (entrevista → PRD → fatias) |
-| Dev | `[DEV]` | `sdd-desenvolver` (compromisso, branch) → pesquisar → plano → implementar → PR |
+| Dev | `[DEV]` | `sdd-desenvolver` (compromisso, branch) → pesquisar → plano → implementar → PR → merge (a fatia é dele de ponta a ponta) |
 | Revisor | `[REV]` | `sdd-revisar` |
 | Verificador (QA) | `[VER]` | `sdd-verificar` |
 | quem atende | `[ATD]` | `sdd-atender` |
@@ -43,8 +43,10 @@ chamada direto:
 Toda hora trabalhada cabe numa tarefa da sprint: `[ESP]` (especificação do épico), `[DEV]`, `[REV]`, `[VER]` (por
 fatia; no AFK só a `[DEV]`) e `[ATD]` (por atendimento). **Lançar ≠ concluir:** lançar horas é registro de
 empenho, a qualquer momento numa tarefa iniciada (inclusive antes de um GATE); concluir é da skill do papel quando
-o trabalho dela termina, perguntando só o saldo — `[DEV]` no PR, `[REV]` ao aprovar, `[VER]` ao aceitar, `[ESP]`
-no GATE do backlog, `[ATD]` ao finalizar.
+o trabalho dela termina, perguntando só o saldo — `[DEV]` no merge, `[REV]` ao aprovar (depois do push), `[VER]` ao
+aceitar (depois do push), `[ESP]` no GATE do backlog, `[ATD]` ao finalizar. **Entrega** (todo papel do HITL):
+commit → push → conferir no remoto (`git rev-parse HEAD` = `git rev-parse origin/<branch>`) → só então lançar horas
+ou concluir a tarefa e avisar o próximo — quem vem depois só acha no remoto o que foi publicado.
 
 ```
 ENTRADA       triar ─► backlog: EP rascunho · FT sem épico (padrão com ficha, rápida, direta) · AT + [ATD] ─► "mais algum?"
@@ -55,7 +57,7 @@ PRODUTO       especificar ─► entrevistar ─► PRD ─► GATE PRD ─► E
                                                                                     │
 FATIA         desenvolver ─► pesquisar ─► plano ─► GATE plano ─► implementar (TDD) ─► revisar ─► verificar ─► PR
                                                                                                          │
-DEPOIS        merge (pessoa) ─► consolidar (drift, ELM as-built, CTs, conclusão) ─► aprender (lições)
+DEPOIS        merge (Dev, PR aprovado) ─► consolidar (drift, ELM as-built, CTs, conclusão) ─► aprender (lições)
 ```
 
 **Cadência:** a sprint é ritmo de inspeção (meta, review, retro), não escopo congelado. O compromisso é a meta; a
@@ -70,7 +72,7 @@ folga). Previsão pela vazão e pelo lead time, sem pontos.
 | Backlog | P.O. + time | as fatias: granularidade, dependências, AFK/HITL |
 | Ficha | P.O. | a fatia padrão sem épico: regras e cenários |
 | Plano | dev (de preferência quem vai revisar o PR) | a forma do programa e o contrato de pronto — maior alavanca |
-| PR | quem revisa | o código, lido de verdade, com a evidência de aceite |
+| PR | HITL: revisor e verificador · AFK: quem lê o PR | o código, lido de verdade, com a evidência de aceite; aprovado, o merge é do Dev responsável |
 
 GATE do plano: sempre no HITL; no AFK, só na fatia de épico (a fatia AFK sem épico segue com a análise
 independente); na trilha rápida, `GATE na trilha rápida` do `sdd.md` decide antes do modo. PRD e backlog nunca são
@@ -81,10 +83,10 @@ AFK. O PR e o merge nunca são dispensados.
 | | **HITL** — pessoas nos papéis, subfluxos assíncronos | **AFK** — a IA coordena, um fluxo só |
 |---|---|---|
 | Quem roda | cada pessoa, a skill do seu papel | `sdd-loop` (`sdd-orquestrador` + subagentes) |
-| Codificador | revisão automática (rubrica C, subagente) → PR → `[DEV]` concluída | o loop leva a fatia até o PR |
+| Codificador (Dev) | revisão automática (rubrica C, subagente) → PR, com a `[DEV]` em andamento → merge depois da REV e da VER → `[DEV]` concluída | o loop leva a fatia até o PR; quem disparou o loop faz o merge do PR aprovado e conclui a `[DEV]` |
 | Revisão | o revisor assume a `[REV]` e revisa o PR: aprova → VER; reprova → retrabalho | subagente, até 2 rodadas |
-| Verificação | o verificador assume a `[VER]` (só depois da REV): aceita → `pronta-para-merge`; rejeita → retrabalho | subagente |
-| Retrabalho | a `[DEV]` é reaberta e o codificador corrige no mesmo PR, que passa de novo pela REV | volta à implementação |
+| Verificação | o verificador assume a `[VER]` (só depois da REV): aceita → `pronta-para-merge` (o Dev mergeia → `mergeada`); rejeita → retrabalho | subagente |
+| Retrabalho | a `[DEV]`, ainda em andamento, recebe a correção no mesmo PR, que passa de novo pela REV | volta à implementação |
 | Tarefas no EWM | `[DEV]` `[REV]` `[VER]`, cada uma da sua pessoa | só a `[DEV]`, de quem disparou |
 
 ## Princípios
@@ -121,7 +123,7 @@ AFK. O PR e o merge nunca são dispensados.
 | lançar horas ou ver o relatório de horas | `sdd-elm` modo *horas* |
 | entender o código antes de planejar | `sdd-pesquisar` |
 | planejar uma fatia (spec do Kiro) | `sdd-plano` |
-| implementar e abrir o PR | `sdd-implementar` |
+| implementar, abrir o PR e mergear o PR aprovado | `sdd-implementar` |
 | revisar PRD, plano ou código | `sdd-revisar` |
 | verificar o aceite de ponta a ponta | `sdd-verificar` |
 | fechar a fatia depois do merge | `sdd-consolidar` |
@@ -154,8 +156,8 @@ Nunca compacte no meio de uma fase.
   <fase>)` com o caminho e o que faltou (fora de fatia: diga e pare); gravação parcial → o próximo passo retoma pelo
   que está no disco. Nunca siga como se tivesse gravado.
 - Nada inventado: tabela, coluna, regra, id de work item — confirme no código, no banco (somente leitura) ou no ELM.
-- Toda escrita no ELM, troca de branch, push e alteração de work item só com "sim" de uma pessoa. Agente nunca faz
-  merge nem `--force`.
+- Toda escrita no ELM, troca de branch, push e alteração de work item só com "sim" de uma pessoa; push nunca para a
+  base. Merge só do PR aprovado, pelo **Dev responsável** (`gitlab_mesclar_mr`, com confirmação); nunca `--force`.
 - O ELM é do **power `elm`**: o `sdd` decide quando e o quê, e pede **operações** às skills `elm-*` (nunca chama
   tool direto). Os agentes que conduzem sessão (`sdd-produto`, `sdd-codificador`, `sdd-orquestrador`) e o revisor e
   o verificador (só para a própria tarefa) recebem o power com `includePowers: true`; o pesquisador também o recebe (pelo `okf`), mas não pede nada ao ELM. Sem o
@@ -166,7 +168,7 @@ Nunca compacte no meio de uma fase.
   consultada pelo **`okf`** — `okf_search` para achar, `okf_get_document` para ler um artefato, `okf_list_documents`
   para listar uma pasta (`root` = caminho absoluto de `rm.download.path` do `pa_*.json` (o da linha "Usa ELM"): raiz do repositório + o `path`, a mesma `dest` da `elm-sync`; `okf_index` antes da primeira busca da sessão) —, nunca
   lendo ou buscando os arquivos (os agentes nem têm leitura nessa pasta). PR é o merge request do GitLab, pelo
-  **`gitlabpr`**: `gitlab_listar_mrs`, `gitlab_obter_mr` e `gitlab_criar_mr` (com o "sim" da pessoa; `origem` e
+  **`gitlabpr`**: `gitlab_listar_mrs`, `gitlab_obter_mr`, `gitlab_criar_mr` e `gitlab_mesclar_mr` (com o "sim" da pessoa; `origem` e
   `destino` sempre explícitos, porque o MCP roda no checkout principal, não na worktree) — nunca `gh` nem `glab`.
   MCP indisponível → diga e siga sem ele: bundle → o ELM ao vivo pela `elm-rm`; PR → título e descrição entregues.
 - Dado de cliente (resultado de consulta, extração, tela com dado real) nunca vai para o git: fica em
@@ -174,10 +176,13 @@ Nunca compacte no meio de uma fase.
   pessoas.
 - **Skills sem agente exclusivo:** `sdd-setup`, `sdd-consolidar` e `sdd-aprender` rodam na **sessão padrão** (com
   o power carregado), não em agentes específicos: gravam onde nenhum agente pode (steering, agentes, ET *as-built*,
-  remoção de worktree). **O que os agentes não fazem:** push (exceto o orquestrador no loop, com `ask`) — a
-  skill entrega o comando pronto e a pessoa executa; com a branch no remoto, o PR é aberto pela `gitlab_criar_mr`,
-  que o Kiro confirma (`ask` no codificador, no produto e no orquestrador; negada aos demais); merge (exceto a
-  `gitlab_mesclar_mr` no codificador, com `ask`), `--force`, `worktree remove` — nunca. O hub `sdd-iniciar` está em todos os agentes de papel, e a `sdd-status`
+  remoção de worktree). **Push pelo agente:** orquestrador (no loop), codificador, revisor e verificador,
+  com `ask` (o Kiro pergunta sempre), só a branch da fatia — nunca a base; sem a pergunta (engine V2) o push é
+  negado, a skill entrega o comando pronto e espera a pessoa dizer que publicou; produto e pesquisador não fazem
+  push. Subagente do AFK não faz push (quem conduz commita). Com a branch no remoto, o PR é aberto pela
+  `gitlab_criar_mr`, que o Kiro confirma (`ask` no codificador, no produto e no orquestrador; negada aos demais).
+  **O que os agentes não fazem:** merge (exceto a `gitlab_mesclar_mr` no codificador, com `ask`: o Dev mergeia o
+  PR aprovado), `--force`, `worktree remove` — nunca. O hub `sdd-iniciar` está em todos os agentes de papel, e a `sdd-status`
   em todos os agentes, menos o `sdd-pesquisador`; os dois também funcionam na sessão padrão. Nenhuma skill depende de um agente para operar: o agente apenas recebe a skill
   pré-carregada para conveniência.
 - **Nenhuma skill cria branch ou `.kiro/specs/<ft>/status.md`** sem passar pelos Passos 3–4 da `sdd-desenvolver`

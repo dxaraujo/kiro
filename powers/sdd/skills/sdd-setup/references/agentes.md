@@ -25,7 +25,7 @@ partir do bloco V2 e receberam depois as regras que só existem na V3 (tabela ab
 | subagente | `tools`: `subagent/<nome>` · `toolsSettings.subagent.availableAgents` e `trustedAgents`: `<nome>` | `subagent` `allow`: `<nome>` |
 | tool de MCP | `tools` e `allowedTools`: `@<servidor>/<tool>` · `"includeMcpJson": true` | `mcp` `allow`: `<servidor>/<tool>` (com `/`, nunca `<servidor>::<tool>`) |
 | tool de MCP de **power** | `tools` e `allowedTools`: `@<servidor>/<tool>` (o `kiro-cli` V2 não carrega powers: sem efeito lá) | `power` (não `mcp`): `<power>/<servidor>/<tool>` — a IDE chama pela tool `kiro_powers` e sobe o servidor como `power-<power>-<servidor>`, que regra `mcp` `<servidor>/…` não casa |
-| **só V3** | — | `skill` `allow` (todos) · `shell` `ask` de push (orquestrador) · `power` `ask` de `sdd/gitlabpr/gitlab_criar_mr` (codificador, produto e orquestrador) e de `sdd/gitlabpr/gitlab_mesclar_mr` (codificador) · `shell` `ask` de `curl`/`wget` (verificador) |
+| **só V3** | — | `skill` `allow` (todos) · `shell` `ask` de push (orquestrador, codificador, revisor e verificador) · `power` `ask` de `sdd/gitlabpr/gitlab_criar_mr` (codificador, produto e orquestrador) e de `sdd/gitlabpr/gitlab_mesclar_mr` (codificador) · `shell` `ask` de `curl`/`wget` (verificador) |
 
 Regex → glob: `.*` → `*` e tire o escape (`\.` → `.`). Um padrão por **comando simples**: o Kiro separa um comando
 composto (`;`, `&&`, `||`, `|`) e avalia cada parte — `cd .kiro/local/wt/<ft> && mvn test` precisa do `cd` (já
@@ -45,6 +45,7 @@ permissão, compare as regras dele com as do orquestrador.
 | `{{POWER}}` (nos dois blocos) | a pasta do power (Passo 0) |
 | `{{PRODUTO}}` (produto, revisor, codificador; nos dois blocos) | a pasta do produto (Passo 4), padrão `.kiro/planejamento` |
 | `{{GLOSSARIO}}`, `{{ADR}}` (produto, nos dois blocos) | os caminhos do Passo 4 |
+| `{{BASE}}` (codificador, revisor e verificador; só no bloco V3) | a branch base do `sdd.md` (Passo 3), sem `origin/` — nas negações de push para a base |
 | `{{BUNDLE}}` (todos, leitura negada, nos dois blocos) | o bundle do ELM (Passo 4): a consulta é pelo MCP `okf`, nunca pelos arquivos. "não há" → remova a linha |
 | `{{SKILLS_EXTRAS}}` (no `prompt`) | `Skills do projeto ligadas a você: `a`, `b` — carregue a do artefato antes de escrevê-lo.` ou nada |
 | `{{SUBAGENTES}}` (no `prompt`) | `Subagentes do projeto: `x` (<tipo de tarefa>)` ou nada |
@@ -75,15 +76,21 @@ aprovado), `deny` nos demais.
 - **Shell:** git de leitura (`status`, `diff`, `log`, `show`, `grep`, `ls-files`, `ls-tree`, `rev-parse`, listagem de
   branches, `worktree list`, `for-each-ref`, `config user.name/email`) e `cd .kiro/local/wt/*`; codificador e produto
   também `add`, `commit`, `fetch`, `pull --ff-only`, `switch`; revisor e verificador os mesmos, para o modo HITL
-  (commit do relatório e da fase na branch do PR; o push é da pessoa); orquestrador: `add`, `commit`, `fetch`,
+  (commit do relatório e da fase na branch do PR, e o push dela); orquestrador: `add`, `commit`, `fetch`,
   `worktree add .kiro/local/wt/*`, e push com `ask` (o PR, pela `gitlab_criar_mr`, também com `ask`); verificador: `sh .kiro/sdd/http.sh *`.
 - **Negados em todos:** `git -C` (com ele as regras não enxergam o subcomando: `git -C <dir> push …` passaria por um
   allow de `git -C <dir> show*`), `git -c`, merge, rebase (inclusive `pull --rebase`), `reset --hard`, `clean`,
   `checkout --`/`checkout .`, `restore`, `stash`, `worktree remove`, `branch -D/-M`, `--force`, `--delete`,
   `--no-verify`, `gh pr merge`, `glab mr merge`, `rm -rf`, e opções que executam outro programa ou gravam arquivo
   (`find -exec/-ok/-delete`, `rg --pre`, `git grep -O`, `git difftool`, `--upload-pack`, `--receive-pack`,
-  `git … --output`, `git … --no-index`). Push negado em todos, menos no orquestrador (`ask`, com `-f`, `+ref`,
-  `:ref`, `--mirror`, `--all`, `--prune` negados).
+  `git … --output`, `git … --no-index`).
+- **Push:** negado no produto e no pesquisador. No orquestrador, no codificador, no revisor e no verificador, o
+  bloco V3 tem `git push *` com `ask` (o Kiro pergunta sempre) e nega `-f`, `+ref`, `:ref`, `--mirror`, `--all`,
+  `--prune` (e `--force`, `--delete`, como em todos); codificador, revisor e verificador negam também o push para a base (`{{BASE}}`
+  como destino: ` <base>`, `:<base>`, `heads/<base>`). Push sem destino (`git push` puro) não é pego pelo padrão: as
+  skills mandam sempre `git push -u origin <branch>`, só a branch da fatia (revisor e verificador: a do PR). No
+  bloco V2 (sem `ask`) o push continua negado nos três (`.*git push.*`): o agente entrega o comando pronto e
+  espera a pessoa dizer que publicou.
 - **Escrita:** só o que o papel produz (ver cada template); o codificador escreve no projeto, menos `.kiro/agents`,
   `hooks`, `workflows`, `steering`, a pasta do produto, `.kiro/local/wf`, `.kiro/sdd` e `.git`.
 

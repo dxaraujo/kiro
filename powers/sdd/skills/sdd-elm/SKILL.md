@@ -232,7 +232,7 @@ Chamado pela skill do papel antes de trabalhar: `sdd-desenvolver` (`[DEV]`), `sd
    | minha (`elm-ccm` › **quem sou eu**) e em andamento | **nada a fazer** — diga "já assumida" e siga |
    | sem responsável, ou minha e não iniciada | `elm-ccm` › **assumir tarefa** (responsável = quem sou eu, estado em andamento da PA, ex.: *Em Desenvolvimento*; estimativa se faltar — pergunte) |
    | de outra pessoa | mostre quem é e pergunte se assume no lugar dela; sem "sim", pare; com "sim", **assumir tarefa** como na linha acima |
-   | concluída | só se quem chamou disse **retrabalho**: duas transições, na mesma confirmação — `elm-ccm` › **reabrir tarefa** (ação que leva ao estado inicial da PA, ex.: *Novo*) e **assumir tarefa** (estado em andamento), mesmo que a PA tenha uma ação direta de concluída para em andamento (sem ação de reabertura → `ELM pendente [<tarefa> reabrir]` e aviso); fora disso → avise e pare |
+   | concluída | `[DEV]`: só é concluída no merge — a fatia já foi mergeada: avise e pare (retrabalho não reabre a `[DEV]`, que segue em andamento até o merge). Outra tarefa (ex.: a `[REV]` que volta à revisão depois de um retrabalho pedido pela VER): só se quem chamou disse **retrabalho**: duas transições, na mesma confirmação — `elm-ccm` › **reabrir tarefa** (ação que leva ao estado inicial da PA, ex.: *Novo*) e **assumir tarefa** (estado em andamento), mesmo que a PA tenha uma ação direta de concluída para em andamento (sem ação de reabertura → `ELM pendente [<tarefa> reabrir]` e aviso); fora disso → avise e pare |
 
 3. **Uma** confirmação com o que muda (responsável, estado, estimativa); **atualizar item** com os campos e o
    `state` na mesma chamada.
@@ -287,8 +287,8 @@ projeto), mostre, publique como os requisitos depois do `verified` humano, e lig
 
 ## Modo conclusão
 
-Uma tarefa por vez, chamada pela skill do papel que terminou (`[DEV]` no PR, `[REV]` ao aprovar, `[VER]` ao
-aceitar, `[ESP]` no GATE do backlog, `[ATD]` ao finalizar) → estado de conclusão da PA (ação de
+Uma tarefa por vez, chamada pela skill do papel que terminou (`[DEV]` no merge, `[REV]` ao aprovar, `[VER]` ao
+aceitar — as duas depois do push conferido no remoto —, `[ESP]` no GATE do backlog, `[ATD]` ao finalizar) → estado de conclusão da PA (ação de
 `elm-ccm` › **concluir tarefa**), depois do saldo de horas (modo horas). O IB da fatia, pela `sdd-consolidar` depois do
 merge, e o épico quando todas as fatias concluírem: leia os estados e as ações do item e percorra as transições até
 o estado de conclusão (ex.: *Em Desenvolvimento* → *Pronto*; ainda no inicial → passe pelo em andamento antes),

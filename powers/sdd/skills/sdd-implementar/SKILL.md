@@ -1,6 +1,6 @@
 ---
 name: sdd-implementar
-description: "Implementa uma fatia do fluxo sdd a partir do plano aprovado (tasks.md), uma tarefa por vez, em ciclo de teste (vermelho → verde → refatorar), com backpressure — compilar, testes, lint e cobertura do sdd.md têm de passar antes de marcar a tarefa; commits pequenos, progresso registrado no status.md e abertura do PR. HITL: revisão automática (rubrica C por subagente) como backpressure antes do PR, que encerra a [DEV]; revisão e verificação oficiais são das pessoas, sobre o PR. AFK: revisão (até 2 rodadas) e verificação por subagente antes do PR. Retoma o retrabalho reaberto na REV ou na VER, no mesmo PR. Usa as skills do toolkit ligadas ao agente codificador antes de escrever cada artefato. Também corrige achados da revisão, da verificação e do PR. Use em \"implementa a FT-031\", \"executa as tasks\", \"continua a implementação\", \"Start task\", \"abre o PR\", \"corrige os achados\"."
+description: "Implementa uma fatia do fluxo sdd a partir do plano aprovado (tasks.md), uma tarefa por vez, em ciclo de teste (vermelho → verde → refatorar), com backpressure — compilar, testes, lint e cobertura do sdd.md têm de passar antes de marcar a tarefa; commits pequenos, progresso registrado no status.md e entrega do PR (commit, push, conferência no remoto, PR pelo gitlabpr). HITL: revisão automática (rubrica C por subagente) como backpressure antes do PR; revisão e verificação oficiais são das pessoas, sobre o PR. AFK: revisão (até 2 rodadas) e verificação por subagente antes do PR. A [DEV] fica em andamento até o merge: o Dev responsável mergeia o PR aprovado (gitlab_mesclar_mr) e só então a conclui. Retoma o retrabalho pedido na REV ou na VER, no mesmo PR. Usa as skills do toolkit ligadas ao agente codificador antes de escrever cada artefato. Também corrige achados da revisão, da verificação e do PR. Use em \"implementa a FT-031\", \"executa as tasks\", \"continua a implementação\", \"Start task\", \"abre o PR\", \"corrige os achados\", \"mergeia a FT-031\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -10,8 +10,9 @@ metadata:
 # sdd-implementar — Ciclo curto, verificação sempre
 
 Entrada: `.kiro/specs/<ft>-<slug>/` com o plano aprovado (`status.md` com fase `implementando` ou `retrabalho (de:
-…)`), na branch da fatia. O **modo** do `status.md` decide o fim: **HITL** termina no PR (Passo 5), com a `[DEV]`
-concluída; **AFK** passa antes pela revisão e pela verificação por subagente (Passos 3–4). No Kiro, cada tarefa também pode ser executada pelo **"Start task"** do `tasks.md` — as regras valem igual.
+…)`), na branch da fatia. O **modo** do `status.md` decide o caminho até o PR (Passo 5): **HITL** vai direto, depois
+da revisão automática; **AFK** passa antes pela revisão e pela verificação por subagente (Passos 3–4). Nos dois, a
+`[DEV]` fica em andamento até o merge (Passo 6, com a fatia em `pronta-para-merge`). No Kiro, cada tarefa também pode ser executada pelo **"Start task"** do `tasks.md` — as regras valem igual.
 
 Leia antes: `design.md` inteiro, `research.md`, `.kiro/steering/sdd.md` (comandos, regras críticas,
 regras aprendidas).
@@ -29,9 +30,8 @@ regras aprendidas).
   e cada uma entra numa wave nova no fim do JSON do `## Task Dependency Graph`): os da seção "Achados
   abertos" do `status.md` (PR, pessoa), os do último `revisao-codigo-<N>.md` com `VEREDITO: REVISAR` e os cenários
   rejeitados do `verificacao.md`. Como as anteriores estão marcadas, elas são as primeiras não marcadas.
-- **Retrabalho** (`fase: retrabalho (de: em-revisao | em-verificacao)`, HITL): **`sdd-elm` modo *assumir***
-  com retrabalho — reabre a `[DEV]` (com "sim"; sem ação de reabertura na PA → `ELM pendente [<chave>]: reabrir [DEV]
-  FT-<nnn>` e aviso). Os achados vêm do último `revisao-codigo-<N>.md` ou dos cenários rejeitados do
+- **Retrabalho** (`fase: retrabalho (de: em-revisao | em-verificacao)`, HITL): a `[DEV]` ainda está em andamento (só
+  é concluída no merge) — **`sdd-elm` modo *assumir*** só confere (já minha e em andamento → nada a fazer). Os achados vêm do último `revisao-codigo-<N>.md` ou dos cenários rejeitados do
   `verificacao.md`; `fase: implementando`, linha no Histórico. Ao fim, o mesmo PR é atualizado (Passo 5).
 - Rode o comando de **testes** uma vez antes de mexer: vermelho antes de começar = problema do ambiente ou da
   base, não seu. Registre e avise; não "conserte" o que não é da fatia.
@@ -116,18 +116,17 @@ revisão conta no teto de rodadas) antes de verificar de novo.
 Com `ACEITO` ou `REJEITADO`: **commite imediatamente** `verificacao.md`, `CT.csv`, `evidencias/`, `massa/` e o
 `status.md` antes de prosseguir — mensagem no padrão do `sdd.md`, `registrar verificação`. O PR cita esses arquivos e eles precisam estar na branch antes da abertura.
 
-## Passo 5 — PR e conclusão da `[DEV]`
+## Passo 5 — PR
 
 Com a revisão automática feita (HITL) ou com `fase: aceita` (AFK: revisão `APROVADO` e verificação `ACEITO`):
 
-Quem abre o PR é a sessão da pessoa (com o "sim" dela) ou o `sdd-orquestrador` no loop. Como agente
-`sdd-codificador`, que não faz push, pare em "pronta para o PR" e entregue o título e a descrição do item 2;
-com a branch no remoto, o PR é aberto pelo item 3.
+Push e PR são do Dev: o agente `sdd-codificador` (o Kiro confirma cada um) ou a sessão da pessoa; no loop, o
+`sdd-orquestrador` (fase 8 da `sdd-loop`). Modo autônomo: nada deste passo.
 
 1. Branch atualizada com a base? (`git fetch` e compare com `origin/<base>`). Desatualizada → numa sessão com a
    pessoa, com o "sim" dela, `git merge origin/<base>` (conflito → resolva e repita Passos 2–4); como agente,
-   pare e devolva "branch desatualizada com a base". O "nunca merge" do fluxo é sobre o PR: esse merge é sempre de
-   uma pessoa.
+   pare e devolva "branch desatualizada com a base". Esse merge (da base para a branch) é sempre de
+   uma pessoa; o do PR é o Passo 6.
 2. Texto do PR:
    ```
    FT-<nnn> — <título>   (EP-<nn> · IB <id ELM | —>)
@@ -141,21 +140,62 @@ com a branch no remoto, o PR é aberto pelo item 3.
    Reversível? <sim, só reverter o PR | não: dado migrado/contrato publicado — o que fazer>
    ```
    O PR é para uma pessoa **ler o código**: pequeno, com a evidência e o caminho de leitura, sem despejar o plano.
-3. Numa só confirmação da pessoa: push e, com a branch no remoto, o PR pelo MCP `gitlabpr`:
-   `gitlab_listar_mrs(origem=<branch>, estado=opened)` — já existe → é esse (o push o atualiza); senão
-   `gitlab_criar_mr(titulo, destino=<base>, origem=<branch>, descricao=<texto do item 2>)`, que o Kiro confirma. O
-   link do PR é a `url` devolvida. Sem o MCP no `sdd.md`, ou com falha → título e descrição prontos, e o link vem da
-   pessoa.
-4. **Conclusão da `[DEV]`:** mostre as horas já lançadas (`elm-ccm` › horas lançadas) e pergunte só o saldo →
-   `sdd-elm` modo *horas*, depois modo *conclusão* só da `[DEV]`, numa confirmação. Sem o power `elm` → `ELM pendente [<chave>]:
-   lançar <h>h e concluir [DEV] FT-<nnn>` no Histórico.
-5. `status.md`: HITL → `fase: pr-aberto`; AFK → `fase: pronta-para-merge`; link do PR (sem PR aberto — push "não"
-   ou sem o MCP — `PR: texto entregue`, e a fase é a mesma), o resultado do item 4 no
-   Histórico (retrabalho: as horas na tabela Retrabalho); commit e, com o mesmo "sim", push (o `status.md` vai junto
-   no PR; retrabalho → atualiza o mesmo PR). HITL: avise que a `[REV]` está disponível para o revisor.
+3. **Entrega**, nesta ordem — quem vem depois só acha no remoto o que você publicou:
+   1. **Commit** do que faltar (árvore limpa).
+   2. **Push** da branch da fatia: `git push -u origin <branch>` (nunca a base; o Kiro pergunta). Sem a pergunta
+      (agente na V2, push negado) → entregue o comando pronto e espere a pessoa dizer que publicou. Push "não" →
+      pare em "pronta para o PR", com o título e a descrição do item 2.
+   3. **Confira no remoto:** `git fetch` e `git rev-parse HEAD` = `git rev-parse origin/<branch>`. Diferente → não
+      siga: diga o que falta.
+   4. **PR** pelo MCP `gitlabpr`: `gitlab_listar_mrs(origem=<branch>, estado=opened)` — já existe (retrabalho) → é
+      esse, e o push já o atualizou; senão `gitlab_criar_mr(titulo, destino=<base>, origem=<branch>, descricao=<texto
+      do item 2>)`, que o Kiro confirma. Sem o MCP no `sdd.md`, ou com falha → título e descrição prontos, e a
+      pessoa abre o PR e passa o link.
+   5. **Confira o PR aberto:** `gitlab_listar_mrs(origem=<branch>, estado=opened)` devolve o PR; o link é a `url`.
+      Sem o MCP → o link que a pessoa passou.
+   6. `status.md`: HITL → `fase: pr-aberto`; AFK → `fase: pronta-para-merge`; link do PR (sem PR — push "não" ou sem
+      o MCP — `PR: texto entregue`, e a fase é a mesma); linha no Histórico. Commit, push e conferência como nos
+      itens 1–3 (o `status.md` vai junto no PR).
+   7. **Horas da sessão** na `[DEV]`: `sdd-elm` modo *horas*, com "sim" — lança, não conclui (retrabalho: as horas
+      também na tabela Retrabalho). Sem o power `elm` → `ELM pendente [<chave>]: lançar <h>h em [DEV] FT-<nnn>` no
+      Histórico. **A `[DEV]` não é concluída no PR:** fica em andamento até o merge (Passo 6).
+   8. **Avise:** HITL → o revisor, de que a `[REV]` está disponível; AFK → quem aprova o PR (quem o lê).
 
-O merge é de uma pessoa (HITL: depois de `pronta-para-merge`, quando a VER aceita). Depois do merge:
-**`sdd-consolidar`**.
+O merge é do Dev responsável, depois da aprovação do PR (Passo 6). Depois do merge: **`sdd-consolidar`**.
+
+## Passo 6 — Merge
+
+Quando o Dev responsável retoma a fatia em `pronta-para-merge` (a `sdd-desenvolver` encaminha para cá):
+- **HITL:** revisão `APROVADO` e verificação `ACEITO` registradas (é o que leva a fatia a `pronta-para-merge`);
+- **AFK:** o PR foi aprovado por quem o lê — a pessoa diz quem; sem a aprovação → avise que o PR espera leitura e
+  pare;
+- **trilha direta:** em `pr-aberto`, com o PR aprovado por quem o leu, como no AFK.
+
+1. **Leia o PR:** `gitlab_obter_mr` pelo `iid` do link no `status.md`. Tem de estar aberto, sem WIP/Draft e sem
+   conflito. `merged` → vá ao item 5; `closed`, WIP ou conflito → avise e pare (conflito: atualize a branch pelo
+   item 1 do Passo 5, e a mudança passa de novo pela revisão).
+2. **Commit aprovado:** o `sha` do PR = `git rev-parse origin/<branch>` e é o commit que foi aprovado — HITL: o da
+   entrega da verificação (`git log -1 --format=%s <sha>` = `FT-<nnn> verificação: ACEITO`); AFK e direta: o que
+   quem aprovou leu (mostre o `sha` curto e o último commit, e confirme). Commit depois da aprovação → não mergeie:
+   a mudança volta à revisão.
+3. **Resumo e confirmação:**
+   ```
+   🔀 Merge FT-<nnn> — <título>
+   PR !<iid> <origem> → <destino> · sha <curto> · aprovado: <REV APROVADO + VER ACEITO | por <login>>
+   Mergear? (sim/não)
+   ```
+4. **Merge:** `gitlab_mesclar_mr(iid, sha=<sha aprovado>, remover_origem=false)` — o Kiro também confirma; a branch
+   fica até a consolidação (guarda o `status.md` com `mergeada`). Sem o MCP, sem permissão de merge ou recusa do
+   GitLab → a pessoa faz o merge na UI do GitLab e diz "mergeado".
+5. **Confira:** `gitlab_obter_mr(iid)` (ou `gitlab_listar_mrs(origem=<branch>, estado=merged)`) com estado `merged`
+   — inclusive no merge pela UI. Sem o MCP → `git fetch` e `git diff origin/<base> origin/<branch> -- <arquivos que
+   a fatia mudou>` vazio. Não mergeado → pare.
+6. `status.md` (na branch da fatia): `fase: mergeada`; no Histórico, `merge do PR <link> por <login>` (AFK e
+   direta: antes, `PR aprovado por <login>`). Commit, push e conferência como nos itens 1–3 do Passo 5.
+7. **Conclusão da `[DEV]`:** mostre as horas já lançadas (`elm-ccm` › horas lançadas) e pergunte só o saldo →
+   `sdd-elm` modo *horas* e modo *conclusão* da `[DEV]`, numa confirmação. Sem o power `elm` → `ELM pendente
+   [<chave>]: lançar <h>h e concluir [DEV] FT-<nnn>` no Histórico (commit e push).
+8. **Avise o P.O.** de que a fatia está pronta para a consolidação (**`sdd-consolidar`**, na sessão padrão).
 
 ## Trilha direta
 
@@ -166,10 +206,9 @@ Sem spec nem `tasks.md` — a pasta da fatia tem só o `status.md`; o critério 
 cumprido, "não muda" preservado; relatório na conversa); 5. **como verificar**: execute o que a ficha diz e guarde
 a evidência (saída, log, print) para o PR; 6. PR curto: `FT-<nnn> — <título> (<id do item | —>)` · `O quê` ·
 `Pronto quando` · `Evidência` (do item 5) · `Backpressure` · `Revisão: APROVADO` · `Como ler`, aberto como no
-Passo 5, item 3; 7. **conclusão da
-`[DEV]`** como no Passo 5, item 4 (saldo de horas e conclusão, numa confirmação); 8. `status.md` com
-`fase: pr-aberto` e o link do PR — sem PR aberto (push "não" ou sem o MCP) → `PR: texto entregue` e a mesma
-fase; o merge é de uma pessoa e a `sdd-consolidar` aceita a direta em `pr-aberto`. Se no caminho aparecer regra de
+Passo 5, item 3 (entrega: commit → push → conferir → PR → conferir), com `fase: pr-aberto` e o link do PR — sem
+PR aberto (push "não" ou sem o MCP) → `PR: texto entregue` e a mesma fase; 7. horas da sessão na `[DEV]`, que
+fica em andamento; 8. PR aprovado por quem o leu → **merge pelo Dev** (Passo 6), com a conclusão da `[DEV]`. Se no caminho aparecer regra de
 negócio ou mais de um comportamento → pare: devolva à `sdd-triar` (é trilha rápida ou padrão).
 
 ## Modo autônomo
@@ -179,6 +218,7 @@ negócio ou mais de um comportamento → pare: devolva à `sdd-triar` (é trilha
 
 ## Regras
 
-- Nunca `--force`; merge só o da base para a branch, por uma pessoa (Passo 5); push só com confirmação (ou pelo
-  orquestrador, com a autorização do lote).
+- Nunca `--force`; merge só o da base para a branch, por uma pessoa (Passo 5), e o do PR aprovado, pelo Dev
+  responsável (Passo 6); push só da branch da fatia, nunca da base, com confirmação (ou pelo orquestrador, com a
+  autorização do lote); depois de todo push, conferir no remoto antes de seguir.
 - Nada fora do escopo do `design.md`; melhoria vista no caminho vira sugestão de item no backlog (registrada pela `sdd-triar`).

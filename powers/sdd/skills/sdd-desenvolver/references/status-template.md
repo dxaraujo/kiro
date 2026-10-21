@@ -17,12 +17,16 @@
 | Banco (DDL) | <não se aplica \| pendente \| aplicada em dev \| aplicada em prod> |
 
 <!-- Fases por modo:
-     HITL  pesquisando → planejando → plano-em-revisao → implementando → pr-aberto ([DEV] concluída)
-           → em-revisao ([REV] assumida) → em-verificacao ([VER] assumida) → pronta-para-merge → concluida
-           reprovada na REV ou na VER → retrabalho (de: em-revisao | em-verificacao), [DEV] reaberta
-           → implementando → pr-aberto (mesmo PR, [DEV] concluída de novo)
+     HITL  pesquisando → planejando → plano-em-revisao → implementando → pr-aberto ([DEV] em andamento)
+           → em-revisao ([REV] assumida; concluída ao aprovar) → em-verificacao ([VER] assumida; concluída ao
+           aceitar) → pronta-para-merge → mergeada (merge pelo Dev, [DEV] concluída) → concluida (consolidação)
+           reprovada na REV ou na VER → retrabalho (de: em-revisao | em-verificacao), com a [DEV] ainda aberta
+           → implementando → pr-aberto (mesmo PR)
      AFK   pesquisando → planejando → [plano-em-revisao: só fatia de épico] → implementando → revisando
-           → verificando → aceita → pronta-para-merge (PR aberto, [DEV] concluída) → concluida
+           → verificando → aceita → pronta-para-merge (PR aberto; espera a aprovação de quem o lê)
+           → mergeada (merge pelo Dev, [DEV] concluída) → concluida (consolidação)
+     Direta: implementando → pr-aberto → mergeada (PR aprovado; merge pelo Dev, [DEV] concluída) → concluida
+     Entrega (todo papel do HITL): commit → push → conferir no remoto → só então concluir a tarefa e avisar.
      Desvio: `bloqueada (de: <fase>)`, com motivo e a pergunta exata; resolvido, a fatia volta à fase de origem.
      plano-em-revisao = o plano espera o GATE de uma pessoa; durante a análise independente a fase é planejando,
      e o passo é pulado na fatia AFK sem épico e na trilha rápida com `GATE na trilha rápida = não`.
@@ -46,10 +50,10 @@
 ## Retrabalho
 
 <!-- HITL: uma linha por reprovação na REV ou na VER, gravada por quem reprovou; as horas, pelo codificador ao
-     concluir a [DEV] de novo. AFK: uma linha por verificação REJEITADA (Papel `verificação (AFK)`), gravada pelo
-     orquestrador ou pelo passo registrar_verificacao do workflow; a [DEV] não reabre (só conclui no fim), Horas `—`. -->
+     entregar o PR atualizado (a [DEV] segue aberta até o merge). AFK: uma linha por verificação REJEITADA (Papel `verificação (AFK)`), gravada pelo
+     orquestrador ou pelo passo registrar_verificacao do workflow; a [DEV] só é concluída no merge, Horas `—`. -->
 
-| # | Papel | Motivo (relatório) | Data | Horas na [DEV] reaberta |
+| # | Papel | Motivo (relatório) | Data | Horas na [DEV] (retrabalho) |
 |---|---|---|---|---|
 
 ## Histórico

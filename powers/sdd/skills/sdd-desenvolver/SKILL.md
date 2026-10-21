@@ -1,6 +1,6 @@
 ---
 name: sdd-desenvolver
-description: "Skill do papel Dev no fluxo sdd — começa ou retoma o código de uma fatia já registrada no backlog (FT-031, de épico ou sem épico, em qualquer trilha: padrão, rápida, direta), de um item do EWM que o backlog já conhece (DF, IB) ou da tarefa [DEV] de uma fatia. É o ponto de compromisso: confere a Definition of Ready da trilha, o responsável, se a fatia está na sprint aberta (fora dela, o encaixe é decisão do P.O. pela sdd-planejamento) e os limites de WIP; cria a branch (sugere o nome e aguarda), a pasta da fatia em .kiro/specs/ com o status.md, assume a [DEV] no EWM (sdd-elm modo assumir, com confirmação) e encaminha pela fase: pesquisar → plano → implementar → PR. Pedido novo ou item fora do backlog passa antes pela sdd-triar; [REV], [VER], [ESP] e atendimento têm skill própria (o hub sdd-iniciar encaminha). Use em \"vamos trabalhar na FT-031\", \"pegar a [DEV] da FT-031\", \"corrigir o defeito 4567\", \"próxima fatia\", \"retomar a FT-031\"."
+description: "Skill do papel Dev no fluxo sdd — começa ou retoma o código de uma fatia já registrada no backlog (FT-031, de épico ou sem épico, em qualquer trilha: padrão, rápida, direta), de um item do EWM que o backlog já conhece (DF, IB) ou da tarefa [DEV] de uma fatia. É o ponto de compromisso: confere a Definition of Ready da trilha, o responsável, se a fatia está na sprint aberta (fora dela, o encaixe é decisão do P.O. pela sdd-planejamento) e os limites de WIP; cria a branch (sugere o nome e aguarda), a pasta da fatia em .kiro/specs/ com o status.md, assume a [DEV] no EWM (sdd-elm modo assumir, com confirmação) e encaminha pela fase: pesquisar → plano → implementar → PR → merge (pronta-para-merge é do Dev). Pedido novo ou item fora do backlog passa antes pela sdd-triar; [REV], [VER], [ESP] e atendimento têm skill própria (o hub sdd-iniciar encaminha). Use em \"vamos trabalhar na FT-031\", \"pegar a [DEV] da FT-031\", \"corrigir o defeito 4567\", \"próxima fatia\", \"retomar a FT-031\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -15,7 +15,7 @@ metadata:
 
 Começar é um compromisso: daqui em diante a fatia consome a capacidade do time e o lead time corre. Por isso esta
 skill só começa o que já está registrado e planejado; a entrada de trabalho novo é da **`sdd-triar`**. É a skill do
-papel **Dev**: assume a `[DEV]` da fatia e a leva até o PR. Revisão (`[REV]`), verificação (`[VER]`), especificação
+papel **Dev**: assume a `[DEV]` da fatia e a leva até o merge (a `[DEV]` é concluída no merge do PR aprovado). Revisão (`[REV]`), verificação (`[VER]`), especificação
 (`[ESP]`) e atendimento (`[ATD]`) têm skill própria; na dúvida sobre o item, o hub **`sdd-iniciar`** diz qual.
 
 Leia antes: `.kiro/steering/sdd.md`. Sem ele → ofereça a **`sdd-setup`** ("configurar o sdd") e pare.
@@ -57,7 +57,7 @@ item, a trilha registrada não serve (a "rápida" tem regra de negócio nova, a 
 |---|---|
 | **padrão** | pesquisa → plano → **GATE do plano** → implementação → revisão → verificação → PR |
 | **rápida** | pesquisa curta → `bugfix.md` + `tasks.md` (o teste que reproduz primeiro) → implementação → revisão → verificação → PR |
-| **direta** | pasta só com o `status.md`, sem spec: teste que falha (quando houver comportamento) → mudança → backpressure → revisão (`sdd-revisar`, rubrica C sobre o diff, com a ficha — pronto quando, não muda — no lugar dos critérios) → evidência do "como verificar" → PR → conclusão da `[DEV]` |
+| **direta** | pasta só com o `status.md`, sem spec: teste que falha (quando houver comportamento) → mudança → backpressure → revisão (`sdd-revisar`, rubrica C sobre o diff, com a ficha — pronto quando, não muda — no lugar dos critérios) → evidência do "como verificar" → PR → merge pelo Dev, com a conclusão da `[DEV]` |
 
 ## Passo 3 — Compromisso
 
@@ -143,7 +143,8 @@ Próximo: <skill>
 | `aceita` | `sdd-implementar` (Passo 5 — abrir o PR) |
 | `pr-aberto`, `em-revisao` | HITL: com o revisor — `[REV]` pela `sdd-revisar` |
 | `em-verificacao` | HITL: com o verificador — `[VER]` pela `sdd-verificar` |
-| `pronta-para-merge` | o merge é de uma pessoa; mergeado → `sdd-consolidar` |
+| `pronta-para-merge` (trilha direta: `pr-aberto` com o PR aprovado) | Dev: `sdd-implementar` (Passo 6 — merge do PR aprovado e conclusão da `[DEV]`) |
+| `mergeada` | consolidação pelo P.O. — `sdd-consolidar` (sessão padrão) |
 | `bloqueada (de: <fase>)` | mostre o motivo e a pergunta; resolvido → volta à skill da fase de origem |
 
 Modo AFK e várias fatias padrão ou rápida prontas na sprint → ofereça o **`sdd-loop`** (o agente leva cada uma até

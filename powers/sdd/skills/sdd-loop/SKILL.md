@@ -11,7 +11,8 @@ metadata:
 
 Quem executa é o agente **`sdd-orquestrador`** (ou a sessão da pessoa, com os mesmos passos). Ele coordena e
 registra; cada fase é feita por um subagente que começa do zero e lê o estado do disco. A pessoa fica **sobre** o
-loop, não dentro: aprova o lote no início e lê os PRs no fim.
+loop, não dentro: aprova o lote no início e lê os PRs no fim; quem disparou o loop é o Dev responsável e faz o merge de
+cada PR aprovado (Passo 6 da `sdd-implementar`).
 
 Leia antes: `.kiro/steering/sdd.md` (seções Git, banco e autonomia e Comandos) e
 `<produto>/acordos.md` (WIP; sem o arquivo, limite 2).
@@ -94,7 +95,7 @@ seguinte da mesma fatia.
 | 5 | implementação | `sdd-codificador` (`sdd-implementar`, Passos 0–2) | tarefas `[x]` e backpressure verde · ou `bloqueada` |
 | 6 | revisão do código | `sdd-revisor` (rubrica C) → volta à 5 com os achados | `VEREDITO: APROVADO` · 2ª reprovação → `bloqueada` |
 | 7 | verificação | `sdd-verificador` (`sdd-verificar`) | `ACEITO` · `REJEITADO` → volta à 5 com os cenários rejeitados (retrabalho: linha na tabela Retrabalho do `status.md`, Rodadas `retrabalho` + 1) e **passa de novo pela 6** antes da 7; de novo rejeitado → `bloqueada` |
-| 8 | entrega | você | `fase: aceita`; commit do que faltar; push + PR se autorizado no lote (texto e `gitlab_criar_mr` do Passo 5 da `sdd-implementar`, com `origem` = a branch da worktree — o MCP roda no checkout principal e não a enxerga; o Kiro ainda pode pedir confirmação a cada push e a cada PR, conforme as permissões) → `fase: pronta-para-merge` com o link do PR no `status.md`, commit e push (item 4 do Passo 5 da `sdd-implementar`); sem PR autorizado → fica `aceita` |
+| 8 | entrega | você | `fase: aceita`; commit do que faltar; push, conferência no remoto (`git rev-parse HEAD` = `git rev-parse origin/<branch>`, na worktree) e PR se autorizado no lote (texto e `gitlab_criar_mr` do Passo 5 da `sdd-implementar`, com `origem` = a branch da worktree — o MCP roda no checkout principal e não a enxerga; o Kiro ainda pode pedir confirmação a cada push e a cada PR, conforme as permissões) → `fase: pronta-para-merge` com o link do PR no `status.md`, commit, push e conferência (item 3 do Passo 5 da `sdd-implementar`); a `[DEV]` fica em andamento; sem PR autorizado → fica `aceita` |
 
 Depois de cada fase: grave a fase seguinte (`planejando` depois da pesquisa, `revisando` antes da revisão do
 código), atualize o log, as Rodadas e o Histórico do `status.md`; **commite imediatamente** na worktree os
@@ -120,14 +121,15 @@ Os **Kiro Workflows** do sdd (se instalados) não fazem parte do loop: são rece
   ```
   🤖 Loop AFK — resultado
   | FT | Resultado | PR | Rodadas (plano/código/aceite) | Observação |
-  Aguardando pessoa: <planos para aprovar · PRs para revisar · bloqueios com pergunta>
+  Aguardando pessoa: <planos para aprovar · PRs para ler e aprovar · bloqueios com pergunta>
+  Merge: cada PR aprovado → você, pela `sdd-implementar` Passo 6 ("mergeia a FT-<nnn>")
   ELM pendente [<chave>]: <o que falhou ou ficou sem o power `elm`>
   Lições para registrar: <correções que o loop precisou — sdd-aprender>
   ```
-- **Horas e conclusão, numa pergunta só** (com o power `elm`): uma tabela `tarefa | horas sugeridas` com as `[DEV]`
-  das fatias que chegaram a `aceita` (com ou sem PR aberto); a pessoa ajusta e confirma de uma vez → `sdd-elm` modo *horas* e modo
-  *conclusão* da `[DEV]`. No AFK as horas só vão para a `[DEV]`, ao concluir: revisão e verificação por subagente
-  não têm tarefa nem horas.
+- **Horas, numa pergunta só** (com o power `elm`): uma tabela `tarefa | horas sugeridas` com as `[DEV]` das
+  fatias que chegaram a `aceita` (com ou sem PR aberto); a pessoa ajusta e confirma de uma vez → `sdd-elm` modo
+  *horas* (lança, não conclui). A conclusão da `[DEV]` é no merge de cada fatia (Passo 6 da `sdd-implementar`), com
+  o saldo. No AFK as horas só vão para a `[DEV]`: revisão e verificação por subagente não têm tarefa nem horas.
 - Worktrees ficam até o merge; quem as remove é a **`sdd-consolidar`** (sessão padrão), depois do merge — os
   agentes não podem (`git worktree remove` é negado a todos).
 
@@ -141,8 +143,9 @@ Os **Kiro Workflows** do sdd (se instalados) não fazem parte do loop: são rece
 
 ## Regras
 
-- Nunca merge, nunca `--force`, nunca push sem a autorização do lote.
-- ELM só pelo que o lote confirmou (assumir `[DEV]`, estados) e pelas horas do fim; nada mais. Sem o power `elm` ou com
+- O orquestrador nunca faz merge (é de quem disparou o loop, depois da aprovação do PR), nunca `--force`, nunca
+  push sem a autorização do lote; todo push é conferido no remoto antes do PR.
+- ELM só pelo que o lote confirmou (assumir `[DEV]`, estados) e pelas horas do fim; nada mais (a conclusão da `[DEV]` é no merge). Sem o power `elm` ou com
   falha → `ELM pendente [<chave>]: …` no `status.md`.
 - Nunca relaxe um gate para o loop andar: bloqueio é informação, não falha.
 - Tipo de fatia que bloqueia com frequência → sugira na retrospectiva tratá-lo como HITL.

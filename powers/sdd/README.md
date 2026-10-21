@@ -17,7 +17,7 @@ PRODUTO   entrevistar ─► PRD ─► GATE PRD ─► ELM (HF/REG/GL) ─► f
                                                                                  │
 FATIA     desenvolver ─► pesquisar ─► plano (spec do Kiro) ─► GATE plano ─► implementar (TDD) ─► revisar ─► verificar ─► PR
                                                                                                                   │
-DEPOIS    merge (pessoa) ─► consolidar (drift, ELM as-built, CTs, ADRs) ─► aprender (lições)
+DEPOIS    merge (Dev) ─► consolidar (drift, ELM as-built, CTs, ADRs) ─► aprender (lições)
 ```
 
 ## O que muda em relação ao `sdd`
@@ -110,8 +110,9 @@ vira pendência registrada.
 Cada agente tem as permissões mínimas do papel, nos dois blocos do formato universal (`toolsSettings` para a
 engine V2, `permissions` para a V3 e a IDE): lê o projeto e o power, mas não `.env`, chaves, `~/.ssh`, `~/.aws` nem
 as credenciais do ELM; escreve só o que produz; no shell, git de leitura e, conforme o papel, `add`/`commit`. Merge,
-rebase, `--force`, `reset --hard` e `git -C` (que esconde o subcomando das regras) são negados em todos; push e PR
-só no orquestrador, com confirmação a cada um. Detalhes em
+rebase, `--force`, `reset --hard` e `git -C` (que esconde o subcomando das regras) são negados em todos; push com
+confirmação a cada um (`ask`), só da branch da fatia, no orquestrador, no codificador, no revisor e no verificador;
+o merge do PR aprovado é do Dev responsável, pelo codificador. Detalhes em
 [`skills/sdd-setup/references/agentes.md`](skills/sdd-setup/references/agentes.md).
 
 ## Toolkits

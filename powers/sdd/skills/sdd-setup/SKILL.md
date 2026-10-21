@@ -257,10 +257,9 @@ Em memória:
 4. `<produto>/` (só o que não existir): `backlog.md` mínimo
    (`# Backlog — <nome>`, `Próximos ids: EP-01 · FT-001 · AT-001`, `Sustentação: —` e as tabelas `## Épicos`,
    `## Fatias — sem épico` e `## Atendimentos` vazias — formato na `sdd-fatiar`),
-   `equipe.json` na raiz (padrão, gerado pelo `sdd-planejamento` Modo inicial — use
-   [assets/equipe-template.md](../sdd-planejamento/assets/equipe-template.md) como referência para o formato
-   Markdown alternativo); `<produto>/aprendizado/licoes.md` com o título `# Lições` (a pasta `atendimentos/` nasce
-   com o primeiro AT, pela `sdd-triar`) e `fatias/` (as fichas). No modo atualização, acrescente só o que falta —
+   `<produto>/aprendizado/licoes.md` com o título `# Lições` (a pasta `atendimentos/` nasce
+   com o primeiro AT, pela `sdd-triar`) e `fatias/` (as fichas). O `equipe.json` e o `acordos.md` não: são da
+   `sdd-planejamento` (modo inicial), que só grava a equipe depois dos acordos (cadência e duração da sprint). No modo atualização, acrescente só o que falta —
    nunca recrie o que existe; subpasta `<produto>/planejamento/` (layout da 2.6.0) →
    ofereça mover o conteúdo dela para a raiz de `<produto>/` com `git mv` (com "ok"), sem sobrescrever o que já
    estiver lá, e apagar a subpasta vazia.
@@ -313,7 +312,8 @@ cada arquivo gravado em `.kiro/agents/`, `.kiro/hooks/` e `.kiro/workflows/` —
 
 Sugira o commit (`.kiro/steering/sdd.md`, `.kiro/agents/sdd-*.json`, `.kiro/hooks/`, `.kiro/workflows/`,
 `.kiro/sdd/`, `<produto>/`, `.gitignore` e o que a migração moveu ou removeu) — só com confirmação — e termine
-com o próximo passo:
+com o próximo passo — sem `<produto>/equipe.json`, primeiro "monte o planejamento" (`sdd-planejamento`, modo
+inicial: equipe com a senioridade, acordos e roadmap; sem ela não há modo da fatia, GATE do plano nem revisor); depois
 "nova demanda: …" (`sdd-triar`: faz a triagem e registra no backlog; épico → `sdd-prd`), "iniciar <id>" ou "minha próxima tarefa"
 (`sdd-iniciar`: o hub diz a skill do papel) ou "onde parei?" (`sdd-status`).
 

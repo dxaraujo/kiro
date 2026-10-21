@@ -31,7 +31,8 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
    `mergeada`; quem fecha é a consolidação, na base); o backlog não guarda isso.
    PRDs (`epicos/*/prd.md`): status e pendências `ELM pendente [<chave>]:` do rodapé.
 5. `<produto>/acordos.md`: limites de WIP (sem o arquivo: 2 fatias esperando pessoa, e sugira a
-   `sdd-planejamento` modo inicial).
+   `sdd-planejamento` modo inicial). Sem `<produto>/equipe.json` → sugira o mesmo modo inicial: sem ele não há
+   senioridade (modo da fatia, GATE do plano, quem revisa).
 6. `<produto>/aprendizado/licoes.md`: lições com situação `proposta`.
    Sprint aberta (`sprint-<nn>.md`): seções Especificação e Atendimento (reserva × consumido) e as linhas
    `ELM pendente [<chave>]:`. Atendimentos abertos: as linhas `aberto` e `backlog` de `## Atendimentos` do `backlog.md`

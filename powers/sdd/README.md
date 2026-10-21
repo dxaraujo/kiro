@@ -180,7 +180,12 @@ iteração dela; saem a opção `backlog no EWM` e a iteração de backlog dos "
 `acordos.md`, `roadmap.md` e `sprints/` voltam para a raiz da pasta do produto (sem a subpasta `planejamento/`). Na 2.6.2, a triagem commita na tarefa `[GB] Gerenciamento do backlog` (filha da
 Sustentação, criada pela `sdd-elm` com ela) e a `sdd-elm` procura no EWM a iteração que falta no `pa_*.json` antes de
 propor criar (requer o power `elm` ≥ 1.3.2). A 2.6.3 só acerta textos e exemplos (sem regra nova) e alinha a versão
-das skills à do power. Projeto configurado com o power
+das skills à do power. Na 2.7.0: a senioridade do Dev (Júnior, Pleno, Sênior) decide o modo da fatia e o GATE do
+plano; a tarefa `[APR]` registra as aprovações do Dev Sênior; a trilha direta sai; o agente faz o push com
+confirmação, abre o PR e o Dev leva a fatia até o merge (a `[DEV]` é concluída no merge); a troca AFK → HITL é
+sugerida na conclusão do plano e feita pelo P.O. na base; a consolidação é do P.O. ou do SM, com horas na `[GB]`, e
+cria os casos de teste no ETM; o bundle do ELM é consultado pelo `okf` e os PRs pelo `gitlabpr` (requer o power
+`elm` ≥ 1.4.0 e o `mcp-elm` ≥ 1.0.43). Projeto configurado com o power
 `sdd2` ou com a v1 do `sdd`: desinstale o power antigo, instale este e peça "atualizar a configuração do sdd" — a
 setup pergunta a pasta do produto, junta os steerings num só, renomeia hooks, workflows e agentes e move
 `.kiro/produto/` e `.kiro/aprendizado/` com `git mv`.

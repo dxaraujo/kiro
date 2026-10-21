@@ -4,7 +4,7 @@ description: "Aprendizado composto do fluxo sdd — transforma cada correção h
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.6.3"
+  version: "2.7.0"
 ---
 
 # sdd-aprender — Cada erro corrigido uma vez só

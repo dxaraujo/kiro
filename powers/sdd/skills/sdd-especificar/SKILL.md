@@ -4,7 +4,7 @@ description: "Skill do papel Especificador no fluxo sdd — conduz a especifica�
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.6.3"
+  version: "2.7.0"
 ---
 
 # sdd-especificar — Especificação de épico

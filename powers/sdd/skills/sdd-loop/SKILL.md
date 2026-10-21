@@ -4,7 +4,7 @@ description: "Execução autônoma (AFK) de várias fatias do fluxo sdd — pega
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.6.3"
+  version: "2.7.0"
 ---
 
 # sdd-loop — Fatias AFK até o PR

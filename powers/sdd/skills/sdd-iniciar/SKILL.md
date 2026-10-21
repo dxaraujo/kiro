@@ -31,7 +31,7 @@ está em (1) nem (2) não está registrado.
 | `EP-nn`, tarefa `[ESP]` | **`sdd-especificar`** | Especificador / `sdd-produto` |
 | `FT-nnn`, DF ou IB do backlog, tarefa `[DEV]`, "próxima fatia" | **`sdd-desenvolver`** | Dev / `sdd-codificador` |
 | tarefa `[REV]` | **`sdd-revisar`** (rubrica C sobre o PR) | Revisor / `sdd-revisor` |
-| tarefa `[APR] FT-nnn Aprovar plano` | **`sdd-plano`** (seção "Quem aprova — a `[APR]` do plano") | Aprovador (Dev Sênior) / `sdd-codificador` |
+| tarefa `[APR] FT-nnn Aprovar plano` | **`sdd-revisar`** (seção "Aprovação do plano — a `[APR]`") | Aprovador (Dev Sênior) / `sdd-revisor` |
 | tarefa `[APR] FT-nnn Aprovar PR` | **`sdd-revisar`** (seção "Aprovação do PR — a `[APR]`") | Aprovador (Dev Sênior) / `sdd-revisor` |
 | tarefa `[VER]` | **`sdd-verificar`** | Verificador (QA) / `sdd-verificador` |
 | `AT-nnn`, tarefa `[ATD]` | **`sdd-atender`** | quem atende / `sdd-produto` |

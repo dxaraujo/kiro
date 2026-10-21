@@ -1,6 +1,6 @@
 ---
 name: sdd-revisar
-description: "Revisão independente do fluxo sdd, com contexto limpo, sem alterar nenhum artefato (escreve só o próprio relatório) — julga um artefato contra a sua fonte, nunca contra a explicação de quem o fez: PRD (rubrica P, RESULTADO PRONTO/AJUSTAR), plano da fatia (rubrica L: research, requirements, design e tasks contra o PRD, o código e o steering; ANALISE OK/AJUSTAR) ou código da fatia (rubrica C em dois eixos separados — spec: critérios, cenários testados, backpressure executado, oráculo protegido, escopo; padrões: regras críticas, segurança, schema, forma do programa, nomes; VEREDITO APROVADO/REVISAR). Calibra a severidade pelas lições do time. Com a tarefa [REV] (direto ou pelo hub sdd-iniciar), assume-a antes no EWM (sdd-elm modo assumir). Com a tarefa [APR] Aprovar PR (fatia AFK em pronta-para-merge), um Dev Sênior lê o PR e aprova ou pede mudanças. Use em \"revisa\", \"pegar a [REV] da FT-031\", \"[APR] Aprovar PR\", \"aprovar o PR da FT-031\", \"judge\", \"revisa o PRD\", \"analisa o plano\", \"revisa a FT-031\", \"code review\", e ao fim da sdd-prd, sdd-plano e sdd-implementar."
+description: "Revisão independente do fluxo sdd, com contexto limpo, sem alterar nenhum artefato (escreve só o próprio relatório) — julga um artefato contra a sua fonte, nunca contra a explicação de quem o fez: PRD (rubrica P, RESULTADO PRONTO/AJUSTAR), plano da fatia (rubrica L: research, requirements, design e tasks contra o PRD, o código e o steering; ANALISE OK/AJUSTAR) ou código da fatia (rubrica C em dois eixos separados — spec: critérios, cenários testados, backpressure executado, oráculo protegido, escopo; padrões: regras críticas, segurança, schema, forma do programa, nomes; VEREDITO APROVADO/REVISAR). Calibra a severidade pelas lições do time. Com a tarefa [REV] (direto ou pelo hub sdd-iniciar), assume-a antes no EWM (sdd-elm modo assumir). Com a tarefa [APR] Aprovar plano (fatia em plano-em-revisao), um Dev Sênior lê o plano e aprova ou pede ajuste; com a [APR] Aprovar PR (fatia AFK em pronta-para-merge), lê o PR e aprova ou pede mudanças. Use em \"revisa\", \"pegar a [REV] da FT-031\", \"[APR] Aprovar plano\", \"aprovo o plano da FT-031\", \"[APR] Aprovar PR\", \"aprovar o PR da FT-031\", \"judge\", \"revisa o PRD\", \"analisa o plano\", \"revisa a FT-031\", \"code review\", e ao fim da sdd-prd, sdd-plano e sdd-implementar."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -19,7 +19,7 @@ raciocínio anterior da conversa e trabalhe só com os arquivos.
 
 Você **não edita** artefato, código nem `tasks.md`, e não faz commit — escreve só o relatório da rodada (no
 modo HITL, abaixo, commita o relatório e a fase na branch do PR e faz o push dela; na aprovação do PR do AFK, só
-nas mudanças pedidas). Ignore justificativas de quem fez (mensagem
+nas mudanças pedidas; na aprovação do plano, a fase e o Histórico do `status.md`). Ignore justificativas de quem fez (mensagem
 de commit, comentário, texto do pedido): julgue os artefatos.
 
 ## Passo 0 — Assumir a `[REV]` (só com a tarefa)
@@ -100,6 +100,33 @@ revisão oficial é sua, na sua sessão:
       confirmação; sem o power `elm` → `ELM pendente [<chave>]: lançar <h>h e concluir [REV] FT-<nnn>`) e avise o
       verificador de que a `[VER]` está disponível; `REVISAR` → avise o Dev responsável (o retrabalho é dele, no
       mesmo PR).
+
+## Aprovação do plano — a `[APR]`
+
+Fatia em `fase: plano-em-revisao`, com a tarefa `[APR] FT-<nnn> Aprovar plano` (pelo hub `sdd-iniciar`, ou "aprovo o
+plano da FT-<nnn>"). A análise independente (rubrica L) já foi feita por subagente; aqui um Dev Sênior lê o plano e
+decide — sem editá-lo: ajuste é pedido a quem implementa, que replaneja pela `sdd-plano`.
+
+1. Quem está na sessão é Dev Sênior ativo (`senioridade` no `equipe.json` da base) **e** é o responsável pela `[APR]`
+   (no EWM; sem o power `elm`, o `Responsável` do `status.md`)? Não → diga quem é e pare (trocar quem aprova é de
+   quem implementa, no GATE da `sdd-plano`).
+2. Branch da fatia (`git switch <branch>` com "sim"; árvore suja → avise e pare; aberta numa worktree → trabalhe
+   nela, regra da `sdd-desenvolver`, Passo 1) e `git pull --ff-only`; a fase tem
+   de ser `plano-em-revisao` (senão diga qual é e pare).
+3. **`sdd-elm` modo *assumir*** a `[APR]` (sem o power `elm` → `ELM pendente [APR FT-<nnn> assumir]` no Histórico).
+4. Mostre o resumo do GATE (bloco 🧭 do Passo 5 da [`sdd-plano`](../sdd-plano/SKILL.md)) e o último
+   `analise-plano-<N>.md`, e leia com a pessoa a forma do programa e o contrato de pronto.
+5. **Aprovado** → `fase: implementando`, Histórico `plano aprovado por <login>`, `Responsável` volta a quem
+   implementa. **Ajuste pedido** → o pedido no Histórico e em Achados abertos (origem: GATE do plano),
+   `fase: planejando`; a `[APR]` fica em andamento e é a mesma na nova aprovação.
+6. Commit (`registrar aprovação do plano`) → push → conferir no remoto (itens 1–3 da Entrega do Passo 5 da
+   `sdd-implementar`) → só então: aprovado → saldo de horas e conclusão da `[APR]` (`sdd-elm` modo *horas* e
+   *conclusão*, numa confirmação; sem o power `elm` → `ELM pendente [APR FT-<nnn> concluir]: lançar <h>h e
+   concluir`); ajuste → horas da sessão na `[APR]` (lança, não conclui) → avise o Dev (aprovado → `sdd-implementar`; ajuste →
+   `sdd-plano`).
+
+Aprovação dita na sessão de outra pessoa (o Sênior ao lado de quem implementa) **não vale**: quem aprova assume,
+lança e conclui a `[APR]` na própria sessão.
 
 ## Aprovação do PR — a `[APR]`
 

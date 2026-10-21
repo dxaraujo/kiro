@@ -49,7 +49,7 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
 | FT | Título | Fase | Modo | Tarefas | Achados | PR | Parada há | Próximo passo |
 
 👀 Esperando pessoa (WIP de revisão: <n>/<limite> — plano-em-revisao + pr-aberto + em-revisao + em-verificacao + aceita + pronta-para-merge)
-- FT-031 plano-em-revisao há 1 dia → aprovar o plano: [APR] de <Dev Sênior> (sdd-plano, Quem aprova)
+- FT-031 plano-em-revisao há 1 dia → aprovar o plano: [APR] de <Dev Sênior> (sdd-revisar, Aprovação do plano)
 - FT-029 pr-aberto há 2 dias → esperando revisão: [REV] de <revisor> (sdd-revisar) <link>
 - FT-028 em-verificacao → esperando verificação: [VER] de <verificador> (sdd-verificar)
 - FT-027 pronta-para-merge → merge pelo Dev responsável (<login>, sdd-desenvolver Passo 6) <link> · AFK, antes: [APR] Aprovar PR de <Dev Sênior> (sdd-revisar)

@@ -113,7 +113,7 @@ relatórios que chegaram nesta fase — `analise-plano-<N>.md` (fase 3), `revisa
 `verificacao.md`, `CT.csv`, `evidencias/` e `massa/` (fase 7) — antes de iniciar a fase seguinte. Esses arquivos não são commitados
 pelos subagentes que os geram; o orquestrador é o responsável pelo commit deles.
 
-**Aprovação de plano pausado:** é do Dev Sênior da `[APR]`, na sessão dele, pela seção "Quem aprova" da `sdd-plano`
+**Aprovação de plano pausado:** é do Dev Sênior da `[APR]`, na sessão dele, pela `sdd-revisar` (Aprovação do plano)
 (no mesmo checkout do loop, ele trabalha na worktree — `cd .kiro/local/wt/<ft>` — em vez do `git switch`; sem push
 autorizado, só assim). Ao retomar: `git pull --ff-only` na worktree (com upstream) e leia a fase — `implementando` →
 fase 5 (Passo 0); `planejando` com o ajuste pedido → codificador (`sdd-plano`, replanejar), nova análise e fase 4.

@@ -29,7 +29,7 @@ chamada direto:
 | Especificador | `[ESP]` | `sdd-especificar` (entrevista → PRD → fatias) |
 | Dev | `[DEV]` | `sdd-desenvolver` (compromisso, branch) → pesquisar → plano → implementar → PR → merge (a fatia é dele de ponta a ponta) |
 | Revisor (Dev Sênior) | `[REV]` | `sdd-revisar` |
-| Aprovador (Dev Sênior) | `[APR]` — só nos gates sem tarefa de papel; nasce quando a fatia chega ao gate | `[APR] … Aprovar plano` → `sdd-plano` (Quem aprova) · `[APR] … Aprovar PR` (AFK) → `sdd-revisar` (Aprovação do PR) |
+| Aprovador (Dev Sênior) | `[APR]` — só nos gates sem tarefa de papel; nasce quando a fatia chega ao gate | `[APR] … Aprovar plano` → `sdd-revisar` (Aprovação do plano) · `[APR] … Aprovar PR` (AFK) → `sdd-revisar` (Aprovação do PR) |
 | Verificador (QA) | `[VER]` | `sdd-verificar` |
 | quem atende | `[ATD]` | `sdd-atender` |
 | P.O. ou SM (analista de negócio) | `[GB] Gerenciamento do backlog` | `sdd-triar` (triagem) · `sdd-consolidar` (fatia `mergeada`: processo de produto, no agente `sdd-produto`) |

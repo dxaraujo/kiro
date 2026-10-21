@@ -136,6 +136,11 @@ Push e PR são do Dev: o agente `sdd-codificador` (o Kiro confirma cada um) ou a
    (contexto · decisão · consequências · origem FT-<nnn>), descrevendo o que o código faz. Vai no PR: o Dev Sênior
    o julga na `[REV]` ou na `[APR]` (rubrica C15); a pasta de ADRs do projeto é artefato de produto (nunca em branch
    de fatia) — a consolidação o leva para lá.
+   **ET as-built** (só se a linha ET da seção ELM do `sdd.md` diz `as-built no merge`): `.kiro/specs/<ft>-<slug>/elm/ET-<slug>.md`,
+   conceito OKF no formato de [okf-elm.md](../sdd-prd/references/okf-elm.md) (`type` = o tipo de ET do projeto, título
+   `ET - FT-<nnn> <título>`, `status: draft`), escrito do `design.md` e do código do PR: interfaces, contratos, dados,
+   integrações e decisões técnicas — nada do que não foi feito. Retrabalho que muda o que ela descreve a atualiza no
+   mesmo PR. Vai no PR e é julgada com os ADRs (rubrica C15); quem a publica no ELM é a consolidação.
 1. Branch atualizada com a base? (`git fetch` e compare com `origin/<base>`). Desatualizada → numa sessão com a
    pessoa, com o "sim" dela, `git merge origin/<base>` (conflito → resolva e repita Passos 2–4); como agente,
    pare e devolva "branch desatualizada com a base". Esse merge (da base para a branch) é sempre de
@@ -149,7 +154,7 @@ Push e PR são do Dev: o agente `sdd-codificador` (o Kiro confirma cada um) ou a
    Revisão: <AFK: revisao-codigo-<N>.md (APROVADO) · Aceite: verificacao.md (ACEITO, <n> cenários) | HITL: revisão automática OK (achados aceitos: …) — revisão e aceite no PR>
    Backpressure: compilar ok · testes ok · lint ok · cobertura <x% | sem gate>
    Banco (DDL): <não se aplica | pendente — implantação bloqueada>
-   ADRs: <adr/<arquivo>, … | nenhum>
+   ADRs: <adr/<arquivo>, … | nenhum> · ET as-built: <elm/ET-<slug>.md | não se aplica>
    Como ler: <ordem sugerida dos arquivos — do teste do cenário principal para o código que ele exercita>
    Reversível? <sim, só reverter o PR | não: dado migrado/contrato publicado — o que fazer>
    ```

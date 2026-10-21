@@ -304,13 +304,10 @@ cenário **verificado** (`✅ aceito` no `verificacao.md`); o texto vem da linha
 
 ## Modo especificação técnica (opcional, as-built)
 
-Só se a linha ET da seção ELM do `sdd.md` disser `as-built no merge`, e **só chamado pela `sdd-consolidar`** —
-pelo P.O. ou SM que consolida, no agente `sdd-produto` (que lê o código e grava em `.kiro/specs/*/elm/`); pedido
-direto → "use a `sdd-consolidar`". Gere `ET - FT-031 <título>` a partir do `design.md` e do código **final, já
-mergeado na base** (interfaces, contratos, dados, integrações, decisões técnicas — nada do que não foi feito),
-grave-a como conceito OKF em `.kiro/specs/<ft>-<slug>/elm/ET-<slug>.md` (mesmo formato; `type` = o tipo de ET do
-projeto), mostre, publique como os requisitos depois do `verified` humano de quem consolida, e ligue ao IB
-(**implementa**).
+Só se a linha ET da seção ELM do `sdd.md` disser `as-built no merge`, e **só chamado pela `sdd-consolidar`**;
+pedido direto → "use a `sdd-consolidar`". Esta skill não escreve a ET: ela chega no PR, escrita pelo Dev
+(`.kiro/specs/<ft>-<slug>/elm/ET-<slug>.md`, `sdd-implementar` Passo 5), com o `verified` humano de quem aprovou o
+código, gravado pela consolidação. Publique-a como os requisitos e ligue-a ao IB (**implementa**).
 
 ## Modo conclusão
 

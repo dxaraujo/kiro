@@ -10,7 +10,7 @@ no repositório, então o rascunho e a versão oficial se leem do mesmo jeito.
 | Origem | Pasta (um bundle OKF pequeno) |
 |---|---|
 | épico (PRD) | até o GATE do PRD, na pasta de trabalho local `.kiro/local/especificacao/<EP>-<slug>/elm/` (fora do git, anexada na `[ESP]`); aprovado, `<produto>/epicos/<EP>-<slug>/elm/` na base |
-| ET as-built de uma fatia (`sdd-elm`, na consolidação) | `.kiro/specs/<ft>-<slug>/elm/` |
+| ET as-built de uma fatia (o Dev, no PR; publicada na consolidação) | `.kiro/specs/<ft>-<slug>/elm/` |
 | regra da ficha de uma fatia padrão sem épico (`sdd-consolidar`, as-built) | `.kiro/specs/<ft>-<slug>/elm/` |
 
 ```

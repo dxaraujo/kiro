@@ -22,7 +22,7 @@ foi feita. Os nomes reais de tipos, pastas, campos e links são da project area:
 | Tarefa `[ATD]` do atendimento | EWM — Tarefa (filha de `Atendimento`) | `task` | quando o AT entra na sprint (triagem com sprint aberta, encaixe ou planejamento) |
 | Critérios de aceite da fatia | campo de texto rico do IB (ou seção da descrição) | linha do `sdd.md` | publicação do IB |
 | Horas | EWM — timesheet da tarefa | `elm-ccm` › lançar horas | a qualquer momento numa tarefa iniciada (padrão: ao fechar cada sessão) ou sob pedido; na conclusão, o saldo |
-| ET as-built (opcional) | DOORS Next — artefato | `Especificação Técnica` (título `ET - <fatia>`) | consolidação (depois do merge), gerada do `design.md` e do código mergeado pelo P.O. ou SM |
+| ET as-built (opcional) | DOORS Next — artefato | `Especificação Técnica` (título `ET - <fatia>`) | escrita pelo Dev no PR (`sdd-implementar` Passo 5); publicada na consolidação (depois do merge) |
 | Cenário verificado | ETM — Caso de Teste | `elm-qm` › criar caso de teste (texto da linha do `CT.csv`; sem permissão → importação manual do `CT.csv`) | consolidação |
 | Defeito (trilha rápida) | EWM — Defeito | `defect` | já existe; a fatia referencia |
 

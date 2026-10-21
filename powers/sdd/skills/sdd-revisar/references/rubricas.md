@@ -72,7 +72,7 @@ Reprovação em qualquer eixo é `REVISAR`.
 | C12 | Nomes do domínio = termos canônicos do glossário; nomes técnicos no padrão dos vizinhos | IMPORTANTE |
 | C13 | Módulos profundos: interface pequena para o que esconde; sem abstração especulativa, camada a mais ou duplicação evitável | IMPORTANTE |
 | C14 | Sem `TODO`/`FIXME`, print/log de depuração ou código comentado; registros obrigatórios da estrutura (rotas, menus, agendamentos, migrações) presentes | IMPORTANTE |
-| C15 | Cada decisão do `design.md` com "Vira ADR? sim" tem o ADR no PR, em `.kiro/specs/<ft>-<slug>/adr/` (contexto · decisão · consequências · origem FT-nnn), e ele descreve o que o código faz | IMPORTANTE |
+| C15 | Cada decisão do `design.md` com "Vira ADR? sim" tem o ADR no PR, em `.kiro/specs/<ft>-<slug>/adr/` (contexto · decisão · consequências · origem FT-nnn), e ele descreve o que o código faz; com a linha ET do `sdd.md` = `as-built no merge`, a ET em `elm/ET-<slug>.md` também está no PR e descreve o que o diff faz (interfaces, contratos, dados), nada além | IMPORTANTE |
 
 Calibragem: seja cético (o autor tende a achar que terminou), mas aponte só o que afeta **correção, requisito,
 segurança ou manutenção real**. Gosto pessoal e "eu faria diferente" são SUGESTÃO, quando muito — perseguir cada

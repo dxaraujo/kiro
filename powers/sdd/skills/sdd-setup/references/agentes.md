@@ -106,7 +106,7 @@ aprovado), `deny` nos demais.
   `--no-interactive` passa sem perguntar); o revisor e o verificador só ficam presos aos relatórios na V3 e na IDE.
   O produto, além da pasta do produto, do glossário e dos ADRs, escreve o `decisoes.md`, e — para a consolidação,
   que é dele (P.O. ou SM) — o `status.md`, o `verificacao.md` e a pasta `elm/` de cada fatia (`.kiro/specs/*/`);
-  o código ele só lê (a ET *as-built*).
+  o código ele não escreve (a ET *as-built* chega escrita pelo Dev no PR).
 
 ## Gravação
 

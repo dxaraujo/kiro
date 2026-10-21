@@ -1,6 +1,6 @@
 ---
 name: sdd-consolidar
-description: "Fecha uma fatia do fluxo sdd depois do merge do PR — processo de produto, do P.O. ou do SM (analista de negócio) no agente sdd-produto, com horas na tarefa [GB] Gerenciamento do backlog: lê o campo Drift de negócio do status.md (marcado pela revisão e pela verificação) e, com drift, leva o PRD ou a ficha a nova versão; manda para o ELM pela sdd-elm, numa confirmação, os requisitos, a regra da ficha as-built, a especificação técnica as-built (gerada aqui, do design.md e do código mergeado), os casos de teste (criados pelo agente no ETM, um por cenário verificado) e a conclusão do item de backlog; leva os ADRs do PR para a pasta de ADRs, corrige o glossário, marca a fatia como concluída no backlog, registra as lições (sdd-aprender) e diz o que vem a seguir no épico. Use em \"PR mergeado\", \"fecha a FT-031\", \"consolidar\", \"concluir a fatia\", \"a fatia foi entregue\"."
+description: "Fecha uma fatia do fluxo sdd depois do merge do PR — processo de produto, do P.O. ou do SM (analista de negócio) no agente sdd-produto, com horas na tarefa [GB] Gerenciamento do backlog: lê o campo Drift de negócio do status.md (marcado pela revisão e pela verificação) e, com drift, leva o PRD ou a ficha a nova versão; manda para o ELM pela sdd-elm, numa confirmação, os requisitos, a regra da ficha as-built, a especificação técnica as-built (escrita pelo Dev no PR), os casos de teste (criados pelo agente no ETM, um por cenário verificado) e a conclusão do item de backlog; leva os ADRs do PR para a pasta de ADRs, corrige o glossário, marca a fatia como concluída no backlog, registra as lições (sdd-aprender) e diz o que vem a seguir no épico. Use em \"PR mergeado\", \"fecha a FT-031\", \"consolidar\", \"concluir a fatia\", \"a fatia foi entregue\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -49,9 +49,12 @@ Pela **`sdd-elm`**, numa confirmação só, nesta ordem (os casos de teste preci
 - *regra da ficha* (fatia padrão sem épico com regra nova ou alterada) — gerar o conceito OKF da regra as-built
   em `.kiro/specs/<ft>-<slug>/elm/` (formato do `okf-elm.md` da `sdd-prd`; alteração → a partir do artefato do
   bundle), mostrar e, com o `verified` humano, publicar pelo modo *requisitos*;
-- *especificação técnica* — se a linha ET do `sdd.md` diz `as-built no merge`: você gera aqui a ET **as-built** da
-  fatia a partir do `design.md` e do **código final já na base** (interfaces, contratos, dados, integrações), com
-  o `verified` humano de quem consolida; publicada e ligada ao IB (**implementa**) — modo *especificação técnica*;
+- *especificação técnica* — se a linha ET do `sdd.md` diz `as-built no merge`: a ET **as-built** chegou escrita
+  pelo Dev no PR (`elm/ET-<slug>.md`) e foi julgada com o código (rubrica C15); você não a escreve nem a reescreve.
+  O `verified` humano é de quem aprovou o código: `{ by: human:<login>, at: <data da aprovação> }` do revisor
+  (`revisao-codigo-<N>.md` APROVADO, HITL) ou do Dev Sênior da `[APR] Aprovar PR` (AFK), com `status: stable`;
+  publicada e ligada ao IB (**implementa**) — modo *especificação técnica*. Sem a ET no PR → `ELM pendente [ET
+  FT-<nnn> escrever]` para o Dev, que a entrega num PR curto;
 - *casos de teste* — um por cenário verificado (`verificacao.md`/`CT.csv`), criados pelo agente no ETM com o link
   **valida** para a história e o **testado por** do IB; ids no `verificacao.md` e no `status.md` — modo *testes*.
   Falha (ex.: HTTP 403, sem permissão de criar no ETM) ou sem o power → `ELM pendente [CT FT-<nnn> criar]` e o

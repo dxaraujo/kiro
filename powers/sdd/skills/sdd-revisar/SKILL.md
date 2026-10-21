@@ -142,7 +142,8 @@ revisão e a verificação já foram feitas por subagentes; aqui uma pessoa **l�
    ser `pronta-para-merge`. Anote o `sha` = `git rev-parse origin/<branch>` (o do PR).
 3. **`sdd-elm` modo *assumir*** a `[APR]`.
 4. Mostre o caminho de leitura: o texto do PR ("Como ler"), o `revisao-codigo-<N>.md` aprovado, as evidências do
-   `verificacao.md` e os ADRs do PR (`adr/` da pasta da fatia — C15: a pessoa julga se cada um descreve a decisão). **Execute** o backpressure (C3) — não confie no relatório. A leitura do código é da pessoa:
+   `verificacao.md` e os ADRs e a ET as-built do PR (`adr/` e `elm/ET-*.md` da pasta da fatia — C15: a pessoa julga se cada um descreve
+   o que o código faz). **Execute** o backpressure (C3) — não confie no relatório. A leitura do código é da pessoa:
    você aponta, ela decide.
 5. **Aprovado** → **não commite na branch** (o `sha` que o Dev vai mergear não pode mudar): pela `sdd-elm`, numa
    confirmação, o comentário `PR aprovado, sha <sha>` na `[APR]` (`elm-ccm` › **comentar**), o saldo de horas e a

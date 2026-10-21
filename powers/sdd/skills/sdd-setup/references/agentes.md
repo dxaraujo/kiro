@@ -83,11 +83,14 @@ aprovado), `deny` nos demais.
   `checkout --`/`checkout .`, `restore`, `stash`, `worktree remove`, `branch -D/-M`, `--force`, `--delete`,
   `--no-verify`, `gh pr merge`, `glab mr merge`, `rm -rf`, e opções que executam outro programa ou gravam arquivo
   (`find -exec/-ok/-delete`, `rg --pre`, `git grep -O`, `git difftool`, `--upload-pack`, `--receive-pack`,
-  `git … --output`, `git … --no-index`). Também (teste TC04 da 2.7.0): **redireção** (`>`, `tee`) — com ela um
-  `git show … > arquivo` grava por fora das regras de escrita; **credenciais no shell** (`.env`, `.ssh/`, `.aws/`,
+  `git … --output`, `git … --no-index`). Também (teste TC04 da 2.7.0): `tee`; **credenciais no shell** (`.env`, `.ssh/`, `.aws/`,
   `.config/mcp-`, `.pem`, `.key` e `{{BUNDLE}}` em qualquer comando — a negação de leitura só vale para a ferramenta
   de leitura, e `cat` é liberado pela política `read-only-shell`); `cd` com `..`; e, nos que commitam,
   `git commit -n` (pula os ganchos como `--no-verify`) e `git pull --no-ff`/`--ff` (fariam merge da base).
+- **Limite: redireção.** O Kiro compara as regras só com o comando, sem o `> arquivo`: `git show … > <caminho>`
+  passa pelo `allow` de `git show*` e grava em qualquer lugar, inclusive em caminho negado na escrita (`.kiro/agents`,
+  `src/` do revisor) — confirmado na V2 e na V3, e um padrão `*>*` não tem efeito. Nenhuma regra de agente fecha isso:
+  a defesa é fora dele — branch base protegida no GitLab, revisão do PR por pessoa e o merge conferindo o ELM.
 - **Push:** negado no produto e no pesquisador. No orquestrador, no codificador, no revisor e no verificador, o
   bloco V3 tem `git push *` com `ask` (o Kiro pergunta sempre) e nega `-f`, `+ref`, `:ref`, `--mirror`, `--all`,
   `--prune` (e `--force`, `--delete`, como em todos); codificador, revisor, verificador e orquestrador negam também o push para a base (`{{BASE}}`

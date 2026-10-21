@@ -19,6 +19,10 @@ regras aprendidas).
 
 ## Passo 0 — Onde estou
 
+- **Fase:** `implementando`, `revisando`, `retrabalho (de: …)`, `aceita` (Passo 5) ou `pronta-para-merge` (Passo
+  6); outra fase ou sem `status.md` → "use `sdd-desenvolver`" e pare — a entrada do Dev é ela, nunca esta skill.
+  `implementando` sem a linha do GATE no Histórico (`plano aprovado por <login>`, `plano do Sênior` ou `Pleno
+  dispensou o GATE do plano`, gravada pela `sdd-plano` Passo 5) → o plano não passou pelo GATE: avise e pare.
 - Branch = a do `status.md` (senão avise e pare). `git status` limpo, **descontados** os relatórios que outros
   papéis gravaram na pasta da fatia (`revisao-*.md`, `analise-*.md`, `verificacao.md`, `CT.csv`, `evidencias/`,
   `massa/`) e o `status.md`/`tasks.md` com mudança só de fase, Rodadas, Histórico, Achados ou marcação de tarefa:

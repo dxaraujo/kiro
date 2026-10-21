@@ -1,16 +1,17 @@
 ---
 name: "elm-qm"
-description: "Query, search or list IBM ETM/RQM (QM) test artifacts through the `elm` MCP (read-only). Use when the user asks about caso de teste (CT, TC, test case), plano de teste (PT, test plan), suíte de teste (ST), script de teste (SCT), registro de execução (TER, execution record), resultado de teste (RT, resultado de execução), atributos/schema de artefato de teste, componentes, streams e baselines do QM; \"me mostre o caso de teste 123\", \"baixar ct 123\", \"pt 45\", \"casos de teste de <pessoa>\", \"planos de teste da PA\"."
+description: "Query, search or list IBM ETM/RQM (QM) test artifacts through the `elm` MCP, and create test cases (CT). Use when the user asks about caso de teste (CT, TC, test case), plano de teste (PT, test plan), suíte de teste (ST), script de teste (SCT), registro de execução (TER, execution record), resultado de teste (RT, resultado de execução), atributos/schema de artefato de teste, componentes, streams e baselines do QM; \"me mostre o caso de teste 123\", \"baixar ct 123\", \"pt 45\", \"casos de teste de <pessoa>\", \"planos de teste da PA\", \"criar o caso de teste do cenário\"."
 license: "MIT"
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "1.1.0"
+  version: "1.2.0"
 ---
 
 # elm-qm
 
 Guia das tools de teste (ETM/RQM/QM) do MCP `elm` (`mcp_elm/ibm/test.py`, nomes do IBM Engineering AI Hub).
-Não há tools de criação/edição de artefato de teste: só leitura. Links com requisitos e work items
+Escrita: só a criação de caso de teste (`create_testcase`), com confirmação (regra de escrita da skill **`elm`**);
+os demais tipos são só leitura. Links com requisitos e work items
 (`link_testartifact_and_requirement`, `link_workitem_and_testartifact`, `list_linked_*`) estão em **elm-gc**.
 
 Regras gerais do power (sem setup, formato das respostas, confirmação de escrita): skill **`elm`** — leia-a antes da
@@ -83,6 +84,7 @@ Recurso OSLC: `{url, id, title, types, properties: {qname: valor}, links: {qname
 | `search_testartifact(project_area_uuid, artifact_type, filters?, properties?, configuration?)` | `filters`: `{campo: valor}` (igualdade, combinados com "e"); `properties`: lista de campos a devolver | `[recurso]` (até 1000). Padrão: id, título, modificação, tipo |
 | `get_testartifact(project_area_uuid, artifact_type, id? \| url?, fetch_all=False, configuration?)` | um dos dois: id web ou URL | recurso. Sem `fetch_all`: título, `oslc:shortId`, responsável (`links.dcterms:contributor`), modificação. Com `fetch_all`: todos os campos e links |
 | `get_testartifact_schema(project_area_uuid, artifact_type)` | — | `{artifactType, shapes: [{url, title, describes, properties: [{name, title, predicate, required, value_type, allowed_values, default, ...}]}]}` (inclui atributos custom, categorias, estados, prioridades) |
+| `create_testcase(project_area_uuid, title, description?, validates_requirements?, configuration?)` | `description`: o cenário (dado · quando · então), texto; `validates_requirements`: URLs dos requisitos que o CT valida (link **valida** gravado na criação) | recurso do CT criado (`url`, `id` web) |
 | `get_qm_component(project_area_uuid, component_name?, component_uuid?)` | trecho do nome e/ou UUID | `[{url, id, title, ...}]` |
 | `get_qm_component_configuration(project_area_uuid, component_uuid?, configuration_name?, configuration_type?, configuration_uuid?)` | `configuration_type`: `Stream` ou `Baseline` | `[{url, title, types, component}]` |
 
@@ -100,6 +102,7 @@ categoria ou atributo custom, peça `properties` com o campo e filtre o resultad
 | Operação | Como |
 |---|---|
 | ler caso de teste | `get_testartifact(pa_qm, "TestCase", id=<n>)` (dá a URL para os links) |
+| criar caso de teste | prévia (título, cenário, requisitos validados) → "sim" → `create_testcase(pa_qm, título, cenário, validates_requirements=[URLs])`; devolve id e URL (o link **testado por** do work item é pela **elm-gc**) |
 
 ## Fluxos
 
@@ -120,3 +123,5 @@ categoria ou atributo custom, peça `properties` com o campo e filtre o resultad
 | `Project area _x não está no catálogo 'oslc' de /qm` | O projeto não usa QM (ou o usuário não tem acesso); informe e pare |
 | `HTTP 403` | Sem permissão no ETM; informe e pare (não tente outras áreas) |
 | `Campo desconhecido` | Use as chaves acima ou um qname |
+| `title vazio` | Informe o título do caso de teste |
+| `não tem creation factory para oslc_qm:TestCase` | A área do ETM não permite criar casos de teste por OSLC (ou o usuário não tem permissão); informe e pare |

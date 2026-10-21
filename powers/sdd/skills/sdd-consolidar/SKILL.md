@@ -21,9 +21,6 @@ sem ferramenta, merge local) → pergunte à pessoa se foi mergeado e confira pe
 <branch> -- <arquivos que a fatia mudou>` vazio (fora a pasta da fatia). Não mergeado → pare. Tudo aqui é gravado na **base**, pelo bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base)
 (confirmado o merge, a troca e o `pull --ff-only` vêm antes de qualquer passo).
 
-Trilha direta: só o *backlog* do Passo 2 e o Passo 4 — não há plano nem cenário para conferir (a ficha de três
-linhas foi julgada na revisão).
-
 ## Passo 1 — Drift
 
 Compare o entregue com a documentação:
@@ -83,7 +80,7 @@ reindexa só o que mudou).
   do `status.md` que a coluna `elm` ainda não tem; ADRs e glossário do Passo 3.
 - Fatia puxada (`Puxada para a sprint <nn>` no Histórico): `sprint` = <nn> na linha do `backlog.md` e uma linha na
   seção Fatias do `sprint-<nn>.md` (revisor e verificador do Histórico, Tarefa ELM com os ids do `status.md`), com
-  a Observação `puxada` — ela conta na vazão da sprint.
+  a Observação `puxada` (e `revisor único`, se o Histórico o tiver) — ela conta na vazão da sprint.
 - Todas as fatias do épico concluídas → épico `concluido` (PRD e backlog) e, com ELM, o item do épico no EWM
   concluído (`sdd-elm` modo *conclusão*, na mesma confirmação do Passo 2; sem o power → `ELM pendente
   [EP-<nn> concluir]` no rodapé do PRD).

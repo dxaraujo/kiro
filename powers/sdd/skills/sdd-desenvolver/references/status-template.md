@@ -4,16 +4,16 @@
 |---|---|
 | Fatia | FT-<nnn> · épico <EP-nn — título \| — (sem épico)> |
 | Origem | <PRD EP-nn \| ficha \| DF 4567 \| IB 611 \| pedido: …> |
-| Trilha | <padrão \| rápida \| direta> (como na coluna `trilha` do backlog) |
+| Trilha | <padrão \| rápida> (como na coluna `trilha` do backlog) |
 | Modo | <AFK \| HITL> (o da fatia no `backlog.md`; vale para todos os papéis) |
 | Cobre | <HF-01#1.1, HF-01#1.2, REG-01 \| —> |
 | Branch | `<branch>` |
-| Fase | pesquisando (direta: implementando) |
+| Fase | pesquisando |
 | Responsável | <login \| agente:sdd-orquestrador> |
 | Rodadas | revisão do plano 0 · revisão do código 0 · verificação 0 · retrabalho 0 |
 | PR | — |
 | Bloqueio | — (ou: `<motivo>` · pergunta: `<pergunta exata>` — junto com `Fase: bloqueada (de: <fase>)`) |
-| ELM | <IB <id> · [DEV] <id> · [REV] <id> · [VER] <id> (direta: só [DEV]) \| sem ELM \| pendente> |
+| ELM | <IB <id> · [DEV] <id> · [REV] <id> · [VER] <id> (AFK: só [DEV]) \| sem ELM \| pendente> |
 | Banco (DDL) | <não se aplica \| pendente \| aplicada em dev \| aplicada em prod> |
 
 <!-- Fases por modo:
@@ -25,7 +25,6 @@
      AFK   pesquisando → planejando → [plano-em-revisao: só fatia de épico] → implementando → revisando
            → verificando → aceita → pronta-para-merge (PR aberto; espera a aprovação de quem o lê)
            → mergeada (merge pelo Dev, [DEV] concluída) → concluida (consolidação)
-     Direta: implementando → pr-aberto → mergeada (PR aprovado; merge pelo Dev, [DEV] concluída) → concluida
      Entrega (todo papel do HITL): commit → push → conferir no remoto → só então concluir a tarefa e avisar.
      Desvio: `bloqueada (de: <fase>)`, com motivo e a pergunta exata; resolvido, a fatia volta à fase de origem.
      plano-em-revisao = o plano espera o GATE de uma pessoa; durante a análise independente a fase é planejando,

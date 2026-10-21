@@ -1,6 +1,6 @@
 ---
 name: sdd-triar
-description: "Entrada de todo trabalho novo no fluxo sdd — recebe um pedido em texto, um item do EWM (defeito, item de backlog) ou um lote de itens do EWM, procura duplicados e faz a triagem: épico (várias histórias ou decisão de produto em aberto), padrão (regra de negócio clara, ficha aprovada pelo P.O.), rápida (defeito ou ajuste ≤ 1 dia sem regra nova), direta (o diff cabe numa frase) ou atendimento (consulta ou extração sem mudar o repositório). Registra no backlog.md da base — épico EP-nn, fatia com ficha ou AT-nnn com a tarefa [ATD]; EWM com confirmação — e não começa nada: indica o hub sdd-iniciar e pergunta se há mais itens. Use em \"nova demanda\", \"chegou um pedido\", \"o cliente pediu\", \"nova funcionalidade\", \"registra o defeito 4567\", \"coloca no backlog\", \"triagem\", \"aprova a ficha da FT-040\", \"importar do EWM\", \"triar os defeitos do time\"."
+description: "Entrada de todo trabalho novo no fluxo sdd — recebe um pedido em texto, um item do EWM (defeito, item de backlog) ou um lote de itens do EWM, procura duplicados e faz a triagem: épico (várias histórias ou decisão de produto em aberto), padrão (regra de negócio clara, ficha aprovada pelo P.O.), rápida (defeito ou ajuste ≤ 1 dia sem regra nova, inclusive o que cabe numa frase) ou atendimento (consulta ou extração sem mudar o repositório). Registra no backlog.md da base — épico EP-nn, fatia com ficha ou AT-nnn com a tarefa [ATD]; EWM com confirmação — e não começa nada: indica o hub sdd-iniciar e pergunta se há mais itens. Use em \"nova demanda\", \"chegou um pedido\", \"o cliente pediu\", \"nova funcionalidade\", \"registra o defeito 4567\", \"coloca no backlog\", \"triagem\", \"aprova a ficha da FT-040\", \"importar do EWM\", \"triar os defeitos do time\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -54,20 +54,18 @@ parecidos, e a seção `## Atendimentos`), no `**Origem:**` dos `<produto>/atend
 |---|---|---|
 | **épico** | funcionalidade nova com várias histórias ou fatias, mais de ~3 dias, mais de um objetivo, ou decisão de produto em aberto | `EP-nn` em `rascunho` → depois `sdd-prd` → `sdd-fatiar` |
 | **padrão** | uma fatia (≤ G) que cria ou muda regra de negócio **clara** — o P.O. decide aqui —, sem decisão de produto em aberto | fatia sem épico, com **ficha** (regras, cenários, decisões) aprovada pelo P.O. |
-| **rápida** | defeito ou ajuste ≤ 1 dia **sem** regra nova (o comportamento certo já está documentado ou é óbvio) | fatia sem épico, com ficha de **comportamento** (atual · esperado · não muda) e como verificar |
-| **direta** | o diff cabe numa frase (texto, configuração, ajuste trivial), sem regra nova e sem risco de dado | fatia sem épico, tamanho `P`, ficha de três linhas (pronto quando · como verificar · não muda) — também planejada: a `[DEV]` dela é onde as horas são lançadas |
+| **rápida** | defeito ou ajuste ≤ 1 dia **sem** regra nova (o comportamento certo já está documentado ou é óbvio) — inclusive o diff que cabe numa frase (texto, configuração, ajuste trivial) | fatia sem épico, com ficha de **comportamento** (atual · esperado · não muda) e como verificar |
 | **atendimento** | o cliente pede consulta, extração, explicação ou conferência; nada muda no repositório | `AT-nnn` na seção `## Atendimentos`, com o registro, a sprint sugerida e a `[ATD]` (a triagem registra; quem executa é a **`sdd-atender`**) |
 
 - Fatia de um épico não passa de novo por aqui: o épico foi triado na entrada e as fatias dele vêm da `sdd-fatiar`.
-- Diga a trilha e o motivo numa linha; dúvida entre duas → sim/não pela mais leve. Padrão que precisaria de mais de
+- Diga a trilha e o motivo numa linha; dúvida entre duas → sim/não pela mais leve (rápida, depois padrão, depois épico). Padrão que precisaria de mais de
   ~3 cenários de comportamentos diferentes, ou de mais de uma regra nova independente → é épico.
 - **Padrão:** rodadas da `sdd-entrevistar` até as regras e os cenários fecharem, gravando na seção Decisões da
   ficha (ela nasce aqui, com o próximo `FT-nnn` de "Próximos ids"); regra nova ou alterada → **`sdd-elm` modo *similares*** (só leitura) antes de escrevê-la; no fim, o P.O.
   aprova a ficha. Sem a aprovação, a fatia fica `backlog` com `falta: aprovação do P.O.`.
-- **Rápida e direta:** **uma** rodada no formato da `sdd-entrevistar` (numerada, cada pergunta com a recomendação,
-  "sim" aceita todas) para o que a ficha da trilha pede e a origem não traz — rápida: atual com evidência, esperado
-  com fonte, o que não muda, como verificar; direta: pronto quando, como verificar, não muda (uma linha cada; não
-  coube → não é direta, triagem de novo como rápida).
+- **Rápida:** **uma** rodada no formato da `sdd-entrevistar` (numerada, cada pergunta com a recomendação,
+  "sim" aceita todas) para o que a ficha pede e a origem não traz: atual com evidência, esperado com fonte, o que
+  não muda, como verificar.
 - Fatos o agente busca (código, bundle do ELM pelo `okf`, banco só leitura); decisões são da pessoa.
 - **Não fazer** (já entregue, fora do produto, recusado pelo P.O.) → nada no backlog; item do EWM → ofereça um
   comentário `sdd: não fazer — <motivo>` (`elm-ccm` › comentar, com "sim"), que o tira dos próximos lotes;
@@ -96,20 +94,20 @@ no mesmo commit.
   A pasta só é criada aqui; o `sdd-prd` completa com `prd.md`, `elm/` e os demais artefatos.
   Inclua o caminho relativo da pasta na coluna `pasta` do `backlog.md` (nova coluna após `prd`):
   `[pasta](epicos/<EP>-<slug>/)` ou `—` se não criada.
-- **Fatia sem épico** (padrão, rápida, direta): próximo `FT-nnn`; linha em `## Fatias — sem épico` com:
+- **Fatia sem épico** (padrão, rápida): próximo `FT-nnn`; linha em `## Fatias — sem épico` com:
   - `trilha`; `origem` (`DF 4567`, `IB 611`, `AT-012`, `pedido: <resumo>`); `ficha`
     (`[ficha](fatias/FT-<nnn>-<slug>.md)`, sempre);
-  - `tamanho` (padrão `P`/`M`/`G`; rápida `P`/`M`; direta `P`); `modo` — padrão e rápida: `AFK` quando o esperado
-    e o teste são claros e não há dado sensível, senão `HITL`; direta: `—` (é feita na sessão da pessoa, sem loop
-    nem `[REV]`/`[VER]`); prioridade, `sprint` e `responsavel` `—`;
+  - `tamanho` (padrão `P`/`M`/`G`; rápida `P`/`M`); `modo` proposto — `AFK` quando o esperado e o teste são claros
+    e não há dado sensível, senão `HITL` (a fatia ainda não tem responsável: o modo final é gravado pela
+    `sdd-planejamento` quando ela ganha um, pela senioridade de quem implementa — Júnior → `HITL` · Pleno → estes
+    critérios · Sênior → `AFK` por padrão); prioridade, `sprint` e `responsavel` `—`;
   - `status` `pronta` se passa na Definition of Ready da trilha (formato do backlog — a ficha da trilha completa),
     senão `backlog` com `obs` `falta: <o quê>`.
   - **Ficha** (`<produto>/fatias/FT-<nnn>-<slug>.md`, formato da trilha em [references/ficha.md](references/ficha.md);
     crie a pasta se não existir): sempre.
   - EWM (com ELM): item de origem no EWM → nada a criar (ele será o pai das tarefas). Padrão ou rápida sem item de
     origem → nada agora: o IB `[FT-nnn]` (sob o épico de Sustentação) nasce quando a fatia entra na sprint (o
-    planejamento cria). Direta: sem IB (a `[DEV]` nasce no
-    planejamento ou no encaixe).
+    planejamento cria).
 - **Atendimento:**
   - **Entrevista curta:** `sdd-entrevistar` modo *atendimento* (uma rodada: o que o cliente precisa receber,
     origem, prazo, quem atende, critério de pronto). Regra de negócio em aberto → não é atendimento: volte ao
@@ -146,7 +144,7 @@ da ficha) e, se o item já foi criado no EWM, troque o `[FT-nnn]`/`[EP-nn]` do t
 ## Passo 4 — Encaminhar
 
 ```
-📥 <FT-nnn | EP-nn | AT-nnn> — <título> · trilha <…> · <pronta | backlog: falta … | aberto na sprint <nn>> · modo <AFK | HITL | —>
+📥 <FT-nnn | EP-nn | AT-nnn> — <título> · trilha <…> · <pronta | backlog: falta … | aberto na sprint <nn>> · modo <AFK | HITL>
 Origem: <DF 4567 | IB 611 | chamado | pedido> · Ficha: <caminho | —> · EWM: <id | criado <id> | pendente | sem ELM>
 Registrado. Para começar: use `sdd-iniciar <id>` (o hub encaminha para a skill do papel; fatia, épico e AT
 precisam estar na sprint). AT fora da reserva → use `sdd-planejamento` (Encaixe) antes.
@@ -186,7 +184,7 @@ importação precisa do power `elm` e pare.
    "sim" registra tudo · ou ajuste por linha (ex.: "DF 4570: não fazer")
    ```
 4. Com "sim": o Passo 3 para cada linha, com um commit para o lote e o EWM numa confirmação só (`sdd-elm`). Padrão
-   no lote → ficha em `rascunho` só com o Pedido e `falta: regras, cenários e aprovação do P.O.`; rápida e direta
+   no lote → ficha em `rascunho` só com o Pedido e `falta: regras, cenários e aprovação do P.O.`; rápida
    sem o que a ficha da trilha pede → `backlog` com `falta: <o quê>` (a entrevista é uma a uma, depois). Atendimento no lote → registrado como no Passo 3, sem a entrevista curta (o item é o pedido;
    prazo e critério de pronto ficam `—`), com a sprint e o responsável da tabela e a `[ATD]` na mesma confirmação.
 5. Saída: a tabela com os ids criados e o que ficou pendente — e **"Mais algum item para triar?"** (Passo 4).

@@ -168,14 +168,13 @@ O merge é do Dev responsável, depois da aprovação do PR (Passo 6). Depois do
 Quando o Dev responsável retoma a fatia em `pronta-para-merge` (a `sdd-desenvolver` encaminha para cá):
 - **HITL:** revisão `APROVADO` e verificação `ACEITO` registradas (é o que leva a fatia a `pronta-para-merge`);
 - **AFK:** o PR foi aprovado por quem o lê — a pessoa diz quem; sem a aprovação → avise que o PR espera leitura e
-  pare;
-- **trilha direta:** em `pr-aberto`, com o PR aprovado por quem o leu, como no AFK.
+  pare.
 
 1. **Leia o PR:** `gitlab_obter_mr` pelo `iid` do link no `status.md`. Tem de estar aberto, sem WIP/Draft e sem
    conflito. `merged` → vá ao item 5; `closed`, WIP ou conflito → avise e pare (conflito: atualize a branch pelo
    item 1 do Passo 5, e a mudança passa de novo pela revisão).
 2. **Commit aprovado:** o `sha` do PR = `git rev-parse origin/<branch>` e é o commit que foi aprovado — HITL: o da
-   entrega da verificação (`git log -1 --format=%s <sha>` = `FT-<nnn> verificação: ACEITO`); AFK e direta: o que
+   entrega da verificação (`git log -1 --format=%s <sha>` = `FT-<nnn> verificação: ACEITO`); AFK: o que
    quem aprovou leu (mostre o `sha` curto e o último commit, e confirme). Commit depois da aprovação → não mergeie:
    a mudança volta à revisão.
 3. **Resumo e confirmação:**
@@ -190,26 +189,12 @@ Quando o Dev responsável retoma a fatia em `pronta-para-merge` (a `sdd-desenvol
 5. **Confira:** `gitlab_obter_mr(iid)` (ou `gitlab_listar_mrs(origem=<branch>, estado=merged)`) com estado `merged`
    — inclusive no merge pela UI. Sem o MCP → `git fetch` e `git diff origin/<base> origin/<branch> -- <arquivos que
    a fatia mudou>` vazio. Não mergeado → pare.
-6. `status.md` (na branch da fatia): `fase: mergeada`; no Histórico, `merge do PR <link> por <login>` (AFK e
-   direta: antes, `PR aprovado por <login>`). Commit, push e conferência como nos itens 1–3 do Passo 5.
+6. `status.md` (na branch da fatia): `fase: mergeada`; no Histórico, `merge do PR <link> por <login>` (AFK: antes,
+   `PR aprovado por <login>`). Commit, push e conferência como nos itens 1–3 do Passo 5.
 7. **Conclusão da `[DEV]`:** mostre as horas já lançadas (`elm-ccm` › horas lançadas) e pergunte só o saldo →
    `sdd-elm` modo *horas* e modo *conclusão* da `[DEV]`, numa confirmação. Sem o power `elm` → `ELM pendente
    [<chave>]: lançar <h>h e concluir [DEV] FT-<nnn>` no Histórico (commit e push).
 8. **Avise o P.O.** de que a fatia está pronta para a consolidação (**`sdd-consolidar`**, na sessão padrão).
-
-## Trilha direta
-
-Sem spec nem `tasks.md` — a pasta da fatia tem só o `status.md`; o critério é a **ficha** de três linhas
-(`<produto>/fatias/FT-<nnn>-<slug>.md`: pronto quando · como verificar · não muda):
-1. Teste que falha, quando há comportamento (texto e configuração pura não têm); 2. a mudança; 3. backpressure;
-4. revisão pela **`sdd-revisar`** (rubrica C sobre o diff, com a ficha no lugar dos critérios: "pronto quando"
-cumprido, "não muda" preservado; relatório na conversa); 5. **como verificar**: execute o que a ficha diz e guarde
-a evidência (saída, log, print) para o PR; 6. PR curto: `FT-<nnn> — <título> (<id do item | —>)` · `O quê` ·
-`Pronto quando` · `Evidência` (do item 5) · `Backpressure` · `Revisão: APROVADO` · `Como ler`, aberto como no
-Passo 5, item 3 (entrega: commit → push → conferir → PR → conferir), com `fase: pr-aberto` e o link do PR — sem
-PR aberto (push "não" ou sem o MCP) → `PR: texto entregue` e a mesma fase; 7. horas da sessão na `[DEV]`, que
-fica em andamento; 8. PR aprovado por quem o leu → **merge pelo Dev** (Passo 6), com a conclusão da `[DEV]`. Se no caminho aparecer regra de
-negócio ou mais de um comportamento → pare: devolva à `sdd-triar` (é trilha rápida ou padrão).
 
 ## Modo autônomo
 

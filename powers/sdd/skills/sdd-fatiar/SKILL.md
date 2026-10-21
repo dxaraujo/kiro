@@ -43,6 +43,10 @@ agente sem pessoa na conversa) → "PRD, backlog e atendimento nunca são AFK �
     a implementação.
   - Tipo de trabalho novo no projeto começa `HITL`; vira `AFK` depois que fatias parecidas chegaram ao PR sem
     correção humana (a `sdd-aprender` mostra isso na retrospectiva).
+  - O modo do fatiamento é uma **proposta** para a fatia, que ainda não tem responsável. O modo final é gravado
+    quando ela ganha responsável (seleção da sprint ou encaixe, na `sdd-planejamento`), pela senioridade de quem
+    implementa: Júnior → sempre `HITL`; Pleno → estes critérios; Sênior → `AFK` por padrão (`HITL` só com motivo
+    forte, registrado).
 
 ## Passo 1 — Rascunho
 

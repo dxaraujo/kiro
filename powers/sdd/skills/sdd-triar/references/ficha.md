@@ -10,7 +10,6 @@ sempre preenchida e a Definition of Ready confere o arquivo. O conteúdo muda co
 | padrão sem épico | Pedido · Regras · Cenários de aceite · Decisões · Fora de escopo (formato abaixo) | os cenários `C<n>` da própria ficha |
 | padrão de épico | Objetivo · Cobre (links para os cenários do PRD, sem copiar) · Como verificar | o PRD (`cobre`) |
 | rápida | Comportamento (atual com evidência · esperado com fonte · o que não muda) · Como verificar | a ficha — é o que o `bugfix.md` detalha |
-| direta | Pronto quando · Como verificar · Não muda — **uma linha cada** | a ficha; não cabe em uma linha → não é direta |
 
 Atendimento não tem ficha (tem o `AT-<nnn>-<slug>.md`).
 
@@ -83,18 +82,6 @@ Então o desconto aplicado é de R$ 50,00
 <chamada, teste ou execução que mostra o esperado>
 ```
 
-## Formato — direta
-
-```markdown
-# FT-045 · Usar placeholder no log de inicialização da conexão
-
-**Trilha:** direta · **Origem:** pedido · **Tamanho:** P
-
-- **Pronto quando:** o log de inicialização usa `{}` no lugar da concatenação
-- **Como verificar:** subir a aplicação e ler a linha do log de inicialização
-- **Não muda:** o texto e o nível da mensagem
-```
-
 ## Regras de escrita
 
 - **Situação** (padrão sem épico): `rascunho` ou `aprovada por <login do P.O.> em <data>`. Regra nova ou alterada só vale aprovada;
@@ -105,9 +92,8 @@ Então o desconto aplicado é de R$ 50,00
 - **Regras:** uma por linha, com valores e a fonte (`D-nn` ou id do ELM). Antes de escrever uma regra nova ou
   alterada, a `sdd-elm` modo *similares* (só leitura); "No ELM" = `reusa <id>` · `altera <id>` ·
   `novo (verificado <data>)`. A regra vai para o DOORS Next na consolidação, as-built (`sdd-consolidar`).
-- **Rápida e direta:** sem Regras nem Cenários — o que está no formato delas. A direta é perguntada numa rodada
-  (cada linha com a recomendação, "sim" aceita) e não precisa de aprovação do P.O.; a rápida, só se a fonte do
-  esperado é uma decisão nova (aí é `D-nn` aprovada).
+- **Rápida:** sem Regras nem Cenários — o que está no formato dela. Aprovação do P.O. só se a fonte do esperado é
+  uma decisão nova (aí é `D-nn` aprovada).
 - **Padrão de épico:** nada de regra ou cenário copiado do PRD — só os links; o PRD continua a fonte.
 - **Decisões** no formato do `decisoes.md` da `sdd-entrevistar`, aqui dentro (a ficha não tem pasta).
 - Termos do glossário em todo o texto; termo novo vai para o glossário (a triagem roda na base).

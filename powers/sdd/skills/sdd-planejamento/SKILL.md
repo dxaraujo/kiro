@@ -35,21 +35,24 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
 1. **Equipe** (`equipe.json` ou `equipe.md` existe → mostre e pergunte só o que mudou): nome do projeto, data de
    início da sprint 1 (Kanban: a da primeira revisão de backlog), pessoas (todas `ativo: true`; quem sai fica
    `false`, nunca é apagado), papéis (um ou mais por
-   pessoa: `P.O.`, `Especificador`, `Dev`, `QA`, `SM`; exatamente um P.O. ativo), login do ELM (de `members` do `pa_*.json`, se houver), horas por
+   pessoa: `P.O.`, `Especificador`, `Dev`, `QA`, `SM`; exatamente um P.O. ativo), **senioridade** de quem é Dev
+   (`Júnior`, `Pleno` ou `Sênior` — decide o modo das fatias da pessoa e quem revisa PR: [Modo pela
+   senioridade](#modo-pela-senioridade); arquivo existente com Dev sem ela → pergunte só isso, para cada um; nenhum Dev
+   Sênior ativo → avise: nenhum PR teria quem o revise), login do ELM (de `members` do `pa_*.json`, se houver), horas por
    semana, ausências. Pergunte também, por pessoa, quantas horas por semana vão para **revisar** (planos, PRs) e
    **verificar** — somadas em `horas-revisao-semana` —, para **especificar** (entrevista, PRD, fatiamento:
    `horas-especificacao-semana`; P.O. e Especificador) e quem **atende** demandas (`atende`). Grave no formato
    detectado — **só depois dos acordos (passo 2)**, que dão `cadencia` e `duracao-sprint-semanas` (antes deles o JSON não valida; Kanban → `duracao-sprint-semanas` = a cadência da revisão de
    backlog, padrão 1), com `atualizado` = hoje, `historico: []` e `ausencias: []` em quem não tem; confirme que há
    **exatamente um** P.O. ativo — (`equipe.json` → validado contra `assets/equipe.schema.json`; `equipe.md` → valide só pela presença
-   das colunas obrigatórias: Login, Papéis, Horas/semana). Se nenhum arquivo existir ainda, prefira `equipe.json`
+   das colunas obrigatórias: Login, Papéis, Horas/semana e, para Dev, Senioridade). Se nenhum arquivo existir ainda, prefira `equipe.json`
    (padrão com validação de schema); só use `equipe.md` se o time preferir edição direta em Markdown.
 
    **equipe.md** (formato Markdown, alternativo): o formato é o de
    [assets/equipe-template.md](assets/equipe-template.md) (cabeçalho com cadência, duração, início e pontos; tabelas
    Pessoas — com `Ativo` —, Ausências e Histórico), que mapeia 1:1 para os campos do schema. Não valide contra
    `equipe.schema.json` neste caso — valide pela presença das colunas obrigatórias (Login, Nome, Papéis,
-   Horas/semana).
+   Horas/semana e, para Dev, Senioridade).
 2. **Acordos** (`acordos.md`) — proponha e ajuste:
    - cadência: **Scrum** (sprints de N semanas, cerimônias, iteração no EWM) ou **Kanban** (fluxo contínuo,
      revisão de backlog semanal); padrão: sprints de 2 semanas com fluxo puxado dentro da sprint;
@@ -66,6 +69,10 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
 
 ## Modo sprint — planejar a próxima
 
+0. **Senioridade:** Dev ativo sem `senioridade` no `equipe.json` (ou na coluna do `equipe.md`) → pergunte só isso,
+   para cada um, e grave antes de seguir. Nenhum **Dev Sênior** ativo → avise antes de planejar: nenhum PR teria quem
+   o revise (a `[REV]` é sempre de um Dev Sênior); o time decide se alguém passa a Sênior ou se a sprint segue assim,
+   com as fatias HITL paradas em `pr-aberto`.
 1. **Capacidade**, da `equipe.json` (horas da sprint menos ausências):
    - **revisão humana** (horas de revisão e verificação) — o limite principal;
    - **HITL**: fatias HITL consomem horas de dev acompanhando;
@@ -83,13 +90,13 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
    proponha a posição deles), um `[ESP]` por épico, com responsável e horas previstas dentro da capacidade de
    especificação.
 3. **Previsão** (não compromisso): confira a Definition of Ready das fatias do topo e grave `pronta` nas que passam (ou `backlog`
-   nas que deixaram de passar). Entram as `pronta` — de épico e sem épico, inclusive as diretas (toda hora tem
-   tarefa) —, respeitando `bloqueada-por` — a fatia só entra se as
+   nas que deixaram de passar). Entram as `pronta` — de épico e sem épico —, respeitando `bloqueada-por` — a fatia só entra se as
    dependências entram antes ou já estão concluídas. Pare ao atingir a menor das capacidades. Fatia não `pronta` no
-   topo → aponte o que falta (decisão, PRD, fatiar) antes de pular para a próxima. Cada fatia **HITL** ganha **revisor**
-   e **verificador** (não quem implementa), e a soma das revisões e verificações cabe nas horas de revisão de cada
-   um; fatia **AFK** não tem (revisão e verificação por subagente, sem `[REV]`/`[VER]`) — a revisão humana dela é a
-   leitura do PR.
+   topo → aponte o que falta (decisão, PRD, fatiar) antes de pular para a próxima. Cada fatia ganha **responsável**,
+   e o modo final sai da senioridade dele ([Modo pela senioridade](#modo-pela-senioridade)). Cada fatia **HITL** ganha
+   **revisor** — um **Dev Sênior**, pela [regra do revisor](#modo-pela-senioridade) — e **verificador** (não quem
+   implementa), e a soma das revisões e verificações cabe nas horas de revisão de cada um; fatia **AFK** não tem
+   (revisão e verificação por subagente, sem `[REV]`/`[VER]`) — a revisão humana dela é a leitura do PR.
 4. **Meta da sprint:** uma frase de resultado de negócio que as fatias entregam juntas.
 5. **Iteração:** pergunte a iteração do EWM da sprint (de `iterations` do `pa_*.json`; não está lá → a `sdd-elm` procura no EWM antes de propor criar); é o `plannedFor` de
    todos os IBs e tarefas desta sprint.
@@ -104,10 +111,29 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
    Capacidade: revisão <h>h (usa <x>h) · especificação <h>h (usa <x>h) · vazão prevista <n> fatias · lead time médio <d> dias · HITL <h>h
    Próximas a puxar (fora da previsão, na ordem): <FT…>
    ```
-7. "ok" → grave `sprints/sprint-<nn>.md`, `sprint`, `responsavel` e `status` no `backlog.md` pelo bloco
+7. "ok" → grave `sprints/sprint-<nn>.md`, `sprint`, `responsavel`, `status` e o `modo` final no `backlog.md` pelo bloco
    [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base) e **chame sempre a `sdd-elm` modo *sprint*** (planos, IBs e tarefas `[DEV]` `[REV]`
    `[VER]` `[ESP]` na iteração escolhida), para a sprint e o EWM ficarem iguais. Sem o power `elm` ou com falha, a
    coluna "Tarefa ELM" fica `pendente` e a `sdd-elm` publica depois.
+
+## Modo pela senioridade
+
+O `modo` que a triagem ou o fatiamento gravaram é a proposta para a **fatia** (critérios da `sdd-fatiar`). O modo
+final sai quando a fatia ganha responsável — na seleção da sprint ou no encaixe —, pela `senioridade` de quem
+implementa no `equipe.json`:
+
+| Senioridade | Modo da fatia |
+|---|---|
+| `Júnior` | sempre `HITL` |
+| `Pleno` | o sdd aplica os critérios da `sdd-fatiar` (inclusive "tipo de trabalho novo começa `HITL`") e propõe; a pessoa confirma |
+| `Sênior` | `AFK` por padrão; `HITL` só com motivo forte da fatia — decisão de produto ou de UX no caminho, dado sensível, risco alto (diga qual) |
+
+Modo final diferente do backlog → grave-o com `obs` `modo pela senioridade (<login>)`; o `HITL` do Sênior leva o
+motivo: `modo pela senioridade (<login>): HITL — <motivo>`.
+
+**Revisor** (fatia HITL): a `[REV]` é sempre de um **Dev Sênior** ativo — o Sênior revisa os PRs do Pleno e do
+Júnior. PR de um Sênior → outro Sênior; se ele for o **único** Sênior ativo, ele mesmo, com `revisor único` na
+Observação da linha da fatia no `sprint-<nn>.md`. Conte essas revisões nas horas de revisão dos Sêniores.
 
 ## Durante a sprint
 
@@ -117,15 +143,16 @@ Atendimento que estoura a reserva → mostre ao P.O. e ele decide qual fatia sai
 fatia sozinho.
 
 **Encaixe** — só quando puxar não basta: a fatia `pronta` que alguém quer começar **não é a do topo** (fura a
-fila) ou o **WIP de revisão está no limite** (de qualquer trilha, inclusive a direta); a `sdd-desenvolver` manda para cá. Atendimento triado quando a reserva estourou é o mesmo encaixe (a
+fila) ou o **WIP de revisão está no limite** (de qualquer trilha); a `sdd-desenvolver` manda para cá. Atendimento triado quando a reserva estourou é o mesmo encaixe (a
 `sdd-triar` manda para cá): a decisão do P.O. vai na linha do AT no `sprint-<nn>.md`. Mostre ao P.O. a fatia (trilha, tamanho, modo, origem), o que sobra da
 capacidade (revisão, vazão, HITL) e as opções, com a recomendada:
 - **entra na folga** — cabe sem tirar nada;
 - **entra no lugar de** `FT-…` — uma ainda não iniciada, que volta para `sprint` `—`;
 - **fica para a próxima sprint**.
 
-Com a decisão do P.O. (ou de quem ele delegou): `sprint` e `responsavel` no `backlog.md` (e, na fatia HITL, revisor e
-verificador, que não sejam quem implementa — as `[REV]`/`[VER]` precisam deles), uma linha no
+Com a decisão do P.O. (ou de quem ele delegou): `sprint`, `responsavel` e o modo final pela
+[senioridade](#modo-pela-senioridade) no `backlog.md` (e, na fatia HITL, revisor — Dev Sênior, pela [regra do
+revisor](#modo-pela-senioridade) — e verificador, que não seja quem implementa — as `[REV]`/`[VER]` precisam deles), uma linha no
 `sprint-<nn>.md` com a Observação `encaixe: <decisão> (<quem decidiu>, <data>)`, pelo bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base), e a `sdd-elm` modo
 *sprint* para as tarefas da fatia (AT: modo *atendimento*, Registrar). Na troca, as tarefas da fatia que sai vão
 para a próxima iteração (`sdd-elm`, só o `plannedFor`). Depois, volte à `sdd-desenvolver` (Passo 3, item 4). Sem

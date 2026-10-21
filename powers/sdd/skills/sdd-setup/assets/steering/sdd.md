@@ -28,6 +28,9 @@ Começar um item registrado: hub `sdd-iniciar` (diz a skill do papel: `sdd-espec
   o versionado guarda consulta, contagem, caminho e resumo sem identificar pessoas.
 - Sprint é cadência (meta, review, retro), não contêiner de escopo: o compromisso é a meta; dentro dela, fluxo
   puxado — a `pronta` do topo entra quando o WIP de revisão tem folga. Previsão pela vazão, sem pontos.
+- **Modo pela senioridade** de quem implementa (`equipe.json`): Júnior → sempre HITL; Pleno → os critérios da fatia;
+  Sênior → AFK por padrão (HITL só com motivo forte, registrado). Só Pleno ou Sênior dispara o `sdd-loop`. A `[REV]`
+  é sempre de um **Dev Sênior** (PR de um Sênior: outro Sênior; único Sênior ativo → ele mesmo, `revisor único`).
 - Toda hora tem tarefa (`[ESP]` `[DEV]` `[REV]` `[VER]` `[ATD]`; no AFK, só a `[DEV]`). Lançar horas é registro de
   empenho, a qualquer momento na tarefa iniciada; concluir é da skill do papel, com o saldo: `[DEV]` no merge, `[REV]`
   ao aprovar (depois do push), `[VER]` ao aceitar (depois do push), `[ESP]` no GATE do backlog, `[ATD]` ao finalizar.

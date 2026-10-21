@@ -49,13 +49,13 @@ linha da tabela — sem quebra de linha nem `|` dentro de célula (troque por `/
 | épico `status` | `rascunho` · `em-revisao` · `aprovado` · `fatiado` · `concluido` · `cancelado` (o mesmo do frontmatter do PRD; publicação no ELM fica no `elm` do PRD, não no status) · `rascunho` com `prd` `—` = registrado pela `sdd-triar`, PRD ainda não escrito ("a descobrir" no roadmap) |
 | épico `po` | login do P.O. do épico (padrão: o P.O. ativo do `equipe.json`); é o responsável do épico no EWM e quem aprova o PRD; backlog antigo sem a coluna → a próxima escrita a acrescenta com o P.O. ativo |
 | épico `pasta` | `[pasta](epicos/<EP>-<slug>/)` (criada pela `sdd-triar`) ou `—`; backlog antigo sem a coluna → a próxima escrita a acrescenta |
-| `trilha` | só nas fatias sem épico: `padrão` · `rápida` · `direta` (fatia de épico é sempre padrão) |
+| `trilha` | só nas fatias sem épico: `padrão` · `rápida` (fatia de épico é sempre padrão) |
 | fatia `origem` | só nas fatias sem épico: o item ou o pedido que a originou — `DF 4567`, `IB 611`, `AT-012`, `pedido: <resumo>` |
 | `ficha` | toda fatia: `[ficha](fatias/FT-<nnn>-<slug>.md)` — formato por trilha na `sdd-triar`, `references/ficha.md` (sem épico: escrita pela `sdd-triar`; de épico: pela `sdd-fatiar`). Backlog antigo com `—` ou sem a coluna → a fatia fica `backlog` com `falta: ficha` até alguém escrevê-la |
 | `cobre` | `HF-nn#c.c` (cenário) e `REG-nn` do PRD do épico; não existe nas fatias sem épico (os cenários da padrão ficam na ficha, `C<n>`) |
 | fatia `obs` | texto livre; convenções: `falta: <…>` (o que impede a Definition of Ready), `substituida-por FT-…`, o motivo do cancelamento |
 | `tamanho` | `P` · `M` · `G` |
-| `modo` | `AFK` · `HITL` (padrão e rápida) · `—` (direta: feita na sessão da pessoa) |
+| `modo` | `AFK` · `HITL` — proposto na triagem ou no fatiamento (critérios da `sdd-fatiar`); o modo final é gravado pela `sdd-planejamento` quando a fatia ganha responsável, pela senioridade dele (Júnior → `HITL` · Pleno → os critérios · Sênior → `AFK` por padrão) |
 | fatia `status` | `backlog` → `pronta` (passou na Definition of Ready) → `concluida`; desvios `dividida` (`obs`: `substituida-por FT-…`), `cancelada` (`obs`: motivo). "Em andamento" não é gravado: é a fatia que tem `status.md` numa branch |
 | `sprint` | número da sprint (`sdd-planejamento`) ou `—`; no Kanban, `—` |
 | `elm` | `—`, `pendente` (registrado sem o power `elm`; a `sdd-elm` cria depois) ou `[<id>](<url>)`; tarefas do EWM em seguida, `<prefixo> [<id>](<url>)`, separadas por ` · ` (gravado pela `sdd-elm`) |
@@ -75,8 +75,8 @@ linha da tabela — sem quebra de linha nem `|` dentro de célula (troque por `/
 | épico `concluido` (última fatia concluída) | `sdd-consolidar` |
 | épico `cancelado` | o P.O., pela `sdd-fatiar` (refinamento) |
 | fatias criadas, divididas, juntadas, canceladas, fichas das fatias de épico · `pronta` (DoR conferida) | `sdd-fatiar` |
-| `sprint`, `responsavel`, prioridade · `pronta` (DoR conferida de novo no planejamento) · encaixe durante a sprint | `sdd-planejamento` |
-| fatia sem épico (padrão, rápida, direta), ficha e `falta:` em `obs` | `sdd-triar` (na base) |
+| `sprint`, `responsavel`, `modo` final (pela senioridade), prioridade · `pronta` (DoR conferida de novo no planejamento) · encaixe durante a sprint | `sdd-planejamento` |
+| fatia sem épico (padrão, rápida), ficha e `falta:` em `obs` | `sdd-triar` (na base) |
 | atendimento registrado (`AT-nnn`, `backlog`/`aberto`, `sprint`, `responsavel`, registro) | `sdd-triar` (na base) |
 | atendimento `concluido`, `concluida-em` | `sdd-atender` (na base) |
 | `concluida`, `concluida-em` | `sdd-consolidar` (depois do merge, na base) |
@@ -93,8 +93,7 @@ A única do fluxo — triagem, fatiamento, planejamento e `sdd-desenvolver` conf
 | padrão de épico | ficha com Objetivo, Cobre e Como verificar; cenários de aceite em `cobre` num PRD `aprovado`/`fatiado`; `bloqueada-por` concluídas, ou planejadas na mesma sprint antes dela (ela só **começa** quando o que precisa está na base) |
 | padrão sem épico | ficha `aprovada por` o P.O., com cenários `C<n>` |
 | rápida | ficha com o atual (com evidência), o esperado (com fonte), o que não muda e como verificar; sem regra nova; tamanho ≤ M |
-| direta | ficha com pronto quando, como verificar e não muda — uma linha cada; sem regra nova; tamanho P |
-| todas | a ficha existe no caminho da coluna `ficha`; nenhuma decisão bloqueante `em aberto` (`decisoes.md` ou ficha); tamanho ≤ G; modo declarado (AFK/HITL; direta `—`); cabe numa janela de contexto |
+| todas | a ficha existe no caminho da coluna `ficha`; nenhuma decisão bloqueante `em aberto` (`decisoes.md` ou ficha); tamanho ≤ G; modo declarado (AFK/HITL); cabe numa janela de contexto |
 
 Deixou de valer (PRD reaberto, decisão nova em aberto) → volta a `backlog`.
 

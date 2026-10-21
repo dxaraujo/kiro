@@ -1,6 +1,6 @@
 ---
 name: sdd
-description: "Guia do fluxo sdd — engenharia agêntica orientada a especificação, com o IBM ELM como fonte oficial da documentação e planejamento ágil: trilhas por tamanho (direta, rápida, padrão, épico) e de atendimento, fases, gates humanos, artefatos e onde moram, agentes, princípios e qual skill usar para cada pedido. Use para entender ou explicar o fluxo, decidir o próximo passo quando nenhuma outra skill sdd se encaixa, e em \"como funciona o sdd\", \"qual o fluxo\", \"o que eu faço agora com isso\", \"sdd\"."
+description: "Guia do fluxo sdd — engenharia agêntica orientada a especificação, com o IBM ELM como fonte oficial da documentação e planejamento ágil: trilhas por tamanho (rápida, padrão, épico) e de atendimento, fases, gates humanos, artefatos e onde moram, agentes, princípios e qual skill usar para cada pedido. Use para entender ou explicar o fluxo, decidir o próximo passo quando nenhuma outra skill sdd se encaixa, e em \"como funciona o sdd\", \"qual o fluxo\", \"o que eu faço agora com isso\", \"sdd\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -28,14 +28,13 @@ chamada direto:
 |---|---|---|
 | Especificador | `[ESP]` | `sdd-especificar` (entrevista → PRD → fatias) |
 | Dev | `[DEV]` | `sdd-desenvolver` (compromisso, branch) → pesquisar → plano → implementar → PR → merge (a fatia é dele de ponta a ponta) |
-| Revisor | `[REV]` | `sdd-revisar` |
+| Revisor (Dev Sênior) | `[REV]` | `sdd-revisar` |
 | Verificador (QA) | `[VER]` | `sdd-verificar` |
 | quem atende | `[ATD]` | `sdd-atender` |
 
 | Trilha | Quando | Caminho |
 |---|---|---|
-| **direta** | o diff cabe numa frase, sem regra nova | teste que falha → correção → revisão → PR (sem spec: a pasta tem só o `status.md`) |
-| **rápida** | defeito ou ajuste ≤ 1 dia, comportamento certo já conhecido | `bugfix.md` + `tasks.md` → implementação → revisão → verificação → PR |
+| **rápida** | defeito ou ajuste ≤ 1 dia, comportamento certo já conhecido — inclusive o diff que cabe numa frase | `bugfix.md` + `tasks.md` → implementação → revisão → verificação → PR |
 | **padrão** | uma fatia do backlog: de um épico, ou sem épico com regra clara e ficha aprovada pelo P.O. | pesquisa → plano → **GATE do plano** → implementação (TDD) → revisão → verificação → PR → consolidação |
 | **épico** | funcionalidade com várias histórias ou decisão de produto em aberto | entrevista → PRD → **GATE do PRD** → ELM → fatias → **GATE do backlog** → planejamento → cada fatia na trilha padrão |
 | **atendimento** | o cliente pede consulta, extração ou explicação; nada muda no repositório | triagem: entrevista curta → `AT-nnn` no backlog, sprint sugerida, `[ATD]` no EWM · `sdd-atender`: assume → banco (só leitura) e bundle → resposta com "ok" → saldo de horas → desdobramentos |
@@ -49,7 +48,7 @@ commit → push → conferir no remoto (`git rev-parse HEAD` = `git rev-parse or
 ou concluir a tarefa e avisar o próximo — quem vem depois só acha no remoto o que foi publicado.
 
 ```
-ENTRADA       triar ─► backlog: EP rascunho · FT sem épico (padrão com ficha, rápida, direta) · AT + [ATD] ─► "mais algum?"
+ENTRADA       triar ─► backlog: EP rascunho · FT sem épico (padrão com ficha, rápida) · AT + [ATD] ─► "mais algum?"
                 │
 HUB           iniciar <item> ─► especificar · desenvolver · revisar · verificar · atender   (cada uma assume a sua tarefa)
                 │
@@ -88,6 +87,18 @@ AFK. O PR e o merge nunca são dispensados.
 | Verificação | o verificador assume a `[VER]` (só depois da REV): aceita → `pronta-para-merge` (o Dev mergeia → `mergeada`); rejeita → retrabalho | subagente |
 | Retrabalho | a `[DEV]`, ainda em andamento, recebe a correção no mesmo PR, que passa de novo pela REV | volta à implementação |
 | Tarefas no EWM | `[DEV]` `[REV]` `[VER]`, cada uma da sua pessoa | só a `[DEV]`, de quem disparou |
+
+O modo final sai da **senioridade** de quem implementa (o `responsavel` da fatia, no `equipe.json`), gravado pela
+`sdd-planejamento` quando a fatia ganha responsável; antes disso, o `modo` da triagem ou do fatiamento é proposta:
+
+| Senioridade | Modo |
+|---|---|
+| Júnior | sempre HITL (não começa fatia AFK nem dispara o `sdd-loop`) |
+| Pleno | os critérios da fatia (`sdd-fatiar`), propostos pelo sdd e confirmados pela pessoa |
+| Sênior | AFK por padrão; HITL só com motivo forte, registrado |
+
+A `[REV]` é sempre de um **Dev Sênior**: ele revisa os PRs do Pleno e do Júnior; o PR de um Sênior, outro Sênior —
+se ele é o único Sênior ativo, ele mesmo (`revisor único` na Observação do `sprint-<nn>.md`).
 
 ## Princípios
 

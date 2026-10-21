@@ -36,6 +36,17 @@ URL abaixo, nunca um caminho local:
       "atende": true,
       "ativo": true,
       "ausencias": [{ "inicio": "2026-12-20", "fim": "2027-01-05", "motivo": "férias" }]
+    },
+    {
+      "nome": "João Lima",
+      "login": "joao.lima",
+      "papeis": ["Dev"],
+      "senioridade": "Sênior",
+      "horas-semana": 40,
+      "horas-revisao-semana": 6,
+      "atende": false,
+      "ativo": true,
+      "ausencias": []
     }
   ]
 }
@@ -44,6 +55,9 @@ URL abaixo, nunca um caminho local:
 - Chaves em kebab-case, exatamente as do exemplo; nada além delas (o schema recusa `horasSemana`, `capacidade`…).
 - `papeis` é uma lista com um ou mais de `P.O.`, `Especificador`, `Dev`, `QA` e `SM` (ex.: `["Dev", "QA"]`); as horas de
   revisão e de especificação já dizem quanto do tempo vai para cada frente. Exatamente **um** membro ativo tem `P.O.`.
+- `senioridade` — `Júnior`, `Pleno` ou `Sênior` — é obrigatória em quem tem `Dev` (o schema recusa sem ela) e não
+  existe nos demais. Decide o modo das fatias que a pessoa implementa (Júnior: sempre HITL · Pleno: pelos critérios da
+  fatia · Sênior: AFK por padrão) e quem revisa PR: a `[REV]` é sempre de um Dev Sênior.
 - `horas-revisao-semana` soma revisar (planos, PRs) e verificar (aceite) e é parte de `horas-semana`.
 - `horas-especificacao-semana` (entrevista, PRD, fatiamento: tarefas `[ESP]`) também é parte de `horas-semana`;
   ausente = 0. Revisão + especificação nunca passam de `horas-semana`.
@@ -155,7 +169,7 @@ Concluídas: <n> fatias (<p> previstas · <q> puxadas) · meta: <atingida | não
 
 Situação da especificação: `entrevista`, `PRD`, `fatiamento`, `concluida` ou `→ sprint <nn+1>`. Situação do
 atendimento: `aberto`, `concluido` ou `→ sprint <nn+1>`. "Tarefa ELM" é o id da tarefa no EWM, ou `pendente`
-(nas fatias, as tarefas com prefixo — `DEV <id> · REV <id> · VER <id>`; AFK e direta, só a `DEV`), gravada pela
+(nas fatias, as tarefas com prefixo — `DEV <id> · REV <id> · VER <id>`; AFK, só a `DEV`), gravada pela
 `sdd-elm` modo *sprint* (e pela `sdd-consolidar` na fatia puxada). Observação: `puxada`, `encaixe: <decisão>
 (<quem>, <data>)`, `migrada da sprint <nn>` ou texto livre.
 

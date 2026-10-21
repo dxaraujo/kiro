@@ -163,11 +163,11 @@ iteração da sprint, em todos.
    própria (a triagem); id na mesma linha (`· Backlog [GB] <id>`). Na virada, como as demais, só o `plannedFor` muda.
 3. **Item de backlog por fatia** (quando a fatia entra na sprint):
    título `[FT-031] <título>`, `parent` = épico (fatia sem épico sem item de origem: o épico de
-   Sustentação; com item de origem não há IB novo; direta: sem IB), pontos pelo tamanho só se o `sdd.md` tiver a tabela de pontos (opcional), descrição com modo
+   Sustentação; com item de origem não há IB novo), pontos pelo tamanho só se o `sdd.md` tiver a tabela de pontos (opcional), descrição com modo
    AFK/HITL, `bloqueada por` e pasta prevista; responsável = P.O. (o IB é do produto; sem responsável a PA pode
    recusar qualquer mudança de estado depois); "Planejado para" = a iteração da sprint. **Critérios de aceite:** os
    cenários que a fatia cobre (`cobre`), em Dado / Quando / Então, copiados do PRD (fatia sem épico: da ficha —
-   cenários, comportamento esperado ou "pronto quando", conforme a trilha), no campo da linha "Critérios
+   cenários ou comportamento esperado, conforme a trilha), no campo da linha "Critérios
    de aceite no IB" do `sdd.md` (Markdown; o power `elm` grava como texto rico) — sem o campo, numa seção "Critérios de
    aceite" da descrição. Fonte única é o PRD: o campo é cópia gerada, com o aviso "gerado do PRD — não edite
    aqui"; atualize quando a fatia for refinada ou a `sdd-consolidar` registrar mudança as-built. Links
@@ -190,8 +190,8 @@ seções do `sprint-<nn>.md` (fatias com responsável, revisor e verificador; es
    confirmação do lote; (c) só o que não existe no EWM → proponha criar (`elm-setup` › **criar iteração · criar
    plano**; exige a permissão de modificar iterações — se falhar, peça a quem administra a PA). Plano criado → grave o
    id em `ccm.iterations[<iteração>].plans` do `pa_*.json` (com a confirmação do lote), para a próxima sprint achá-lo.
-2. Linha `Sustentação:` vazia → crie a Sustentação e o Atendimento antes (item 2 do modo backlog): a direta e o
-   atendimento dependem deles e não passam pelo modo backlog. Fatias sem IB e épicos com `elm` `pendente` ou `—`
+2. Linha `Sustentação:` vazia → crie a Sustentação e o Atendimento antes (item 2 do modo backlog): o
+   atendimento depende deles e não passa pelo modo backlog. Fatias sem IB e épicos com `elm` `pendente` ou `—`
    (projeto com ELM) → modo backlog primeiro (a `[ESP]` nunca nasce sem pai). Para cada IB da sprint: `plannedFor` = iteração (o responsável
    continua o P.O.).
 3. **Tarefas**, com os títulos da linha "Tarefas" do `sdd.md`, responsável, estimativa em horas e `plannedFor` =
@@ -207,8 +207,7 @@ seções do `sprint-<nn>.md` (fatias com responsável, revisor e verificador; es
    Fatia **AFK** (`modo` do `backlog.md`): só a `[DEV]` — revisão e verificação são subagentes, sem tarefa nem
    horas.
 
-   Fatia sem épico com item de origem → pai = o item (sem IB novo); direta → só a `[DEV] FT-<nnn> <pedido>`, pai = item de
-   origem ou Sustentação. Campos obrigatórios da Tarefa (categoria de horas, OTR, classificação, Clarity) pela
+   Fatia sem épico com item de origem → pai = o item (sem IB novo). Campos obrigatórios da Tarefa (categoria de horas, OTR, classificação, Clarity) pela
    `elm-ccm` (Criar), pela linha "Classificação da tarefa" do `sdd.md` e pela linha "Padrões do EWM" do `sdd.md` (regra 6).
    Grave os ids na coluna "Tarefa ELM" do `sprint-<nn>.md` (fatias: `DEV <id> · REV <id> · VER <id>`) e no `elm`
    do `backlog.md`. AT da seção Atendimento sem `elm` → modo *atendimento* (Registrar), no mesmo lote.

@@ -147,6 +147,23 @@
     },
     "membro": {
       "type": "object",
+      "if": {
+        "properties": {
+          "papeis": {
+            "contains": {
+              "const": "Dev"
+            }
+          }
+        },
+        "required": [
+          "papeis"
+        ]
+      },
+      "then": {
+        "required": [
+          "senioridade"
+        ]
+      },
       "required": [
         "nome",
         "login",
@@ -181,6 +198,14 @@
             ]
           },
           "description": "Papéis da pessoa (um ou mais). As horas de revisão e de especificação já separam o tempo de cada frente."
+        },
+        "senioridade": {
+          "enum": [
+            "Júnior",
+            "Pleno",
+            "Sênior"
+          ],
+          "description": "Obrigatória para quem tem o papel Dev. Decide o modo das fatias que a pessoa implementa (Júnior: sempre HITL · Pleno: pelos critérios da fatia · Sênior: AFK por padrão) e quem revisa PR (a [REV] é sempre de um Dev Sênior)."
         },
         "horas-semana": {
           "type": "number",

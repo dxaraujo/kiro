@@ -10,7 +10,7 @@ depois. O sdd põe as pessoas onde elas têm mais alavanca — decidir o quê, a
 o resto com agentes de contexto limpo, presos a feedback automático.
 
 ```
-ENTRADA   triar ─► backlog: EP rascunho · FT sem épico (padrão com ficha, rápida, direta) · AT + [ATD] ─► "mais algum?"
+ENTRADA   triar ─► backlog: EP rascunho · FT sem épico (padrão com ficha, rápida) · AT + [ATD] ─► "mais algum?"
 HUB       iniciar <item> ─► especificar · desenvolver · revisar · verificar · atender (cada uma assume a sua tarefa)
             │
 PRODUTO   entrevistar ─► PRD ─► GATE PRD ─► ELM (HF/REG/GL) ─► fatiar ─► GATE backlog ─► sprint (EWM)
@@ -24,7 +24,7 @@ DEPOIS    merge (Dev) ─► consolidar (drift, ELM as-built, CTs, ADRs) ─► 
 
 | `sdd` v1 | `sdd` v2 |
 |---|---|
-| um fluxo para tudo (HF/REG/ET/CT + spec SDD em todo IB) | **trilhas** pelo tamanho: direta, rápida (bugfix spec), padrão, épico — e atendimento, sem código |
+| um fluxo para tudo (HF/REG/ET/CT + spec SDD em todo IB) | **trilhas** pelo tamanho: rápida (bugfix spec), padrão, épico — e atendimento, sem código |
 | especificação por IB, em três papéis assíncronos | **PRD por épico** + **fatias verticais** que cabem numa janela de contexto |
 | entrevista uma pergunta por vez | entrevista em **rodadas pela fronteira** de decisões, sempre com recomendação |
 | spec SDD → implementação → judge | **pesquisa** compactada → **plano com a forma do programa** e o **contrato de pronto** → **GATE do plano** |

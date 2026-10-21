@@ -1,6 +1,6 @@
 ---
 name: sdd-desenvolver
-description: "Skill do papel Dev no fluxo sdd — começa ou retoma o código de uma fatia já registrada no backlog (FT-031, de épico ou sem épico, em qualquer trilha: padrão, rápida, direta), de um item do EWM que o backlog já conhece (DF, IB) ou da tarefa [DEV] de uma fatia. É o ponto de compromisso: confere a Definition of Ready da trilha, o responsável, se a fatia está na sprint aberta (fora dela, o encaixe é decisão do P.O. pela sdd-planejamento) e os limites de WIP; cria a branch (sugere o nome e aguarda), a pasta da fatia em .kiro/specs/ com o status.md, assume a [DEV] no EWM (sdd-elm modo assumir, com confirmação) e encaminha pela fase: pesquisar → plano → implementar → PR → merge (pronta-para-merge é do Dev). Pedido novo ou item fora do backlog passa antes pela sdd-triar; [REV], [VER], [ESP] e atendimento têm skill própria (o hub sdd-iniciar encaminha). Use em \"vamos trabalhar na FT-031\", \"pegar a [DEV] da FT-031\", \"corrigir o defeito 4567\", \"próxima fatia\", \"retomar a FT-031\"."
+description: "Skill do papel Dev no fluxo sdd — começa ou retoma o código de uma fatia já registrada no backlog (FT-031, de épico ou sem épico, em qualquer trilha: padrão ou rápida), de um item do EWM que o backlog já conhece (DF, IB) ou da tarefa [DEV] de uma fatia. É o ponto de compromisso: confere a Definition of Ready da trilha, o responsável, se a fatia está na sprint aberta (fora dela, o encaixe é decisão do P.O. pela sdd-planejamento) e os limites de WIP; cria a branch (sugere o nome e aguarda), a pasta da fatia em .kiro/specs/ com o status.md, assume a [DEV] no EWM (sdd-elm modo assumir, com confirmação) e encaminha pela fase: pesquisar → plano → implementar → PR → merge (pronta-para-merge é do Dev). Pedido novo ou item fora do backlog passa antes pela sdd-triar; [REV], [VER], [ESP] e atendimento têm skill própria (o hub sdd-iniciar encaminha). Use em \"vamos trabalhar na FT-031\", \"pegar a [DEV] da FT-031\", \"corrigir o defeito 4567\", \"próxima fatia\", \"retomar a FT-031\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -50,14 +50,13 @@ com revisor e verificador escolhidos agora.
 
 A trilha vem do registro, não de uma triagem nova: fatia de uma seção de épico → **padrão**; da seção
 `## Fatias — sem épico` → a da coluna `trilha` (seção antiga `## Fatias — trilha rápida` → **rápida**). Ao ler o
-item, a trilha registrada não serve (a "rápida" tem regra de negócio nova, a "direta" tem mais de um comportamento)
+item, a trilha registrada não serve (a "rápida" tem regra de negócio nova)
 → pare e devolva à `sdd-triar` para refazer a triagem.
 
 | Trilha | Caminho depois daqui |
 |---|---|
 | **padrão** | pesquisa → plano → **GATE do plano** → implementação → revisão → verificação → PR |
 | **rápida** | pesquisa curta → `bugfix.md` + `tasks.md` (o teste que reproduz primeiro) → implementação → revisão → verificação → PR |
-| **direta** | pasta só com o `status.md`, sem spec: teste que falha (quando houver comportamento) → mudança → backpressure → revisão (`sdd-revisar`, rubrica C sobre o diff, com a ficha — pronto quando, não muda — no lugar dos critérios) → evidência do "como verificar" → PR → merge pelo Dev, com a conclusão da `[DEV]` |
 
 ## Passo 3 — Compromisso
 
@@ -70,8 +69,10 @@ o caminho, e não comece.
    - Falhou → `sdd-entrevistar`, `sdd-fatiar` (refinamento) ou `sdd-triar` (retomar a triagem: ficha e `falta:` das
      fatias sem épico).
 2. **Responsável.** A coluna `responsavel` do `backlog.md` é outra pessoa → pergunte se ela sabe; trocar é do
-   planejamento, não grave aqui.
-3. **Sprint.** Nada começa sem item planejado, nem a direta: é na tarefa da sprint que as horas são lançadas. A
+   planejamento, não grave aqui. Quem vai implementar é **Júnior** (`senioridade` no `equipe.json`) e a fatia é
+   `AFK` → não comece: avise que Júnior implementa sempre em HITL e mande para a **`sdd-planejamento`** (o modo sai
+   da senioridade de quem implementa).
+3. **Sprint.** Nada começa sem item planejado: é na tarefa da sprint que as horas são lançadas. A
    fatia está na sprint aberta (`sprint` do `backlog.md` = a do `sprint-<nn>.md` com `**Situação:** aberta`)? Não
    está → **puxe** (fluxo puxado, a sprint é cadência): se ela é a `pronta` do topo do backlog — nenhuma `pronta`
    de prioridade maior esperando, dentro ou fora da sprint — e o WIP do item 4 tem folga, ela entra na sprint
@@ -101,8 +102,7 @@ o caminho, e não comece.
    Confirmado → `git fetch` e `git switch -c <branch> origin/<base>`.
 2. **Pasta** `.kiro/specs/<ft>-<slug>/` com `status.md` de [references/status-template.md](references/status-template.md)
    e o `.config.kiro` da spec do Kiro (`specType` `feature` na trilha padrão, `bugfix` na rápida — formato em
-   [../sdd-plano/references/plano-templates.md](../sdd-plano/references/plano-templates.md)). Trilha direta: só o
-   `status.md` (fase `implementando`), sem `.config.kiro`.
+   [../sdd-plano/references/plano-templates.md](../sdd-plano/references/plano-templates.md)).
 3. **Backlog:** não muda aqui (ele só é escrito na base, pela `sdd-triar`, `sdd-fatiar`, `sdd-planejamento` e
    `sdd-consolidar`); a fatia em andamento é a que tem `status.md` numa branch.
 4. **Assumir a `[DEV]`** (com power `elm`; nunca sem "sim") — **`sdd-elm` modo *assumir***: responsável =
@@ -113,14 +113,15 @@ o caminho, e não comece.
    | Fatia | Tarefas | Pai |
    |---|---|---|
    | de épico (padrão) | `[DEV]` `[REV]` `[VER]` | IB da fatia, filho do épico |
-   | sem épico, com item de origem (DF, IB) | `[DEV]` `[REV]` `[VER]` — direta: só a `[DEV]` | o próprio item de origem — **sem IB novo** |
-   | sem épico, pedido em texto | `[DEV]` `[REV]` `[VER]` — direta: só a `[DEV]` | IB `[FT-nnn]`, filho do épico de Sustentação — direta: o épico de Sustentação |
+   | sem épico, com item de origem (DF, IB) | `[DEV]` `[REV]` `[VER]` | o próprio item de origem — **sem IB novo** |
+   | sem épico, pedido em texto | `[DEV]` `[REV]` `[VER]` | IB `[FT-nnn]`, filho do épico de Sustentação |
 
    Fatia **AFK**: só a `[DEV]`, em qualquer linha — revisão e verificação são subagentes, sem tarefa. Fatia
    **HITL puxada** (não passou pelo planejamento, sem revisor nem verificador na sprint) → antes de criar `[REV]`
-   e `[VER]`, pergunte quem revisa e quem verifica (sugira pelo `equipe.json`: papéis e `horas-revisao-semana`,
-   nunca quem implementa) e grave no Histórico ao lado de `Puxada para a sprint <nn>`; a `sdd-consolidar` leva
-   para a linha `puxada` do `sprint-<nn>.md`.
+   e `[VER]`, pergunte quem revisa e quem verifica (sugira pelo `equipe.json`: papéis, `senioridade` e
+   `horas-revisao-semana`): o revisor é um **Dev Sênior** ativo que não é quem implementa — quem implementa é o
+   único Sênior ativo → ele mesmo, com `revisor único`; o verificador nunca é quem implementa. Grave no Histórico ao
+   lado de `Puxada para a sprint <nn>`; a `sdd-consolidar` leva para a linha `puxada` do `sprint-<nn>.md`.
 
    Grave os ids das tarefas no campo ELM do `status.md` — é por ele que as horas acham a tarefa. Chamada daqui, na
    branch da fatia, a `sdd-elm` não grava o `backlog.md` nem o `sprint-<nn>.md`: os ids ficam no `status.md`, e a
@@ -138,12 +139,12 @@ Próximo: <skill>
 | Fase | Próxima skill |
 |---|---|
 | `pesquisando`, `planejando`, `plano-em-revisao` | `sdd-plano` (que começa pela `sdd-pesquisar`) |
-| `implementando`, `revisando`, `retrabalho (de: …)` | `sdd-implementar` (trilha direta: a seção Trilha direta) |
+| `implementando`, `revisando`, `retrabalho (de: …)` | `sdd-implementar` |
 | `verificando` | `sdd-verificar` (AFK) |
 | `aceita` | `sdd-implementar` (Passo 5 — abrir o PR) |
 | `pr-aberto`, `em-revisao` | HITL: com o revisor — `[REV]` pela `sdd-revisar` |
 | `em-verificacao` | HITL: com o verificador — `[VER]` pela `sdd-verificar` |
-| `pronta-para-merge` (trilha direta: `pr-aberto` com o PR aprovado) | Dev: `sdd-implementar` (Passo 6 — merge do PR aprovado e conclusão da `[DEV]`) |
+| `pronta-para-merge` | Dev: `sdd-implementar` (Passo 6 — merge do PR aprovado e conclusão da `[DEV]`) |
 | `mergeada` | consolidação pelo P.O. — `sdd-consolidar` (sessão padrão) |
 | `bloqueada (de: <fase>)` | mostre o motivo e a pergunta; resolvido → volta à skill da fase de origem |
 

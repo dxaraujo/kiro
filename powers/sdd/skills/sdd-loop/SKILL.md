@@ -17,6 +17,10 @@ cada PR aprovado (Passo 6 da `sdd-implementar`).
 Leia antes: `.kiro/steering/sdd.md` (seções Git, banco e autonomia e Comandos) e
 `<produto>/acordos.md` (WIP; sem o arquivo, limite 2).
 
+**Quem dispara** tem de ser Dev **Pleno** ou **Sênior** (`senioridade` no `equipe.json` da base): é o responsável
+das `[DEV]` do lote. Júnior → diga que Júnior implementa sempre em HITL, uma fatia por vez pela `sdd-desenvolver`,
+e pare.
+
 ## Passo 0 — Retomar?
 
 Existe `.kiro/local/loop-*.md` com fatias não finalizadas → mostre o estado (fatia, fase, rodada, último resultado)
@@ -31,7 +35,7 @@ e pergunte se retoma. Retomar = continuar cada fatia da fase registrada no `stat
    (`sdd-planejamento`, seção Encaixe). Kanban
    (`acordos.md`): não há sprint nem encaixe — vale a `pronta` do topo do backlog, e as `[DEV]` do lote nascem na
    confirmação (`sdd-elm` modo *sprint*, iteração corrente).
-2. Fica de fora (diga o motivo): HITL; trilha direta (é da sessão da pessoa); `EP-nn`, PRD, fatiamento e `AT-nnn`
+2. Fica de fora (diga o motivo): HITL; `EP-nn`, PRD, fatiamento e `AT-nnn`
    ("PRD, backlog e atendimento nunca são AFK"); Definition of Ready não atendida; `bloqueada-por` não concluída e
    não presente antes no lote; já em andamento (tem `status.md`).
 3. **Limite:** paralelismo do `sdd.md` (padrão 1, máximo 3) **e** vagas de WIP de revisão humana (limite

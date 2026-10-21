@@ -91,16 +91,13 @@ fatia ponta a ponta.
    `backlog` com o que falta. Ids `FT-<nnn>` sequenciais no projeto, **nunca reaproveitados**.
 2. **Fichas** das fatias (`<produto>/fatias/FT-<nnn>-<slug>.md`, formato "padrão de épico"): Objetivo, Cobre (links
    para os cenários do PRD, sem copiar) e Como verificar; a coluna `ficha` aponta para elas.
-3. PRD: `status: fatiado`; no `sprint-<nn>.md` aberto, a linha do épico na seção Especificação com Situação
-   `concluida`.
-4. Commit (padrão do `sdd.md`): `backlog.md`, fichas, `prd.md`, `sprint-<nn>.md`.
-5. **Conclusão da `[ESP]`** (com ELM): o GATE do backlog conclui a especificação do épico — mostre as horas já
-   lançadas na `[ESP]` e pergunte só o saldo a quem especificou, e chame a `sdd-elm` modo *horas* (lançar) e modo *conclusão* na
-   `[ESP] EP-nn`, com confirmação. Especificação que continua (refinamento na próxima sprint) → não conclui; a
-   virada só muda o `plannedFor`. Sem o power `elm` → `ELM pendente [<chave>]: lançar <h>h em [ESP] EP-nn` no rodapé do PRD.
+3. PRD: `status: fatiado`.
+4. Commit (padrão do `sdd.md`): `backlog.md`, fichas, `prd.md`.
 
 ## Passo 4 — Próximos passos (na mesma resposta)
 
+- Primeiro fatiamento do épico → "use `sdd-especificar EP-<nn>`": ela conclui a `[ESP]` (o refinamento não tem
+  `[ESP]` a concluir).
 - Com ELM: nada no EWM aqui — o item de backlog de cada fatia nasce quando ela entra na sprint (o planejamento
   chama a `sdd-elm`).
 - **`sdd-planejamento`** — encaixar as fatias na sprint (ou no fluxo Kanban).

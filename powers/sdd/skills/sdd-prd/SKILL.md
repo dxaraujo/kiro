@@ -14,7 +14,7 @@ metadata:
 > caminho, relativo a este `SKILL.md`. A busca no workspace não os encontra — não procure no projeto.
 
 Saída, na **pasta de trabalho** da especificação — `.kiro/local/especificacao/<EP>-<slug>/`, fora do git, montada
-pela **`sdd-especificar`** — até o GATE; no GATE, em `<produto>/epicos/<EP>-<slug>/`: o `prd.md` no formato de
+pela **`sdd-especificar`** — até o GATE; depois dele, a `sdd-especificar` a leva para `<produto>/epicos/<EP>-<slug>/`: o `prd.md` no formato de
 [references/prd-template.md](references/prd-template.md), o `decisoes.md` e a pasta `elm/` com **um conceito OKF
 v0.2 por história, regra e termo novo** — o formato de [references/okf-elm.md](references/okf-elm.md), o mesmo do
 bundle que a `elm-sync` mantém. São esses arquivos que sobem para o DOORS Next depois do GATE; até lá, ficam aqui.
@@ -121,17 +121,14 @@ Aprovar? (o P.O. ou quem ele delegou)
 - Decisão **em aberto que muda comportamento** → não há aprovação; volte à entrevista.
 - Aprovado → no `prd.md`: `status: aprovado`, versão `1.0`, data e quem aprovou no rodapé. Em **cada** conceito de
   `elm/`: `status: stable` e um `verified` com `{ by: human:<login de quem aprovou>, at: <agora> }` — sem esse
-  `verified` humano a `sdd-elm` não publica. Entrada `**Update**` no `log.md`. Leve a pasta de trabalho para a
-  **base**, pelo bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base): copie-a para `<produto>/epicos/<EP>-<slug>/` (substitui o `rascunho.md` e o `decisoes.md` da
-  triagem), com o `revisao-prd-<N>.md`; na linha do épico no `backlog.md`, `status` `aprovado` e `prd` = o link do
-  `prd.md`; no `sprint-<nn>.md` aberto, a linha do épico na seção Especificação com Situação `fatiamento`. **Um** commit (padrão de commit do `sdd.md`), direto ou por PR curto, conforme "Artefatos de produto"
-  no `sdd.md`; nunca numa branch de fatia. Antes, feche a sessão pela `sdd-especificar` (Passo 5), para a `[ESP]`
-  ter a versão aprovada. Depois do commit, a pasta de trabalho local pode ser apagada pela pessoa (a skill não
-  apaga: a base é a fonte).
-- Próximo passo, na mesma resposta:
-  1. **`sdd-elm`** modo *requisitos* — publicar HF/REG/GL no DOORS Next (se o projeto usa ELM e a publicação é
-     `na-aprovacao` no `sdd.md`);
-  2. **`sdd-fatiar`** — quebrar em fatias verticais para o backlog.
+  `verified` humano a `sdd-elm` não publica. Entrada `**Update**` no `log.md`. Grave só onde o PRD está:
+  - **primeiro GATE** (PRD na pasta de trabalho) → só ali; levar para a base, o `backlog.md` e o `sprint-<nn>.md`
+    são da `sdd-especificar`. Próximo: "use `sdd-especificar EP-<nn>`" — ela fecha a sessão, leva o PRD aprovado
+    para a base e diz o que vem depois (publicação no ELM e `sdd-fatiar`). Pare;
+  - **mudança depois de aprovado** (PRD já na base) → na base, pelo bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base),
+    um commit; próximo: a `sdd-elm` modo *requisitos* para os conceitos alterados (se a publicação é `na-aprovacao`)
+    e o refinamento das fatias afetadas (`sdd-fatiar`). Pare — chamada pela `sdd-consolidar` (drift), devolva a ela,
+    que segue para a publicação.
 
 ## Mudança depois de aprovado
 
@@ -147,5 +144,4 @@ fatias novas; não altere fatia concluída.
 - O PRD não tem caminho de arquivo, nome de classe nem SQL — isso é do plano da fatia.
 - Escreva no idioma do projeto; nomes de sistemas, tabelas e campos na forma original.
 - Não invoque nem simule outra skill além das que os passos mandam chamar (`sdd-entrevistar`, `sdd-elm` modo
-  *similares*, o subagente revisor, o fechamento da sessão da `sdd-especificar` no GATE): depois do GATE, diga as
-  próximas e pare.
+  *similares*, o subagente revisor): depois do GATE, diga a próxima e pare.

@@ -1,6 +1,6 @@
 ---
 name: sdd-especificar
-description: "Skill do papel Especificador no fluxo sdd — conduz a especificação de um épico (EP-nn) a partir da tarefa [ESP]: assume a [ESP] no EWM (sdd-elm modo assumir), monta a pasta de trabalho local fora do git (.kiro/local/especificacao/), encaminha pelo estado do épico (sdd-entrevistar → sdd-prd → GATE do PRD → sdd-fatiar) e, no fim de cada sessão com o cliente, registra o levantamento na [ESP] (comentário + anexos .md com a última versão de cada artefato) e lança as horas da sessão. Outra máquina retoma baixando os anexos. Use em \"especificar o EP-03\", \"pegar a [ESP] do EP-03\", \"retomar a especificação\", \"fechar a sessão de especificação\"."
+description: "Skill do papel Especificador no fluxo sdd — conduz a especificação de um épico (EP-nn) a partir da tarefa [ESP]: assume a [ESP] no EWM (sdd-elm modo assumir), monta a pasta de trabalho local fora do git (.kiro/local/especificacao/), encaminha pelo estado do épico (sdd-entrevistar → sdd-prd → GATE do PRD → sdd-fatiar), leva o PRD aprovado para a base, conclui a [ESP] depois do GATE do backlog e, no fim de cada sessão com o cliente, registra o levantamento na [ESP] (comentário + anexos .md com a última versão de cada artefato) e lança as horas da sessão. Outra máquina retoma baixando os anexos. Use em \"especificar o EP-03\", \"pegar a [ESP] do EP-03\", \"retomar a especificação\", \"fechar a sessão de especificação\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -70,8 +70,10 @@ Próximo: <skill>
 |---|---|
 | `rascunho`, sem `prd.md` | **`sdd-prd`** (Passo 1: explora o código e o ELM; Passo 2: `sdd-entrevistar`) |
 | `rascunho`/`em-revisao` com `prd.md` | **`sdd-prd`** no passo em que parou (escrita, revisão P ou GATE) |
-| `aprovado` (na base) | **`sdd-fatiar`** — o GATE do backlog conclui a `[ESP]` |
-| `fatiado` | nada a especificar; refinamento de fatia → `sdd-fatiar` |
+| `aprovado` na pasta de trabalho, ainda não na base | **Passo 6** desta skill — levar para a base |
+| `aprovado` (na base) | **`sdd-fatiar`**; depois do GATE do backlog, volte aqui (Passo 6) |
+| `fatiado` com a `[ESP]` aberta | **Passo 6** desta skill — concluir a `[ESP]` |
+| `fatiado` com a `[ESP]` concluída | nada a especificar; refinamento de fatia → `sdd-fatiar` |
 
 ## Passo 5 — Fechar a sessão (toda sessão, antes de parar)
 
@@ -90,15 +92,32 @@ Com "sim": `elm-ccm` › **comentar** (o resumo), **anexar** cada `.md` da pasta
 não conclui). Sem o power `elm` ou com falha → `ELM pendente [<chave>]: registrar sessão [ESP] EP-<nn> (<data>)` no `rascunho.md`, e o
 próximo fechamento registra.
 
-## Passo 6 — Do GATE do PRD ao fim da `[ESP]`
+## Passo 6 — Fechamentos da `[ESP]` (depois de cada GATE)
 
-- **GATE do PRD** (`sdd-prd`): aprovado → a pasta de trabalho vai para `<produto>/epicos/<EP>-<slug>/` num único
-  commit na base, com a revisão P (a `sdd-prd` faz, pelo bloco Gravar na base). A partir daí a base é a fonte; a pasta local pode ser apagada
-  pela pessoa.
-- **GATE do backlog** (`sdd-fatiar`): conclui a `[ESP]`, perguntando só o saldo de horas ainda não lançado.
-- A Situação do épico na seção Especificação do `sprint-<nn>.md` acompanha os GATEs, gravada por quem os faz:
-  `fatiamento` no GATE do PRD (`sdd-prd`), `concluida` no GATE do backlog (`sdd-fatiar`); antes deles, `entrevista`
-  ou `PRD`, como o planejamento gravou.
+A `sdd-prd` e a `sdd-fatiar` conduzem o GATE e gravam só o próprio artefato; o que é da `[ESP]` é daqui.
+
+**Depois do GATE do PRD** (`prd.md` `aprovado` na pasta de trabalho):
+1. Feche a sessão (Passo 5), para a `[ESP]` ter a versão aprovada.
+2. Leve a pasta para a **base**, pelo bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base):
+   copie-a para `<produto>/epicos/<EP>-<slug>/` (substitui o `rascunho.md` e o `decisoes.md` da triagem), com o
+   `revisao-prd-<N>.md`; na linha do épico no `backlog.md`, `status` `aprovado` e `prd` = o link do `prd.md`; no
+   `sprint-<nn>.md` aberto, a linha do épico na seção Especificação com Situação `fatiamento`. **Um** commit (padrão
+   do `sdd.md`), direto ou por PR curto, conforme "Artefatos de produto"; nunca numa branch de fatia. A partir daí a
+   base é a fonte; a pasta local pode ser apagada pela pessoa (a skill não apaga).
+3. Próximo, e pare: **`sdd-elm`** modo *requisitos* (se o projeto usa ELM e a publicação é `na-aprovacao`) e
+   **`sdd-fatiar`**.
+
+**Depois do GATE do backlog** (épico `fatiado` na base, `[ESP]` aberta):
+1. Pergunte se a especificação terminou. Continua (refinamento na próxima sprint) → não conclua: a virada só muda o
+   `plannedFor`; pare.
+2. No `sprint-<nn>.md` aberto, a linha do épico na seção Especificação com Situação `concluida` (pelo bloco Gravar
+   na base, um commit).
+3. **Conclusão da `[ESP]`** (com ELM): mostre as horas já lançadas e pergunte só o saldo a quem especificou →
+   `sdd-elm` modo *horas* e modo *conclusão*, numa confirmação. Sem o power `elm` → `ELM pendente [<chave>]: lançar
+   <h>h e concluir [ESP] EP-<nn>` no rodapé do PRD (no mesmo commit).
+
+A Situação do épico na seção Especificação do `sprint-<nn>.md` acompanha os GATEs: `entrevista` ou `PRD` (como o
+planejamento gravou), depois `fatiamento` e `concluida`, gravadas aqui.
 
 ## Regras
 

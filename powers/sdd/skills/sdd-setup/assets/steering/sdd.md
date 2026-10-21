@@ -119,7 +119,7 @@ Na worktree do `sdd-loop`: `cd .kiro/local/wt/<ft> && <comando>`. Falha de ambie
 |---|---|---|---|---|---|
 | `sdd-produto` | <…> | <…> | <…> | <padrão> | `sdd-pesquisador`, `sdd-revisor` |
 | `sdd-pesquisador` | <…> | <…> | <…> | <padrão> | — |
-| `sdd-codificador` | <…> | <…> | <…> | <padrão> | `sdd-pesquisador`, `sdd-revisor` <+ do projeto> |
+| `sdd-codificador` | <…> | <…> | <…> | <padrão> | `sdd-pesquisador`, `sdd-revisor`, `sdd-verificador` <+ do projeto> |
 | `sdd-revisor` | <…> | <…> | <…> | <padrão> | — |
 | `sdd-verificador` | <…> | <…> | <…> | <padrão> | — |
 | `sdd-orquestrador` | <…> | <…> | — | <padrão> | os `sdd-*` <+ do projeto> |

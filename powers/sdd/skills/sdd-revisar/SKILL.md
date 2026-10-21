@@ -84,6 +84,8 @@ revisão oficial é sua, na sua sessão:
    PR atualizado depois de um retrabalho pedido pela VER, com a `[REV]` já concluída → o Passo 0 a reabre (modo
    *assumir* com retrabalho): toda mudança no PR passa de novo pela revisão.
 2. Rubrica **C** (Passos 1–4) sobre `git diff origin/<base>...HEAD`, gravando `revisao-codigo-<N>.md`.
+   Grave o campo **Drift de negócio** do `status.md` com a penúltima linha do relatório (só sobe de `não` para
+   `sim`; outro `sim` acrescenta o motivo) — a consolidação só lê esse campo.
 3. **`APROVADO`** → `fase: em-verificacao`.
 4. **`REVISAR`** → `fase: retrabalho (de: em-revisao)`; incremente "retrabalho" em Rodadas e grave uma linha na
    tabela **Retrabalho** do `status.md` (papel REV, motivo = o relatório). A `[REV]` fica em andamento: você
@@ -111,8 +113,8 @@ revisão e a verificação já foram feitas por subagentes; aqui uma pessoa **l�
    branch do PR (`git switch <branch>` com "sim"; árvore suja → avise e pare) e `git pull --ff-only`; a fase tem de
    ser `pronta-para-merge`. Anote o `sha` = `git rev-parse origin/<branch>` (o do PR).
 3. **`sdd-elm` modo *assumir*** a `[APR]`.
-4. Mostre o caminho de leitura: o texto do PR ("Como ler"), o `revisao-codigo-<N>.md` aprovado e as evidências do
-   `verificacao.md`. **Execute** o backpressure (C3) — não confie no relatório. A leitura do código é da pessoa:
+4. Mostre o caminho de leitura: o texto do PR ("Como ler"), o `revisao-codigo-<N>.md` aprovado, as evidências do
+   `verificacao.md` e os ADRs do PR (`adr/` da pasta da fatia — C15: a pessoa julga se cada um descreve a decisão). **Execute** o backpressure (C3) — não confie no relatório. A leitura do código é da pessoa:
    você aponta, ela decide.
 5. **Aprovado** → **não commite na branch** (o `sha` que o Dev vai mergear não pode mudar): pela `sdd-elm`, numa
    confirmação, o comentário `PR aprovado, sha <sha>` na `[APR]` (`elm-ccm` › **comentar**), o saldo de horas e a

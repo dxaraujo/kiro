@@ -104,10 +104,11 @@ seguinte da mesma fatia.
 | 5 | implementação | `sdd-codificador` (`sdd-implementar`, Passos 0–2) | tarefas `[x]` e backpressure verde · ou `bloqueada` |
 | 6 | revisão do código | `sdd-revisor` (rubrica C) → volta à 5 com os achados | `VEREDITO: APROVADO` · 2ª reprovação → `bloqueada` |
 | 7 | verificação | `sdd-verificador` (`sdd-verificar`) | `ACEITO` · `REJEITADO` → volta à 5 com os cenários rejeitados (retrabalho: linha na tabela Retrabalho do `status.md`, Rodadas `retrabalho` + 1) e **passa de novo pela 6** antes da 7; de novo rejeitado → `bloqueada` |
-| 8 | entrega | você | `fase: aceita`; commit do que faltar; push, conferência no remoto (`git rev-parse HEAD` = `git rev-parse origin/<branch>`, na worktree) e PR se autorizado no lote (texto e `gitlab_criar_mr` do Passo 5 da `sdd-implementar`, com `origem` = a branch da worktree — o MCP roda no checkout principal e não a enxerga; o Kiro ainda pode pedir confirmação a cada push e a cada PR, conforme as permissões) → a `[APR] FT-<nnn> Aprovar PR` para o Dev Sênior do lote (`sdd-elm` modo *sprint*, item 6; já existe → a mesma) → `fase: pronta-para-merge` com o link do PR no `status.md`, commit, push e conferência (item 3 do Passo 5 da `sdd-implementar`); a `[DEV]` fica em andamento; sem PR autorizado → fica `aceita` |
+| 8 | entrega | você | `fase: aceita`; commit do que faltar; push, conferência no remoto (`git rev-parse HEAD` = `git rev-parse origin/<branch>`, na worktree) e PR se autorizado no lote (ADRs, texto e `gitlab_criar_mr` do Passo 5 da `sdd-implementar`, com `origem` = a branch da worktree — o MCP roda no checkout principal e não a enxerga; o Kiro ainda pode pedir confirmação a cada push e a cada PR, conforme as permissões) → a `[APR] FT-<nnn> Aprovar PR` para o Dev Sênior do lote (`sdd-elm` modo *sprint*, item 6; já existe → a mesma) → `fase: pronta-para-merge` com o link do PR no `status.md`, commit, push e conferência (item 3 do Passo 5 da `sdd-implementar`); a `[DEV]` fica em andamento; sem PR autorizado → fica `aceita` |
 
 Depois de cada fase: grave a fase seguinte (`planejando` depois da pesquisa, `revisando` antes da revisão do
-código), atualize o log, as Rodadas e o Histórico do `status.md`; **commite imediatamente** na worktree os
+código), atualize o log, as Rodadas e o Histórico do `status.md` — nas fases 6 e 7, também o campo **Drift de
+negócio** com a linha do relatório (só sobe de `não` para `sim`); **commite imediatamente** na worktree os
 relatórios que chegaram nesta fase — `analise-plano-<N>.md` (fase 3), `revisao-codigo-<N>.md` (fase 6),
 `verificacao.md`, `CT.csv`, `evidencias/` e `massa/` (fase 7) — antes de iniciar a fase seguinte. Esses arquivos não são commitados
 pelos subagentes que os geram; o orquestrador é o responsável pelo commit deles.
@@ -147,8 +148,9 @@ Os **Kiro Workflows** do sdd (se instalados) não fazem parte do loop: são rece
   *horas* (lança, não conclui). A conclusão da `[DEV]` é no merge de cada fatia (Passo 6 da `sdd-implementar`), com
   o saldo. No AFK, revisão e verificação por subagente não têm tarefa nem horas; as das `[APR]` são lançadas por
   quem aprova, na sessão dele.
-- Worktrees ficam até o merge; quem as remove é a **`sdd-consolidar`** (sessão padrão), depois do merge — os
-  agentes não podem (`git worktree remove` é negado a todos).
+- Worktrees ficam até o merge; quem conduz o merge as remove logo depois (item 8 do Passo 6 da
+  `sdd-implementar`), sem `--force` — os agentes não podem (`git worktree remove` é negado a todos): entregam o
+  comando e a pessoa o roda.
 
 ## Log `.kiro/local/loop-<data>.md`
 

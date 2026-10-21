@@ -97,8 +97,9 @@ rubrica **C** passando só: id da fatia, pasta, branch/worktree e rodada — **n
 `revisao-codigo-<N>.md`. Sem subagente disponível (você é um agente sem essa ferramenta) → pare aqui e devolva a
 quem chamou: "pronta para a revisão (rodada <N>)".
 
-Assim que o `revisao-codigo-<N>.md` estiver gravado, **commite-o imediatamente com o `status.md`** (fase,
-Rodadas) antes de prosseguir — mensagem no padrão do `sdd.md`, `registrar revisão <N>`; não espere a próxima
+Assim que o `revisao-codigo-<N>.md` estiver gravado, grave no campo **Drift de negócio** do `status.md` a
+penúltima linha do relatório (só sobe de `não` para `sim`) e **commite-o imediatamente com o `status.md`** (fase,
+Rodadas, drift) antes de prosseguir — mensagem no padrão do `sdd.md`, `registrar revisão <N>`; não espere a próxima
 sessão nem o Passo 0. O PR cita esse arquivo e
 ele precisa estar na branch antes da abertura.
 
@@ -115,7 +116,8 @@ os cenários reprovados (Passo 0). Teto de 2 rodadas, como na revisão: 2ª reje
 verificando)` com as mesmas opções do Passo 3. Corrigida uma rejeição, volte ao Passo 2 e ao Passo 3 (a nova
 revisão conta no teto de rodadas) antes de verificar de novo.
 
-Com `ACEITO` ou `REJEITADO`: **commite imediatamente** `verificacao.md`, `CT.csv`, `evidencias/`, `massa/` e o
+Com `ACEITO` ou `REJEITADO`: grave o **Drift de negócio** do relatório no `status.md` (como no Passo 3) e
+**commite imediatamente** `verificacao.md`, `CT.csv`, `evidencias/`, `massa/` e o
 `status.md` antes de prosseguir — mensagem no padrão do `sdd.md`, `registrar verificação`. O PR cita esses arquivos e eles precisam estar na branch antes da abertura.
 
 ## Passo 5 — PR
@@ -125,6 +127,10 @@ Com a revisão automática feita (HITL) ou com `fase: aceita` (AFK: revisão `AP
 Push e PR são do Dev: o agente `sdd-codificador` (o Kiro confirma cada um) ou a sessão da pessoa; no loop, o
 `sdd-orquestrador` (fase 8 da `sdd-loop`). Modo autônomo: nada deste passo.
 
+0. **ADRs:** cada decisão do `design.md` com "Vira ADR? sim" → um ADR curto em `.kiro/specs/<ft>-<slug>/adr/<slug-da-decisão>.md`
+   (contexto · decisão · consequências · origem FT-<nnn>), descrevendo o que o código faz. Vai no PR: o Dev Sênior
+   o julga na `[REV]` ou na `[APR]` (rubrica C15); a pasta de ADRs do projeto é artefato de produto (nunca em branch
+   de fatia) — a consolidação o leva para lá.
 1. Branch atualizada com a base? (`git fetch` e compare com `origin/<base>`). Desatualizada → numa sessão com a
    pessoa, com o "sim" dela, `git merge origin/<base>` (conflito → resolva e repita Passos 2–4); como agente,
    pare e devolva "branch desatualizada com a base". Esse merge (da base para a branch) é sempre de
@@ -138,6 +144,7 @@ Push e PR são do Dev: o agente `sdd-codificador` (o Kiro confirma cada um) ou a
    Revisão: <AFK: revisao-codigo-<N>.md (APROVADO) · Aceite: verificacao.md (ACEITO, <n> cenários) | HITL: revisão automática OK (achados aceitos: …) — revisão e aceite no PR>
    Backpressure: compilar ok · testes ok · lint ok · cobertura <x% | sem gate>
    Banco (DDL): <não se aplica | pendente — implantação bloqueada>
+   ADRs: <adr/<arquivo>, … | nenhum>
    Como ler: <ordem sugerida dos arquivos — do teste do cenário principal para o código que ele exercita>
    Reversível? <sim, só reverter o PR | não: dado migrado/contrato publicado — o que fazer>
    ```
@@ -203,7 +210,12 @@ Quando o Dev responsável retoma a fatia em `pronta-para-merge` (a `sdd-desenvol
    `sdd-elm` modo *horas* e modo *conclusão* da `[DEV]`, numa confirmação. Sem o power `elm` → `ELM pendente
    [<chave>]: lançar <h>h e concluir [DEV] FT-<nnn>` no Histórico (commit e push), junto com a pendência da `[APR]`
    que o aprovador entregou (AFK).
-8. **Avise o P.O.** de que a fatia está pronta para a consolidação (**`sdd-consolidar`**, na sessão padrão).
+8. **Worktree do loop** (`.kiro/local/wt/<ft>`): depois do merge, `git worktree remove .kiro/local/wt/<ft>` —
+   **sem `--force`**; os agentes não podem (negado a todos): entregue o comando e a pessoa o roda. Falhou por arquivos
+   não rastreados ou alterados → mostre quais (evidência com dado real fica em `.kiro/local/verificacao/`, fora da
+   worktree) e deixe a pessoa decidir; nunca force.
+9. **Avise o P.O. ou o SM** de que a fatia está pronta para a consolidação (**`sdd-consolidar`**, no agente
+   `sdd-produto`, com horas na `[GB]`).
 
 ## Modo autônomo
 

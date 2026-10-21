@@ -17,7 +17,9 @@ PRODUTO   entrevistar ─► PRD ─► GATE PRD ─► ELM (HF/REG/GL) ─► f
                                                                                  │
 FATIA     desenvolver ─► pesquisar ─► plano (spec do Kiro) ─► GATE plano ─► implementar (TDD) ─► revisar ─► verificar ─► PR
                                                                                                                   │
-DEPOIS    merge (Dev) ─► consolidar (drift, ELM as-built, CTs, ADRs) ─► aprender (lições)
+DEPOIS    merge (Dev; remove a worktree do loop)
+            │
+PRODUTO   consolidar (P.O./SM, [GB]): drift da REV/VER ─► ELM as-built (ET, CTs) ─► ADRs do PR ─► conclusão ─► aprender
 ```
 
 ## O que muda em relação ao `sdd`
@@ -81,8 +83,8 @@ Fontes no fim deste arquivo.
 | `sdd-implementar` | TDD + backpressure, commits pequenos, revisão e PR |
 | `sdd-revisar` | revisão independente: PRD (P), plano (L), código (C, dois eixos) |
 | `sdd-verificar` | aceite de ponta a ponta com evidência; `CT.csv` para o ETM |
-| `sdd-consolidar` | pós-merge: drift, ELM as-built, ADRs, lint do conhecimento, conclusão |
-| `sdd-elm` | alimenta o ELM: similares antes de especificar (só leitura), requisitos (DOORS Next), backlog e sprint (EWM), atendimento, horas, testes (ETM), links |
+| `sdd-consolidar` | pós-merge, processo de produto (P.O. ou SM, agente `sdd-produto`, horas na `[GB]`): drift marcado pela revisão e pela verificação, ELM as-built (requisitos, ET, casos de teste criados no ETM), ADRs do PR, glossário, conclusão |
+| `sdd-elm` | alimenta o ELM: similares antes de especificar (só leitura), requisitos (DOORS Next), backlog e sprint (EWM), atendimento, horas, casos de teste criados no ETM, links |
 | `sdd-loop` | fatias AFK até o PR, uma worktree por fatia, uma fase por contexto limpo |
 | `sdd-aprender` | lições, promoção de regras, retrospectiva com dados, casos de avaliação |
 
@@ -136,9 +138,10 @@ Cada história, regra e termo nasce como um conceito **OKF v0.2** na pasta da sp
 com HF → REG como embed, sem nada extra no texto publicado e sempre com prévia e confirmação. Atributos e links entre
 requisitos ficam registrados nos conceitos, porque o MCP não os grava. Detalhes em [`skills/sdd-elm/references/mapeamento.md`](skills/sdd-elm/references/mapeamento.md).
 
-O MCP do power `elm` ainda não grava atributos de requisito, links requisito↔requisito, módulos, change sets,
-baselines nem casos de teste: quando o processo do projeto exige algum deles, a `sdd-elm` entrega o roteiro manual
-e registra a pendência.
+Na consolidação, o agente cria no ETM um caso de teste por cenário verificado, com o link **valida** (power `elm`
+≥ 1.4.0, `create_testcase`); sem permissão de criar no ETM, o `CT.csv` é importado à mão. O MCP do power `elm`
+ainda não grava atributos de requisito, links requisito↔requisito, módulos, change sets nem baselines: quando o
+processo do projeto exige algum deles, a `sdd-elm` entrega o roteiro manual e registra a pendência.
 
 ## Pré-requisitos
 

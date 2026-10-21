@@ -35,10 +35,14 @@ Começar um item registrado: hub `sdd-iniciar` (diz a skill do papel: `sdd-espec
   lote); Sênior → nunca (aprova o próprio plano). Fatia AFK cujo plano mostra risco → sugerir HITL; a troca é do
   P.O. na base. HITL → AFK nunca.
 - Toda hora tem tarefa (`[ESP]` `[DEV]` `[REV]` `[VER]` `[ATD]`; no AFK, só a `[DEV]`; `[APR]` do Dev Sênior nos
-  gates sem tarefa de papel — aprovar plano, aprovar PR do AFK —, criada quando a fatia chega ao gate). Lançar horas é
+  gates sem tarefa de papel — aprovar plano, aprovar PR do AFK —, criada quando a fatia chega ao gate; `[GB]
+  Gerenciamento do backlog` do P.O. ou do SM: triagem e consolidação). Lançar horas é
   registro de empenho, a qualquer momento na tarefa iniciada; concluir é da skill do papel, com o saldo: `[DEV]` no
   merge, `[REV]` ao aprovar (depois do push), `[VER]` ao aceitar (depois do push), `[APR]` na aprovação, `[ESP]` no
   GATE do backlog, `[ATD]` ao finalizar.
+- **Consolidação é processo de produto:** fatia `mergeada` → o P.O. ou o SM, no agente `sdd-produto`
+  (`sdd-consolidar`, horas na `[GB]`): lê o Drift de negócio que a REV e a VER marcaram no `status.md`, publica no
+  ELM o *as-built* (requisitos, ET, casos de teste), leva os ADRs do PR à pasta de ADRs e fecha a fatia na base.
 - Estado em disco: cada fatia em `.kiro/specs/<ft>-<slug>/` (comece pelo `status.md`); produto na pasta abaixo.
 
 > Gerado pela `sdd-setup` (power `sdd` <x.y.z>) em <AAAA-MM-DD>. Para mudar: "atualizar a configuração do sdd".

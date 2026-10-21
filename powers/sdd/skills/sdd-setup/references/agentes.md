@@ -93,6 +93,9 @@ aprovado), `deny` nos demais.
   espera a pessoa dizer que publicou.
 - **Escrita:** só o que o papel produz (ver cada template); o codificador escreve no projeto, menos `.kiro/agents`,
   `hooks`, `workflows`, `steering`, a pasta do produto, `.kiro/local/wf`, `.kiro/sdd` e `.git`.
+  O produto, além da pasta do produto, do glossário e dos ADRs, escreve o `decisoes.md`, e — para a consolidação,
+  que é dele (P.O. ou SM) — o `status.md`, o `verificacao.md` e a pasta `elm/` de cada fatia (`.kiro/specs/*/`);
+  o código ele só lê (a ET *as-built*).
 
 ## Gravação
 

@@ -22,8 +22,8 @@ foi feita. Os nomes reais de tipos, pastas, campos e links são da project area:
 | Tarefa `[ATD]` do atendimento | EWM — Tarefa (filha de `Atendimento`) | `task` | quando o AT entra na sprint (triagem com sprint aberta, encaixe ou planejamento) |
 | Critérios de aceite da fatia | campo de texto rico do IB (ou seção da descrição) | linha do `sdd.md` | publicação do IB |
 | Horas | EWM — timesheet da tarefa | `elm-ccm` › lançar horas | a qualquer momento numa tarefa iniciada (padrão: ao fechar cada sessão) ou sob pedido; na conclusão, o saldo |
-| ET as-built (opcional) | DOORS Next — artefato | `Especificação Técnica` (título `ET - <fatia>`) | consolidação (depois do merge) |
-| Cenário verificado | ETM — Caso de Teste | importação do `CT.csv` | consolidação |
+| ET as-built (opcional) | DOORS Next — artefato | `Especificação Técnica` (título `ET - <fatia>`) | consolidação (depois do merge), gerada do `design.md` e do código mergeado pelo P.O. ou SM |
+| Cenário verificado | ETM — Caso de Teste | `elm-qm` › criar caso de teste (texto da linha do `CT.csv`; sem permissão → importação manual do `CT.csv`) | consolidação |
 | Defeito (trilha rápida) | EWM — Defeito | `defect` | já existe; a fatia referencia |
 
 ## Links
@@ -33,8 +33,8 @@ foi feita. Os nomes reais de tipos, pastas, campos e links são da project area:
 | **implementa** | IB da fatia → cada História (HF) que ela cobre | `elm-gc` › ligar item a requisito (implementa) | publicação do IB |
 | **rastreia** | Épico → Histórias do PRD | `elm-gc` › ligar item a requisito (rastreia) | publicação do épico |
 | **afeta** | Defeito → História/Regra que ele viola | `elm-gc` › ligar item a requisito (afeta) | trilha rápida |
-| **valida** | Caso de Teste → História | `elm-gc` › ligar caso de teste a requisito (valida) | depois da importação do CT |
-| **testado por** | IB → Caso de Teste | `elm-gc` › ligar item a caso de teste (testado por) | depois da importação do CT |
+| **valida** | Caso de Teste → História | na criação (`elm-qm` › criar caso de teste); CT importado à mão: `elm-gc` › ligar caso de teste a requisito (valida) | consolidação |
+| **testado por** | IB → Caso de Teste | `elm-gc` › ligar item a caso de teste (testado por) | consolidação, depois da criação do CT |
 | **pai / filhos** | Épico → IB → Tarefa (`[APR]` inclusive); Épico → `[ESP]`; Atendimento → `[ATD]` | `elm-ccm` › criar item (com pai); troca: trocar o pai | criação |
 | **depende de** | IB → IB (`bloqueada-por` do backlog) | atributo de link do `link-types` do `pa_*.json`, se mapeado | publicação do IB |
 | **embutido** | História → Regra (no texto) | `elm-rm` › atualizar requisito (embutidos) | publicação da história |
@@ -51,8 +51,9 @@ Sem a tabela → o campo fica vazio.
 ## O que o power `elm` não faz (passos manuais)
 
 Hoje o power `elm` grava título e texto de requisitos, work items (inclusive troca de pai e `plannedFor`), estados,
-comentários, horas e links work item/teste ↔ requisito. Não grava: atributos de requisito, links requisito ↔ requisito (*satisfaz*, *restringe*, *elabora*),
-módulos, change sets, baselines e casos de teste. Quando o processo do projeto exigir algum deles, a `sdd-elm`
+comentários, horas, casos de teste (criação, com o link *valida*) e links work item/teste ↔ requisito. Não grava:
+atributos de requisito, links requisito ↔ requisito (*satisfaz*, *restringe*, *elabora*), módulos, change sets e
+baselines. Quando o processo do projeto exigir algum deles, a `sdd-elm`
 entrega um **roteiro manual** com os ids exatos, e o registra como `ELM pendente [<chave>]: <ação>` até a pessoa confirmar:
 
 | Exigência do projeto (seção ELM do `sdd.md`) | Roteiro manual |
@@ -62,7 +63,6 @@ entrega um **roteiro manual** com os ids exatos, e o registra como `ELM pendente
 | Regra **restringe** história | criar os links na UI (lista: `REG <id> → HF <id>`) |
 | Atributo de situação/aprovação | preencher na UI (lista de ids) |
 | Baseline por sprint/release | no fechamento da sprint: baseline do componente RM e baseline global (GC) |
-| Caso de teste | importar o `CT.csv` no ETM (Importar → CSV) e informar os ids |
 
 ## Identidade e idempotência
 

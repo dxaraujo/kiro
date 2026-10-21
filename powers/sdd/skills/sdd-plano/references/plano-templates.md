@@ -162,6 +162,8 @@ arquivo) — palavra por palavra; o valor interno que o produz (enum, código) v
 ## Decisões técnicas
 | Decisão | Alternativas | Motivo | Vira ADR? |
 |---|---|---|---|
+<!-- Vira ADR? sim = muda como o time vai construir daqui para a frente: o Dev escreve o ADR no PR, em `adr/` desta
+     pasta (Passo 5 da sdd-implementar); o Dev Sênior o julga e a consolidação o leva para a pasta de ADRs. -->
 
 ## Riscos
 <concorrência, volume, dependências, DDL pendente>

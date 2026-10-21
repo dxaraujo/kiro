@@ -13,8 +13,9 @@
 | Rodadas | revisão do plano 0 · revisão do código 0 · verificação 0 · retrabalho 0 |
 | PR | — |
 | Bloqueio | — (ou: `<motivo>` · pergunta: `<pergunta exata>` — junto com `Fase: bloqueada (de: <fase>)`) |
-| ELM | <IB <id> · [DEV] <id> · [REV] <id> · [VER] <id> (AFK: só [DEV]) · [APR] <id> (criadas nos gates) \| sem ELM \| pendente> |
+| ELM | <IB <id> · [DEV] <id> · [REV] <id> · [VER] <id> (AFK: só [DEV]) · [APR] <id> (criadas nos gates) · CT <ids> (consolidação) \| sem ELM \| pendente> |
 | Banco (DDL) | <não se aplica \| pendente \| aplicada em dev \| aplicada em prod> |
+| Drift de negócio | — (marcado pela REV e pela VER: `não` \| `sim — <motivo>`) |
 
 <!-- Fases por modo:
      HITL  pesquisando → planejando → [plano-em-revisao: pela senioridade] → implementando → pr-aberto ([DEV] em andamento)
@@ -40,6 +41,10 @@
      Rodadas: incrementadas por quem pede a rodada — sdd-plano (análise), sdd-implementar (revisão e
      verificação) ou, no loop, o orquestrador; nas receitas de workflow, o passo do codificador que vem depois.
      O revisor e o verificador não incrementam — exceto no HITL, em que eles mesmos conduzem a rodada sobre o PR.
+     Drift de negócio: a REV (rubrica C: achado aceito ou decisão técnica que muda comportamento visível) e a VER
+     (cenário ajustado na verificação) marcam; no AFK o subagente põe a linha no relatório e quem conduz grava aqui.
+     Só passa de `não` para `sim`; outro `sim` acrescenta o motivo. A consolidação só lê (sim → nova versão do PRD
+     ou da ficha antes de publicar).
      Retrabalho: incrementado por quem reprova (revisor ou verificador, HITL) ou, no AFK, pelo orquestrador ou pelo
      passo do workflow que registra a verificação REJEITADA. -->
 

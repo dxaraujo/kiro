@@ -154,7 +154,7 @@ Próximo: <skill>
 | `pr-aberto`, `em-revisao` | HITL: com o revisor — `[REV]` pela `sdd-revisar` |
 | `em-verificacao` | HITL: com o verificador — `[VER]` pela `sdd-verificar` |
 | `pronta-para-merge` | Dev: `sdd-implementar` (Passo 6 — merge do PR aprovado e conclusão da `[DEV]`) |
-| `mergeada` | consolidação pelo P.O. — `sdd-consolidar` (sessão padrão) |
+| `mergeada` | consolidação pelo P.O. ou SM — `sdd-consolidar` (agente `sdd-produto`) |
 | `bloqueada (de: <fase>)` | mostre o motivo e a pergunta; resolvido → volta à skill da fase de origem. `aguardando troca para HITL` → a troca é do P.O. (`sdd-planejamento`, Troca de modo); registrada, a Troca AFK → HITL do Passo 1 |
 
 Modo AFK e várias fatias padrão ou rápida prontas na sprint → ofereça o **`sdd-loop`** (o agente leva cada uma até

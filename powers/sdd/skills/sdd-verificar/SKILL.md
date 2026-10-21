@@ -81,8 +81,13 @@ Execute cenário por cenário e registre logo abaixo do roteiro:
 ```
 🔎 Verificação FT-<nnn> — rodada <N>
 Cenários: <a> aceitos · <r> rejeitados · <e> ambiente
+Drift de negócio: não | sim — <cenário ajustado e por quê>
 VERIFICACAO: ACEITO | REJEITADO
 ```
+
+**Drift de negócio** = `sim` quando algum cenário foi ajustado nesta verificação (o roteiro ou o Esperado deixou de
+ser o do PRD ou da ficha, por decisão registrada). HITL: grave-o no campo do `status.md` (só sobe de `não` para
+`sim`); AFK: fica no relatório e quem conduz grava. A consolidação só lê esse campo.
 
 - **ACEITO** (todos aceitos) → gere o `CT.csv` (Passo 5).
   - **AFK** (subagente do loop ou da `sdd-implementar`): `fase: aceita` e devolva para abrir o PR (Passo 5 da
@@ -110,8 +115,9 @@ VERIFICACAO: ACEITO | REJEITADO
 ## Passo 5 — Casos de teste para o ETM
 
 Gere `CT.csv` na pasta da fatia — um caso por cenário verificado — no formato de
-[references/ct-csv.md](references/ct-csv.md). A importação no ETM e o link "valida" com a história são feitos
-pela **`sdd-elm`** (modo *testes*) na consolidação, depois do merge.
+[references/ct-csv.md](references/ct-csv.md). Na consolidação, depois do merge, a **`sdd-elm`** (modo *testes*)
+cria um caso de teste por cenário no ETM, com o link "valida" para a história, a partir dele; o CSV também é a
+alternativa para importar à mão quando a criação falha.
 
 Rodadas: quem pediu a verificação incrementa "verificação" (a `sdd-implementar` ou o orquestrador); só no
 pedido direto de uma pessoa, incremente você.

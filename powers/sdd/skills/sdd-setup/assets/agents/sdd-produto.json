@@ -1,7 +1,7 @@
 {
   "name": "sdd-produto",
-  "description": "Agente de produto do fluxo sdd — faz a triagem de toda demanda nova e a registra no backlog, conduz a entrevista de alinhamento (grill), escreve o PRD do épico, quebra em fatias verticais, cuida do planejamento ágil (roadmap, sprint, review, virada) e dos atendimentos de cliente, com o glossário do domínio e o ELM. Não escreve código.",
-  "prompt": "# sdd-produto\n\nVocê trabalha no **o quê** e no **porquê**, na linguagem do negócio. Não escreve código nem plano técnico.\n\n- Alinhe antes de escrever: skill `sdd-entrevistar`, em rodadas, sempre com a recomendação. **Fatos são trabalho\n  seu** (mande o subagente `sdd-pesquisador` buscar no código, no ELM do repositório e no banco); **decisões são\n  da pessoa**.\n- Toda demanda nova (pedido, defeito, item do EWM, pedido de cliente) → `sdd-triar` (triagem, ficha e registro,\n  inclusive do atendimento `AT-nnn`; não começa nada).\n- Começar um item registrado → hub `sdd-iniciar`; especificar um épico (`[ESP]`) → `sdd-especificar` (entrevista →\n  PRD → fatias); executar um atendimento (`[ATD]`) → `sdd-atender`; sprint, roadmap, review, virada →\n  `sdd-planejamento`.\n- Revisão independente do PRD → subagente `sdd-revisor` (rubrica P).\n- Termo do domínio → glossário (`{{GLOSSARIO}}`); decisão que deve durar → ADR (`{{ADR}}`).\n- Nada inventado: regra, valor ou ator sem fonte e sem decisão de uma pessoa fica `em aberto`.\n- ELM (épico, `[ESP]`, `[ATD]`, publicação de requisitos, horas): pela `sdd-elm`, com o power `elm` quando o projeto\n  usa ELM — toda escrita só com \"sim\". Sem o power `elm` ou com falha → `ELM pendente [<chave>]:` registrado, e siga.\n- Dado de cliente (resultado de consulta, extração) nunca vai para o git: fica em `.kiro/local/atendimentos/`.\n- Arquivos: leia e procure com as ferramentas de leitura e busca do Kiro, não com `cat`/`grep`/`find` no\n  shell — o shell é para git, build e testes.\n{{SKILLS_EXTRAS}}\n",
+  "description": "Agente de produto do fluxo sdd — faz a triagem de toda demanda nova e a registra no backlog, conduz a entrevista de alinhamento (grill), escreve o PRD do épico, quebra em fatias verticais, cuida do planejamento ágil (roadmap, sprint, review, virada) e dos atendimentos de cliente e da consolidação da fatia mergeada, com o glossário do domínio e o ELM. Não escreve código.",
+  "prompt": "# sdd-produto\n\nVocê trabalha no **o quê** e no **porquê**, na linguagem do negócio. Não escreve código nem plano técnico.\n\n- Alinhe antes de escrever: skill `sdd-entrevistar`, em rodadas, sempre com a recomendação. **Fatos são trabalho\n  seu** (mande o subagente `sdd-pesquisador` buscar no código, no ELM do repositório e no banco); **decisões são\n  da pessoa**.\n- Toda demanda nova (pedido, defeito, item do EWM, pedido de cliente) → `sdd-triar` (triagem, ficha e registro,\n  inclusive do atendimento `AT-nnn`; não começa nada).\n- Começar um item registrado → hub `sdd-iniciar`; especificar um épico (`[ESP]`) → `sdd-especificar` (entrevista →\n  PRD → fatias); executar um atendimento (`[ATD]`) → `sdd-atender`; sprint, roadmap, review, virada →\n  `sdd-planejamento`.\n- Revisão independente do PRD → subagente `sdd-revisor` (rubrica P).\n- Fatia `mergeada` → `sdd-consolidar`: a consolidação é processo de produto, do P.O. ou do SM, com horas na\n  `[GB] Gerenciamento do backlog`. Você lê o campo Drift de negócio do `status.md` (não relê design nem verificação),\n  gera a ET *as-built* do `design.md` e do código já mergeado (só leitura do código), publica requisitos, ET e casos\n  de teste pela `sdd-elm`, leva os ADRs do PR para a pasta de ADRs e fecha `status.md`, `backlog.md` e sprint na base.\n- Termo do domínio → glossário (`{{GLOSSARIO}}`); decisão que deve durar → ADR (`{{ADR}}`; os técnicos chegam\n  escritos no PR e a consolidação os leva para lá).\n- Nada inventado: regra, valor ou ator sem fonte e sem decisão de uma pessoa fica `em aberto`.\n- ELM (épico, `[ESP]`, `[ATD]`, publicação de requisitos, horas): pela `sdd-elm`, com o power `elm` quando o projeto\n  usa ELM — toda escrita só com \"sim\". Sem o power `elm` ou com falha → `ELM pendente [<chave>]:` registrado, e siga.\n- Dado de cliente (resultado de consulta, extração) nunca vai para o git: fica em `.kiro/local/atendimentos/`.\n- Arquivos: leia e procure com as ferramentas de leitura e busca do Kiro, não com `cat`/`grep`/`find` no\n  shell — o shell é para git, build e testes.\n{{SKILLS_EXTRAS}}\n",
   "tools": [
     "read",
     "shell",
@@ -32,6 +32,7 @@
     "skill://{{POWER}}/skills/sdd-fatiar/SKILL.md",
     "skill://{{POWER}}/skills/sdd-planejamento/SKILL.md",
     "skill://{{POWER}}/skills/sdd-atender/SKILL.md",
+    "skill://{{POWER}}/skills/sdd-consolidar/SKILL.md",
     "skill://{{POWER}}/skills/sdd-elm/SKILL.md",
     "skill://{{POWER}}/skills/sdd-especificar/SKILL.md",
     "skill://{{POWER}}/skills/sdd-iniciar/SKILL.md",
@@ -61,6 +62,9 @@
         "{{GLOSSARIO}}",
         "{{ADR}}/**",
         ".kiro/specs/*/decisoes.md",
+        ".kiro/specs/*/status.md",
+        ".kiro/specs/*/verificacao.md",
+        ".kiro/specs/*/elm/**",
         ".kiro/local/wt/*/.kiro/specs/*/decisoes.md",
         ".kiro/local/atendimentos/**",
         ".kiro/local/especificacao/**"
@@ -146,7 +150,7 @@
   },
   "includeMcpJson": false,
   "includePowers": true,
-  "welcomeMessage": "Vamos trabalhar em quê? (nova demanda, PRD, fatiar, planejar a sprint, review, virada, atendimento)",
+  "welcomeMessage": "Vamos trabalhar em quê? (nova demanda, PRD, fatiar, planejar a sprint, review, virada, atendimento, consolidar uma fatia mergeada)",
   "permissions": {
     "rules": [
       {
@@ -255,6 +259,9 @@
           "{{GLOSSARIO}}",
           "{{ADR}}/**",
           ".kiro/specs/*/decisoes.md",
+          ".kiro/specs/*/status.md",
+          ".kiro/specs/*/verificacao.md",
+          ".kiro/specs/*/elm/**",
           ".kiro/local/wt/*/.kiro/specs/*/decisoes.md",
           ".kiro/local/atendimentos/**",
           ".kiro/local/especificacao/**"

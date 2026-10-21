@@ -1,6 +1,6 @@
 ---
 name: sdd-elm
-description: "Alimenta o IBM ELM (registro oficial da documentação) a partir dos artefatos do fluxo sdd, pelas skills do power elm, com prévia e confirmação — modos: similares (antes de especificar HF, REG ou GL, busca artefatos iguais ou relacionados; só leitura), requisitos (conceitos OKF aprovados no DOORS Next, idempotente), backlog (épico, Sustentação e itens de backlog das fatias com critérios de aceite), sprint (planos e tarefas [ESP] [DEV] [REV] [VER], [APR] no gate, troca AFK → HITL, virada), assumir (Passo 0 das skills de papel), atendimento ([ATD]), horas (lançar e relatório), testes (CT.csv no ETM), especificação técnica (ET as-built) e conclusão. O que o power elm não faz vira roteiro manual com pendência. Use em \"publica no ELM\", \"sobe o PRD para o DOORS\", \"cria os itens no EWM\", \"publica a sprint\", \"liga os testes\", \"fecha no ELM\", \"lança 4h\", \"relatório de horas\"."
+description: "Alimenta o IBM ELM (registro oficial da documentação) a partir dos artefatos do fluxo sdd, pelas skills do power elm, com prévia e confirmação — modos: similares (antes de especificar HF, REG ou GL, busca artefatos iguais ou relacionados; só leitura), requisitos (conceitos OKF aprovados no DOORS Next, idempotente), backlog (épico, Sustentação e itens de backlog das fatias com critérios de aceite), sprint (planos e tarefas [ESP] [DEV] [REV] [VER], [APR] no gate, troca AFK → HITL, virada), assumir (Passo 0 das skills de papel), atendimento ([ATD]), horas (lançar e relatório), testes (casos de teste criados no ETM, um por cenário verificado, com os links valida e testado por; CT.csv como alternativa manual), especificação técnica (ET as-built) e conclusão. O que o power elm não faz vira roteiro manual com pendência. Use em \"publica no ELM\", \"sobe o PRD para o DOORS\", \"cria os itens no EWM\", \"publica a sprint\", \"liga os testes\", \"fecha no ELM\", \"lança 4h\", \"relatório de horas\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -19,7 +19,7 @@ assumir tarefa, lançar horas, anexar) — nunca chama tool direto nem repete re
 horas, estados): essas moram lá.
 
 Requer o power **`elm`** nesta sessão (os agentes o recebem com `includePowers: true`) e as skills dele: **`elm`** (guia do power), **`elm-rm`** (DOORS Next), **`elm-ccm`**
-(EWM), **`elm-qm`** (ETM — ler o caso de teste importado para obter a URL), **`elm-gc`** (links) — carregue a skill
+(EWM), **`elm-qm`** (ETM — criar e ler caso de teste), **`elm-gc`** (links) — carregue a skill
 da área antes de chamar as tools. Ids da project area:
 `.kiro/config/power/elm/pa_*.json`. Tipos, pastas, prefixos e regras do projeto: seção **ELM** do
 `.kiro/steering/sdd.md`. Mapeamento e limites: [references/mapeamento.md](references/mapeamento.md).
@@ -27,7 +27,7 @@ da área antes de chamar as tools. Ids da project area:
 **Sem o power `elm` nesta sessão** (pesquisador, outra máquina) ou com falha: não publique. Registre `ELM pendente
 [<chave>]: <o que falta>` no **lugar único** do artefato e siga — o ELM nunca trava o fluxo. A **chave** identifica
 a ação e o alvo, curta e única no artefato (`[DEV 669412 concluir]`, `[IB FT-031 concluir]`, `[REG-01 publicar]`,
-`[CT FT-031 importar]`); uma pendência por chave:
+`[CT FT-031 criar]`); uma pendência por chave:
 
 | Artefato | Onde mora a pendência |
 |---|---|
@@ -271,7 +271,8 @@ Chamado pela skill do papel antes de trabalhar: `sdd-desenvolver` (`[DEV]`), `sd
 (`sdd-status`), numa fronteira de fase, sob pedido ("lança 4h", "lança 6h de ontem") — e, na conclusão, só o saldo
 (chamado pela skill do papel):
 1. Tarefa: a informada; senão a atual — o `status.md` da branch dá a `[DEV]`, `[REV]`, `[VER]` ou `[APR]` do papel
-   de quem pede; o AT aberto dá a `[ATD]`; a `[ESP]` vem do `sprint-<nn>.md`. Dúvida → pergunte.
+   de quem pede; o AT aberto dá a `[ATD]`; a `[ESP]` vem do `sprint-<nn>.md`; a triagem e a consolidação (P.O. ou
+   SM) lançam na `[GB]` da linha `Sustentação:` do `backlog.md`. Dúvida → pergunte.
 2. `elm-ccm` › **horas lançadas** → mostre e desconte. Uma linha por data.
 3. Confirme e `elm-ccm` › **lançar horas** (as regras do EWM — quem pode lançar, limite por dia, time code — são
    da `elm-ccm`; recusa dela → mostre o motivo e registre a pendência). Lançar não conclui a tarefa (tarefa de vários dias); concluir é
@@ -283,22 +284,33 @@ Chamado pela skill do papel antes de trabalhar: `sdd-desenvolver` (`[DEV]`), `sd
 `[DEV]` `[REV]` `[VER]` `[APR]` `[ATD]`) e por pessoa, planejadas × lançadas, e as tarefas concluídas **sem horas** (só no
 fechamento). Alimenta a retrospectiva e a recalibração da reserva de atendimento.
 
-## Modo testes (verificação → ETM)
+## Modo testes (cenários verificados → ETM)
 
-1. Entregue o caminho do `CT.csv` de cada fatia: `Importe no ETM (Importar → CSV)`. Pergunte os ids criados.
-2. Com os ids: `elm-qm` › **ler caso de teste** para obter a URL, depois ligue **valida** (CT →
-   história coberta pelo cenário) e **testado por** (IB → CT). `gc_context` se o ETM usar configuração global
-   (`elm-gc`).
-3. Registre os ids no `verificacao.md` e no `status.md`.
+Chamado pela `sdd-consolidar`, depois do merge e dos requisitos (as histórias já têm URL). Um caso de teste por
+cenário **verificado** (`✅ aceito` no `verificacao.md`); o texto vem da linha dele no `CT.csv`.
+
+1. Para cada cenário: título = o Resumo; descrição = a Descrição (sem as aspas do CSV); requisitos validados = a
+   URL (`resource`) de cada história que o cenário cobre (fatia sem épico: a da regra da ficha). Idempotência: id já ao lado do cenário no
+   `verificacao.md` → sem mudança (cada id é gravado assim que o caso nasce — passo 3).
+2. Prévia e **uma** confirmação para o lote → `elm-qm` › **criar caso de teste** (o link **valida** vai na criação)
+   → `elm-gc` › ligar item a caso de teste (**testado por**: IB → CT). `gc_context` se o ETM usar configuração
+   global (`elm-gc`).
+3. A cada caso criado, grave o id ao lado do cenário no `verificacao.md` e no campo ELM do `status.md`
+   (`CT <id>, …`) — falha no meio: os já criados ficam registrados e o passo 1 retoma.
+4. Falha (HTTP 403 sem permissão de criar no ETM, área sem criação de caso de teste por OSLC) ou sem o power →
+   `ELM pendente [CT FT-<nnn> criar]: <cenários sem caso>` e o `CT.csv` como alternativa: `Importe no ETM (Importar
+   → CSV)`; com os ids que a pessoa informar, `elm-qm` › **ler caso de teste** (URL), os links **valida** e
+   **testado por**, os ids como no passo 3 e `ELM feito [CT FT-<nnn> criar]`.
 
 ## Modo especificação técnica (opcional, as-built)
 
-Só se a linha ET da seção ELM do `sdd.md` disser `as-built no merge`, e **só chamado pela `sdd-consolidar`**, na
-sessão padrão (é a única que grava em `.kiro/specs/*/elm/` e publica no ELM); pedido direto num agente → "use a
-`sdd-consolidar`". Gere `ET - FT-031 <título>` a partir do `design.md` e do
-código **final** (interfaces, contratos, dados, integrações, decisões técnicas — nada do que não foi feito),
+Só se a linha ET da seção ELM do `sdd.md` disser `as-built no merge`, e **só chamado pela `sdd-consolidar`** —
+pelo P.O. ou SM que consolida, no agente `sdd-produto` (que lê o código e grava em `.kiro/specs/*/elm/`); pedido
+direto → "use a `sdd-consolidar`". Gere `ET - FT-031 <título>` a partir do `design.md` e do código **final, já
+mergeado na base** (interfaces, contratos, dados, integrações, decisões técnicas — nada do que não foi feito),
 grave-a como conceito OKF em `.kiro/specs/<ft>-<slug>/elm/ET-<slug>.md` (mesmo formato; `type` = o tipo de ET do
-projeto), mostre, publique como os requisitos depois do `verified` humano, e ligue ao IB (**implementa**).
+projeto), mostre, publique como os requisitos depois do `verified` humano de quem consolida, e ligue ao IB
+(**implementa**).
 
 ## Modo conclusão
 
@@ -309,7 +321,8 @@ aceitar — as duas depois do push conferido no remoto —, `[APR]` na aprovaç�
 merge, e o épico quando todas as fatias concluírem: leia os estados e as ações do item e percorra as transições até
 o estado de conclusão (ex.: *Em Desenvolvimento* → *Pronto*; ainda no inicial → passe pelo em andamento antes),
 numa confirmação. O servidor aceitou e o estado não mudou, ou recusou por atributo → mostre a pré-condição (ex.:
-responsável vazio) e registre `ELM pendente [IB FT-<nnn> concluir]` com ela. Comentário opcional no IB: PR, pasta e ids publicados.
+responsável vazio) e registre `ELM pendente [IB FT-<nnn> concluir]` com ela. Na mesma confirmação, o comentário no IB
+(`elm-ccm` › **comentar**): PR, pasta da fatia e ids publicados (requisitos, ET, casos de teste).
 
 ## Saída
 

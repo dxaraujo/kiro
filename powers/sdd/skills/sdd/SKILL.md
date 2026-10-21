@@ -32,6 +32,7 @@ chamada direto:
 | Aprovador (Dev Sênior) | `[APR]` — só nos gates sem tarefa de papel; nasce quando a fatia chega ao gate | `[APR] … Aprovar plano` → `sdd-plano` (Quem aprova) · `[APR] … Aprovar PR` (AFK) → `sdd-revisar` (Aprovação do PR) |
 | Verificador (QA) | `[VER]` | `sdd-verificar` |
 | quem atende | `[ATD]` | `sdd-atender` |
+| P.O. ou SM (analista de negócio) | `[GB] Gerenciamento do backlog` | `sdd-triar` (triagem) · `sdd-consolidar` (fatia `mergeada`: processo de produto, no agente `sdd-produto`) |
 
 | Trilha | Quando | Caminho |
 |---|---|---|
@@ -41,7 +42,7 @@ chamada direto:
 | **atendimento** | o cliente pede consulta, extração ou explicação; nada muda no repositório | triagem: entrevista curta → `AT-nnn` no backlog, sprint sugerida, `[ATD]` no EWM · `sdd-atender`: assume → banco (só leitura) e bundle → resposta com "ok" → saldo de horas → desdobramentos |
 
 Toda hora trabalhada cabe numa tarefa da sprint: `[ESP]` (especificação do épico), `[DEV]`, `[REV]`, `[VER]` (por
-fatia; no AFK só a `[DEV]`), `[APR]` (por gate com aprovação: plano, PR do AFK) e `[ATD]` (por atendimento). **Lançar ≠ concluir:** lançar horas é registro de
+fatia; no AFK só a `[DEV]`), `[APR]` (por gate com aprovação: plano, PR do AFK), `[ATD]` (por atendimento) e `[GB]` (triagem e consolidação, do P.O. ou do SM). **Lançar ≠ concluir:** lançar horas é registro de
 empenho, a qualquer momento numa tarefa iniciada (inclusive antes de um GATE); concluir é da skill do papel quando
 o trabalho dela termina, perguntando só o saldo — `[DEV]` no merge, `[REV]` ao aprovar (depois do push), `[VER]` ao
 aceitar (depois do push), `[APR]` na aprovação, `[ESP]` no GATE do backlog, `[ATD]` ao finalizar. **Entrega** (todo papel do HITL):
@@ -57,7 +58,9 @@ PRODUTO       especificar ─► entrevistar ─► PRD ─► GATE PRD ─► E
                                                                                     │
 FATIA         desenvolver ─► pesquisar ─► plano ─► GATE plano ─► implementar (TDD) ─► revisar ─► verificar ─► PR
                                                                                                          │
-DEPOIS        merge (Dev, PR aprovado) ─► consolidar (drift, ELM as-built, CTs, conclusão) ─► aprender (lições)
+DEPOIS        merge (Dev, PR aprovado; remove a worktree do loop)
+                │
+PRODUTO       consolidar (P.O./SM, [GB]): drift marcado pela REV/VER ─► ELM as-built (ET, CTs) ─► ADRs do PR ─► conclusão ─► aprender
 ```
 
 **Cadência:** a sprint é ritmo de inspeção (meta, review, retro), não escopo congelado. O compromisso é a meta; a
@@ -121,7 +124,7 @@ loop, a fatia para sozinha e o lote segue.
 7. **Autonomia gradual** — HITL até o tipo de trabalho provar que anda sozinho; AFK limitado pela capacidade de
    revisão humana.
 8. **Documentação ancorada no ELM** — PRD e plano são registros de decisão descartáveis; o ELM, o glossário e os
-   ADRs são o que dura; a consolidação fecha o drift.
+   ADRs são o que dura; a consolidação (processo de produto) fecha o drift.
 9. **Aprendizado composto** — cada correção humana muda o ambiente (checagem, regra, skill, glossário), não só o código.
 10. **Leia o código** — PRs pequenos, com caminho de leitura e evidência; nada é mergeado sem uma pessoa.
 
@@ -146,7 +149,7 @@ loop, a fatia para sozinha e o lote segue.
 | implementar, abrir o PR e mergear o PR aprovado | `sdd-implementar` |
 | revisar PRD, plano ou código | `sdd-revisar` |
 | verificar o aceite de ponta a ponta | `sdd-verificar` |
-| fechar a fatia depois do merge | `sdd-consolidar` |
+| fechar a fatia depois do merge (P.O. ou SM, agente `sdd-produto`) | `sdd-consolidar` |
 | publicar no ELM (DOORS Next, EWM, ETM) | `sdd-elm` |
 | levar várias fatias AFK até o PR | `sdd-loop` (com o agente `sdd-orquestrador`) |
 | rodar uma receita de workflow numa fatia | você, no chat do Kiro: "rode o workflow `sdd-entregar-fatia` para a FT-031" ou `/workflow-run` (IDE 1.3+) |
@@ -194,9 +197,9 @@ Nunca compacte no meio de uma fase.
 - Dado de cliente (resultado de consulta, extração, tela com dado real) nunca vai para o git: fica em
   `.kiro/local/<origem>/<id>/`; o registro versionado guarda consulta, contagem, caminho e resumo sem identificar
   pessoas.
-- **Skills sem agente exclusivo:** `sdd-setup`, `sdd-consolidar` e `sdd-aprender` rodam na **sessão padrão** (com
-  o power carregado), não em agentes específicos: gravam onde nenhum agente pode (steering, agentes, ET *as-built*,
-  remoção de worktree). **Push pelo agente:** orquestrador (no loop), codificador, revisor e verificador,
+- **Skills sem agente exclusivo:** `sdd-setup` e `sdd-aprender` rodam na **sessão padrão** (com o power
+  carregado): gravam onde nenhum agente pode (steering, agentes); o modo registrar da `sdd-aprender`, que só grava
+  as lições, também roda no `sdd-produto`. A **`sdd-consolidar`** é do P.O. ou do SM, no `sdd-produto`. **Push pelo agente:** orquestrador (no loop), codificador, revisor e verificador,
   com `ask` (o Kiro pergunta sempre), só a branch da fatia — nunca a base; sem a pergunta (engine V2) o push é
   negado, a skill entrega o comando pronto e espera a pessoa dizer que publicou; produto e pesquisador não fazem
   push. Subagente do AFK não faz push (quem conduz commita). Com a branch no remoto, o PR é aberto pela

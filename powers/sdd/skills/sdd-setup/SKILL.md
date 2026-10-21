@@ -181,15 +181,15 @@ pré-marcadas pelos `papeis` do toolkit e pelo tipo de projeto (formato em `tool
 
 | Agente | Já tem (do fluxo) | Sugestão de extras |
 |---|---|---|
-| `sdd-produto` | triar, entrevistar, especificar, prd, fatiar, planejamento, atender, iniciar, status, elm | skills de domínio/negócio |
+| `sdd-produto` | triar, entrevistar, especificar, prd, fatiar, planejamento, atender, consolidar, iniciar, status, elm | skills de domínio/negócio |
 | `sdd-pesquisador` | pesquisar | skills de stack para ler o código (ex.: `java`) |
 | `sdd-codificador` | desenvolver, plano, implementar, iniciar, status, elm | skills de stack e de teste do toolkit (ex.: `spring-batch-job`, `java`) |
 | `sdd-revisor` | revisar, iniciar, status, elm | skills de padrões e de revisão da stack |
 | `sdd-verificador` | verificar, iniciar, status, elm | skills de teste de aceite (Playwright, teste de job, API) |
 | `sdd-orquestrador` | loop, desenvolver, status, elm | normalmente nenhuma |
 
-Consolidar, aprender e setup rodam na **sessão padrão** (sem agente): a consolidação grava na base, publica a ET
-*as-built* e remove a worktree, o que nenhum agente pode fazer inteiro.
+Aprender e setup rodam na **sessão padrão** (sem agente). A consolidação é do P.O. ou do SM, no `sdd-produto`
+(grava na base, publica a ET *as-built* e os casos de teste).
 
 Para cada agente, **uma mensagem só**: a proposta completa já marcada pelos padrões e **uma** confirmação ("ok", ou
 o que muda — marcar/desmarcar uma skill, um MCP, trocar o modelo). Nada é perguntado item a item:

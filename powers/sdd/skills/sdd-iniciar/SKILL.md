@@ -37,7 +37,8 @@ está em (1) nem (2) não está registrado.
 | `AT-nnn`, tarefa `[ATD]` | **`sdd-atender`** | quem atende / `sdd-produto` |
 | fatia em `pronta-para-merge` (qualquer item dela, menos a `[APR]`) | **`sdd-desenvolver`** → `sdd-implementar` Passo 6 (merge do PR aprovado) | Dev responsável / `sdd-codificador` |
 | fatia em `bloqueada` com `aguardando troca para HITL` | **`sdd-planejamento`** (Troca de modo, na base); feita a troca, o Dev retoma pela **`sdd-desenvolver`** | P.O. ou SM / `sdd-produto` · Dev / `sdd-codificador` |
-| fatia em `mergeada` | **`sdd-consolidar`** (sessão padrão) | P.O. / sessão padrão |
+| fatia em `mergeada` | **`sdd-consolidar`** (processo de produto; horas na `[GB]`) | P.O. ou SM / `sdd-produto` |
+| tarefa `[GB] Gerenciamento do backlog` | fatias em `mergeada` → **`sdd-consolidar`** (uma por vez); nenhuma → **`sdd-triar`** | P.O. ou SM / `sdd-produto` |
 
 ```
 🔀 <item> — <título> · <tipo> · <fase do status.md | status do backlog>
@@ -62,7 +63,7 @@ Responda com a instrução e **pare**: nunca invoque nem simule a skill do papel
    | 2 | [REV] 669401 | FT-031 Bloquear a conta | Novo | sdd-revisar |
    Qual? (número)
    ```
-   Tarefa sem tipo do sdd no título (`[DEV]`, `[REV]`, `[APR]`, `[VER]`, `[ESP]`, `[ATD]` não aparecem): mostre no fim, com
+   Tarefa sem tipo do sdd no título (`[DEV]`, `[REV]`, `[APR]`, `[VER]`, `[ESP]`, `[ATD]`, `[GB]` não aparecem): mostre no fim, com
    Skill `— (fora do sdd)`; escolhida → diga que não é do fluxo e ofereça a `sdd-triar` se ela deve virar trabalho
    do fluxo.
 3. A pessoa escolhe → Passo 2 com o item escolhido. Nenhuma tarefa → diga e ofereça "próxima fatia"

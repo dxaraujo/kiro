@@ -72,13 +72,19 @@ Reprovação em qualquer eixo é `REVISAR`.
 | C12 | Nomes do domínio = termos canônicos do glossário; nomes técnicos no padrão dos vizinhos | IMPORTANTE |
 | C13 | Módulos profundos: interface pequena para o que esconde; sem abstração especulativa, camada a mais ou duplicação evitável | IMPORTANTE |
 | C14 | Sem `TODO`/`FIXME`, print/log de depuração ou código comentado; registros obrigatórios da estrutura (rotas, menus, agendamentos, migrações) presentes | IMPORTANTE |
+| C15 | Cada decisão do `design.md` com "Vira ADR? sim" tem o ADR no PR, em `.kiro/specs/<ft>-<slug>/adr/` (contexto · decisão · consequências · origem FT-nnn), e ele descreve o que o código faz | IMPORTANTE |
 
 Calibragem: seja cético (o autor tende a achar que terminou), mas aponte só o que afeta **correção, requisito,
 segurança ou manutenção real**. Gosto pessoal e "eu faria diferente" são SUGESTÃO, quando muito — perseguir cada
 achado leva a excesso de engenharia.
 
 C3 falhando por ambiente (banco, rede, dependência fora do ar) → `AMBIENTE`, não conta como achado; diga o que
-falhou. Fecho: `VEREDITO: APROVADO` ou `VEREDITO: REVISAR`.
+falhou.
+
+**Drift de negócio** (não reprova; vai para a consolidação): na penúltima linha, `Drift de negócio: sim — <motivo>`
+quando um achado aceito ou uma decisão técnica do `design.md` muda o comportamento visível ao usuário em relação
+ao cenário ou à regra do PRD (ou da ficha); senão `Drift de negócio: não`. Fecho: `VEREDITO: APROVADO` ou
+`VEREDITO: REVISAR`.
 
 ## Formato do relatório
 
@@ -97,6 +103,7 @@ falhou. Fecho: `VEREDITO: APROVADO` ou `VEREDITO: REVISAR`.
 | # | Resultado (✅ ❌ N/A AMBIENTE) | Observação |
 |---|---|---|
 
+<rubrica C, penúltima linha: Drift de negócio: não | sim — <motivo>>
 <última linha: RESULTADO: … | ANALISE: … | VEREDITO: …>
 ```
 

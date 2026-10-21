@@ -1,7 +1,9 @@
 # `CT.csv` — casos de teste para importação no ETM
 
-Um caso por cenário **verificado** (aceito com evidência) da fatia. O MCP do power `elm` só lê o ETM: a
-importação é pela UI do ETM (Importar → CSV) e o link "valida" com a história é feito depois, pela `sdd-elm`.
+Um caso por cenário **verificado** (aceito com evidência) da fatia. Na consolidação, a `sdd-elm` (modo *testes*)
+cria cada caso no ETM pelo agente, com o Resumo como título e a Descrição como cenário, e o link "valida" na
+criação. Sem permissão de criar no ETM ou sem o power `elm`, o arquivo é importado à mão (Importar → CSV) e os
+links são feitos depois, pela `sdd-elm`.
 
 ## Arquivo
 

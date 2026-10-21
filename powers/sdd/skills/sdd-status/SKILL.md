@@ -23,7 +23,7 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
    no campo `**ELM:**` dos `AT-*.md` abertos e na coluna "Tarefa ELM" `pendente` da sprint aberta).
    PR das fatias em `pr-aberto`, `em-revisao`, `em-verificacao`, `retrabalho`, `pronta-para-merge` ou `mergeada`:
    `gitlab_listar_mrs(origem=<branch>, estado=all)` (MCP `gitlabpr`, só leitura) — estado, conflitos e link;
-   `merged` → próximo passo `sdd-consolidar` (fase ainda `pronta-para-merge` → o Dev registra `mergeada` e conclui a `[DEV]`); `closed` sem merge → inconsistência. Sem o MCP → o link do `status.md`.
+   `merged` → próximo passo `sdd-consolidar`, do P.O. ou do SM no agente `sdd-produto` (fase ainda `pronta-para-merge` → o Dev registra `mergeada` e conclui a `[DEV]`); `closed` sem merge → inconsistência. Sem o MCP → o link do `status.md`.
 3. De cada `tasks.md`: `[x]`/total e o primeiro item pendente.
 4. `<produto>/backlog.md` (da base): épicos por status, fatias `pronta` sem `status.md` em nenhuma branch,
    sprint atual (`<produto>/sprints/` de maior número com `**Situação:** aberta`) e a meta. "Em andamento" = fatia com
@@ -53,7 +53,7 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
 - FT-028 em-verificacao → esperando verificação: [VER] de <verificador> (sdd-verificar)
 - FT-027 pronta-para-merge → merge pelo Dev responsável (<login>, sdd-implementar Passo 6) <link> · AFK, antes: [APR] Aprovar PR de <Dev Sênior> (sdd-revisar)
 - FT-026 bloqueada: aguardando troca para HITL → P.O. (sdd-planejamento, Troca de modo)
-- FT-025 mergeada → consolidar (sdd-consolidar)
+- FT-025 mergeada há 1 dia → consolidar: P.O. ou SM (sdd-consolidar, agente sdd-produto, horas na [GB])
 - FT-030 aceita (AFK) → abrir o PR (sdd-implementar)
 🔁 Retrabalho: FT-026 (de: em-revisao) → o codificador retoma no mesmo PR (sdd-implementar)
 

@@ -185,7 +185,13 @@ plano; a tarefa `[APR]` registra as aprovações do Dev Sênior; a trilha direta
 confirmação, abre o PR e o Dev leva a fatia até o merge (a `[DEV]` é concluída no merge); a troca AFK → HITL é
 sugerida na conclusão do plano e feita pelo P.O. na base; a consolidação é do P.O. ou do SM, com horas na `[GB]`, e
 cria os casos de teste no ETM; o bundle do ELM é consultado pelo `okf` e os PRs pelo `gitlabpr` (requer o power
-`elm` ≥ 1.4.0 e o `mcp-elm` ≥ 1.0.43). Projeto configurado com o power
+`elm` ≥ 1.4.0 e o `mcp-elm` ≥ 1.0.43). Na 2.8.0, "atualizar a configuração do sdd" e "atualizar os agentes do sdd"
+de novo: cada tarefa é assumida e concluída pela mesma skill de papel, e toda skill termina dizendo a próxima e
+para. A `sdd-implementar` termina no PR; o merge do PR aprovado, as lições da fatia e a conclusão da `[DEV]` passam
+para a `sdd-desenvolver` (Passo 6). A `[APR]` do plano sai da `sdd-plano` para a `sdd-revisar`, no `sdd-revisor`.
+A ET *as-built* é escrita pelo Dev no PR, e a consolidação só a publica. A `sdd-especificar` leva o PRD aprovado
+para a base e conclui a `[ESP]`, e a `sdd-prd` e a `sdd-fatiar` só conduzem o próprio GATE. O `equipe.json` é da
+`sdd-planejamento` (modo inicial), não da setup. Projeto configurado com o power
 `sdd2` ou com a v1 do `sdd`: desinstale o power antigo, instale este e peça "atualizar a configuração do sdd" — a
 setup pergunta a pasta do produto, junta os steerings num só, renomeia hooks, workflows e agentes e move
 `.kiro/produto/` e `.kiro/aprendizado/` com `git mv`.

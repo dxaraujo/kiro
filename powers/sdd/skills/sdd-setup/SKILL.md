@@ -199,7 +199,7 @@ o que muda — marcar/desmarcar uma skill, um MCP, trocar o modelo). Nada é per
 Skills  [x] java (toolkit java)  [x] spring-batch-job (toolkit batch)  [ ] angular (toolkit front)
 MCPs    [x] elm (leitura; escrita com confirmação)  [x] banco: @<servidor>/<tool de consulta>
 Modelo  padrão do Kiro
-Subagentes  sdd-pesquisador, sdd-revisor  [ ] <agente do projeto> — <para quê>
+Subagentes  sdd-pesquisador, sdd-revisor, sdd-verificador  [ ] <agente do projeto> — <para quê>
 ok?
 ```
 

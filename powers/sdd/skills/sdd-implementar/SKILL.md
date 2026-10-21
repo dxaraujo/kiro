@@ -114,8 +114,9 @@ ele precisa estar na branch antes da abertura.
 
 ## Passo 4 — Verificação de aceite (só AFK)
 
-Incremente "verificação" em Rodadas e siga para a **`sdd-verificar`** (cenários de aceite executados de ponta a ponta, com evidência; de preferência
-pelo agente `sdd-verificador`). `ACEITO` → ela deixa a fatia em `fase: aceita`; `REJEITADO` → devolve para cá
+Incremente "verificação" em Rodadas e peça ao agente **`sdd-verificador`** (subagente) a **`sdd-verificar`** (cenários
+de aceite executados de ponta a ponta, com evidência) — nunca a execute você: quem implementou não verifica. Sem
+subagente disponível → pare aqui e devolva a quem chamou: "pronta para a verificação (rodada <N>)". `ACEITO` → ela deixa a fatia em `fase: aceita`; `REJEITADO` → devolve para cá
 os cenários reprovados (Passo 0). Teto de 2 rodadas, como na revisão: 2ª rejeição seguida → `fase: bloqueada (de:
 verificando)` com as mesmas opções do Passo 3. Corrigida uma rejeição, volte ao Passo 2 e ao Passo 3 (a nova
 revisão conta no teto de rodadas) antes de verificar de novo.

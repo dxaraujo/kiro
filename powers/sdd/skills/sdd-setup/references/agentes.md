@@ -51,7 +51,7 @@ permissão, compare as regras dele com as do orquestrador.
 | `{{SUBAGENTES}}` (no `prompt`) | `Subagentes do projeto: `x` (<tipo de tarefa>)` ou nada |
 | `resources` | `file://` do steering de produto/tecnologia/estrutura e dos extras; `skill://` de cada skill escolhida |
 | leitura | a pasta de cada skill escolhida que fique fora do projeto e do power (`~/.kiro/skills/<skill>/**`, `~/.kiro/powers/installed/<toolkit>/**`) |
-| comandos | codificador e revisor: compilar, testes, teste único, lint, cobertura · verificador: executar, testes, scripts de massa · orquestrador: todos esses e `sh .kiro/sdd/http.sh *` (se instalado) |
+| comandos | codificador e revisor: compilar, testes, teste único, lint, cobertura · verificador: executar, testes, scripts de massa · codificador e orquestrador: também os do verificador e `sh .kiro/sdd/http.sh *` (se instalado), porque o chamam como subagente |
 | escrita do verificador | a pasta de massa do projeto, se houver |
 | MCP de banco | só a tool de consulta, em **quatro** lugares: `tools` e `allowedTools` (`@<servidor>/<tool>`), `"includeMcpJson": true` (o template vem com `false`: sem trocar, o agente não carrega nenhum MCP) e a regra `mcp` `allow` `<servidor>/<tool>` |
 | ELM (projeto com `Usa ELM: sim`) | `"includePowers": true` (fixo em todos) — o power `elm` traz o MCP e as skills `elm-*`; nenhuma tool `@elm/…` no agente nem servidor `elm` no `mcp.json` (as skills do `sdd` pedem operações às `elm-*`). O pesquisador recebe o power pelo `okf`, mas não pede nada ao ELM |

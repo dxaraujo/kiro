@@ -137,7 +137,9 @@ iteração) ou pergunte a tarefa. Sem tarefa, não commite: deixe os arquivos e 
 como diz "Artefatos de produto" no `sdd.md` (no agente `sdd-produto`, que não faz push, entregue o comando pronto
 — a pessoa executa). **Conflito de id** no push (outra
 pessoa registrou o mesmo número antes): o agente não faz merge nem rebase — peça à pessoa `git pull --rebase`; no
-conflito do `backlog.md`, mantenha o remoto, pegue o próximo id livre para a sua linha (e para o nome
+conflito do `backlog.md`, mantenha o remoto e, **antes de renumerar**, confira de novo a `origem` (DF, IB, AT, pedido):
+já está numa linha do remoto → a outra pessoa triou o mesmo item; descarte a sua linha e a sua ficha, mostre a
+que existe e pare. Senão, pegue o próximo id livre para a sua linha (e para o nome
 da ficha) e, se o item já foi criado no EWM, troque o `[FT-nnn]`/`[EP-nn]` do título (`elm-ccm` › atualizar item, com
 "sim"). Id que ainda não chegou à base pode mudar; o que já chegou, nunca.
 

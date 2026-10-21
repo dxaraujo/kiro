@@ -102,8 +102,10 @@ retrospectiva do épico ou da sprint (`sdd-aprender`).
   concluído (`sdd-elm` modo *conclusão*, na mesma confirmação do Passo 2; sem o power → `ELM pendente
   [EP-<nn> concluir]` no rodapé do PRD); sugira a retrospectiva do épico (`sdd-aprender`), com o lint do
   conhecimento.
-- **`sdd-aprender`** modo registrar para cada correção humana da fatia (achados da revisão que chegaram à pessoa,
-  verificações rejeitadas, mudanças pedidas no PR).
+- **`sdd-aprender`** modo registrar para cada linha das **Lições candidatas** que o Dev gravou no merge (`status.md`
+  da branch da fatia, `git show origin/<branch>:…`): transcreva sem reclassificar — os fatos e a causa são de quem
+  recebeu a correção — e grave o L-nnn na linha, levando a seção para o `status.md` da base. Causa `—` ou
+  `nenhuma` → nada a registrar. Seção ausente (fatia anterior a esta regra) → peça ao Dev; nunca reconstrua você.
 - Commit (padrão do `sdd.md`, `<id> consolidar`) com `status.md`, `backlog.md` e o que mudou. Branch da fatia: pode
   ser apagada depois do merge (a pasta da fatia já está na base).
 

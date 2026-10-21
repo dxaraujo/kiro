@@ -196,8 +196,14 @@ A fatia chegou a `pronta-para-merge`: o merge e a conclusão da `[DEV]` são do 
 5. **Confira:** `gitlab_obter_mr(iid)` (ou `gitlab_listar_mrs(origem=<branch>, estado=merged)`) com estado `merged`
    — inclusive no merge pela UI. Sem o MCP → `git fetch` e `git diff origin/<base> origin/<branch> -- <arquivos que
    a fatia mudou>` vazio. Não mergeado → pare.
-6. `status.md` (na branch da fatia): `fase: mergeada`; no Histórico, `merge do PR <link> por <login>` (AFK: antes,
-   `PR aprovado por <login>`). Commit, push e conferência como nos itens 1–3 da Entrega do Passo 5 da `sdd-implementar`.
+6. **Lições da fatia** — antes de fechar a `[DEV]`: liste as correções humanas que a fatia recebeu (tabela
+   Retrabalho; Achados abertos de origem PR ou GATE do plano; bloqueio resolvido por uma pessoa; "não é assim" no
+   Histórico) e, com a pessoa, grave uma linha por correção na seção **Lições candidatas** do `status.md`: feito ×
+   certo, onde estava o certo e a causa proposta (tabela de causas da [`sdd-aprender`](../sdd-aprender/SKILL.md)).
+   Correção sem lição (ambiente, digitação) → causa `—`; nenhuma correção → `nenhuma`. O `licoes.md` é da base:
+   quem o grava é a consolidação. Depois, `status.md` (na branch da fatia): `fase: mergeada`; no Histórico, `merge do PR <link> por <login>` (AFK: antes,
+   `PR aprovado por <login>`). Commit (com as Lições), push e conferência como nos itens 1–3 da Entrega do Passo 5 da `sdd-implementar`. É
+   depois do merge: um commit antes dele mudaria o `sha` aprovado.
 7. **Conclusão da `[DEV]`:** mostre as horas já lançadas (`elm-ccm` › horas lançadas) e pergunte só o saldo →
    `sdd-elm` modo *horas* e modo *conclusão* da `[DEV]`, numa confirmação. Sem o power `elm` → `ELM pendente
    [<chave>]: lançar <h>h e concluir [DEV] FT-<nnn>` no Histórico (commit e push), junto com a pendência da `[APR]`

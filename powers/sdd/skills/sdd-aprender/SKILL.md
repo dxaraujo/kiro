@@ -29,6 +29,9 @@ curta, nunca a explicação longa (ela fica no `licoes.md`).
 Gatilhos: achado da revisão que chegou ao humano, cenário rejeitado na verificação, PR com mudança pedida,
 pessoa dizendo "não é assim", bloqueio por falta de informação.
 
+Chamada pela `sdd-consolidar` com uma linha das **Lições candidatas** do `status.md` (gravada pelo Dev no merge):
+os fatos e a causa já vêm de quem recebeu a correção — grave-os no `licoes.md` sem perguntar de novo (passo 3).
+
 1. **Fatos** (só verificados; o que a pessoa disse é registrado como dito por ela):
    - o que foi feito (`arquivo:linha`, trecho) × o que era o certo;
    - onde a informação certa estava — ou que não estava em lugar nenhum.

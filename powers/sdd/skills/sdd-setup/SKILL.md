@@ -181,14 +181,15 @@ pré-marcadas pelos `papeis` do toolkit e pelo tipo de projeto (formato em `tool
 
 | Agente | Já tem (do fluxo) | Sugestão de extras |
 |---|---|---|
-| `sdd-produto` | triar, entrevistar, especificar, prd, fatiar, planejamento, atender, consolidar, iniciar, status, elm | skills de domínio/negócio |
+| `sdd-produto` | triar, entrevistar, especificar, prd, fatiar, planejamento, atender, consolidar, aprender (registrar), iniciar, status, elm | skills de domínio/negócio |
 | `sdd-pesquisador` | pesquisar | skills de stack para ler o código (ex.: `java`) |
 | `sdd-codificador` | desenvolver, plano, implementar, iniciar, status, elm | skills de stack e de teste do toolkit (ex.: `spring-batch-job`, `java`) |
 | `sdd-revisor` | revisar, iniciar, status, elm | skills de padrões e de revisão da stack |
 | `sdd-verificador` | verificar, iniciar, status, elm | skills de teste de aceite (Playwright, teste de job, API) |
 | `sdd-orquestrador` | loop, desenvolver, plano, implementar, status, elm | normalmente nenhuma |
 
-Aprender e setup rodam na **sessão padrão** (sem agente). A consolidação é do P.O. ou do SM, no `sdd-produto`
+Aprender e setup rodam na **sessão padrão** (sem agente); o modo registrar da aprender também no `sdd-produto`,
+na consolidação. A consolidação é do P.O. ou do SM, no `sdd-produto`
 (grava na base, publica a ET *as-built* e os casos de teste).
 
 Para cada agente, **uma mensagem só**: a proposta completa já marcada pelos padrões e **uma** confirmação ("ok", ou

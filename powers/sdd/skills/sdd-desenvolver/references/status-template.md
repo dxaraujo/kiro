@@ -66,6 +66,15 @@
 | # | Papel | Motivo (relatório) | Data | Horas na [DEV] (retrabalho) |
 |---|---|---|---|---|
 
+## Lições candidatas
+
+<!-- Gravadas pelo Dev responsável no merge (sdd-desenvolver Passo 6, item 6), antes de concluir a [DEV]: uma linha
+     por correção humana que a fatia recebeu. Correção sem lição (ambiente, digitação) → `—` na causa; nenhuma
+     correção → uma linha `nenhuma`. A sdd-consolidar as leva para o licoes.md (sdd-aprender) e grava o L-nnn. -->
+
+| # | Correção (origem) | Feito × certo | Onde estava o certo | Causa proposta | L-nnn |
+|---|---|---|---|---|---|
+
 ## Histórico
 
 <!-- Só acréscimo, sempre no fim. É o arquivo de progresso: quem retoma a fatia (pessoa, agente, sessão nova)

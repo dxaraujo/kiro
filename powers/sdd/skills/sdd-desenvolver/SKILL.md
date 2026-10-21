@@ -41,7 +41,10 @@ Fatia já iniciada (tem pasta em `.kiro/specs/` nesta branch, em worktrees ou em
 `git grep -l '<id>' <ref> -- '.kiro/specs/*/status.md'`) → leia o `status.md` e **retome**: Passo 4, item 4
 (assumir: a `sdd-elm` modo *assumir* não repete o que já foi feito) e Passo 5, sem repetir o Passo 3. Branch
 diferente da atual → pergunte se troca (alterações locais não commitadas → avise e pare; nunca ofereça descartar,
-`stash` ou `reset`).
+`stash` ou `reset`). **Branch aberta numa worktree** (`git worktree list` mostra `.kiro/local/wt/<ft>` com ela —
+fatia do `sdd-loop`): não troque, o `git switch` falha; trabalhe na worktree — comandos com
+`cd .kiro/local/wt/<ft> && <comando>`, arquivos pelo caminho `.kiro/local/wt/<ft>/<caminho>` — e passe isso à
+próxima skill. Vale para todas as skills de papel que precisam da branch da fatia.
 
 **Troca AFK → HITL** (fatia em `bloqueada (de: <fase>)` com `aguardando troca para HITL`, ou com `Modo: AFK` no
 `status.md` e `HITL` no `backlog.md`): leia a base sem trocar de branch — `git fetch` e `git show origin/<base>:<produto>/backlog.md` e

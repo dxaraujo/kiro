@@ -129,7 +129,8 @@ plano da FT-<nnn>"):
 1. Quem está na sessão é Dev Sênior ativo (`senioridade` no `equipe.json` da base) **e** é o responsável pela `[APR]`
    (no EWM; sem o power `elm`, o `Responsável` do `status.md`)? Não → diga quem é e pare (trocar quem aprova é de
    quem implementa, no GATE acima).
-2. Branch da fatia (`git switch <branch>` com "sim"; árvore suja → avise e pare) e `git pull --ff-only`; a fase tem
+2. Branch da fatia (`git switch <branch>` com "sim"; árvore suja → avise e pare; aberta numa worktree → trabalhe
+   nela, regra da `sdd-desenvolver`, Passo 1) e `git pull --ff-only`; a fase tem
    de ser `plano-em-revisao` (senão diga qual é e pare).
 3. **`sdd-elm` modo *assumir*** a `[APR]` (sem o power `elm` → `ELM pendente [APR FT-<nnn> assumir]` no Histórico).
 4. Mostre o resumo do GATE (acima) e leia com a pessoa a forma do programa e o contrato de pronto.

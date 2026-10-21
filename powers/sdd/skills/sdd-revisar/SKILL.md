@@ -78,7 +78,7 @@ Fatia `Modo: HITL` com a tarefa `[REV]` assumida (Passo 0) e `fase: pr-aberto` (
 revisão oficial é sua, na sua sessão:
 
 1. Leia o PR pelo `gitlab_obter_mr` (iid do link no `status.md`): `merged` ou `closed` → avise e pare;
-   `conflitos` → anote no relatório. Vá para a branch do PR (`git switch <branch>` com "sim"; árvore suja → avise e pare) e `git pull --ff-only`.
+   `conflitos` → anote no relatório. Vá para a branch do PR (`git switch <branch>` com "sim"; árvore suja → avise e pare; aberta numa worktree → trabalhe nela, regra da `sdd-desenvolver`, Passo 1) e `git pull --ff-only`.
    `fase: em-revisao`; incremente "revisão do código" em Rodadas — a rodada é sua (retomando `em-revisao` sem o
    relatório desta rodada gravado, não incremente de novo).
    PR atualizado depois de um retrabalho pedido pela VER, com a `[REV]` já concluída → o Passo 0 a reabre (modo
@@ -110,7 +110,8 @@ revisão e a verificação já foram feitas por subagentes; aqui uma pessoa **l�
    (sem o power `elm`, quem o Dev indicou)? Não → diga quem é e pare. PR de um Sênior (o `Responsável` da fatia) →
    outro Sênior aprova; ele mesmo só quando é o **único** Dev Sênior ativo.
 2. Leia o PR pelo `gitlab_obter_mr` (iid do link no `status.md`): `merged` ou `closed` → avise e pare. Vá para a
-   branch do PR (`git switch <branch>` com "sim"; árvore suja → avise e pare) e `git pull --ff-only`; a fase tem de
+   branch do PR (`git switch <branch>` com "sim"; árvore suja → avise e pare; aberta numa worktree → trabalhe nela,
+   regra da `sdd-desenvolver`, Passo 1) e `git pull --ff-only`; a fase tem de
    ser `pronta-para-merge`. Anote o `sha` = `git rev-parse origin/<branch>` (o do PR).
 3. **`sdd-elm` modo *assumir*** a `[APR]`.
 4. Mostre o caminho de leitura: o texto do PR ("Como ler"), o `revisao-codigo-<N>.md` aprovado, as evidências do

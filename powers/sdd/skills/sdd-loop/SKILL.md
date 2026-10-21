@@ -11,8 +11,8 @@ metadata:
 
 Quem executa é o agente **`sdd-orquestrador`** (ou a sessão da pessoa, com os mesmos passos). Ele coordena e
 registra; cada fase é feita por um subagente que começa do zero e lê o estado do disco. A pessoa fica **sobre** o
-loop, não dentro: aprova o lote no início e lê os PRs no fim; quem disparou o loop é o Dev responsável e faz o merge de
-cada PR aprovado (Passo 6 da `sdd-implementar`).
+loop, não dentro: aprova o lote no início, um Dev Sênior aprova os planos que pedem GATE e lê cada PR no fim (tarefas
+`[APR]`); quem disparou o loop é o Dev responsável e faz o merge de cada PR aprovado (Passo 6 da `sdd-implementar`).
 
 Leia antes: `.kiro/steering/sdd.md` (seções Git, banco e autonomia e Comandos) e
 `<produto>/acordos.md` (WIP; sem o arquivo, limite 2).
@@ -48,11 +48,16 @@ e pergunte se retoma. Retomar = continuar cada fatia da fase registrada no `stat
    | FT | Título | Branch | Worktree |
    |---|---|---|---|
    | FT-031 | Bloquear a conta após 3 tentativas | feature/ft-031-bloquear-conta | .kiro/local/wt/ft-031 |
-   GATE do plano: fatias sem épico seguem com a análise L · fatias de épico param no GATE (uma pessoa aprova)
+   GATE do plano (senioridade de quem dispara): Sênior → sem GATE (plano do Sênior) · Pleno → quer a aprovação de
+   um Dev Sênior nos planos deste lote? (sim: [APR] para <login> | não) — a escolha vale para o lote
+   Aprovação dos PRs: [APR] Aprovar PR para <Dev Sênior> (sugestão: outro que não quem dispara; ele mesmo só se
+   for o único Dev Sênior ativo)
+   Plano com risco (regra sensível, muitos cenários, integração externa, mudança de dado) → a fatia para em
+   bloqueada com a sugestão de troca para HITL, o P.O. é avisado e o loop segue com as outras
    Ao fim de cada fatia aprovada e aceita: push + PR? (sim/não)   — nunca merge; só se o sdd.md diz
    "perguntar a cada lote" (com "não — a pessoa abre", omita a linha: o loop para em `aceita`)
-   EWM: assumir as [DEV] do lote (responsável: <login de quem dispara>) e colocá-las em andamento — no AFK não
-   há [REV] nem [VER]: revisão e verificação são dos subagentes
+   EWM: assumir as [DEV] do lote (responsável: <login de quem dispara>) e colocá-las em andamento; criar cada
+   [APR] quando a fatia chegar ao gate — no AFK não há [REV] nem [VER]: revisão e verificação são dos subagentes
    Confirma?
    ```
    Com "sim" e o power `elm`: fatia sem `[DEV]` (puxada, ou publicação que falhou) → `sdd-elm` modo *sprint* cria
@@ -95,11 +100,11 @@ seguinte da mesma fatia.
 | 1 | pesquisa | `sdd-pesquisador` (`sdd-pesquisar`) | `research.md` gravado |
 | 2 | plano | `sdd-codificador` (`sdd-plano`, Passos 2–3) | spec do Kiro gravada · ou `bloqueada` |
 | 3 | análise do plano | `sdd-revisor` (rubrica L) → `sdd-codificador` corrige | `ANALISE: OK` · 2 rodadas sem OK → `bloqueada` |
-| 4 | GATE do plano | você | a regra do Passo 5 da `sdd-plano`, na ordem dela (teste existente que muda → rápida com `GATE na trilha rápida` → épico): pede pessoa → commit do plano na worktree, **pare esta fatia** em `plano-em-revisao` (`Responsável` = quem aprova) e siga com as outras (retoma depois do GATE) · não pede → grave `fase: implementando` e siga |
+| 4 | troca e GATE do plano | você | o Passo 5 da `sdd-plano`, sem pessoa: plano com risco → `fase: bloqueada (de: planejando)`, `aguardando troca para HITL` com o risco, commit, horas da sessão na `[DEV]` no fim do lote, o P.O. avisado no resumo, e siga com as outras · GATE pela escolha do lote: Sênior, ou Pleno que dispensou → `fase: implementando` (Histórico `plano do Sênior` · `Pleno dispensou o GATE do plano`) e siga · Pleno que pediu → `fase: plano-em-revisao` (`Responsável` = o Dev Sênior do lote), a `[APR] FT-<nnn> Aprovar plano` (`sdd-elm` modo *sprint*, item 6), commit do plano e, com push autorizado no lote, push e conferência; **pare esta fatia** e siga com as outras (retoma depois do GATE) |
 | 5 | implementação | `sdd-codificador` (`sdd-implementar`, Passos 0–2) | tarefas `[x]` e backpressure verde · ou `bloqueada` |
 | 6 | revisão do código | `sdd-revisor` (rubrica C) → volta à 5 com os achados | `VEREDITO: APROVADO` · 2ª reprovação → `bloqueada` |
 | 7 | verificação | `sdd-verificador` (`sdd-verificar`) | `ACEITO` · `REJEITADO` → volta à 5 com os cenários rejeitados (retrabalho: linha na tabela Retrabalho do `status.md`, Rodadas `retrabalho` + 1) e **passa de novo pela 6** antes da 7; de novo rejeitado → `bloqueada` |
-| 8 | entrega | você | `fase: aceita`; commit do que faltar; push, conferência no remoto (`git rev-parse HEAD` = `git rev-parse origin/<branch>`, na worktree) e PR se autorizado no lote (texto e `gitlab_criar_mr` do Passo 5 da `sdd-implementar`, com `origem` = a branch da worktree — o MCP roda no checkout principal e não a enxerga; o Kiro ainda pode pedir confirmação a cada push e a cada PR, conforme as permissões) → `fase: pronta-para-merge` com o link do PR no `status.md`, commit, push e conferência (item 3 do Passo 5 da `sdd-implementar`); a `[DEV]` fica em andamento; sem PR autorizado → fica `aceita` |
+| 8 | entrega | você | `fase: aceita`; commit do que faltar; push, conferência no remoto (`git rev-parse HEAD` = `git rev-parse origin/<branch>`, na worktree) e PR se autorizado no lote (texto e `gitlab_criar_mr` do Passo 5 da `sdd-implementar`, com `origem` = a branch da worktree — o MCP roda no checkout principal e não a enxerga; o Kiro ainda pode pedir confirmação a cada push e a cada PR, conforme as permissões) → a `[APR] FT-<nnn> Aprovar PR` para o Dev Sênior do lote (`sdd-elm` modo *sprint*, item 6; já existe → a mesma) → `fase: pronta-para-merge` com o link do PR no `status.md`, commit, push e conferência (item 3 do Passo 5 da `sdd-implementar`); a `[DEV]` fica em andamento; sem PR autorizado → fica `aceita` |
 
 Depois de cada fase: grave a fase seguinte (`planejando` depois da pesquisa, `revisando` antes da revisão do
 código), atualize o log, as Rodadas e o Histórico do `status.md`; **commite imediatamente** na worktree os
@@ -107,9 +112,15 @@ relatórios que chegaram nesta fase — `analise-plano-<N>.md` (fase 3), `revisa
 `verificacao.md`, `CT.csv`, `evidencias/` e `massa/` (fase 7) — antes de iniciar a fase seguinte. Esses arquivos não são commitados
 pelos subagentes que os geram; o orquestrador é o responsável pelo commit deles.
 
-**Aprovação de plano pausado:** a pessoa lê o plano em `.kiro/local/wt/<ft>/.kiro/specs/<ft>-<slug>/` (ou na branch,
-se o push foi autorizado) e diz "aprovo o plano da FT-031" → grave `fase: implementando` e retome a fatia na fase 5
-(Passo 0). Pediu ajuste → codificador (`sdd-plano`, replanejar) e nova análise.
+**Aprovação de plano pausado:** é do Dev Sênior da `[APR]`, na sessão dele, pela seção "Quem aprova" da `sdd-plano`
+(no mesmo checkout do loop, ele trabalha na worktree — `cd .kiro/local/wt/<ft>` — em vez do `git switch`; sem push
+autorizado, só assim). Ao retomar: `git pull --ff-only` na worktree (com upstream) e leia a fase — `implementando` →
+fase 5 (Passo 0); `planejando` com o ajuste pedido → codificador (`sdd-plano`, replanejar), nova análise e fase 4.
+Aprovação dita nesta sessão não vale.
+
+**Aprovação do PR:** é do Dev Sênior da `[APR]`, pela `sdd-revisar` (Aprovação do PR). Mudanças pedidas →
+`retrabalho (de: pronta-para-merge)`: a fatia volta à fase 5 com os achados (retome-a num lote, ou o Dev pela
+`sdd-implementar`).
 
 Os **Kiro Workflows** do sdd (se instalados) não fazem parte do loop: são receitas que a pessoa dispara para
 **uma** fatia, na branch dela, no checkout principal.
@@ -125,15 +136,17 @@ Os **Kiro Workflows** do sdd (se instalados) não fazem parte do loop: são rece
   ```
   🤖 Loop AFK — resultado
   | FT | Resultado | PR | Rodadas (plano/código/aceite) | Observação |
-  Aguardando pessoa: <planos para aprovar · PRs para ler e aprovar · bloqueios com pergunta>
-  Merge: cada PR aprovado → você, pela `sdd-implementar` Passo 6 ("mergeia a FT-<nnn>")
+  Aguardando pessoa: <planos para aprovar ([APR] de <login>) · PRs para ler e aprovar ([APR] de <login>) · trocas
+  para HITL (P.O., `sdd-planejamento`) · bloqueios com pergunta>
+  Merge: cada PR com a [APR] concluída → você, pela `sdd-implementar` Passo 6 ("mergeia a FT-<nnn>")
   ELM pendente [<chave>]: <o que falhou ou ficou sem o power `elm`>
   Lições para registrar: <correções que o loop precisou — sdd-aprender>
   ```
 - **Horas, numa pergunta só** (com o power `elm`): uma tabela `tarefa | horas sugeridas` com as `[DEV]` das
-  fatias que chegaram a `aceita` (com ou sem PR aberto); a pessoa ajusta e confirma de uma vez → `sdd-elm` modo
+  fatias que chegaram a `aceita` (com ou sem PR aberto) ou pararam para a troca para HITL; a pessoa ajusta e confirma de uma vez → `sdd-elm` modo
   *horas* (lança, não conclui). A conclusão da `[DEV]` é no merge de cada fatia (Passo 6 da `sdd-implementar`), com
-  o saldo. No AFK as horas só vão para a `[DEV]`: revisão e verificação por subagente não têm tarefa nem horas.
+  o saldo. No AFK, revisão e verificação por subagente não têm tarefa nem horas; as das `[APR]` são lançadas por
+  quem aprova, na sessão dele.
 - Worktrees ficam até o merge; quem as remove é a **`sdd-consolidar`** (sessão padrão), depois do merge — os
   agentes não podem (`git worktree remove` é negado a todos).
 
@@ -149,7 +162,7 @@ Os **Kiro Workflows** do sdd (se instalados) não fazem parte do loop: são rece
 
 - O orquestrador nunca faz merge (é de quem disparou o loop, depois da aprovação do PR), nunca `--force`, nunca
   push sem a autorização do lote; todo push é conferido no remoto antes do PR.
-- ELM só pelo que o lote confirmou (assumir `[DEV]`, estados) e pelas horas do fim; nada mais (a conclusão da `[DEV]` é no merge). Sem o power `elm` ou com
+- ELM só pelo que o lote confirmou (assumir `[DEV]`, estados, criar as `[APR]` nos gates) e pelas horas do fim; nada mais (a conclusão da `[DEV]` é no merge). Sem o power `elm` ou com
   falha → `ELM pendente [<chave>]: …` no `status.md`.
 - Nunca relaxe um gate para o loop andar: bloqueio é informação, não falha.
 - Tipo de fatia que bloqueia com frequência → sugira na retrospectiva tratá-lo como HITL.

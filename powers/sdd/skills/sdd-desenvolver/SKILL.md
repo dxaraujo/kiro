@@ -41,10 +41,19 @@ Fatia já iniciada (tem pasta em `.kiro/specs/` nesta branch, em worktrees ou em
 `git grep -l '<id>' <ref> -- '.kiro/specs/*/status.md'`) → leia o `status.md` e **retome**: Passo 4, item 4
 (assumir: a `sdd-elm` modo *assumir* não repete o que já foi feito) e Passo 5, sem repetir o Passo 3. Branch
 diferente da atual → pergunte se troca (alterações locais não commitadas → avise e pare; nunca ofereça descartar,
-`stash` ou `reset`). O `modo` do `backlog.md` mudou desde a criação (difere do `Modo` do `status.md`) → vale o
-backlog: mostre a diferença e, com "sim", atualize o `status.md` (linha no Histórico) e as tarefas — HITL → AFK:
-`[REV]`/`[VER]` ainda não iniciadas são canceladas; AFK → HITL: o modo *sprint* da `sdd-elm` cria as que faltam,
-com revisor e verificador escolhidos agora.
+`stash` ou `reset`).
+
+**Troca AFK → HITL** (fatia em `bloqueada (de: <fase>)` com `aguardando troca para HITL`, ou com `Modo: AFK` no
+`status.md` e `HITL` no `backlog.md`): leia a base sem trocar de branch — `git fetch` e `git show origin/<base>:<produto>/backlog.md` e
+`…/sprints/sprint-<nn>.md`. A troca só vale registrada lá pelo P.O. (ou SM): `modo` `HITL` no backlog e a
+Observação `modo: AFK → HITL (…)` na linha da fatia. Registrada → mostre e, com "sim", grave no `status.md`
+`Modo: HITL`, o revisor e o verificador (Histórico) e os ids da `[REV]` e da `[VER]` (campo ELM, da coluna "Tarefa
+ELM"), `Bloqueio: —` e a fase de origem (`planejando`); commit e push. A `[DEV]` é retomada pela `sdd-elm` modo
+*assumir* (já minha e em andamento → nada a fazer). Siga no HITL: `sdd-plano` Passo 5, com o GATE pela
+senioridade. Recusada (Observação `modo: AFK mantido`) → `Bloqueio: —`, fase de origem, segue no AFK. Nenhuma das duas → diga
+que a troca é do P.O. (`sdd-planejamento`, Troca de modo) e pare. O Dev não
+grava na base nem cria ou cancela tarefa. **HITL → AFK nunca:** `Modo: HITL` no `status.md` e `AFK` no backlog →
+avise a divergência ao P.O. e siga no HITL.
 
 ## Passo 2 — Trilha
 
@@ -146,7 +155,7 @@ Próximo: <skill>
 | `em-verificacao` | HITL: com o verificador — `[VER]` pela `sdd-verificar` |
 | `pronta-para-merge` | Dev: `sdd-implementar` (Passo 6 — merge do PR aprovado e conclusão da `[DEV]`) |
 | `mergeada` | consolidação pelo P.O. — `sdd-consolidar` (sessão padrão) |
-| `bloqueada (de: <fase>)` | mostre o motivo e a pergunta; resolvido → volta à skill da fase de origem |
+| `bloqueada (de: <fase>)` | mostre o motivo e a pergunta; resolvido → volta à skill da fase de origem. `aguardando troca para HITL` → a troca é do P.O. (`sdd-planejamento`, Troca de modo); registrada, a Troca AFK → HITL do Passo 1 |
 
 Modo AFK e várias fatias padrão ou rápida prontas na sprint → ofereça o **`sdd-loop`** (o agente leva cada uma até
 o PR). Uma fatia só, com as receitas instaladas (`.kiro/workflows/sdd-*`) → diga que a pessoa pode dispará-las no

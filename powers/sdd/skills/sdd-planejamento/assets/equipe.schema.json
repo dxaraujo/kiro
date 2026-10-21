@@ -76,7 +76,7 @@
               },
               "horas-lancadas": {
                 "type": "object",
-                "description": "Horas lançadas no EWM na sprint por tipo de tarefa ([DEV] entrega, [REV] revisao, [VER] verificacao, [ESP] especificacao, [ATD] atendimento); vem da sdd-elm modo horas na virada.",
+                "description": "Horas lançadas no EWM na sprint por tipo de tarefa ([DEV] entrega, [REV] revisao, [APR] aprovacao, [VER] verificacao, [ESP] especificacao, [ATD] atendimento); vem da sdd-elm modo horas na virada.",
                 "additionalProperties": false,
                 "properties": {
                   "entrega": {
@@ -84,6 +84,10 @@
                     "minimum": 0
                   },
                   "revisao": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "aprovacao": {
                     "type": "number",
                     "minimum": 0
                   },

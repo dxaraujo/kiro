@@ -29,6 +29,7 @@ chamada direto:
 | Especificador | `[ESP]` | `sdd-especificar` (entrevista → PRD → fatias) |
 | Dev | `[DEV]` | `sdd-desenvolver` (compromisso, branch) → pesquisar → plano → implementar → PR → merge (a fatia é dele de ponta a ponta) |
 | Revisor (Dev Sênior) | `[REV]` | `sdd-revisar` |
+| Aprovador (Dev Sênior) | `[APR]` — só nos gates sem tarefa de papel; nasce quando a fatia chega ao gate | `[APR] … Aprovar plano` → `sdd-plano` (Quem aprova) · `[APR] … Aprovar PR` (AFK) → `sdd-revisar` (Aprovação do PR) |
 | Verificador (QA) | `[VER]` | `sdd-verificar` |
 | quem atende | `[ATD]` | `sdd-atender` |
 
@@ -40,10 +41,10 @@ chamada direto:
 | **atendimento** | o cliente pede consulta, extração ou explicação; nada muda no repositório | triagem: entrevista curta → `AT-nnn` no backlog, sprint sugerida, `[ATD]` no EWM · `sdd-atender`: assume → banco (só leitura) e bundle → resposta com "ok" → saldo de horas → desdobramentos |
 
 Toda hora trabalhada cabe numa tarefa da sprint: `[ESP]` (especificação do épico), `[DEV]`, `[REV]`, `[VER]` (por
-fatia; no AFK só a `[DEV]`) e `[ATD]` (por atendimento). **Lançar ≠ concluir:** lançar horas é registro de
+fatia; no AFK só a `[DEV]`), `[APR]` (por gate com aprovação: plano, PR do AFK) e `[ATD]` (por atendimento). **Lançar ≠ concluir:** lançar horas é registro de
 empenho, a qualquer momento numa tarefa iniciada (inclusive antes de um GATE); concluir é da skill do papel quando
 o trabalho dela termina, perguntando só o saldo — `[DEV]` no merge, `[REV]` ao aprovar (depois do push), `[VER]` ao
-aceitar (depois do push), `[ESP]` no GATE do backlog, `[ATD]` ao finalizar. **Entrega** (todo papel do HITL):
+aceitar (depois do push), `[APR]` na aprovação, `[ESP]` no GATE do backlog, `[ATD]` ao finalizar. **Entrega** (todo papel do HITL):
 commit → push → conferir no remoto (`git rev-parse HEAD` = `git rev-parse origin/<branch>`) → só então lançar horas
 ou concluir a tarefa e avisar o próximo — quem vem depois só acha no remoto o que foi publicado.
 
@@ -70,12 +71,14 @@ folga). Previsão pela vazão e pelo lead time, sem pontos.
 | PRD | P.O. | o quê e o porquê: histórias, cenários, regras, fora de escopo |
 | Backlog | P.O. + time | as fatias: granularidade, dependências, AFK/HITL |
 | Ficha | P.O. | a fatia padrão sem épico: regras e cenários |
-| Plano | dev (de preferência quem vai revisar o PR) | a forma do programa e o contrato de pronto — maior alavanca |
-| PR | HITL: revisor e verificador · AFK: quem lê o PR | o código, lido de verdade, com a evidência de aceite; aprovado, o merge é do Dev responsável |
+| Plano | um Dev Sênior, na `[APR] Aprovar plano` (de preferência quem vai revisar o PR) | a forma do programa e o contrato de pronto — maior alavanca |
+| PR | HITL: revisor (`[REV]`) e verificador (`[VER]`) · AFK: um Dev Sênior, na `[APR] Aprovar PR` | o código, lido de verdade, com a evidência de aceite; aprovado, o merge é do Dev responsável |
 
-GATE do plano: sempre no HITL; no AFK, só na fatia de épico (a fatia AFK sem épico segue com a análise
-independente); na trilha rápida, `GATE na trilha rápida` do `sdd.md` decide antes do modo. PRD e backlog nunca são
-AFK. O PR e o merge nunca são dispensados.
+GATE do plano pela **senioridade** de quem implementa (trilha e modo não entram): **Júnior** → sempre; **Pleno** → o
+fluxo pergunta se ele quer a aprovação de um Dev Sênior (no loop, a escolha vale para o lote); **Sênior** → nunca: ele
+aprova o próprio plano, inclusive quando muda a expectativa de um teste existente. Aprovação só vale na sessão de quem
+aprova (é ela que assume, lança e conclui a `[APR]`). PRD e backlog nunca são AFK. O PR e o merge nunca são
+dispensados.
 
 ## Modos — o `modo` da fatia vale para todos os papéis
 
@@ -86,7 +89,7 @@ AFK. O PR e o merge nunca são dispensados.
 | Revisão | o revisor assume a `[REV]` e revisa o PR: aprova → VER; reprova → retrabalho | subagente, até 2 rodadas |
 | Verificação | o verificador assume a `[VER]` (só depois da REV): aceita → `pronta-para-merge` (o Dev mergeia → `mergeada`); rejeita → retrabalho | subagente |
 | Retrabalho | a `[DEV]`, ainda em andamento, recebe a correção no mesmo PR, que passa de novo pela REV | volta à implementação |
-| Tarefas no EWM | `[DEV]` `[REV]` `[VER]`, cada uma da sua pessoa | só a `[DEV]`, de quem disparou |
+| Tarefas no EWM | `[DEV]` `[REV]` `[VER]`, cada uma da sua pessoa; `[APR]` do plano, se houver GATE | a `[DEV]`, de quem disparou; as `[APR]` (plano com GATE, PR) do Dev Sênior que aprova |
 
 O modo final sai da **senioridade** de quem implementa (o `responsavel` da fatia, no `equipe.json`), gravado pela
 `sdd-planejamento` quando a fatia ganha responsável; antes disso, o `modo` da triagem ou do fatiamento é proposta:
@@ -97,8 +100,14 @@ O modo final sai da **senioridade** de quem implementa (o `responsavel` da fatia
 | Pleno | os critérios da fatia (`sdd-fatiar`), propostos pelo sdd e confirmados pela pessoa |
 | Sênior | AFK por padrão; HITL só com motivo forte, registrado |
 
-A `[REV]` é sempre de um **Dev Sênior**: ele revisa os PRs do Pleno e do Júnior; o PR de um Sênior, outro Sênior —
-se ele é o único Sênior ativo, ele mesmo (`revisor único` na Observação do `sprint-<nn>.md`).
+A `[REV]` e a `[APR]` são sempre de um **Dev Sênior**: ele revisa os PRs do Pleno e do Júnior; o PR de um Sênior,
+outro Sênior — se ele é o único Sênior ativo, ele mesmo (`revisor único` na Observação do `sprint-<nn>.md`).
+
+**Troca AFK → HITL** (nunca o contrário): o plano de uma fatia AFK mostra risco (regra sensível, muitos cenários,
+integração externa, mudança de dado) → o fluxo sugere HITL ao Dev; aceita, a fatia para em `bloqueada` com
+`aguardando troca para HITL` e o P.O. (ou SM) troca na `sdd-planejamento` (modo no backlog, revisor e verificador de
+menor alocação, `[REV]` e `[VER]` no EWM); o Dev retoma pela `sdd-desenvolver`, que só sincroniza o `status.md`. No
+loop, a fatia para sozinha e o lote segue.
 
 ## Princípios
 

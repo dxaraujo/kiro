@@ -5,7 +5,7 @@ inclusion: always
 # sdd — <nome do projeto>
 
 Este repositório usa o fluxo **sdd** (power `sdd`): alinhar antes de escrever, fatias verticais pequenas, plano
-aprovado por uma pessoa, teste primeiro com backpressure, revisão e verificação independentes, PR lido por uma
+aprovado por um Dev Sênior (GATE pela senioridade), teste primeiro com backpressure, revisão e verificação independentes, PR lido por uma
 pessoa, e o IBM ELM como registro oficial da documentação. Como funciona: skill `sdd`. Toda demanda nova: `sdd-triar`.
 Começar um item registrado: hub `sdd-iniciar` (diz a skill do papel: `sdd-especificar`, `sdd-desenvolver`,
 `sdd-revisar`, `sdd-verificar`, `sdd-atender`). Onde parei ou fechar a sessão: `sdd-status`.
@@ -30,10 +30,15 @@ Começar um item registrado: hub `sdd-iniciar` (diz a skill do papel: `sdd-espec
   puxado — a `pronta` do topo entra quando o WIP de revisão tem folga. Previsão pela vazão, sem pontos.
 - **Modo pela senioridade** de quem implementa (`equipe.json`): Júnior → sempre HITL; Pleno → os critérios da fatia;
   Sênior → AFK por padrão (HITL só com motivo forte, registrado). Só Pleno ou Sênior dispara o `sdd-loop`. A `[REV]`
-  é sempre de um **Dev Sênior** (PR de um Sênior: outro Sênior; único Sênior ativo → ele mesmo, `revisor único`).
-- Toda hora tem tarefa (`[ESP]` `[DEV]` `[REV]` `[VER]` `[ATD]`; no AFK, só a `[DEV]`). Lançar horas é registro de
-  empenho, a qualquer momento na tarefa iniciada; concluir é da skill do papel, com o saldo: `[DEV]` no merge, `[REV]`
-  ao aprovar (depois do push), `[VER]` ao aceitar (depois do push), `[ESP]` no GATE do backlog, `[ATD]` ao finalizar.
+  e a `[APR]` são sempre de um **Dev Sênior** (PR de um Sênior: outro Sênior; único Sênior ativo → ele mesmo,
+  `revisor único`). **GATE do plano** pela senioridade: Júnior → sempre; Pleno → pergunta (no loop, vale para o
+  lote); Sênior → nunca (aprova o próprio plano). Fatia AFK cujo plano mostra risco → sugerir HITL; a troca é do
+  P.O. na base. HITL → AFK nunca.
+- Toda hora tem tarefa (`[ESP]` `[DEV]` `[REV]` `[VER]` `[ATD]`; no AFK, só a `[DEV]`; `[APR]` do Dev Sênior nos
+  gates sem tarefa de papel — aprovar plano, aprovar PR do AFK —, criada quando a fatia chega ao gate). Lançar horas é
+  registro de empenho, a qualquer momento na tarefa iniciada; concluir é da skill do papel, com o saldo: `[DEV]` no
+  merge, `[REV]` ao aprovar (depois do push), `[VER]` ao aceitar (depois do push), `[APR]` na aprovação, `[ESP]` no
+  GATE do backlog, `[ATD]` ao finalizar.
 - Estado em disco: cada fatia em `.kiro/specs/<ft>-<slug>/` (comece pelo `status.md`); produto na pasta abaixo.
 
 > Gerado pela `sdd-setup` (power `sdd` <x.y.z>) em <AAAA-MM-DD>. Para mudar: "atualizar a configuração do sdd".
@@ -77,11 +82,11 @@ Na worktree do `sdd-loop`: `cd .kiro/local/wt/<ft> && <comando>`. Falha de ambie
 | Item | Valor |
 |---|---|
 | Branch base · prefixo · commit | `<develop>` · `<feature/>` · `<FT-<nnn> <verbo> <descrição> | Task <id> - …>` |
-| Mensagens do fluxo (dentro do padrão acima) | fatia: `<id> registrar plano` · `registrar análise do plano <N>` · `registrar revisão <N>` · `registrar verificação` · tarefa: `<id> <o que a tarefa fez>` · triagem: `backlog: triagem <ids>` · AT: `AT-<nnn> concluir` · sprint: `sprint <nn>: <planejar | encaixe | virada>` · PRD: `EP-<nn> aprovar PRD` · ELM: `<id> publicar no ELM` · consolidação: `<id> consolidar` |
+| Mensagens do fluxo (dentro do padrão acima) | fatia: `<id> registrar plano` · `registrar análise do plano <N>` · `registrar aprovação do plano` · `registrar revisão <N>` · `registrar verificação` · tarefa: `<id> <o que a tarefa fez>` · triagem: `backlog: triagem <ids>` · AT: `AT-<nnn> concluir` · sprint: `sprint <nn>: <planejar | encaixe | virada>` · PRD: `EP-<nn> aprovar PRD` · ELM: `<id> publicar no ELM` · consolidação: `<id> consolidar` |
 | PR (merge request) | `<MCP gitlabpr — gitlab_listar_mrs · gitlab_obter_mr · gitlab_criar_mr (origem e destino sempre explícitos) · gitlab_mesclar_mr (merge pelo Dev responsável, com o `sha` aprovado) | entregar título e descrição>` — nunca `gh` nem `glab` |
 | Artefatos de produto (pasta do produto, glossário, ADRs, consolidação) | `<direto na branch base | PR curto para a base>` — nunca em branch de fatia; push ou PR com o "sim" da pessoa (o agente `sdd-produto` não faz push: entrega o comando) |
 | MCP de banco | `<@servidor/tool | não há>` — **somente leitura** (`SELECT`/`WITH`), exceto os scripts de massa; DDL fora do fluxo |
-| GATE na trilha rápida · paralelo no loop | `<sim | não>` · `<1>` (máx. 3) — GATE do plano, nesta ordem: teste existente que muda → sempre; trilha rápida → este valor (também no AFK); HITL → sempre; AFK → só na fatia de épico |
+| Paralelo no loop | `<1>` (máx. 3) — o GATE do plano não se configura: sai da senioridade de quem implementa (`sdd-plano` Passo 5) |
 | Push e PR no loop | `<perguntar a cada lote (o Kiro confirma cada um) | não — a pessoa abre>` |
 | Instalados | hook `<sdd-backpressure | nenhum>` · workflows `<sdd-planejar-fatia, sdd-entregar-fatia | nenhum>` (disparados pela pessoa) |
 
@@ -96,9 +101,9 @@ Na worktree do `sdd-loop`: `cd .kiro/local/wt/<ft> && <comando>`. Falha de ambie
 | Tipo · pasta no RM | HF `<História de Usuário>` `<pasta>` · REG `<Regra>` `<pasta>` · GL `<Termos de Glossário>` `<pasta>` · ET `<… | —>` |
 | Tipo no EWM · pontos P/M/G | épico `<Épico | Item de Backlog (pai)>` · fatia `<Item de Backlog>` · `<não | 2 · 3 · 5>` (opcional; o planejamento prevê pela vazão) |
 | Critérios de aceite no IB | `<nome do campo em workitem-types[IB].fields do pa_*.json | descrição>` |
-| Tarefas (títulos padrão; editáveis à mão) | `[ESP] EP-<nn> Especificação` · `[DEV] FT-<nnn> Implementar` · `[REV] FT-<nnn> Revisar` · `[VER] FT-<nnn> Verificar` · `[ATD] AT-<nnn> <pedido>` · `[GB] Gerenciamento do backlog` |
+| Tarefas (títulos padrão; editáveis à mão) | `[ESP] EP-<nn> Especificação` · `[DEV] FT-<nnn> Implementar` · `[REV] FT-<nnn> Revisar` · `[VER] FT-<nnn> Verificar` · `[APR] FT-<nnn> Aprovar plano` · `[APR] FT-<nnn> Aprovar PR` · `[ATD] AT-<nnn> <pedido>` · `[GB] Gerenciamento do backlog` |
 | Padrões do EWM (campos que a PA exige) | Tarefa: Atendido por `<categoria do time | —>` · `<outro atributo = valor | —>` |
-| Classificação da tarefa | `<[ESP] Análise / Especificação · [DEV] Desenvolvimento · [REV] Outra - Não listada · [VER] Testes de Homologação · [ATD] Suporte / Apoio Técnico Especializado · [GB] Outra - Não listada | a PA não tem>` |
+| Classificação da tarefa | `<[ESP] Análise / Especificação · [DEV] Desenvolvimento · [REV] Outra - Não listada · [APR] Outra - Não listada · [VER] Testes de Homologação · [ATD] Suporte / Apoio Técnico Especializado · [GB] Outra - Não listada | a PA não tem>` |
 | `CT.csv` (colunas na ordem do template do ETM) | `<Tipo=Caso de Teste · Resumo · Responsável · Status=<inicial> · Categoria · Planejado para · Descrição>` |
 
 ## Agentes

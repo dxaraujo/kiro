@@ -1,6 +1,6 @@
 ---
 name: sdd-plano
-description: "Planeja uma fatia do fluxo sdd no formato de spec do Kiro — pesquisa o código primeiro (sdd-pesquisar), depois escreve requirements.md (critérios EARS falsificáveis, só o que a fatia cobre) ou bugfix.md (trilha rápida), design.md (pattern grounding, forma do programa: árvore de arquivos, assinaturas e árvore de chamadas, pontos de teste, contrato de pronto da verificação) e tasks.md (uma tarefa por comportamento, teste primeiro, comando de pronto); passa pela análise independente (rubrica L) e pelo GATE do plano, a revisão humana de maior alavanca. Use em \"planeja a FT-031\", \"gera a spec\", \"cria as tasks\", \"aprova o plano\", \"replaneja\"."
+description: "Planeja uma fatia do fluxo sdd no formato de spec do Kiro — pesquisa o código primeiro (sdd-pesquisar), depois escreve requirements.md (critérios EARS falsificáveis, só o que a fatia cobre) ou bugfix.md (trilha rápida), design.md (pattern grounding, forma do programa: árvore de arquivos, assinaturas e árvore de chamadas, pontos de teste, contrato de pronto da verificação) e tasks.md (uma tarefa por comportamento, teste primeiro, comando de pronto); passa pela análise independente (rubrica L), pela sugestão de troca AFK → HITL quando o plano mostra risco e pelo GATE do plano pela senioridade de quem implementa (Júnior sempre, Pleno se pedir, Sênior nunca), aprovado por um Dev Sênior na tarefa [APR]. Use em \"planeja a FT-031\", \"gera a spec\", \"cria as tasks\", \"aprova o plano\", \"aprovo o plano da FT-031\", \"[APR] Aprovar plano\", \"replaneja\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -67,47 +67,93 @@ arquivo; ele precisa estar na branch.
 - `ANALISE: OK` → Passo 5.
 - `AJUSTAR`: falta **do plano** → corrija e peça nova análise (até 2 rodadas); falta **do PRD** → Passo 2.
 
-## Passo 5 — GATE do plano
+## Passo 5 — Troca de modo e GATE do plano
+
+### Fatia AFK com risco → sugerir HITL
+
+`Modo: AFK` e o plano mostra risco — regra de negócio sensível, muitos cenários, integração externa, mudança de
+dado (diga qual) → **sugira** ao Dev trocar para HITL. A troca é do P.O. (ou do SM), na base; aqui só se para.
+**HITL → AFK nunca:** nem sugira nem aceite.
+
+- Dev não aceita → o GATE abaixo, no AFK.
+- Dev aceita → `fase: bloqueada (de: planejando)`, Bloqueio `aguardando troca para HITL` · motivo: `<risco>`, linha
+  no Histórico; commit com os artefatos do plano e o `status.md` (`registrar plano`) → push → conferir no remoto
+  (itens 1–3 da Entrega do Passo 5 da [`sdd-implementar`](../sdd-implementar/SKILL.md)) → horas da sessão na
+  `[DEV]` (`sdd-elm` modo *horas*, com "sim"; sem o power `elm` → `ELM pendente [<chave>]`) — ela fica
+  **interrompida**, sem conclusão → avise o P.O. (troca pela `sdd-planejamento`, seção Troca de modo). Não troque
+  de branch nem grave na base. A sessão pode ser encerrada: feita a troca, o Dev retoma pela `sdd-iniciar` →
+  `sdd-desenvolver`, que sincroniza o `status.md` e devolve a fatia a este Passo 5, já no HITL.
+
+### GATE do plano — pela senioridade de quem implementa
 
 ```
-🧭 Plano FT-<nnn> — <título> · trilha <…> · modo <AFK|HITL>
+🧭 Plano FT-<nnn> — <título> · trilha <…> · modo <AFK|HITL> · Dev <login> (<senioridade>)
 Requisitos: <n> (<c> critérios) · Tarefas: <n> · Arquivos: <criar n · alterar n>
 Análogo: <…> · Pontos de teste: <…> · Decisões técnicas: <lista curta>
+Testes existentes que mudam: <nenhum | lista>
 Contrato de pronto: <n> cenários, executados por <API | job | browser | carga>
 Análise: OK na rodada <N>
-Aprovar? Leia de preferência: forma do programa e contrato de pronto.
+Leia de preferência: forma do programa e contrato de pronto.
 ```
 
-Esperando a aprovação de uma pessoa → `fase: plano-em-revisao` (conta no WIP de revisão humana), com
-`Responsável` = quem vai aprovar (sugestão: quem revisa o PR; fatia de épico sem revisor, o `po` do épico).
+A `senioridade` de quem implementa (o `Responsável` do `status.md`; no loop, quem disparou) no `equipe.json` da
+base decide — trilha e modo não entram:
 
-A regra, **nesta ordem** (a primeira que se aplica decide):
+| Senioridade | GATE |
+|---|---|
+| **Júnior** | sempre: um Dev Sênior aprova |
+| **Pleno** | **pergunte** se ele quer a aprovação de um Dev Sênior (recomende "sim" quando o plano muda a expectativa de um teste existente). Sim → como o Júnior; não → `fase: implementando`, Histórico `Pleno dispensou o GATE do plano` |
+| **Sênior** | nunca: ele aprova o próprio plano — `fase: implementando`, Histórico `plano do Sênior` —, inclusive quando o plano muda a expectativa de um teste existente |
 
-- **O plano muda a expectativa de um teste existente** ("Testes existentes que mudam" no template) → sempre uma
-  pessoa aprova, em qualquer trilha e modo.
-- **Trilha rápida** → a trilha decide antes do modo (é alteração pequena, sem regra nova): `GATE na trilha rápida`
-  do `sdd.md` = `não` → segue com `ANALISE: OK`, também no HITL (a pessoa revisa no PR); `sim` → uma pessoa aprova,
-  também no AFK.
-- **HITL** → sempre uma pessoa aprova. Sugira que seja quem vai revisar o PR (alinha antes do código).
-- **AFK, fatia sem épico** → a análise basta: segue com `ANALISE: OK` (quem conduz grava `fase: implementando`);
-  a pessoa revisa no PR.
-- **AFK, fatia de épico** → sempre uma pessoa aprova (o plano rende mais quando vem de um PRD).
-- Aprovado → linha no Histórico com quem aprovou.
+**Com GATE** (Júnior, ou Pleno que pediu): pergunte qual Dev Sênior aprova — sugira o que vai revisar o PR (coluna
+Revisor do `sprint-<nn>.md` ou Histórico do `status.md`); AFK, sem revisor: um Dev Sênior ativo que não é quem
+implementa. Então `fase: plano-em-revisao` (conta no WIP de revisão humana), `Responsável` = quem aprova, e a tarefa
+**`[APR] FT-<nnn> Aprovar plano`** para ele (`sdd-elm` modo *sprint*, item 6, com "sim"; o id no campo ELM do
+`status.md`; sem o power `elm` → `ELM pendente [APR FT-<nnn> criar]`). Commit com `research.md`, `.config.kiro`,
+`requirements.md`/`bugfix.md`, `design.md`, `tasks.md` e `status.md` (`registrar plano`) → push → conferir no remoto
+(itens 1–3 da Entrega do Passo 5 da `sdd-implementar`) — quem aprova lê o plano no remoto → horas da sessão na
+`[DEV]` (lança, não conclui) → avise o aprovador.
 
-**Todo ramo que termina em `implementando`** (aprovado, AFK sem épico, rápida sem GATE): `fase: implementando`,
-linha no Histórico (quem aprovou, ou "análise basta" / "rápida sem GATE") e **um commit** com `research.md`,
-`.config.kiro`, `requirements.md`/`bugfix.md`, `design.md`, `tasks.md` e `status.md` — mensagem no padrão do
-`sdd.md`, com o texto `registrar plano`. Esperando o GATE (`plano-em-revisao`) → o mesmo commit, com essa fase.
-Próximo: **`sdd-implementar`** — numa sessão nova, de preferência (o plano está no disco; o contexto da pesquisa
-não é mais necessário).
+**Sem GATE** (Sênior, ou Pleno que dispensou): `fase: implementando`, a linha no Histórico e **um commit** com os
+mesmos arquivos (`registrar plano`). Próximo: **`sdd-implementar`** — numa sessão nova, de preferência (o plano está
+no disco; o contexto da pesquisa não é mais necessário).
+
+Retomando em `plano-em-revisao` sem `[APR]` (receita de workflow, pendência `[APR FT-<nnn> criar]`) → faça agora a
+pergunta ao Pleno, ou crie a `[APR]` (Júnior, Pleno que pediu).
+
+### Quem aprova — a `[APR]` do plano
+
+Na sessão do **Dev Sênior** responsável pela `[APR] FT-<nnn> Aprovar plano` (pelo hub `sdd-iniciar`, ou "aprovo o
+plano da FT-<nnn>"):
+
+1. Quem está na sessão é Dev Sênior ativo (`senioridade` no `equipe.json` da base) **e** é o responsável pela `[APR]`
+   (no EWM; sem o power `elm`, o `Responsável` do `status.md`)? Não → diga quem é e pare (trocar quem aprova é de
+   quem implementa, no GATE acima).
+2. Branch da fatia (`git switch <branch>` com "sim"; árvore suja → avise e pare) e `git pull --ff-only`; a fase tem
+   de ser `plano-em-revisao` (senão diga qual é e pare).
+3. **`sdd-elm` modo *assumir*** a `[APR]` (sem o power `elm` → `ELM pendente [APR FT-<nnn> assumir]` no Histórico).
+4. Mostre o resumo do GATE (acima) e leia com a pessoa a forma do programa e o contrato de pronto.
+5. **Aprovado** → `fase: implementando`, Histórico `plano aprovado por <login>`, `Responsável` volta a quem
+   implementa. **Ajuste pedido** → o pedido no Histórico e em Achados abertos (origem: GATE do plano),
+   `fase: planejando`; a `[APR]` fica em andamento e é a mesma na nova aprovação.
+6. Commit (`registrar aprovação do plano`) → push → conferir no remoto (itens 1–3 da Entrega do Passo 5 da
+   `sdd-implementar`) → só então: aprovado → saldo de horas e conclusão da `[APR]` (`sdd-elm` modo *horas* e
+   *conclusão*, numa confirmação; sem o power `elm` → `ELM pendente [APR FT-<nnn> concluir]: lançar <h>h e
+   concluir`); ajuste → horas da sessão na `[APR]` (lança, não conclui) → avise o Dev.
+
+Aprovação dita na sessão de outra pessoa (o Sênior ao lado de quem implementa) **não vale**: quem aprova assume,
+lança e conclui a `[APR]` na própria sessão.
 
 ## Replanejar
 
 Implementação descobriu que o plano não serve (esperado × encontrado) → atualize `design.md`/`tasks.md` só no que
 mudou, acrescente tarefas (nunca desmarque as prontas), registre o motivo no Histórico e repita os Passos 4–5 para
-a parte alterada.
+a parte alterada (com GATE e a `[APR]` já concluída → o aprovador a reabre: modo *assumir* com retrabalho).
 
 ## Modo autônomo
 
 `AUTONOMO=true`: sem perguntas; decisão técnica com alternativas → escolha a recomendada e registre; lacuna de
-negócio → `fase: bloqueada (de: planejando)` com a pergunta para o P.O.
+negócio → `fase: bloqueada (de: planejando)` com a pergunta para o P.O. Passo 5 sem pessoa: fatia AFK com risco →
+`fase: bloqueada (de: planejando)`, `aguardando troca para HITL` com o risco (a sugestão vai ao P.O.); GATE → Sênior
+segue para `implementando`; Pleno → a escolha do lote que quem chamou passou (sem ela: `plano-em-revisao`, e a
+pergunta fica para a sessão dele); nada de ELM (`ELM pendente`).

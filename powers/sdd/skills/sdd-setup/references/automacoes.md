@@ -24,7 +24,7 @@ configurações, o recurso ainda não está disponível para a conta.
 
 | Receita | Para | Faz | Termina |
 |---|---|---|---|
-| `sdd-planejar-fatia` | fatia HITL ou AFK | zera o veredito → pesquisa → plano → análise ↔ ajuste (até 2 rodadas) → registrar | plano commitado: `implementando` (AFK sem épico, rápida sem GATE) ou `plano-em-revisao` (GATE de uma pessoa) |
+| `sdd-planejar-fatia` | fatia HITL ou AFK | zera o veredito → pesquisa → plano → análise ↔ ajuste (até 2 rodadas) → registrar | plano commitado: `implementando` (Dev Sênior: sem GATE) ou `plano-em-revisao` (Júnior e Pleno: GATE de um Dev Sênior; o Pleno pode dispensá-lo) ou `bloqueada` (AFK com risco: troca para HITL sugerida) |
 | `sdd-entregar-fatia` | só fatia **AFK** | zera o veredito → implementação ↔ revisão (até 2 rodadas, cada uma registrada) → verificação → registrar | fatia `aceita` e commitada, pronta para o PR que uma pessoa abre |
 
 As receitas são o caminho AFK de **uma** fatia sem o `sdd-loop` (que leva várias, em worktrees). Fatia HITL não

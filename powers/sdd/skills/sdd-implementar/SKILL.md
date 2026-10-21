@@ -33,6 +33,8 @@ regras aprendidas).
 - **Retrabalho** (`fase: retrabalho (de: em-revisao | em-verificacao)`, HITL): a `[DEV]` ainda está em andamento (só
   é concluída no merge) — **`sdd-elm` modo *assumir*** só confere (já minha e em andamento → nada a fazer). Os achados vêm do último `revisao-codigo-<N>.md` ou dos cenários rejeitados do
   `verificacao.md`; `fase: implementando`, linha no Histórico. Ao fim, o mesmo PR é atualizado (Passo 5).
+  **AFK** (`retrabalho (de: pronta-para-merge)`, mudanças pedidas na `[APR] Aprovar PR`): o mesmo, com os achados de
+  Achados abertos (origem: PR); a correção passa de novo pelos Passos 2–4 antes de atualizar o PR.
 - Rode o comando de **testes** uma vez antes de mexer: vermelho antes de começar = problema do ambiente ou da
   base, não seu. Registre e avise; não "conserte" o que não é da fatia.
 
@@ -153,13 +155,18 @@ Push e PR são do Dev: o agente `sdd-codificador` (o Kiro confirma cada um) ou a
       pessoa abre o PR e passa o link.
    5. **Confira o PR aberto:** `gitlab_listar_mrs(origem=<branch>, estado=opened)` devolve o PR; o link é a `url`.
       Sem o MCP → o link que a pessoa passou.
-   6. `status.md`: HITL → `fase: pr-aberto`; AFK → `fase: pronta-para-merge`; link do PR (sem PR — push "não" ou sem
+   6. **AFK — a `[APR] FT-<nnn> Aprovar PR`:** pergunte qual Dev Sênior aprova o PR (sugira outro que não quem
+      implementa; ele mesmo só se for o único Dev Sênior ativo) → `sdd-elm` modo *sprint*, item 6, com "sim"; id no
+      campo ELM do `status.md`. Já existe (retrabalho) → é a mesma. Sem o power `elm` → `ELM pendente [APR FT-<nnn>
+      criar]: <login de quem aprova>` no Histórico.
+   7. `status.md`: HITL → `fase: pr-aberto`; AFK → `fase: pronta-para-merge`; link do PR (sem PR — push "não" ou sem
       o MCP — `PR: texto entregue`, e a fase é a mesma); linha no Histórico. Commit, push e conferência como nos
       itens 1–3 (o `status.md` vai junto no PR).
-   7. **Horas da sessão** na `[DEV]`: `sdd-elm` modo *horas*, com "sim" — lança, não conclui (retrabalho: as horas
+   8. **Horas da sessão** na `[DEV]`: `sdd-elm` modo *horas*, com "sim" — lança, não conclui (retrabalho: as horas
       também na tabela Retrabalho). Sem o power `elm` → `ELM pendente [<chave>]: lançar <h>h em [DEV] FT-<nnn>` no
       Histórico. **A `[DEV]` não é concluída no PR:** fica em andamento até o merge (Passo 6).
-   8. **Avise:** HITL → o revisor, de que a `[REV]` está disponível; AFK → quem aprova o PR (quem o lê).
+   9. **Avise:** HITL → o revisor, de que a `[REV]` está disponível; AFK → o Dev Sênior da `[APR]`, de que o PR
+      espera a leitura dele (`sdd-revisar`, Aprovação do PR).
 
 O merge é do Dev responsável, depois da aprovação do PR (Passo 6). Depois do merge: **`sdd-consolidar`**.
 
@@ -167,15 +174,16 @@ O merge é do Dev responsável, depois da aprovação do PR (Passo 6). Depois do
 
 Quando o Dev responsável retoma a fatia em `pronta-para-merge` (a `sdd-desenvolver` encaminha para cá):
 - **HITL:** revisão `APROVADO` e verificação `ACEITO` registradas (é o que leva a fatia a `pronta-para-merge`);
-- **AFK:** o PR foi aprovado por quem o lê — a pessoa diz quem; sem a aprovação → avise que o PR espera leitura e
-  pare.
+- **AFK:** a `[APR] FT-<nnn> Aprovar PR` está **concluída** e tem o comentário `PR aprovado, sha <sha>` (`sdd-elm`
+  → `elm-ccm` › **ler item**, só leitura). Sem o power `elm` → a linha `PR aprovado por <login>, sha <sha>` que o
+  aprovador entregou. Sem a aprovação → avise que o PR espera a leitura do Dev Sênior e pare.
 
 1. **Leia o PR:** `gitlab_obter_mr` pelo `iid` do link no `status.md`. Tem de estar aberto, sem WIP/Draft e sem
    conflito. `merged` → vá ao item 5; `closed`, WIP ou conflito → avise e pare (conflito: atualize a branch pelo
    item 1 do Passo 5, e a mudança passa de novo pela revisão).
 2. **Commit aprovado:** o `sha` do PR = `git rev-parse origin/<branch>` e é o commit que foi aprovado — HITL: o da
-   entrega da verificação (`git log -1 --format=%s <sha>` = `FT-<nnn> verificação: ACEITO`); AFK: o que
-   quem aprovou leu (mostre o `sha` curto e o último commit, e confirme). Commit depois da aprovação → não mergeie:
+   entrega da verificação (`git log -1 --format=%s <sha>` = `FT-<nnn> verificação: ACEITO`); AFK: o `sha` do
+   comentário da `[APR]`. Commit depois da aprovação → não mergeie:
    a mudança volta à revisão.
 3. **Resumo e confirmação:**
    ```
@@ -193,7 +201,8 @@ Quando o Dev responsável retoma a fatia em `pronta-para-merge` (a `sdd-desenvol
    `PR aprovado por <login>`). Commit, push e conferência como nos itens 1–3 do Passo 5.
 7. **Conclusão da `[DEV]`:** mostre as horas já lançadas (`elm-ccm` › horas lançadas) e pergunte só o saldo →
    `sdd-elm` modo *horas* e modo *conclusão* da `[DEV]`, numa confirmação. Sem o power `elm` → `ELM pendente
-   [<chave>]: lançar <h>h e concluir [DEV] FT-<nnn>` no Histórico (commit e push).
+   [<chave>]: lançar <h>h e concluir [DEV] FT-<nnn>` no Histórico (commit e push), junto com a pendência da `[APR]`
+   que o aprovador entregou (AFK).
 8. **Avise o P.O.** de que a fatia está pronta para a consolidação (**`sdd-consolidar`**, na sessão padrão).
 
 ## Modo autônomo

@@ -220,8 +220,7 @@ Registre também as skills **oferecidas e recusadas** por agente (coluna própri
 atualização, só skill que não está em nenhuma das duas colunas é "nova".
 
 Depois, a autonomia (seção Git, banco e autonomia do template), **sem perguntas** — Padrões aplicados: GATE do
-plano em toda fatia HITL e na fatia AFK de épico (fixo; a fatia AFK sem épico segue com a análise independente);
-trilha rápida sem GATE do plano (a análise independente basta);
+plano pela senioridade de quem implementa (fixo: Júnior sempre, Pleno pergunta, Sênior nunca — `sdd-plano` Passo 5);
 paralelismo do loop `1`; push e PR no loop perguntando a cada lote (o orquestrador tem regra `ask` para push e PR, então
 o Kiro confirma cada um; a pessoa muda para "não — a pessoa abre" → a regra vira `deny`); **push pelo agente**
 no codificador, no revisor e no verificador (fixo, não é perguntado): no bloco V3, `git push *` com `ask` (o Kiro
@@ -273,7 +272,7 @@ Mostre o resumo e, no modo atualização, o diff de cada arquivo que muda:
 Comandos: compilar <…> · testes <…> · lint <…> · cobertura <…> (rodados: ok)
 Verificação: <como> · Git: base <…> · prefixo <…> · PR <…> · Banco: <MCP | não há> · ELM: <…>
 | Agente | Skills extras | MCPs | Modelo |
-Hooks: <…> · Workflows: <…> · Autonomia: plano AFK <…> · paralelo <n>
+Hooks: <…> · Workflows: <…> · Autonomia: GATE do plano pela senioridade · paralelo <n>
 Arquivos: .kiro/steering/sdd.md · .kiro/agents/sdd-*.json · .kiro/hooks/… · .kiro/workflows/… · .kiro/sdd/…
           <produto>/ · .gitignore
 Gravar? ("ok")

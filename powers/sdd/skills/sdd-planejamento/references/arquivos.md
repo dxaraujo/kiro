@@ -21,7 +21,7 @@ URL abaixo, nunca um caminho local:
     "inicio": "2026-10-06",
     "historico": [
       { "sprint": 1, "fatias-concluidas": 5, "lead-time-medio-dias": 3.2, "horas-revisao": 22,
-        "horas-lancadas": { "entrega": 120, "revisao": 18, "verificacao": 6, "especificacao": 24, "atendimento": 9 },
+        "horas-lancadas": { "entrega": 120, "revisao": 18, "aprovacao": 4, "verificacao": 6, "especificacao": 24, "atendimento": 9 },
         "reserva-atendimento": 0.2 }
     ]
   },
@@ -162,6 +162,7 @@ Concluídas: <n> fatias (<p> previstas · <q> puxadas) · meta: <atingida | não
 |---|---|---|
 | Entrega `[DEV]` | | |
 | Revisão `[REV]` | | |
+| Aprovação `[APR]` | | |
 | Verificação `[VER]` | | |
 | Especificação `[ESP]` | | |
 | Atendimento `[ATD]` | | |
@@ -169,8 +170,9 @@ Concluídas: <n> fatias (<p> previstas · <q> puxadas) · meta: <atingida | não
 
 Situação da especificação: `entrevista`, `PRD`, `fatiamento`, `concluida` ou `→ sprint <nn+1>`. Situação do
 atendimento: `aberto`, `concluido` ou `→ sprint <nn+1>`. "Tarefa ELM" é o id da tarefa no EWM, ou `pendente`
-(nas fatias, as tarefas com prefixo — `DEV <id> · REV <id> · VER <id>`; AFK, só a `DEV`), gravada pela
+(nas fatias, as tarefas com prefixo — `DEV <id> · REV <id> · VER <id>`, mais `APR <id>` das aprovações criadas no
+gate; AFK, a `DEV` e as `APR`), gravada pela
 `sdd-elm` modo *sprint* (e pela `sdd-consolidar` na fatia puxada). Observação: `puxada`, `encaixe: <decisão>
-(<quem>, <data>)`, `migrada da sprint <nn>` ou texto livre.
+(<quem>, <data>)`, `modo: AFK → HITL (<quem>, <data>, <motivo>)`, `modo: AFK mantido (<quem>, <data>)`, `migrada da sprint <nn>` ou texto livre.
 
 A coluna Status espelha o `backlog.md` do produto no fechamento; durante a sprint, o painel (`sdd-status`) é a fonte.

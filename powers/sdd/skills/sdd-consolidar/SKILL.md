@@ -46,8 +46,9 @@ Pela **`sdd-elm`**, numa confirmação só:
 - *especificação técnica* — se o projeto publica ET: gerar a ET **as-built** da fatia a partir do `design.md` e do
   código final (interfaces, dados, integrações) e publicar;
 - *testes* — `CT.csv` pronto para importar no ETM; após a importação, links "valida" com as histórias;
-- *tarefas* — o merge **não** lança horas nem conclui `[DEV]`, `[REV]` ou `[VER]`: cada skill de papel concluiu
-  a sua (a `[DEV]` no PR, a `[REV]` ao aprovar, a `[VER]` ao aceitar; no AFK só existe a `[DEV]`). Tarefa da fatia
+- *tarefas* — a consolidação **não** lança horas nem conclui `[DEV]`, `[REV]`, `[VER]` ou `[APR]`: cada skill de
+  papel concluiu a sua (a `[DEV]` no merge, a `[REV]` ao aprovar, a `[VER]` ao aceitar, a `[APR]` na aprovação do
+  plano ou do PR; no AFK não há `[REV]` nem `[VER]`). Tarefa da fatia
   ainda aberta → mostre qual e de quem, e registre `ELM pendente [<chave>]: concluir <tarefa> (<login>)`, que a pessoa faz
   na sessão dela;
 - *backlog* — concluir o item de backlog da fatia no EWM (estado de conclusão da PA). Tarefa concluída sem horas

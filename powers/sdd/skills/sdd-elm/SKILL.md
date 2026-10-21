@@ -1,6 +1,6 @@
 ---
 name: sdd-elm
-description: "Alimenta o IBM ELM (registro oficial da documentação) a partir dos artefatos do fluxo sdd, pelas skills do power elm, com prévia e confirmação — modos: similares (antes de especificar HF, REG ou GL, busca artefatos iguais ou relacionados; só leitura), requisitos (conceitos OKF aprovados no DOORS Next, idempotente), backlog (épico, Sustentação e itens de backlog das fatias com critérios de aceite), sprint (planos e tarefas [ESP] [DEV] [REV] [VER], virada), assumir (Passo 0 das skills de papel), atendimento ([ATD]), horas (lançar e relatório), testes (CT.csv no ETM), especificação técnica (ET as-built) e conclusão. O que o power elm não faz vira roteiro manual com pendência. Use em \"publica no ELM\", \"sobe o PRD para o DOORS\", \"cria os itens no EWM\", \"publica a sprint\", \"liga os testes\", \"fecha no ELM\", \"lança 4h\", \"relatório de horas\"."
+description: "Alimenta o IBM ELM (registro oficial da documentação) a partir dos artefatos do fluxo sdd, pelas skills do power elm, com prévia e confirmação — modos: similares (antes de especificar HF, REG ou GL, busca artefatos iguais ou relacionados; só leitura), requisitos (conceitos OKF aprovados no DOORS Next, idempotente), backlog (épico, Sustentação e itens de backlog das fatias com critérios de aceite), sprint (planos e tarefas [ESP] [DEV] [REV] [VER], [APR] no gate, troca AFK → HITL, virada), assumir (Passo 0 das skills de papel), atendimento ([ATD]), horas (lançar e relatório), testes (CT.csv no ETM), especificação técnica (ET as-built) e conclusão. O que o power elm não faz vira roteiro manual com pendência. Use em \"publica no ELM\", \"sobe o PRD para o DOORS\", \"cria os itens no EWM\", \"publica a sprint\", \"liga os testes\", \"fecha no ELM\", \"lança 4h\", \"relatório de horas\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -205,7 +205,8 @@ seções do `sprint-<nn>.md` (fatias com responsável, revisor e verificador; es
    | `[VER] FT-031 Verificar` | fatia **HITL** | verificador | IB da fatia |
 
    Fatia **AFK** (`modo` do `backlog.md`): só a `[DEV]` — revisão e verificação são subagentes, sem tarefa nem
-   horas.
+   horas. **`[APR]` não nasce aqui:** nasce no gate, pelo item 6, quando a fatia chega a ele (gate dispensado não
+   deixa tarefa vazia).
 
    Fatia sem épico com item de origem → pai = o item (sem IB novo). Campos obrigatórios da Tarefa (categoria de horas, OTR, classificação, Clarity) pela
    `elm-ccm` (Criar), pela linha "Classificação da tarefa" do `sdd.md` e pela linha "Padrões do EWM" do `sdd.md` (regra 6).
@@ -215,11 +216,26 @@ seções do `sprint-<nn>.md` (fatias com responsável, revisor e verificador; es
    Sustentação e Atendimento) → só o `plannedFor`
    muda para a nova iteração (o pai não muda; move, nunca recria); roteiro manual de **baseline** (componente RM +
    GC) se o projeto exige baseline por sprint.
+5. **Troca AFK → HITL** (só chamada pela seção "Troca de modo" da `sdd-planejamento`, na base, com a decisão do P.O.
+   ou do SM já registrada): cria a `[REV]` e a `[VER]` da fatia como no item 3 (mesmo pai da `[DEV]`, `plannedFor` =
+   a iteração da sprint), com o revisor e o verificador da decisão; ids na coluna "Tarefa ELM" do `sprint-<nn>.md`
+   e no `elm` do `backlog.md`. A `[DEV]` não muda. **HITL → AFK não existe:** nenhuma tarefa é cancelada por troca de
+   modo.
+6. **Aprovação `[APR]`** (chamada pela skill que abre o gate, quando a fatia chega a ele — nunca no planejamento):
+   uma tarefa por gate humano que não tem tarefa de papel — `[APR] FT-<nnn> Aprovar plano` (GATE do plano:
+   `sdd-plano` Passo 5, ou o `sdd-loop` na fase 4) e `[APR] FT-<nnn> Aprovar PR` (PR da fatia AFK: `sdd-implementar`
+   Passo 5, ou o `sdd-loop` na fase 8). Responsável = o **Dev Sênior** que vai aprovar (quem chamou já escolheu),
+   estimativa (pergunte), `plannedFor` = a iteração da sprint da fatia, o mesmo pai das outras tarefas da fatia (item
+   3). Fica no estado inicial: quem aprova a assume (modo *assumir*), lança as horas e a conclui na aprovação. Já
+   existe (prefixo, id e mesmo pai — regra 2) → não crie outra: depois de um ajuste ou de mudanças pedidas, a mesma
+   `[APR]` volta a ser aprovada. Chamada da branch da fatia: o id vai para o campo ELM do `status.md` (a
+   `sdd-consolidar` o leva ao `backlog.md` e ao `sprint-<nn>.md`).
 
 ## Modo assumir (Passo 0 das skills de papel)
 
 Chamado pela skill do papel antes de trabalhar: `sdd-desenvolver` (`[DEV]`), `sdd-especificar` (`[ESP]`),
-`sdd-revisar` (`[REV]`), `sdd-verificar` (`[VER]`) e `sdd-atender` (`[ATD]`). A regra mora só aqui.
+`sdd-revisar` (`[REV]` e `[APR]` do PR), `sdd-verificar` (`[VER]`), `sdd-plano` (`[APR]` do plano) e `sdd-atender`
+(`[ATD]`). A regra mora só aqui.
 
 1. **Tarefa:** a informada; senão pelo item — coluna `elm` do `backlog.md`, campo ELM do `status.md` da fatia ou
    coluna "Tarefa ELM" do `sprint-<nn>.md`. Não achou → a skill que chamou diz como criar (modo *sprint* ou
@@ -231,7 +247,7 @@ Chamado pela skill do papel antes de trabalhar: `sdd-desenvolver` (`[DEV]`), `sd
    | minha (`elm-ccm` › **quem sou eu**) e em andamento | **nada a fazer** — diga "já assumida" e siga |
    | sem responsável, ou minha e não iniciada | `elm-ccm` › **assumir tarefa** (responsável = quem sou eu, estado em andamento da PA, ex.: *Em Desenvolvimento*; estimativa se faltar — pergunte) |
    | de outra pessoa | mostre quem é e pergunte se assume no lugar dela; sem "sim", pare; com "sim", **assumir tarefa** como na linha acima |
-   | concluída | `[DEV]`: só é concluída no merge — a fatia já foi mergeada: avise e pare (retrabalho não reabre a `[DEV]`, que segue em andamento até o merge). Outra tarefa (ex.: a `[REV]` que volta à revisão depois de um retrabalho pedido pela VER): só se quem chamou disse **retrabalho**: duas transições, na mesma confirmação — `elm-ccm` › **reabrir tarefa** (ação que leva ao estado inicial da PA, ex.: *Novo*) e **assumir tarefa** (estado em andamento), mesmo que a PA tenha uma ação direta de concluída para em andamento (sem ação de reabertura → `ELM pendente [<tarefa> reabrir]` e aviso); fora disso → avise e pare |
+   | concluída | `[DEV]`: só é concluída no merge — a fatia já foi mergeada: avise e pare (retrabalho não reabre a `[DEV]`, que segue em andamento até o merge). Outra tarefa (ex.: a `[REV]` que volta à revisão depois de um retrabalho pedido pela VER, a `[APR]` do plano num replanejamento): só se quem chamou disse **retrabalho**: duas transições, na mesma confirmação — `elm-ccm` › **reabrir tarefa** (ação que leva ao estado inicial da PA, ex.: *Novo*) e **assumir tarefa** (estado em andamento), mesmo que a PA tenha uma ação direta de concluída para em andamento (sem ação de reabertura → `ELM pendente [<tarefa> reabrir]` e aviso); fora disso → avise e pare |
 
 3. **Uma** confirmação com o que muda (responsável, estado, estimativa); **atualizar item** com os campos e o
    `state` na mesma chamada.
@@ -254,8 +270,8 @@ Chamado pela skill do papel antes de trabalhar: `sdd-desenvolver` (`[DEV]`), `sd
 **Lançar** é registro de empenho, não conclusão: a qualquer momento numa tarefa iniciada — ao fechar a sessão
 (`sdd-status`), numa fronteira de fase, sob pedido ("lança 4h", "lança 6h de ontem") — e, na conclusão, só o saldo
 (chamado pela skill do papel):
-1. Tarefa: a informada; senão a atual — o `status.md` da branch dá a `[DEV]`, `[REV]` ou `[VER]` do papel de quem
-   pede; o AT aberto dá a `[ATD]`; a `[ESP]` vem do `sprint-<nn>.md`. Dúvida → pergunte.
+1. Tarefa: a informada; senão a atual — o `status.md` da branch dá a `[DEV]`, `[REV]`, `[VER]` ou `[APR]` do papel
+   de quem pede; o AT aberto dá a `[ATD]`; a `[ESP]` vem do `sprint-<nn>.md`. Dúvida → pergunte.
 2. `elm-ccm` › **horas lançadas** → mostre e desconte. Uma linha por data.
 3. Confirme e `elm-ccm` › **lançar horas** (as regras do EWM — quem pode lançar, limite por dia, time code — são
    da `elm-ccm`; recusa dela → mostre o motivo e registre a pendência). Lançar não conclui a tarefa (tarefa de vários dias); concluir é
@@ -264,7 +280,7 @@ Chamado pela skill do papel antes de trabalhar: `sdd-desenvolver` (`[DEV]`), `sd
    `sprint-<nn>.md`; este modo lança depois.
 
 **Relatório** (virada ou sob pedido): **horas lançadas** das tarefas da sprint → horas por tipo (`[ESP]`
-`[DEV]` `[REV]` `[VER]` `[ATD]`) e por pessoa, planejadas × lançadas, e as tarefas concluídas **sem horas** (só no
+`[DEV]` `[REV]` `[VER]` `[APR]` `[ATD]`) e por pessoa, planejadas × lançadas, e as tarefas concluídas **sem horas** (só no
 fechamento). Alimenta a retrospectiva e a recalibração da reserva de atendimento.
 
 ## Modo testes (verificação → ETM)
@@ -287,7 +303,8 @@ projeto), mostre, publique como os requisitos depois do `verified` humano, e lig
 ## Modo conclusão
 
 Uma tarefa por vez, chamada pela skill do papel que terminou (`[DEV]` no merge, `[REV]` ao aprovar, `[VER]` ao
-aceitar — as duas depois do push conferido no remoto —, `[ESP]` no GATE do backlog, `[ATD]` ao finalizar) → estado de conclusão da PA (ação de
+aceitar — as duas depois do push conferido no remoto —, `[APR]` na aprovação do plano (depois do push) ou do PR
+(antes, o comentário `PR aprovado, sha <sha>` pela `elm-ccm` › **comentar**: é ele que o merge confere), `[ESP]` no GATE do backlog, `[ATD]` ao finalizar) → estado de conclusão da PA (ação de
 `elm-ccm` › **concluir tarefa**), depois do saldo de horas (modo horas). O IB da fatia, pela `sdd-consolidar` depois do
 merge, e o épico quando todas as fatias concluírem: leia os estados e as ações do item e percorra as transições até
 o estado de conclusão (ex.: *Em Desenvolvimento* → *Pronto*; ainda no inicial → passe pelo em andamento antes),

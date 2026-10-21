@@ -16,7 +16,8 @@ foi feita. Os nomes reais de tipos, pastas, campos e links são da project area:
 | Regra `REG-nn` (conceito OKF em `elm/`) | DOORS Next — artefato | `Regra` (título `REG - <nome>`) | idem, **antes** das histórias (elas embutem as regras) |
 | Termo `GL-<termo>` (conceito OKF em `elm/`) | DOORS Next — artefato | `Termos de Glossário` (título = o termo) | idem, antes das regras |
 | Fatia `FT-nnn` | EWM — Item de Backlog (story, *plan item*) | `com.ibm.team.apt.workItemType.story` | quando a fatia entra na sprint |
-| Tarefas `[DEV]` `[REV]` `[VER]` da fatia | EWM — Tarefa (filha do IB, *execution item*) | `task` | planejamento da sprint |
+| Tarefas `[DEV]` `[REV]` `[VER]` da fatia | EWM — Tarefa (filha do IB, *execution item*) | `task` | planejamento da sprint (`[REV]` `[VER]` da fatia AFK que troca para HITL: na troca, pela `sdd-planejamento`) |
+| Tarefa `[APR]` da fatia (`Aprovar plano` · `Aprovar PR` do AFK) | EWM — Tarefa (mesmo pai das tarefas da fatia), do Dev Sênior que aprova | `task` | no gate (`sdd-plano`, `sdd-implementar` Passo 5, `sdd-loop`), nunca no planejamento |
 | Tarefa `[ESP]` do épico | EWM — Tarefa (filha do épico) | `task` | planejamento da sprint |
 | Tarefa `[ATD]` do atendimento | EWM — Tarefa (filha de `Atendimento`) | `task` | quando o AT entra na sprint (triagem com sprint aberta, encaixe ou planejamento) |
 | Critérios de aceite da fatia | campo de texto rico do IB (ou seção da descrição) | linha do `sdd.md` | publicação do IB |
@@ -34,7 +35,7 @@ foi feita. Os nomes reais de tipos, pastas, campos e links são da project area:
 | **afeta** | Defeito → História/Regra que ele viola | `elm-gc` › ligar item a requisito (afeta) | trilha rápida |
 | **valida** | Caso de Teste → História | `elm-gc` › ligar caso de teste a requisito (valida) | depois da importação do CT |
 | **testado por** | IB → Caso de Teste | `elm-gc` › ligar item a caso de teste (testado por) | depois da importação do CT |
-| **pai / filhos** | Épico → IB → Tarefa; Épico → `[ESP]`; Atendimento → `[ATD]` | `elm-ccm` › criar item (com pai); troca: trocar o pai | criação |
+| **pai / filhos** | Épico → IB → Tarefa (`[APR]` inclusive); Épico → `[ESP]`; Atendimento → `[ATD]` | `elm-ccm` › criar item (com pai); troca: trocar o pai | criação |
 | **depende de** | IB → IB (`bloqueada-por` do backlog) | atributo de link do `link-types` do `pa_*.json`, se mapeado | publicação do IB |
 | **embutido** | História → Regra (no texto) | `elm-rm` › atualizar requisito (embutidos) | publicação da história |
 

@@ -103,9 +103,9 @@ num **ciclo só** (um commit, verde — `sdd-implementar` Passo 1).
 **Testes existentes que mudam** (qualquer trilha): a correção ou o comportamento novo contradiz o esperado de um
 teste que já existe → declare no `bugfix.md` (em Expected Behavior, um item `2.x` com o teste, o esperado de hoje
 e o novo) ou no `requirements.md` (critério com o teste citado), com a **fonte da decisão** (pessoa, `D-nn`) — e
-uma tarefa própria para mudar a expectativa. Isso força o GATE do plano (`sdd-plano` Passo 5), mesmo na rápida
-com `GATE na trilha rápida = não`. Sem decisão de uma pessoa → é lacuna de negócio: pergunte (ou, autônomo,
-`bloqueada`).
+uma tarefa própria para mudar a expectativa. Aparece no resumo do GATE do plano (`sdd-plano` Passo 5): quem aprova
+lê isso primeiro, e o Pleno ouve a recomendação de pedir a aprovação. Sem decisão de uma pessoa → é lacuna de
+negócio: pergunte (ou, autônomo, `bloqueada`).
 
 ## `design.md`
 

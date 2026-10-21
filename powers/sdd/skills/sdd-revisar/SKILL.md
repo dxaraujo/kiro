@@ -1,6 +1,6 @@
 ---
 name: sdd-revisar
-description: "Revisão independente do fluxo sdd, com contexto limpo, sem alterar nenhum artefato (escreve só o próprio relatório) — julga um artefato contra a sua fonte, nunca contra a explicação de quem o fez: PRD (rubrica P, RESULTADO PRONTO/AJUSTAR), plano da fatia (rubrica L: research, requirements, design e tasks contra o PRD, o código e o steering; ANALISE OK/AJUSTAR) ou código da fatia (rubrica C em dois eixos separados — spec: critérios, cenários testados, backpressure executado, oráculo protegido, escopo; padrões: regras críticas, segurança, schema, forma do programa, nomes; VEREDITO APROVADO/REVISAR). Calibra a severidade pelas lições do time. Com a tarefa [REV] (direto ou pelo hub sdd-iniciar), assume-a antes no EWM (sdd-elm modo assumir). Use em \"revisa\", \"pegar a [REV] da FT-031\", \"judge\", \"revisa o PRD\", \"analisa o plano\", \"revisa a FT-031\", \"code review\", e ao fim da sdd-prd, sdd-plano e sdd-implementar."
+description: "Revisão independente do fluxo sdd, com contexto limpo, sem alterar nenhum artefato (escreve só o próprio relatório) — julga um artefato contra a sua fonte, nunca contra a explicação de quem o fez: PRD (rubrica P, RESULTADO PRONTO/AJUSTAR), plano da fatia (rubrica L: research, requirements, design e tasks contra o PRD, o código e o steering; ANALISE OK/AJUSTAR) ou código da fatia (rubrica C em dois eixos separados — spec: critérios, cenários testados, backpressure executado, oráculo protegido, escopo; padrões: regras críticas, segurança, schema, forma do programa, nomes; VEREDITO APROVADO/REVISAR). Calibra a severidade pelas lições do time. Com a tarefa [REV] (direto ou pelo hub sdd-iniciar), assume-a antes no EWM (sdd-elm modo assumir). Com a tarefa [APR] Aprovar PR (fatia AFK em pronta-para-merge), um Dev Sênior lê o PR e aprova ou pede mudanças. Use em \"revisa\", \"pegar a [REV] da FT-031\", \"[APR] Aprovar PR\", \"aprovar o PR da FT-031\", \"judge\", \"revisa o PRD\", \"analisa o plano\", \"revisa a FT-031\", \"code review\", e ao fim da sdd-prd, sdd-plano e sdd-implementar."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -18,7 +18,8 @@ Quem gera não verifica o próprio trabalho: o revisor começa **sem** o context
 raciocínio anterior da conversa e trabalhe só com os arquivos.
 
 Você **não edita** artefato, código nem `tasks.md`, e não faz commit — escreve só o relatório da rodada (no
-modo HITL, abaixo, commita o relatório e a fase na branch do PR e faz o push dela). Ignore justificativas de quem fez (mensagem
+modo HITL, abaixo, commita o relatório e a fase na branch do PR e faz o push dela; na aprovação do PR do AFK, só
+nas mudanças pedidas). Ignore justificativas de quem fez (mensagem
 de commit, comentário, texto do pedido): julgue os artefatos.
 
 ## Passo 0 — Assumir a `[REV]` (só com a tarefa)
@@ -97,6 +98,33 @@ revisão oficial é sua, na sua sessão:
       confirmação; sem o power `elm` → `ELM pendente [<chave>]: lançar <h>h e concluir [REV] FT-<nnn>`) e avise o
       verificador de que a `[VER]` está disponível; `REVISAR` → avise o Dev responsável (o retrabalho é dele, no
       mesmo PR).
+
+## Aprovação do PR — a `[APR]`
+
+Fatia `Modo: AFK` em `fase: pronta-para-merge`, com a tarefa `[APR] FT-<nnn> Aprovar PR` (pelo hub ou direto). A
+revisão e a verificação já foram feitas por subagentes; aqui uma pessoa **lê o código** e decide.
+
+1. Quem está na sessão é **Dev Sênior** ativo (`senioridade` no `equipe.json` da base) e o responsável pela `[APR]`
+   (sem o power `elm`, quem o Dev indicou)? Não → diga quem é e pare. PR de um Sênior (o `Responsável` da fatia) →
+   outro Sênior aprova; ele mesmo só quando é o **único** Dev Sênior ativo.
+2. Leia o PR pelo `gitlab_obter_mr` (iid do link no `status.md`): `merged` ou `closed` → avise e pare. Vá para a
+   branch do PR (`git switch <branch>` com "sim"; árvore suja → avise e pare) e `git pull --ff-only`; a fase tem de
+   ser `pronta-para-merge`. Anote o `sha` = `git rev-parse origin/<branch>` (o do PR).
+3. **`sdd-elm` modo *assumir*** a `[APR]`.
+4. Mostre o caminho de leitura: o texto do PR ("Como ler"), o `revisao-codigo-<N>.md` aprovado e as evidências do
+   `verificacao.md`. **Execute** o backpressure (C3) — não confie no relatório. A leitura do código é da pessoa:
+   você aponta, ela decide.
+5. **Aprovado** → **não commite na branch** (o `sha` que o Dev vai mergear não pode mudar): pela `sdd-elm`, numa
+   confirmação, o comentário `PR aprovado, sha <sha>` na `[APR]` (`elm-ccm` › **comentar**), o saldo de horas e a
+   conclusão (modos *horas* e *conclusão*). Avise o Dev responsável: o merge é dele (Passo 6 da `sdd-implementar`),
+   que confere essa `[APR]`. Sem o power `elm` → entregue ao Dev a linha `PR aprovado por <login>, sha <sha>` e a
+   pendência `ELM pendente [APR FT-<nnn> concluir]: lançar <h>h e concluir (<login>)` — ele as grava no commit do
+   merge.
+6. **Mudanças pedidas** → cada uma em Achados abertos (origem: PR), `fase: retrabalho (de: pronta-para-merge)`,
+   "retrabalho" + 1 em Rodadas e uma linha na tabela Retrabalho (papel APR). Commit
+   (`FT-<nnn> aprovação do PR: mudanças pedidas`) → push → conferir no remoto (como no item 5 do modo HITL) → horas
+   da sessão na `[APR]` (lança, não conclui) → avise o Dev responsável. A `[APR]` fica em andamento e é a mesma na
+   nova aprovação.
 
 ## Regras
 

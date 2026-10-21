@@ -36,7 +36,7 @@
 ## Histórico de sprints
 
 > Gravado na virada de cada sprint.  
-> Horas (DEV/REV/VER/ESP/ATD) vêm do `sdd-elm` modo horas na virada.
+> Horas (DEV/REV/APR/VER/ESP/ATD) vêm do `sdd-elm` modo horas na virada.
 
-| Sprint | Fatias concluídas | Lead time médio (dias) | Horas DEV | Horas REV | Horas VER | Horas ESP | Horas ATD | Reserva AT (%) |
-|---|---|---|---|---|---|---|---|---|
+| Sprint | Fatias concluídas | Lead time médio (dias) | Horas DEV | Horas REV | Horas APR | Horas VER | Horas ESP | Horas ATD | Reserva AT (%) |
+|---|---|---|---|---|---|---|---|---|---|

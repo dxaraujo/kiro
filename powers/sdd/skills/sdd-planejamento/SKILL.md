@@ -22,8 +22,9 @@ tamanho parecido e prevê pela **vazão** (fatias concluídas por sprint) e pelo
 uma **previsão**. Dentro da sprint o fluxo é **puxado** — terminou uma fatia, a `pronta` do topo entra, enquanto o
 WIP de revisão humana tiver folga (a `sdd-desenvolver` puxa, sem cerimônia). O Encaixe (abaixo) fica para quem
 fura a fila ou estoura o WIP.
-Toda hora do time cabe numa tarefa da sprint, em cinco frentes: entrega `[DEV]`, revisão `[REV]`, verificação
-`[VER]`, especificação `[ESP]` e atendimento `[ATD]`.
+Toda hora do time cabe numa tarefa da sprint, em seis frentes: entrega `[DEV]`, revisão `[REV]`, aprovação `[APR]`
+(do Dev Sênior, nos gates sem tarefa de papel: plano e PR do AFK), verificação `[VER]`, especificação `[ESP]` e
+atendimento `[ATD]`.
 
 Arquivos na raiz de `<produto>/` (formatos em [references/arquivos.md](references/arquivos.md)):
 `equipe.json`, `acordos.md`, `roadmap.md`, `sprints/sprint-<nn>.md`. Fatias: `<produto>/backlog.md`.
@@ -96,7 +97,9 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
    e o modo final sai da senioridade dele ([Modo pela senioridade](#modo-pela-senioridade)). Cada fatia **HITL** ganha
    **revisor** — um **Dev Sênior**, pela [regra do revisor](#modo-pela-senioridade) — e **verificador** (não quem
    implementa), e a soma das revisões e verificações cabe nas horas de revisão de cada um; fatia **AFK** não tem
-   (revisão e verificação por subagente, sem `[REV]`/`[VER]`) — a revisão humana dela é a leitura do PR.
+   (revisão e verificação por subagente, sem `[REV]`/`[VER]`) — a revisão humana dela é a leitura do PR. As
+   **aprovações previstas** também consomem as horas de revisão dos Dev Sêniores: o plano de cada fatia de Júnior
+   (e de Pleno que costuma pedir o GATE) e o PR de cada fatia AFK. A `[APR]` não nasce aqui — nasce no gate.
 4. **Meta da sprint:** uma frase de resultado de negócio que as fatias entregam juntas.
 5. **Iteração:** pergunte a iteração do EWM da sprint (de `iterations` do `pa_*.json`; não está lá → a `sdd-elm` procura no EWM antes de propor criar); é o `plannedFor` de
    todos os IBs e tarefas desta sprint.
@@ -113,7 +116,7 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
    ```
 7. "ok" → grave `sprints/sprint-<nn>.md`, `sprint`, `responsavel`, `status` e o `modo` final no `backlog.md` pelo bloco
    [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base) e **chame sempre a `sdd-elm` modo *sprint*** (planos, IBs e tarefas `[DEV]` `[REV]`
-   `[VER]` `[ESP]` na iteração escolhida), para a sprint e o EWM ficarem iguais. Sem o power `elm` ou com falha, a
+   `[VER]` `[ESP]` na iteração escolhida; a `[APR]` nasce no gate), para a sprint e o EWM ficarem iguais. Sem o power `elm` ou com falha, a
    coluna "Tarefa ELM" fica `pendente` e a `sdd-elm` publica depois.
 
 ## Modo pela senioridade
@@ -133,7 +136,12 @@ motivo: `modo pela senioridade (<login>): HITL — <motivo>`.
 
 **Revisor** (fatia HITL): a `[REV]` é sempre de um **Dev Sênior** ativo — o Sênior revisa os PRs do Pleno e do
 Júnior. PR de um Sênior → outro Sênior; se ele for o **único** Sênior ativo, ele mesmo, com `revisor único` na
-Observação da linha da fatia no `sprint-<nn>.md`. Conte essas revisões nas horas de revisão dos Sêniores.
+Observação da linha da fatia no `sprint-<nn>.md`. Conte essas revisões, e as aprovações (`[APR]`), nas horas de
+revisão dos Sêniores. A senioridade também decide o GATE do plano (Júnior sempre, Pleno se pedir, Sênior nunca —
+`sdd-plano` Passo 5).
+
+Fatia já iniciada (com `status.md`) só troca de **AFK para HITL**, pela [Troca de modo](#troca-de-modo-afk--hitl);
+**HITL → AFK nunca** — nem sugerido nem aceito.
 
 ## Durante a sprint
 
@@ -157,6 +165,26 @@ revisor](#modo-pela-senioridade) — e verificador, que não seja quem implement
 *sprint* para as tarefas da fatia (AT: modo *atendimento*, Registrar). Na troca, as tarefas da fatia que sai vão
 para a próxima iteração (`sdd-elm`, só o `plannedFor`). Depois, volte à `sdd-desenvolver` (Passo 3, item 4). Sem
 decisão, a fatia não começa; urgência acelera a decisão, não a dispensa.
+
+## Troca de modo (AFK → HITL)
+
+O plano de uma fatia AFK mostrou risco e o Dev aceitou a sugestão (`sdd-plano` Passo 5), ou o loop parou a fatia:
+ela está em `bloqueada (de: planejando)` com `aguardando troca para HITL` e o motivo. A decisão é do P.O. (ou do
+SM), aqui, na base:
+
+1. Mostre a fatia, o motivo (Histórico do `status.md` da branch, por `git show origin/<branch>:…`) e a sugestão de
+   **revisor** (Dev Sênior ativo, pela [regra do revisor](#modo-pela-senioridade)) e de **verificador** (não quem
+   implementa), cada um o de **menor alocação** na sprint: a soma das horas estimadas das tarefas abertas de cada
+   pessoa na iteração da sprint no EWM (`sdd-elm` → `elm-ccm` › **listar itens**, só leitura); sem ELM, a contagem
+   de fatias de cada um no `sprint-<nn>.md`.
+2. "ok" → `modo: HITL` na linha da fatia no `backlog.md`; no `sprint-<nn>.md`, Modo `HITL`, Revisor, Verificador e a
+   Observação `modo: AFK → HITL (<quem>, <data>, <motivo>)` — pelo bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base).
+   Com o "ok", a `sdd-elm` modo *sprint* (item 5, troca AFK → HITL) cria a `[REV]` e a `[VER]` e grava os ids na
+   coluna "Tarefa ELM".
+3. Avise o Dev: ele retoma pela `sdd-iniciar` → `sdd-desenvolver`, que sincroniza o `status.md` com a troca.
+
+Não troca → Observação `modo: AFK mantido (<quem>, <data>)` no `sprint-<nn>.md` e avise o Dev, que retoma no AFK
+(`sdd-plano` Passo 5, GATE). **HITL → AFK nunca.**
 
 ## Review
 

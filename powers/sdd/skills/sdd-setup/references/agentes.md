@@ -45,7 +45,7 @@ permissão, compare as regras dele com as do orquestrador.
 | `{{POWER}}` (nos dois blocos) | a pasta do power (Passo 0) |
 | `{{PRODUTO}}` (produto, revisor, codificador; nos dois blocos) | a pasta do produto (Passo 4), padrão `.kiro/planejamento` |
 | `{{GLOSSARIO}}`, `{{ADR}}` (produto, nos dois blocos) | os caminhos do Passo 4 |
-| `{{BASE}}` (codificador, revisor e verificador; só no bloco V3) | a branch base do `sdd.md` (Passo 3), sem `origin/` — nas negações de push para a base |
+| `{{BASE}}` (codificador, revisor, verificador e orquestrador; só no bloco V3) | a branch base do `sdd.md` (Passo 3), sem `origin/` — nas negações de push para a base |
 | `{{BUNDLE}}` (todos, leitura negada, nos dois blocos) | o bundle do ELM (Passo 4): a consulta é pelo MCP `okf`, nunca pelos arquivos. "não há" → remova a linha |
 | `{{SKILLS_EXTRAS}}` (no `prompt`) | `Skills do projeto ligadas a você: `a`, `b` — carregue a do artefato antes de escrevê-lo.` ou nada |
 | `{{SUBAGENTES}}` (no `prompt`) | `Subagentes do projeto: `x` (<tipo de tarefa>)` ou nada |
@@ -83,16 +83,24 @@ aprovado), `deny` nos demais.
   `checkout --`/`checkout .`, `restore`, `stash`, `worktree remove`, `branch -D/-M`, `--force`, `--delete`,
   `--no-verify`, `gh pr merge`, `glab mr merge`, `rm -rf`, e opções que executam outro programa ou gravam arquivo
   (`find -exec/-ok/-delete`, `rg --pre`, `git grep -O`, `git difftool`, `--upload-pack`, `--receive-pack`,
-  `git … --output`, `git … --no-index`).
+  `git … --output`, `git … --no-index`). Também (teste TC04 da 2.7.0): **redireção** (`>`, `tee`) — com ela um
+  `git show … > arquivo` grava por fora das regras de escrita; **credenciais no shell** (`.env`, `.ssh/`, `.aws/`,
+  `.config/mcp-`, `.pem`, `.key` e `{{BUNDLE}}` em qualquer comando — a negação de leitura só vale para a ferramenta
+  de leitura, e `cat` é liberado pela política `read-only-shell`); `cd` com `..`; e, nos que commitam,
+  `git commit -n` (pula os ganchos como `--no-verify`) e `git pull --no-ff`/`--ff` (fariam merge da base).
 - **Push:** negado no produto e no pesquisador. No orquestrador, no codificador, no revisor e no verificador, o
   bloco V3 tem `git push *` com `ask` (o Kiro pergunta sempre) e nega `-f`, `+ref`, `:ref`, `--mirror`, `--all`,
-  `--prune` (e `--force`, `--delete`, como em todos); codificador, revisor e verificador negam também o push para a base (`{{BASE}}`
-  como destino: ` <base>`, `:<base>`, `heads/<base>`). Push sem destino (`git push` puro) não é pego pelo padrão: as
+  `--prune` (e `--force`, `--delete`, como em todos); codificador, revisor, verificador e orquestrador negam também o push para a base (`{{BASE}}`
+  como destino: ` <base>`, `:<base>`, `heads/<base>`, `:<base>` entre aspas). Push sem destino (`git push` puro) não é pego pelo padrão: as
   skills mandam sempre `git push -u origin <branch>`, só a branch da fatia (revisor e verificador: a do PR). No
-  bloco V2 (sem `ask`) o push continua negado nos três (`.*git push.*`): o agente entrega o comando pronto e
+  bloco V2 (sem `ask`) o push continua negado nos quatro (`.*git push.*`): o agente entrega o comando pronto e
   espera a pessoa dizer que publicou.
 - **Escrita:** só o que o papel produz (ver cada template); o codificador escreve no projeto, menos `.kiro/agents`,
-  `hooks`, `workflows`, `steering`, a pasta do produto, `.kiro/local/wf`, `.kiro/sdd` e `.git`.
+  `hooks`, `workflows`, `steering`, `settings`, `skills`, `toolkits`, `config`, o `AGENTS.md`, a pasta do produto,
+  `.kiro/local/wf`, `.kiro/sdd` e `.git` (mudariam as próprias permissões ou as instruções do revisor). Os relatórios
+  do revisor e do verificador não podem ser negados nele: os subagentes que ele chama herdam as negações. Quem barra o
+  relatório forjado é o merge, que tem de conferir as tarefas no ELM (caso TC05.1). **V2:** escrita fora de `allowedPaths` não é bloqueada (no
+  `--no-interactive` passa sem perguntar); o revisor e o verificador só ficam presos aos relatórios na V3 e na IDE.
   O produto, além da pasta do produto, do glossário e dos ADRs, escreve o `decisoes.md`, e — para a consolidação,
   que é dele (P.O. ou SM) — o `status.md`, o `verificacao.md` e a pasta `elm/` de cada fatia (`.kiro/specs/*/`);
   o código ele só lê (a ET *as-built*).

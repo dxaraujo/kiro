@@ -111,7 +111,18 @@
         ".*git add.*",
         ".*git commit.*",
         ".*git switch.*",
-        ".*git worktree add.*"
+        ".*git worktree add.*",
+        ".*>.*",
+        "tee .*",
+        ".*\\.env.*",
+        ".*\\.ssh/.*",
+        ".*\\.aws/.*",
+        ".*\\.config/mcp-.*",
+        ".*\\.pem.*",
+        ".*\\.key",
+        ".*\\.key .*",
+        ".*{{BUNDLE}}.*",
+        "cd .*\\.\\..*"
       ],
       "autoAllowReadonly": true
     }
@@ -188,7 +199,18 @@
           "*git add*",
           "*git commit*",
           "*git switch*",
-          "*git worktree add*"
+          "*git worktree add*",
+          "*>*",
+          "tee *",
+          "*.env*",
+          "*.ssh/*",
+          "*.aws/*",
+          "*.config/mcp-*",
+          "*.pem*",
+          "*.key",
+          "*.key *",
+          "*{{BUNDLE}}*",
+          "cd *..*"
         ],
         "effect": "deny"
       },

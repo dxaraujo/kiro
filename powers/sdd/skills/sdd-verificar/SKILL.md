@@ -27,7 +27,10 @@ resultado: seção **Verificação de aceite** do `.kiro/steering/sdd.md` (vem d
 
 ## Passo 0 — Assumir a `[VER]` (só com a tarefa)
 
-Chamada com a tarefa `[VER] FT-nnn` — direto, pela pessoa do papel, ou pelo hub `sdd-iniciar` — numa sessão com o
+Chamada com a tarefa `[VER] FT-nnn` — direto, pela pessoa do papel, ou pelo hub `sdd-iniciar`: antes de tudo,
+quem está na sessão **não pode ser quem implementa** a fatia (o `responsavel` do `backlog.md` ou o `Responsável` do
+`status.md`) — sem exceção, nem com "sim". É → diga isso, quem é o verificador da fatia (`sprint-<nn>.md`) e pare,
+sem assumir a `[VER]`. Numa sessão com o
 power `elm`: **`sdd-elm` modo *assumir*** (com "sim"): responsável = quem está na sessão, estado em andamento da PA; já minha e
 em andamento → nada a fazer. Sem o power `elm` → `ELM pendente [<chave>]: assumir [VER] FT-<nnn>` no Histórico do `status.md`, e siga.
 Chamada como subagente por outra skill (a rodada de verificação do loop ou da implementação), sem a tarefa → pule este passo: quem chamou é o dono da

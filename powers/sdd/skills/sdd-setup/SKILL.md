@@ -4,7 +4,7 @@ description: "Configura o fluxo sdd num projeto: entende o repositório (tipos d
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.8.1"
+  version: "2.8.2"
 ---
 
 # sdd-setup — Configurar o fluxo no projeto
@@ -149,8 +149,11 @@ Falhou ao rodar → mostre o erro; a pessoa decide (corrigir o comando, seguir a
      pai se a PA não tem Épico); o campo de critérios de aceite (o de `workitem-types[IB].fields` com "aceite" no
      nome; não há → `descrição`); a classificação de cada tarefa (valores da `elm-setup` etapa 4d; a PA não tem o
      campo → "a PA não tem"). **Padrões do EWM:** a categoria do time para "Atendido por"/`filedAgainst` da Tarefa (a do
-     time de `ccm.team-areas`); "Planejado para" não entra — é sempre a iteração da sprint; outros atributos obrigatórios aparecem nas recusas da PA e a
-     `sdd-elm` oferece gravá-los depois. Sustentação e Atendimento não são perguntados: a `sdd-elm` os cria na primeira
+     time de `ccm.team-areas`); a categoria de horas e o OTR que a `elm-setup` (etapa 4d) validou; e os outros
+     obrigatórios de enumeração do IB e da Tarefa (`required: true` de `ccm_list_workitem_fields`, reconhecidos pelo
+     attribute — um "Categoria" que não é `filedAgainst` entra aqui), com o valor por nome: proponha o mais próximo do
+     trabalho (ex.: "Correção" para defeito) e confirme numa rodada só. "Planejado para" não entra — é sempre a
+     iteração da sprint. O que ainda faltar aparece nas recusas da PA, e a `sdd-elm` oferece gravar. Sustentação e Atendimento não são perguntados: a `sdd-elm` os cria na primeira
      sprint e grava os ids no `backlog.md`.
    - **ELM nos agentes:** pelo **power `elm`** instalado, com `includePowers: true` nos agentes que usam ELM — o
      MCP e as skills `elm-*` chegam pelo power, nunca por entrada no `mcp.json` do projeto nem por tool listada no

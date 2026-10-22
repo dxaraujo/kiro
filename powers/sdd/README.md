@@ -193,7 +193,9 @@ A ET *as-built* é escrita pelo Dev no PR, e a consolidação só a publica. A `
 para a base e conclui a `[ESP]`, e a `sdd-prd` e a `sdd-fatiar` só conduzem o próprio GATE. O `equipe.json` é da
 `sdd-planejamento` (modo inicial), não da setup. A 2.8.1 só encurta as descrições de `sdd-desenvolver`,
 `sdd-implementar` e `sdd-revisar`, que passavam do limite de 1024 caracteres e eram puladas pelo Kiro (sem regra
-nova; reinstale o power). Projeto configurado com o power
+nova; reinstale o power). Na 2.8.2, a linha "Padrões do EWM" do `sdd.md` cobre o IB e a Tarefa (categoria
+obrigatória do IB, categoria de horas e OTR da Tarefa), e a `sdd-elm` copia o valor do item anterior ou pergunta em vez
+de chutar — peça "atualizar a configuração do sdd" para preencher a linha. Projeto configurado com o power
 `sdd2` ou com a v1 do `sdd`: desinstale o power antigo, instale este e peça "atualizar a configuração do sdd" — a
 setup pergunta a pasta do produto, junta os steerings num só, renomeia hooks, workflows e agentes e move
 `.kiro/produto/` e `.kiro/aprendizado/` com `git mv`.

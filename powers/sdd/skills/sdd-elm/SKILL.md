@@ -4,7 +4,7 @@ description: "Alimenta o IBM ELM (registro oficial da documentação) a partir d
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.8.1"
+  version: "2.8.2"
 ---
 
 # sdd-elm — O ELM como fonte oficial
@@ -63,10 +63,15 @@ Projeto sem ELM (`sdd.md` → ELM: não usa) → nada a fazer.
 5. Mostre nomes de tipo, pasta e iteração — nunca `FR_`/`OT_`/uuids. Ao gravar, o contrário: enumeração (categoria,
    classificação, OTR, estado) vai pelo **identifier** que a `elm-ccm` lista para o atributo, nunca pelo nome; nome
    do `sdd.md` que não bate exato com nenhum valor → o valor cujo nome **começa** com ele, e diga qual foi usado.
+   O uuid da categoria do time vai só em `rtc_cm:filedAgainst` ("Atendido por"); um campo "Categoria" com outro
+   attribute é enumeração da PA (identifier) — reconheça o campo pelo attribute do `pa_*.json`, nunca pelo rótulo.
 6. **Campos que a PA exige** (os erros 403 "The '<atributo>' attribute needs to be set" dizem quais): a linha
-   "Padrões do EWM" da seção ELM do `sdd.md` guarda os valores que o fluxo usa sempre (ex.: "Atendido por" /
-   categoria do time na Tarefa; "Planejado para" é sempre a iteração da sprint — nada nasce no EWM fora dela);
-   recusa por atributo que falta → mostre o atributo, peça o valor uma vez e ofereça gravá-lo nessa linha.
+   "Padrões do EWM" da seção ELM do `sdd.md` guarda, **para o IB e para a Tarefa**, os valores que o fluxo usa sempre
+   (ex.: a categoria obrigatória do IB; na Tarefa, "Atendido por" / categoria do time, a categoria de horas e o OTR;
+   "Planejado para" é sempre a iteração da sprint — nada nasce no EWM fora dela). Obrigatório que a linha não
+   cobre, ou recusa (403/409) → **não chute outro valor**: copie o do item anterior do mesmo tipo no fluxo (ex.: o
+   IB ou a `[DEV]` da fatia anterior, pela `elm-ccm` › **Ler**) ou peça o valor uma vez; nos dois casos, mostre na
+   prévia e ofereça gravá-lo nessa linha.
 7. Nunca apague nada no ELM. Artefato que deixou de valer → peça à pessoa a marcação de obsoleto/remoção do módulo
    na UI (roteiro manual).
 
@@ -208,7 +213,8 @@ seções do `sprint-<nn>.md` (fatias com responsável, revisor e verificador; es
    horas. **`[APR]` não nasce aqui:** nasce no gate, pelo item 6, quando a fatia chega a ele (gate dispensado não
    deixa tarefa vazia).
 
-   Fatia sem épico com item de origem → pai = o item (sem IB novo). Campos obrigatórios da Tarefa (categoria de horas, OTR, classificação, Clarity) pela
+   Fatia sem épico com item de origem → pai = o item (sem IB novo). Campos obrigatórios do IB e da Tarefa (na Tarefa:
+   categoria de horas — o "Categoria" que não é `filedAgainst` —, OTR, classificação, Clarity) pela
    `elm-ccm` (Criar), pela linha "Classificação da tarefa" do `sdd.md` e pela linha "Padrões do EWM" do `sdd.md` (regra 6).
    Grave os ids na coluna "Tarefa ELM" do `sprint-<nn>.md` (fatias: `DEV <id> · REV <id> · VER <id>`) e no `elm`
    do `backlog.md`. AT da seção Atendimento sem `elm` → modo *atendimento* (Registrar), no mesmo lote.

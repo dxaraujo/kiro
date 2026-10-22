@@ -4,7 +4,7 @@ description: "Planejamento ágil do projeto no fluxo sdd, ajustado a times que t
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.8.1"
+  version: "2.8.2"
 ---
 
 # sdd-planejamento — Planejar o fluxo, não só o calendário

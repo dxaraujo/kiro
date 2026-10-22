@@ -4,7 +4,7 @@ description: "Configure, create, update or review the IBM ELM/ELM (EWM, DOORS Ne
 license: "MIT"
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "1.1.0"
+  version: "1.1.1"
 ---
 
 # elm-setup
@@ -63,7 +63,7 @@ coluna "Entrada" (ids vêm de saídas anteriores, nunca nomes) e grave só o que
 | 2 | `ccm_list_team_areas(project_area_identifier=pa)`; mostre a árvore (via `parent`) e pergunte os times. Depois **uma** chamada `list_workitem_categories(project_area_item_id=pa, limit=500)` e distribua as categorias pelos times | Times: `[{name, identifier, parent}]`. Categorias: `[{itemId, name, archived, defaultTeamArea?}]` | `team-areas` `{name: {identifier, categories}}`; `categories` = `{name: itemId}` das não arquivadas com `defaultTeamArea.itemId` == identifier do time |
 | 3 | `ccm_list_members(project_area_identifier=pa, team_area_identifiers=[ids dos times])` (≥1). "Todos" é resposta válida | `[{identifier (login), name, team-areas}]` | `members` `{login: name}` |
 | 4a | `ccm_list_workitem_types(project_area_identifier=pa)`; pergunte quais tipos | `[{identifier, name}]` | `workitem-types` `{name: {identifier, fields}}` |
-| 4b | Para cada tipo, **um por vez**: `ccm_list_workitem_fields(project_area_identifier=pa, workitem_type=<identifier>)` (`"task"`, não `"Tarefa"`). Entram sempre: os `required: true` e a categoria (`rtc_cm:filedAgainst`). Sugira os úteis no dia a dia (responsável `dcterms:contributor`, planejado para `rtc_cm:plannedFor`, estimativa `rtc_cm:estimate`, prioridade, severidade) e pergunte os demais. **Para Tarefa**, se existirem, **sempre inclua** e trate como obrigatórios: "ID do Produto (Clarity)" (`idprodutoclarity`, pré-requisito para lançamento de horas), "Categoria de Integração de Horas" (`categoriatarefa`; oriente: **sempre "Aplicativo"**), "OTR" (`.otr`; com "Aplicativo" o servidor recusa o padrão "Não designado") e "Classificação da Tarefa" (`classificação`). Nunca inclua `rtc_cm:teamArea` | `[{name, attribute, required, kind}]` | `workitem-types[name].fields` `{nome: attribute}` |
+| 4b | Para cada tipo, **um por vez**: `ccm_list_workitem_fields(project_area_identifier=pa, workitem_type=<identifier>)` (`"task"`, não `"Tarefa"`). Entram sempre: os `required: true` (de todo tipo, Item de Backlog incluído) e a categoria do time (`rtc_cm:filedAgainst`), com o rótulo que a PA mostra ("Atendido por", "Categoria"...). Um "Categoria" com outro attribute é enumeração da PA: entra como campo à parte, com o rótulo da PA. Sugira os úteis no dia a dia (responsável `dcterms:contributor`, planejado para `rtc_cm:plannedFor`, estimativa `rtc_cm:estimate`, prioridade, severidade) e pergunte os demais. **Para Tarefa**, se existirem, **sempre inclua** e trate como obrigatórios: "ID do Produto (Clarity)" (`idprodutoclarity`, pré-requisito para lançamento de horas), "Categoria de Integração de Horas" (`categoriatarefa`; oriente: **sempre "Aplicativo"**), "OTR" (`.otr`; com "Aplicativo" o servidor recusa o padrão "Não designado") e "Classificação da Tarefa" (`classificação`). Nunca inclua `rtc_cm:teamArea` | `[{name, attribute, required, kind}]` | `workitem-types[name].fields` `{nome: attribute}` |
 | 4c | `ccm_list_link_types(project_area_identifier=pa, workitem_type=<qualquer tipo escolhido>)`; pergunte quais o projeto usa (sugira pai, filhos, implementa requisito, menções) | `[{name, attribute}]` | `link-types` `{nome: attribute}` |
 | 4d | (Tarefa com "Categoria de Integração de Horas" ou "OTR") Mostre os valores (`ccm_list_field_values`) e, **com "sim"**, crie **uma** tarefa de teste `[TESTE] <combinação>` na iteração atual para conferir que o servidor aceita "Aplicativo" + o OTR + a Classificação de cada tipo de tarefa do projeto (Desenvolvimento, Análise / Especificação…). Recusada (403 "value provider") → troque o OTR e tente de novo. No fim, peça à pessoa para marcar as tarefas de teste como inválidas | `{id}` ou erro | nada (o que passou vai para o `sdd.md` do sdd, linha "Classificação da tarefa") |
 | 5a | `ccm_list_iterations(project_area_identifier=pa)`. Lista longa → pergunte antes um filtro (ano, trecho do nome ou "não terminadas" por `end-date`) e mostre com datas. O usuário escolhe as iterações | `[{name, identifier, start-date?, end-date?, parent?}]` | `iterations` `{name: {identifier, plans}}` |
@@ -215,7 +215,8 @@ Mostre o resumo e peça confirmação antes. Depois de criar, inclua o item em `
 | Listas ou objetos com `uuid`/`url` | Mapas com chaves em kebab-case, como no exemplo |
 | Salvar tudo sem perguntar | Mostrar e deixar o usuário escolher |
 | `list_workitem_categories` uma vez por time | Uma chamada com `limit=500` e filtrar por `defaultTeamArea.itemId` |
-| `Categoria` → `rtc_cm:category`, ou omitir a categoria | `Categoria` → `rtc_cm:filedAgainst`, sempre presente: ela define o time do work item |
+| Categoria do time → `rtc_cm:category`, ou omitir a categoria | Categoria do time → `rtc_cm:filedAgainst` (rótulo da PA, ex.: "Atendido por"), sempre presente: ela define o time do work item |
+| Tratar todo campo "Categoria" como `filedAgainst` | Ler o attribute: "Categoria" que não é `filedAgainst` é enumeração da PA (no IB e na Tarefa) e recebe identifier, nunca o uuid da categoria do time |
 | `rtc_cm:teamArea` nos fields | Omitir: read-only, derivado da categoria |
 | Planos numa lista `plans` solta, com `iteration` ou `team-area: null` | Dentro de `iterations[nome].plans`, só `identifier` (+ `team-area`) |
 | Membro novo não aparece em `ccm_list_members` | O MCP carrega os usuários uma vez por processo: peça para reiniciar o cliente |

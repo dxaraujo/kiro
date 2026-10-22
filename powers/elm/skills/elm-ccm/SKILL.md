@@ -4,7 +4,7 @@ description: "Query, list, read, create, update, change state, comment or log ti
 license: "MIT"
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "1.1.0"
+  version: "1.1.1"
 ---
 
 # elm-ccm
@@ -261,13 +261,21 @@ muda. Toda escrita é confirmada com a pessoa antes.
 - **Criar:**
   1. Tipo pelo elm.json. Para cada campo do mapa `fields` que seja obrigatório ou que o usuário citou, resolva o
      valor pela tabela acima. Só chame `ccm_list_field_values` para kinds que não estão no elm.json — e uma vez
-     por attribute, não para conferir o que o arquivo já tem.
-  2. A categoria define o time do item (não dá para escolher o time direto): use uma categoria do time desejado.
+     por attribute, não para conferir o que o arquivo já tem. Reconheça o campo pelo **attribute** (o valor do
+     mapa), nunca pelo rótulo: o rótulo "Categoria" pode ser a categoria do time ou uma enumeração da PA.
+     Obrigatório sem valor no pedido nem nos padrões de quem pediu → copie o valor do último item do mesmo tipo no
+     mesmo fluxo (`ccm_get_workitem` com esses `fields`, ex.: a tarefa irmã anterior) e mostre-o no resumo; não
+     há item anterior → pergunte. Nunca chute.
+  2. A categoria do time é sempre `rtc_cm:filedAgainst`, com o rótulo que a PA der ("Atendido por", "Categoria"...);
+     ela define o time do item (não dá para escolher o time direto): use uma categoria do time desejado. Só ela
+     recebe o uuid `_…` de `team-areas.categories` — num campo de enumeração, o uuid volta 409 "Illegal value".
      PA que exige "Atendido por" (`filedAgainst`) ou "Planejado para" recusa com 403 sem eles: o valor vem de quem
      pediu (o `sdd` guarda os padrões no `sdd.md`); falta → pergunte, nunca invente.
   3. **Para Tarefa**: se o campo "ID do Produto (Clarity)" estiver em `fields` e `ccm.clarity-identifier` existir
      no elm.json, use-o como valor padrão (mostre ao usuário para confirmar). Se estiverem em `fields`:
-     "Categoria de Integração de Horas" é **sempre "Aplicativo"**; "OTR" é obrigatório — com "Aplicativo" o
+     a categoria de horas ("Categoria de Integração de Horas", ou "Categoria" quando o attribute não é
+     `filedAgainst`, ex.: `…categoriatarefa`) é **sempre "Aplicativo"** — outra categoria filtra o OTR; "OTR" é
+     obrigatório — com "Aplicativo" o
      servidor recusa "Não designado" (403 "value provider … filtered out"), use "1-Apoio-Produtos"; "Classificação
      da Tarefa" conforme o trabalho (Desenvolvimento, Análise / Especificação, Testes de Homologação...).
   4. Mostre o resumo (por nomes) e peça confirmação. Depois `ccm_create_workitem(...)` e responda com código,

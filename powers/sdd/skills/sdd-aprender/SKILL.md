@@ -4,7 +4,7 @@ description: "Aprendizado composto do fluxo sdd — transforma cada correção h
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.8.2"
+  version: "2.9.0"
 ---
 
 # sdd-aprender — Cada erro corrigido uma vez só
@@ -87,11 +87,13 @@ Com dados, não impressões:
 Fluxo: <fatias concluídas> · lead time médio <d> dias · retrabalho <n> rodadas de revisão / <n> verificações
 Onde o humano corrigiu: <lista de L-nnn por causa>
 Autonomia: AFK <n> (<x> chegaram ao PR sem intervenção) · HITL <n>
+Créditos: <total> · por fatia <média> · por versão do power sdd <versão> <x> · …   (seções Créditos)
 Propostas: <promoções, rubricas, skills, steering>
 ```
 
 Fontes: `status.md` das fatias (Histórico), `revisao-*`, `verificacao.md`, `licoes.md`, `backlog.md`. Termine
-perguntando quais propostas aplicar.
+perguntando quais propostas aplicar. Retrospectiva de épico ou de sprint grava, no commit dela, a linha de créditos
+da sessão na seção **Créditos de gestão** do `sprint-<nn>.md` aberto (Atividade `retrospectiva`; ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4)).
 
 **Lint do conhecimento** (retrospectiva de épico — a consolidação da última fatia o sugere — ou de sprint, ou
 quando a pessoa pedir; nunca a cada fatia): procure contradições entre glossário, ADRs, bundle do ELM (pelo

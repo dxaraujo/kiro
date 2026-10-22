@@ -75,6 +75,17 @@
 | # | Correção (origem) | Feito × certo | Onde estava o certo | Causa proposta | L-nnn |
 |---|---|---|---|---|---|
 
+## Créditos
+
+<!-- Créditos do Kiro, uma linha por sessão, gravada por quem fecha a sessão (o mesmo que lança as horas, com ou sem
+     ELM), na máquina dele — o Kiro só guarda o consumo localmente. Como: sdd-status, Fechar a sessão, item
+     Créditos (script creditos.py). Data = o `ate` do script (o --desde do próximo fechamento) · Power sdd = o
+     metadata.version da skill · sessão do loop com várias fatias → `<id> (rateio 1/<n>)` · sem sessão do Kiro →
+     `informado` (o número que a pessoa leu). A sdd-consolidar soma a seção para o backlog.md e a sprint. -->
+
+| Data | Papel | Login | Sessão Kiro | Power sdd | Créditos |
+|---|---|---|---|---|---|
+
 ## Histórico
 
 <!-- Só acréscimo, sempre no fim. É o arquivo de progresso: quem retoma a fatia (pessoa, agente, sessão nova)

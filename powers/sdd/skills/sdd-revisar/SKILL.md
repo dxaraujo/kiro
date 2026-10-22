@@ -4,7 +4,7 @@ description: "Revisão independente do fluxo sdd, com contexto limpo e sem alter
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.8.2"
+  version: "2.9.0"
 ---
 
 # sdd-revisar — Verificação independente
@@ -91,7 +91,8 @@ revisão oficial é sua, na sua sessão:
    tabela **Retrabalho** do `status.md` (papel REV, motivo = o relatório). A `[REV]` fica em andamento: você
    revisa de novo quando o PR for atualizado (a retomada começa no item 1).
 5. **Entrega**, nesta ordem — o próximo só acha o seu trabalho no remoto:
-   1. commit do relatório e do `status.md` (`FT-<nnn> revisão <N>: <veredito>`);
+   1. créditos da sessão no `status.md` ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4); commit do relatório e do `status.md`
+      (`FT-<nnn> revisão <N>: <veredito>`);
    2. push da branch do PR (`git push origin <branch>`, nunca a base; o Kiro pergunta). Sem a pergunta (agente na
       V2, push negado) → entregue o comando pronto e espere a pessoa dizer que publicou;
    3. **confira no remoto:** `git fetch` e `git rev-parse HEAD` = `git rev-parse origin/<branch>`. Diferente → não
@@ -119,7 +120,7 @@ decide — sem editá-lo: ajuste é pedido a quem implementa, que replaneja pela
 5. **Aprovado** → `fase: implementando`, Histórico `plano aprovado por <login>`, `Responsável` volta a quem
    implementa. **Ajuste pedido** → o pedido no Histórico e em Achados abertos (origem: GATE do plano),
    `fase: planejando`; a `[APR]` fica em andamento e é a mesma na nova aprovação.
-6. Commit (`registrar aprovação do plano`) → push → conferir no remoto (itens 1–3 da Entrega do Passo 5 da
+6. Créditos da sessão no `status.md` ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4) → commit (`registrar aprovação do plano`) → push → conferir no remoto (itens 1–3 da Entrega do Passo 5 da
    `sdd-implementar`) → só então: aprovado → saldo de horas e conclusão da `[APR]` (`sdd-elm` modo *horas* e
    *conclusão*, numa confirmação; sem o power `elm` → `ELM pendente [APR FT-<nnn> concluir]: lançar <h>h e
    concluir`); ajuste → horas da sessão na `[APR]` (lança, não conclui) → avise o Dev (aprovado → `sdd-implementar`; ajuste →
@@ -146,13 +147,14 @@ revisão e a verificação já foram feitas por subagentes; aqui uma pessoa **l�
    o que o código faz). **Execute** o backpressure (C3) — não confie no relatório. A leitura do código é da pessoa:
    você aponta, ela decide.
 5. **Aprovado** → **não commite na branch** (o `sha` que o Dev vai mergear não pode mudar): pela `sdd-elm`, numa
-   confirmação, o comentário `PR aprovado, sha <sha>` na `[APR]` (`elm-ccm` › **comentar**), o saldo de horas e a
+   confirmação, o comentário `PR aprovado, sha <sha> · créditos <linha da seção Créditos>` na `[APR]` (`elm-ccm` › **comentar**;
+   os créditos saem do script ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4), e o Dev grava a linha no `status.md` no merge), o saldo de horas e a
    conclusão (modos *horas* e *conclusão*). Avise o Dev responsável: o merge é dele (Passo 6 da `sdd-desenvolver`),
-   que confere essa `[APR]`. Sem o power `elm` → entregue ao Dev a linha `PR aprovado por <login>, sha <sha>` e a
+   que confere essa `[APR]`. Sem o power `elm` → entregue ao Dev a linha `PR aprovado por <login>, sha <sha>`, a linha de créditos e a
    pendência `ELM pendente [APR FT-<nnn> concluir]: lançar <h>h e concluir (<login>)` — ele as grava no commit do
    merge.
 6. **Mudanças pedidas** → cada uma em Achados abertos (origem: PR), `fase: retrabalho (de: pronta-para-merge)`,
-   "retrabalho" + 1 em Rodadas e uma linha na tabela Retrabalho (papel APR). Commit
+   "retrabalho" + 1 em Rodadas, uma linha na tabela Retrabalho (papel APR) e os créditos da sessão ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4). Commit
    (`FT-<nnn> aprovação do PR: mudanças pedidas`) → push → conferir no remoto (como no item 5 do modo HITL) → horas
    da sessão na `[APR]` (lança, não conclui) → avise o Dev responsável. A `[APR]` fica em andamento e é a mesma na
    nova aprovação.

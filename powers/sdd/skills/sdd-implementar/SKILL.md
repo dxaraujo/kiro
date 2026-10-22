@@ -4,7 +4,7 @@ description: "Implementa uma fatia do fluxo sdd a partir do plano aprovado (task
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.8.2"
+  version: "2.9.0"
 ---
 
 # sdd-implementar — Ciclo curto, verificação sempre
@@ -177,7 +177,8 @@ Push e PR são do Dev: o agente `sdd-codificador` (o Kiro confirma cada um) ou a
       campo ELM do `status.md`. Já existe (retrabalho) → é a mesma. Sem o power `elm` → `ELM pendente [APR FT-<nnn>
       criar]: <login de quem aprova>` no Histórico.
    7. `status.md`: HITL → `fase: pr-aberto`; AFK → `fase: pronta-para-merge`; link do PR (sem PR — push "não" ou sem
-      o MCP — `PR: texto entregue`, e a fase é a mesma); linha no Histórico. Commit, push e conferência como nos
+      o MCP — `PR: texto entregue`, e a fase é a mesma); linha no Histórico e os **créditos da sessão** na seção
+      Créditos ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4). Commit, push e conferência como nos
       itens 1–3 (o `status.md` vai junto no PR).
    8. **Horas da sessão** na `[DEV]`: `sdd-elm` modo *horas*, com "sim" — lança, não conclui (retrabalho: as horas
       também na tabela Retrabalho). Sem o power `elm` → `ELM pendente [<chave>]: lançar <h>h em [DEV] FT-<nnn>` no

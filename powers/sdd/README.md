@@ -195,7 +195,12 @@ para a base e conclui a `[ESP]`, e a `sdd-prd` e a `sdd-fatiar` só conduzem o p
 `sdd-implementar` e `sdd-revisar`, que passavam do limite de 1024 caracteres e eram puladas pelo Kiro (sem regra
 nova; reinstale o power). Na 2.8.2, a linha "Padrões do EWM" do `sdd.md` cobre o IB e a Tarefa (categoria
 obrigatória do IB, categoria de horas e OTR da Tarefa), e a `sdd-elm` copia o valor do item anterior ou pergunta em vez
-de chutar — peça "atualizar a configuração do sdd" para preencher a linha. Projeto configurado com o power
+de chutar — peça "atualizar a configuração do sdd" para preencher a linha. Na 2.9.0, cada sessão registra os créditos do Kiro que
+gastou: o script `creditos.py` da `sdd-status` lê o consumo no `~/.kiro` de quem fecha a sessão, e a linha vai para o
+`status.md` da fatia, para o `status.md` do épico (novo, criado pela `sdd-especificar`), para a ficha do AT ou para
+"Créditos de gestão" na sprint; na conclusão, a soma vai para o `sprint-<nn>.md` e, na virada da sprint, para o
+`backlog.md` (coluna `creditos`); a sprint também diz as versões do power usadas (`**Power sdd:**`). Peça "atualizar a configuração do sdd" (steering: nenhuma sessão termina sem registrar os créditos) e "atualizar os agentes do sdd"
+(o orquestrador deixa os créditos do loop para o merge). Projeto configurado com o power
 `sdd2` ou com a v1 do `sdd`: desinstale o power antigo, instale este e peça "atualizar a configuração do sdd" — a
 setup pergunta a pasta do produto, junta os steerings num só, renomeia hooks, workflows e agentes e move
 `.kiro/produto/` e `.kiro/aprendizado/` com `git mv`.

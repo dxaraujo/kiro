@@ -4,7 +4,7 @@ description: "Verificação de aceite de uma fatia do fluxo sdd — executa de p
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.8.2"
+  version: "2.9.0"
 ---
 
 # sdd-verificar — O comportamento existe de verdade?
@@ -96,7 +96,8 @@ ser o do PRD ou da ficha, por decisão registrada). HITL: grave-o no campo do `s
   - **AFK** (subagente do loop ou da `sdd-implementar`): `fase: aceita` e devolva para abrir o PR (Passo 5 da
     `sdd-implementar`). Não há `[VER]` no EWM (Q8).
   - **HITL**: `fase: pronta-para-merge`, e a **entrega**, nesta ordem — o Dev só acha o seu trabalho no remoto:
-    1. commit de `verificacao.md`, `CT.csv`, `evidencias/`, `massa/` e `status.md` (`FT-<nnn> verificação: ACEITO`);
+    1. créditos da sessão no `status.md` ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4); commit de `verificacao.md`, `CT.csv`, `evidencias/`,
+       `massa/` e `status.md` (`FT-<nnn> verificação: ACEITO`);
     2. push da branch do PR (`git push origin <branch>`, nunca a base; o Kiro pergunta). Sem a pergunta (agente na
        V2, push negado) → entregue o comando pronto e espere a pessoa dizer que publicou;
     3. **confira no remoto:** `git fetch` e `git rev-parse HEAD` = `git rev-parse origin/<branch>`. Diferente → não

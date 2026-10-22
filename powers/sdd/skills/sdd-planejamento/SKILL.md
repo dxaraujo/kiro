@@ -4,7 +4,7 @@ description: "Planejamento ágil do projeto no fluxo sdd, ajustado a times que t
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.8.2"
+  version: "2.9.0"
 ---
 
 # sdd-planejamento — Planejar o fluxo, não só o calendário
@@ -114,7 +114,7 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
    Capacidade: revisão <h>h (usa <x>h) · especificação <h>h (usa <x>h) · vazão prevista <n> fatias · lead time médio <d> dias · HITL <h>h
    Próximas a puxar (fora da previsão, na ordem): <FT…>
    ```
-7. "ok" → grave `sprints/sprint-<nn>.md`, `sprint`, `responsavel`, `status` e o `modo` final no `backlog.md` pelo bloco
+7. "ok" → grave `sprints/sprint-<nn>.md` (com `**Power sdd:**` = o `metadata.version` desta skill), `sprint`, `responsavel`, `status` e o `modo` final no `backlog.md` pelo bloco
    [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base) e **chame sempre a `sdd-elm` modo *sprint*** (planos, IBs e tarefas `[DEV]` `[REV]`
    `[VER]` `[ESP]` na iteração escolhida; a `[APR]` nasce no gate), para a sprint e o EWM ficarem iguais. Sem o power `elm` ou com falha, a
    coluna "Tarefa ELM" fica `pendente` e a `sdd-elm` publica depois.
@@ -199,6 +199,12 @@ screenshot). Registre o retorno do P.O. no `sprint-<nn>.md`; pedido novo vira ce
    ações (cada ação com dono).
 2. **Horas:** `sdd-elm` modo *horas*, relatório da sprint por tipo e por pessoa. Preencha "Números"
    (planejadas × lançadas) e aponte as tarefas concluídas sem horas lançadas — só aqui, no fechamento.
+   **Créditos** (só do git, nunca do `~/.kiro`): a coluna Créditos dos Números soma as colunas Créditos das seções
+   Fatias, Especificação e Atendimento e a seção Créditos de gestão; `**Power sdd:**` ganha as versões que
+   aparecem nessas linhas e nos `status.md`/fichas dos itens concluídos, em ordem crescente; aponte fatia, AT ou
+   `[ESP]` concluída com Créditos `—` (ninguém fechou a sessão). Fatia migrada leva os créditos para a sprint em
+   que for consolidada. **`backlog.md`:** a coluna `creditos` de cada fatia, AT e épico concluído na sprint recebe
+   o valor da coluna Créditos dele no `sprint-<nn>.md` — só aqui, no commit da virada (bloco Gravar na base).
 3. **Fechar:** concluídas — previstas e puxadas — contam na vazão e no lead time; a meta é avaliada (atingida ou
    não, e por quê); não concluídas — fatias, `[ESP]` e `[ATD]` — **migram**
    para a próxima sprint (no `sprint-<nn>.md` antigo ficam com "→ sprint <nn+1>"; o histórico não é apagado) e
@@ -215,6 +221,10 @@ screenshot). Registre o retorno do P.O. no `sprint-<nn>.md`; pedido novo vira ce
    sprint conta só as tarefas listadas no `sprint-<nn>.md`, não a iteração inteira.
 
 ## Regras
+
+- Créditos do Kiro: toda sessão desta skill que grava na base (planejamento, encaixe, troca de modo, virada) põe,
+  no mesmo commit, a linha de créditos dela na seção **Créditos de gestão** do `sprint-<nn>.md` aberto (Atividade = o modo;
+  ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4)).
 
 - Nunca planeje acima da capacidade de revisão: trabalho que ninguém revisa não está pronto, só está parado.
 - Fatia nunca se espalha por sprints para caber; se não cabe, divide.

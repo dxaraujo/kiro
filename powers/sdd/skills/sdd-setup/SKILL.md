@@ -4,7 +4,7 @@ description: "Configura o fluxo sdd num projeto: entende o repositório (tipos d
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.8.2"
+  version: "2.9.0"
 ---
 
 # sdd-setup — Configurar o fluxo no projeto

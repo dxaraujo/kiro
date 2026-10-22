@@ -4,7 +4,7 @@ description: "Entrada de todo trabalho novo no fluxo sdd — recebe um pedido em
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.8.2"
+  version: "2.9.0"
 ---
 
 # sdd-triar — Triagem e registro
@@ -129,7 +129,8 @@ no mesmo commit.
     `pendente` (a `sdd-atender` registra antes de assumir).
 
 Atualize "Próximos ids". O commit é **um só, no fim da sessão de triagem** (Passo 4, resposta "não"), com o
-`backlog.md`, as fichas e os registros de AT (padrão de commit do `sdd.md`). A triagem não tem tarefa própria e os
+`backlog.md`, as fichas, os registros de AT e a linha de créditos da sessão na seção **Créditos de gestão** do `sprint-<nn>.md` aberto (Atividade `triagem`;
+([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4); sem sprint aberta, não há onde gravar) (padrão de commit do `sdd.md`). A triagem não tem tarefa própria e os
 itens triados só nascem no EWM na sprint: o padrão é a tarefa **`[GB] Gerenciamento do backlog`** da linha
 `Sustentação:` do `backlog.md` — mostre-a e confirme (a pessoa pode indicar outra). Linha sem `[GB]` → sugira
 criá-la (`sdd-elm` modo *backlog*, item 2, que cria também a Sustentação se faltar; só com sprint aberta, que dá a

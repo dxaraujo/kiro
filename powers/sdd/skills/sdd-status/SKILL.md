@@ -1,10 +1,10 @@
 ---
 name: sdd-status
-description: "Painel do fluxo sdd, somente leitura — onde parei e o que fazer agora: fatias em andamento (nesta branch, nas worktrees e nas branches remotas) com fase, trilha, modo AFK/HITL, progresso do tasks.md, achados abertos e PR; WIP de revisão humana contra o acordo do time; sprint atual e meta, com especificação e atendimento (reserva × consumido); fatias prontas para começar; épicos e PRDs pendentes de aprovação; pendências de ELM; lições propostas; e inconsistências. Também fecha a sessão de trabalho numa fatia (atualiza o status.md, lança as horas da sessão com confirmação, deixa o git pronto para commit e diz como retomar). SEMPRE use esta skill (leia-a antes de responder) em \"onde parei\", \"status\", \"painel\", \"bom dia\", \"o que tem pendente\", \"qual a próxima fatia\", \"como está a sprint\", \"retomar\", \"fechar a sessão\", \"encerrar por hoje\"."
+description: "Painel do fluxo sdd, somente leitura — onde parei e o que fazer agora: fatias em andamento (nesta branch, nas worktrees e nas branches remotas) com fase, trilha, modo AFK/HITL, progresso do tasks.md, achados abertos e PR; WIP de revisão humana contra o acordo do time; sprint atual e meta, com especificação e atendimento (reserva × consumido); fatias prontas para começar; épicos e PRDs pendentes de aprovação; pendências de ELM; lições propostas; e inconsistências. Também fecha a sessão de trabalho numa fatia (atualiza o status.md, lança as horas da sessão com confirmação, registra os créditos do Kiro, deixa o git pronto para commit e diz como retomar). SEMPRE use esta skill (leia-a antes de responder) em \"onde parei\", \"status\", \"painel\", \"bom dia\", \"o que tem pendente\", \"qual a próxima fatia\", \"como está a sprint\", \"retomar\", \"fechar a sessão\", \"encerrar por hoje\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.8.2"
+  version: "2.9.0"
 ---
 
 # sdd-status — Onde parei
@@ -109,6 +109,33 @@ fio:
 3. **Horas da sessão** (com ELM): "Quanto tempo nesta sessão em `<tarefa>`?" — a tarefa do papel de quem fecha,
    pelo campo ELM do `status.md` → `sdd-elm` modo *horas*, com "sim" (lança, não conclui). Sem o power `elm` → `ELM
    pendente: lançar <h>h em <tarefa> (<data>)` no Histórico.
-4. Mostre o `git status` e proponha o commit do que está pronto (padrão do `sdd.md`); grave só com "ok" e nunca
+4. **Créditos da sessão** (sempre, com ou sem ELM) — o Kiro grava o consumo de cada turno só na máquina de quem
+   conversou (`~/.kiro`), por isso é quem fecha que registra, aqui, e o número chega aos outros pelo commit. O
+   Kiro só grava o consumo de um turno quando ele **termina**: leia sempre **na resposta a uma pergunta** — primeiro
+   `💳 Registrar os créditos desta sessão? (sim)` (nas entregas das skills de papel, antes do commit:
+   `💳 Registrar os créditos e entregar? (sim)`), e só na resposta rode o script; assim o turno do trabalho já
+   está gravado. Rode
+   o script `scripts/creditos.py` desta skill (fica no power instalado: caminho relativo a esta pasta; busca no
+   workspace não o acha): `uv run --no-project python <caminho>/creditos.py --pasta <cada pasta do git worktree
+   list> --desde <Data da sua última linha onde vai gravar | início do item>`. Sai uma linha por sessão do Kiro
+   com consumo, a mais recente primeiro — é a atual; as outras são sessões que ninguém fechou: mostre-as com o
+   título e pergunte quais são deste item (nenhuma é atribuída sem "sim").
+   ```
+   💳 Créditos — FT-<nnn> · power sdd <metadata.version desta skill>
+   Esta sessão: <id> · <x.xx> créditos (até <ate>)
+   Sem registro: <id> "<título>" · <x.xx> — é desta fatia? (sim/não)
+   Gravar? (sim)
+   ```
+   Com "sim", uma linha por sessão na seção **Créditos** do `status.md`: `| <ate> | <papel> | <login> | <id> |
+   <versão> | <x.xx> |` — Data é o `ate` do script (o `--desde` da próxima vez). Sessão com várias fatias (loop)
+   → rateio igual entre elas, Sessão `<id> (rateio 1/<n>)`. Script sem sessão (código 1, outro editor) → pergunte
+   o número que o Kiro mostra, Sessão `informado`; nunca estime. Sobra só o turno do próprio registro, pequeno: o
+   próximo fechamento do item o pega pelo `--desde`.
+
+   O mesmo vale fora da fatia, mudando só onde a linha vai: atendimento → seção Créditos da ficha `AT-<nnn>`;
+   especificação → `status.md` do épico (`sdd-especificar`); gestão (triagem, consolidação, planejamento,
+   retrospectiva, horas na `[GB]`) → seção **Créditos de gestão** do `sprint-<nn>.md` aberto, com Atividade no
+   lugar de Papel.
+5. Mostre o `git status` e proponha o commit do que está pronto (padrão do `sdd.md`); grave só com "ok" e nunca
    faça push.
-5. Termine com a frase para retomar numa sessão nova (ex.: "vamos trabalhar na FT-031").
+6. Termine com a frase para retomar numa sessão nova (ex.: "vamos trabalhar na FT-031").

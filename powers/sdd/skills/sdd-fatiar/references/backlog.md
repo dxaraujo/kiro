@@ -18,26 +18,26 @@ Sustentação: [SUS-2026] [612000](https://elm.exemplo/ccm/resource/itemName/com
 
 ## Épicos
 
-| id | título | status | prioridade | po | prd | pasta | elm |
-|---|---|---|---|---|---|---|---|
-| EP-03 | Bloqueio por tentativas de login | fatiado | 1 | ana.souza | [prd](epicos/EP-03-bloqueio-login/prd.md) | [pasta](epicos/EP-03-bloqueio-login/) | [612001](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612001) |
+| id | título | status | prioridade | po | prd | pasta | elm | creditos |
+|---|---|---|---|---|---|---|---|---|
+| EP-03 | Bloqueio por tentativas de login | fatiado | 1 | ana.souza | [prd](epicos/EP-03-bloqueio-login/prd.md) | [pasta](epicos/EP-03-bloqueio-login/) | [612001](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612001) | 18.40 |
 
 ## Fatias — EP-03 Bloqueio por tentativas de login
 
-| id | título | cobre | ficha | bloqueada-por | tamanho | modo | prioridade | status | sprint | responsavel | elm | concluida-em | obs |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| FT-031 | Bloquear a conta após 3 tentativas inválidas | HF-01#1.1, HF-01#1.2, REG-01 | [ficha](fatias/FT-031-bloquear-conta.md) | — | M | AFK | 1 | pronta | 3 | joao.lima | — | — | — |
+| id | título | cobre | ficha | bloqueada-por | tamanho | modo | prioridade | status | sprint | responsavel | elm | concluida-em | creditos | obs |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| FT-031 | Bloquear a conta após 3 tentativas inválidas | HF-01#1.1, HF-01#1.2, REG-01 | [ficha](fatias/FT-031-bloquear-conta.md) | — | M | AFK | 1 | pronta | 3 | joao.lima | — | — | — | — |
 
 ## Fatias — sem épico
 
-| id | título | trilha | origem | ficha | tamanho | modo | prioridade | status | sprint | responsavel | elm | concluida-em | obs |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| id | título | trilha | origem | ficha | tamanho | modo | prioridade | status | sprint | responsavel | elm | concluida-em | creditos | obs |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 
 ## Atendimentos
 
-| id | título | origem | status | sprint | responsavel | elm | registro | concluida-em |
-|---|---|---|---|---|---|---|---|---|
-| AT-012 | Extração de contas bloqueadas em setembro | chamado 4521 | aberto | 3 | joao.lima | [ATD] [669380](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/669380) | [AT-012](atendimentos/AT-012-contas-bloqueadas.md) | — |
+| id | título | origem | status | sprint | responsavel | elm | registro | concluida-em | creditos |
+|---|---|---|---|---|---|---|---|---|---|
+| AT-012 | Extração de contas bloqueadas em setembro | chamado 4521 | aberto | 3 | joao.lima | [ATD] [669380](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/669380) | [AT-012](atendimentos/AT-012-contas-bloqueadas.md) | — | — |
 ```
 
 Uma seção `## Fatias — <EP> <título>` por épico, na ordem de prioridade dos épicos, e uma `## Fatias — sem épico`
@@ -57,6 +57,7 @@ linha da tabela — sem quebra de linha nem `|` dentro de célula (troque por `/
 | `tamanho` | `P` · `M` · `G` |
 | `modo` | `AFK` · `HITL` — proposto na triagem ou no fatiamento (critérios da `sdd-fatiar`); o modo final é gravado pela `sdd-planejamento` quando a fatia ganha responsável, pela senioridade dele (Júnior → `HITL` · Pleno → os critérios · Sênior → `AFK` por padrão) |
 | fatia `status` | `backlog` → `pronta` (passou na Definition of Ready) → `concluida`; desvios `dividida` (`obs`: `substituida-por FT-…`), `cancelada` (`obs`: motivo). "Em andamento" não é gravado: é a fatia que tem `status.md` numa branch |
+| `creditos` | créditos do Kiro do item: soma das linhas de créditos do `status.md` da fatia, do `status.md` do épico (a `[ESP]`) ou da ficha do AT, copiada do `sprint-<nn>.md` na virada da sprint (`sdd-planejamento`; a conclusão grava só na sprint); `—` antes; backlog antigo sem a coluna → a próxima escrita a acrescenta |
 | `sprint` | número da sprint (`sdd-planejamento`) ou `—`; no Kanban, `—` |
 | `elm` | `—`, `pendente` (registrado sem o power `elm`; a `sdd-elm` cria depois) ou `[<id>](<url>)`; tarefas do EWM em seguida, `<prefixo> [<id>](<url>)`, separadas por ` · ` (gravado pela `sdd-elm`) |
 | `concluida-em` | data `AAAA-MM-DD` ou `—` |

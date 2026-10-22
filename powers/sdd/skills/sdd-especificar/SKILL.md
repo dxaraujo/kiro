@@ -4,7 +4,7 @@ description: "Skill do papel Especificador no fluxo sdd — conduz a especifica�
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.8.2"
+  version: "2.9.0"
 ---
 
 # sdd-especificar — Especificação de épico
@@ -55,6 +55,25 @@ o GATE. Monte-a pela primeira fonte que existir:
    Sem essa pasta na base → crie-os: `rascunho.md` com o título e a descrição do item do EWM (sem dado inventado) e
    `decisoes.md` no o formato do Passo 3 da [`sdd-entrevistar`](../sdd-entrevistar/SKILL.md) (título `# Decisões — <EP-nn> <título>` e a tabela vazia).
 
+Em qualquer das três, a pasta tem também o **`status.md` do épico** — o início do épico e os créditos de cada
+sessão; o estado do épico continua no PRD e no `backlog.md`. A fonte não o trouxe → crie-o:
+
+```markdown
+# EP-<nn> — <título>
+
+| Campo | Valor |
+|---|---|
+| Épico | EP-<nn> · P.O. <login> |
+| [ESP] | <id \| pendente> |
+| Responsável | <login> |
+| Início | <AAAA-MM-DD> |
+
+## Créditos
+
+| Data | Papel | Login | Sessão Kiro | Power sdd | Créditos |
+|---|---|---|---|---|---|
+```
+
 O `rascunho.md` é o **caderno do levantamento**: o que o cliente contou, exemplos reais, dúvidas para a próxima
 reunião, com a data de cada sessão. Decisões vão para o `decisoes.md` (`D-nn`), nunca só para o rascunho.
 
@@ -84,10 +103,12 @@ Pergunta única, com prévia do que vai:
 Comentário na [ESP] <id>: <resumo do levantamento · decisões D-nn novas · dúvidas para a próxima reunião>
 Anexos (última versão, substituem os anteriores): rascunho.md · decisoes.md · prd.md · elm-<arquivo>.md …
 Horas desta sessão na [ESP]: <h> h em <data>   (pergunte à pessoa; nunca estime por ela)
+Créditos desta sessão: <x.xx> (sessão <id>) · power sdd <versão>   (script da sdd-status, item 4)
 Registrar? (sim)
 ```
 
-Com "sim": `elm-ccm` › **comentar** (o resumo), **anexar** cada `.md` da pasta de trabalho (os de
+Com "sim": primeiro a linha de créditos no `status.md` do épico ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4) — depois do GATE do PRD, no da
+base, no commit que o fatiamento já faz —; então `elm-ccm` › **comentar** (o resumo), **anexar** cada `.md` da pasta de trabalho (os de
 `elm/` com o prefixo `elm-`, para não colidir com o nome de outro arquivo) e **`sdd-elm` modo *horas*** (lança;
 não conclui). Sem o power `elm` ou com falha → `ELM pendente [<chave>]: registrar sessão [ESP] EP-<nn> (<data>)` no `rascunho.md`, e o
 próximo fechamento registra.
@@ -110,8 +131,9 @@ A `sdd-prd` e a `sdd-fatiar` conduzem o GATE e gravam só o próprio artefato; o
 **Depois do GATE do backlog** (épico `fatiado` na base, `[ESP]` aberta):
 1. Pergunte se a especificação terminou. Continua (refinamento na próxima sprint) → não conclua: a virada só muda o
    `plannedFor`; pare.
-2. No `sprint-<nn>.md` aberto, a linha do épico na seção Especificação com Situação `concluida` (pelo bloco Gravar
-   na base, um commit).
+2. No `sprint-<nn>.md` aberto, a linha do épico na seção Especificação com Situação `concluida` e os Créditos (a
+   soma da seção Créditos do `status.md` do épico; o `creditos` do `backlog.md` é da virada da sprint), pelo bloco
+   Gravar na base, um commit.
 3. **Conclusão da `[ESP]`** (com ELM): mostre as horas já lançadas e pergunte só o saldo a quem especificou →
    `sdd-elm` modo *horas* e modo *conclusão*, numa confirmação. Sem o power `elm` → `ELM pendente [<chave>]: lançar
    <h>h e concluir [ESP] EP-<nn>` no rodapé do PRD (no mesmo commit).

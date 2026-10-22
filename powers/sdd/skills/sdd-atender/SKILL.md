@@ -4,7 +4,7 @@ description: "Skill de quem atende no fluxo sdd — executa um atendimento já r
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.8.2"
+  version: "2.9.0"
 ---
 
 # sdd-atender — Atender sem perder o rastro
@@ -54,7 +54,8 @@ siga.
 3. **Rascunho da resposta** → "ok" da pessoa antes de enviar. Quem envia é a pessoa; o agente não manda e-mail
    nem responde chamado.
 4. **Horas** podem ser lançadas a qualquer momento (`sdd-elm` modo *horas*, com "sim"): lançar não conclui a
-   `[ATD]`.
+   `[ATD]`. Ao fechar cada sessão do atendimento, os **créditos** dela na seção Créditos da ficha ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4)
+   — vão no commit do atendimento.
 
 ## Passo 4 — Finalizar ("enviei", "conclui o AT-012")
 
@@ -63,8 +64,9 @@ siga.
    `sdd-elm` modo *horas*; depois `sdd-elm` modo *atendimento* (Concluir), com uma confirmação. Cada lançamento
    ganha uma linha na tabela Horas do registro. Sem o power `elm` ou com
    falha → `ELM pendente [<chave>]: lançar <h>h e concluir [ATD] AT-<nnn>` no registro.
-3. `**Situação:** concluido` no registro; na linha do AT no `backlog.md`, `status` `concluido` e `concluida-em`;
-   a situação no `sprint-<nn>.md`. O commit é **um só**, no fim do Passo 5 (com a Saída), pelos itens 3 e 4 do
+3. Créditos desta sessão na ficha (como no Passo 3, item 4); `**Situação:** concluido` no registro; na linha do AT
+   no `backlog.md`, `status` `concluido` e `concluida-em`; no `sprint-<nn>.md`, a situação e os Créditos da linha do
+   AT (a soma da seção Créditos; o `creditos` do `backlog.md` é da virada da sprint). O commit é **um só**, no fim do Passo 5 (com a Saída), pelos itens 3 e 4 do
    bloco Gravar na base.
 
 ## Passo 5 — Desdobramentos
@@ -108,6 +110,11 @@ Arquivo: `.kiro/local/atendimentos/AT-012/contas-bloqueadas-2026-09.csv` (fora d
 | Data | Horas |
 |---|---|
 | 2026-10-14 | 2 |
+
+## Créditos
+| Data | Papel | Login | Sessão Kiro | Power sdd | Créditos |
+|---|---|---|---|---|---|
+| 2026-10-14T16:20:05 | atendimento | joao.lima | 5753e516 | 2.9.0 | 3.12 |
 
 **ELM:** feito | pendente: <o que falta>
 **Saída:** — | FT-040 (defeito) | D-07 em aberto | lição L-015

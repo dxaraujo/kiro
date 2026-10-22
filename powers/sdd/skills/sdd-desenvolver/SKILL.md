@@ -4,7 +4,7 @@ description: "Skill do papel Dev no fluxo sdd — começa ou retoma uma fatia j�
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.8.2"
+  version: "2.9.0"
 ---
 
 # sdd-desenvolver — Compromisso e início do código
@@ -202,7 +202,10 @@ A fatia chegou a `pronta-para-merge`: o merge e a conclusão da `[DEV]` são do 
    certo, onde estava o certo e a causa proposta (tabela de causas da [`sdd-aprender`](../sdd-aprender/SKILL.md)).
    Correção sem lição (ambiente, digitação) → causa `—`; nenhuma correção → `nenhuma`. O `licoes.md` é da base:
    quem o grava é a consolidação. Depois, `status.md` (na branch da fatia): `fase: mergeada`; no Histórico, `merge do PR <link> por <login>` (AFK: antes,
-   `PR aprovado por <login>`). Commit (com as Lições), push e conferência como nos itens 1–3 da Entrega do Passo 5 da `sdd-implementar`. É
+   `PR aprovado por <login>`). **Créditos** na seção Créditos ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4): os desta sessão; no AFK, a linha
+   da `[APR]` que veio no comentário `PR aprovado` (ou que o aprovador entregou); e a sessão do loop, que só fecha o
+   consumo no fim do turno — o script a lista como sem registro: com o "sim", `rateio 1/<n>` pelas fatias do lote.
+   Commit (com as Lições e os créditos), push e conferência como nos itens 1–3 da Entrega do Passo 5 da `sdd-implementar`. É
    depois do merge: um commit antes dele mudaria o `sha` aprovado.
 7. **Conclusão da `[DEV]`:** mostre as horas já lançadas (`elm-ccm` › horas lançadas) e pergunte só o saldo →
    `sdd-elm` modo *horas* e modo *conclusão* da `[DEV]`, numa confirmação. Sem o power `elm` → `ELM pendente

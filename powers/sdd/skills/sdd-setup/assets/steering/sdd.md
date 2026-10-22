@@ -10,6 +10,10 @@ pessoa, e o IBM ELM como registro oficial da documentação. Como funciona: skil
 Começar um item registrado: hub `sdd-iniciar` (diz a skill do papel: `sdd-especificar`, `sdd-desenvolver`,
 `sdd-revisar`, `sdd-verificar`, `sdd-atender`; `sdd-revisar` também nas `[APR]` (plano e PR), `sdd-planejamento` na troca de modo, `sdd-consolidar` na fatia mergeada). Onde parei ou fechar a sessão: `sdd-status`.
 
+- **Créditos do Kiro:** nenhuma sessão termina sem registrá-los. Skill que termina (diz a próxima e para) sem ter
+  registrado os desta sessão, ou pessoa que encerra → pergunte `💳 Fechar a sessão e registrar os créditos? (sim)`
+  e, na resposta, `sdd-status` › Fechar a sessão, item 4. A leitura é sempre depois de uma resposta da pessoa: o Kiro
+  só grava o consumo do turno quando ele termina.
 - Nada inventado (confirme no código, no banco — só leitura — ou no ELM). Nunca apague nem afrouxe teste.
 - **Falha de escrita:** pasta inexistente → crie; permissão negada ou confirmação recusada → `fase: bloqueada (de:
   <fase>)` com o caminho e o que faltou (fora de fatia: diga e pare); gravação parcial → o próximo passo retoma pelo

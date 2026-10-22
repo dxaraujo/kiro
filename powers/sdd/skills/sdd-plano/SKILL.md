@@ -4,7 +4,7 @@ description: "Planeja uma fatia do fluxo sdd no formato de spec do Kiro — pesq
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.8.2"
+  version: "2.9.0"
 ---
 
 # sdd-plano — Decidir o como antes de codar
@@ -77,7 +77,7 @@ dado (diga qual) → **sugira** ao Dev trocar para HITL. A troca é do P.O. (ou 
 
 - Dev não aceita → o GATE abaixo, no AFK.
 - Dev aceita → `fase: bloqueada (de: planejando)`, Bloqueio `aguardando troca para HITL` · motivo: `<risco>`, linha
-  no Histórico; commit com os artefatos do plano e o `status.md` (`registrar plano`) → push → conferir no remoto
+  no Histórico e os créditos da sessão ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4); commit com os artefatos do plano e o `status.md` (`registrar plano`) → push → conferir no remoto
   (itens 1–3 da Entrega do Passo 5 da [`sdd-implementar`](../sdd-implementar/SKILL.md)) → horas da sessão na
   `[DEV]` (`sdd-elm` modo *horas*, com "sim"; sem o power `elm` → `ELM pendente [<chave>]`) — ela fica
   **interrompida**, sem conclusão → avise o P.O. (troca pela `sdd-planejamento`, seção Troca de modo). Não troque
@@ -110,11 +110,11 @@ Revisor do `sprint-<nn>.md` ou Histórico do `status.md`); AFK, sem revisor: um 
 implementa. Então `fase: plano-em-revisao` (conta no WIP de revisão humana), `Responsável` = quem aprova, e a tarefa
 **`[APR] FT-<nnn> Aprovar plano`** para ele (`sdd-elm` modo *sprint*, item 6, com "sim"; o id no campo ELM do
 `status.md`; sem o power `elm` → `ELM pendente [APR FT-<nnn> criar]`). Commit com `research.md`, `.config.kiro`,
-`requirements.md`/`bugfix.md`, `design.md`, `tasks.md` e `status.md` (`registrar plano`) → push → conferir no remoto
+`requirements.md`/`bugfix.md`, `design.md`, `tasks.md` e `status.md`, já com os créditos da sessão ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4) (`registrar plano`) → push → conferir no remoto
 (itens 1–3 da Entrega do Passo 5 da `sdd-implementar`) — quem aprova lê o plano no remoto → horas da sessão na
 `[DEV]` (lança, não conclui) → avise o aprovador (`sdd-revisar`, Aprovação do plano).
 
-**Sem GATE** (Sênior, ou Pleno que dispensou): `fase: implementando`, a linha no Histórico e **um commit** com os
+**Sem GATE** (Sênior, ou Pleno que dispensou): `fase: implementando`, a linha no Histórico, os créditos da sessão ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4) e **um commit** com os
 mesmos arquivos (`registrar plano`). Próximo: **`sdd-implementar`** — numa sessão nova, de preferência (o plano está
 no disco; o contexto da pesquisa não é mais necessário).
 

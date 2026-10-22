@@ -4,7 +4,7 @@ description: "Fecha uma fatia do fluxo sdd depois do merge do PR — processo de
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.8.2"
+  version: "2.9.0"
 ---
 
 # sdd-consolidar — Documentação viva depois do merge
@@ -67,7 +67,8 @@ Pela **`sdd-elm`**, numa confirmação só, nesta ordem (os casos de teste preci
   fatia — Passo 4) e comentar no IB o PR, a pasta da fatia e os ids publicados (modo *conclusão*). Tarefa
   concluída sem horas não trava: a virada aponta;
 - *horas* — as da consolidação na `[GB] Gerenciamento do backlog` (modo *horas*: lança, não conclui — a `[GB]` é
-  contínua). Linha `Sustentação:` sem `[GB]` → como na `sdd-triar` (sugira criá-la ou pergunte a tarefa).
+  contínua). Os créditos desta sessão vão na seção **Créditos de gestão** do `sprint-<nn>.md` aberto (Atividade `consolidação FT-<nnn>`;
+  ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4)), no commit do Passo 4. Linha `Sustentação:` sem `[GB]` → como na `sdd-triar` (sugira criá-la ou pergunte a tarefa).
 
 Sem o power `elm` nesta sessão ou com falha → `ELM pendente [<chave>]: <ação>` no Histórico do `status.md`; o
 `sdd-status` lista as pendências até alguém fazê-las numa sessão com o power `elm`.
@@ -93,8 +94,10 @@ retrospectiva do épico ou da sprint (`sdd-aprender`).
 
 - Na **base** (já nela desde a Entrada; direto ou por PR curto, conforme "Artefatos de produto"
   no `sdd.md` — várias fatias podem ir no mesmo PR de consolidação): `status.md` da fatia com
-  `fase: concluida` e data; `backlog.md` com `status: concluida`, `concluida-em` e os ids de tarefa do campo ELM
-  do `status.md` que a coluna `elm` ainda não tem; ADRs e glossário do Passo 3.
+  `fase: concluida` e data; `backlog.md` com `status: concluida`, `concluida-em`, os ids de tarefa do campo ELM
+  do `status.md` que a coluna `elm` ainda não tem; na coluna Créditos da linha da fatia no `sprint-<nn>.md`, a soma
+  da seção **Créditos** do `status.md` da branch da fatia (`git show origin/<branch>:…`, com as linhas que o Dev
+  gravou no merge) — o `creditos` do `backlog.md` é da virada da sprint; ADRs e glossário do Passo 3.
 - Fatia puxada (`Puxada para a sprint <nn>` no Histórico): `sprint` = <nn> na linha do `backlog.md` e uma linha na
   seção Fatias do `sprint-<nn>.md` (revisor e verificador do Histórico, Tarefa ELM com os ids do `status.md`), com
   a Observação `puxada` (e `revisor único`, se o Histórico o tiver) — ela conta na vazão da sprint.
@@ -114,6 +117,7 @@ retrospectiva do épico ou da sprint (`sdd-aprender`).
 ```
 ✅ FT-<nnn> concluída — <título>
 ELM: <publicado (requisitos · ET · CT <ids>) | pendente: …> · Drift de negócio: <não | PRD v1.1 | ficha v2>
+Créditos: <x.xx> (<n> sessões · power sdd <versões>)
 Épico EP-<nn>: <c>/<t> fatias · próxima pronta: FT-<…> (<AFK|HITL>, desbloqueada agora)
 Lições: <n> registradas
 ```

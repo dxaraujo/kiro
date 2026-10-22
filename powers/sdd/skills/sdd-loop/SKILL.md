@@ -4,7 +4,7 @@ description: "Execução autônoma (AFK) de várias fatias do fluxo sdd — pega
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.8.2"
+  version: "2.9.0"
 ---
 
 # sdd-loop — Fatias AFK até o PR
@@ -148,6 +148,9 @@ Os **Kiro Workflows** do sdd (se instalados) não fazem parte do loop: são rece
   *horas* (lança, não conclui). A conclusão da `[DEV]` é no merge de cada fatia (Passo 6 da `sdd-desenvolver`), com
   o saldo. No AFK, revisão e verificação por subagente não têm tarefa nem horas; as das `[APR]` são lançadas por
   quem aprova, na sessão dele.
+- **Créditos:** o Kiro grava o consumo do turno só quando ele termina, por isso o lote não os registra: no resumo,
+  `Créditos: no merge de cada fatia, rateio 1/<n> desta sessão (<FT…>)` — o Dev grava a parte de cada fatia no
+  Passo 6 da `sdd-desenvolver` ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4).
 - Worktrees ficam até o merge; quem conduz o merge as remove logo depois (item 8 do Passo 6 da
   `sdd-desenvolver`), sem `--force` — os agentes não podem (`git worktree remove` é negado a todos): entregam o
   comando e a pessoa o roda.

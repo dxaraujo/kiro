@@ -121,29 +121,36 @@ máxima das últimas sprints) quando houver histórico.
 
 **Meta:** <resultado de negócio>
 **Iteração no EWM:** <nome | —>
+**Power sdd:** <versões usadas, crescente: 2.9.0 · 2.9.1>   (o planejamento grava a da abertura; a virada acrescenta as das linhas de créditos)
 **Situação:** <aberta | fechada>   (a virada grava `fechada`; o painel usa a última `aberta`)
 
 ## Fatias
 
-| FT | Título | Tam. | Modo | Responsável | Revisor | Verificador | Status | Tarefa ELM | Observação |
-|---|---|---|---|---|---|---|---|---|---|
-| FT-031 | Bloquear a conta após 3 tentativas | M | AFK | joao.lima | — | — | concluida | DEV 669401 | |
-| FT-033 | Avisar o usuário do bloqueio | M | HITL | ana.souza | joao.lima | rita.melo | → sprint <nn+1> | DEV 669410 · REV 669411 · VER 669412 | aguardando texto do e-mail |
-| FT-034 | Corrigir o texto do e-mail | P | — | joao.lima | — | — | concluida | DEV 669420 | puxada |
+| FT | Título | Tam. | Modo | Responsável | Revisor | Verificador | Status | Tarefa ELM | Créditos | Observação |
+|---|---|---|---|---|---|---|---|---|---|---|
+| FT-031 | Bloquear a conta após 3 tentativas | M | AFK | joao.lima | — | — | concluida | DEV 669401 | 41.20 | |
+| FT-033 | Avisar o usuário do bloqueio | M | HITL | ana.souza | joao.lima | rita.melo | → sprint <nn+1> | DEV 669410 · REV 669411 · VER 669412 | — | aguardando texto do e-mail |
+| FT-034 | Corrigir o texto do e-mail | P | — | joao.lima | — | — | concluida | DEV 669420 | 6.75 | puxada |
 
 ## Especificação
 
-| EP | Responsável | Horas previstas | Situação | Tarefa ELM |
-|---|---|---|---|---|
-| EP-05 | rita.melo | 16 | PRD | 669377 |
+| EP | Responsável | Horas previstas | Situação | Tarefa ELM | Créditos |
+|---|---|---|---|---|---|
+| EP-05 | rita.melo | 16 | PRD | 669377 | — |
 
 ## Atendimento
 
 Reserva (atendimento + retrabalho): <h>h · consumido: <h>h · retrabalho migrado: <h>h
 
-| AT | Pedido | Origem | Responsável | Horas | Tarefa ELM | Situação |
-|---|---|---|---|---|---|---|
-| AT-012 | Extração de contas bloqueadas em setembro | chamado 4521 | joao.lima | 3 | 669380 | concluido |
+| AT | Pedido | Origem | Responsável | Horas | Tarefa ELM | Situação | Créditos |
+|---|---|---|---|---|---|---|---|
+| AT-012 | Extração de contas bloqueadas em setembro | chamado 4521 | joao.lima | 3 | 669380 | concluido | 3.12 |
+
+## Créditos de gestão
+
+| Data | Atividade | Login | Sessão Kiro | Power sdd | Créditos |
+|---|---|---|---|---|---|
+| 2026-10-06T10:41:12 | planejamento | ana.souza | 9ec1dcaa | 2.9.0 | 2.40 |
 
 ## Capacidade
 Revisão: <h>h · HITL: <h>h · Especificação: <h>h · Reserva (atendimento + retrabalho): <h>h · Vazão prevista: <n> fatias (previsão; o compromisso é a meta)
@@ -158,14 +165,18 @@ Revisão: <h>h · HITL: <h>h · Especificação: <h>h · Reserva (atendimento + 
 ## Números
 Concluídas: <n> fatias (<p> previstas · <q> puxadas) · meta: <atingida | não — por quê> · lead time médio <d> dias · rodadas de revisão por fatia <x> · correções humanas <n>
 
-| Tipo | Planejadas (h) | Lançadas (h) |
-|---|---|---|
-| Entrega `[DEV]` | | |
-| Revisão `[REV]` | | |
-| Aprovação `[APR]` | | |
-| Verificação `[VER]` | | |
-| Especificação `[ESP]` | | |
-| Atendimento `[ATD]` | | |
+| Tipo | Planejadas (h) | Lançadas (h) | Créditos |
+|---|---|---|---|
+| Entrega `[DEV]` | | | <Fatias: todos os papéis> |
+| Revisão `[REV]` | | | ↑ |
+| Aprovação `[APR]` | | | ↑ |
+| Verificação `[VER]` | | | ↑ |
+| Especificação `[ESP]` | | | |
+| Atendimento `[ATD]` | | | |
+| Gestão `[GB]` | — | | |
+| **Total** | | | |
+
+Créditos por fatia concluída: <média> · por versão do power sdd: <versão> <x> · …
 ```
 
 Situação da especificação: `entrevista`, `PRD`, `fatiamento`, `concluida` ou `→ sprint <nn+1>`. Situação do
@@ -174,5 +185,9 @@ atendimento: `aberto`, `concluido` ou `→ sprint <nn+1>`. "Tarefa ELM" é o id 
 gate; AFK, a `DEV` e as `APR`), gravada pela
 `sdd-elm` modo *sprint* (e pela `sdd-consolidar` na fatia puxada). Observação: `puxada`, `encaixe: <decisão>
 (<quem>, <data>)`, `modo: AFK → HITL (<quem>, <data>, <motivo>)`, `modo: AFK mantido (<quem>, <data>)`, `migrada da sprint <nn>` ou texto livre.
+
+Créditos (do Kiro): nas Fatias, Especificação e Atendimento, a soma das linhas de créditos do item, gravada na
+conclusão dele (`sdd-consolidar`, `sdd-especificar`, `sdd-atender`), `—` antes; em Créditos de gestão, uma linha por
+sessão de triagem, consolidação, planejamento ou retrospectiva (`sdd-status`, Fechar a sessão, item 4).
 
 A coluna Status espelha o `backlog.md` do produto no fechamento; durante a sprint, o painel (`sdd-status`) é a fonte.

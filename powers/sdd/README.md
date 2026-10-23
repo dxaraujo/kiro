@@ -84,7 +84,7 @@ Fontes no fim deste arquivo.
 | `sdd-revisar` | revisão independente: PRD (P), plano (L), código (C, dois eixos) |
 | `sdd-verificar` | aceite de ponta a ponta com evidência; `CT.csv` para o ETM |
 | `sdd-consolidar` | pós-merge, processo de produto (P.O. ou SM, agente `sdd-produto`, horas na `[GB]`): drift marcado pela revisão e pela verificação, ELM as-built (requisitos, ET, casos de teste criados no ETM), ADRs do PR, glossário, conclusão |
-| `elm-sync` | sincroniza o bundle OKF do DOORS Next nas duas vias (plano, baixar, enviar, conflitos) e reindexa no `okf` |
+| `elm-sync` | sincroniza o bundle OKF do DOORS Next nas duas vias (plano, baixar, enviar, conflitos) e reindexa o bundle local |
 | `sdd-loop` | fatias AFK até o PR, uma worktree por fatia, uma fase por contexto limpo |
 | `sdd-aprender` | lições, promoção de regras, retrospectiva com dados, casos de avaliação |
 
@@ -149,8 +149,8 @@ processo do projeto exige algum deles, a skill do passo entrega o roteiro manual
 - Kiro IDE 1.x ou Kiro CLI 2.31+; repositório git com branch base e PRs. Na engine V2 do CLI os agentes e as
   skills funcionam, mas o hook e os workflows exigem a IDE ou a engine V3.
 - Kiro Web não lê `~/.kiro`: os agentes do projeto aparecem lá, mas sem as skills do power — use a IDE ou o CLI.
-- MCPs do próprio power (o `mcp.json` os sobe com `uvx`): [`mcp-okf`](../../mcps/okf/), por onde os agentes consultam o
-  bundle do ELM (nunca lendo os arquivos), e [`mcp-gitlabpr`](../../mcps/gitlabpr/), que lista, lê e abre os PRs (merge
+- MCPs do próprio power (o `mcp.json` os sobe com `uvx`): [`mcp-elm`](../../mcps/elm/), que também consulta o
+  bundle do ELM (`elm_*_local`, nunca lendo os arquivos), e [`mcp-gitlabpr`](../../mcps/gitlabpr/), que lista, lê e abre os PRs (merge
   requests do GitLab) — credencial em `~/.config/mcp-gitlabpr/gitlabpr.properties` (`url` e `token`). Repositório
   fora do GitLab, ou sem a credencial → o fluxo entrega título e descrição do PR, e a pessoa o abre.
 - Opcional: IBM ELM — credencial em `~/.config/mcp-elm/elm.properties` e o `pa` gerado pela `sdd-setup`; MCP de consulta ao banco (somente leitura);
@@ -205,7 +205,7 @@ gastou: o script `creditos.py` da `sdd-status` lê o consumo no `~/.kiro` de que
 `mcp-elm` 2.0 (reescrito) vem no `mcp.json` do `sdd`, lê o `.kiro/config/sdd/pa_<nome>.json` e expõe operações com
 entrada e saída fixas; a `sdd-elm` e as skills `elm-ccm`/`elm-rm`/`elm-qm`/`elm-gc`/`elm-setup` saem — cada skill
 chama a tool no próprio passo, e as regras comuns ficam em `sdd/references/elm.md`; a `sdd-setup` gera o `pa` (sem
-migração do formato antigo: gere de novo); a `elm-sync` passa a ser deste power. Desinstale o power `elm`, peça
+migração do formato antigo: gere de novo); a `elm-sync` passa a ser deste power; o MCP `okf` sai — o bundle local é consultado pelo próprio `elm` (`elm_buscar_req_local`, `elm_ler_req_local`, `elm_listar_req_local`, `elm_indexar_local`; o `elm_sync baixar` já indexa). Desinstale o power `elm`, peça
 "atualizar a configuração do sdd" e "atualizar os agentes do sdd". Projeto configurado com o power
 `sdd2` ou com a v1 do `sdd`: desinstale o power antigo, instale este e peça "atualizar a configuração do sdd" — a
 setup pergunta a pasta do produto, junta os steerings num só, renomeia hooks, workflows e agentes e move

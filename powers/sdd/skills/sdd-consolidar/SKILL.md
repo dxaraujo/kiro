@@ -68,7 +68,7 @@ Numa confirmação só, nesta ordem, como diz [references/elm-publicar.md](refer
 
 Sem o MCP `elm` nesta sessão ou com falha → `ELM pendente [<chave>]: <ação>` no Histórico do `status.md`
 ([pendências](../sdd/references/elm.md#pendências)). Depois da publicação, a `elm-sync` traz o publicado ao bundle e
-o `okf_index` reindexa só o que mudou.
+já reindexa só o que mudou.
 
 ## Passo 3 — Conhecimento que dura
 

@@ -21,9 +21,18 @@ Toda tool devolve `{"ok":true,"dados":{…}}` ou `{"ok":false,"erro":{"codigo","
 | horas lançadas · relatório da iteração · lançar · remover (lançamento errado) | `elm_horas(id)` · `elm_horas(iteracao)` · `elm_lancar_horas` · `elm_remover_horas(id, data)` |
 | ligar (implementa, rastreia, afeta, testado por, valida, depende) | `elm_ligar` |
 | buscar · ler · publicar requisito | `elm_buscar_req` · `elm_ler_req` · `elm_publicar_req` |
+| buscar · ler · listar requisito local (bundle) + indexar | `elm_buscar_req_local` · `elm_ler_req_local(id ou path)` · `elm_listar_req_local` · `elm_indexar_local` |
 | criar caso de teste (já ligado) | `elm_criar_ct` |
 | iteração e planos | `elm_iteracao` |
-| bundle do DOORS Next | `elm_sync` (skill `elm-sync`) |
+| bundle do DOORS Next | `elm_sync` (skill `elm-sync`; `baixar` já reindexa) |
+
+## Bundle local
+
+Consulta de requisito: **local primeiro** (`elm_buscar_req_local`, `elm_ler_req_local`), nunca lendo os arquivos do
+bundle. Sem nada baixado — erro `nao_encontrado` com `campo: "bundle"` — diga isso à pessoa, pesquise no ELM remoto
+(`elm_buscar_req`/`elm_ler_req`) e ofereça a `elm-sync` para baixar. Sem o ELM remoto (pesquisador) → registre que
+não há bundle e indique a `elm-sync`. `indexando: true, restantes: n` → a busca usou o que já estava indexado; para o
+resto, `elm_indexar_local` até `restantes` = 0.
 
 Erro `config` → o `pa` está incompleto: diga o campo e ofereça a `sdd-setup`. `credencial` → peça a configuração do
 `~/.config/mcp-elm/elm.properties` (o agente não lê esse arquivo). `indisponivel` → o servidor não respondeu: tente uma vez mais;
@@ -48,7 +57,7 @@ criado fora do fluxo recusado numa transição → mostre o campo e peça o valo
 
 ## Pendências
 
-Sem o MCP `elm` nesta sessão (pesquisador, outra máquina) ou com falha: não grave; registre
+Sem o MCP `elm` nesta sessão (outra máquina), sem as tools de escrita (pesquisador) ou com falha: não grave; registre
 `ELM pendente [<chave>]: <o que falta>` no lugar único do artefato e siga — o ELM nunca trava o fluxo. A chave
 identifica ação e alvo (`[DEV 669412 concluir]`, `[IB FT-031 concluir]`, `[REG-01 publicar]`, `[CT FT-031 criar]`,
 `[DEV FT-031 horas]`); uma pendência por chave.

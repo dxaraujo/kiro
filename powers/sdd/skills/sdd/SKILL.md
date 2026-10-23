@@ -187,8 +187,9 @@ a próxima e para — nunca invoca nem simula a do passo seguinte.
   Sem o MCP ou com falha, a escrita vira `ELM pendente` registrada — o ELM nunca trava o fluxo.
 - **Bundle do ELM e PR, só pelos MCPs do power:** a documentação baixada pela `elm-sync` (`<rm.download>`) —
   cópia local, em Markdown, dos artefatos do ELM, válida até o último sincronismo (o ELM ao vivo é pelo `elm_buscar_req`/`elm_ler_req`) — é
-  consultada pelo **`okf`** — `okf_search` para achar, `okf_get_document` para ler um artefato, `okf_list_documents`
-  para listar uma pasta (`root` = raiz do repositório + `rm.download` do `pa`, absoluto; `okf_index` antes da primeira busca da sessão) —, nunca
+  consultada pelo **`elm`** — `elm_buscar_req_local` para achar, `elm_ler_req_local` para ler um artefato, `elm_listar_req_local`
+  para listar uma pasta (o MCP acha a pasta pelo `pa` e reindexa o que mudou; sem nada baixado → ELM remoto, ver
+  [elm.md](references/elm.md#bundle-local)) —, nunca
   lendo ou buscando os arquivos (os agentes nem têm leitura nessa pasta). PR é o merge request do GitLab, pelo
   **`gitlabpr`**: `gitlab_listar_mrs`, `gitlab_obter_mr`, `gitlab_criar_mr` e `gitlab_mesclar_mr` (com o "sim" da pessoa; `origem` e
   `destino` sempre explícitos, porque o MCP roda no checkout principal, não na worktree) — nunca `gh` nem `glab`.

@@ -97,7 +97,7 @@ da sessão na seção **Créditos de gestão** do `sprint-<nn>.md` aberto (Ativi
 
 **Lint do conhecimento** (retrospectiva de épico — a consolidação da última fatia o sugere — ou de sprint, ou
 quando a pessoa pedir; nunca a cada fatia): procure contradições entre glossário, ADRs, bundle do ELM (pelo
-`okf_search`) e steering — termo com duas definições, ADR superado sem marcação, regra do ELM que o código não
+`elm_buscar_req_local`) e steering — termo com duas definições, ADR superado sem marcação, regra do ELM que o código não
 segue. Liste como achados na retrospectiva; cada um vira correção na fonte ou fatia nova.
 
 ## Regras

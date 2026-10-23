@@ -168,8 +168,8 @@ Falhou ao rodar → mostre o erro; a pessoa decide (corrigir o comando, seguir a
      correção), títulos das tarefas e colunas do `CT.csv` do template. Sustentação e Atendimento não são
      perguntados: nascem na primeira sprint ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §2).
    - **Bundle do RM** (`rm.download` do `pa`): pastas com `index.md` de `okf_version` → mostre e confirme; vazio →
-     ofereça a `elm-sync` (baixar). É a base que os agentes consultam **pelo MCP `okf`**, nunca lendo os arquivos —
-     rode `okf_index` (`root` = raiz do repositório + `rm.download`, absoluto) até `restantes=0` e mostre quantos
+     ofereça a `elm-sync` (baixar). É a base que os agentes consultam **pelas `elm_*_local` do MCP `elm`**, nunca lendo os arquivos —
+     rode `elm_indexar_local` até `restantes=0` e mostre quantos
      documentos há; o caminho vai no `{{BUNDLE}}` dos agentes, como leitura negada (no `.gitignore` → avise que só
      existe nesta máquina, depois da `elm-sync`).
 
@@ -293,9 +293,9 @@ cada arquivo gravado em `.kiro/agents/`, `.kiro/hooks/` e `.kiro/workflows/` —
 
 - JSON de cada agente faz parse; `name` = nome do arquivo; nenhum `{{…}}` sobrando; agente com `@<servidor>/…` de MCP do
   projeto em `tools` tem `"includeMcpJson": true` e a regra `mcp` (`allow` para as de leitura, que também estão em
-  `allowedTools`; `ask` para as de escrita, que **não** estão em `allowedTools`); as do `okf` e do `gitlabpr` (MCPs do power)
-  ficam na regra `power` (`sdd/okf/<tool>`, `sdd/gitlabpr/<tool>`, `sdd/elm/<tool>`), nunca na `mcp`; `includePowers:
-  true` em todos; nenhuma `@elm/…` no pesquisador nem servidor `elm` no `mcp.json` do projeto; `.kiro/steering/` tem só o
+  `allowedTools`; `ask` para as de escrita, que **não** estão em `allowedTools`); as do `elm` e do `gitlabpr` (MCPs do power)
+  ficam na regra `power` (`sdd/elm/<tool>`, `sdd/gitlabpr/<tool>`), nunca na `mcp`; `includePowers:
+  true` em todos; no pesquisador só as 4 `@elm/elm_*_local`; nenhum servidor `elm` no `mcp.json` do projeto; `.kiro/steering/` tem só o
   `sdd.md` do fluxo (nenhum `sdd2*.md` nem `sdd-projeto.md` sobrando), e nenhum `.kiro/agents/sdd2-*.json`.
 - Ferramentas que varrem a raiz do repositório (test runners, linters, `tsc`, varredura de arquivos) ignoram
   `.kiro/local/` — onde o loop cria as worktrees? Não ignoram → acrescente a exclusão na configuração delas (com

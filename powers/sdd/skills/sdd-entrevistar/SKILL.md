@@ -30,8 +30,8 @@ feche as decisões que as fontes não respondem — o agente **não** preenche l
    depender de outra: ordene para que a resposta de cima mude as de baixo.
 3. **Responda sozinho o que tiver fonte**, citando-a — não pergunte o que dá para descobrir:
    - comportamento atual → o código (`arquivo:linha`);
-   - regra documentada → bundle do ELM, pelo MCP `okf` (`okf_search` e `okf_get_document`; nunca lendo os
-     arquivos);
+   - regra documentada → bundle do ELM, pelo `elm_buscar_req_local` e `elm_ler_req_local` (nunca lendo os
+     arquivos; [sem bundle → ELM remoto](../sdd/references/elm.md#bundle-local));
    - termo do domínio → glossário;
    - dado → banco pelo MCP de consulta (somente leitura), se o `sdd.md` declarar um.
    Fato encontrado vira decisão `confirmada — fonte: <…>`; não ocupa a pessoa.

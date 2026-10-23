@@ -46,7 +46,7 @@ permissão, compare as regras dele com as do orquestrador.
 | `{{PRODUTO}}` (produto, revisor, codificador; nos dois blocos) | a pasta do produto (Passo 4), padrão `.kiro/planejamento` |
 | `{{GLOSSARIO}}`, `{{ADR}}` (produto, nos dois blocos) | os caminhos do Passo 4 |
 | `{{BASE}}` (codificador, revisor, verificador e orquestrador; só no bloco V3) | a branch base do `sdd.md` (Passo 3), sem `origin/` — nas negações de push para a base |
-| `{{BUNDLE}}` (todos, leitura negada, nos dois blocos) | o bundle do ELM (Passo 4): a consulta é pelo MCP `okf`, nunca pelos arquivos. "não há" → remova a linha |
+| `{{BUNDLE}}` (todos, leitura negada, nos dois blocos) | o bundle do ELM (Passo 4): a consulta é pelas `elm_*_local` do MCP `elm`, nunca pelos arquivos. "não há" → remova a linha |
 | `{{SKILLS_EXTRAS}}` (no `prompt`) | `Skills do projeto ligadas a você: `a`, `b` — carregue a do artefato antes de escrevê-lo.` ou nada |
 | `{{SUBAGENTES}}` (no `prompt`) | `Subagentes do projeto: `x` (<tipo de tarefa>)` ou nada |
 | `resources` | `file://` do steering de produto/tecnologia/estrutura e dos extras; `skill://` de cada skill escolhida |
@@ -60,10 +60,11 @@ permissão, compare as regras dele com as do orquestrador.
 | push e PR no loop = "não — a pessoa abre" | no orquestrador, as regras `ask` de push (`shell`) e de `sdd/gitlabpr/gitlab_criar_mr` (`power`) viram `deny` |
 
 Fixos em todos: `"allowedTools"` sem `read` (liberaria a leitura do disco inteiro); `"includePowers"`: `true` em
-todos — o próprio `sdd` traz os MCPs `okf`, `gitlabpr` e `elm`; nunca o campo `hooks` (a IDE ignora agentes que o têm).
-Já liberadas (`tools`, `allowedTools` e `power` `allow`, como `sdd/okf/<tool>`):
-as de leitura do `okf` (`okf_index`, `okf_search`, `okf_get_document`, `okf_list_documents`), do `gitlabpr`
-(`gitlab_listar_mrs`, `gitlab_obter_mr`) e do `elm` (`elm_status`, `elm_ler_wi`, `elm_listar_wi`, `elm_horas`; no
+todos — o próprio `sdd` traz os MCPs `gitlabpr` e `elm`; nunca o campo `hooks` (a IDE ignora agentes que o têm).
+Já liberadas (`tools`, `allowedTools` e `power` `allow`, como `sdd/elm/<tool>`):
+as de leitura do `gitlabpr`
+(`gitlab_listar_mrs`, `gitlab_obter_mr`) e do `elm` — as 4 do bundle local (`elm_indexar_local`, `elm_buscar_req_local`,
+`elm_ler_req_local`, `elm_listar_req_local`; no pesquisador, só elas do `elm`) e `elm_status`, `elm_ler_wi`, `elm_listar_wi`, `elm_horas`; no
 produto também `elm_buscar_req`, `elm_ler_req`). As de escrita do `elm` que a skill do agente usa: `power` `ask` (o Kiro
 confirma, além do "sim" da skill). `gitlab_criar_mr`: `ask` no codificador, no produto e no orquestrador (abrem o PR depois do
 push), `deny` no pesquisador, no revisor e no verificador. `gitlab_mesclar_mr`: `ask` só no codificador (o merge do PR

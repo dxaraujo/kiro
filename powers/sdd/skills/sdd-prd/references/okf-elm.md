@@ -139,7 +139,7 @@ houver, `## Relações`.
 | GATE do PRD | a pessoa aprova → cada conceito recebe `verified` humano e `status: stable` |
 | Publicação | [elm-publicar.md](../../sdd-consolidar/references/elm-publicar.md#requisitos-conceitos-okf-de-elm--doors-next) (grava `resource`, `id` e a entrada do ELM em `sources`) |
 | Depois | a `elm-sync` baixa a versão oficial para o bundle, que passa a ser a versão viva; o rascunho fica como registro histórico, com `resource` preenchido |
-| Alteração de artefato existente | traga o arquivo do bundle pelo `okf_get_document` (MCP `okf`) e grave-o em `elm/`, mantendo `resource`, `id` e o `sources` do ELM; `status: draft`, `generated` novo; edite. O `last_modified` desse `sources` detecta conflito na publicação |
+| Alteração de artefato existente | traga o arquivo do bundle pelo `elm_ler_req_local` (sem bundle: `elm_ler_req`) e grave-o em `elm/`, mantendo `resource`, `id` e o `sources` do ELM; `status: draft`, `generated` novo; edite. O `last_modified` desse `sources` detecta conflito na publicação |
 | Obsoleto | `status: deprecated`; no ELM, roteiro manual na UI |
 
 ## `index.md` e `log.md`

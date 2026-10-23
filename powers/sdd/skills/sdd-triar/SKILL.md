@@ -66,7 +66,7 @@ parecidos, e a seção `## Atendimentos`), no `**Origem:**` dos `<produto>/atend
 - **Rápida:** **uma** rodada no formato da `sdd-entrevistar` (numerada, cada pergunta com a recomendação,
   "sim" aceita todas) para o que a ficha pede e a origem não traz: atual com evidência, esperado com fonte, o que
   não muda, como verificar.
-- Fatos o agente busca (código, bundle do ELM pelo `okf`, banco só leitura); decisões são da pessoa.
+- Fatos o agente busca (código, bundle do ELM pelas `elm_*_local`, banco só leitura); decisões são da pessoa.
 - **Não fazer** (já entregue, fora do produto, recusado pelo P.O.) → nada no backlog; item do EWM → ofereça um
   comentário `sdd: não fazer — <motivo>` (`elm_comentar`, com "sim"), que o tira dos próximos lotes;
   fechar o item é do P.O., na UI.

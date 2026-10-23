@@ -35,7 +35,7 @@ sem pessoa na conversa) → "PRD, backlog e atendimento nunca são AFK — espec
 1. Peça (ou leia, se veio da `sdd-triar`) a descrição **longa** da demanda: quem pediu, o problema, exemplos
    reais, prazos. Work item do EWM → `elm_ler_wi(id, comentarios)`.
 2. **Explore antes de perguntar** (subagente `sdd-pesquisador`, se houver; senão você mesmo, só leitura):
-   - documentação atual no bundle do ELM, pelo MCP `okf` (`okf_search`, `okf_get_document`): histórias e regras
+   - documentação atual no bundle do ELM, pelo `elm_buscar_req_local`/`elm_ler_req_local` ([sem bundle → ELM remoto](../sdd/references/elm.md#bundle-local)): histórias e regras
      que já tratam do assunto —
      o PRD **altera** o que existe, não duplica;
    - código: onde o comportamento mora hoje, funcionalidades análogas;
@@ -86,7 +86,7 @@ só aponta para eles. Regras de escrita:
   registrado?). "Então" sempre verificável — nada de "corretamente".
 - **Regras** testáveis, com valores, uma por bloco, citando a decisão de origem (`D-nn`) ou a fonte.
 - **Alteração** de comportamento documentado → traga o artefato do bundle da `elm-sync` pelo
-  `okf_get_document` (`ref` = o id; o `markdown` devolvido é o arquivo inteiro) e grave-o em `elm/`, mantendo `resource`, `id` e o `sources` do ELM; ponha
+  `elm_ler_req_local` (`id` = o id; o `markdown` devolvido é o arquivo inteiro) e grave-o em `elm/`, mantendo `resource`, `id` e o `sources` do ELM; ponha
   `status: draft` e um `generated` novo; reescreva no estado **depois** da mudança. Sem bundle, leia o artefato
   pelo `elm_ler_req(id)` e grave a mesma estrutura. A publicação atualiza o artefato existente em vez
   de criar outro. Na tabela do PRD, coluna "No ELM" = `altera <id>`.

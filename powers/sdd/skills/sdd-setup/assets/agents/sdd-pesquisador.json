@@ -6,18 +6,18 @@
     "read",
     "shell",
     "write",
-    "@okf/okf_index",
-    "@okf/okf_search",
-    "@okf/okf_get_document",
-    "@okf/okf_list_documents",
+    "@elm/elm_indexar_local",
+    "@elm/elm_buscar_req_local",
+    "@elm/elm_ler_req_local",
+    "@elm/elm_listar_req_local",
     "@gitlabpr/gitlab_listar_mrs",
     "@gitlabpr/gitlab_obter_mr"
   ],
   "allowedTools": [
-    "@okf/okf_index",
-    "@okf/okf_search",
-    "@okf/okf_get_document",
-    "@okf/okf_list_documents",
+    "@elm/elm_indexar_local",
+    "@elm/elm_buscar_req_local",
+    "@elm/elm_ler_req_local",
+    "@elm/elm_listar_req_local",
     "@gitlabpr/gitlab_listar_mrs",
     "@gitlabpr/gitlab_obter_mr"
   ],
@@ -250,10 +250,10 @@
       {
         "capability": "power",
         "match": [
-          "sdd/okf/okf_index",
-          "sdd/okf/okf_search",
-          "sdd/okf/okf_get_document",
-          "sdd/okf/okf_list_documents",
+          "sdd/elm/elm_indexar_local",
+          "sdd/elm/elm_buscar_req_local",
+          "sdd/elm/elm_ler_req_local",
+          "sdd/elm/elm_listar_req_local",
           "sdd/gitlabpr/gitlab_listar_mrs",
           "sdd/gitlabpr/gitlab_obter_mr"
         ],

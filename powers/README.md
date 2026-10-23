@@ -6,7 +6,7 @@ Powers do Kiro. Cada pasta é um power independente, instalado pelo painel **Pow
 | Power | O que faz | Skills | MCP |
 |---|---|---|---|
 | [elk](elk/) | Logs do ELK: busca, contagem, CSV, diagnóstico, consultas salvas, jobs Spring Batch | `elk-setup`, `elk-logs`, `elk-exportar`, `elk-diagnostico`, `elk-job-logs` | `mcp-elk` |
-| [sdd](sdd/) | Fluxo de engenharia agêntica orientada a especificação, com ELM e planejamento ágil | `sdd`, `sdd-setup`, `sdd-triar`, `sdd-iniciar`, `sdd-atender`…, `elm-sync` (21) | `mcp-elm`, `mcp-okf`, `mcp-gitlabpr` |
+| [sdd](sdd/) | Fluxo de engenharia agêntica orientada a especificação, com ELM e planejamento ágil | `sdd`, `sdd-setup`, `sdd-triar`, `sdd-iniciar`, `sdd-atender`…, `elm-sync` (21) | `mcp-elm`, `mcp-gitlabpr` |
 
 ## Estrutura de um power
 

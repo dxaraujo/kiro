@@ -10,7 +10,7 @@ metadata:
 # elm-sync — Bundle do DOORS Next nas duas vias
 
 O bundle (pasta `rm.download` do `pa`) é a cópia local, em OKF, dos requisitos oficiais: a `sdd-prd` e os similares
-o leem pelo MCP `okf`. Regras comuns: [../sdd/references/elm.md](../sdd/references/elm.md).
+o leem pelas tools `elm_*_local` do MCP `elm`. Regras comuns: [../sdd/references/elm.md](../sdd/references/elm.md).
 
 1. `elm_sync(projeto, pa, direcao "plano")` → mostre: a baixar (mudou no ELM), a enviar (mudou no bundle) e
    **conflitos** (mudou nos dois lados, com as duas datas).
@@ -18,6 +18,6 @@ o leem pelo MCP `okf`. Regras comuns: [../sdd/references/elm.md](../sdd/referenc
    sobrescreva o ELM sem "sim".
 3. Com "sim": `elm_sync(direcao "baixar", ids?)` e, se houver, `elm_sync(direcao "enviar", ids)`. Envio é escrita no
    ELM: um "sim" para o lote, com a lista.
-4. `okf_index` na pasta do bundle. Commit `ELM - Sincronizar bundle` com o que baixou.
+4. O `baixar` já reindexa o bundle local (se vier `restantes` > 0, `elm_indexar_local` até 0). Commit `ELM - Sincronizar bundle` com o que baixou.
 
 Saída: `🔄 Sync ELM · baixados <n> · enviados <n> · conflitos <n resolvidos> · bundle de <data>`.

@@ -1,16 +1,6 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
   "mcpServers": {
-    "okf": {
-      "type": "stdio",
-      "command": "uvx",
-      "args": [
-        "mcp-okf@latest"
-      ],
-      "env": {
-        "UV_SYSTEM_CERTS": "true"
-      }
-    },
     "gitlabpr": {
       "type": "stdio",
       "command": "uvx",

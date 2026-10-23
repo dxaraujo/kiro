@@ -2,7 +2,7 @@
 
 Power do Kiro para **engenharia agêntica orientada a especificação**, com o **IBM ELM** como fonte oficial da
 documentação e o **planejamento ágil** dentro do fluxo. É a versão 3 do `sdd`: a v2 (que substituiu a v1 e o power
-`sdd2`) com o power `elm` incorporado — o ELM vem pelo `mcp-elm` 2.0, no `mcp.json` deste power. Menos cerimônia onde ela não paga, mais verificação onde ela paga, e cada
+`sdd2`) com o power `elm` incorporado — o ELM vem pelo `mcp-elm` 3.0, no `mcp.json` deste power. Menos cerimônia onde ela não paga, mais verificação onde ela paga, e cada
 decisão ancorada no que os principais praticantes de desenvolvimento com agentes defendem hoje (outubro de 2026).
 
 O agente escreve muito código rápido; o que limita o resultado é o **alinhamento** antes e a **verificação**
@@ -104,7 +104,7 @@ de `skills/sdd-setup/assets/`:
 | `.kiro/sdd/http.sh` (opcional) | única chamada HTTP que o verificador faz sem perguntar: só à URL de teste, com corpo da pasta `massa/` |
 | pasta do produto (proposta pela setup; padrão `.kiro/planejamento`) | `backlog.md`, épicos e PRDs, `equipe.json`, `acordos.md`, `roadmap.md`, `sprints/`, `atendimentos/`, `aprendizado/` — versionada; o que é local fica em `.kiro/local/` (fora do git) |
 
-O ELM vem no próprio power: o MCP **`mcp-elm`** (≥ 2.0.0) lê o `.kiro/config/sdd/pa_<nome>.json` do projeto (um por
+O ELM vem no próprio power: o MCP **`mcp-elm`** (≥ 3.0.0) lê o `.kiro/config/sdd/pa_<nome>.json` do projeto (um por
 project area, gravado pela `sdd-setup`) e expõe operações (`elm_transicao`, `elm_lancar_horas`, `elm_criar_wi`,
 `elm_ligar`, `elm_publicar_req`…): a skill do passo passa só o caminho do projeto, os ids e o conteúdo, e recebe
 `{"ok": …}`. Regras comuns em [`skills/sdd/references/elm.md`](skills/sdd/references/elm.md). Leituras liberadas nos
@@ -206,7 +206,7 @@ gastou: o script `creditos.py` da `sdd-status` lê o consumo no `~/.kiro` de que
 "Créditos de gestão" na sprint; na conclusão, a soma vai para o `sprint-<nn>.md` e, na virada da sprint, para o
 `backlog.md` (coluna `creditos`); a sprint também diz as versões do power usadas (`**Power sdd:**`). Peça "atualizar a configuração do sdd" (steering: nenhuma sessão termina sem registrar os créditos) e "atualizar os agentes do sdd"
 (o orquestrador deixa os créditos do loop para o merge). Na **3.0.0**, o power `elm` foi incorporado: o MCP
-`mcp-elm` 2.0 (reescrito) vem no `mcp.json` do `sdd`, lê o `.kiro/config/sdd/pa_<nome>.json` e expõe operações com
+`mcp-elm` 3.0 (reescrito) vem no `mcp.json` do `sdd`, lê o `.kiro/config/sdd/pa_<nome>.json` e expõe operações com
 entrada e saída fixas; a `sdd-elm` e as skills `elm-ccm`/`elm-rm`/`elm-qm`/`elm-gc`/`elm-setup` saem — cada skill
 chama a tool no próprio passo, e as regras comuns ficam em `sdd/references/elm.md`; a `sdd-setup` gera o `pa` (sem
 migração do formato antigo: gere de novo); a `sdd-sync` passa a ser deste power; o MCP `okf` sai — o bundle local é consultado pelo próprio `elm` (`elm_buscar_req_local`, `elm_ler_req_local`, `elm_listar_req_local`, `elm_indexar_local`, em segundo plano; o `elm_sync baixar` não indexa — a `sdd-sync` pergunta). Os agentes passam a ser

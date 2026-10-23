@@ -169,7 +169,7 @@ Falhou ao rodar → mostre o erro; a pessoa decide (corrigir o comando, seguir a
      perguntados: nascem na primeira sprint ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §2).
    - **Bundle do RM** (`rm.download` do `pa`): pastas com `index.md` de `okf_version` → mostre e confirme; vazio →
      ofereça a `sdd-sync` (baixar). É a base que os agentes consultam **pelas `elm_*_local` do MCP `elm`**, nunca lendo os arquivos —
-     rode `elm_indexar_local` até `restantes=0` e mostre quantos
+     com "sim", `elm_indexar_local` (segundo plano: responde na hora; a 1ª vez baixa o modelo) e mostre quantos
      documentos há; o caminho vai no `{{BUNDLE}}` dos agentes, como leitura negada (no `.gitignore` → avise que só
      existe nesta máquina, depois da `sdd-sync`).
 

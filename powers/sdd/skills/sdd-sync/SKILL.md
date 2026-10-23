@@ -18,6 +18,8 @@ o leem pelas tools `elm_*_local` do MCP `elm`. Regras comuns: [../sdd/references
    sobrescreva o ELM sem "sim".
 3. Com "sim": `elm_sync(direcao "baixar", ids?)` e, se houver, `elm_sync(direcao "enviar", ids)`. Envio é escrita no
    ELM: um "sim" para o lote, com a lista.
-4. O `baixar` já reindexa o bundle local (se vier `restantes` > 0, `elm_indexar_local` até 0). Commit `ELM - Sincronizar bundle` com o que baixou.
+4. Commit `ELM - Sincronizar bundle` com o que baixou. Baixou algo → pergunte se indexa agora (a busca local só acha o
+   que está indexado): "sim" → `elm_indexar_local`, que roda em segundo plano e responde na hora; mostre `restantes`
+   e siga. "não" → diga que a próxima busca local indexa o que mudou.
 
 Saída: `🔄 Sync ELM · baixados <n> · enviados <n> · conflitos <n resolvidos> · bundle de <data>`.

@@ -50,7 +50,7 @@ def regra(cap, efeito, match=None, exclude=None):
 def agente(nome, p, base, cfg):
     valores = {"POWER": cfg["power"], "PRODUTO": cfg["produto"], "GLOSSARIO": cfg.get("glossario"), "ADR": cfg.get("adr"),
                "BASE": cfg["base"], "BUNDLE": cfg.get("bundle"), "MASSA": cfg.get("massa")}
-    extra = cfg.get("agentes", {}).get(nome, {})
+    extra = cfg.get("agentes", {}).get(f"sdd-{nome}", {})
     grupos, sh = base["grupos"], base["shell"]
 
     libera = expandir(p.get("mcp_libera", []), grupos)
@@ -137,6 +137,10 @@ def problemas(a, projeto):
 
 def gerar(projeto: Path, cfg: dict) -> dict:
     base = json.loads((ASSETS / "papeis.json").read_text(encoding="utf-8"))
+    # a chave é o nome do agente (sdd-<papel>); desconhecida nunca é ignorada em silêncio
+    nomes = [f"sdd-{n}" for n in base["papeis"]]
+    if desconhecidos := sorted(set(cfg.get("agentes", {})) - set(nomes)):
+        raise ValueError(f"agentes.json: agente desconhecido {desconhecidos}; use {nomes}")
     return {f"sdd-{n}.json": agente(n, p, base, cfg) for n, p in base["papeis"].items()}
 
 
@@ -149,7 +153,11 @@ def main(argv=None):
     args = ap.parse_args(argv)
     projeto = args.projeto.resolve()
     cfg = json.loads((args.config or projeto / ".kiro/config/sdd/agentes.json").read_text(encoding="utf-8"))
-    agentes = gerar(projeto, cfg)
+    try:
+        agentes = gerar(projeto, cfg)
+    except ValueError as e:
+        print(e, file=sys.stderr)
+        return 1
     erros = [e for a in agentes.values() for e in problemas(a, projeto)]
     if erros:
         print("\n".join(erros), file=sys.stderr)

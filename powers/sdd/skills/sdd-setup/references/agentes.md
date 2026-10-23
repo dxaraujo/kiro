@@ -39,11 +39,11 @@ rebuilt)` no `--dry-run` (por causa do `toolsSettings.subagent`, que a V3 ainda 
 | `steering` | `file://` do steering de produto, tecnologia e estrutura, para todos os agentes |
 | `comandos.build` | compilar, testes, teste único, lint, cobertura (padrões de shell: `mvn test*`) |
 | `comandos.verificacao` | executar a aplicação ou o job, scripts de massa |
-| `agentes.<papel>.skills` | `skill://` das skills escolhidas no Passo 6 |
-| `agentes.<papel>.ler` | pastas dessas skills fora do projeto e do power (`~/.kiro/skills/<skill>/**`) |
-| `agentes.<papel>.mcp` | tools de MCP do projeto: `servidor/tool` (banco: só a de consulta) ou `servidor` (inteiro, ex.: browser) |
-| `agentes.<papel>.subagentes` | `[{"nome", "para"}]` — agentes do projeto (codificador e orquestrador) |
-| `agentes.<papel>.modelo` | o modelo, se não for o padrão |
+| `agentes.sdd-<papel>.skills` | `skill://` das skills escolhidas no Passo 6 |
+| `agentes.sdd-<papel>.ler` | pastas dessas skills fora do projeto e do power (`~/.kiro/skills/<skill>/**`) |
+| `agentes.sdd-<papel>.mcp` | tools de MCP do projeto: `servidor/tool` (banco: só a de consulta) ou `servidor` (inteiro, ex.: browser) |
+| `agentes.sdd-<papel>.subagentes` | `[{"nome", "para"}]` — agentes do projeto (codificador e orquestrador) |
+| `agentes.sdd-<papel>.modelo` | o modelo, se não for o padrão |
 
 Codificador e orquestrador recebem `build` e `verificacao` (chamam revisor e verificador como subagentes); revisor
 recebe `build`; verificador, `verificacao`.
@@ -67,7 +67,7 @@ recebe `build`; verificador, `verificacao`.
   tool de power pela `kiro_powers`, fora do filtro de `tools`. Comentar e anexar: todo papel com tarefa, só na
   própria (regra em [`sdd/references/elm.md`](../../sdd/references/elm.md)). Merge do PR: só o codificador.
 - **MCP do projeto:** `tools` (`@servidor/tool`), regra `mcp` `allow` e `includeMcpJson: true` — o gerador faz os
-  três a partir de `agentes.<papel>.mcp`.
+  três a partir de `agentes.sdd-<papel>.mcp`.
 - **Subagentes:** `tools` `subagent/<nome>`, `toolsSettings.subagent` e a regra `subagent`. O subagente herda as
   regras de quem o chama (interseção, o mais restritivo vence): por isso o orquestrador já tem os comandos de build
   e verificação e escreve nas worktrees.

@@ -191,7 +191,7 @@ ok?
 Padrões da proposta:
 1. **Skills:** marcadas só as de toolkits **detectados** com o papel do agente; as outras aparecem desmarcadas.
 2. **MCPs:** o de banco entra como somente leitura em pesquisador, codificador, revisor e verificador — só a tool
-   de consulta (`<servidor>/<tool>` em `agentes.<papel>.mcp`), nunca o servidor inteiro se ele tiver tool de
+   de consulta (`<servidor>/<tool>` em `agentes.sdd-<papel>.mcp`), nunca o servidor inteiro se ele tiver tool de
    escrita; browser/Playwright marcado no verificador em projeto `frontend`. **ELM** (projeto com ELM): as tools do
    `elm` que o `papeis.json` dá a cada papel (leitura liberada; escrita com `ask`) — `sdd-produto`,
    `sdd-codificador`, `sdd-orquestrador`, `sdd-revisor` e `sdd-verificador`, cada um comentando e anexando só na

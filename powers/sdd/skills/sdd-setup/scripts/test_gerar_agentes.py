@@ -93,7 +93,7 @@ class Gerar(unittest.TestCase):
         self.assertFalse([m for m in regras(agentes["codificador"], "fs_read", "deny") if "elm/pa" in m])
 
     def test_extras_do_projeto(self):
-        cfg = {"agentes": {"codificador": {"skills": ["skill://.kiro/skills/java/SKILL.md"], "mcp": ["banco/consultar"],
+        cfg = {"agentes": {"sdd-codificador": {"skills": ["skill://.kiro/skills/java/SKILL.md"], "mcp": ["banco/consultar"],
                                            "subagentes": [{"nome": "dba", "para": "consultas"}], "modelo": "m1"}}}
         (self.projeto / ".kiro/skills/java").mkdir(parents=True)
         (self.projeto / ".kiro/skills/java/SKILL.md").write_text("x")
@@ -108,8 +108,12 @@ class Gerar(unittest.TestCase):
         self.assertIn("sh .kiro/sdd/http.sh *", regras(c, "shell", "allow"))
         self.assertEqual(c["model"], "m1")
 
+    def test_chave_sem_prefixo_falha(self):
+        with self.assertRaises(ValueError):
+            g.gerar(self.projeto, {**self.cfg, "agentes": {"codificador": {}}})
+
     def test_caminho_ruim_e_apontado(self):
-        a = g.gerar(self.projeto, {**self.cfg, "agentes": {"revisor": {"skills": ["skill://.kiro/skills/nao/SKILL.md",
+        a = g.gerar(self.projeto, {**self.cfg, "agentes": {"sdd-revisor": {"skills": ["skill://.kiro/skills/nao/SKILL.md",
                                                                                      "skill:///abs/SKILL.md"]}}})
         erros = g.problemas(a["sdd-revisor.json"], self.projeto)
         self.assertEqual(len(erros), 2)

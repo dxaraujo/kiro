@@ -4,7 +4,8 @@ assets/agents/sdd-<papel>.md e da configuração do projeto em .kiro/config/sdd/
     uv run --no-project python gerar_agentes.py --projeto <raiz>          # grava
     uv run --no-project python gerar_agentes.py --projeto <raiz> --diff   # só mostra o que mudaria
 
-Sai com 1 se algum caminho citado não existe ou sobrou um {{…}} (nada é gravado).
+Sai com 1 se algum caminho citado não existe ou sobrou um {{…}} (nada é gravado). Termina com a tabela do que
+cada agente recebeu (skills, MCPs, ELM, subagentes, push), lida dos agentes gerados.
 """
 import argparse
 import difflib
@@ -130,9 +131,33 @@ def problemas(a, projeto):
             out.append(f"{a['name']}: caminho absoluto ou com variável: {r}")
             continue
         alvo = Path.home() / caminho[2:] if caminho.startswith("~/") else projeto / caminho
-        if "*" not in caminho and not alvo.is_file():
+        # o sdd.md é gravado pela setup no mesmo passo, depois do "ok" ao resumo
+        if "*" not in caminho and r != "file://.kiro/steering/sdd.md" and not alvo.is_file():
             out.append(f"{a['name']}: não existe: {r}")
     return out
+
+
+def resumo(agentes, cfg):
+    """Tabela markdown do que cada agente recebeu, lida dos agentes gerados; ícones da legenda de references/wizard.md."""
+    fluxo = f"skill://{cfg['power']}/skills/"
+    linhas = ["| Agente | Skills do fluxo | Skills do projeto | MCPs do projeto | ELM | Subagentes | Push |",
+              "|---|---|---|---|---|---|---|"]
+    for a in agentes.values():
+        skills = [r.removeprefix("skill://") for r in a["resources"] if r.startswith("skill://")]
+        do_fluxo = [Path(s).parent.name.removeprefix("sdd-") for s in skills if f"skill://{s}".startswith(fluxo)]
+        do_projeto = [Path(s).parent.name for s in skills if not f"skill://{s}".startswith(fluxo)]
+        mcps = [t[1:] for t in a["tools"] if t.startswith("@") and not t.startswith(("@elm/", "@gitlabpr/"))]
+        do_elm = [t for t in a["tools"] if t.startswith("@elm/")]
+        escreve = any(r["capability"] == "power" and r["effect"] == "ask" and any(m.startswith("sdd/elm/") for m in r["match"])
+                      for r in a["permissions"]["rules"])
+        elm = ("➖" if not do_elm else "🟢 só o bundle local" if all(t.endswith("_local") for t in do_elm)
+               else "🟢 consulta · 🟡 escrita" if escreve else "🟢 consulta")
+        subs = a.get("toolsSettings", {}).get("subagent", {}).get("availableAgents", [])
+        push = "🟡 pergunta" if any(r["capability"] == "shell" and r["effect"] == "ask" and "git push *" in r["match"]
+                                 for r in a["permissions"]["rules"]) else "🔴 negado"
+        cel = lambda xs: ", ".join(f"`{x}`" for x in xs) or "➖"
+        linhas.append(f"| **{a['name']}** | {cel(do_fluxo)} | {cel(do_projeto)} | {cel(mcps)} | {elm} | {cel(subs)} | {push} |")
+    return "\n".join(linhas) + "\n"
 
 
 def gerar(projeto: Path, cfg: dict) -> dict:
@@ -173,6 +198,7 @@ def main(argv=None):
             saida.mkdir(parents=True, exist_ok=True)
             alvo.write_text(novo, encoding="utf-8")
             print(f"gravado {alvo}")
+    print("\n" + resumo(agentes, cfg), end="")
     return 0
 
 

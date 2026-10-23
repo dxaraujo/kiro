@@ -99,18 +99,9 @@ A setup nunca liga uma skill sem a confirmação da pessoa — mas confirma a pr
 pré-marcadas só as skills de toolkits **detectados** cujo `papeis` inclui o papel do agente; toolkit não
 detectado, skill do projeto e skill do usuário aparecem desmarcadas:
 
-```
-🤖 sdd-codificador — quais skills ele pode usar?
-Projeto detectado: batch (spring-batch-core no pom.xml)
-
-Toolkit spring-batch (detectado)               Toolkit java-backend (detectado — pom.xml)
- [x] 1. spring-batch-job — steps chunk/tasklet   [x] 4. java — padrões Java 21 do time
- [x] 2. spring-batch-teste — testes de job       [ ] 5. spring-rest — controladores REST (papel: só backend web)
-Skills do projeto                              Skills do usuário
- [ ] 3. convencoes-sql — padrões de SQL          [ ] 6. git-commit — mensagens de commit
-
-Confirma as marcadas, ou informe os números (ex.: "1,2,4,3"), "nenhuma" ou "as mesmas do <agente já configurado>":
-```
+O cartão é o W6 de [wizard.md](wizard.md): skills numeradas com a caixa `[✅]`/`[ ]` na primeira coluna, agrupadas por toolkit e origem na coluna
+"Para quê" (ex.: `spring-batch-job` — steps chunk/tasklet · toolkit spring-batch 🔍 detectado), e a resposta pelos
+números (`tirar 3,5`, `pôr 7`, `nenhuma skill`, `as mesmas do sdd-<outro>`).
 
 Num projeto 100% Spring Batch, o normal é o codificador receber as skills de batch e Java, e não as de REST ou
 de frontend — mas quem decide é a pessoa.

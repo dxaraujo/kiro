@@ -108,6 +108,18 @@ class Gerar(unittest.TestCase):
         self.assertIn("sh .kiro/sdd/http.sh *", regras(c, "shell", "allow"))
         self.assertEqual(c["model"], "m1")
 
+    def test_resumo_mostra_o_que_cada_agente_recebeu(self):
+        (self.projeto / ".kiro/skills/java").mkdir(parents=True)
+        (self.projeto / ".kiro/skills/java/SKILL.md").write_text("x")
+        cfg = {**self.cfg, "agentes": {"sdd-codificador": {"skills": ["skill://.kiro/skills/java/SKILL.md"],
+                                                           "mcp": ["banco/consultar"]}}}
+        linhas = {l.split("|")[1].strip(): l for l in g.resumo(g.gerar(self.projeto, cfg), cfg).splitlines()[2:]}
+        self.assertIn("`java`", linhas["**sdd-codificador**"])
+        self.assertIn("`banco/consultar`", linhas["**sdd-codificador**"])
+        self.assertIn("🟢 só o bundle local", linhas["**sdd-pesquisador**"])
+        self.assertIn("🟡 pergunta", linhas["**sdd-codificador**"])
+        self.assertTrue(linhas["**sdd-produto**"].rstrip(" |").endswith("🔴 negado"))
+
     def test_chave_sem_prefixo_falha(self):
         with self.assertRaises(ValueError):
             g.gerar(self.projeto, {**self.cfg, "agentes": {"codificador": {}}})

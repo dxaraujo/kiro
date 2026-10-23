@@ -5,7 +5,6 @@ Powers do Kiro. Cada pasta é um power independente, instalado pelo painel **Pow
 
 | Power | O que faz | Skills | MCP |
 |---|---|---|---|
-| [elk](elk/) | Logs do ELK: busca, contagem, CSV, diagnóstico, consultas salvas, jobs Spring Batch | `elk-setup`, `elk-logs`, `elk-exportar`, `elk-diagnostico`, `elk-job-logs` | `mcp-elk` |
 | [sdd](sdd/) | Fluxo de engenharia agêntica orientada a especificação, com ELM e planejamento ágil | `sdd`, `sdd-setup`, `sdd-triar`, `sdd-iniciar`, `sdd-atender`…, `sdd-sync` (21) | `mcp-elm`, `mcp-gitlabpr` |
 
 ## Estrutura de um power
@@ -24,7 +23,8 @@ Powers do Kiro. Cada pasta é um power independente, instalado pelo painel **Pow
 - Arquivos de uma skill (`references/`, `assets/`) são lidos pelo caminho relativo ao `SKILL.md`, dentro do power
   instalado: o agente não os acha buscando no projeto. Por isso cada skill que os cita diz isso logo abaixo do
   título.
-- A configuração de cada projeto fica no projeto — `elk`: `.kiro/config/power/elk/`; `sdd`: `.kiro/config/sdd/`
-  (`pa_<nome>.json`, lido pelo `mcp-elm`) —, gerada pela skill de setup e validada pelo schema em
-  `skills/<power>-setup/assets/`.
+- A configuração de cada projeto fica no projeto — `sdd`: `.kiro/config/sdd/` (`pa_<nome>.json`, lido pelo
+  `mcp-elm`) —, gerada pela skill de setup e validada pelo schema em `skills/<power>-setup/assets/`.
+- Os logs do ELK não têm power: o [mcp-elk](../mcps/elk/) é autossuficiente (lê `.kiro/config/elk/` e traz as
+  regras nas `instructions`).
 - Versão: `version` do `plugin.json` e `metadata.version` de cada skill, juntos.

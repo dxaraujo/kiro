@@ -7,7 +7,7 @@ Servidores MCP em Python, um pacote por pasta, publicados no PyPI e executados c
 | Pasta | Pacote | Para quê | Credenciais |
 |---|---|---|---|
 | [elm](elm/) | [`mcp-elm`](https://pypi.org/project/mcp-elm/) | IBM ELM via OSLC: DOORS Next (rm), EWM (ccm), ETM (qm), GC e horas | `~/.config/mcp-elm/elm.properties` |
-| [elk](elk/) | [`mcp-elk`](https://pypi.org/project/mcp-elk/) | Elasticsearch/Kibana: busca, contagem, consultas salvas e exportação CSV; só lê os logs | `~/.config/mcp-elk/elk.properties` |
+| [elk](elk/) | [`mcp-elk`](https://pypi.org/project/mcp-elk/) | Elasticsearch/Kibana, sem power: lê `.kiro/config/elk/`, busca, conta e compara, exporta CSV, resume jobs Spring Batch, consultas salvas | `~/.config/mcp-elk/elk.properties` |
 | [gitlabpr](gitlabpr/) | [`mcp-gitlabpr`](https://pypi.org/project/mcp-gitlabpr/) | GitLab (API v4, CE 10.8+): listar, obter, criar e mesclar merge requests | `~/.config/mcp-gitlabpr/gitlabpr.properties` |
 
 ## Desenvolvimento
@@ -22,7 +22,7 @@ uv run pytest
 
 - Python ≥ 3.10; dependências e versão no `pyproject.toml` (lock em `uv.lock`).
 - Tools agnósticas: nada específico de uma empresa ou projeto no código — o que é do projeto chega por parâmetro
-  ou pela configuração que a skill de setup do power grava.
+  ou pela configuração do projeto (gravada pela skill de setup do power ou, no `mcp-elk`, pela tool `elk_configurar`).
 
 ## Publicação
 

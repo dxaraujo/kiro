@@ -26,7 +26,8 @@ Toda tool devolve `{"ok":true,"dados":{…}}` ou `{"ok":false,"erro":{"codigo","
 | bundle do DOORS Next | `elm_sync` (skill `elm-sync`) |
 
 Erro `config` → o `pa` está incompleto: diga o campo e ofereça a `sdd-setup`. `credencial` → peça a configuração do
-`~/.config/mcp-elm/elm.properties` (o agente não lê esse arquivo). `permissao`/`precondicao` → mostre o atributo;
+`~/.config/mcp-elm/elm.properties` (o agente não lê esse arquivo). `indisponivel` → o servidor não respondeu: tente uma vez mais;
+persistindo, registre `ELM pendente` e siga. `permissao`/`precondicao` → mostre o atributo;
 não chute valor. Os campos que a PA exige por regra de processo (criar, mudar de estado, lançar horas) ficam em
 `obrigatorios` do tipo no `pa` e são exigidos já na criação (`elm_criar_wi`), para as transições e as horas não
 esbarrarem neles — Estimativa → pergunte e passe `estimativa_h`; outro campo sem padrão → ofereça a `sdd-setup`. Item

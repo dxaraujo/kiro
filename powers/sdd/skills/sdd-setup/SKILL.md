@@ -145,7 +145,7 @@ Falhou ao rodar → mostre o erro; a pessoa decide (corrigir o comando, seguir a
      | Time e categoria (`filedAgainst`) | o time de quem configura; a categoria dele |
      | Tipos `ib` · `defeito` · `tarefa` | Item de Backlog (também o épico, se a PA não tem Épico) · Defeito · Tarefa |
      | Campos de cada tipo | os obrigatórios + Planejado para, Responsável, Estimativa e, no IB, o de critérios de aceite (nome com "aceite") |
-     | `padroes` | um valor por obrigatório de enumeração, o mais próximo do trabalho (IB: "Melhoria"; Tarefa: categoria de horas, OTR, Clarity) |
+     | `padroes` | um valor por obrigatório de enumeração, o mais próximo do trabalho (IB: "Melhoria"; Tarefa: categoria de horas, OTR, Clarity; Defeito: os que a PA exige por processo, ex.: Ambiente) |
      | `por-prefixo` (Tarefa) | classificação por prefixo: `[ESP]` análise · `[DEV]` desenvolvimento · `[VER]` testes · `[ATD]` suporte · demais "outra" |
      | Links | pai, filhos, implementa, relacionado; `depende` só se a PA tiver |
      | Horas | o time code e o tipo de trabalho padrão da PA |
@@ -156,9 +156,9 @@ Falhou ao rodar → mostre o erro; a pessoa decide (corrigir o comando, seguir a
      Valor sem nome parecido → aí sim pergunte, só esse. "Planejado para" não vai em `padroes` (é sempre a iteração
      da sprint). Com "ok", grave `.kiro/config/sdd/pa_<nome>.json` (caminho relativo à raiz, `/`, sem segredos — vai
      para o git) e confira com `elm_status(projeto)`: `valido` e `faltando` vazio. **Validação opcional** (a PA
-     recusa o que o `pa` não cobre): com "sim", `elm_criar_wi(tipo tarefa, "[TESTE] sdd-setup", pai = um IB que a
-     pessoa indicar)` → recusa `precondicao` mostra o atributo que falta em `padroes`; a tarefa criada a pessoa
-     remove na UI. Outra project area → repita (outro `pa_<nome>.json`) e diga na seção ELM qual é o padrão.
+     recusa o que o `pa` não cobre): com "sim", `elm_criar_wi` de uma tarefa `[TESTE] sdd-setup` (pai = um IB que a
+     pessoa indicar), de um IB e de um defeito → cada recusa `precondicao` traz o `campo` que falta em `padroes`
+     (pegue o valor por `valores_de` e tente de novo); os itens criados a pessoa cancela na UI. Outra project area → repita (outro `pa_<nome>.json`) e diga na seção ELM qual é o padrão.
    - Seção ELM do `sdd.md`, também sem perguntas: publicar requisitos `na-aprovacao`, ET `não publica`, manual
      `nada`, pontos `não`, fatia dividida "filhos do item original", categoria do IB de defeito (o valor de
      correção), títulos das tarefas e colunas do `CT.csv` do template. Sustentação e Atendimento não são

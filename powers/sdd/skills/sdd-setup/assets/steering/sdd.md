@@ -64,7 +64,7 @@ Começar um item registrado: hub `sdd-iniciar` (diz a skill do papel: `sdd-espec
 | Toolkits | <nome (origem) | nenhum> |
 | Steering | produto `<product.md>` · tecnologia `<tech.md>` · estrutura `<structure.md>` · extras `<… | nenhum>` |
 | Glossário · ADRs | `<docs/glossario.md>` · `<docs/adr | não há>` |
-| Bundle do ELM (cópia local em Markdown, baixada pela `elm-sync`) | `<rm.download do pa — ex.: docs/elm/<pa>> | não há` — consulta **só pelo MCP `elm`**: `elm_buscar_req_local` para achar, `elm_ler_req_local` para ler, `elm_listar_req_local` para listar (o MCP acha a pasta pelo `pa` e reindexa o que mudou); sem nada baixado (erro `nao_encontrado` campo `bundle`) → diga isso, pesquise no ELM remoto (`elm_buscar_req`/`elm_ler_req`) e ofereça a `elm-sync`. Nunca leia nem busque os arquivos dela |
+| Bundle do ELM (cópia local em Markdown, baixada pela `sdd-sync`) | `<rm.download do pa — ex.: docs/elm/<pa>> | não há` — consulta **só pelo MCP `elm`**: `elm_buscar_req_local` para achar, `elm_ler_req_local` para ler, `elm_listar_req_local` para listar (o MCP acha a pasta pelo `pa` e reindexa o que mudou); sem nada baixado (erro `nao_encontrado` campo `bundle`) → diga isso, pesquise no ELM remoto (`elm_buscar_req`/`elm_ler_req`) e ofereça a `sdd-sync`. Nunca leia nem busque os arquivos dela |
 
 **Regras críticas** (BLOQUEANTE na revisão):
 - <ex.: escrita em lote sempre idempotente por chave de negócio>

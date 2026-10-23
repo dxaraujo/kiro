@@ -1,5 +1,5 @@
 ---
-name: elm-sync
+name: sdd-sync
 description: "Sincroniza o bundle OKF do DOORS Next com o ELM nas duas vias, pelo MCP elm: plano (o que baixar, o que enviar, conflitos), baixar a versão oficial, enviar o que mudou no repositório, e reindexar no okf. Usa a pasta e a project area do pa_<nome>.json do projeto. Use em \"sincroniza o ELM\", \"baixa os requisitos\", \"atualiza o bundle\", \"envia os requisitos alterados\", \"sync do DOORS\"."
 license: MIT
 metadata:
@@ -7,7 +7,7 @@ metadata:
   version: "3.0.0"
 ---
 
-# elm-sync — Bundle do DOORS Next nas duas vias
+# sdd-sync — Bundle do DOORS Next nas duas vias
 
 O bundle (pasta `rm.download` do `pa`) é a cópia local, em OKF, dos requisitos oficiais: a `sdd-prd` e os similares
 o leem pelas tools `elm_*_local` do MCP `elm`. Regras comuns: [../sdd/references/elm.md](../sdd/references/elm.md).

@@ -42,7 +42,7 @@ Antes de abrir o código, escreva de 3 a 7 perguntas que o plano vai precisar re
   No `research.md` vão só a consulta e a contagem — nunca linhas com dado real (o arquivo vai para o git).
 - **Documentação:** histórias e regras do bundle do ELM que tratam do mesmo comportamento, pelo
   `elm_buscar_req_local`/`elm_ler_req_local` (nunca lendo os arquivos; sem bundle baixado — erro `nao_encontrado`
-  campo `bundle` — registre isso e indique a `elm-sync`: o pesquisador não tem o ELM remoto) —
+  campo `bundle` — registre isso e indique a `sdd-sync`: o pesquisador não tem o ELM remoto) —
   divergência entre código e documentação é um achado importante.
 - **Testes:** como rodar só os testes da área (comando de teste único do `sdd.md`) e o que já cobrem.
 - Skills do toolkit do projeto ligadas a você: carregue a da stack antes de interpretar código dela.

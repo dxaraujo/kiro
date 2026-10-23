@@ -19,7 +19,7 @@ Ordem **de baixo para cima** — termos (`GL`), regras (`REG`), histórias (`HF`
 4. **Grave de volta** no conceito: `resource`, `id` e `{id: elm, resource, last_modified}` em `sources`; `**Publication**`
    no `log.md`; termos, o id também na coluna ELM do glossário.
 
-Depois: sugira a `elm-sync` (baixar) para o bundle receber a versão oficial.
+Depois: sugira a `sdd-sync` (baixar) para o bundle receber a versão oficial.
 
 ## ET as-built (só se a seção ELM do `sdd.md` disser `as-built no merge`)
 

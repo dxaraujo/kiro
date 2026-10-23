@@ -24,14 +24,14 @@ Toda tool devolve `{"ok":true,"dados":{…}}` ou `{"ok":false,"erro":{"codigo","
 | buscar · ler · listar requisito local (bundle) + indexar | `elm_buscar_req_local` · `elm_ler_req_local(id ou path)` · `elm_listar_req_local` · `elm_indexar_local` |
 | criar caso de teste (já ligado) | `elm_criar_ct` |
 | iteração e planos | `elm_iteracao` |
-| bundle do DOORS Next | `elm_sync` (skill `elm-sync`; `baixar` já reindexa) |
+| bundle do DOORS Next | `elm_sync` (skill `sdd-sync`; `baixar` já reindexa) |
 
 ## Bundle local
 
 Consulta de requisito: **local primeiro** (`elm_buscar_req_local`, `elm_ler_req_local`), nunca lendo os arquivos do
 bundle. Sem nada baixado — erro `nao_encontrado` com `campo: "bundle"` — diga isso à pessoa, pesquise no ELM remoto
-(`elm_buscar_req`/`elm_ler_req`) e ofereça a `elm-sync` para baixar. Sem o ELM remoto (pesquisador) → registre que
-não há bundle e indique a `elm-sync`. `indexando: true, restantes: n` → a busca usou o que já estava indexado; para o
+(`elm_buscar_req`/`elm_ler_req`) e ofereça a `sdd-sync` para baixar. Sem o ELM remoto (pesquisador) → registre que
+não há bundle e indique a `sdd-sync`. `indexando: true, restantes: n` → a busca usou o que já estava indexado; para o
 resto, `elm_indexar_local` até `restantes` = 0.
 
 Erro `config` → o `pa` está incompleto: diga o campo e ofereça a `sdd-setup`. `credencial` → peça a configuração do

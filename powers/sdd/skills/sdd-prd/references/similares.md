@@ -5,8 +5,8 @@ novo. Não pede confirmação. Entrada: por artefato proposto, a sigla (`HF` | `
 palavras-chave do domínio (termos do glossário, sinônimos da entrevista, atores, valores).
 
 1. **Bundle** (pasta `rm.download` do `pa`), pelo `elm_buscar_req_local`: um pelo título e um por palavra-chave
-   (sem bundle baixado → erro `nao_encontrado` campo `bundle`: diga isso, ofereça a `elm-sync` e siga só no passo 2).
-   Anote a data do último sincronismo (`elm-sync`).
+   (sem bundle baixado → erro `nao_encontrado` campo `bundle`: diga isso, ofereça a `sdd-sync` e siga só no passo 2).
+   Anote a data do último sincronismo (`sdd-sync`).
 2. **Ao vivo:** `elm_buscar_req(texto)` pelo título e por palavra-chave, filtrando o resultado pelos tipos das
    siglas do `pa`. Sem o MCP `elm` → só o bundle, e a saída diz `ao vivo: pendente`.
 3. **Classifique** cada acerto (corpo pelo `elm_ler_req_local` ou `elm_ler_req`): **igual** (mesmo comportamento,

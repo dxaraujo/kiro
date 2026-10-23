@@ -168,17 +168,17 @@ Falhou ao rodar → mostre o erro; a pessoa decide (corrigir o comando, seguir a
      correção), títulos das tarefas e colunas do `CT.csv` do template. Sustentação e Atendimento não são
      perguntados: nascem na primeira sprint ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §2).
    - **Bundle do RM** (`rm.download` do `pa`): pastas com `index.md` de `okf_version` → mostre e confirme; vazio →
-     ofereça a `elm-sync` (baixar). É a base que os agentes consultam **pelas `elm_*_local` do MCP `elm`**, nunca lendo os arquivos —
+     ofereça a `sdd-sync` (baixar). É a base que os agentes consultam **pelas `elm_*_local` do MCP `elm`**, nunca lendo os arquivos —
      rode `elm_indexar_local` até `restantes=0` e mostre quantos
      documentos há; o caminho vai no `{{BUNDLE}}` dos agentes, como leitura negada (no `.gitignore` → avise que só
-     existe nesta máquina, depois da `elm-sync`).
+     existe nesta máquina, depois da `sdd-sync`).
 
 ## Passo 5 — Inventário de skills e toolkits
 
 Siga [references/toolkits.md](references/toolkits.md): procure toolkits (com e sem manifesto) e skills avulsas
 do projeto (`.kiro/skills/*/SKILL.md`), do usuário (`~/.kiro/skills/*/SKILL.md`) e de outros powers
 (`~/.kiro/powers/installed/*/skills/*/SKILL.md`; não achou nada ali → `~/.kiro/powers/**/skills/*/SKILL.md`),
-**exceto** as do fluxo (`sdd`, `sdd-*`, `elm-*` deste power, e `sdd2`, `sdd2-*` de uma instalação antiga). Para cada uma:
+**exceto** as do fluxo (`sdd`, `sdd-*`, e `sdd2`, `sdd2-*` de uma instalação antiga). Para cada uma:
 nome, início da `description`, origem e, se houver, toolkit e papéis. Toolkit cujo `deteccao` casa com o projeto
 → "detectado".
 

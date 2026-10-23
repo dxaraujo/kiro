@@ -2,7 +2,7 @@
 
 Cada artefato que vai para o DOORS Next — história (HF), regra (REG), termo (GL) — nasce como **um conceito OKF
 v0.2** (Open Knowledge Format, [SPEC.md](https://github.com/GoogleCloudPlatform/open-knowledge-format/blob/main/SPEC.md),
-versão 0.2) **na pasta da spec**, até ser aprovado e publicado. É o mesmo formato do bundle que a `elm-sync` mantém
+versão 0.2) **na pasta da spec**, até ser aprovado e publicado. É o mesmo formato do bundle que a `sdd-sync` mantém
 no repositório, então o rascunho e a versão oficial se leem do mesmo jeito.
 
 ## Onde fica
@@ -22,7 +22,7 @@ elm/
   HF-01-bloquear-conta.md
 ```
 
-- **Nunca dentro do bundle da `elm-sync`** (`rm.download` do `pa`): lá só a `elm-sync` grava, e um sincronismo regravaria
+- **Nunca dentro do bundle da `sdd-sync`** (`rm.download` do `pa`): lá só a `sdd-sync` grava, e um sincronismo regravaria
   ou apagaria o rascunho.
 - O **Concept ID** do OKF (o caminho do arquivo dentro de `elm/`, sem `.md`) é a chave estável do artefato. Ele não
   muda depois de criado; o id do ELM fica em `resource`/`id`.
@@ -138,7 +138,7 @@ houver, `## Relações`.
 | Rascunho | `sdd-prd` (ou a fatia) cria o conceito com `status: draft`, `sources`, `generated` |
 | GATE do PRD | a pessoa aprova → cada conceito recebe `verified` humano e `status: stable` |
 | Publicação | [elm-publicar.md](../../sdd-consolidar/references/elm-publicar.md#requisitos-conceitos-okf-de-elm--doors-next) (grava `resource`, `id` e a entrada do ELM em `sources`) |
-| Depois | a `elm-sync` baixa a versão oficial para o bundle, que passa a ser a versão viva; o rascunho fica como registro histórico, com `resource` preenchido |
+| Depois | a `sdd-sync` baixa a versão oficial para o bundle, que passa a ser a versão viva; o rascunho fica como registro histórico, com `resource` preenchido |
 | Alteração de artefato existente | traga o arquivo do bundle pelo `elm_ler_req_local` (sem bundle: `elm_ler_req`) e grave-o em `elm/`, mantendo `resource`, `id` e o `sources` do ELM; `status: draft`, `generated` novo; edite. O `last_modified` desse `sources` detecta conflito na publicação |
 | Obsoleto | `status: deprecated`; no ELM, roteiro manual na UI |
 

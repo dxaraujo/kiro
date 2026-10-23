@@ -84,7 +84,7 @@ Fontes no fim deste arquivo.
 | `sdd-revisar` | revisão independente: PRD (P), plano (L), código (C, dois eixos) |
 | `sdd-verificar` | aceite de ponta a ponta com evidência; `CT.csv` para o ETM |
 | `sdd-consolidar` | pós-merge, processo de produto (P.O. ou SM, agente `sdd-produto`, horas na `[GB]`): drift marcado pela revisão e pela verificação, ELM as-built (requisitos, ET, casos de teste criados no ETM), ADRs do PR, glossário, conclusão |
-| `elm-sync` | sincroniza o bundle OKF do DOORS Next nas duas vias (plano, baixar, enviar, conflitos) e reindexa o bundle local |
+| `sdd-sync` | sincroniza o bundle OKF do DOORS Next nas duas vias (plano, baixar, enviar, conflitos) e reindexa o bundle local |
 | `sdd-loop` | fatias AFK até o PR, uma worktree por fatia, uma fase por contexto limpo |
 | `sdd-aprender` | lições, promoção de regras, retrospectiva com dados, casos de avaliação |
 
@@ -135,7 +135,7 @@ feita. Mapeamento padrão (ajustável na setup): história → artefato *Histór
 *Regra*; termo → *Termos de Glossário*; épico → *Épico* (EWM); fatia → *Item de Backlog* que **implementa** as
 histórias; tarefas filhas na sprint; cenário verificado → *Caso de Teste* (ETM) que **valida** a história.
 Cada história, regra e termo nasce como um conceito **OKF v0.2** na pasta da spec (o mesmo formato do bundle da
-`elm-sync`), com aprovação registrada em `verified`; sobe para o DOORS Next só depois do GATE, de baixo para cima,
+`sdd-sync`), com aprovação registrada em `verified`; sobe para o DOORS Next só depois do GATE, de baixo para cima,
 com HF → REG como embed, sem nada extra no texto publicado e sempre com prévia e confirmação. Atributos e links entre
 requisitos ficam registrados nos conceitos, porque o MCP não os grava. Detalhes em [`skills/sdd/references/elm.md`](skills/sdd/references/elm.md)
 e [`skills/sdd-consolidar/references/elm-publicar.md`](skills/sdd-consolidar/references/elm-publicar.md).
@@ -205,7 +205,7 @@ gastou: o script `creditos.py` da `sdd-status` lê o consumo no `~/.kiro` de que
 `mcp-elm` 2.0 (reescrito) vem no `mcp.json` do `sdd`, lê o `.kiro/config/sdd/pa_<nome>.json` e expõe operações com
 entrada e saída fixas; a `sdd-elm` e as skills `elm-ccm`/`elm-rm`/`elm-qm`/`elm-gc`/`elm-setup` saem — cada skill
 chama a tool no próprio passo, e as regras comuns ficam em `sdd/references/elm.md`; a `sdd-setup` gera o `pa` (sem
-migração do formato antigo: gere de novo); a `elm-sync` passa a ser deste power; o MCP `okf` sai — o bundle local é consultado pelo próprio `elm` (`elm_buscar_req_local`, `elm_ler_req_local`, `elm_listar_req_local`, `elm_indexar_local`; o `elm_sync baixar` já indexa). Desinstale o power `elm`, peça
+migração do formato antigo: gere de novo); a `sdd-sync` passa a ser deste power; o MCP `okf` sai — o bundle local é consultado pelo próprio `elm` (`elm_buscar_req_local`, `elm_ler_req_local`, `elm_listar_req_local`, `elm_indexar_local`; o `elm_sync baixar` já indexa). Desinstale o power `elm`, peça
 "atualizar a configuração do sdd" e "atualizar os agentes do sdd". Projeto configurado com o power
 `sdd2` ou com a v1 do `sdd`: desinstale o power antigo, instale este e peça "atualizar a configuração do sdd" — a
 setup pergunta a pasta do produto, junta os steerings num só, renomeia hooks, workflows e agentes e move

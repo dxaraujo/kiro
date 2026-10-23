@@ -17,7 +17,7 @@ Saída, na **pasta de trabalho** da especificação — `.kiro/local/especificac
 pela **`sdd-especificar`** — até o GATE; depois dele, a `sdd-especificar` a leva para `<produto>/epicos/<EP>-<slug>/`: o `prd.md` no formato de
 [references/prd-template.md](references/prd-template.md), o `decisoes.md` e a pasta `elm/` com **um conceito OKF
 v0.2 por história, regra e termo novo** — o formato de [references/okf-elm.md](references/okf-elm.md), o mesmo do
-bundle que a `elm-sync` mantém. São esses arquivos que sobem para o DOORS Next depois do GATE; até lá, ficam aqui.
+bundle que a `sdd-sync` mantém. São esses arquivos que sobem para o DOORS Next depois do GATE; até lá, ficam aqui.
 
 O PRD é um **registro de decisões** e a **proposta de mudança** da documentação oficial — não um documento vivo.
 Depois de aprovado, as histórias (HF), regras (REG) e termos (GL) vão para o DOORS Next ([publicação](../sdd-consolidar/references/elm-publicar.md)), que é a fonte
@@ -85,7 +85,7 @@ só aponta para eles. Regras de escrita:
   o que **não** deve ser aceito, repetição/reexecução, erro em um item (a operação continua? o que fica
   registrado?). "Então" sempre verificável — nada de "corretamente".
 - **Regras** testáveis, com valores, uma por bloco, citando a decisão de origem (`D-nn`) ou a fonte.
-- **Alteração** de comportamento documentado → traga o artefato do bundle da `elm-sync` pelo
+- **Alteração** de comportamento documentado → traga o artefato do bundle da `sdd-sync` pelo
   `elm_ler_req_local` (`id` = o id; o `markdown` devolvido é o arquivo inteiro) e grave-o em `elm/`, mantendo `resource`, `id` e o `sources` do ELM; ponha
   `status: draft` e um `generated` novo; reescreva no estado **depois** da mudança. Sem bundle, leia o artefato
   pelo `elm_ler_req(id)` e grave a mesma estrutura. A publicação atualiza o artefato existente em vez

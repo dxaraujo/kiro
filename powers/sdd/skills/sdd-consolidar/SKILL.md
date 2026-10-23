@@ -67,7 +67,7 @@ Numa confirmação só, nesta ordem, como diz [references/elm-publicar.md](refer
   ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4)), no commit do Passo 4. Linha `Sustentação:` sem `[GB]` → como na `sdd-triar` (sugira criá-la ou pergunte a tarefa).
 
 Sem o MCP `elm` nesta sessão ou com falha → `ELM pendente [<chave>]: <ação>` no Histórico do `status.md`
-([pendências](../sdd/references/elm.md#pendências)). Depois da publicação, a `elm-sync` traz o publicado ao bundle e
+([pendências](../sdd/references/elm.md#pendências)). Depois da publicação, a `sdd-sync` traz o publicado ao bundle e
 já reindexa só o que mudou.
 
 ## Passo 3 — Conhecimento que dura

@@ -38,7 +38,7 @@ Desenvolvimento e publicação: [mcps/README.md](mcps/README.md).
 - O power declara o MCP no `mcp.json` dele com `uvx <pacote>@latest`: quem instala o power recebe o MCP do
   **PyPI**, não desta pasta. Mudança em `mcps/` só chega aos powers depois de publicada.
 - O `sdd` traz os MCPs `elm`, `okf` e `gitlabpr` (e, nos agentes que ele gera, o MCP de banco do projeto). O `okf` lê o
-  bundle que a `elm-sync` grava.
+  bundle que a `sdd-sync` grava.
 
 ## Instalação
 

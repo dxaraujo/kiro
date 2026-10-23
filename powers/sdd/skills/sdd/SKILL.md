@@ -150,7 +150,7 @@ loop, a fatia para sozinha e o lote segue.
 | revisar PRD, plano ou código | `sdd-revisar` |
 | verificar o aceite de ponta a ponta | `sdd-verificar` |
 | fechar a fatia depois do merge (P.O. ou SM, agente `sdd-produto`) | `sdd-consolidar` |
-| publicar no ELM (DOORS Next, EWM, ETM) | a skill do passo ([references/elm.md](references/elm.md)) · bundle: `elm-sync` |
+| publicar no ELM (DOORS Next, EWM, ETM) | a skill do passo ([references/elm.md](references/elm.md)) · bundle: `sdd-sync` |
 | levar várias fatias AFK até o PR | `sdd-loop` (com o agente `sdd-orquestrador`) |
 | rodar uma receita de workflow numa fatia | você, no chat do Kiro: "rode o workflow `sdd-entregar-fatia` para a FT-031" ou `/workflow-run` (IDE 1.3+) |
 | registrar uma lição / retrospectiva | `sdd-aprender` |
@@ -185,7 +185,7 @@ a próxima e para — nunca invoca nem simula a do passo seguinte.
 - **ELM pelo MCP `elm` do power:** a skill do passo chama a tool (`elm_*`) com `projeto` e os ids; o MCP lê o
   `.kiro/config/sdd/pa_<nome>.json`. Regras de escrita, pendências e tarefas: [references/elm.md](references/elm.md).
   Sem o MCP ou com falha, a escrita vira `ELM pendente` registrada — o ELM nunca trava o fluxo.
-- **Bundle do ELM e PR, só pelos MCPs do power:** a documentação baixada pela `elm-sync` (`<rm.download>`) —
+- **Bundle do ELM e PR, só pelos MCPs do power:** a documentação baixada pela `sdd-sync` (`<rm.download>`) —
   cópia local, em Markdown, dos artefatos do ELM, válida até o último sincronismo (o ELM ao vivo é pelo `elm_buscar_req`/`elm_ler_req`) — é
   consultada pelo **`elm`** — `elm_buscar_req_local` para achar, `elm_ler_req_local` para ler um artefato, `elm_listar_req_local`
   para listar uma pasta (o MCP acha a pasta pelo `pa` e reindexa o que mudou; sem nada baixado → ELM remoto, ver

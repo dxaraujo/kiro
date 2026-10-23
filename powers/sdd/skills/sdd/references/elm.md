@@ -73,7 +73,7 @@ Resolver ("resolve as pendências do ELM"): a `sdd-status` lista; para cada uma,
 | `[ATD] AT-<nnn> <pedido>` | IB `Atendimento` | quem atende | quando o AT entra na sprint | ao finalizar |
 | `[GB] Gerenciamento do backlog` | épico de Sustentação | P.O. | 1ª sprint do ano | não conclui (move na virada) |
 
-O `pa` aplica os campos que a PA exige (categoria, OTR, Clarity, classificação por prefixo); `iteracao` é sempre a
+O `pa` aplica os campos que a PA exige (categoria, campos exigidos por processo, classificação por prefixo); `iteracao` é sempre a
 da sprint. Assumir = `elm_transicao(id, "assumir")`; concluir = saldo de horas e `elm_transicao(id, "concluir")`.
 
 ## O que o MCP não grava (roteiro manual)

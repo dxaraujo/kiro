@@ -145,8 +145,8 @@ Falhou ao rodar → mostre o erro; a pessoa decide (corrigir o comando, seguir a
      | Time e categoria (`filedAgainst`) | o time de quem configura; a categoria dele |
      | Tipos `ib` · `defeito` · `tarefa` | Item de Backlog (também o épico, se a PA não tem Épico) · Defeito · Tarefa |
      | Campos de cada tipo | os obrigatórios + Planejado para, Responsável, Estimativa e, no IB, o de critérios de aceite (nome com "aceite") |
-     | `obrigatorios` | os campos que a PA exige por processo, além dos que o tipo marca (Tarefa: Estimativa, Clarity, categoria de horas, OTR; Defeito: ex.: Ambiente) |
-     | `padroes` | um valor por obrigatório de enumeração, o mais próximo do trabalho (IB: "Melhoria"; Tarefa: categoria de horas, OTR, Clarity; Defeito: os que a PA exige por processo, ex.: Ambiente) |
+     | `obrigatorios` | os campos que a PA exige por processo, além dos que o tipo marca (ex.: a Estimativa da Tarefa, que a PA pede para iniciar, e campos de enumeração exigidos para criar ou concluir) |
+     | `padroes` | um valor por obrigatório de enumeração, o mais próximo do trabalho (IB: a categoria de melhoria; Tarefa e Defeito: os que a PA exige por processo) |
      | `por-prefixo` (Tarefa) | classificação por prefixo: `[ESP]` análise · `[DEV]` desenvolvimento · `[VER]` testes · `[ATD]` suporte · demais "outra" |
      | Links | pai, filhos, implementa, relacionado; `depende` só se a PA tiver |
      | Horas | o time code e o tipo de trabalho padrão da PA |

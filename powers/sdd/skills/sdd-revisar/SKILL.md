@@ -92,8 +92,8 @@ revisão oficial é sua, na sua sessão:
 5. **Entrega**, nesta ordem — o próximo só acha o seu trabalho no remoto:
    1. créditos da sessão no `status.md` ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4); commit do relatório e do `status.md`
       (`FT-<nnn> revisão <N>: <veredito>`);
-   2. push da branch do PR (`git push origin <branch>`, nunca a base; o Kiro pergunta). Sem a pergunta (agente na
-      V2, push negado) → entregue o comando pronto e espere a pessoa dizer que publicou;
+   2. push da branch do PR (`git push origin <branch>`, nunca a base; o Kiro pergunta). Push recusado (pela
+      pessoa ou pela regra) → entregue o comando pronto e espere a pessoa dizer que publicou;
    3. **confira no remoto:** `git fetch` e `git rev-parse HEAD` = `git rev-parse origin/<branch>`. Diferente → não
       siga: diga o que falta;
    4. só então: `APROVADO` → saldo de horas e conclusão da `[REV]` (`elm_horas` → `elm_lancar_horas` do saldo →

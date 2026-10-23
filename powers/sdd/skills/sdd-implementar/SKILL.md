@@ -161,8 +161,8 @@ Push e PR são do Dev: o agente `sdd-codificador` (o Kiro confirma cada um) ou a
    O PR é para uma pessoa **ler o código**: pequeno, com a evidência e o caminho de leitura, sem despejar o plano.
 3. **Entrega**, nesta ordem — quem vem depois só acha no remoto o que você publicou:
    1. **Commit** do que faltar (árvore limpa).
-   2. **Push** da branch da fatia: `git push -u origin <branch>` (nunca a base; o Kiro pergunta). Sem a pergunta
-      (agente na V2, push negado) → entregue o comando pronto e espere a pessoa dizer que publicou. Push "não" →
+   2. **Push** da branch da fatia: `git push -u origin <branch>` (nunca a base; o Kiro pergunta). Push recusado
+      (pela pessoa ou pela regra) → entregue o comando pronto e espere a pessoa dizer que publicou. Push "não" →
       pare em "pronta para o PR", com o título e a descrição do item 2.
    3. **Confira no remoto:** `git fetch` e `git rev-parse HEAD` = `git rev-parse origin/<branch>`. Diferente → não
       siga: diga o que falta.

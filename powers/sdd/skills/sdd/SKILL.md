@@ -200,8 +200,7 @@ a próxima e para — nunca invoca nem simula a do passo seguinte.
 - **Skills sem agente exclusivo:** `sdd-setup` e `sdd-aprender` rodam na **sessão padrão** (com o power
   carregado): gravam onde nenhum agente pode (steering, agentes); o modo registrar da `sdd-aprender`, que só grava
   as lições, também roda no `sdd-produto`. A **`sdd-consolidar`** é do P.O. ou do SM, no `sdd-produto`. **Push pelo agente:** orquestrador (no loop), codificador, revisor e verificador,
-  com `ask` (o Kiro pergunta sempre), só a branch da fatia — nunca a base; sem a pergunta (engine V2) o push é
-  negado, a skill entrega o comando pronto e espera a pessoa dizer que publicou; produto e pesquisador não fazem
+  com `ask` (o Kiro pergunta sempre), só a branch da fatia — nunca a base; push recusado → a skill entrega o comando pronto e espera a pessoa dizer que publicou; produto e pesquisador não fazem
   push. Subagente do AFK não faz push (quem conduz commita). Com a branch no remoto, o PR é aberto pela
   `gitlab_criar_mr`, que o Kiro confirma (`ask` no codificador, no produto e no orquestrador; negada aos demais).
   **O que os agentes não fazem:** merge (exceto a `gitlab_mesclar_mr` no codificador, com `ask`: o Dev mergeia o

@@ -26,6 +26,10 @@ Toda tool devolve `{"ok":true,"dados":{…}}` ou `{"ok":false,"erro":{"codigo","
 | iteração e planos | `elm_iteracao` |
 | bundle do DOORS Next | `elm_sync` (skill `sdd-sync`, que pergunta se indexa no fim) |
 
+**Comentário e anexo na própria tarefa:** todo papel com tarefa — Dev na `[DEV]`, revisor na `[REV]` e na `[APR]`,
+verificador na `[VER]`, produto na `[ESP]`, na `[ATD]` e na `[GB]` — pode comentar (`elm_comentar`) e anexar
+(`elm_anexo enviar`, arquivo de dentro do projeto) nela, sempre com "sim"; na tarefa de outro papel, não.
+
 ## Bundle local
 
 Consulta de requisito: **local primeiro** (`elm_buscar_req_local`, `elm_ler_req_local`), nunca lendo os arquivos do

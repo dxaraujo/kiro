@@ -24,11 +24,20 @@ configurações, o recurso ainda não está disponível para a conta.
 
 | Receita | Para | Faz | Termina |
 |---|---|---|---|
-| `sdd-planejar-fatia` | fatia HITL ou AFK | zera o veredito → pesquisa → plano → análise ↔ ajuste (até 2 rodadas) → registrar | plano commitado: `implementando` (Dev Sênior: sem GATE) ou `plano-em-revisao` (Júnior e Pleno: GATE de um Dev Sênior; o Pleno pode dispensá-lo) ou `bloqueada` (AFK com risco: troca para HITL sugerida) |
-| `sdd-entregar-fatia` | só fatia **AFK** | zera o veredito → implementação ↔ revisão (até 2 rodadas, cada uma registrada) → verificação → registrar | fatia `aceita` e commitada, pronta para o PR que uma pessoa abre |
+| `sdd-planejar-fatia` | fatia HITL ou AFK, já iniciada pela `sdd-desenvolver` (`planejando`) | conferir → pesquisa → plano → análise ↔ ajuste (até 2 rodadas) → **entregar o plano, com a pessoa** | `implementando` (Sênior, ou Pleno que dispensou) · `plano-em-revisao` com a `[APR] Aprovar plano`, push e conferência no remoto (Júnior, ou Pleno que pediu) · `bloqueada` (AFK com risco: troca para HITL sugerida ao P.O.) — com horas e créditos da execução |
+| `sdd-entregar-fatia` | só fatia **AFK**, plano aprovado | conferir → ciclo implementar → revisar → verificar (até 3 voltas; retrabalho volta à revisão) → **entregar, com a pessoa** | `pronta-para-merge`: ADRs e ET *as-built*, push e PR pelo `gitlabpr` (o Kiro confirma cada um), `[APR] Aprovar PR` para o Dev Sênior, horas e créditos da execução — ou `aceita` com o texto do PR, se o push ou o PR for recusado |
 
-As receitas são o caminho AFK de **uma** fatia sem o `sdd-loop` (que leva várias, em worktrees). Fatia HITL não
-usa a `sdd-entregar-fatia`: a `sdd-implementar` termina no PR, e a revisão e a verificação são das pessoas.
+As receitas são o caminho de **uma** fatia sem o `sdd-loop` (que leva várias, em worktrees) e terminam no mesmo
+ponto que as skills: o plano no GATE, o PR aberto com a `[APR]`. Fatia HITL não usa a `sdd-entregar-fatia`: a
+`sdd-implementar` termina no PR, e a revisão e a verificação são das pessoas. O merge continua do Dev, pela
+`sdd-desenvolver`.
+
+- **O último passo é com a pessoa** (sem `AUTONOMO`): o Kiro pergunta no push e no PR (regras `ask`), e as
+  perguntas da skill — Pleno quer o GATE? qual Dev Sênior aprova? — pausam o passo com `send_message` `warning`
+  até a resposta. Os passos de antes são autônomos e não fazem push, PR nem escrita no ELM.
+- **Créditos:** o primeiro passo grava o `inicio` da execução no JSON de `.kiro/local/wf/<fatia>/`, e o último roda
+  o `creditos.py` com `--desde` = esse início: as sessões que ele lista são os passos da receita, e cada uma vira
+  uma linha na seção Créditos do `status.md`.
 
 - **Quem dispara: a pessoa**, no chat principal do Kiro (com o agente padrão ou qualquer outro), **uma fatia por
   vez**, na branch da fatia, no checkout principal: "rode o workflow `sdd-entregar-fatia` com fatia FT-031" ou, na
@@ -40,6 +49,7 @@ usa a `sdd-entregar-fatia`: a `sdd-implementar` termina no PR, e a revisão e a 
   aba do passo e ele continua. Bloqueio técnico ou aceite rejeitado → o passo falha e a execução para (`error`).
 - Pausou no **teto de rodadas** → **Stop** e trate a fatia na sessão interativa. O **Resume** não dá rodada nova
   (para de novo no mesmo teto); relançar a receita zera o veredito no primeiro passo. Na entrega, nunca
-  "Stop looping and continue": a verificação rodaria sobre código não aprovado. (Na Web, "Run N more" dá rodadas.)
+  "Stop looping and continue": a entrega abriria o PR de código não aprovado (o passo confere `aceita` e para,
+  mas não force). (Na Web, "Run N more" dá rodadas.)
 - Com Workflows ligado, a IDE pode transformar a delegação a um agente numa execução em segundo plano — o
   `sdd-loop` já espera cada fase terminar.

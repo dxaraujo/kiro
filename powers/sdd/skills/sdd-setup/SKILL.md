@@ -1,6 +1,6 @@
 ---
 name: sdd-setup
-description: "Configura o fluxo sdd num projeto: entende o repositório (tipos de projeto — backend, batch, frontend, mobile, dados —, stack, módulos, comandos de build e teste, como verificar o aceite, git, banco, ELM), descobre as skills disponíveis no projeto, na pasta do usuário, em outros powers e nos toolkits de stack, e cria os agentes sdd (produto, pesquisador, codificador, revisor, verificador, orquestrador) perguntando, agente por agente, a quais skills e MCPs cada um terá acesso — ex.: num projeto Spring Batch, as skills de batch e Java para o codificador. Gera o .kiro/steering/sdd.md (único steering do fluxo), a pasta do produto, .kiro/agents/sdd-*.json (formato universal do Kiro, validado pelo kiro-cli), hooks e workflows opcionais, e refaz tudo em modo atualização. Use em \"configurar o sdd\", \"setup do sdd\", \"criar os agentes do sdd\", \"atualizar os agentes do sdd\", \"ligar o toolkit\", \"atualizar a configuração do sdd\"."
+description: "Configura o fluxo sdd num projeto: entende o repositório (tipos de projeto — backend, batch, frontend, mobile, dados —, stack, módulos, comandos de build e teste, como verificar o aceite, git, banco, ELM), descobre as skills disponíveis no projeto, na pasta do usuário, em outros powers e nos toolkits de stack, e cria os agentes sdd (produto, pesquisador, codificador, revisor, verificador, orquestrador) perguntando, agente por agente, a quais skills e MCPs cada um terá acesso — ex.: num projeto Spring Batch, as skills de batch e Java para o codificador. Gera o .kiro/steering/sdd.md (único steering do fluxo), a pasta do produto, .kiro/agents/sdd-*.json (gerados por script no formato V3 do Kiro e validados pelo kiro-cli), hooks e workflows opcionais, e refaz tudo em modo atualização. Use em \"configurar o sdd\", \"setup do sdd\", \"criar os agentes do sdd\", \"atualizar os agentes do sdd\", \"ligar o toolkit\", \"atualizar a configuração do sdd\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -33,7 +33,7 @@ Rode esta skill na **sessão padrão** do Kiro (sem agente `sdd-*`): ela grava e
 trocar para a sessão padrão e pare.
 
 1. **Raiz do repositório:** `git rev-parse --show-toplevel` (sem git → avise: o fluxo depende de branches e PRs).
-2. **Pasta do power instalado** (`{{POWER}}` dos templates): o Kiro instala em `~/.kiro/powers/installed/sdd/`
+2. **Pasta do power instalado** (`power` do `agentes.json`): o Kiro instala em `~/.kiro/powers/installed/sdd/`
    (conferido com o `kiro-cli` 2.31). Confirme que `skills/sdd-setup/SKILL.md` existe ali; senão procure
    (`find ~/.kiro/powers -path '*sdd/skills/sdd-setup/SKILL.md'`) ou use a pasta de onde esta skill foi
    carregada. Escreva o caminho **relativo ao home** (`~/.kiro/powers/installed/sdd`), com `/`. Não achou →
@@ -48,8 +48,10 @@ trocar para a sessão padrão e pare.
 4. **Modo:** já existe `.kiro/steering/sdd.md` ou `.kiro/agents/sdd-*.json` → **atualização**: mostre a
    configuração atual numa tabela e pergunte o que mudar ("nada — só regenerar os agentes", útil depois de
    atualizar o power ou um toolkit). Refaça só o que mudou nas respostas, mas agentes, hook e workflows
-   **sempre** a partir dos templates atuais do power (com os valores do projeto), mesmo os que já têm o nome certo
-   — renomear um arquivo antigo não o atualiza. Mostre o diff de cada um.
+   **sempre** a partir do power atual: os agentes pelo gerador, com o `.kiro/config/sdd/agentes.json` do projeto
+   (sem ele — projeto configurado antes da 3.0.0 —, monte-o com as respostas atuais: Passo 8), e hook e workflows
+   dos templates, mesmo os que já têm o nome certo — renomear um arquivo antigo não o atualiza. Mostre o diff de
+   cada um.
    **Configurado com o nome `sdd2`** (o nome deste fluxo antes da v2: `.kiro/steering/sdd2*.md`,
    `.kiro/agents/sdd2-*.json`) → proponha a migração, com o plano numa só mensagem e "ok":
    - `.kiro/steering/sdd2.md` e `sdd2-projeto.md` → os valores vão para as seções do novo `.kiro/steering/sdd.md`;
@@ -120,7 +122,7 @@ Falhou ao rodar → mostre o erro; a pessoa decide (corrigir o comando, seguir a
 
 ## Passo 4 — Produto, conhecimento e ELM
 
-1. **Pasta do produto** (`{{PRODUTO}}` dos templates e `<produto>` nas skills): onde ficam `backlog.md`, épicos
+1. **Pasta do produto** (`produto` do `agentes.json` e `<produto>` nas skills): onde ficam `backlog.md`, épicos
    e PRDs, planejamento e aprendizado — versionada. Já existe um `backlog.md` do sdd no repositório → a pasta dele;
    senão o padrão `.kiro/planejamento`. Vai para os Padrões aplicados. Grave o caminho real na seção Projeto do
    `sdd.md`.
@@ -215,11 +217,12 @@ ok?
 Padrões da proposta:
 1. **Skills:** marcadas só as de toolkits **detectados** com o papel do agente; as outras aparecem desmarcadas.
 2. **MCPs:** o de banco entra como somente leitura em pesquisador, codificador, revisor e verificador — só a tool
-   de consulta (`@<servidor>/<tool>`), nunca o servidor inteiro se ele tiver tool de escrita; browser/Playwright
-   marcado no verificador em projeto `frontend`. **ELM** (projeto com ELM): as tools `@elm/elm_*` que o template de cada agente já traz (leitura liberada; escrita
-   com `ask`) — `sdd-produto`, `sdd-codificador`, `sdd-orquestrador`, `sdd-revisor` e `sdd-verificador` (estes dois
-   só para a própria tarefa); o pesquisador não tem. Projeto sem ELM ou desmarcado pela pessoa → tire as `@elm/…` e
-   as regras `sdd/elm/…` do agente (a escrita vira `ELM pendente`).
+   de consulta (`<servidor>/<tool>` em `agentes.<papel>.mcp`), nunca o servidor inteiro se ele tiver tool de
+   escrita; browser/Playwright marcado no verificador em projeto `frontend`. **ELM** (projeto com ELM): as tools do
+   `elm` que o `papeis.json` dá a cada papel (leitura liberada; escrita com `ask`) — `sdd-produto`,
+   `sdd-codificador`, `sdd-orquestrador`, `sdd-revisor` e `sdd-verificador`, cada um comentando e anexando só na
+   própria tarefa; o pesquisador só consulta o bundle local (`elm_*_local`). Projeto sem ELM → `"elm": false` no
+   `agentes.json` (a escrita vira `ELM pendente`).
 3. **Modelo:** sempre o padrão do Kiro — não pergunte; a pessoa troca na proposta se quiser.
 4. Só codificador e orquestrador: **subagentes** — os `sdd-*` do fluxo marcados; agentes do projeto
    (`.kiro/agents/*`, `~/.kiro/agents/*`, exceto `sdd-*`) listados desmarcados, com o tipo de tarefa que a descrição
@@ -231,11 +234,11 @@ atualização, só skill que não está em nenhuma das duas colunas é "nova".
 Depois, a autonomia (seção Git, banco e autonomia do template), **sem perguntas** — Padrões aplicados: GATE do
 plano pela senioridade de quem implementa (fixo: Júnior sempre, Pleno pergunta, Sênior nunca — `sdd-plano` Passo 5);
 paralelismo do loop `1`; push e PR no loop perguntando a cada lote (o orquestrador tem regra `ask` para push e PR, então
-o Kiro confirma cada um; a pessoa muda para "não — a pessoa abre" → a regra vira `deny`); **push pelo agente**
-no codificador, no revisor e no verificador (fixo, não é perguntado): no bloco V3, `git push *` com `ask` (o Kiro
-pergunta sempre), com as negações do orquestrador (`--force`, `-f`, `+ref`, `:ref`, `--mirror`, `--all`, `--prune`,
-`--delete`) e a do push para a branch base (`{{BASE}}`); revisor e verificador só publicam a branch do PR; no bloco
-V2 (sem `ask`) o push fica negado — o agente entrega o comando pronto e espera a pessoa dizer que publicou; e, se a verificação chama a
+o Kiro confirma cada um; a pessoa muda para "não — a pessoa abre" → `"push_pr_no_loop": false`, e a regra vira
+`deny`); **push pelo agente** no codificador, no revisor e no verificador (fixo, não é perguntado): `git push *` com
+`ask` (o Kiro pergunta sempre), com as negações de `--force`, `-f`, `+ref`, `:ref`, `--mirror`, `--all`, `--prune`,
+`--delete` e do push para a branch base; revisor e verificador só publicam a branch do PR; push recusado → o agente
+entrega o comando pronto e espera a pessoa dizer que publicou; e, se a verificação chama a
 aplicação por HTTP, o **script de chamada** do verificador `.kiro/sdd/http.sh` (o verificador roda só esse script sem
 perguntar, só contra a URL de teste e com corpo da pasta `massa/`; precisa de `sh` e `curl`; a pessoa pode trocar por
 "nenhum": cada `curl` pede confirmação, e no loop a verificação fica para a sessão dela). A única pergunta aqui é a
@@ -256,9 +259,12 @@ Em memória:
 1. `.kiro/steering/sdd.md` ← [assets/steering/sdd.md](assets/steering/sdd.md) com as respostas (nada de `<…>`
    sobrando; o que não se aplica fica "não há"/"nenhum"). É o **único** steering do fluxo. No modo atualização, a
    seção Regras aprendidas fica como está (nunca apague regras promovidas).
-2. `.kiro/agents/sdd-<agente>.json` ← [assets/agents/](assets/agents/), para cada agente, montados como manda
-   [references/agentes.md](references/agentes.md): placeholders, skills, MCPs, comandos e caminhos **nos dois
-   blocos** (V2 e V3) em espelho; as regras só da V3 ficam; nunca regenere o bloco `permissions` pelo `kiro-cli`.
+2. `.kiro/config/sdd/agentes.json` com as respostas (campos em [references/agentes.md](references/agentes.md):
+   caminhos, base, bundle, ELM, push no loop, `http.sh`, steering, comandos, e skills, leituras, MCPs, subagentes e
+   modelo por agente) e, a partir dele, os agentes pelo gerador:
+   `uv run --no-project python <power>/skills/sdd-setup/scripts/gerar_agentes.py --projeto <raiz> --diff` mostra
+   o que muda; depois do "ok", o mesmo comando sem `--diff` grava `.kiro/agents/sdd-*.json`. Nunca edite os
+   agentes à mão nem os passe pelo `kiro-cli agent upgrade`.
 3. Hook e workflows escolhidos (Passo 7); script de chamada do verificador, se escolhido (Passo 6):
    `.kiro/sdd/http.sh` ← [assets/scripts/http.sh](assets/scripts/http.sh) com `{{URL_TESTE}}` trocado pela URL
    base do ambiente de teste (sem barra no fim).
@@ -291,24 +297,20 @@ cada arquivo gravado em `.kiro/agents/`, `.kiro/hooks/` e `.kiro/workflows/` —
 
 ## Passo 9 — Validar
 
-- JSON de cada agente faz parse; `name` = nome do arquivo; nenhum `{{…}}` sobrando; agente com `@<servidor>/…` de MCP do
-  projeto em `tools` tem `"includeMcpJson": true` e a regra `mcp` (`allow` para as de leitura, que também estão em
-  `allowedTools`; `ask` para as de escrita, que **não** estão em `allowedTools`); as do `elm` e do `gitlabpr` (MCPs do power)
-  ficam na regra `power` (`sdd/elm/<tool>`, `sdd/gitlabpr/<tool>`), nunca na `mcp`; `includePowers:
-  true` em todos; no pesquisador só as 4 `@elm/elm_*_local`; nenhum servidor `elm` no `mcp.json` do projeto; `.kiro/steering/` tem só o
+- O gerador já confere os agentes (sai com 1 e não grava se sobrou `{{…}}` ou se um `skill://`/`file://` não existe
+  ou é absoluto). Confira também: nenhum servidor `elm` no `mcp.json` do projeto; `.kiro/steering/` tem só o
   `sdd.md` do fluxo (nenhum `sdd2*.md` nem `sdd-projeto.md` sobrando), e nenhum `.kiro/agents/sdd2-*.json`.
 - Ferramentas que varrem a raiz do repositório (test runners, linters, `tsc`, varredura de arquivos) ignoram
   `.kiro/local/` — onde o loop cria as worktrees? Não ignoram → acrescente a exclusão na configuração delas (com
   "ok") ou registre no `sdd.md` que o loop não deve ser usado.
-- Todo `skill://` e `file://` aponta para arquivo existente (resolvendo `~` no home e o resto a partir da raiz) e
-  é relativo — nenhum `/…` absoluto, `C:\…`, `\` ou variável.
-- JSON dos hooks e workflows faz parse; agentes citados nos workflows existem em `.kiro/agents/` (o validador de
-  receitas não confere isso). Com Workflows ligado, peça ao Kiro `validate_workflow` em cada
-  `.kiro/workflows/*.workflow.json`; erro → mostre-o e ofereça remover o arquivo (o fluxo funciona sem ele).
+- JSON dos hooks e workflows faz parse; agentes citados nos workflows existem em `.kiro/agents/`. O Kiro valida a
+  receita quando uma execução começa: com Workflows ligado, ofereça rodar `sdd-planejar-fatia` com `fatia=FT-000`
+  (não existe) — erro de validação aparece antes do primeiro passo; sem ele, o passo `conferir` para com erro sem
+  gravar nada. Erro de validação → mostre-o e ofereça remover o arquivo (o fluxo funciona sem ele).
 - `kiro-cli` disponível → para cada agente, `kiro-cli agent validate --path .kiro/agents/<agente>.json` (saída
   vazia = válido; erro aponta o campo); `kiro-cli agent list` (na raiz do repositório) lista os seis;
-  `kiro-cli agent upgrade --dry-run .kiro/agents` diz `out of sync (not rebuilt)` para eles — esperado (ver
-  [references/agentes.md](references/agentes.md)). No CLI V3, `/config` e `/hooks` mostram os agentes, as
+  `kiro-cli agent upgrade --dry-run .kiro/agents` diz `v3-only` para três e `out of sync (not rebuilt)` para os
+  que têm subagentes — esperado (ver [references/agentes.md](references/agentes.md)). No CLI V3, `/config` e `/hooks` mostram os agentes, as
   permissões e o hook carregados.
 - Herança: por padrão, agentes customizados recebem também o steering, as skills e o `AGENTS.md` padrão do
   workspace e do usuário — as skills de `~/.kiro/skills` chegam a todos, além das escolhidas no Passo 6. Para que
@@ -317,7 +319,7 @@ cada arquivo gravado em `.kiro/agents/`, `.kiro/hooks/` e `.kiro/workflows/` —
 - Workspace não confiável → avise: até a pessoa confiar nele, o Kiro não carrega os agentes, o steering, as skills
   e os workflows do projeto e pergunta antes de cada comando de shell.
 
-Sugira o commit (`.kiro/steering/sdd.md`, `.kiro/agents/sdd-*.json`, `.kiro/hooks/`, `.kiro/workflows/`,
+Sugira o commit (`.kiro/steering/sdd.md`, `.kiro/config/sdd/agentes.json`, `.kiro/agents/sdd-*.json`, `.kiro/hooks/`, `.kiro/workflows/`,
 `.kiro/sdd/`, `<produto>/`, `.gitignore` e o que a migração moveu ou removeu) — só com confirmação — e termine
 com o próximo passo — sem `<produto>/equipe.json`, primeiro "monte o planejamento" (`sdd-planejamento`, modo
 inicial: equipe com a senioridade, acordos e roadmap; sem ela não há modo da fatia, GATE do plano nem revisor); depois

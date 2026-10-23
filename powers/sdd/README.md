@@ -36,7 +36,7 @@ PRODUTO   consolidar (P.O./SM, [GB]): drift da REV/VER ─► ELM as-built (ET, 
 | retrabalho por causa raiz | **aprendizado composto**: erro mecânico vira checagem, julgamento vira regra do revisor |
 | lote de IBs | **AFK/HITL** por fatia e **loop AFK** limitado pela capacidade de revisão humana |
 | planejamento por pontos/hora e Excel | sprint como cadência (compromisso com a **meta**), fluxo puxado dentro dela, previsão pela **vazão** e lead time; pontos só opcionais no EWM |
-| agentes JSON com permissões amplas | agentes no **formato universal** do Kiro (IDE e as duas engines do CLI), permissões mínimas por papel e **skills de toolkit escolhidas por agente** |
+| agentes JSON com permissões amplas | agentes **gerados** no formato V3 do Kiro (IDE e engine V3 do CLI), permissões mínimas por papel e **skills de toolkit escolhidas por agente** |
 
 ## Fundamentos
 
@@ -97,9 +97,10 @@ de `skills/sdd-setup/assets/`:
 | Arquivo | O quê |
 |---|---|
 | `.kiro/steering/sdd.md` | o único steering do fluxo (sempre carregado): resumo, configuração do projeto (pasta do produto, comandos, verificação, git, banco, autonomia, ELM, agentes) e regras aprendidas |
-| `.kiro/agents/sdd-*.json` | `produto`, `pesquisador`, `codificador`, `revisor`, `verificador`, `orquestrador` — cada um com as skills e MCPs que a pessoa liberou |
+| `.kiro/config/sdd/agentes.json` | as escolhas do projeto para os agentes (caminhos, comandos, skills e MCPs por agente) — a entrada do gerador |
+| `.kiro/agents/sdd-*.json` | `produto`, `pesquisador`, `codificador`, `revisor`, `verificador`, `orquestrador` — gerados pelo script da setup a partir do `agentes.json`, cada um com as skills e MCPs que a pessoa liberou |
 | `.kiro/hooks/sdd.json` (opcional) | backpressure: compila e testa depois de cada tarefa de spec |
-| `.kiro/workflows/sdd-*.workflow.json` (opcional, experimental) | `planejar-fatia` e `entregar-fatia` nos Kiro Workflows — quem dispara é a pessoa, no chat do Kiro ("rode o workflow `sdd-entregar-fatia` para a FT-031" ou `/workflow-run`), uma fatia por vez; nenhum agente as dispara |
+| `.kiro/workflows/sdd-*.workflow.json` (opcional, experimental) | `planejar-fatia` (até o GATE do plano, com a `[APR]`) e `entregar-fatia` (AFK até o PR aberto pelo `gitlabpr`, com a `[APR] Aprovar PR`) nos Kiro Workflows — quem dispara é a pessoa, no chat do Kiro ("rode o workflow `sdd-entregar-fatia` para a FT-031" ou `/workflow-run`), uma fatia por vez; nenhum agente as dispara |
 | `.kiro/sdd/http.sh` (opcional) | única chamada HTTP que o verificador faz sem perguntar: só à URL de teste, com corpo da pasta `massa/` |
 | pasta do produto (proposta pela setup; padrão `.kiro/planejamento`) | `backlog.md`, épicos e PRDs, `equipe.json`, `acordos.md`, `roadmap.md`, `sprints/`, `atendimentos/`, `aprendizado/` — versionada; o que é local fica em `.kiro/local/` (fora do git) |
 
@@ -107,12 +108,14 @@ O ELM vem no próprio power: o MCP **`mcp-elm`** (≥ 2.0.0) lê o `.kiro/config
 project area, gravado pela `sdd-setup`) e expõe operações (`elm_transicao`, `elm_lancar_horas`, `elm_criar_wi`,
 `elm_ligar`, `elm_publicar_req`…): a skill do passo passa só o caminho do projeto, os ids e o conteúdo, e recebe
 `{"ok": …}`. Regras comuns em [`skills/sdd/references/elm.md`](skills/sdd/references/elm.md). Leituras liberadas nos
-agentes; escritas com confirmação do Kiro, além do "sim" da skill; o pesquisador não tem ELM. Sem o MCP, a escrita
-vira pendência registrada.
+agentes; escritas com confirmação do Kiro, além do "sim" da skill; cada papel comenta e anexa só na própria tarefa; o
+pesquisador só consulta o bundle local. Sem o MCP, a escrita vira pendência registrada.
 
-Cada agente tem as permissões mínimas do papel, nos dois blocos do formato universal (`toolsSettings` para a
-engine V2, `permissions` para a V3 e a IDE): lê o projeto e o power, mas não `.env`, chaves, `~/.ssh`, `~/.aws` nem
-as credenciais do ELM; escreve só o que produz; no shell, git de leitura e, conforme o papel, `add`/`commit`. Merge,
+Cada agente tem as permissões mínimas do papel, definidas uma vez em
+[`skills/sdd-setup/assets/agents/papeis.json`](skills/sdd-setup/assets/agents/papeis.json) e geradas no campo
+`permissions` do Kiro: lê o projeto e o power, mas não `.env`, chaves, `~/.ssh`, `~/.aws` nem as credenciais do ELM;
+escreve só o que produz; no shell, só o que o papel usa — git de leitura e, conforme o papel, `add`/`commit` e os
+comandos de build e verificação —, e o resto o Kiro pergunta. Merge,
 rebase, `--force`, `reset --hard` e `git -C` (que esconde o subcomando das regras) são negados em todos; push com
 confirmação a cada um (`ask`), só da branch da fatia, no orquestrador, no codificador, no revisor e no verificador;
 o merge do PR aprovado é do Dev responsável, pelo codificador. Detalhes em
@@ -146,8 +149,9 @@ processo do projeto exige algum deles, a skill do passo entrega o roteiro manual
 
 ## Pré-requisitos
 
-- Kiro IDE 1.x ou Kiro CLI 2.31+; repositório git com branch base e PRs. Na engine V2 do CLI os agentes e as
-  skills funcionam, mas o hook e os workflows exigem a IDE ou a engine V3.
+- Kiro IDE 1.x ou Kiro CLI 2.32+ na engine V3 (`--agent-engine v3`); repositório git com branch base e PRs. A
+  engine V2 do CLI não lê as permissões dos agentes, nem o hook e os workflows; e `uv` para os scripts da setup e
+  da `sdd-status`.
 - Kiro Web não lê `~/.kiro`: os agentes do projeto aparecem lá, mas sem as skills do power — use a IDE ou o CLI.
 - MCPs do próprio power (o `mcp.json` os sobe com `uvx`): [`mcp-elm`](../../mcps/elm/), que também consulta o
   bundle do ELM (`elm_*_local`, nunca lendo os arquivos), e [`mcp-gitlabpr`](../../mcps/gitlabpr/), que lista, lê e abre os PRs (merge
@@ -205,15 +209,20 @@ gastou: o script `creditos.py` da `sdd-status` lê o consumo no `~/.kiro` de que
 `mcp-elm` 2.0 (reescrito) vem no `mcp.json` do `sdd`, lê o `.kiro/config/sdd/pa_<nome>.json` e expõe operações com
 entrada e saída fixas; a `sdd-elm` e as skills `elm-ccm`/`elm-rm`/`elm-qm`/`elm-gc`/`elm-setup` saem — cada skill
 chama a tool no próprio passo, e as regras comuns ficam em `sdd/references/elm.md`; a `sdd-setup` gera o `pa` (sem
-migração do formato antigo: gere de novo); a `sdd-sync` passa a ser deste power; o MCP `okf` sai — o bundle local é consultado pelo próprio `elm` (`elm_buscar_req_local`, `elm_ler_req_local`, `elm_listar_req_local`, `elm_indexar_local`, em segundo plano; o `elm_sync baixar` não indexa — a `sdd-sync` pergunta). Desinstale o power `elm`, peça
-"atualizar a configuração do sdd" e "atualizar os agentes do sdd". Projeto configurado com o power
+migração do formato antigo: gere de novo); a `sdd-sync` passa a ser deste power; o MCP `okf` sai — o bundle local é consultado pelo próprio `elm` (`elm_buscar_req_local`, `elm_ler_req_local`, `elm_listar_req_local`, `elm_indexar_local`, em segundo plano; o `elm_sync baixar` não indexa — a `sdd-sync` pergunta). Os agentes passam a ser
+**gerados** pelo `scripts/gerar_agentes.py` da `sdd-setup`, a partir do `papeis.json` do power e do
+`.kiro/config/sdd/agentes.json` do projeto, só no formato V3 (sai o bloco V2): o shell libera só o que cada papel
+usa (sem a política `read-only-shell`; o resto o Kiro pergunta), toda tool de power que o papel não usa é negada, e
+todo papel com tarefa comenta e anexa nela (`elm_comentar`, `elm_anexo`). As receitas de workflow terminam no
+mesmo ponto que as skills — o plano no GATE com a `[APR]`; a entrega AFK com o PR aberto e a `[APR] Aprovar PR` —,
+com o último passo feito com a pessoa. Desinstale o power `elm`, peça "atualizar a configuração do sdd" e
+"atualizar os agentes do sdd" (a setup monta o `agentes.json` com as respostas atuais). Projeto configurado com o power
 `sdd2` ou com a v1 do `sdd`: desinstale o power antigo, instale este e peça "atualizar a configuração do sdd" — a
 setup pergunta a pasta do produto, junta os steerings num só, renomeia hooks, workflows e agentes e move
 `.kiro/produto/` e `.kiro/aprendizado/` com `git mv`.
 
-Não use o `/upgrade-agent` (nem `kiro-cli agent upgrade`) para regenerar os agentes `sdd-*`: o conversor não
-produz as regras que só existem na V3 (skill liberada, confirmação de push/PR) — ele já os deixa de lado
-("out of sync").
+Não use o `/upgrade-agent` (nem `kiro-cli agent upgrade`) nos agentes `sdd-*`: quem os gera é o script da setup
+("atualizar os agentes do sdd").
 
 ## Como foi verificado
 
@@ -224,7 +233,7 @@ contra essas páginas gerou as correções desta versão: `git -C` negado, leitu
 delegação a subagente sem pergunta por agente, falha do hook na saída de erro, pausa e falha dos passos de workflow
 por `send_message`, chamada HTTP do verificador por script.
 
-Com o **Kiro CLI 2.31.0** (o binário oficial):
+Com o **Kiro CLI 2.31.0** (o binário oficial), na 2.x, quando os agentes eram templates no formato universal (V2 + V3):
 
 - `kiro-cli powers install <pasta>` instala o power em `~/.kiro/powers/installed/sdd/`, com todas as skills,
   `references/` e `assets/` — o caminho que a setup usa nos agentes;
@@ -240,18 +249,22 @@ Com o **Kiro CLI 2.31.0** (o binário oficial):
   permissões usam comandos simples;
 - o `http.sh` foi exercitado contra um servidor local (método, caminho e corpo fora da pasta `massa/` recusados).
 
-Não foi possível testar uma conversa (exige login) nem abrir a IDE.
+Com o **Kiro CLI 2.32.0**, engine V3 (23/10/2026), os agentes gerados pelo `gerar_agentes.py`: os seis passam no
+`kiro-cli agent validate`; numa conversa sem interação, comando liberado roda, comando fora da lista e exceção
+(`git log --output`) caem em aprovação, e `git commit -n` e push para a base são negados pela regra; as duas
+receitas passam no validador do Kiro ao iniciar e param no primeiro passo com uma fatia inexistente. Não foi
+possível abrir a IDE.
 
 **O que a documentação não resolve** (comportamento a observar no primeiro uso): o formato do `.config.kiro` das
 specs; EARS em português no Analyze Requirements; se os subagentes somam ou intersectam os `allow` de quem os
 chama (a doc diz "deny-wins intersection" — se um subagente do loop falhar por permissão, libere o comando também
-no orquestrador); se um passo de workflow pode pedir aprovação; o alcance de `trustedAgents`; e as páginas de
+no orquestrador); o alcance de `trustedAgents`; e as páginas de
 steering e de configuração divergem sobre agentes herdarem o steering padrão (a setup oferece
 `chat.disableInheritingDefaultResources` no CLI).
 
 ## Limitações conhecidas e próxima versão
 
-- O `validate_workflow` do Kiro não confere se os agentes citados existem: a setup confere.
+- O Kiro só valida uma receita quando a execução começa: a setup confere o JSON e os agentes citados.
 - Kiro Workflows é experimental: as receitas são opcionais; `/workflow-run` exige a IDE 1.3+.
 - **Próxima versão:** toolkits oficiais (backend Java/Spring, Spring Batch, frontend Angular/React); execução automatizada dos
   casos de avaliação que a `sdd-aprender` já guarda em `<produto>/aprendizado/avaliacoes/`; e — quando o MCP do ELM

@@ -21,7 +21,8 @@ fluxo que conhece os toolkits de stack ([references/toolkits.md](references/tool
 perguntar** e aparece numa tabela **Padrões aplicados** ao fim de cada bloco (projeto, git, produto, ELM,
 autonomia, automações), com **uma** confirmação: "ok" aceita tudo, ou a pessoa diz só a linha que muda. **Pergunte**
 apenas o que não tem padrão nem dá para detectar (ex.: a URL do ambiente de teste, qual `pa_*.json` é o padrão quando
-há mais de um), uma coisa por vez, mostrando o que foi detectado. Nunca pergunte o que só confirma um padrão.
+há mais de um), uma coisa por vez, mostrando o que foi detectado. Nunca pergunte o que só confirma um padrão. **Exceção: o `pa` do ELM** (Passo 4) é montado passo a passo, com a
+pessoa ([references/elm-pa.md](references/elm-pa.md)) — valor errado ali só aparece quando a PA recusa.
 Não achou o que procurava (arquivo, pasta, power, configuração) → **pergunte** onde está; nunca conclua "não há"
 sem a pessoa confirmar. Nada é gravado antes do resumo do Passo 8 e do "ok". Nunca leia nem mostre arquivos de
 credenciais.
@@ -132,42 +133,15 @@ Falhou ao rodar → mostre o erro; a pessoa decide (corrigir o comando, seguir a
 3. **ELM** — o MCP `elm` vem com o power. `.kiro/config/sdd/pa_*.json` no repositório (um por project area)?
    - Não há e a pessoa diz que o projeto não usa ELM → `Usa ELM: não` (o fluxo funciona igual; os ids vêm do
      `backlog.md`).
-   - **Gerar o `pa`:** `elm_status` (sem `projeto`) confere a credencial — erro `credencial` → peça o
-     `~/.config/mcp-elm/elm.properties` (`server`, `user`, `password`; você não lê nem grava esse arquivo) e pare.
-     Pergunte um trecho do nome da project area do EWM (e do DOORS Next e do ETM, se forem outras) →
-     `elm_setup_descobrir(ccm, rm?, qm?)` devolve PAs, times e categorias, os tipos do fluxo com campos, obrigatórios
-     e `enumeracoes`, links, iterações recentes, pastas e tipos do RM. A PA também exige campos por regra de processo,
-     que não vêm como obrigatórios: chame de novo com `valores_de` = as `enumeracoes` que o fluxo grava (na Tarefa,
-     categoria de horas, OTR e classificação; no IB, a categoria) para ter os valores. Monte o `pa` pelo schema
-     [assets/pa.schema.json](assets/pa.schema.json), **sem perguntas** onde der, e mostre numa tabela só
-     (**ELM — padrões aplicados**) para um "ok" ou a linha que muda:
-
-     | Item | Padrão |
-     |---|---|
-     | Time e categoria (`filedAgainst`) | o time de quem configura; a categoria dele |
-     | Tipos `ib` · `defeito` · `tarefa` | Item de Backlog (também o épico, se a PA não tem Épico) · Defeito · Tarefa |
-     | Campos de cada tipo | os obrigatórios + Planejado para, Responsável, Estimativa e, no IB, o de critérios de aceite (nome com "aceite") |
-     | `obrigatorios` | os campos que a PA exige por processo, além dos que o tipo marca (ex.: a Estimativa da Tarefa, que a PA pede para iniciar, e campos de enumeração exigidos para criar ou concluir) |
-     | `padroes` | um valor por obrigatório de enumeração, o mais próximo do trabalho (IB: a categoria de melhoria; Tarefa e Defeito: os que a PA exige por processo) |
-     | `por-prefixo` (Tarefa) | classificação por prefixo: `[ESP]` análise · `[DEV]` desenvolvimento · `[VER]` testes · `[ATD]` suporte · demais "outra" |
-     | Links | pai, filhos, implementa, relacionado; `depende` só se a PA tiver |
-     | Horas | o time code e o tipo de trabalho padrão da PA |
-     | Artefatos do RM `HF` · `REG` · `GL` · `ET` | tipo e pasta por proximidade de nome |
-     | Bundle (`rm.download`) | `docs/elm/<nome>` |
-     | `qm` | a PA do ETM associada; não há → sem casos de teste no ETM (o `CT.csv` fica) |
-
-     Valor sem nome parecido → aí sim pergunte, só esse. "Planejado para" não vai em `padroes` (é sempre a iteração
-     da sprint). Com "ok", grave `.kiro/config/sdd/pa_<nome>.json` (caminho relativo à raiz, `/`, sem segredos — vai
-     para o git) e confira com `elm_status(projeto)`: `valido` e `faltando` vazio. **Validação opcional** (a PA
-     recusa o que o `pa` não cobre): com "sim", `elm_criar_wi` de uma tarefa `[TESTE] sdd-setup` (pai = um IB que a
-     pessoa indicar), de um IB e de um defeito, e `elm_transicao` de cada um até concluir → cada recusa `precondicao` traz o `campo`
-     que a PA exige por regra de processo (na criação, numa mudança de estado ou no lançamento de horas, mesmo que o
-     tipo o marque como opcional): ponha-o em `obrigatorios` do tipo e o valor em `padroes` (pegue-o por
-     `valores_de`) e tente de novo — daí em diante o MCP o exige já na criação. Os itens criados a pessoa cancela
-     na UI. Outra project area → repita (outro `pa_<nome>.json`) e diga na seção ELM qual é o padrão.
-   - Seção ELM do `sdd.md`, também sem perguntas: publicar requisitos `na-aprovacao`, ET `não publica`, manual
-     `nada`, pontos `não`, fatia dividida "filhos do item original", categoria do IB de defeito (o valor de
-     correção), títulos das tarefas e colunas do `CT.csv` do template. Sustentação e Atendimento não são
+   - **Gerar o `pa` — guiado, um bloco por vez:** siga [references/elm-pa.md](references/elm-pa.md) (credencial e
+     PAs → time → tipos → campos e obrigatórios → valores → valor por item de trabalho → horas → DOORS Next → ETM →
+     conferência). Aqui **não há padrão sem perguntar**: todo valor vem da descoberta (`elm_setup_descobrir`) ou da
+     pessoa, escolhido de uma lista que você mostra; nada de deduzir nome, `qname`, time code ou enumeração, nem de
+     copiar de um `pa` antigo sem mostrar a origem. O `pa` inteiro é mostrado para conferência antes de gravar, e a
+     validação com itens de teste é recomendada.
+   - Seção ELM do `sdd.md`, sem perguntas (Padrões aplicados): publicar requisitos `na-aprovacao`, ET `não
+     publica`, manual `nada`, pontos `não`, fatia dividida "filhos do item original", títulos das tarefas e colunas
+     do `CT.csv` do template; a categoria do IB de defeito é a do bloco 5 do `elm-pa.md`. Sustentação e Atendimento não são
      perguntados: nascem na primeira sprint ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §2).
    - **Bundle do RM** (`rm.download` do `pa`): pastas com `index.md` de `okf_version` → mostre e confirme; vazio →
      ofereça a `sdd-sync` (baixar). É a base que os agentes consultam **pelas `elm_*_local` do MCP `elm`**, nunca lendo os arquivos —

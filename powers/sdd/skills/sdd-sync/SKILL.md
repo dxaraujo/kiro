@@ -1,6 +1,6 @@
 ---
 name: sdd-sync
-description: "Sincroniza o bundle OKF do DOORS Next com o ELM nas duas vias, pelo MCP elm: plano (o que baixar, o que enviar, conflitos), baixar a versão oficial, enviar o que mudou no repositório, e reindexar no okf. Usa a pasta e a project area do pa_<nome>.json do projeto. Use em \"sincroniza o ELM\", \"baixa os requisitos\", \"atualiza o bundle\", \"envia os requisitos alterados\", \"sync do DOORS\"."
+description: "Sincroniza o bundle OKF do DOORS Next com o ELM nas duas vias, pelo MCP elm: plano (o que baixar, o que enviar, conflitos), baixar a versão oficial, enviar o que mudou no repositório, e, depois de baixar, indexar a busca local (pergunta). Usa a pasta e a project area do pa_<nome>.json do projeto. Use em \"sincroniza o ELM\", \"baixa os requisitos\", \"atualiza o bundle\", \"envia os requisitos alterados\", \"sync do DOORS\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -18,7 +18,9 @@ o leem pelas tools `elm_*_local` do MCP `elm`. Regras comuns: [../sdd/references
    sobrescreva o ELM sem "sim".
 3. Com "sim": `elm_sync(direcao "baixar", ids?)` e, se houver, `elm_sync(direcao "enviar", ids)`. Envio é escrita no
    ELM: um "sim" para o lote, com a lista.
-4. Commit `ELM - Sincronizar bundle` com o que baixou. Baixou algo → pergunte se indexa agora (a busca local só acha o
+4. Commit `ELM - Sincronizar bundle` com o que baixou (bundle no `.gitignore` → não há commit). Os agentes `sdd-*`
+   não tocam no bundle pelo shell (`git add` com o caminho dele é negado): rode esta skill na sessão padrão do Kiro;
+   num agente, entregue o comando do commit pronto e a pessoa o roda. Baixou algo → pergunte se indexa agora (a busca local só acha o
    que está indexado): "sim" → `elm_indexar_local`, que roda em segundo plano e responde na hora; mostre `restantes`
    e siga. "não" → diga que a próxima busca local indexa o que mudou.
 

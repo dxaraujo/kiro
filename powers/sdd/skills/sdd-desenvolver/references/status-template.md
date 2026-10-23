@@ -36,7 +36,8 @@
      é planejando. GATE pela senioridade de quem implementa: Júnior sempre, Pleno se pedir, Sênior nunca.
      WIP esperando pessoa = plano-em-revisao + pr-aberto + em-revisao + em-verificacao + aceita + pronta-para-merge.
      Quem grava a fase: quem conduz a sessão (a skill da fase) ou, no loop, o orquestrador; o pesquisador nunca
-     grava o status.md; o revisor e o verificador só no HITL (a rodada é deles); o Dev Sênior da [APR] na
+     grava o status.md; o revisor só no HITL (a rodada é dele); o verificador grava a fase do resultado também como
+     subagente do AFK (`aceita` ou `implementando`, sdd-verificar), e o resto, só no HITL; o Dev Sênior da [APR] na
      aprovação do plano e nas mudanças pedidas no PR (o PR aprovado não ganha commit: o sha não muda).
      Rodadas: incrementadas por quem pede a rodada — sdd-plano (análise), sdd-implementar (revisão e
      verificação) ou, no loop, o orquestrador; nas receitas de workflow, o passo do codificador que vem depois.

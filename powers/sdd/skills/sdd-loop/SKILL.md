@@ -61,7 +61,7 @@ e pergunte se retoma. Retomar = continuar cada fatia da fase registrada no `stat
    Confirma?
    ```
    Com "sim" e o MCP `elm`: fatia sem `[DEV]` (puxada, ou publicação que falhou) → crie-a ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md)
-   §4; só a `[DEV]`, AFK); depois `elm_transicao(<id>, "assumir", iniciar_pai: true)` em cada `[DEV]`; sem o MCP `elm` ou com falha → `ELM pendente [<chave>]: assumir a
+   §3–4: antes o IB, se a fatia ainda não tem — pai sempre definido —; das tarefas, só a `[DEV]`, AFK); depois `elm_transicao(<id>, "assumir", iniciar_pai: true)` em cada `[DEV]`; sem o MCP `elm` ou com falha → `ELM pendente [<chave>]: assumir a
    tarefa` no `status.md` de cada fatia.
 5. Log `.kiro/local/loop-<AAAA-MM-DD-HHMM>.md` (formato no fim).
 

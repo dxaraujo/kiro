@@ -133,7 +133,7 @@
                       ".kiro/local/wt/*/.kiro/steering/**", ".kiro/local/wt/*/.kiro/sdd/**", ".kiro/local/wt/*/{{PRODUTO}}/**",
                       "**/.git/**", "**/.git"],
       "mcp_libera": ["+elm-leitura", "+gitlab-leitura"],
-      "mcp_pergunta": ["+elm-tarefa", "elm/elm_criar_wi", "gitlabpr/gitlab_criar_mr"]
+      "mcp_pergunta": ["+elm-tarefa", "elm/elm_criar_wi", "elm/elm_atualizar_wi", "elm/elm_ligar", "gitlabpr/gitlab_criar_mr"]
     }
   }
 }

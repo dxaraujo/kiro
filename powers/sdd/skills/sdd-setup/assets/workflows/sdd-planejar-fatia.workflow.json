@@ -9,7 +9,7 @@
       "type": "step",
       "id": "conferir",
       "agent": "sdd-revisor",
-      "prompt": "Fatia {{fatia}}. Leia o status.md da pasta de .kiro/specs/ cujo nome começa pelo id em minúsculas (ex.: ft-031-…), nesta branch. Sem a pasta, ou fase diferente de planejando → não grave nada e termine com send_message severity error: 'a fatia começa pela sdd-desenvolver (branch, status.md e a [DEV] assumida); depois rode esta receita'. Senão grave .kiro/local/wf/{{fatia}}/plano.json com {\"resultado\": \"PENDENTE\", \"inicio\": \"<data e hora local agora, AAAA-MM-DDTHH:MM:SS>\"} (zera a execução anterior; o inicio é o --desde dos créditos no último passo). Não faça mais nada."
+      "prompt": "Fatia {{fatia}}. Leia o status.md da pasta de .kiro/specs/ cujo nome começa pelo id em minúsculas (ex.: ft-031-…), nesta branch. Sem a pasta, ou fase fora de pesquisando e planejando (o status.md nasce em pesquisando) → não grave nada e termine com send_message severity error: 'a fatia começa pela sdd-desenvolver (branch, status.md e a [DEV] assumida); depois rode esta receita'. Senão grave .kiro/local/wf/{{fatia}}/plano.json com {\"resultado\": \"PENDENTE\", \"inicio\": \"<data e hora local agora, AAAA-MM-DDTHH:MM:SS>\"} (zera a execução anterior; o inicio é o --desde dos créditos no último passo). Não faça mais nada."
     },
     {
       "type": "step",

@@ -64,11 +64,13 @@ Numa confirmação só, nesta ordem, como diz [references/elm-publicar.md](refer
   trava: a virada aponta;
 - *horas* — as da consolidação na `[GB] Gerenciamento do backlog`: `elm_lancar_horas(id, horas)` (lança, não
   conclui — a `[GB]` é contínua). Os créditos desta sessão vão na seção **Créditos de gestão** do `sprint-<nn>.md` aberto (Atividade `consolidação FT-<nnn>`;
-  ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4)), no commit do Passo 4. Linha `Sustentação:` sem `[GB]` → como na `sdd-triar` (sugira criá-la ou pergunte a tarefa).
+  ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4)), no commit do Passo 4. Linha `Sustentação:` sem `[GB]` → como na `sdd-triar` (sugira criá-la ou pergunte a tarefa). Quem consolida não é o
+  dono da `[GB]` (o SM, com a `[GB]` do P.O.) → o MCP recusa (`só o dono lança horas`): pergunte em que tarefa dele
+  lançar, ou registre `ELM pendente [GB horas]: <login> <h>h (<data>)` para quem é dono.
 
 Sem o MCP `elm` nesta sessão ou com falha → `ELM pendente [<chave>]: <ação>` no Histórico do `status.md`
-([pendências](../sdd/references/elm.md#pendências)). Depois da publicação, a `sdd-sync` traz o publicado ao bundle e
-já reindexa só o que mudou.
+([pendências](../sdd/references/elm.md#pendências)). Depois da publicação, a `sdd-sync` traz o publicado ao bundle (e
+pergunta se indexa; a busca local também indexa o que mudou, em segundo plano).
 
 ## Passo 3 — Conhecimento que dura
 

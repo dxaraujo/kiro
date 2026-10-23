@@ -18,7 +18,7 @@ Toda tool devolve `{"ok":true,"dados":{…}}` ou `{"ok":false,"erro":{"codigo","
 | criar · atualizar (pai, iteração, campos; vários ids = virada) | `elm_criar_wi` · `elm_atualizar_wi` |
 | assumir · concluir · reabrir | `elm_transicao(id, alvo)` |
 | comentar · anexos | `elm_comentar` · `elm_anexo(acao)` |
-| horas lançadas · relatório da iteração · lançar | `elm_horas(id)` · `elm_horas(iteracao)` · `elm_lancar_horas` |
+| horas lançadas · relatório da iteração · lançar · remover (lançamento errado) | `elm_horas(id)` · `elm_horas(iteracao)` · `elm_lancar_horas` · `elm_remover_horas(id, data)` |
 | ligar (implementa, rastreia, afeta, testado por, valida, depende) | `elm_ligar` |
 | buscar · ler · publicar requisito | `elm_buscar_req` · `elm_ler_req` · `elm_publicar_req` |
 | criar caso de teste (já ligado) | `elm_criar_ct` |

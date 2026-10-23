@@ -23,7 +23,8 @@
     "@elm/elm_horas",
     "@elm/elm_criar_wi",
     "@elm/elm_transicao",
-    "@elm/elm_lancar_horas"
+    "@elm/elm_lancar_horas",
+    "@elm/elm_remover_horas"
   ],
   "allowedTools": [
     "@okf/okf_index",
@@ -385,7 +386,8 @@
           "sdd/gitlabpr/gitlab_criar_mr",
           "sdd/elm/elm_criar_wi",
           "sdd/elm/elm_transicao",
-          "sdd/elm/elm_lancar_horas"
+          "sdd/elm/elm_lancar_horas",
+          "sdd/elm/elm_remover_horas"
         ],
         "effect": "ask"
       },

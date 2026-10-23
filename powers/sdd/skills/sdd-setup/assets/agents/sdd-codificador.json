@@ -26,7 +26,8 @@
     "@elm/elm_transicao",
     "@elm/elm_comentar",
     "@elm/elm_anexo",
-    "@elm/elm_lancar_horas"
+    "@elm/elm_lancar_horas",
+    "@elm/elm_remover_horas"
   ],
   "allowedTools": [
     "@okf/okf_index",
@@ -387,7 +388,8 @@
           "sdd/elm/elm_transicao",
           "sdd/elm/elm_comentar",
           "sdd/elm/elm_anexo",
-          "sdd/elm/elm_lancar_horas"
+          "sdd/elm/elm_lancar_horas",
+          "sdd/elm/elm_remover_horas"
         ],
         "effect": "ask"
       },

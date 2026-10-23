@@ -1,8 +1,8 @@
 # sdd
 
 Power do Kiro para **engenharia agêntica orientada a especificação**, com o **IBM ELM** como fonte oficial da
-documentação e o **planejamento ágil** dentro do fluxo. É a versão 2 do `sdd` (substitui a v1 e o power `sdd2`, nome
-desta versão durante o desenvolvimento): menos cerimônia onde ela não paga, mais verificação onde ela paga, e cada
+documentação e o **planejamento ágil** dentro do fluxo. É a versão 3 do `sdd`: a v2 (que substituiu a v1 e o power
+`sdd2`) com o power `elm` incorporado — o ELM vem pelo `mcp-elm` 2.0, no `mcp.json` deste power. Menos cerimônia onde ela não paga, mais verificação onde ela paga, e cada
 decisão ancorada no que os principais praticantes de desenvolvimento com agentes defendem hoje (outubro de 2026).
 
 O agente escreve muito código rápido; o que limita o resultado é o **alinhamento** antes e a **verificação**
@@ -22,7 +22,7 @@ DEPOIS    merge (Dev; remove a worktree do loop)
 PRODUTO   consolidar (P.O./SM, [GB]): drift da REV/VER ─► ELM as-built (ET, CTs) ─► ADRs do PR ─► conclusão ─► aprender
 ```
 
-## O que muda em relação ao `sdd`
+## O que mudou da v1 para a v2
 
 | `sdd` v1 | `sdd` v2 |
 |---|---|
@@ -84,7 +84,7 @@ Fontes no fim deste arquivo.
 | `sdd-revisar` | revisão independente: PRD (P), plano (L), código (C, dois eixos) |
 | `sdd-verificar` | aceite de ponta a ponta com evidência; `CT.csv` para o ETM |
 | `sdd-consolidar` | pós-merge, processo de produto (P.O. ou SM, agente `sdd-produto`, horas na `[GB]`): drift marcado pela revisão e pela verificação, ELM as-built (requisitos, ET, casos de teste criados no ETM), ADRs do PR, glossário, conclusão |
-| `sdd-sync` | sincroniza o bundle OKF do DOORS Next nas duas vias (plano, baixar, enviar, conflitos) e reindexa o bundle local |
+| `sdd-sync` | sincroniza o bundle OKF do DOORS Next nas duas vias (plano, baixar, enviar, conflitos) e, depois de baixar, pergunta se indexa o bundle local |
 | `sdd-loop` | fatias AFK até o PR, uma worktree por fatia, uma fase por contexto limpo |
 | `sdd-aprender` | lições, promoção de regras, retrospectiva com dados, casos de avaliação |
 
@@ -205,7 +205,7 @@ gastou: o script `creditos.py` da `sdd-status` lê o consumo no `~/.kiro` de que
 `mcp-elm` 2.0 (reescrito) vem no `mcp.json` do `sdd`, lê o `.kiro/config/sdd/pa_<nome>.json` e expõe operações com
 entrada e saída fixas; a `sdd-elm` e as skills `elm-ccm`/`elm-rm`/`elm-qm`/`elm-gc`/`elm-setup` saem — cada skill
 chama a tool no próprio passo, e as regras comuns ficam em `sdd/references/elm.md`; a `sdd-setup` gera o `pa` (sem
-migração do formato antigo: gere de novo); a `sdd-sync` passa a ser deste power; o MCP `okf` sai — o bundle local é consultado pelo próprio `elm` (`elm_buscar_req_local`, `elm_ler_req_local`, `elm_listar_req_local`, `elm_indexar_local`; o `elm_sync baixar` já indexa). Desinstale o power `elm`, peça
+migração do formato antigo: gere de novo); a `sdd-sync` passa a ser deste power; o MCP `okf` sai — o bundle local é consultado pelo próprio `elm` (`elm_buscar_req_local`, `elm_ler_req_local`, `elm_listar_req_local`, `elm_indexar_local`, em segundo plano; o `elm_sync baixar` não indexa — a `sdd-sync` pergunta). Desinstale o power `elm`, peça
 "atualizar a configuração do sdd" e "atualizar os agentes do sdd". Projeto configurado com o power
 `sdd2` ou com a v1 do `sdd`: desinstale o power antigo, instale este e peça "atualizar a configuração do sdd" — a
 setup pergunta a pasta do produto, junta os steerings num só, renomeia hooks, workflows e agentes e move
@@ -253,7 +253,7 @@ steering e de configuração divergem sobre agentes herdarem o steering padrão 
 
 - O `validate_workflow` do Kiro não confere se os agentes citados existem: a setup confere.
 - Kiro Workflows é experimental: as receitas são opcionais; `/workflow-run` exige a IDE 1.3+.
-- **v2:** toolkits oficiais (backend Java/Spring, Spring Batch, frontend Angular/React); execução automatizada dos
+- **Próxima versão:** toolkits oficiais (backend Java/Spring, Spring Batch, frontend Angular/React); execução automatizada dos
   casos de avaliação que a `sdd-aprender` já guarda em `<produto>/aprendizado/avaliacoes/`; e — quando o MCP do ELM
   suportar — atributo de chave, links entre requisitos, módulos, change sets e baselines automáticos.
 

@@ -11,7 +11,7 @@ kiro/
 └── mcps/            # servidores MCP em Python, publicados no PyPI
     ├── elm/         #   mcp-elm
     ├── elk/         #   mcp-elk
-    └── okf/         #   mcp-okf
+    └── gitlabpr/    #   mcp-gitlabpr
 ```
 
 ## Powers
@@ -19,7 +19,7 @@ kiro/
 | Power | O que faz | MCP |
 |---|---|---|
 | [elk](powers/elk/) | Logs do ELK (Elasticsearch + Kibana): buscar, contar, exportar CSV, diagnosticar incidentes, consultas salvas no Kibana e execução de jobs Spring Batch | [mcp-elk](mcps/elk/) |
-| [sdd](powers/sdd/) | Engenharia agêntica orientada a especificação: trilhas por tamanho (inclusive atendimento), PRD, fatias verticais AFK/HITL, plano na spec do Kiro, TDD com backpressure, revisão e verificação independentes, ELM como fonte oficial (work items, horas, requisitos, casos de teste e sincronismo do bundle), planejamento ágil e aprendizado composto | [mcp-elm](mcps/elm/), [mcp-okf](mcps/okf/), [mcp-gitlabpr](mcps/gitlabpr/) |
+| [sdd](powers/sdd/) | Engenharia agêntica orientada a especificação: trilhas por tamanho (inclusive atendimento), PRD, fatias verticais AFK/HITL, plano na spec do Kiro, TDD com backpressure, revisão e verificação independentes, ELM como fonte oficial (work items, horas, requisitos, casos de teste e sincronismo do bundle), planejamento ágil e aprendizado composto | [mcp-elm](mcps/elm/), [mcp-gitlabpr](mcps/gitlabpr/) |
 
 Detalhes e estrutura de um power: [powers/README.md](powers/README.md).
 
@@ -27,9 +27,9 @@ Detalhes e estrutura de um power: [powers/README.md](powers/README.md).
 
 | MCP | Pacote no PyPI | Para quê |
 |---|---|---|
-| [elm](mcps/elm/) | [`mcp-elm`](https://pypi.org/project/mcp-elm/) | IBM ELM (DOORS Next, EWM, ETM) via OSLC, em operações do fluxo sdd (lê o `pa` do projeto) |
+| [elm](mcps/elm/) | [`mcp-elm`](https://pypi.org/project/mcp-elm/) | IBM ELM (DOORS Next, EWM, ETM) via OSLC, em operações do fluxo sdd (lê o `pa` do projeto), e busca local no bundle do DOORS Next |
 | [elk](mcps/elk/) | [`mcp-elk`](https://pypi.org/project/mcp-elk/) | Elasticsearch/Kibana: busca, contagem, consultas salvas e exportação CSV |
-| [okf](mcps/okf/) | [`mcp-okf`](https://pypi.org/project/mcp-okf/) | Base de conhecimento sobre bundles OKF: indexação e busca semântica local |
+| [gitlabpr](mcps/gitlabpr/) | [`mcp-gitlabpr`](https://pypi.org/project/mcp-gitlabpr/) | GitLab: listar, obter, criar e mesclar merge requests |
 
 Desenvolvimento e publicação: [mcps/README.md](mcps/README.md).
 
@@ -37,8 +37,8 @@ Desenvolvimento e publicação: [mcps/README.md](mcps/README.md).
 
 - O power declara o MCP no `mcp.json` dele com `uvx <pacote>@latest`: quem instala o power recebe o MCP do
   **PyPI**, não desta pasta. Mudança em `mcps/` só chega aos powers depois de publicada.
-- O `sdd` traz os MCPs `elm`, `okf` e `gitlabpr` (e, nos agentes que ele gera, o MCP de banco do projeto). O `okf` lê o
-  bundle que a `sdd-sync` grava.
+- O `sdd` traz os MCPs `elm` e `gitlabpr` (e, nos agentes que ele gera, o MCP de banco do projeto). O próprio `elm`
+  indexa e consulta o bundle que a `sdd-sync` baixa (`elm_*_local`).
 
 ## Instalação
 

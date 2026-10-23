@@ -24,6 +24,7 @@ Powers do Kiro. Cada pasta é um power independente, instalado pelo painel **Pow
 - Arquivos de uma skill (`references/`, `assets/`) são lidos pelo caminho relativo ao `SKILL.md`, dentro do power
   instalado: o agente não os acha buscando no projeto. Por isso cada skill que os cita diz isso logo abaixo do
   título.
-- A configuração de cada projeto fica no projeto, em `.kiro/config/power/<power>/` (gerada pela skill de setup e
-  validada pelo schema em `skills/<power>-setup/assets/`).
+- A configuração de cada projeto fica no projeto — `elk`: `.kiro/config/power/elk/`; `sdd`: `.kiro/config/sdd/`
+  (`pa_<nome>.json`, lido pelo `mcp-elm`) —, gerada pela skill de setup e validada pelo schema em
+  `skills/<power>-setup/assets/`.
 - Versão: `version` do `plugin.json` e `metadata.version` de cada skill, juntos.

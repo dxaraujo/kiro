@@ -8,10 +8,7 @@ Servidores MCP em Python, um pacote por pasta, publicados no PyPI e executados c
 |---|---|---|---|
 | [elm](elm/) | [`mcp-elm`](https://pypi.org/project/mcp-elm/) | IBM ELM via OSLC: DOORS Next (rm), EWM (ccm), ETM (qm), GC e horas | `~/.config/mcp-elm/elm.properties` |
 | [elk](elk/) | [`mcp-elk`](https://pypi.org/project/mcp-elk/) | Elasticsearch/Kibana: busca, contagem, consultas salvas e exportação CSV; só lê os logs | `~/.config/mcp-elk/elk.properties` |
-| [okf](okf/) | [`mcp-okf`](https://pypi.org/project/mcp-okf/) | Bundle OKF como base de conhecimento: SQLite (FTS5 + vetores), embeddings locais, grafo HTML | nenhuma |
 | [gitlabpr](gitlabpr/) | [`mcp-gitlabpr`](https://pypi.org/project/mcp-gitlabpr/) | GitLab (API v4, CE 10.8+): listar, obter, criar e mesclar merge requests | `~/.config/mcp-gitlabpr/gitlabpr.properties` |
-
-O histórico de cada um veio do repositório antigo (`mcp-alm`, `mcp-elk`, `mcp-okf`) por `git subtree`.
 
 ## Desenvolvimento
 

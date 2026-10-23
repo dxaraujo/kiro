@@ -28,8 +28,9 @@ Toda tool devolve `{"ok":true,"dados":{…}}` ou `{"ok":false,"erro":{"codigo","
 Erro `config` → o `pa` está incompleto: diga o campo e ofereça a `sdd-setup`. `credencial` → peça a configuração do
 `~/.config/mcp-elm/elm.properties` (o agente não lê esse arquivo). `permissao`/`precondicao` → mostre o atributo;
 não chute valor. Os campos que a PA exige por regra de processo (criar, mudar de estado, lançar horas) ficam em
-`obrigatorios` do tipo no `pa`: o MCP grava o padrão junto ou recusa antes do servidor — Estimativa vazia → pergunte e
-repita com `estimativa_h`; outro campo sem padrão → ofereça a `sdd-setup` para pô-lo no `pa`.
+`obrigatorios` do tipo no `pa` e são exigidos já na criação (`elm_criar_wi`), para as transições e as horas não
+esbarrarem neles — Estimativa → pergunte e passe `estimativa_h`; outro campo sem padrão → ofereça a `sdd-setup`. Item
+criado fora do fluxo recusado numa transição → mostre o campo e peça o valor.
 
 ## Regras de toda escrita
 

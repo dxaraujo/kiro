@@ -161,7 +161,7 @@ Falhou ao rodar → mostre o erro; a pessoa decide (corrigir o comando, seguir a
      pessoa indicar), de um IB e de um defeito, e `elm_transicao` de cada um até concluir → cada recusa `precondicao` traz o `campo`
      que a PA exige por regra de processo (na criação, numa mudança de estado ou no lançamento de horas, mesmo que o
      tipo o marque como opcional): ponha-o em `obrigatorios` do tipo e o valor em `padroes` (pegue-o por
-     `valores_de`) e tente de novo — daí em diante o MCP o trata como obrigatório. Os itens criados a pessoa cancela
+     `valores_de`) e tente de novo — daí em diante o MCP o exige já na criação. Os itens criados a pessoa cancela
      na UI. Outra project area → repita (outro `pa_<nome>.json`) e diga na seção ELM qual é o padrão.
    - Seção ELM do `sdd.md`, também sem perguntas: publicar requisitos `na-aprovacao`, ET `não publica`, manual
      `nada`, pontos `não`, fatia dividida "filhos do item original", categoria do IB de defeito (o valor de

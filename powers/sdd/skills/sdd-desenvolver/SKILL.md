@@ -1,10 +1,10 @@
 ---
 name: sdd-desenvolver
-description: "Skill do papel Dev no fluxo sdd — começa ou retoma uma fatia já registrada no backlog (FT-031, DF ou IB que o backlog conhece, tarefa [DEV]), em qualquer trilha. É o ponto de compromisso: confere a Definition of Ready, o responsável, a sprint aberta (fora dela, encaixe pela sdd-planejamento) e o WIP; cria a branch (sugere o nome e aguarda) e a pasta .kiro/specs/ com o status.md, assume a [DEV] (sdd-elm, com confirmação) e encaminha pela fase: pesquisar → plano → implementar → PR. Em pronta-para-merge, faz o merge do PR aprovado, grava as lições da fatia e conclui a [DEV]. Pedido novo vai para a sdd-triar; [REV], [VER], [ESP] e atendimento têm skill própria (o hub sdd-iniciar encaminha). Use em \"vamos trabalhar na FT-031\", \"pegar a [DEV] da FT-031\", \"corrigir o defeito 4567\", \"próxima fatia\", \"retomar a FT-031\", \"mergeia a FT-031\", \"o PR da FT-031 foi aprovado\"."
+description: "Skill do papel Dev no fluxo sdd — começa ou retoma uma fatia já registrada no backlog (FT-031, DF ou IB que o backlog conhece, tarefa [DEV]), em qualquer trilha. É o ponto de compromisso: confere a Definition of Ready, o responsável, a sprint aberta (fora dela, encaixe pela sdd-planejamento) e o WIP; cria a branch (sugere o nome e aguarda) e a pasta .kiro/specs/ com o status.md, assume a [DEV] no EWM (com confirmação) e encaminha pela fase: pesquisar → plano → implementar → PR. Em pronta-para-merge, faz o merge do PR aprovado, grava as lições da fatia e conclui a [DEV]. Pedido novo vai para a sdd-triar; [REV], [VER], [ESP] e atendimento têm skill própria (o hub sdd-iniciar encaminha). Use em \"vamos trabalhar na FT-031\", \"pegar a [DEV] da FT-031\", \"corrigir o defeito 4567\", \"próxima fatia\", \"retomar a FT-031\", \"mergeia a FT-031\", \"o PR da FT-031 foi aprovado\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.9.0"
+  version: "3.0.0"
 ---
 
 # sdd-desenvolver — Compromisso e início do código
@@ -24,7 +24,7 @@ Leia antes: `.kiro/steering/sdd.md`. Sem ele → ofereça a **`sdd-setup`** ("co
 
 **Ordem de consulta** para qualquer id (`FT-031`, número do EWM) — vale a primeira fonte que achar, e nunca se
 inventa dado de work item: (1) `status.md` nas branches (atual, worktrees, remotas); (2) o `backlog.md` da base
-(ids locais e as colunas `origem` e `elm`); (3) o EWM pela skill `elm-ccm`, se a sessão tem o power `elm`;
+(ids locais e as colunas `origem` e `elm`); (3) o EWM (`elm_ler_wi`), se a sessão tem o MCP `elm`;
 (4) perguntar à pessoa. O EWM e a pessoa só completam dados: id que não está em (1) nem (2) não está registrado →
 `sdd-triar`. A `fase` do `status.md` decide se o papel pode começar.
 
@@ -39,7 +39,7 @@ inventa dado de work item: (1) `status.md` nas branches (atual, worktrees, remot
 
 Fatia já iniciada (tem pasta em `.kiro/specs/` nesta branch, em worktrees ou em branches remotas —
 `git grep -l '<id>' <ref> -- '.kiro/specs/*/status.md'`) → leia o `status.md` e **retome**: Passo 4, item 4
-(assumir: a `sdd-elm` modo *assumir* não repete o que já foi feito) e Passo 5, sem repetir o Passo 3. Branch
+(assumir: já minha e em andamento → `ja_estava`, nada a fazer) e Passo 5, sem repetir o Passo 3. Branch
 diferente da atual → pergunte se troca (alterações locais não commitadas → avise e pare; nunca ofereça descartar,
 `stash` ou `reset`). **Branch aberta numa worktree** (`git worktree list` mostra `.kiro/local/wt/<ft>` com ela —
 fatia do `sdd-loop`): não troque, o `git switch` falha; trabalhe na worktree — comandos com
@@ -51,8 +51,8 @@ próxima skill. Vale para todas as skills de papel que precisam da branch da fat
 `…/sprints/sprint-<nn>.md`. A troca só vale registrada lá pelo P.O. (ou SM): `modo` `HITL` no backlog e a
 Observação `modo: AFK → HITL (…)` na linha da fatia. Registrada → mostre e, com "sim", grave no `status.md`
 `Modo: HITL`, o revisor e o verificador (Histórico) e os ids da `[REV]` e da `[VER]` (campo ELM, da coluna "Tarefa
-ELM"), `Bloqueio: —` e a fase de origem (`planejando`); commit e push. A `[DEV]` é retomada pela `sdd-elm` modo
-*assumir* (já minha e em andamento → nada a fazer). Siga no HITL: `sdd-plano` Passo 5, com o GATE pela
+ELM"), `Bloqueio: —` e a fase de origem (`planejando`); commit e push. A `[DEV]` é retomada por
+`elm_transicao(<id>, "assumir")` (já minha e em andamento → nada a fazer). Siga no HITL: `sdd-plano` Passo 5, com o GATE pela
 senioridade. Recusada (Observação `modo: AFK mantido`) → `Bloqueio: —`, fase de origem, segue no AFK. Nenhuma das duas → diga
 que a troca é do P.O. (`sdd-planejamento`, Troca de modo) e pare. O Dev não
 grava na base nem cria ou cancela tarefa. **HITL → AFK nunca:** `Modo: HITL` no `status.md` e `AFK` no backlog →
@@ -90,8 +90,8 @@ o caminho, e não comece.
    de prioridade maior esperando, dentro ou fora da sprint — e o WIP do item 4 tem folga, ela entra na sprint
    aberta sem cerimônia: `Puxada para a sprint <nn>` no Histórico ao criar o `status.md`, e as tarefas nascem na
    iteração da sprint (Passo 4). Fura a fila ou estoura o WIP → **Encaixe**: a decisão é do P.O., pela
-   **`sdd-planejamento`** (seção Encaixe); sem a decisão registrada, não comece. Kanban (`acordos.md`) → não há sprint nem encaixe: a `sdd-elm` modo
-   *sprint* põe as tarefas na iteração corrente do EWM ao começar (Passo 4). Nenhuma sprint aberta e nada no
+   **`sdd-planejamento`** (seção Encaixe); sem a decisão registrada, não comece. Kanban (`acordos.md`) → não há sprint nem encaixe: as tarefas
+   nascem na iteração corrente do EWM ao começar (Passo 4). Nenhuma sprint aberta e nada no
    `acordos.md` (planejamento ainda não feito) → não é encaixe: ofereça a `sdd-planejamento` e não comece.
 4. **WIP** (`<produto>/acordos.md`; sem o arquivo, 2 fatias esperando pessoa). Conte as fatias em
    `plano-em-revisao`, `pr-aberto`, `em-revisao`, `em-verificacao`, `aceita` e `pronta-para-merge` nos `status.md`
@@ -117,10 +117,10 @@ o caminho, e não comece.
    [../sdd-plano/references/plano-templates.md](../sdd-plano/references/plano-templates.md)).
 3. **Backlog:** não muda aqui (ele só é escrito na base, pela `sdd-triar`, `sdd-fatiar`, `sdd-planejamento` e
    `sdd-consolidar`); a fatia em andamento é a que tem `status.md` numa branch.
-4. **Assumir a `[DEV]`** (com power `elm`; nunca sem "sim") — **`sdd-elm` modo *assumir***: responsável =
-   quem está na sessão, estado em andamento da PA, estimativa se faltar; já minha e em andamento → nada a fazer. O item de
-   backlog continua do P.O. Tarefa ainda não existe (encaixe aprovado agora, Kanban, ou publicação que falhou no
-   planejamento) → antes, `sdd-elm` modo *sprint* cria as da trilha (pai sempre definido):
+4. **Assumir a `[DEV]`** (com o MCP `elm`; nunca sem "sim") — `elm_transicao(<id da [DEV]>, "assumir",
+   iniciar_pai: true)`, com `estimativa_h` se faltar (regras: [elm.md](../sdd/references/elm.md)). O item de backlog continua do P.O.
+   Tarefa ainda não existe (encaixe aprovado agora, Kanban, ou publicação que falhou no planejamento) → antes, crie
+   as da trilha ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §3–4; pai sempre definido):
 
    | Fatia | Tarefas | Pai |
    |---|---|---|
@@ -136,8 +136,8 @@ o caminho, e não comece.
    lado de `Puxada para a sprint <nn>`; a `sdd-consolidar` leva para a linha `puxada` do `sprint-<nn>.md`.
 
    Grave os ids das tarefas no campo ELM do `status.md` — é por ele que as horas acham a tarefa. Chamada daqui, na
-   branch da fatia, a `sdd-elm` não grava o `backlog.md` nem o `sprint-<nn>.md`: os ids ficam no `status.md`, e a
-   `sdd-consolidar` os leva ao backlog. Sem o power `elm`: `ELM pendente [<chave>]: assumir [DEV] FT-<nnn>` no `status.md`.
+   branch da fatia, não grave o `backlog.md` nem o `sprint-<nn>.md`: os ids ficam no `status.md`, e a
+   `sdd-consolidar` os leva ao backlog. Sem o MCP `elm`: `ELM pendente [DEV FT-<nnn> assumir]` no `status.md`.
 5. Commit pequeno do `status.md` e do `.config.kiro` e, com "sim", push da branch — é o sinal para o time de que a fatia começou.
 
 ## Passo 5 — Encaminhar
@@ -173,8 +173,8 @@ exceção é `pronta-para-merge`: o Passo 6 é desta skill.
 A fatia chegou a `pronta-para-merge`: o merge e a conclusão da `[DEV]` são do Dev responsável, aqui. Vale a aprovação
 **registrada**, nunca a dita na conversa ("o PR foi aprovado", "pode mergear"; o P.O. não aprova PR):
 - **HITL:** revisão `APROVADO` e verificação `ACEITO` registradas (é o que leva a fatia a `pronta-para-merge`);
-- **AFK:** a `[APR] FT-<nnn> Aprovar PR` está **concluída** e tem o comentário `PR aprovado, sha <sha>` (`sdd-elm`
-  → `elm-ccm` › **ler item**, só leitura). Sem o power `elm` → a linha `PR aprovado por <login>, sha <sha>` que o
+- **AFK:** a `[APR] FT-<nnn> Aprovar PR` está **concluída** e tem o comentário `PR aprovado, sha <sha>` (`elm_ler_wi(<id>,
+  comentarios: true)`, só leitura). Sem o MCP `elm` → a linha `PR aprovado por <login>, sha <sha>` que o
   aprovador entregou. Sem a aprovação → avise que o PR espera a leitura do Dev Sênior e pare.
 
 1. **Leia o PR:** `gitlab_obter_mr` pelo `iid` do link no `status.md`. Tem de estar aberto, sem WIP/Draft e sem
@@ -207,8 +207,8 @@ A fatia chegou a `pronta-para-merge`: o merge e a conclusão da `[DEV]` são do 
    consumo no fim do turno — o script a lista como sem registro: com o "sim", `rateio 1/<n>` pelas fatias do lote.
    Commit (com as Lições e os créditos), push e conferência como nos itens 1–3 da Entrega do Passo 5 da `sdd-implementar`. É
    depois do merge: um commit antes dele mudaria o `sha` aprovado.
-7. **Conclusão da `[DEV]`:** mostre as horas já lançadas (`elm-ccm` › horas lançadas) e pergunte só o saldo →
-   `sdd-elm` modo *horas* e modo *conclusão* da `[DEV]`, numa confirmação. Sem o power `elm` → `ELM pendente
+7. **Conclusão da `[DEV]`:** mostre as horas já lançadas (`elm_horas(<id>)`) e pergunte só o saldo →
+   `elm_lancar_horas(<id>, <saldo>)` e `elm_transicao(<id>, "concluir")`, numa confirmação. Sem o MCP `elm` → `ELM pendente
    [<chave>]: lançar <h>h e concluir [DEV] FT-<nnn>` no Histórico (commit e push), junto com a pendência da `[APR]`
    que o aprovador entregou (AFK).
 8. **Worktree do loop** (`.kiro/local/wt/<ft>`): depois do merge, `git worktree remove .kiro/local/wt/<ft>` —
@@ -226,5 +226,4 @@ A fatia chegou a `pronta-para-merge`: o merge e a conclusão da `[DEV]` são do 
 - O EWM (ou a pessoa) é a fonte dos dados do item; o código, do comportamento atual; o `status.md`, da fase.
 - Toda troca/criação de branch e toda alteração no EWM só com "sim".
 - Nunca invente dados de work item.
-- Não invoque nem simule outra skill do fluxo: diga a próxima (Passo 5) e pare. A `sdd-elm`, que os passos mandam
-  chamar, faz parte desta skill.
+- Não invoque nem simule outra skill do fluxo: diga a próxima (Passo 5) e pare.

@@ -4,7 +4,7 @@ description: "Implementa uma fatia do fluxo sdd a partir do plano aprovado (task
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.9.0"
+  version: "3.0.0"
 ---
 
 # sdd-implementar — Ciclo curto, verificação sempre
@@ -35,7 +35,7 @@ regras aprendidas).
   abertos" do `status.md` (PR, pessoa), os do último `revisao-codigo-<N>.md` com `VEREDITO: REVISAR` e os cenários
   rejeitados do `verificacao.md`. Como as anteriores estão marcadas, elas são as primeiras não marcadas.
 - **Retrabalho** (`fase: retrabalho (de: em-revisao | em-verificacao)`, HITL): a `[DEV]` ainda está em andamento (só
-  é concluída no merge) — **`sdd-elm` modo *assumir*** só confere (já minha e em andamento → nada a fazer). Os achados vêm do último `revisao-codigo-<N>.md` ou dos cenários rejeitados do
+  é concluída no merge) — `elm_transicao(<id>, "assumir")` só confere (`ja_estava`). Os achados vêm do último `revisao-codigo-<N>.md` ou dos cenários rejeitados do
   `verificacao.md`; `fase: implementando`, linha no Histórico. Ao fim, o mesmo PR é atualizado (Passo 5).
   **AFK** (`retrabalho (de: pronta-para-merge)`, mudanças pedidas na `[APR] Aprovar PR`): o mesmo, com os achados de
   Achados abertos (origem: PR); a correção passa de novo pelos Passos 2–4 antes de atualizar o PR.
@@ -173,15 +173,15 @@ Push e PR são do Dev: o agente `sdd-codificador` (o Kiro confirma cada um) ou a
    5. **Confira o PR aberto:** `gitlab_listar_mrs(origem=<branch>, estado=opened)` devolve o PR; o link é a `url`.
       Sem o MCP → o link que a pessoa passou.
    6. **AFK — a `[APR] FT-<nnn> Aprovar PR`:** pergunte qual Dev Sênior aprova o PR (sugira outro que não quem
-      implementa; ele mesmo só se for o único Dev Sênior ativo) → `sdd-elm` modo *sprint*, item 6, com "sim"; id no
-      campo ELM do `status.md`. Já existe (retrabalho) → é a mesma. Sem o power `elm` → `ELM pendente [APR FT-<nnn>
+      implementa; ele mesmo só se for o único Dev Sênior ativo) → a `[APR]` de
+      [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §8, com "sim". Sem o MCP `elm` → `ELM pendente [APR FT-<nnn>
       criar]: <login de quem aprova>` no Histórico.
    7. `status.md`: HITL → `fase: pr-aberto`; AFK → `fase: pronta-para-merge`; link do PR (sem PR — push "não" ou sem
       o MCP — `PR: texto entregue`, e a fase é a mesma); linha no Histórico e os **créditos da sessão** na seção
       Créditos ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4). Commit, push e conferência como nos
       itens 1–3 (o `status.md` vai junto no PR).
-   8. **Horas da sessão** na `[DEV]`: `sdd-elm` modo *horas*, com "sim" — lança, não conclui (retrabalho: as horas
-      também na tabela Retrabalho). Sem o power `elm` → `ELM pendente [<chave>]: lançar <h>h em [DEV] FT-<nnn>` no
+   8. **Horas da sessão** na `[DEV]`: `elm_horas(<id>)` → desconte → `elm_lancar_horas(<id>, <h>)`, com "sim" — lança, não conclui (retrabalho: as horas
+      também na tabela Retrabalho). Sem o MCP `elm` → `ELM pendente [DEV FT-<nnn> horas]: lançar <h>h` no
       Histórico. **A `[DEV]` não é concluída no PR:** fica em andamento até o merge (`sdd-desenvolver`, Passo 6).
    9. **Avise:** HITL → o revisor, de que a `[REV]` está disponível; AFK → o Dev Sênior da `[APR]`, de que o PR
       espera a leitura dele (`sdd-revisar`, Aprovação do PR).
@@ -205,4 +205,4 @@ pare: aprovação dita na conversa não vale — o merge confere a que está reg
   autorização do lote); depois de todo push, conferir no remoto antes de seguir.
 - Nada fora do escopo do `design.md`; melhoria vista no caminho vira sugestão de item no backlog (registrada pela `sdd-triar`).
 - Não invoque nem simule outra skill do fluxo: ao terminar (PR entregue, bloqueio, divergência), diga a próxima e
-  pare. Os subagentes revisor e verificador e a `sdd-elm`, que os passos mandam chamar, fazem parte desta skill.
+  pare. Os subagentes revisor e verificador, que os passos mandam chamar, fazem parte desta skill.

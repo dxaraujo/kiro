@@ -63,8 +63,7 @@ URL abaixo, nunca um caminho local:
   ausente = 0. Revisão + especificação nunca passam de `horas-semana`.
 - `atende: true` marca quem atende demandas (`[ATD]`: responsável sugerido na triagem); a reserva é das horas do time
   inteiro, não só dessas pessoas.
-- `historico[].horas-lancadas` e `reserva-atendimento` são gravados na virada, com o relatório da `sdd-elm` modo
-  *horas*.
+- `historico[].horas-lancadas` e `reserva-atendimento` são gravados na virada, com o relatório de horas ([elm-sprint.md](elm-sprint.md) §5).
 - Capacidade da sprint e totais **não** são gravados: calcule na hora. `historico` fica dentro de `projeto`.
 - `motivo` da ausência: `férias`, `folga`, `treinamento` ou `outro`.
 - Exatamente um P.O. ativo. Quem sai fica `ativo: false` (preserva o histórico).
@@ -182,8 +181,7 @@ Créditos por fatia concluída: <média> · por versão do power sdd: <versão> 
 Situação da especificação: `entrevista`, `PRD`, `fatiamento`, `concluida` ou `→ sprint <nn+1>`. Situação do
 atendimento: `aberto`, `concluido` ou `→ sprint <nn+1>`. "Tarefa ELM" é o id da tarefa no EWM, ou `pendente`
 (nas fatias, as tarefas com prefixo — `DEV <id> · REV <id> · VER <id>`, mais `APR <id>` das aprovações criadas no
-gate; AFK, a `DEV` e as `APR`), gravada pela
-`sdd-elm` modo *sprint* (e pela `sdd-consolidar` na fatia puxada). Observação: `puxada`, `encaixe: <decisão>
+gate; AFK, a `DEV` e as `APR`), gravada na publicação da sprint ([elm-sprint.md](elm-sprint.md) §4; e pela `sdd-consolidar` na fatia puxada). Observação: `puxada`, `encaixe: <decisão>
 (<quem>, <data>)`, `modo: AFK → HITL (<quem>, <data>, <motivo>)`, `modo: AFK mantido (<quem>, <data>)`, `migrada da sprint <nn>` ou texto livre.
 
 Créditos (do Kiro): nas Fatias, Especificação e Atendimento, a soma das linhas de créditos do item, gravada na

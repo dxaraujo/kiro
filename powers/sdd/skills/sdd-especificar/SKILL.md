@@ -1,10 +1,10 @@
 ---
 name: sdd-especificar
-description: "Skill do papel Especificador no fluxo sdd — conduz a especificação de um épico (EP-nn) a partir da tarefa [ESP]: assume a [ESP] no EWM (sdd-elm modo assumir), monta a pasta de trabalho local fora do git (.kiro/local/especificacao/), encaminha pelo estado do épico (sdd-entrevistar → sdd-prd → GATE do PRD → sdd-fatiar), leva o PRD aprovado para a base, conclui a [ESP] depois do GATE do backlog e, no fim de cada sessão com o cliente, registra o levantamento na [ESP] (comentário + anexos .md com a última versão de cada artefato) e lança as horas da sessão. Outra máquina retoma baixando os anexos. Use em \"especificar o EP-03\", \"pegar a [ESP] do EP-03\", \"retomar a especificação\", \"fechar a sessão de especificação\"."
+description: "Skill do papel Especificador no fluxo sdd — conduz a especificação de um épico (EP-nn) a partir da tarefa [ESP]: assume a [ESP] no EWM, monta a pasta de trabalho local fora do git (.kiro/local/especificacao/), encaminha pelo estado do épico (sdd-entrevistar → sdd-prd → GATE do PRD → sdd-fatiar), leva o PRD aprovado para a base, conclui a [ESP] depois do GATE do backlog e, no fim de cada sessão com o cliente, registra o levantamento na [ESP] (comentário + anexos .md com a última versão de cada artefato) e lança as horas da sessão. Outra máquina retoma baixando os anexos. Use em \"especificar o EP-03\", \"pegar a [ESP] do EP-03\", \"retomar a especificação\", \"fechar a sessão de especificação\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.9.0"
+  version: "3.0.0"
 ---
 
 # sdd-especificar — Especificação de épico
@@ -35,8 +35,8 @@ ofereça a `sdd-planejamento` (seção Especificação); a pessoa pode seguir se
 
 ## Passo 2 — Assumir a `[ESP]`
 
-**`sdd-elm` modo *assumir*** (com "sim"): responsável = quem está na sessão, estado em andamento da PA; já minha e em andamento →
-nada a fazer. Sem o power `elm` → `ELM pendente [<chave>]: assumir [ESP] EP-<nn>` no `rascunho.md` da pasta de trabalho.
+`elm_transicao(id, "assumir")`, com "sim" (já minha → `ja_estava`, nada a fazer; de outra pessoa → `conflito`:
+pergunte e repita com `forcar: true`). Sem o MCP `elm` → `ELM pendente [<chave>]: assumir [ESP] EP-<nn>` no `rascunho.md` da pasta de trabalho.
 
 ## Passo 3 — Pasta de trabalho (fora do git)
 
@@ -47,8 +47,8 @@ o GATE. Monte-a pela primeira fonte que existir:
    a última sessão registrada no `rascunho.md` local (outra máquina trabalhou depois) — compare as duas em UTC (o
    EWM devolve UTC; o rascunho, hora local) e nunca pelo mtime dos arquivos, que muda a cada download → mostre as duas datas e pergunte se baixa os anexos (item 2)
    por cima da pasta local.
-2. **A `[ESP]` tem anexos** (`elm-ccm` › listar anexos) → outra pessoa ou máquina já trabalhou: baixe cada `.md`
-   (`elm-ccm` › baixar anexo) para a pasta (os de `elm/` para `elm/`, pelo prefixo `elm-` do nome do anexo). Mostre a
+2. **A `[ESP]` tem anexos** (`elm_anexo(id, "listar")`) → outra pessoa ou máquina já trabalhou: baixe cada `.md`
+   (`elm_anexo(id, "baixar", caminho)`) para a pasta (os de `elm/` para `elm/`, pelo prefixo `elm-` do nome do anexo). Mostre a
    data do último comentário de sessão.
 3. **Só a base** → copie `rascunho.md` e `decisoes.md` de `<produto>/epicos/<EP>-<slug>/` em `origin/<base>`
    (`git show origin/<base>:<caminho>`, depois de `git fetch`; criados pela triagem).
@@ -108,9 +108,9 @@ Registrar? (sim)
 ```
 
 Com "sim": primeiro a linha de créditos no `status.md` do épico ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4) — depois do GATE do PRD, no da
-base, no commit que o fatiamento já faz —; então `elm-ccm` › **comentar** (o resumo), **anexar** cada `.md` da pasta de trabalho (os de
-`elm/` com o prefixo `elm-`, para não colidir com o nome de outro arquivo) e **`sdd-elm` modo *horas*** (lança;
-não conclui). Sem o power `elm` ou com falha → `ELM pendente [<chave>]: registrar sessão [ESP] EP-<nn> (<data>)` no `rascunho.md`, e o
+base, no commit que o fatiamento já faz —; então `elm_comentar` (o resumo), `elm_anexo(id, "enviar", caminho)` para cada `.md` da pasta de trabalho (os de
+`elm/` com o prefixo `elm-`, para não colidir com o nome de outro arquivo) e `elm_lancar_horas(id, horas)` (lança;
+não conclui). Sem o MCP `elm` ou com falha → `ELM pendente [<chave>]: registrar sessão [ESP] EP-<nn> (<data>)` no `rascunho.md`, e o
 próximo fechamento registra.
 
 ## Passo 6 — Fechamentos da `[ESP]` (depois de cada GATE)
@@ -125,8 +125,8 @@ A `sdd-prd` e a `sdd-fatiar` conduzem o GATE e gravam só o próprio artefato; o
    `sprint-<nn>.md` aberto, a linha do épico na seção Especificação com Situação `fatiamento`. **Um** commit (padrão
    do `sdd.md`), direto ou por PR curto, conforme "Artefatos de produto"; nunca numa branch de fatia. A partir daí a
    base é a fonte; a pasta local pode ser apagada pela pessoa (a skill não apaga).
-3. Próximo, e pare: **`sdd-elm`** modo *requisitos* (se o projeto usa ELM e a publicação é `na-aprovacao`) e
-   **`sdd-fatiar`**.
+3. Próximo, e pare: a [publicação dos requisitos](../sdd-consolidar/references/elm-publicar.md) (se o projeto usa ELM e
+   a publicação é `na-aprovacao`) e **`sdd-fatiar`**.
 
 **Depois do GATE do backlog** (épico `fatiado` na base, `[ESP]` aberta):
 1. Pergunte se a especificação terminou. Continua (refinamento na próxima sprint) → não conclua: a virada só muda o
@@ -134,8 +134,8 @@ A `sdd-prd` e a `sdd-fatiar` conduzem o GATE e gravam só o próprio artefato; o
 2. No `sprint-<nn>.md` aberto, a linha do épico na seção Especificação com Situação `concluida` e os Créditos (a
    soma da seção Créditos do `status.md` do épico; o `creditos` do `backlog.md` é da virada da sprint), pelo bloco
    Gravar na base, um commit.
-3. **Conclusão da `[ESP]`** (com ELM): mostre as horas já lançadas e pergunte só o saldo a quem especificou →
-   `sdd-elm` modo *horas* e modo *conclusão*, numa confirmação. Sem o power `elm` → `ELM pendente [<chave>]: lançar
+3. **Conclusão da `[ESP]`** (com ELM): mostre as horas já lançadas (`elm_horas(id)`) e pergunte só o saldo a quem especificou →
+   `elm_lancar_horas(id, horas)` e `elm_transicao(id, "concluir")`, numa confirmação. Sem o MCP `elm` → `ELM pendente [<chave>]: lançar
    <h>h e concluir [ESP] EP-<nn>` no rodapé do PRD (no mesmo commit).
 
 A Situação do épico na seção Especificação do `sprint-<nn>.md` acompanha os GATEs: `entrevista` ou `PRD` (como o
@@ -147,5 +147,5 @@ planejamento gravou), depois `fatiamento` e `concluida`, gravadas aqui.
   anexos), atualizado ao fechar cada sessão.
 - Nunca invente regra, valor ou ator: sem fonte e sem decisão de uma pessoa, é `em aberto`.
 - Dado de cliente identificável não vai para os anexos: no rascunho, só o resumo anônimo.
-- Toda escrita no EWM só com "sim"; sem o power `elm`, `ELM pendente`, e o fluxo segue.
+- Toda escrita no EWM só com "sim"; sem o MCP `elm`, `ELM pendente` ([pendências](../sdd/references/elm.md#pendências)), e o fluxo segue.
 - Não invoque outra skill por conta própria: diga a próxima e pare.

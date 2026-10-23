@@ -4,7 +4,7 @@ description: "Guia do fluxo sdd — engenharia agêntica orientada a especifica�
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.9.0"
+  version: "3.0.0"
 ---
 
 # sdd — Engenharia agêntica orientada a especificação
@@ -21,7 +21,7 @@ Configuração do projeto: `.kiro/steering/sdd.md` (gerado pela **`sdd-setup`**)
 
 Toda demanda nova entra pela **`sdd-triar`**: ela decide a trilha e registra o trabalho no backlog — inclusive o
 atendimento —, sem começar, e pergunta se há mais algum item. O hub **`sdd-iniciar`** recebe um item registrado e
-diz a skill do papel; cada skill de papel assume a própria tarefa no EWM (`sdd-elm` modo *assumir*) e pode ser
+diz a skill do papel; cada skill de papel assume a própria tarefa no EWM (`elm_transicao`) e pode ser
 chamada direto:
 
 | Papel | Tarefa | Skill |
@@ -143,14 +143,14 @@ loop, a fatia para sozinha e o lote segue.
 | quebrar o PRD em fatias / refinar o backlog | `sdd-fatiar` |
 | planejar sprint, roadmap, virada, review | `sdd-planejamento` |
 | executar um atendimento já triado (`AT-nnn`, `[ATD]`) | `sdd-atender` |
-| lançar horas ou ver o relatório de horas | `sdd-elm` modo *horas* |
+| lançar horas ou ver o relatório de horas | `sdd-status` (fechar a sessão) · relatório: `sdd-planejamento` |
 | entender o código antes de planejar | `sdd-pesquisar` |
 | planejar uma fatia (spec do Kiro) | `sdd-plano` |
 | implementar e abrir o PR | `sdd-implementar` |
 | revisar PRD, plano ou código | `sdd-revisar` |
 | verificar o aceite de ponta a ponta | `sdd-verificar` |
 | fechar a fatia depois do merge (P.O. ou SM, agente `sdd-produto`) | `sdd-consolidar` |
-| publicar no ELM (DOORS Next, EWM, ETM) | `sdd-elm` |
+| publicar no ELM (DOORS Next, EWM, ETM) | a skill do passo ([references/elm.md](references/elm.md)) · bundle: `elm-sync` |
 | levar várias fatias AFK até o PR | `sdd-loop` (com o agente `sdd-orquestrador`) |
 | rodar uma receita de workflow numa fatia | você, no chat do Kiro: "rode o workflow `sdd-entregar-fatia` para a FT-031" ou `/workflow-run` (IDE 1.3+) |
 | registrar uma lição / retrospectiva | `sdd-aprender` |
@@ -182,19 +182,17 @@ a próxima e para — nunca invoca nem simula a do passo seguinte.
 - Nada inventado: tabela, coluna, regra, id de work item — confirme no código, no banco (somente leitura) ou no ELM.
 - Toda escrita no ELM, troca de branch, push e alteração de work item só com "sim" de uma pessoa; push nunca para a
   base. Merge só do PR aprovado, pelo **Dev responsável** (`gitlab_mesclar_mr`, com confirmação); nunca `--force`.
-- O ELM é do **power `elm`**: o `sdd` decide quando e o quê, e pede **operações** às skills `elm-*` (nunca chama
-  tool direto). Os agentes que conduzem sessão (`sdd-produto`, `sdd-codificador`, `sdd-orquestrador`) e o revisor e
-  o verificador (só para a própria tarefa) recebem o power com `includePowers: true`; o pesquisador também o recebe (pelo `okf`), mas não pede nada ao ELM. Sem o
-  power ou com falha, a escrita vira
-  `ELM pendente` registrada — o ELM nunca trava o fluxo.
-- **Bundle do ELM e PR, só pelos MCPs do power:** a documentação baixada pela `elm-sync` (`<rm.download.path>`) —
-  cópia local, em Markdown, dos artefatos do ELM, válida até o último sincronismo (o ELM ao vivo é pela `elm-rm`) — é
+- **ELM pelo MCP `elm` do power:** a skill do passo chama a tool (`elm_*`) com `projeto` e os ids; o MCP lê o
+  `.kiro/config/sdd/pa_<nome>.json`. Regras de escrita, pendências e tarefas: [references/elm.md](references/elm.md).
+  Sem o MCP ou com falha, a escrita vira `ELM pendente` registrada — o ELM nunca trava o fluxo.
+- **Bundle do ELM e PR, só pelos MCPs do power:** a documentação baixada pela `elm-sync` (`<rm.download>`) —
+  cópia local, em Markdown, dos artefatos do ELM, válida até o último sincronismo (o ELM ao vivo é pelo `elm_buscar_req`/`elm_ler_req`) — é
   consultada pelo **`okf`** — `okf_search` para achar, `okf_get_document` para ler um artefato, `okf_list_documents`
-  para listar uma pasta (`root` = caminho absoluto de `rm.download.path` do `pa_*.json` (o da linha "Usa ELM"): raiz do repositório + o `path`, a mesma `dest` da `elm-sync`; `okf_index` antes da primeira busca da sessão) —, nunca
+  para listar uma pasta (`root` = raiz do repositório + `rm.download` do `pa`, absoluto; `okf_index` antes da primeira busca da sessão) —, nunca
   lendo ou buscando os arquivos (os agentes nem têm leitura nessa pasta). PR é o merge request do GitLab, pelo
   **`gitlabpr`**: `gitlab_listar_mrs`, `gitlab_obter_mr`, `gitlab_criar_mr` e `gitlab_mesclar_mr` (com o "sim" da pessoa; `origem` e
   `destino` sempre explícitos, porque o MCP roda no checkout principal, não na worktree) — nunca `gh` nem `glab`.
-  MCP indisponível → diga e siga sem ele: bundle → o ELM ao vivo pela `elm-rm`; PR → título e descrição entregues.
+  MCP indisponível → diga e siga sem ele: bundle → o ELM ao vivo (`elm_buscar_req`); PR → título e descrição entregues.
 - Dado de cliente (resultado de consulta, extração, tela com dado real) nunca vai para o git: fica em
   `.kiro/local/<origem>/<id>/`; o registro versionado guarda consulta, contagem, caminho e resumo sem identificar
   pessoas.

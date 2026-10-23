@@ -22,7 +22,7 @@ elm/
   HF-01-bloquear-conta.md
 ```
 
-- **Nunca dentro do bundle da `elm-sync`** (`<rm.download.path>`): lá só a `elm-sync` grava, e um sincronismo regravaria
+- **Nunca dentro do bundle da `elm-sync`** (`rm.download` do `pa`): lá só a `elm-sync` grava, e um sincronismo regravaria
   ou apagaria o rascunho.
 - O **Concept ID** do OKF (o caminho do arquivo dentro de `elm/`, sem `.md`) é a chave estável do artefato. Ele não
   muda depois de criado; o id do ELM fica em `resource`/`id`.
@@ -51,10 +51,10 @@ generated: { by: sdd/2.1.0, at: 2026-10-14T13:00:00Z }   # §5.2: quem escreveu 
 
 | Campo (OKF v0.2) | Uso no sdd |
 |---|---|
-| `type` (obrigatório) | nome do tipo no DOORS Next — a chave em `rm.requirements-types` do `pa_*.json` (ex.: `História de Usuário`, `Regra`, `Termos de Glossário`) |
+| `type` (obrigatório) | nome do tipo no DOORS Next — o `tipo` da sigla em `rm.artefatos` do `pa_<nome>.json` (ex.: `História de Usuário`, `Regra`, `Termos de Glossário`) |
 | `title` | título no ELM: `HF - <nome>`, `REG - <nome>`, o termo |
 | `description` | uma frase; vai para o `index.md` |
-| `tags` | `[<pasta do RM>]` — a chave em `rm.folders` |
+| `tags` | `[<pasta do RM>]` — a `pasta` da sigla em `rm.artefatos` |
 | `resource` | **ausente até publicar**; depois, a URI do artefato no ELM. Decide criar × atualizar |
 | `sources` | o PRD, as decisões e, numa alteração, o próprio artefato do ELM (`resource` = URI, `last_modified` = última modificação no ELM vista por nós) |
 | `generated` | `by: sdd/<versão do power>` (ator `<producer>/<version>`, §7); `at` = última mudança de conteúdo |
@@ -62,7 +62,7 @@ generated: { by: sdd/2.1.0, at: 2026-10-14T13:00:00Z }   # §5.2: quem escreveu 
 | `status` | `draft` enquanto não aprovado (obrigatório escrever: no OKF, ausência = `stable`), `stable` depois do GATE, `deprecated` quando deixa de valer |
 
 **Uma extensão só** (OKF §4.1 permite chaves do produtor): `id` — o id numérico do DOORS Next, gravado na
-publicação. É a mesma chave que o mcp-elm já grava no bundle, e a tool de atualização a exige. Copiado do bundle,
+publicação. É a mesma chave que o MCP `elm` grava no bundle e que o `elm_publicar_req` usa para atualizar. Copiado do bundle,
 o arquivo mantém também as extensões que vierem dele (`created`, `links`): o OKF manda preservar chaves
 desconhecidas. Nenhuma outra chave é inventada.
 
@@ -89,15 +89,14 @@ prosa (§6.1):
 - Satisfaz a necessidade [DV 1800 — Segurança de acesso](https://elm.exemplo/rm/resources/TX_…).
 ```
 
-| Relação | No rascunho | Na publicação |
-|---|---|---|
-| HF → REG | link relativo para o arquivo da REG | **embed**: `[<id>](<id>)` e o id em `embedded` |
-| HF/REG → termo | link relativo para o `GL-*.md` | hyperlink `[<id>](<id>)` |
-| restringe, satisfaz, elabora (requisito ↔ requisito) | prosa + link na seção `## Relações` | **não sobe** (o power `elm` não cria esse link): fica no arquivo como registro |
-| atributos (aprovação, prioridade) | `verified`, `status` | **não sobem** (o power `elm` não grava atributo) |
-| conceito ainda sem id | link relativo | texto simples com o título |
+| Relação | No rascunho |
+|---|---|
+| HF → REG | link relativo para o arquivo da REG |
+| HF/REG → termo | link relativo para o `GL-*.md` |
+| restringe, satisfaz, elabora (requisito ↔ requisito) | prosa + link na seção `## Relações` |
 
-A seção `## Relações` é só local. O resto do corpo é o texto publicado.
+A seção `## Relações` e os atributos (`verified`, `status`) ficam só no repositório. O resto do corpo é o texto
+publicado — como cada link vira no ELM: [elm-publicar.md](../../sdd-consolidar/references/elm-publicar.md#requisitos-conceitos-okf-de-elm--doors-next), item 2.
 
 ### Corpo por tipo
 
@@ -138,10 +137,10 @@ houver, `## Relações`.
 |---|---|
 | Rascunho | `sdd-prd` (ou a fatia) cria o conceito com `status: draft`, `sources`, `generated` |
 | GATE do PRD | a pessoa aprova → cada conceito recebe `verified` humano e `status: stable` |
-| Publicação | `sdd-elm` publica de baixo para cima (GL → REG → HF), grava `resource` e `id`, e acrescenta ao `sources` a entrada do ELM com o `last_modified` |
+| Publicação | [elm-publicar.md](../../sdd-consolidar/references/elm-publicar.md#requisitos-conceitos-okf-de-elm--doors-next) (grava `resource`, `id` e a entrada do ELM em `sources`) |
 | Depois | a `elm-sync` baixa a versão oficial para o bundle, que passa a ser a versão viva; o rascunho fica como registro histórico, com `resource` preenchido |
-| Alteração de artefato existente | traga o arquivo do bundle pelo `okf_get_document` (MCP `okf`) e grave-o em `elm/`, mantendo `resource`, `id` e o `sources` do ELM; `status: draft`, `generated` novo; edite. Na publicação, a última modificação (`elm-rm`) mais nova que o `last_modified` desse `sources` = alguém mudou no ELM no meio-tempo → **conflito**: a pessoa decide |
-| Obsoleto | `status: deprecated`; a remoção ou a marcação no ELM é passo manual na UI |
+| Alteração de artefato existente | traga o arquivo do bundle pelo `okf_get_document` (MCP `okf`) e grave-o em `elm/`, mantendo `resource`, `id` e o `sources` do ELM; `status: draft`, `generated` novo; edite. O `last_modified` desse `sources` detecta conflito na publicação |
+| Obsoleto | `status: deprecated`; no ELM, roteiro manual na UI |
 
 ## `index.md` e `log.md`
 
@@ -167,6 +166,6 @@ okf_version: "0.2"
 1. Todo `.md` de `elm/` (fora `index.md` e `log.md`) tem frontmatter YAML que faz parse, com `type` não vazio.
 2. Só chaves do OKF v0.2, mais `id` (e as que vieram do bundle numa cópia).
 3. `status` presente; `draft` antes do GATE.
-4. `type` e `tags` existem no mapeamento do projeto (`pa_*.json`, seção ELM do `sdd.md`).
+4. `type` e `tags` existem em `rm.artefatos` do `pa_<nome>.json`.
 5. Toda HF tem cenários e liga as suas REGs; todo link relativo aponta para um arquivo que existe.
 6. `index.md` lista todos os conceitos; `log.md` com datas `AAAA-MM-DD`.

@@ -1,9 +1,8 @@
 # `CT.csv` — casos de teste para importação no ETM
 
-Um caso por cenário **verificado** (aceito com evidência) da fatia. Na consolidação, a `sdd-elm` (modo *testes*)
-cria cada caso no ETM pelo agente, com o Resumo como título e a Descrição como cenário, e o link "valida" na
-criação. Sem permissão de criar no ETM ou sem o power `elm`, o arquivo é importado à mão (Importar → CSV) e os
-links são feitos depois, pela `sdd-elm`.
+Um caso por cenário **verificado** (aceito com evidência) da fatia. Na consolidação, `elm_criar_ct` cria cada caso no ETM, com o Resumo como título e a Descrição como cenário, já
+ligado ([elm-publicar.md](../../sdd-consolidar/references/elm-publicar.md)). Sem permissão de criar no ETM ou sem
+o MCP `elm`, o arquivo é importado à mão (Importar → CSV) e os links são feitos depois (`elm_ligar`).
 
 ## Arquivo
 
@@ -13,7 +12,7 @@ links são feitos depois, pela `sdd-elm`.
 
 ## Colunas (nesta ordem)
 
-Valores do ELM vêm do `.kiro/config/power/elm/pa_*.json` (power `elm`) e do `sdd.md`; sem ELM, deixe
+Valores do ELM vêm do `.kiro/config/sdd/pa_<nome>.json` e do `sdd.md`; sem ELM, deixe
 vazios os que não souber. A ordem, os nomes e os valores fixos (tipo, status inicial, categoria) vêm da tabela
 linha `CT.csv` da seção ELM do `sdd.md` — o template de importação do ETM do projeto manda.
 

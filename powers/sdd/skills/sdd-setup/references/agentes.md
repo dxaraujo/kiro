@@ -54,17 +54,18 @@ permissão, compare as regras dele com as do orquestrador.
 | comandos | codificador e revisor: compilar, testes, teste único, lint, cobertura · verificador: executar, testes, scripts de massa · codificador e orquestrador: também os do verificador e `sh .kiro/sdd/http.sh *` (se instalado), porque o chamam como subagente |
 | escrita do verificador | a pasta de massa do projeto, se houver |
 | MCP de banco | só a tool de consulta, em **quatro** lugares: `tools` e `allowedTools` (`@<servidor>/<tool>`), `"includeMcpJson": true` (o template vem com `false`: sem trocar, o agente não carrega nenhum MCP) e a regra `mcp` `allow` `<servidor>/<tool>` |
-| ELM (projeto com `Usa ELM: sim`) | `"includePowers": true` (fixo em todos) — o power `elm` traz o MCP e as skills `elm-*`; nenhuma tool `@elm/…` no agente nem servidor `elm` no `mcp.json` (as skills do `sdd` pedem operações às `elm-*`). O pesquisador recebe o power pelo `okf`, mas não pede nada ao ELM |
+| ELM (projeto com `Usa ELM: sim`) | as `@elm/elm_*` do template ficam (o MCP `elm` vem com o power); `Usa ELM: não` → tire de `tools`/`allowedTools` as `@elm/…` e das regras `power` as `sdd/elm/…`. O pesquisador não tem |
 | subagentes do projeto | como na tabela acima (codificador e orquestrador) |
 | `model` | o modelo escolhido, se houver |
 | push e PR no loop = "não — a pessoa abre" | no orquestrador, as regras `ask` de push (`shell`) e de `sdd/gitlabpr/gitlab_criar_mr` (`power`) viram `deny` |
 
 Fixos em todos: `"allowedTools"` sem `read` (liberaria a leitura do disco inteiro); `"includePowers"`: `true` em
-todos — o próprio `sdd` traz os MCPs `okf` e `gitlabpr`; nunca o campo `hooks` (a IDE ignora agentes que o têm).
-Com o power, o Kiro pede confirmação para as tools do `elm` que o agente não tem em `allowedTools` — nenhuma
-está lá: toda chamada ao ELM é confirmada, além do "sim" da skill. Já liberadas em todos (`tools`, `allowedTools` e `power` `allow`, como `sdd/okf/<tool>` e `sdd/gitlabpr/<tool>`):
-as de leitura do `okf` (`okf_index`, `okf_search`, `okf_get_document`, `okf_list_documents`) e do `gitlabpr`
-(`gitlab_listar_mrs`, `gitlab_obter_mr`). `gitlab_criar_mr`: `ask` no codificador, no produto e no orquestrador (abrem o PR depois do
+todos — o próprio `sdd` traz os MCPs `okf`, `gitlabpr` e `elm`; nunca o campo `hooks` (a IDE ignora agentes que o têm).
+Já liberadas (`tools`, `allowedTools` e `power` `allow`, como `sdd/okf/<tool>`):
+as de leitura do `okf` (`okf_index`, `okf_search`, `okf_get_document`, `okf_list_documents`), do `gitlabpr`
+(`gitlab_listar_mrs`, `gitlab_obter_mr`) e do `elm` (`elm_status`, `elm_ler_wi`, `elm_listar_wi`, `elm_horas`; no
+produto também `elm_buscar_req`, `elm_ler_req`). As de escrita do `elm` que a skill do agente usa: `power` `ask` (o Kiro
+confirma, além do "sim" da skill). `gitlab_criar_mr`: `ask` no codificador, no produto e no orquestrador (abrem o PR depois do
 push), `deny` no pesquisador, no revisor e no verificador. `gitlab_mesclar_mr`: `ask` só no codificador (o merge do PR
 aprovado), `deny` nos demais.
 

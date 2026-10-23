@@ -4,7 +4,7 @@ description: "Configura o fluxo sdd num projeto: entende o repositório (tipos d
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.9.0"
+  version: "3.0.0"
 ---
 
 # sdd-setup — Configurar o fluxo no projeto
@@ -20,8 +20,8 @@ fluxo que conhece os toolkits de stack ([references/toolkits.md](references/tool
 **Padrão primeiro.** O que tem padrão — detectado no projeto ou recomendado no template — é decidido **sem
 perguntar** e aparece numa tabela **Padrões aplicados** ao fim de cada bloco (projeto, git, produto, ELM,
 autonomia, automações), com **uma** confirmação: "ok" aceita tudo, ou a pessoa diz só a linha que muda. **Pergunte**
-apenas o que não tem padrão nem dá para detectar (ex.: a URL do ambiente de teste, qual `pa_*.json` vale quando há
-mais de um), uma coisa por vez, mostrando o que foi detectado. Nunca pergunte o que só confirma um padrão.
+apenas o que não tem padrão nem dá para detectar (ex.: a URL do ambiente de teste, qual `pa_*.json` é o padrão quando
+há mais de um), uma coisa por vez, mostrando o que foi detectado. Nunca pergunte o que só confirma um padrão.
 Não achou o que procurava (arquivo, pasta, power, configuração) → **pergunte** onde está; nunca conclua "não há"
 sem a pessoa confirmar. Nada é gravado antes do resumo do Passo 8 e do "ok". Nunca leia nem mostre arquivos de
 credenciais.
@@ -127,53 +127,54 @@ Falhou ao rodar → mostre o erro; a pessoa decide (corrigir o comando, seguir a
 2. **Glossário** (padrão `docs/glossario.md`) e **ADRs** (padrão `docs/adr`, sem barra no fim) — use os que já
    existirem; não existindo, o padrão é criá-los (Padrões aplicados). A pessoa recusou na tabela → registre
    "não há" e remova dos agentes as regras e linhas que os citam (`{{GLOSSARIO}}`, `{{ADR}}`).
-3. **ELM:** power `elm` instalado (`~/.kiro/powers/**/elm/`) e `.kiro/config/power/elm/pa_*.json` no repositório?
-   Não achou o power ou o `pa_*.json` ali → procure `.kiro/config/power/*/pa_*.json` e **pergunte** qual vale
-   (ou se o projeto não usa ELM).
-   - Sem power, confirmado pela pessoa → `Usa ELM: não` (o fluxo funciona igual; os ids vêm do `backlog.md`).
-   - Com power e sem `pa_*.json` → ofereça rodar a `elm-setup` antes (ela mapeia tipos, pastas, iterações).
-   - Com `pa_*.json`: **sem perguntas** — monte a seção ELM do template com os padrões e mostre numa tabela só
-     (**ELM — padrões aplicados**), para um "ok" ou a linha que muda:
+3. **ELM** — o MCP `elm` vem com o power. `.kiro/config/sdd/pa_*.json` no repositório (um por project area)?
+   - Não há e a pessoa diz que o projeto não usa ELM → `Usa ELM: não` (o fluxo funciona igual; os ids vêm do
+     `backlog.md`).
+   - **Gerar o `pa`:** `elm_status` (sem `projeto`) confere a credencial — erro `credencial` → peça o
+     `~/.config/mcp-elm/elm.properties` (`server`, `user`, `password`; você não lê nem grava esse arquivo) e pare.
+     Pergunte um trecho do nome da project area do EWM (e do DOORS Next e do ETM, se forem outras) →
+     `elm_setup_descobrir(ccm, rm?, qm?)` devolve PAs, times e categorias, os tipos do fluxo com campos, obrigatórios
+     e `enumeracoes`, links, iterações recentes, pastas e tipos do RM. A PA também exige campos por regra de processo,
+     que não vêm como obrigatórios: chame de novo com `valores_de` = as `enumeracoes` que o fluxo grava (na Tarefa,
+     categoria de horas, OTR e classificação; no IB, a categoria) para ter os valores. Monte o `pa` pelo schema
+     [assets/pa.schema.json](assets/pa.schema.json), **sem perguntas** onde der, e mostre numa tabela só
+     (**ELM — padrões aplicados**) para um "ok" ou a linha que muda:
 
      | Item | Padrão |
      |---|---|
-     | Tipos e pastas (HF, REG, GL, épico, fatia) | pelos nomes de `rm.requirements-types`/`rm.folders`/`workitem-types`, por proximidade |
-     | Publicar requisitos | `na-aprovacao` (no GATE do PRD) |
-     | ET as-built | `não publica` |
-     | Manual no DOORS Next | `nada` |
-     | Pontos P/M/G no EWM | `não` (o fluxo prevê pela vazão; `2 · 3 · 5` se o time usa o relatório de velocidade do EWM) |
-     | Fatia dividida no EWM | itens novos como filhos do item original |
-     | `CT.csv` | colunas da linha `CT.csv` do template; um template de importação do ETM no repositório ajusta a ordem |
+     | Time e categoria (`filedAgainst`) | o time de quem configura; a categoria dele |
+     | Tipos `ib` · `defeito` · `tarefa` | Item de Backlog (também o épico, se a PA não tem Épico) · Defeito · Tarefa |
+     | Campos de cada tipo | os obrigatórios + Planejado para, Responsável, Estimativa e, no IB, o de critérios de aceite (nome com "aceite") |
+     | `padroes` | um valor por obrigatório de enumeração, o mais próximo do trabalho (IB: "Melhoria"; Tarefa: categoria de horas, OTR, Clarity) |
+     | `por-prefixo` (Tarefa) | classificação por prefixo: `[ESP]` análise · `[DEV]` desenvolvimento · `[VER]` testes · `[ATD]` suporte · demais "outra" |
+     | Links | pai, filhos, implementa, relacionado; `depende` só se a PA tiver |
+     | Horas | o time code e o tipo de trabalho padrão da PA |
+     | Artefatos do RM `HF` · `REG` · `GL` · `ET` | tipo e pasta por proximidade de nome |
+     | Bundle (`rm.download`) | `docs/elm/<nome>` |
+     | `qm` | a PA do ETM associada; não há → sem casos de teste no ETM (o `CT.csv` fica) |
 
-     Tipo ou pasta sem nome parecido no `pa_*.json` → aí sim pergunte, só esse. Também sem perguntar: os títulos das tarefas (linha "Tarefas", padrão do template); o tipo do épico (Item de Backlog
-     pai se a PA não tem Épico); o campo de critérios de aceite (o de `workitem-types[IB].fields` com "aceite" no
-     nome; não há → `descrição`); a classificação de cada tarefa (valores da `elm-setup` etapa 4d; a PA não tem o
-     campo → "a PA não tem"). **Padrões do EWM:** a categoria do time para "Atendido por"/`filedAgainst` da Tarefa (a do
-     time de `ccm.team-areas`); a categoria de horas e o OTR que a `elm-setup` (etapa 4d) validou; e os outros
-     obrigatórios de enumeração do IB e da Tarefa (`required: true` de `ccm_list_workitem_fields`, reconhecidos pelo
-     attribute — um "Categoria" que não é `filedAgainst` entra aqui), com o valor por nome: proponha o mais próximo do
-     trabalho (ex.: "Correção" para defeito) e confirme numa rodada só. "Planejado para" não entra — é sempre a
-     iteração da sprint. O que ainda faltar aparece nas recusas da PA, e a `sdd-elm` oferece gravar. Sustentação e Atendimento não são perguntados: a `sdd-elm` os cria na primeira
-     sprint e grava os ids no `backlog.md`.
-   - **ELM nos agentes:** pelo **power `elm`** instalado, com `includePowers: true` nos agentes que usam ELM — o
-     MCP e as skills `elm-*` chegam pelo power, nunca por entrada no `mcp.json` do projeto nem por tool listada no
-     agente (as skills do `sdd` pedem **operações** às skills `elm-*`). Confira a versão: power `elm` ≥ 1.4.0 e
-     `mcp-elm` ≥ 1.0.43 (requisitos do `plugin.json` do `sdd`); mais antigo → avise que anexos e o contrato de
-     operações não funcionam e peça a atualização. Projeto com `elm` no `mcp.json` (setup antiga) → ofereça remover
-     (com "ok"), para não haver dois servidores `elm`.
-   - **Bundle do RM:** o caminho de download do `pa_*.json` (`rm.download.path`) e pastas com `index.md` de
-     `okf_version` → mostre o que achou e confirme; nada achado → pergunte. Registre na seção Projeto: é a base
-     que os agentes consultam **pelo MCP `okf`**, nunca lendo os arquivos — rode `okf_index` (`root` = raiz do repositório
-     + `rm.download.path` do `pa_*.json`, absoluto) até `restantes=0` e mostre quantos documentos há; o caminho vai no `{{BUNDLE}}` dos agentes, como
-     leitura negada (no `.gitignore` → avise que só existe nesta máquina, depois da `elm-sync`).
+     Valor sem nome parecido → aí sim pergunte, só esse. "Planejado para" não vai em `padroes` (é sempre a iteração
+     da sprint). Com "ok", grave `.kiro/config/sdd/pa_<nome>.json` (caminho relativo à raiz, `/`, sem segredos — vai
+     para o git) e confira com `elm_status(projeto)`: `valido` e `faltando` vazio. **Validação opcional** (a PA
+     recusa o que o `pa` não cobre): com "sim", `elm_criar_wi(tipo tarefa, "[TESTE] sdd-setup", pai = um IB que a
+     pessoa indicar)` → recusa `precondicao` mostra o atributo que falta em `padroes`; a tarefa criada a pessoa
+     remove na UI. Outra project area → repita (outro `pa_<nome>.json`) e diga na seção ELM qual é o padrão.
+   - Seção ELM do `sdd.md`, também sem perguntas: publicar requisitos `na-aprovacao`, ET `não publica`, manual
+     `nada`, pontos `não`, fatia dividida "filhos do item original", categoria do IB de defeito (o valor de
+     correção), títulos das tarefas e colunas do `CT.csv` do template. Sustentação e Atendimento não são
+     perguntados: nascem na primeira sprint ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §2).
+   - **Bundle do RM** (`rm.download` do `pa`): pastas com `index.md` de `okf_version` → mostre e confirme; vazio →
+     ofereça a `elm-sync` (baixar). É a base que os agentes consultam **pelo MCP `okf`**, nunca lendo os arquivos —
+     rode `okf_index` (`root` = raiz do repositório + `rm.download`, absoluto) até `restantes=0` e mostre quantos
+     documentos há; o caminho vai no `{{BUNDLE}}` dos agentes, como leitura negada (no `.gitignore` → avise que só
+     existe nesta máquina, depois da `elm-sync`).
 
 ## Passo 5 — Inventário de skills e toolkits
 
 Siga [references/toolkits.md](references/toolkits.md): procure toolkits (com e sem manifesto) e skills avulsas
 do projeto (`.kiro/skills/*/SKILL.md`), do usuário (`~/.kiro/skills/*/SKILL.md`) e de outros powers
 (`~/.kiro/powers/installed/*/skills/*/SKILL.md`; não achou nada ali → `~/.kiro/powers/**/skills/*/SKILL.md`),
-**exceto** as do fluxo (`sdd`, `sdd-*`, e `sdd2`, `sdd2-*` de uma instalação antiga) e as do power `elm`
-(`elm`, `elm-*`: chegam pelo power `elm`, nos agentes com `includePowers: true`). Para cada uma:
+**exceto** as do fluxo (`sdd`, `sdd-*`, `elm-*` deste power, e `sdd2`, `sdd2-*` de uma instalação antiga). Para cada uma:
 nome, início da `description`, origem e, se houver, toolkit e papéis. Toolkit cujo `deteccao` casa com o projeto
 → "detectado".
 
@@ -184,12 +185,12 @@ pré-marcadas pelos `papeis` do toolkit e pelo tipo de projeto (formato em `tool
 
 | Agente | Já tem (do fluxo) | Sugestão de extras |
 |---|---|---|
-| `sdd-produto` | triar, entrevistar, especificar, prd, fatiar, planejamento, atender, consolidar, aprender (registrar), iniciar, status, elm | skills de domínio/negócio |
+| `sdd-produto` | triar, entrevistar, especificar, prd, fatiar, planejamento, atender, consolidar, aprender (registrar), iniciar, status | skills de domínio/negócio |
 | `sdd-pesquisador` | pesquisar | skills de stack para ler o código (ex.: `java`) |
-| `sdd-codificador` | desenvolver, plano, implementar, iniciar, status, elm | skills de stack e de teste do toolkit (ex.: `spring-batch-job`, `java`) |
-| `sdd-revisor` | revisar, iniciar, status, elm | skills de padrões e de revisão da stack |
-| `sdd-verificador` | verificar, iniciar, status, elm | skills de teste de aceite (Playwright, teste de job, API) |
-| `sdd-orquestrador` | loop, desenvolver, plano, implementar, status, elm | normalmente nenhuma |
+| `sdd-codificador` | desenvolver, plano, implementar, iniciar, status | skills de stack e de teste do toolkit (ex.: `spring-batch-job`, `java`) |
+| `sdd-revisor` | revisar, iniciar, status | skills de padrões e de revisão da stack |
+| `sdd-verificador` | verificar, iniciar, status | skills de teste de aceite (Playwright, teste de job, API) |
+| `sdd-orquestrador` | loop, desenvolver, plano, implementar, status | normalmente nenhuma |
 
 Aprender e setup rodam na **sessão padrão** (sem agente); o modo registrar da aprender também no `sdd-produto`,
 na consolidação. A consolidação é do P.O. ou do SM, no `sdd-produto`
@@ -199,7 +200,7 @@ Para cada agente, **uma mensagem só**: a proposta completa já marcada pelos pa
 o que muda — marcar/desmarcar uma skill, um MCP, trocar o modelo). Nada é perguntado item a item:
 
 ```
-🤖 sdd-codificador — já tem: desenvolver, plano, implementar, iniciar, status, elm
+🤖 sdd-codificador — já tem: desenvolver, plano, implementar, iniciar, status
 Skills  [x] java (toolkit java)  [x] spring-batch-job (toolkit batch)  [ ] angular (toolkit front)
 MCPs    [x] elm (leitura; escrita com confirmação)  [x] banco: @<servidor>/<tool de consulta>
 Modelo  padrão do Kiro
@@ -211,10 +212,10 @@ Padrões da proposta:
 1. **Skills:** marcadas só as de toolkits **detectados** com o papel do agente; as outras aparecem desmarcadas.
 2. **MCPs:** o de banco entra como somente leitura em pesquisador, codificador, revisor e verificador — só a tool
    de consulta (`@<servidor>/<tool>`), nunca o servidor inteiro se ele tiver tool de escrita; browser/Playwright
-   marcado no verificador em projeto `frontend`. **ELM** (projeto com ELM): `includePowers: true` em
-   `sdd-produto`, `sdd-codificador`, `sdd-orquestrador`, `sdd-revisor` e `sdd-verificador` (estes dois só para a
-   própria tarefa); o pesquisador também recebe o power (`includePowers` é de todos os powers e traz o `okf`), mas nunca pede nada ao ELM. Desmarcado pela pessoa → a escrita no ELM
-   vira `ELM pendente` naquele agente.
+   marcado no verificador em projeto `frontend`. **ELM** (projeto com ELM): as tools `@elm/elm_*` que o template de cada agente já traz (leitura liberada; escrita
+   com `ask`) — `sdd-produto`, `sdd-codificador`, `sdd-orquestrador`, `sdd-revisor` e `sdd-verificador` (estes dois
+   só para a própria tarefa); o pesquisador não tem. Projeto sem ELM ou desmarcado pela pessoa → tire as `@elm/…` e
+   as regras `sdd/elm/…` do agente (a escrita vira `ELM pendente`).
 3. **Modelo:** sempre o padrão do Kiro — não pergunte; a pessoa troca na proposta se quiser.
 4. Só codificador e orquestrador: **subagentes** — os `sdd-*` do fluxo marcados; agentes do projeto
    (`.kiro/agents/*`, `~/.kiro/agents/*`, exceto `sdd-*`) listados desmarcados, com o tipo de tarefa que a descrição
@@ -289,9 +290,8 @@ cada arquivo gravado em `.kiro/agents/`, `.kiro/hooks/` e `.kiro/workflows/` —
 - JSON de cada agente faz parse; `name` = nome do arquivo; nenhum `{{…}}` sobrando; agente com `@<servidor>/…` de MCP do
   projeto em `tools` tem `"includeMcpJson": true` e a regra `mcp` (`allow` para as de leitura, que também estão em
   `allowedTools`; `ask` para as de escrita, que **não** estão em `allowedTools`); as do `okf` e do `gitlabpr` (MCPs do power)
-  ficam na regra `power` (`sdd/okf/<tool>`, `sdd/gitlabpr/<tool>`), nunca na `mcp`; `includePowers: true` em todos,
-  nenhuma tool `@elm/…` listada em agente
-  e nenhum servidor `elm` no `mcp.json` do projeto; `.kiro/steering/` tem só o
+  ficam na regra `power` (`sdd/okf/<tool>`, `sdd/gitlabpr/<tool>`, `sdd/elm/<tool>`), nunca na `mcp`; `includePowers:
+  true` em todos; nenhuma `@elm/…` no pesquisador nem servidor `elm` no `mcp.json` do projeto; `.kiro/steering/` tem só o
   `sdd.md` do fluxo (nenhum `sdd2*.md` nem `sdd-projeto.md` sobrando), e nenhum `.kiro/agents/sdd2-*.json`.
 - Ferramentas que varrem a raiz do repositório (test runners, linters, `tsc`, varredura de arquivos) ignoram
   `.kiro/local/` — onde o loop cria as worktrees? Não ignoram → acrescente a exclusão na configuração delas (com

@@ -1,10 +1,10 @@
 ---
 name: sdd-prd
-description: "Escreve o PRD de um épico ou demanda no fluxo sdd — o quê e o porquê na linguagem do negócio: problema, solução, atores, histórias com cenários de aceite (Gherkin), regras de negócio, decisões de implementação e de teste em nível de módulo, não funcionais e fora de escopo. Explora o código e a documentação do ELM antes, entrevista a pessoa (sdd-entrevistar) e conduz o GATE do PRD (aprovação do P.O.), depois do qual as histórias, regras e termos vão para o DOORS Next pela sdd-elm. Use em \"escreve o PRD\", \"documenta a demanda\", \"épico\", \"especificar a demanda\", \"aprova o PRD\"."
+description: "Escreve o PRD de um épico ou demanda no fluxo sdd — o quê e o porquê na linguagem do negócio: problema, solução, atores, histórias com cenários de aceite (Gherkin), regras de negócio, decisões de implementação e de teste em nível de módulo, não funcionais e fora de escopo. Explora o código e a documentação do ELM antes, entrevista a pessoa (sdd-entrevistar) e conduz o GATE do PRD (aprovação do P.O.), depois do qual as histórias, regras e termos vão para o DOORS Next pelo MCP elm. Use em \"escreve o PRD\", \"documenta a demanda\", \"épico\", \"especificar a demanda\", \"aprova o PRD\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.9.0"
+  version: "3.0.0"
 ---
 
 # sdd-prd — O quê e por quê (épico)
@@ -20,7 +20,7 @@ v0.2 por história, regra e termo novo** — o formato de [references/okf-elm.md
 bundle que a `elm-sync` mantém. São esses arquivos que sobem para o DOORS Next depois do GATE; até lá, ficam aqui.
 
 O PRD é um **registro de decisões** e a **proposta de mudança** da documentação oficial — não um documento vivo.
-Depois de aprovado, as histórias (HF), regras (REG) e termos (GL) vão para o DOORS Next (`sdd-elm`), que é a fonte
+Depois de aprovado, as histórias (HF), regras (REG) e termos (GL) vão para o DOORS Next ([publicação](../sdd-consolidar/references/elm-publicar.md)), que é a fonte
 oficial; o que vale a longo prazo é o ELM, o glossário e os ADRs. Se o PRD afirma algo que ninguém decidiu, é um
 defeito do PRD. Toda demanda entra pela `sdd-triar`; só o que ela classifica como **épico** chega aqui. Uma fatia
 com regra clara é trilha padrão sem épico, com uma ficha no lugar do PRD.
@@ -33,8 +33,7 @@ PRD é decisão de uma pessoa (o GATE do PRD): chamada em modo autônomo (`AUTON
 sem pessoa na conversa) → "PRD, backlog e atendimento nunca são AFK — especifique numa sessão com o P.O." e pare.
 
 1. Peça (ou leia, se veio da `sdd-triar`) a descrição **longa** da demanda: quem pediu, o problema, exemplos
-   reais, prazos. Work item do EWM → pela skill `elm-ccm` do power `elm` (se instalado), com descrição e
-   comentários.
+   reais, prazos. Work item do EWM → `elm_ler_wi(id, comentarios)`.
 2. **Explore antes de perguntar** (subagente `sdd-pesquisador`, se houver; senão você mesmo, só leitura):
    - documentação atual no bundle do ELM, pelo MCP `okf` (`okf_search`, `okf_get_document`): histórias e regras
      que já tratam do assunto —
@@ -46,8 +45,8 @@ sem pessoa na conversa) → "PRD, backlog e atendimento nunca são AFK — espec
    não passou pela triagem → "use `sdd-triar`" e pare. Pasta de trabalho: a da `sdd-especificar`
    (`.kiro/local/especificacao/<EP>-<slug>/`, `slug` em kebab-case, sem acento); sem ela → "use
    `sdd-especificar EP-<nn>`" e pare (é ela que assume a `[ESP]` e monta a pasta).
-4. **EWM:** nada a registrar aqui — o épico já existe se a `[ESP]` dele está numa sprint (o modo *sprint* da
-   `sdd-elm` o cria antes da tarefa); fora de sprint, nasce quando entrar numa.
+4. **EWM:** nada a registrar aqui — o épico já existe se a `[ESP]` dele está numa sprint (a publicação da
+   sprint o cria antes da tarefa); fora de sprint, nasce quando entrar numa.
 
 ## Passo 2 — Entrevistar
 
@@ -59,7 +58,7 @@ Rode a **`sdd-entrevistar`** sobre a demanda, gravando em `decisoes.md` da pasta
 ### 3.1 Similares no ELM (obrigatório, antes de criar qualquer arquivo em `elm/`)
 
 Projeto com ELM: liste os artefatos que o PRD vai propor (tipo, título provisório, palavras-chave da entrevista e
-do glossário) e chame a **`sdd-elm` modo *similares*** — nunca as tools do `elm` direto. Mostre a tabela dela à pessoa e peça
+do glossário) e rode [similares](references/similares.md). Mostre a tabela à pessoa e peça
 uma decisão por artefato com acerto:
 
 | Relação encontrada | Decisões possíveis (recomendada primeiro) |
@@ -71,7 +70,7 @@ uma decisão por artefato com acerto:
 
 Registre cada decisão no `decisoes.md` (`D-nn`: artefato, id do ELM encontrado, relação, decisão, motivo) e, na
 tabela de artefatos do PRD, a coluna **No ELM**: `reusa <id>` · `altera <id>` · `novo (verificado <AAAA-MM-DD>)`.
-Verificação ao vivo pendente (sem o power `elm`) → `novo (só bundle <data>)`: a `sdd-elm` refaz a busca antes de publicar.
+Verificação ao vivo pendente (sem o MCP `elm`) → `novo (só bundle <data>)`: a publicação refaz a busca.
 Artefato que surgir depois (na escrita, na revisão ou numa mudança depois de aprovado) passa por aqui antes de
 virar arquivo. Projeto sem ELM → pule.
 
@@ -89,7 +88,7 @@ só aponta para eles. Regras de escrita:
 - **Alteração** de comportamento documentado → traga o artefato do bundle da `elm-sync` pelo
   `okf_get_document` (`ref` = o id; o `markdown` devolvido é o arquivo inteiro) e grave-o em `elm/`, mantendo `resource`, `id` e o `sources` do ELM; ponha
   `status: draft` e um `generated` novo; reescreva no estado **depois** da mudança. Sem bundle, leia o artefato
-  pela `elm-rm` › ler requisito e grave a mesma estrutura. A `sdd-elm` atualiza o artefato existente em vez
+  pelo `elm_ler_req(id)` e grave a mesma estrutura. A publicação atualiza o artefato existente em vez
   de criar outro. Na tabela do PRD, coluna "No ELM" = `altera <id>`.
 - **Reutilizar** (decisão do 3.1) → não crie conceito: a HF embute a REG existente (`[<id>](<id>)`), linka o termo
   existente e cita a HF existente; a linha na tabela do PRD fica com `reusa <id>` e sem arquivo em `elm/`.
@@ -121,12 +120,12 @@ Aprovar? (o P.O. ou quem ele delegou)
 - Decisão **em aberto que muda comportamento** → não há aprovação; volte à entrevista.
 - Aprovado → no `prd.md`: `status: aprovado`, versão `1.0`, data e quem aprovou no rodapé. Em **cada** conceito de
   `elm/`: `status: stable` e um `verified` com `{ by: human:<login de quem aprovou>, at: <agora> }` — sem esse
-  `verified` humano a `sdd-elm` não publica. Entrada `**Update**` no `log.md`. Grave só onde o PRD está:
+  `verified` humano nada é publicado. Entrada `**Update**` no `log.md`. Grave só onde o PRD está:
   - **primeiro GATE** (PRD na pasta de trabalho) → só ali; levar para a base, o `backlog.md` e o `sprint-<nn>.md`
     são da `sdd-especificar`. Próximo: "use `sdd-especificar EP-<nn>`" — ela fecha a sessão, leva o PRD aprovado
     para a base e diz o que vem depois (publicação no ELM e `sdd-fatiar`). Pare;
   - **mudança depois de aprovado** (PRD já na base) → na base, pelo bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base),
-    um commit; próximo: a `sdd-elm` modo *requisitos* para os conceitos alterados (se a publicação é `na-aprovacao`)
+    um commit; próximo: a [publicação dos requisitos](../sdd-consolidar/references/elm-publicar.md#requisitos-conceitos-okf-de-elm--doors-next) alterados (se a publicação é `na-aprovacao`)
     e o refinamento das fatias afetadas (`sdd-fatiar`). Pare — chamada pela `sdd-consolidar` (drift), devolva a ela,
     que segue para a publicação.
 
@@ -134,7 +133,7 @@ Aprovar? (o P.O. ou quem ele delegou)
 
 PRD `aprovado`/`fatiado` só muda por um pedido explícito: incremente a versão (`1.1` correção, `2.0` mudança de
 escopo), registre no rodapé, volte a `em-revisao` só o que mudou e repita o GATE. Conceito alterado: `status:
-draft`, `generated.at` novo; no GATE, um `verified` novo é acrescentado à lista. A `sdd-elm` atualiza os mesmos
+draft`, `generated.at` novo; no GATE, um `verified` novo é acrescentado à lista. A publicação atualiza os mesmos
 artefatos (pelo `resource`/`id` de cada conceito). Fatias já entregues que dependem do que mudou → avise e proponha
 fatias novas; não altere fatia concluída.
 
@@ -143,5 +142,4 @@ fatias novas; não altere fatia concluída.
 - Nunca invente regra, valor ou ator: sem fonte e sem decisão de uma pessoa, é `em aberto`.
 - O PRD não tem caminho de arquivo, nome de classe nem SQL — isso é do plano da fatia.
 - Escreva no idioma do projeto; nomes de sistemas, tabelas e campos na forma original.
-- Não invoque nem simule outra skill além das que os passos mandam chamar (`sdd-entrevistar`, `sdd-elm` modo
-  *similares*, o subagente revisor): depois do GATE, diga a próxima e pare.
+- Não invoque nem simule outra skill além das que os passos mandam chamar (`sdd-entrevistar`, o subagente revisor): depois do GATE, diga a próxima e pare.

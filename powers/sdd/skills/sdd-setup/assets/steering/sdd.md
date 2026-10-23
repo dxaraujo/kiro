@@ -27,7 +27,7 @@ Começar um item registrado: hub `sdd-iniciar` (diz a skill do papel: `sdd-espec
   pelo agente com a confirmação do Kiro, só da branch da fatia; sem ela, o comando pronto e a pessoa diz que
   publicou. Subagente do AFK não faz push (quem conduz commita).
 - **Uma skill por vez:** cada skill termina dizendo a próxima e para — nunca invoca nem simula a do passo seguinte
-  (os subagentes e a `sdd-elm` que ela manda chamar fazem parte dela); quem chama a próxima é a pessoa, ou o
+  (os subagentes que ela manda chamar fazem parte dela); quem chama a próxima é a pessoa, ou o
   orquestrador no loop. Consolidar (fatia `mergeada`) é do P.O. ou do SM, no `sdd-produto` — nunca do agente do Dev.
 - Push, troca de branch e escrita no ELM só com "sim" de uma pessoa; push nunca para a base. Merge só do PR
   aprovado, pelo **Dev responsável** (`gitlab_mesclar_mr`, com confirmação); nunca `--force`.
@@ -64,7 +64,7 @@ Começar um item registrado: hub `sdd-iniciar` (diz a skill do papel: `sdd-espec
 | Toolkits | <nome (origem) | nenhum> |
 | Steering | produto `<product.md>` · tecnologia `<tech.md>` · estrutura `<structure.md>` · extras `<… | nenhum>` |
 | Glossário · ADRs | `<docs/glossario.md>` · `<docs/adr | não há>` |
-| Bundle do ELM (cópia local em Markdown, baixada pela `elm-sync`) | `<rm.download.path do pa_*.json — hoje docs/elm/<pa>> | não há` — consulta **só pelo MCP `okf`**: `okf_search` para achar, `okf_get_document` para ler, `root` = caminho absoluto de `rm.download.path` do `pa_*.json` (o da linha "Usa ELM"): raiz do repositório + o `path`, a mesma `dest` da `elm-sync` (leia o `pa_*.json` a cada sessão: ele é a fonte, este valor é cópia); `okf_index` antes da primeira busca da sessão. Nunca leia nem busque os arquivos dela |
+| Bundle do ELM (cópia local em Markdown, baixada pela `elm-sync`) | `<rm.download do pa — ex.: docs/elm/<pa>> | não há` — consulta **só pelo MCP `okf`**: `okf_search` para achar, `okf_get_document` para ler, `root` = caminho absoluto de `rm.download.path` do `pa_*.json` (o da linha "Usa ELM"): raiz do repositório + o `path`, a mesma `dest` da `elm-sync` (leia o `pa_*.json` a cada sessão: ele é a fonte, este valor é cópia); `okf_index` antes da primeira busca da sessão. Nunca leia nem busque os arquivos dela |
 
 **Regras críticas** (BLOQUEANTE na revisão):
 - <ex.: escrita em lote sempre idempotente por chave de negócio>
@@ -105,16 +105,14 @@ Na worktree do `sdd-loop`: `cd .kiro/local/wt/<ft> && <comando>`. Falha de ambie
 
 | Item | Valor |
 |---|---|
-| Usa ELM | `<sim — <caminho do pa_*.json> | não>` (pelo power `elm`, com `includePowers: true` em `sdd-produto`, `sdd-codificador`, `sdd-orquestrador` e, só para a própria tarefa, `sdd-revisor` e `sdd-verificador`; o `sdd` pede operações às skills `elm-*`; sem o power, a escrita vira `ELM pendente`) |
+| Usa ELM | `<sim — .kiro/config/sdd/pa_<nome>.json (padrão; outros: …) | não>` — o MCP `elm` lê o `pa`; regras em `references/elm.md` da skill `sdd`; sem o MCP, a escrita vira `ELM pendente` |
 | Publicar requisitos · ET | `<na-aprovacao | no-merge>` · `<não publica | as-built no merge>` (itens do EWM: só quando entram na sprint) |
 | Manual no DOORS Next | `<change set, módulo, links restringe, baseline | nada>` |
 | Fatia dividida no EWM | `<itens novos como filhos do item original | fecha o original e cria itens novos>` |
-| Tipo · pasta no RM | HF `<História de Usuário>` `<pasta>` · REG `<Regra>` `<pasta>` · GL `<Termos de Glossário>` `<pasta>` · ET `<… | —>` |
-| Tipo no EWM · pontos P/M/G | épico `<Épico | Item de Backlog (pai)>` · fatia `<Item de Backlog>` · `<não | 2 · 3 · 5>` (opcional; o planejamento prevê pela vazão) |
-| Critérios de aceite no IB | `<nome do campo em workitem-types[IB].fields do pa_*.json | descrição>` |
+| Pontos P/M/G no EWM | `<não | 2 · 3 · 5>` (opcional; o planejamento prevê pela vazão) |
+| Critérios de aceite no IB | `<nome do campo em ccm.tipos.ib.campos do pa | descrição>` |
+| IB de defeito | `<campo = valor de correção (ex.: Categoria = Correção) | —>` (os demais padrões estão no `pa`) |
 | Tarefas (títulos padrão; editáveis à mão) | `[ESP] EP-<nn> Especificação` · `[DEV] FT-<nnn> Implementar` · `[REV] FT-<nnn> Revisar` · `[VER] FT-<nnn> Verificar` · `[APR] FT-<nnn> Aprovar plano` · `[APR] FT-<nnn> Aprovar PR` · `[ATD] AT-<nnn> <pedido>` · `[GB] Gerenciamento do backlog` |
-| Padrões do EWM (campos que a PA exige) | IB: `<atributo obrigatório = valor (defeito → <valor> · demais → <valor>) | —>` · Tarefa: Atendido por `<categoria do time | —>` · categoria de horas `<Aplicativo | —>` · OTR `<valor aceito com ela | —>` · `<outro atributo = valor | —>` |
-| Classificação da tarefa | `<[ESP] Análise / Especificação · [DEV] Desenvolvimento · [REV] Outra - Não listada · [APR] Outra - Não listada · [VER] Testes de Homologação · [ATD] Suporte / Apoio Técnico Especializado · [GB] Outra - Não listada | a PA não tem>` |
 | `CT.csv` (colunas na ordem do template do ETM) | `<Tipo=Caso de Teste · Resumo · Responsável · Status=<inicial> · Categoria · Planejado para · Descrição>` |
 
 ## Agentes

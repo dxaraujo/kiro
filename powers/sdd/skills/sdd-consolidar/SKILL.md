@@ -1,10 +1,10 @@
 ---
 name: sdd-consolidar
-description: "Fecha uma fatia do fluxo sdd depois do merge do PR — processo de produto, do P.O. ou do SM (analista de negócio) no agente sdd-produto, com horas na tarefa [GB] Gerenciamento do backlog: lê o campo Drift de negócio do status.md (marcado pela revisão e pela verificação) e, com drift, leva o PRD ou a ficha a nova versão; manda para o ELM pela sdd-elm, numa confirmação, os requisitos, a regra da ficha as-built, a especificação técnica as-built (escrita pelo Dev no PR), os casos de teste (criados pelo agente no ETM, um por cenário verificado) e a conclusão do item de backlog; leva os ADRs do PR para a pasta de ADRs, corrige o glossário, marca a fatia como concluída no backlog, registra as lições (sdd-aprender) e diz o que vem a seguir no épico. Use em \"PR mergeado\", \"fecha a FT-031\", \"consolidar\", \"concluir a fatia\", \"a fatia foi entregue\"."
+description: "Fecha uma fatia do fluxo sdd depois do merge do PR — processo de produto, do P.O. ou do SM (analista de negócio) no agente sdd-produto, com horas na tarefa [GB] Gerenciamento do backlog: lê o campo Drift de negócio do status.md (marcado pela revisão e pela verificação) e, com drift, leva o PRD ou a ficha a nova versão; manda para o ELM pelo MCP elm, numa confirmação, os requisitos, a regra da ficha as-built, a especificação técnica as-built (escrita pelo Dev no PR), os casos de teste (criados pelo agente no ETM, um por cenário verificado) e a conclusão do item de backlog; leva os ADRs do PR para a pasta de ADRs, corrige o glossário, marca a fatia como concluída no backlog, registra as lições (sdd-aprender) e diz o que vem a seguir no épico. Use em \"PR mergeado\", \"fecha a FT-031\", \"consolidar\", \"concluir a fatia\", \"a fatia foi entregue\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.9.0"
+  version: "3.0.0"
 ---
 
 # sdd-consolidar — Documentação viva depois do merge
@@ -41,41 +41,34 @@ releia o `design.md` nem o `verificacao.md` atrás de drift: isso já foi julgad
 - `não` → nada no PRD nem na ficha.
 - vazio (`—`) → pergunte a quem revisou ou verificou (Histórico) e grave a resposta no campo; não procure você.
 
-## Passo 2 — ELM (com o power `elm`; senão registre pendências)
+## Passo 2 — ELM (com o MCP `elm`; senão registre pendências)
 
-Pela **`sdd-elm`**, numa confirmação só, nesta ordem (os casos de teste precisam das URLs dos requisitos):
+Numa confirmação só, nesta ordem, como diz [references/elm-publicar.md](references/elm-publicar.md) (os casos de teste precisam dos ids dos requisitos):
 - *requisitos* — publicar/atualizar o que ainda não foi (publicação `no-merge` no `sdd.md`, ou a nova versão do
   Passo 1);
 - *regra da ficha* (fatia padrão sem épico com regra nova ou alterada) — gerar o conceito OKF da regra as-built
   em `.kiro/specs/<ft>-<slug>/elm/` (formato do `okf-elm.md` da `sdd-prd`; alteração → a partir do artefato do
-  bundle), mostrar e, com o `verified` humano, publicar pelo modo *requisitos*;
+  bundle), mostrar e, com o `verified` humano, publicar como os requisitos;
 - *especificação técnica* — se a linha ET do `sdd.md` diz `as-built no merge`: a ET **as-built** chegou escrita
   pelo Dev no PR (`elm/ET-<slug>.md`) e foi julgada com o código (rubrica C15); você não a escreve nem a reescreve.
   O `verified` humano é de quem aprovou o código: `{ by: human:<login>, at: <data da aprovação> }` do revisor
-  (`revisao-codigo-<N>.md` APROVADO, HITL) ou do Dev Sênior da `[APR] Aprovar PR` (AFK), com `status: stable`;
-  publicada e ligada ao IB (**implementa**) — modo *especificação técnica*. Sem a ET no PR → `ELM pendente [ET
-  FT-<nnn> escrever]` para o Dev, que a entrega num PR curto;
-- *casos de teste* — um por cenário verificado (`verificacao.md`/`CT.csv`), criados pelo agente no ETM com o link
-  **valida** para a história e o **testado por** do IB; ids no `verificacao.md` e no `status.md` — modo *testes*.
-  Falha (ex.: HTTP 403, sem permissão de criar no ETM) ou sem o power → `ELM pendente [CT FT-<nnn> criar]` e o
-  `CT.csv` como alternativa para importar à mão;
+  (`revisao-codigo-<N>.md` APROVADO, HITL) ou do Dev Sênior da `[APR] Aprovar PR` (AFK), com `status: stable`.
+  Sem a ET no PR → `ELM pendente [ET FT-<nnn> escrever]` para o Dev, que a entrega num PR curto;
+- *casos de teste* — um por cenário verificado (`verificacao.md`/`CT.csv`); ids no `verificacao.md` e no
+  `status.md`;
 - *tarefas* — a consolidação **não** lança horas nem conclui `[DEV]`, `[REV]`, `[VER]` ou `[APR]`: cada skill de
   papel concluiu a sua (a `[DEV]` no merge, a `[REV]` ao aprovar, a `[VER]` ao aceitar, a `[APR]` na aprovação do
   plano ou do PR; no AFK não há `[REV]` nem `[VER]`). Tarefa da fatia ainda aberta → mostre qual e de quem, e
   registre `ELM pendente [<chave>]: concluir <tarefa> (<login>)`, que a pessoa faz na sessão dela;
-- *backlog* — concluir o item de backlog da fatia no EWM (estado de conclusão da PA; e o do épico, na última
-  fatia — Passo 4) e comentar no IB o PR, a pasta da fatia e os ids publicados (modo *conclusão*). Tarefa
-  concluída sem horas não trava: a virada aponta;
-- *horas* — as da consolidação na `[GB] Gerenciamento do backlog` (modo *horas*: lança, não conclui — a `[GB]` é
-  contínua). Os créditos desta sessão vão na seção **Créditos de gestão** do `sprint-<nn>.md` aberto (Atividade `consolidação FT-<nnn>`;
+- *backlog* — concluir o IB da fatia (e o do épico, na última fatia — Passo 4). Tarefa concluída sem horas não
+  trava: a virada aponta;
+- *horas* — as da consolidação na `[GB] Gerenciamento do backlog`: `elm_lancar_horas(id, horas)` (lança, não
+  conclui — a `[GB]` é contínua). Os créditos desta sessão vão na seção **Créditos de gestão** do `sprint-<nn>.md` aberto (Atividade `consolidação FT-<nnn>`;
   ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4)), no commit do Passo 4. Linha `Sustentação:` sem `[GB]` → como na `sdd-triar` (sugira criá-la ou pergunte a tarefa).
 
-Sem o power `elm` nesta sessão ou com falha → `ELM pendente [<chave>]: <ação>` no Histórico do `status.md`; o
-`sdd-status` lista as pendências até alguém fazê-las numa sessão com o power `elm`.
-
-Bundle do ELM no repositório (`rm.download.path`) → sugira rodar a `elm-sync` para trazer o que foi publicado
-(é a base de conhecimento que os agentes consultam pelo `okf` na próxima pesquisa; depois dela, `okf_index`
-reindexa só o que mudou).
+Sem o MCP `elm` nesta sessão ou com falha → `ELM pendente [<chave>]: <ação>` no Histórico do `status.md`
+([pendências](../sdd/references/elm.md#pendências)). Depois da publicação, a `elm-sync` traz o publicado ao bundle e
+o `okf_index` reindexa só o que mudou.
 
 ## Passo 3 — Conhecimento que dura
 
@@ -102,7 +95,7 @@ retrospectiva do épico ou da sprint (`sdd-aprender`).
   seção Fatias do `sprint-<nn>.md` (revisor e verificador do Histórico, Tarefa ELM com os ids do `status.md`), com
   a Observação `puxada` (e `revisor único`, se o Histórico o tiver) — ela conta na vazão da sprint.
 - Todas as fatias do épico concluídas → épico `concluido` (PRD e backlog) e, com ELM, o item do épico no EWM
-  concluído (`sdd-elm` modo *conclusão*, na mesma confirmação do Passo 2; sem o power → `ELM pendente
+  concluído ([conclusão](references/elm-publicar.md#conclusão-do-ib-e-do-épico), na mesma confirmação do Passo 2; sem o MCP → `ELM pendente
   [EP-<nn> concluir]` no rodapé do PRD); sugira a retrospectiva do épico (`sdd-aprender`), com o lint do
   conhecimento.
 - **`sdd-aprender`** modo registrar para cada linha das **Lições candidatas** que o Dev gravou no merge (`status.md`
@@ -126,7 +119,7 @@ Lições: <n> registradas
 
 - Não apague a pasta da fatia: ela é o registro de como a mudança foi feita (o ELM é o registro do que o sistema
   faz).
-- Toda escrita no ELM só com confirmação, pela `sdd-elm`.
+- Toda escrita no ELM só com confirmação ([regras](../sdd/references/elm.md#regras-de-toda-escrita)).
 - Não escreve código: a correção que o glossário ou o drift pedirem no código vira fatia.
-- Não invoque nem simule outra skill além das que os passos mandam chamar (`sdd-elm`; `sdd-prd` ou `sdd-triar` no
+- Não invoque nem simule outra skill além das que os passos mandam chamar (`sdd-prd` ou `sdd-triar` no
   drift; `sdd-aprender` modo registrar): termine com o Passo 5 e pare.

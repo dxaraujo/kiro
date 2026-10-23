@@ -84,7 +84,7 @@ Fontes no fim deste arquivo.
 | `sdd-revisar` | revisão independente: PRD (P), plano (L), código (C, dois eixos) |
 | `sdd-verificar` | aceite de ponta a ponta com evidência; `CT.csv` para o ETM |
 | `sdd-consolidar` | pós-merge, processo de produto (P.O. ou SM, agente `sdd-produto`, horas na `[GB]`): drift marcado pela revisão e pela verificação, ELM as-built (requisitos, ET, casos de teste criados no ETM), ADRs do PR, glossário, conclusão |
-| `sdd-elm` | alimenta o ELM: similares antes de especificar (só leitura), requisitos (DOORS Next), backlog e sprint (EWM), atendimento, horas, casos de teste criados no ETM, links |
+| `elm-sync` | sincroniza o bundle OKF do DOORS Next nas duas vias (plano, baixar, enviar, conflitos) e reindexa no `okf` |
 | `sdd-loop` | fatias AFK até o PR, uma worktree por fatia, uma fase por contexto limpo |
 | `sdd-aprender` | lições, promoção de regras, retrospectiva com dados, casos de avaliação |
 
@@ -103,10 +103,11 @@ de `skills/sdd-setup/assets/`:
 | `.kiro/sdd/http.sh` (opcional) | única chamada HTTP que o verificador faz sem perguntar: só à URL de teste, com corpo da pasta `massa/` |
 | pasta do produto (proposta pela setup; padrão `.kiro/planejamento`) | `backlog.md`, épicos e PRDs, `equipe.json`, `acordos.md`, `roadmap.md`, `sprints/`, `atendimentos/`, `aprendizado/` — versionada; o que é local fica em `.kiro/local/` (fora do git) |
 
-O ELM é do **power `elm`** (MCP `mcp-elm` + skills `elm-*`): o `sdd` decide quando e o quê registrar e pede
-**operações** às skills `elm-*`, nunca chama tool direto. Os agentes que conduzem sessão (`sdd-produto`,
-`sdd-codificador`, `sdd-orquestrador`) e o revisor e o verificador (só para a própria tarefa) recebem o power com
-`includePowers: true`; o pesquisador também o recebe (traz o `okf`), mas não pede nada ao ELM. Requer power `elm` ≥ 1.4.0 e `mcp-elm` ≥ 1.0.43. Sem o power, a escrita
+O ELM vem no próprio power: o MCP **`mcp-elm`** (≥ 2.0.0) lê o `.kiro/config/sdd/pa_<nome>.json` do projeto (um por
+project area, gravado pela `sdd-setup`) e expõe operações (`elm_transicao`, `elm_lancar_horas`, `elm_criar_wi`,
+`elm_ligar`, `elm_publicar_req`…): a skill do passo passa só o caminho do projeto, os ids e o conteúdo, e recebe
+`{"ok": …}`. Regras comuns em [`skills/sdd/references/elm.md`](skills/sdd/references/elm.md). Leituras liberadas nos
+agentes; escritas com confirmação do Kiro, além do "sim" da skill; o pesquisador não tem ELM. Sem o MCP, a escrita
 vira pendência registrada.
 
 Cada agente tem as permissões mínimas do papel, nos dois blocos do formato universal (`toolsSettings` para a
@@ -136,12 +137,12 @@ histórias; tarefas filhas na sprint; cenário verificado → *Caso de Teste* (E
 Cada história, regra e termo nasce como um conceito **OKF v0.2** na pasta da spec (o mesmo formato do bundle da
 `elm-sync`), com aprovação registrada em `verified`; sobe para o DOORS Next só depois do GATE, de baixo para cima,
 com HF → REG como embed, sem nada extra no texto publicado e sempre com prévia e confirmação. Atributos e links entre
-requisitos ficam registrados nos conceitos, porque o MCP não os grava. Detalhes em [`skills/sdd-elm/references/mapeamento.md`](skills/sdd-elm/references/mapeamento.md).
+requisitos ficam registrados nos conceitos, porque o MCP não os grava. Detalhes em [`skills/sdd/references/elm.md`](skills/sdd/references/elm.md)
+e [`skills/sdd-consolidar/references/elm-publicar.md`](skills/sdd-consolidar/references/elm-publicar.md).
 
-Na consolidação, o agente cria no ETM um caso de teste por cenário verificado, com o link **valida** (power `elm`
-≥ 1.4.0, `create_testcase`); sem permissão de criar no ETM, o `CT.csv` é importado à mão. O MCP do power `elm`
-ainda não grava atributos de requisito, links requisito↔requisito, módulos, change sets nem baselines: quando o
-processo do projeto exige algum deles, a `sdd-elm` entrega o roteiro manual e registra a pendência.
+Na consolidação, o agente cria no ETM um caso de teste por cenário verificado, com o link **valida**
+(`elm_criar_ct`); sem permissão de criar no ETM, o `CT.csv` é importado à mão. O MCP `elm` ainda não grava atributos de requisito, links requisito↔requisito, módulos, change sets nem baselines: quando o
+processo do projeto exige algum deles, a skill do passo entrega o roteiro manual e registra a pendência.
 
 ## Pré-requisitos
 
@@ -152,7 +153,7 @@ processo do projeto exige algum deles, a `sdd-elm` entrega o roteiro manual e re
   bundle do ELM (nunca lendo os arquivos), e [`mcp-gitlabpr`](../../mcps/gitlabpr/), que lista, lê e abre os PRs (merge
   requests do GitLab) — credencial em `~/.config/mcp-gitlabpr/gitlabpr.properties` (`url` e `token`). Repositório
   fora do GitLab, ou sem a credencial → o fluxo entrega título e descrição do PR, e a pessoa o abre.
-- Opcional: power [`elm`](../elm/) (IBM ELM) com `elm-setup` feito; MCP de consulta ao banco (somente leitura);
+- Opcional: IBM ELM — credencial em `~/.config/mcp-elm/elm.properties` e o `pa` gerado pela `sdd-setup`; MCP de consulta ao banco (somente leitura);
   MCP de browser/Playwright para verificar frontend; Kiro Workflows habilitado (IDE: `kiroAgent.workflows.enabled`;
   CLI: `chat.enableWorkflows`) para as receitas experimentais.
 - Toolkits da stack do projeto (opcional — sem eles os agentes dependem do steering e do código vizinho).
@@ -200,7 +201,12 @@ gastou: o script `creditos.py` da `sdd-status` lê o consumo no `~/.kiro` de que
 `status.md` da fatia, para o `status.md` do épico (novo, criado pela `sdd-especificar`), para a ficha do AT ou para
 "Créditos de gestão" na sprint; na conclusão, a soma vai para o `sprint-<nn>.md` e, na virada da sprint, para o
 `backlog.md` (coluna `creditos`); a sprint também diz as versões do power usadas (`**Power sdd:**`). Peça "atualizar a configuração do sdd" (steering: nenhuma sessão termina sem registrar os créditos) e "atualizar os agentes do sdd"
-(o orquestrador deixa os créditos do loop para o merge). Projeto configurado com o power
+(o orquestrador deixa os créditos do loop para o merge). Na **3.0.0**, o power `elm` foi incorporado: o MCP
+`mcp-elm` 2.0 (reescrito) vem no `mcp.json` do `sdd`, lê o `.kiro/config/sdd/pa_<nome>.json` e expõe operações com
+entrada e saída fixas; a `sdd-elm` e as skills `elm-ccm`/`elm-rm`/`elm-qm`/`elm-gc`/`elm-setup` saem — cada skill
+chama a tool no próprio passo, e as regras comuns ficam em `sdd/references/elm.md`; a `sdd-setup` gera o `pa` (sem
+migração do formato antigo: gere de novo); a `elm-sync` passa a ser deste power. Desinstale o power `elm`, peça
+"atualizar a configuração do sdd" e "atualizar os agentes do sdd". Projeto configurado com o power
 `sdd2` ou com a v1 do `sdd`: desinstale o power antigo, instale este e peça "atualizar a configuração do sdd" — a
 setup pergunta a pasta do produto, junta os steerings num só, renomeia hooks, workflows e agentes e move
 `.kiro/produto/` e `.kiro/aprendizado/` com `git mv`.

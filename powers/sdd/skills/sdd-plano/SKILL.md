@@ -4,7 +4,7 @@ description: "Planeja uma fatia do fluxo sdd no formato de spec do Kiro — pesq
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.9.0"
+  version: "3.0.0"
 ---
 
 # sdd-plano — Decidir o como antes de codar
@@ -79,7 +79,8 @@ dado (diga qual) → **sugira** ao Dev trocar para HITL. A troca é do P.O. (ou 
 - Dev aceita → `fase: bloqueada (de: planejando)`, Bloqueio `aguardando troca para HITL` · motivo: `<risco>`, linha
   no Histórico e os créditos da sessão ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4); commit com os artefatos do plano e o `status.md` (`registrar plano`) → push → conferir no remoto
   (itens 1–3 da Entrega do Passo 5 da [`sdd-implementar`](../sdd-implementar/SKILL.md)) → horas da sessão na
-  `[DEV]` (`sdd-elm` modo *horas*, com "sim"; sem o power `elm` → `ELM pendente [<chave>]`) — ela fica
+  `[DEV]` (`elm_horas(<id>)` → desconte → `elm_lancar_horas(<id>, <h>)`, com "sim"; sem o MCP `elm` →
+  `ELM pendente [DEV FT-<nnn> horas]`) — ela fica
   **interrompida**, sem conclusão → avise o P.O. (troca pela `sdd-planejamento`, seção Troca de modo). Não troque
   de branch nem grave na base. A sessão pode ser encerrada: feita a troca, o Dev retoma pela `sdd-iniciar` →
   `sdd-desenvolver`, que sincroniza o `status.md` e devolve a fatia a este Passo 5, já no HITL.
@@ -108,8 +109,8 @@ base decide — trilha e modo não entram:
 **Com GATE** (Júnior, ou Pleno que pediu): pergunte qual Dev Sênior aprova — sugira o que vai revisar o PR (coluna
 Revisor do `sprint-<nn>.md` ou Histórico do `status.md`); AFK, sem revisor: um Dev Sênior ativo que não é quem
 implementa. Então `fase: plano-em-revisao` (conta no WIP de revisão humana), `Responsável` = quem aprova, e a tarefa
-**`[APR] FT-<nnn> Aprovar plano`** para ele (`sdd-elm` modo *sprint*, item 6, com "sim"; o id no campo ELM do
-`status.md`; sem o power `elm` → `ELM pendente [APR FT-<nnn> criar]`). Commit com `research.md`, `.config.kiro`,
+**`[APR] FT-<nnn> Aprovar plano`** para ele ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §8, com "sim";
+sem o MCP `elm` → `ELM pendente [APR FT-<nnn> criar]`). Commit com `research.md`, `.config.kiro`,
 `requirements.md`/`bugfix.md`, `design.md`, `tasks.md` e `status.md`, já com os créditos da sessão ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4) (`registrar plano`) → push → conferir no remoto
 (itens 1–3 da Entrega do Passo 5 da `sdd-implementar`) — quem aprova lê o plano no remoto → horas da sessão na
 `[DEV]` (lança, não conclui) → avise o aprovador (`sdd-revisar`, Aprovação do plano).
@@ -138,10 +139,10 @@ a parte alterada (com GATE e a `[APR]` já concluída → o aprovador a reabre p
 negócio → `fase: bloqueada (de: planejando)` com a pergunta para o P.O. Passo 5 sem pessoa: fatia AFK com risco →
 `fase: bloqueada (de: planejando)`, `aguardando troca para HITL` com o risco (a sugestão vai ao P.O.); GATE → Sênior
 segue para `implementando`; Pleno → a escolha do lote que quem chamou passou (sem ela: `plano-em-revisao`, e a
-pergunta fica para a sessão dele); nada de ELM (`ELM pendente`).
+pergunta fica para a sessão dele); nada de ELM (`ELM pendente [<chave>]`).
 
 ## Regras
 
 - Não invoque nem simule outra skill do fluxo: termine dizendo a próxima (`sdd-implementar`, o Dev Sênior da `[APR]`
-  ou o P.O. na troca de modo) e pare. A `sdd-pesquisar`, o subagente revisor e a `sdd-elm`, que os passos mandam
+  ou o P.O. na troca de modo) e pare. A `sdd-pesquisar` e o subagente revisor, que os passos mandam
   chamar, fazem parte desta skill.

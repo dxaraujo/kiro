@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "sdd",
-  "version": "2.9.0",
-  "description": "Engenharia agêntica orientada a especificação, com o IBM ELM como fonte oficial da documentação e planejamento ágil: triagem e registro de toda demanda no backlog, entrevista de alinhamento, PRD, fatias verticais AFK/HITL, plano no formato de spec do Kiro, TDD com backpressure, revisão e verificação independentes, PR lido por uma pessoa, consolidação no ELM e aprendizado composto. A setup cria no projeto os agentes e liga a cada um as skills escolhidas, inclusive as dos toolkits de stack (backend, batch, frontend).",
+  "version": "3.0.0",
+  "description": "Engenharia agêntica orientada a especificação, com o IBM ELM como fonte oficial da documentação (MCP mcp-elm incluído: work items, horas, requisitos, casos de teste e sincronismo do bundle) e planejamento ágil: triagem e registro de toda demanda no backlog, entrevista de alinhamento, PRD, fatias verticais AFK/HITL, plano no formato de spec do Kiro, TDD com backpressure, revisão e verificação independentes, PR lido por uma pessoa, consolidação no ELM e aprendizado composto. A setup cria no projeto os agentes e liga a cada um as skills escolhidas, inclusive as dos toolkits de stack (backend, batch, frontend).",
   "author": {
     "name": "Daniel Xavier Araújo",
     "email": "danielxaraujo@gmail.com"
@@ -70,15 +70,23 @@
     "status do sdd",
     "fechar a sessão",
     "atualizar a configuração do sdd",
-    "atualizar os agentes do sdd"
+    "atualizar os agentes do sdd",
+    "ewm",
+    "doors next",
+    "etm",
+    "work item",
+    "lançar horas",
+    "timesheet",
+    "sincronizar o elm",
+    "baixar os requisitos",
+    "configurar o elm"
   ],
   "extensions": {
     "io.github.dxaraujo.sdd": {
       "requires": {
-        "power:elm": ">=1.4.0",
-        "pypi:mcp-elm": ">=1.0.43"
+        "pypi:mcp-elm": ">=2.0.0"
       },
-      "note": "Opcional: só para projetos com ELM. A sdd-setup confere as versões; o sdd pede operações às skills elm-* (contrato), nunca as tools do MCP."
+      "note": "Projeto com ELM: a sdd-setup grava .kiro/config/sdd/pa_<nome>.json, que o MCP elm lê."
     }
   }
 }

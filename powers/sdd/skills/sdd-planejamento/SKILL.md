@@ -1,10 +1,10 @@
 ---
 name: sdd-planejamento
-description: "Planejamento ágil do projeto no fluxo sdd, ajustado a times que trabalham com agentes — roadmap e releases a partir dos épicos, acordos do time (cadência Scrum ou Kanban, Definition of Ready e Done, limites de WIP incluindo a capacidade de revisão humana, que é o gargalo), planejamento da sprint como cadência — compromisso com a meta, previsão por prioridade, dependências e capacidade (vazão de fatias e lead time, especificação e reserva de atendimento), fluxo puxado dentro da sprint —, acompanhamento, review com as evidências de aceite, retrospectiva com dados e virada de sprint; publica a sprint no EWM pela sdd-elm. Use em \"monta o planejamento\", \"planejar a sprint\", \"roadmap\", \"virada de sprint\", \"fechar a sprint\", \"review da sprint\", \"capacidade do time\", \"acordos do time\", \"encaixe na sprint\"."
+description: "Planejamento ágil do projeto no fluxo sdd, ajustado a times que trabalham com agentes — roadmap e releases a partir dos épicos, acordos do time (cadência Scrum ou Kanban, Definition of Ready e Done, limites de WIP incluindo a capacidade de revisão humana, que é o gargalo), planejamento da sprint como cadência — compromisso com a meta, previsão por prioridade, dependências e capacidade (vazão de fatias e lead time, especificação e reserva de atendimento), fluxo puxado dentro da sprint —, acompanhamento, review com as evidências de aceite, retrospectiva com dados e virada de sprint; publica a sprint no EWM pelo MCP elm. Use em \"monta o planejamento\", \"planejar a sprint\", \"roadmap\", \"virada de sprint\", \"fechar a sprint\", \"review da sprint\", \"capacidade do time\", \"acordos do time\", \"encaixe na sprint\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.9.0"
+  version: "3.0.0"
 ---
 
 # sdd-planejamento — Planejar o fluxo, não só o calendário
@@ -39,7 +39,7 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
    pessoa: `P.O.`, `Especificador`, `Dev`, `QA`, `SM`; exatamente um P.O. ativo), **senioridade** de quem é Dev
    (`Júnior`, `Pleno` ou `Sênior` — decide o modo das fatias da pessoa e quem revisa PR: [Modo pela
    senioridade](#modo-pela-senioridade); arquivo existente com Dev sem ela → pergunte só isso, para cada um; nenhum Dev
-   Sênior ativo → avise: nenhum PR teria quem o revise), login do ELM (de `members` do `pa_*.json`, se houver), horas por
+   Sênior ativo → avise: nenhum PR teria quem o revise), login do ELM, horas por
    semana, ausências. Pergunte também, por pessoa, quantas horas por semana vão para **revisar** (planos, PRs) e
    **verificar** — somadas em `horas-revisao-semana` —, para **especificar** (entrevista, PRD, fatiamento:
    `horas-especificacao-semana`; P.O. e Especificador) e quem **atende** demandas (`atende`). Grave no formato
@@ -101,7 +101,7 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
    **aprovações previstas** também consomem as horas de revisão dos Dev Sêniores: o plano de cada fatia de Júnior
    (e de Pleno que costuma pedir o GATE) e o PR de cada fatia AFK. A `[APR]` não nasce aqui — nasce no gate.
 4. **Meta da sprint:** uma frase de resultado de negócio que as fatias entregam juntas.
-5. **Iteração:** pergunte a iteração do EWM da sprint (de `iterations` do `pa_*.json`; não está lá → a `sdd-elm` procura no EWM antes de propor criar); é o `plannedFor` de
+5. **Iteração:** pergunte a iteração do EWM da sprint (`elm_iteracao(nome)` acha ou cria — [references/elm-sprint.md](references/elm-sprint.md) §1); é o `plannedFor` de
    todos os IBs e tarefas desta sprint.
 6. **Proposta**, com as três seções:
    ```
@@ -115,9 +115,8 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
    Próximas a puxar (fora da previsão, na ordem): <FT…>
    ```
 7. "ok" → grave `sprints/sprint-<nn>.md` (com `**Power sdd:**` = o `metadata.version` desta skill), `sprint`, `responsavel`, `status` e o `modo` final no `backlog.md` pelo bloco
-   [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base) e **chame sempre a `sdd-elm` modo *sprint*** (planos, IBs e tarefas `[DEV]` `[REV]`
-   `[VER]` `[ESP]` na iteração escolhida; a `[APR]` nasce no gate), para a sprint e o EWM ficarem iguais. Sem o power `elm` ou com falha, a
-   coluna "Tarefa ELM" fica `pendente` e a `sdd-elm` publica depois.
+   [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base) e **publique sempre no EWM** ([references/elm-sprint.md](references/elm-sprint.md) §1–4), para a sprint e o EWM ficarem iguais. Sem o MCP `elm` ou com
+   falha, a coluna "Tarefa ELM" fica `pendente` e é publicada depois.
 
 ## Modo pela senioridade
 
@@ -161,9 +160,9 @@ capacidade (revisão, vazão, HITL) e as opções, com a recomendada:
 Com a decisão do P.O. (ou de quem ele delegou): `sprint`, `responsavel` e o modo final pela
 [senioridade](#modo-pela-senioridade) no `backlog.md` (e, na fatia HITL, revisor — Dev Sênior, pela [regra do
 revisor](#modo-pela-senioridade) — e verificador, que não seja quem implementa — as `[REV]`/`[VER]` precisam deles), uma linha no
-`sprint-<nn>.md` com a Observação `encaixe: <decisão> (<quem decidiu>, <data>)`, pelo bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base), e a `sdd-elm` modo
-*sprint* para as tarefas da fatia (AT: modo *atendimento*, Registrar). Na troca, as tarefas da fatia que sai vão
-para a próxima iteração (`sdd-elm`, só o `plannedFor`). Depois, volte à `sdd-desenvolver` (Passo 3, item 4). Sem
+`sprint-<nn>.md` com a Observação `encaixe: <decisão> (<quem decidiu>, <data>)`, pelo bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base), e as tarefas da fatia
+no EWM ([references/elm-sprint.md](references/elm-sprint.md) §3–4; AT: §6). Na troca, as tarefas da fatia que sai vão para a próxima iteração
+(`elm_atualizar_wi(ids, iteracao)`). Depois, volte à `sdd-desenvolver` (Passo 3, item 4). Sem
 decisão, a fatia não começa; urgência acelera a decisão, não a dispensa.
 
 ## Troca de modo (AFK → HITL)
@@ -175,12 +174,11 @@ SM), aqui, na base:
 1. Mostre a fatia, o motivo (Histórico do `status.md` da branch, por `git show origin/<branch>:…`) e a sugestão de
    **revisor** (Dev Sênior ativo, pela [regra do revisor](#modo-pela-senioridade)) e de **verificador** (não quem
    implementa), cada um o de **menor alocação** na sprint: a soma das horas estimadas das tarefas abertas de cada
-   pessoa na iteração da sprint no EWM (`sdd-elm` → `elm-ccm` › **listar itens**, só leitura); sem ELM, a contagem
+   pessoa na iteração da sprint no EWM (`elm_listar_wi(iteracao, dono)`); sem ELM, a contagem
    de fatias de cada um no `sprint-<nn>.md`.
 2. "ok" → `modo: HITL` na linha da fatia no `backlog.md`; no `sprint-<nn>.md`, Modo `HITL`, Revisor, Verificador e a
    Observação `modo: AFK → HITL (<quem>, <data>, <motivo>)` — pelo bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base).
-   Com o "ok", a `sdd-elm` modo *sprint* (item 5, troca AFK → HITL) cria a `[REV]` e a `[VER]` e grava os ids na
-   coluna "Tarefa ELM".
+   Com o "ok", crie a `[REV]` e a `[VER]` ([references/elm-sprint.md](references/elm-sprint.md) §7) e grave os ids na coluna "Tarefa ELM".
 3. Avise o Dev: ele retoma pela `sdd-iniciar` → `sdd-desenvolver`, que sincroniza o `status.md` com a troca.
 
 Não troca → Observação `modo: AFK mantido (<quem>, <data>)` no `sprint-<nn>.md` e avise o Dev, que retoma no AFK
@@ -197,7 +195,7 @@ screenshot). Registre o retorno do P.O. no `sprint-<nn>.md`; pedido novo vira ce
 1. **Retrospectiva com dados** — `sdd-aprender` modo retrospectiva (vazão, lead time, rodadas de revisão,
    correções humanas por causa, AFK que chegaram ao PR sozinhas). Registre no `sprint-<nn>.md`: bom · melhorar ·
    ações (cada ação com dono).
-2. **Horas:** `sdd-elm` modo *horas*, relatório da sprint por tipo e por pessoa. Preencha "Números"
+2. **Horas:** relatório da sprint por tipo e por pessoa ([references/elm-sprint.md](references/elm-sprint.md) §5). Preencha "Números"
    (planejadas × lançadas) e aponte as tarefas concluídas sem horas lançadas — só aqui, no fechamento.
    **Créditos** (só do git, nunca do `~/.kiro`): a coluna Créditos dos Números soma as colunas Créditos das seções
    Fatias, Especificação e Atendimento e a seção Créditos de gestão; `**Power sdd:**` ganha as versões que
@@ -215,8 +213,7 @@ screenshot). Registre o retorno do P.O. no `sprint-<nn>.md`; pedido novo vira ce
    retrabalho): o % é o do `acordos.md`; mostre o consumido da sprint (horas das `[ATD]` + retrabalho) contra ela
    e, se ficou muito acima ou abaixo, **proponha** um novo % ao P.O. — muda o acordo só com "ok". Replaneje a
    próxima pelo modo sprint (migradas consomem capacidade primeiro).
-5. **ELM** — `sdd-elm` modo *sprint*, virada: as tarefas não concluídas só mudam o `plannedFor` para a nova
-   iteração (o pai não muda) e as novas são publicadas; roteiro manual de baseline, se o projeto exige. Iteração do
+5. **ELM** — virada ([references/elm-sprint.md](references/elm-sprint.md) §5): as não concluídas só mudam de iteração e as novas são publicadas (§4). Iteração do
    EWM mais longa que a sprint (a mesma cobre as duas) → nada muda no EWM; diga isso, e o relatório de horas da
    sprint conta só as tarefas listadas no `sprint-<nn>.md`, não a iteração inteira.
 

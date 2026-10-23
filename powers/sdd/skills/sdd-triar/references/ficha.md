@@ -90,7 +90,7 @@ Então o desconto aplicado é de R$ 50,00
   que não se aplica; "Então" sempre verificável. Numerados `C1`, `C2`… — são o `cobre` da fatia: o plano, a
   rubrica L e a verificação leem daqui.
 - **Regras:** uma por linha, com valores e a fonte (`D-nn` ou id do ELM). Antes de escrever uma regra nova ou
-  alterada, a `sdd-elm` modo *similares* (só leitura); "No ELM" = `reusa <id>` · `altera <id>` ·
+  alterada, [similares](../../sdd-prd/references/similares.md); "No ELM" = `reusa <id>` · `altera <id>` ·
   `novo (verificado <data>)`. A regra vai para o DOORS Next na consolidação, as-built (`sdd-consolidar`).
 - **Rápida:** sem Regras nem Cenários — o que está no formato dela. Aprovação do P.O. só se a fonte do esperado é
   uma decisão nova (aí é `D-nn` aprovada).

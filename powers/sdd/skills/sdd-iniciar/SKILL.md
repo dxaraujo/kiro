@@ -4,14 +4,14 @@ description: "Hub de início do fluxo sdd — recebe um work item já registrado
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.9.0"
+  version: "3.0.0"
 ---
 
 # sdd-iniciar — Hub: qual skill faz este item
 
 Cada tarefa do EWM tem um papel e uma skill dona, que pode ser chamada direto por quem tem o papel. Esta skill só
 descobre o tipo do item e diz qual é: não confere compromisso, não cria branch e não mexe no EWM — a skill do papel
-faz isso, começando por assumir a própria tarefa (`sdd-elm` modo *assumir*).
+faz isso, começando por assumir a própria tarefa (`elm_transicao(<id>, "assumir")`).
 
 Leia antes: `.kiro/steering/sdd.md`. Sem ele → ofereça a **`sdd-setup`** ("configurar o sdd") e pare.
 
@@ -19,8 +19,8 @@ Leia antes: `.kiro/steering/sdd.md`. Sem ele → ofereça a **`sdd-setup`** ("co
 
 **Ordem de consulta** — vale a primeira fonte que achar, e nunca se inventa dado de work item: (1) `status.md` nas
 branches (atual, worktrees, remotas: `git grep -l '<id>' <ref> -- '.kiro/specs/*/status.md'`); (2) o `backlog.md`
-da base (ids locais e as colunas `origem` e `elm`, inclusive `## Atendimentos`); (3) o EWM pela skill `elm-ccm`, se
-a sessão tem o power `elm` (o título da tarefa traz o tipo: `[DEV] FT-031 …`); (4) perguntar à pessoa. Id que não
+da base (ids locais e as colunas `origem` e `elm`, inclusive `## Atendimentos`); (3) o EWM (`elm_ler_wi`), se
+a sessão tem o MCP `elm` (o título da tarefa traz o tipo: `[DEV] FT-031 …`); (4) perguntar à pessoa. Id que não
 está em (1) nem (2) não está registrado.
 
 ## Passo 2 — Encaminhar
@@ -51,7 +51,7 @@ Responda com a instrução e **pare**: nunca invoque nem simule a skill do papel
 
 ## "Minha próxima tarefa"
 
-1. Com o power `elm`: `elm-ccm` › **quem sou eu** e **listar itens** (responsável = o login, iteração = a da sprint aberta); sem ele: as linhas do
+1. Com o MCP `elm`: `elm_listar_wi(dono: "eu", iteracao: <a da sprint aberta>)`; sem ele: as linhas do
    `sprint-<nn>.md` aberto com `responsavel` = a pessoa (login do `sdd.md` ou `git config user.email`).
 2. Mostre as tarefas abertas (não concluídas) de **qualquer tipo**, na ordem de prioridade da sprint — as que já
    estão em andamento primeiro:

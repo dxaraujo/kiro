@@ -4,7 +4,9 @@
     "okf": {
       "type": "stdio",
       "command": "uvx",
-      "args": [ "mcp-okf@latest" ],
+      "args": [
+        "mcp-okf@latest"
+      ],
       "env": {
         "UV_SYSTEM_CERTS": "true"
       }
@@ -12,7 +14,19 @@
     "gitlabpr": {
       "type": "stdio",
       "command": "uvx",
-      "args": [ "mcp-gitlabpr@latest" ],
+      "args": [
+        "mcp-gitlabpr@latest"
+      ],
+      "env": {
+        "UV_SYSTEM_CERTS": "true"
+      }
+    },
+    "elm": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "mcp-elm@latest"
+      ],
       "env": {
         "UV_SYSTEM_CERTS": "true"
       }

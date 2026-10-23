@@ -1,10 +1,10 @@
 ---
 name: sdd-atender
-description: "Skill de quem atende no fluxo sdd — executa um atendimento já registrado pela sdd-triar (AT-nnn, tarefa [ATD]): assume a [ATD] no EWM (sdd-elm modo assumir), consulta o banco (somente leitura) e o bundle do ELM, com código só em escopo fechado, guarda extrações fora do git (.kiro/local/atendimentos/), redige a resposta para o \"ok\" da pessoa e finaliza — registra a resposta, lança o saldo de horas, conclui a [ATD] e pergunta os desdobramentos (arquivar · alteração pela sdd-triar · regra pela sdd-entrevistar · lição pela sdd-aprender). Pedido novo não abre aqui: passa pela sdd-triar. Use em \"atender o AT-012\", \"pegar a [ATD] 669380\", \"extrai os dados do AT-012\", \"enviei a resposta\", \"conclui o AT-012\"."
+description: "Skill de quem atende no fluxo sdd — executa um atendimento já registrado pela sdd-triar (AT-nnn, tarefa [ATD]): assume a [ATD] no EWM, consulta o banco (somente leitura) e o bundle do ELM, com código só em escopo fechado, guarda extrações fora do git (.kiro/local/atendimentos/), redige a resposta para o \"ok\" da pessoa e finaliza — registra a resposta, lança o saldo de horas, conclui a [ATD] e pergunta os desdobramentos (arquivar · alteração pela sdd-triar · regra pela sdd-entrevistar · lição pela sdd-aprender). Pedido novo não abre aqui: passa pela sdd-triar. Use em \"atender o AT-012\", \"pegar a [ATD] 669380\", \"extrai os dados do AT-012\", \"enviei a resposta\", \"conclui o AT-012\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.9.0"
+  version: "3.0.0"
 ---
 
 # sdd-atender — Atender sem perder o rastro
@@ -35,9 +35,9 @@ Não é atendimento (pedido que muda o comportamento do sistema, ou regra que ni
 
 ## Passo 2 — Assumir a `[ATD]`
 
-**`sdd-elm` modo *assumir*** (com "sim"): responsável = quem está na sessão, estado em andamento da PA (ex.: *Em
-Desenvolvimento*); já minha e em andamento → nada a fazer. AT com `elm` `pendente` (registrado sem o power `elm`) → antes,
-`sdd-elm` modo *atendimento* (Registrar). Sem o power `elm` → `ELM pendente [<chave>]: assumir [ATD] AT-<nnn>` no registro do AT, e
+`elm_transicao(id, "assumir")`, com "sim" (já minha → `ja_estava`, nada a fazer; de outra pessoa → `conflito`:
+pergunte e repita com `forcar: true`). AT com `elm` `pendente` (registrado sem o MCP `elm`) → antes, registre a `[ATD]`
+([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §6). Sem o MCP `elm` → `ELM pendente [<chave>]: assumir [ATD] AT-<nnn>` no registro do AT, e
 siga.
 
 ## Passo 3 — Executar
@@ -53,16 +53,16 @@ siga.
    ficam só a consulta (SQL), a contagem, o caminho do arquivo e um resumo **sem identificar pessoas**.
 3. **Rascunho da resposta** → "ok" da pessoa antes de enviar. Quem envia é a pessoa; o agente não manda e-mail
    nem responde chamado.
-4. **Horas** podem ser lançadas a qualquer momento (`sdd-elm` modo *horas*, com "sim"): lançar não conclui a
+4. **Horas** podem ser lançadas a qualquer momento (`elm_lancar_horas(id, horas)`, com "sim"): lançar não conclui a
    `[ATD]`. Ao fechar cada sessão do atendimento, os **créditos** dela na seção Créditos da ficha ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4)
    — vão no commit do atendimento.
 
 ## Passo 4 — Finalizar ("enviei", "conclui o AT-012")
 
 1. Grava no registro a resposta enviada (sem dado de cliente; o texto com dado real fica em `.kiro/local/`).
-2. **Saldo de horas:** mostre o que já foi lançado na `[ATD]` (`elm-ccm` › horas lançadas) e pergunte só o que falta →
-   `sdd-elm` modo *horas*; depois `sdd-elm` modo *atendimento* (Concluir), com uma confirmação. Cada lançamento
-   ganha uma linha na tabela Horas do registro. Sem o power `elm` ou com
+2. **Saldo de horas:** mostre o que já foi lançado na `[ATD]` (`elm_horas(id)`) e pergunte só o que falta →
+   `elm_lancar_horas(id, horas)`; depois `elm_transicao(id, "concluir")`, com uma confirmação. Cada lançamento
+   ganha uma linha na tabela Horas do registro. Sem o MCP `elm` ou com
    falha → `ELM pendente [<chave>]: lançar <h>h e concluir [ATD] AT-<nnn>` no registro.
 3. Créditos desta sessão na ficha (como no Passo 3, item 4); `**Situação:** concluido` no registro; na linha do AT
    no `backlog.md`, `status` `concluido` e `concluida-em`; no `sprint-<nn>.md`, a situação e os Créditos da linha do

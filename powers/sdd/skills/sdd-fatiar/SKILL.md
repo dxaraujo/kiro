@@ -4,7 +4,7 @@ description: "Quebra um PRD aprovado do fluxo sdd em fatias verticais (tracer bu
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.9.0"
+  version: "3.0.0"
 ---
 
 # sdd-fatiar — PRD → fatias verticais
@@ -98,8 +98,8 @@ fatia ponta a ponta.
 
 - Primeiro fatiamento do épico → "use `sdd-especificar EP-<nn>`": ela conclui a `[ESP]` (o refinamento não tem
   `[ESP]` a concluir).
-- Com ELM: nada no EWM aqui — o item de backlog de cada fatia nasce quando ela entra na sprint (o planejamento
-  chama a `sdd-elm`).
+- Com ELM: nada no EWM aqui — o item de backlog de cada fatia nasce quando ela entra na sprint
+  ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §3).
 - **`sdd-planejamento`** — encaixar as fatias na sprint (ou no fluxo Kanban).
 - Para começar uma fatia já: "vamos trabalhar na FT-031" (`sdd-desenvolver`, ou o hub `sdd-iniciar`).
 
@@ -107,8 +107,7 @@ fatia ponta a ponta.
 
 "Refinar o backlog", "a FT-033 está grande demais", "faltou uma fatia":
 - **Dividir:** a fatia original fica `status: dividida` com `substituida-por: [FT-x, FT-y]`; as novas herdam a
-  cobertura (repartida), as dependências, o épico e uma ficha cada. No EWM, a `sdd-elm` faz o que diz "Fatia dividida no EWM" no
-  `sdd.md` (filhos do item original, ou fecha o original e cria itens novos).
+  cobertura (repartida), as dependências, o épico e uma ficha cada. No EWM: [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §3, "Fatia dividida".
 - **Juntar:** só fatias ainda em `backlog`; a que some fica `status: cancelada` com `motivo`.
 - **Nova fatia:** cenário novo exige PRD alterado antes (`sdd-prd`, mudança depois de aprovado).
 - **Definition of Ready:** a cada refinamento, confira as fatias `backlog` e grave `pronta` nas que passam (e
@@ -120,5 +119,5 @@ fatia ponta a ponta.
   na mesma fatia é a mesma fatia.
 - Nunca altere fatia `concluida`. Mudança de comportamento entregue = fatia nova.
 - Tamanho não é promessa de prazo: é o sinal de que a fatia cabe num PR revisável.
-- Não invoque nem simule outra skill além das que os passos mandam chamar (subagente pesquisador, `sdd-elm`): depois
+- Não invoque nem simule outra skill além das que os passos mandam chamar (subagente pesquisador): depois
   do GATE do backlog, diga os próximos passos (Passo 4) e pare.

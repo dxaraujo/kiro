@@ -59,12 +59,12 @@ linha da tabela — sem quebra de linha nem `|` dentro de célula (troque por `/
 | fatia `status` | `backlog` → `pronta` (passou na Definition of Ready) → `concluida`; desvios `dividida` (`obs`: `substituida-por FT-…`), `cancelada` (`obs`: motivo). "Em andamento" não é gravado: é a fatia que tem `status.md` numa branch |
 | `creditos` | créditos do Kiro do item: soma das linhas de créditos do `status.md` da fatia, do `status.md` do épico (a `[ESP]`) ou da ficha do AT, copiada do `sprint-<nn>.md` na virada da sprint (`sdd-planejamento`; a conclusão grava só na sprint); `—` antes; backlog antigo sem a coluna → a próxima escrita a acrescenta |
 | `sprint` | número da sprint (`sdd-planejamento`) ou `—`; no Kanban, `—` |
-| `elm` | `—`, `pendente` (registrado sem o power `elm`; a `sdd-elm` cria depois) ou `[<id>](<url>)`; tarefas do EWM em seguida, `<prefixo> [<id>](<url>)`, separadas por ` · ` (gravado pela `sdd-elm`) |
+| `elm` | `—`, `pendente` (registrado sem o MCP `elm`; criado depois) ou `[<id>](<url>)`; tarefas do EWM em seguida, `<prefixo> [<id>](<url>)`, separadas por ` · ` (gravado na publicação — [elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §3–4) |
 | `concluida-em` | data `AAAA-MM-DD` ou `—` |
 | atendimento `status` | `backlog` (sem sprint aberta) · `aberto` (na sprint ou na iteração corrente do Kanban) · `concluido` · `cancelado` |
 | atendimento `origem` | chamado, e-mail, `DF 4567`, `IB 615` ou `pedido` |
 | atendimento `registro` | `[AT-<nnn>](atendimentos/AT-<nnn>-<slug>.md)` |
-| linha `Sustentação:` | épico de Sustentação do ano, o IB `Atendimento` filho dele (pais do que não nasce de PRD) e a tarefa `[GB] Gerenciamento do backlog` (commits da triagem); `—` até a `sdd-elm` criá-los |
+| linha `Sustentação:` | épico de Sustentação do ano, o IB `Atendimento` filho dele (pais do que não nasce de PRD) e a tarefa `[GB] Gerenciamento do backlog` (commits da triagem); `—` até a publicação criá-los |
 
 ## Quem escreve o quê
 
@@ -81,8 +81,8 @@ linha da tabela — sem quebra de linha nem `|` dentro de célula (troque por `/
 | atendimento registrado (`AT-nnn`, `backlog`/`aberto`, `sprint`, `responsavel`, registro) | `sdd-triar` (na base) |
 | atendimento `concluido`, `concluida-em` | `sdd-atender` (na base) |
 | `concluida`, `concluida-em` | `sdd-consolidar` (depois do merge, na base) |
-| linha `Sustentação:` | `sdd-elm` (modo backlog) |
-| `elm` (ids e urls) | `sdd-elm` |
+| linha `Sustentação:` | publicação da sprint ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §2) |
+| `elm` (ids e urls) | publicação da sprint ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §3–6) |
 
 ## Definition of Ready (o que faz uma fatia `pronta`)
 

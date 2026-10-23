@@ -1,10 +1,10 @@
 ---
 name: sdd-verificar
-description: "Verificação de aceite de uma fatia do fluxo sdd — executa de ponta a ponta, na aplicação de verdade, cada cenário que a fatia cobre (API, job batch, tela no browser, carga de dados — conforme o tipo de projeto e o toolkit), com massa de teste, evidência por cenário (resposta, contagem, log, screenshot) e decisão ACEITO/REJEITADO; gera os casos de teste (CT.csv) para o ETM a partir dos cenários verificados. Cenário reprovado volta para a sdd-implementar com esperado × obtido. Com a tarefa [VER] (direto ou pelo hub sdd-iniciar), assume-a antes no EWM (sdd-elm modo assumir). Use em \"verifica a FT-031\", \"pegar a [VER] da FT-031\", \"testa a fatia\", \"executa os cenários\", \"teste de aceitação\", \"gera os CTs\"."
+description: "Verificação de aceite de uma fatia do fluxo sdd — executa de ponta a ponta, na aplicação de verdade, cada cenário que a fatia cobre (API, job batch, tela no browser, carga de dados — conforme o tipo de projeto e o toolkit), com massa de teste, evidência por cenário (resposta, contagem, log, screenshot) e decisão ACEITO/REJEITADO; gera os casos de teste (CT.csv) para o ETM a partir dos cenários verificados. Cenário reprovado volta para a sdd-implementar com esperado × obtido. Com a tarefa [VER] (direto ou pelo hub sdd-iniciar), assume-a antes no EWM (elm_transicao). Use em \"verifica a FT-031\", \"pegar a [VER] da FT-031\", \"testa a fatia\", \"executa os cenários\", \"teste de aceitação\", \"gera os CTs\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.9.0"
+  version: "3.0.0"
 ---
 
 # sdd-verificar — O comportamento existe de verdade?
@@ -31,8 +31,7 @@ Chamada com a tarefa `[VER] FT-nnn` (só existe no HITL) — direto, pela pessoa
 quem está na sessão **não pode ser quem implementa** a fatia (o `responsavel` do `backlog.md` ou o `Responsável` do
 `status.md`) — sem exceção, nem com "sim". É → diga isso, quem é o verificador da fatia (`sprint-<nn>.md`) e pare,
 sem assumir a `[VER]`. Numa sessão com o
-power `elm`: **`sdd-elm` modo *assumir*** (com "sim"): responsável = quem está na sessão, estado em andamento da PA; já minha e
-em andamento → nada a fazer. Sem o power `elm` → `ELM pendente [<chave>]: assumir [VER] FT-<nnn>` no Histórico do `status.md`, e siga.
+MCP `elm`: `elm_transicao(<id da [VER]>, "assumir")`, com "sim" (regras: [elm.md](../sdd/references/elm.md)). Sem o MCP `elm` → `ELM pendente [<chave>]: assumir [VER] FT-<nnn>` no Histórico do `status.md`, e siga.
 Chamada como subagente por outra skill (a rodada de verificação do loop ou da implementação), sem a tarefa → pule este passo: quem chamou é o dono da
 rodada.
 
@@ -102,8 +101,8 @@ ser o do PRD ou da ficha, por decisão registrada). HITL: grave-o no campo do `s
        V2, push negado) → entregue o comando pronto e espere a pessoa dizer que publicou;
     3. **confira no remoto:** `git fetch` e `git rev-parse HEAD` = `git rev-parse origin/<branch>`. Diferente → não
        siga: diga o que falta;
-    4. só então: saldo de horas e conclusão da `[VER]` (`sdd-elm` modo *horas* e *conclusão*, numa confirmação; sem
-       o power `elm` → `ELM pendente [<chave>]: lançar <h>h e concluir [VER] FT-<nnn>`) e avise o **Dev
+    4. só então: saldo de horas e conclusão da `[VER]` (`elm_horas` → `elm_lancar_horas` do saldo → `elm_transicao(<id>, "concluir")`, numa
+       confirmação; sem o MCP `elm` → `ELM pendente [<chave>]: lançar <h>h e concluir [VER] FT-<nnn>`) e avise o **Dev
        responsável** de que a fatia está pronta para o merge (Passo 6 da `sdd-desenvolver`).
 - **REJEITADO** → para cada cenário, esperado × obtido + evidência, registrados no `status.md` como achados.
   AFK: `fase: implementando`; a `sdd-implementar` corrige e a verificação roda de novo (só os rejeitados + os de
@@ -119,8 +118,9 @@ ser o do PRD ou da ficha, por decisão registrada). HITL: grave-o no campo do `s
 ## Passo 5 — Casos de teste para o ETM
 
 Gere `CT.csv` na pasta da fatia — um caso por cenário verificado — no formato de
-[references/ct-csv.md](references/ct-csv.md). Na consolidação, depois do merge, a **`sdd-elm`** (modo *testes*)
-cria um caso de teste por cenário no ETM, com o link "valida" para a história, a partir dele; o CSV também é a
+[references/ct-csv.md](references/ct-csv.md). Na consolidação, depois do merge, a `sdd-consolidar`
+cria a partir dele um caso de teste por cenário no ETM, já ligado à história (`elm_criar_ct`,
+[elm-publicar.md](../sdd-consolidar/references/elm-publicar.md)); o CSV também é a
 alternativa para importar à mão quando a criação falha.
 
 Rodadas: quem pediu a verificação incrementa "verificação" (a `sdd-implementar` ou o orquestrador); só no

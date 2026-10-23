@@ -4,7 +4,7 @@ description: "Painel do fluxo sdd, somente leitura — onde parei e o que fazer 
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.9.0"
+  version: "3.0.0"
 ---
 
 # sdd-status — Onde parei
@@ -107,8 +107,8 @@ fio:
    sessão.
 2. Marque no `tasks.md` só o que está realmente pronto e verde.
 3. **Horas da sessão** (com ELM): "Quanto tempo nesta sessão em `<tarefa>`?" — a tarefa do papel de quem fecha,
-   pelo campo ELM do `status.md` → `sdd-elm` modo *horas*, com "sim" (lança, não conclui). Sem o power `elm` → `ELM
-   pendente: lançar <h>h em <tarefa> (<data>)` no Histórico.
+   pelo campo ELM do `status.md` → `elm_horas(<id>)` → desconte → `elm_lancar_horas(<id>, <h>)`, com "sim" (lança, não conclui).
+   Sem o MCP `elm` → `ELM pendente [<DEV|REV|VER|APR> FT-<nnn> horas]: lançar <h>h (<data>)` no Histórico.
 4. **Créditos da sessão** (sempre, com ou sem ELM) — o Kiro grava o consumo de cada turno só na máquina de quem
    conversou (`~/.kiro`), por isso é quem fecha que registra, aqui, e o número chega aos outros pelo commit. O
    Kiro só grava o consumo de um turno quando ele **termina**: leia sempre **na resposta a uma pergunta** — primeiro

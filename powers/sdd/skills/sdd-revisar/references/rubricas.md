@@ -67,7 +67,7 @@ Reprovação em qualquer eixo é `REVISAR`.
 |---|---|---|
 | C8 | Regras críticas do `sdd.md`, steering de tecnologia e regras aprendidas (mesmo arquivo) | BLOQUEANTE |
 | C9 | Segurança: sem segredo no código ou em log, sem injeção (SQL, comando, HTML), dado sensível protegido | BLOQUEANTE |
-| C10 | Modelo/entidade bate com o schema real (MCP de banco, somente leitura; sem o power `elm` → `N/A`) | BLOQUEANTE |
+| C10 | Modelo/entidade bate com o schema real (MCP de banco, somente leitura; sem o MCP de banco → `N/A`) | BLOQUEANTE |
 | C11 | Segue o análogo e a forma do programa do `design.md`; nada de padrão novo sem decisão registrada | IMPORTANTE |
 | C12 | Nomes do domínio = termos canônicos do glossário; nomes técnicos no padrão dos vizinhos | IMPORTANTE |
 | C13 | Módulos profundos: interface pequena para o que esconde; sem abstração especulativa, camada a mais ou duplicação evitável | IMPORTANTE |

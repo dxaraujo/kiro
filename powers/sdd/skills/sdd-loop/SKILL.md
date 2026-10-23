@@ -4,7 +4,7 @@ description: "Execução autônoma (AFK) de várias fatias do fluxo sdd — pega
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "2.9.0"
+  version: "3.0.0"
 ---
 
 # sdd-loop — Fatias AFK até o PR
@@ -34,7 +34,7 @@ e pergunte se retoma. Retomar = continuar cada fatia da fase registrada no `stat
    **puxada** (`Puxada para a sprint <nn>` no Histórico); fura a fila → fica de fora até o encaixe
    (`sdd-planejamento`, seção Encaixe). Kanban
    (`acordos.md`): não há sprint nem encaixe — vale a `pronta` do topo do backlog, e as `[DEV]` do lote nascem na
-   confirmação (`sdd-elm` modo *sprint*, iteração corrente).
+   confirmação ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §4, iteração corrente).
 2. Fica de fora (diga o motivo): HITL; `EP-nn`, PRD, fatiamento e `AT-nnn`
    ("PRD, backlog e atendimento nunca são AFK"); Definition of Ready não atendida; `bloqueada-por` não concluída e
    não presente antes no lote; já em andamento (tem `status.md`).
@@ -60,8 +60,8 @@ e pergunte se retoma. Retomar = continuar cada fatia da fase registrada no `stat
    [APR] quando a fatia chegar ao gate — no AFK não há [REV] nem [VER]: revisão e verificação são dos subagentes
    Confirma?
    ```
-   Com "sim" e o power `elm`: fatia sem `[DEV]` (puxada, ou publicação que falhou) → `sdd-elm` modo *sprint* cria
-   (só a `[DEV]`, AFK); depois assuma as `[DEV]` (`sdd-elm` modo *assumir*, que também inicia o IB); sem o power `elm` ou com falha → `ELM pendente [<chave>]: assumir a
+   Com "sim" e o MCP `elm`: fatia sem `[DEV]` (puxada, ou publicação que falhou) → crie-a ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md)
+   §4; só a `[DEV]`, AFK); depois `elm_transicao(<id>, "assumir", iniciar_pai: true)` em cada `[DEV]`; sem o MCP `elm` ou com falha → `ELM pendente [<chave>]: assumir a
    tarefa` no `status.md` de cada fatia.
 5. Log `.kiro/local/loop-<AAAA-MM-DD-HHMM>.md` (formato no fim).
 
@@ -100,11 +100,11 @@ seguinte da mesma fatia.
 | 1 | pesquisa | `sdd-pesquisador` (`sdd-pesquisar`) | `research.md` gravado |
 | 2 | plano | `sdd-codificador` (`sdd-plano`, Passos 2–3) | spec do Kiro gravada · ou `bloqueada` |
 | 3 | análise do plano | `sdd-revisor` (rubrica L) → `sdd-codificador` corrige | `ANALISE: OK` · 2 rodadas sem OK → `bloqueada` |
-| 4 | troca e GATE do plano | você | o Passo 5 da `sdd-plano`, sem pessoa: plano com risco → `fase: bloqueada (de: planejando)`, `aguardando troca para HITL` com o risco, commit, horas da sessão na `[DEV]` no fim do lote, o P.O. avisado no resumo, e siga com as outras · GATE pela escolha do lote: Sênior, ou Pleno que dispensou → `fase: implementando` (Histórico `plano do Sênior` · `Pleno dispensou o GATE do plano`) e siga · Pleno que pediu → `fase: plano-em-revisao` (`Responsável` = o Dev Sênior do lote), a `[APR] FT-<nnn> Aprovar plano` (`sdd-elm` modo *sprint*, item 6), commit do plano e, com push autorizado no lote, push e conferência; **pare esta fatia** e siga com as outras (retoma depois do GATE) |
+| 4 | troca e GATE do plano | você | o Passo 5 da `sdd-plano`, sem pessoa: plano com risco → `fase: bloqueada (de: planejando)`, `aguardando troca para HITL` com o risco, commit, horas da sessão na `[DEV]` no fim do lote, o P.O. avisado no resumo, e siga com as outras · GATE pela escolha do lote: Sênior, ou Pleno que dispensou → `fase: implementando` (Histórico `plano do Sênior` · `Pleno dispensou o GATE do plano`) e siga · Pleno que pediu → `fase: plano-em-revisao` (`Responsável` = o Dev Sênior do lote), a `[APR] FT-<nnn> Aprovar plano` ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §8), commit do plano e, com push autorizado no lote, push e conferência; **pare esta fatia** e siga com as outras (retoma depois do GATE) |
 | 5 | implementação | `sdd-codificador` (`sdd-implementar`, Passos 0–2) | tarefas `[x]` e backpressure verde · ou `bloqueada` |
 | 6 | revisão do código | `sdd-revisor` (rubrica C) → volta à 5 com os achados | `VEREDITO: APROVADO` · 2ª reprovação → `bloqueada` |
 | 7 | verificação | `sdd-verificador` (`sdd-verificar`) | `ACEITO` · `REJEITADO` → volta à 5 com os cenários rejeitados (retrabalho: linha na tabela Retrabalho do `status.md`, Rodadas `retrabalho` + 1) e **passa de novo pela 6** antes da 7; de novo rejeitado → `bloqueada` |
-| 8 | entrega | você | `fase: aceita`; commit do que faltar; push, conferência no remoto (`git rev-parse HEAD` = `git rev-parse origin/<branch>`, na worktree) e PR se autorizado no lote (ADRs, texto e `gitlab_criar_mr` do Passo 5 da `sdd-implementar`, com `origem` = a branch da worktree — o MCP roda no checkout principal e não a enxerga; o Kiro ainda pode pedir confirmação a cada push e a cada PR, conforme as permissões) → a `[APR] FT-<nnn> Aprovar PR` para o Dev Sênior do lote (`sdd-elm` modo *sprint*, item 6; já existe → a mesma) → `fase: pronta-para-merge` com o link do PR no `status.md`, commit, push e conferência (item 3 do Passo 5 da `sdd-implementar`); a `[DEV]` fica em andamento; sem PR autorizado → fica `aceita` |
+| 8 | entrega | você | `fase: aceita`; commit do que faltar; push, conferência no remoto (`git rev-parse HEAD` = `git rev-parse origin/<branch>`, na worktree) e PR se autorizado no lote (ADRs, texto e `gitlab_criar_mr` do Passo 5 da `sdd-implementar`, com `origem` = a branch da worktree — o MCP roda no checkout principal e não a enxerga; o Kiro ainda pode pedir confirmação a cada push e a cada PR, conforme as permissões) → a `[APR] FT-<nnn> Aprovar PR` para o Dev Sênior do lote ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §8) → `fase: pronta-para-merge` com o link do PR no `status.md`, commit, push e conferência (item 3 do Passo 5 da `sdd-implementar`); a `[DEV]` fica em andamento; sem PR autorizado → fica `aceita` |
 
 Depois de cada fase: grave a fase seguinte (`planejando` depois da pesquisa, `revisando` antes da revisão do
 código), atualize o log, as Rodadas e o Histórico do `status.md` — nas fases 6 e 7, também o campo **Drift de
@@ -140,12 +140,12 @@ Os **Kiro Workflows** do sdd (se instalados) não fazem parte do loop: são rece
   Aguardando pessoa: <planos para aprovar ([APR] de <login>) · PRs para ler e aprovar ([APR] de <login>) · trocas
   para HITL (P.O., `sdd-planejamento`) · bloqueios com pergunta>
   Merge: cada PR com a [APR] concluída → você, pela `sdd-desenvolver` Passo 6 ("mergeia a FT-<nnn>")
-  ELM pendente [<chave>]: <o que falhou ou ficou sem o power `elm`>
+  ELM pendente [<chave>]: <o que falhou ou ficou sem o MCP `elm`>
   Lições para registrar: <correções que o loop precisou — sdd-aprender>
   ```
-- **Horas, numa pergunta só** (com o power `elm`): uma tabela `tarefa | horas sugeridas` com as `[DEV]` das
-  fatias que chegaram a `aceita` (com ou sem PR aberto) ou pararam para a troca para HITL; a pessoa ajusta e confirma de uma vez → `sdd-elm` modo
-  *horas* (lança, não conclui). A conclusão da `[DEV]` é no merge de cada fatia (Passo 6 da `sdd-desenvolver`), com
+- **Horas, numa pergunta só** (com o MCP `elm`): uma tabela `tarefa | horas sugeridas` com as `[DEV]` das
+  fatias que chegaram a `aceita` (com ou sem PR aberto) ou pararam para a troca para HITL; a pessoa ajusta e confirma de uma vez → `elm_horas(<id>)` →
+  desconte → `elm_lancar_horas` (lança, não conclui). A conclusão da `[DEV]` é no merge de cada fatia (Passo 6 da `sdd-desenvolver`), com
   o saldo. No AFK, revisão e verificação por subagente não têm tarefa nem horas; as das `[APR]` são lançadas por
   quem aprova, na sessão dele.
 - **Créditos:** o Kiro grava o consumo do turno só quando ele termina, por isso o lote não os registra: no resumo,
@@ -167,7 +167,7 @@ Os **Kiro Workflows** do sdd (se instalados) não fazem parte do loop: são rece
 
 - O orquestrador nunca faz merge (é de quem disparou o loop, depois da aprovação do PR), nunca `--force`, nunca
   push sem a autorização do lote; todo push é conferido no remoto antes do PR.
-- ELM só pelo que o lote confirmou (assumir `[DEV]`, estados, criar as `[APR]` nos gates) e pelas horas do fim; nada mais (a conclusão da `[DEV]` é no merge). Sem o power `elm` ou com
+- ELM só pelo que o lote confirmou (assumir `[DEV]`, estados, criar as `[APR]` nos gates) e pelas horas do fim; nada mais (a conclusão da `[DEV]` é no merge). Sem o MCP `elm` ou com
   falha → `ELM pendente [<chave>]: …` no `status.md`.
 - Nunca relaxe um gate para o loop andar: bloqueio é informação, não falha.
 - Tipo de fatia que bloqueia com frequência → sugira na retrospectiva tratá-lo como HITL.

@@ -102,6 +102,12 @@ diferentes vão em `por-prefixo`.
 **Não pergunte**: time code e tipo de trabalho são fixos — grave `"horas": { "time-code": "Horas Diretas",
 "work-type": "Tarefa" }` e mostre-os na conferência do bloco 10 como padrão.
 
+## 6 e 7 sem pergunta
+
+Os blocos 6 (horas fixas) e 7 (links) não têm cartão nem pergunta: cada um vira uma linha `✔ Bloco <n> — …` no
+começo da mensagem do bloco 8. A única exceção é a do bloco 7 abaixo: a descoberta trouxe um tipo de link de
+dependência entre work items.
+
 ## 7. Links
 
 Não escreva `links`: os padrões do MCP (pai, filhos, implementa, relacionado) são os do EWM. Só `depende`, e só se a

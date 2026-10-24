@@ -3,8 +3,7 @@
 Fonte única dos ids locais (`EP-nn`, `FT-nnn`, `AT-nnn`), do **planejamento** (o que existe, em que ordem, em que sprint) e do
 mapeamento com o ELM. Versionado. Só markdown: editado direto, sem arquivo JSON por trás.
 
-**Onde é escrito:** só na **branch base** (direto ou por um PR curto, conforme "Artefatos de produto" no
-`sdd.md`) — **nunca numa branch de fatia**, para que fatias em paralelo não disputem o mesmo arquivo. O
+**Onde é escrito:** só na **branch base**, com commit direto nela — **nunca numa branch de fatia**, para que fatias em paralelo não disputem o mesmo arquivo. O
 andamento de uma fatia (fase, branch, PR) não mora aqui: mora no `status.md` da pasta dela, na branch dela, e o
 `sdd-status` o lê de lá.
 
@@ -109,10 +108,8 @@ ADRs, lições, `sdd.md` Regras aprendidas). As skills citam este bloco em vez d
    `git fetch` basta, e diga que o registro fica só local até alguém publicar.
 2. **Grave** só o que a skill manda.
 3. **Commit** pequeno, só com o que gravou, mensagem no padrão do `sdd.md`.
-4. **Publicar:** push direto ou PR curto, conforme "Artefatos de produto" no `sdd.md`, com o "sim" da pessoa
-   (agente sem push → entregue o comando pronto; PR curto → com a branch no remoto, `gitlab_criar_mr` com
-   `destino` = a base e `origem` = a branch curta — sem o MCP, diga o nome da branch — e mostre o link). Conflito de id no
-   push → a regra de conflito abaixo.
+4. **Publicar:** push direto na base, com o "sim" da pessoa (agente sem push → entregue o comando pronto).
+   Conflito de id no push → a regra de conflito abaixo.
 5. Ao terminar, ofereça voltar à branch anterior.
 
 ## Regras
@@ -124,6 +121,6 @@ ADRs, lições, `sdd.md` Regras aprendidas). As skills citam este bloco em vez d
 - Backlog com a seção antiga `## Fatias — trilha rápida` (antes da 2.3.0): leia as linhas como `trilha` `rápida` e
   `ficha` `—`; a próxima escrita da `sdd-triar` renomeia a seção e acrescenta as colunas, sem perder linha.
 - Antes de gravar: `git switch <base>` e `git pull --ff-only`; depois, commit pequeno só com ele quando não houver
-  outro artefato de produto junto. Push ou PR curto: com o "sim" da pessoa, como diz "Artefatos de produto" no `sdd.md`.
+  outro artefato de produto junto. Push: com o "sim" da pessoa.
 - Conflito no `backlog.md`: mantenha o remoto e reaplique só a sua mudança, linha a linha (cada fatia é uma linha).
   Nunca resolva descartando o lado remoto.

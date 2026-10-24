@@ -202,7 +202,7 @@ a próxima e para — nunca invoca nem simula a do passo seguinte.
   as lições, também roda no `sdd-produto`. A **`sdd-consolidar`** é do P.O. ou do SM, no `sdd-produto`. **Push pelo agente:** orquestrador (no loop), codificador, revisor e verificador,
   com `ask` (o Kiro pergunta sempre), só a branch da fatia — nunca a base; push recusado → a skill entrega o comando pronto e espera a pessoa dizer que publicou; produto e pesquisador não fazem
   push. Subagente do AFK não faz push (quem conduz commita). Com a branch no remoto, o PR é aberto pela
-  `gitlab_criar_mr`, que o Kiro confirma (`ask` no codificador, no produto e no orquestrador; negada aos demais).
+  `gitlab_criar_mr`, que o Kiro confirma (`ask` no codificador e no orquestrador; negada aos demais).
   **O que os agentes não fazem:** merge (exceto a `gitlab_mesclar_mr` no codificador, com `ask`: o Dev mergeia o
   PR aprovado), `--force`, `worktree remove` — nunca. O hub `sdd-iniciar` está em todos os agentes de papel, e a `sdd-status`
   em todos os agentes, menos o `sdd-pesquisador`; os dois também funcionam na sessão padrão. Nenhuma skill depende de um agente para operar: o agente apenas recebe a skill

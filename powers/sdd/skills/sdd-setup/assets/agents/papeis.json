@@ -56,7 +56,7 @@
                   ".kiro/local/atendimentos/**", ".kiro/local/especificacao/**"],
       "mcp_libera": ["+elm-leitura", "elm/elm_buscar_req", "elm/elm_ler_req", "+gitlab-leitura"],
       "mcp_pergunta": ["+elm-tarefa", "elm/elm_criar_wi", "elm/elm_atualizar_wi", "elm/elm_ligar", "elm/elm_publicar_req",
-                       "elm/elm_criar_ct", "elm/elm_iteracao", "elm/elm_sync", "gitlabpr/gitlab_criar_mr"]
+                       "elm/elm_criar_ct", "elm/elm_iteracao", "elm/elm_sync"]
     },
     "pesquisador": {
       "description": "Pesquisador do fluxo sdd, somente leitura do código — lê o código, a documentação do ELM no repositório e o banco (consulta) e devolve fatos com arquivo:linha em research.md, sem opinar nem propor solução. Use para pesquisar uma fatia antes do plano e para buscar fatos durante entrevistas e PRDs.",
@@ -66,7 +66,7 @@
       "shell_negar": ["*git add*", "*git commit*", "*git switch*", "*git worktree add*"],
       "push": "negar",
       "escreve": [".kiro/specs/*/research.md", ".kiro/local/wt/*/.kiro/specs/*/research.md"],
-      "mcp_libera": ["+elm-local", "+gitlab-leitura"]
+      "mcp_libera": ["+elm-local"]
     },
     "codificador": {
       "description": "Codificador do fluxo sdd — planeja a fatia no formato de spec do Kiro (sdd-plano) e a implementa em ciclo de teste com backpressure (sdd-implementar), usando as skills do toolkit do projeto ligadas a ele. Leva a fatia até o merge (push da branch da fatia com confirmação, PR e merge do PR aprovado). Em modo autônomo trabalha só na worktree recebida, não faz push nem abre PR.",
@@ -114,7 +114,7 @@
                   ".kiro/specs/*/evidencias/**", ".kiro/local/wt/*/.kiro/specs/*/evidencias/**", ".kiro/specs/*/massa/**",
                   ".kiro/local/wt/*/.kiro/specs/*/massa/**", ".kiro/local/verificacao/**", ".kiro/local/wf/*/aceite.json",
                   "{{MASSA}}/**"],
-      "mcp_libera": ["+elm-leitura", "+gitlab-leitura"],
+      "mcp_libera": ["+elm-leitura"],
       "mcp_pergunta": ["+elm-tarefa"]
     },
     "orquestrador": {

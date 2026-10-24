@@ -155,7 +155,7 @@ de bloqueio com o erro em uma linha; a pessoa decide (corrigir o comando, seguir
 | Padrão de commit | `git log --oneline -20` (Task/IB do EWM? Conventional Commits?) |
 | PR (merge request) | pelo MCP **`gitlabpr`** do power (GitLab, API v4, CE 10.8+; projeto vem do `origin` da raiz do workspace, informada em `pasta` a cada chamada; fora de um repositório, a URL do projeto colada pela pessoa vai em `url_projeto`). Teste uma vez com `gitlab_listar_mrs(pasta=<raiz do workspace>, limite=1)`: respondeu → `MCP gitlabpr` ✅; erro de rede → `MCP gitlabpr` ⏸️ (sem rede — testado de novo no Passo 9). Erro de credencial → mostre o modelo de `~/.config/mcp-gitlabpr/gitlabpr.properties` (`url` do GitLab e `token` pessoal com escopo `api`; a pessoa cria o arquivo, o agente não lê nem grava credencial) e teste de novo. `origin` fora do GitLab, ou a pessoa segue sem credencial → "entregar título e descrição" (troca depois por "atualizar a configuração do sdd"). Nunca `gh` nem `glab` |
 | MCP de banco | servidores em `.kiro/settings/mcp.json` e `~/.kiro/settings/mcp.json` — qual é o de consulta e **qual tool** só consulta (ou "não há"); recomende um usuário de banco somente leitura |
-| Artefatos de produto | a base é protegida? → `PR curto para a base`; senão o padrão também é `PR curto para a base` (a pessoa troca por `direto na branch base` na tabela) |
+| Artefatos de produto | fixo: `direto na branch base` (não pergunte) |
 
 ## Passo 4 — Produto, conhecimento e ELM (cartão W4)
 
@@ -208,16 +208,19 @@ pré-marcadas pelos `papeis` do toolkit e pelo tipo de projeto (formato em `tool
 
 | Agente | Já tem (do fluxo) | `elm` | `gitlabpr` | Subagentes do fluxo | Push | Sugestão de extras |
 |---|---|---|---|---|---|---|
-| `sdd-produto` | triar, entrevistar, especificar, prd, fatiar, planejamento, atender, consolidar, aprender (registrar), iniciar, status | 🟢 consulta · 🟡 escrita | 🟢 consulta · 🟡 abrir PR | `sdd-pesquisador`, `sdd-revisor` | 🔴 negado | skills de domínio/negócio |
-| `sdd-pesquisador` | pesquisar | 🟢 só o bundle local | 🟢 consulta | — | 🔴 negado | skills de stack para ler o código |
+| `sdd-produto` | triar, entrevistar, especificar, prd, fatiar, planejamento, atender, consolidar, aprender (registrar), iniciar, status | 🟢 consulta · 🟡 escrita | 🟢 consulta | `sdd-pesquisador`, `sdd-revisor` | 🔴 negado | skills de domínio/negócio |
+| `sdd-pesquisador` | pesquisar | 🟢 só o bundle local | ➖ | — | 🔴 negado | skills de stack para ler o código |
 | `sdd-codificador` | desenvolver, plano, implementar, iniciar, status | 🟢 consulta · 🟡 escrita | 🟢 consulta · 🟡 abrir e mesclar PR | `sdd-pesquisador`, `sdd-revisor`, `sdd-verificador` | 🟡 pergunta | skills de stack e de teste do toolkit |
 | `sdd-revisor` | revisar, iniciar, status | 🟢 consulta · 🟡 escrita | 🟢 consulta | — | 🟡 pergunta | skills de padrões e de revisão da stack |
-| `sdd-verificador` | verificar, iniciar, status | 🟢 consulta · 🟡 escrita | 🟢 consulta | — | 🟡 pergunta | skills de teste de aceite |
+| `sdd-verificador` | verificar, iniciar, status | 🟢 consulta · 🟡 escrita | ➖ | — | 🟡 pergunta | skills de teste de aceite |
 | `sdd-orquestrador` | loop, desenvolver, plano, implementar, status | 🟢 consulta · 🟡 escrita | 🟢 consulta · 🟡 abrir PR | `sdd-pesquisador`, `sdd-codificador`, `sdd-revisor`, `sdd-verificador` | 🟡 pergunta | normalmente nenhuma |
 
 As colunas `elm`, `gitlabpr`, Subagentes do fluxo e Push vêm do `papeis.json` e vão **todas** no W6 do agente, como
 estão (projeto sem ELM → a linha do `elm` com ➖; PR entregue como texto → a do `gitlabpr` continua, com a nota
-"sem projeto no GitLab ainda"): nunca omita uma linha fixa nem mude o acesso dela.
+"sem projeto no GitLab ainda"): nunca omita uma linha fixa nem mude o acesso dela. O `gitlabpr` só serve ao PR e
+só aparece em quem lida com PR (produto: conferir o merge na consolidação; codificador: abrir e mesclar; revisor: ler o
+PR; orquestrador: abrir no loop) — pesquisador e verificador não o têm. Pedido de tirar uma linha fixa → explique
+que é do papel, não do projeto, e siga sem ela mudar.
 
 Aprender e setup rodam na **sessão padrão** (sem agente); o modo registrar da aprender também no `sdd-produto`,
 na consolidação. A consolidação é do P.O. ou do SM, no `sdd-produto`

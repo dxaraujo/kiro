@@ -123,7 +123,7 @@ A `sdd-prd` e a `sdd-fatiar` conduzem o GATE e gravam só o próprio artefato; o
    copie-a para `<produto>/epicos/<EP>-<slug>/` (substitui o `rascunho.md` e o `decisoes.md` da triagem), com o
    `revisao-prd-<N>.md`; na linha do épico no `backlog.md`, `status` `aprovado` e `prd` = o link do `prd.md`; no
    `sprint-<nn>.md` aberto, a linha do épico na seção Especificação com Situação `fatiamento`. **Um** commit (padrão
-   do `sdd.md`), direto ou por PR curto, conforme "Artefatos de produto"; nunca numa branch de fatia. A partir daí a
+   do `sdd.md`), direto na base; nunca numa branch de fatia. A partir daí a
    base é a fonte; a pasta local pode ser apagada pela pessoa (a skill não apaga).
 3. Próximo, e pare: a [publicação dos requisitos](../sdd-consolidar/references/elm-publicar.md) (se o projeto usa ELM e
    a publicação é `na-aprovacao`) e **`sdd-fatiar`**.

@@ -182,7 +182,7 @@ Duas mensagens: a proposta (Status `⏸️ ainda não rodado`) e, depois do `ok`
 | 3 | Padrão de commit | `<Task <id> - <descrição>>` | ✅ | 🔍 <git log> |
 | 4 | PR (merge request) | <MCP `gitlabpr` | entregar título e descrição> | <✅ respondeu | ⏸️ sem rede — testo de novo na etapa 9 | ❌ sem credencial> | 🔍 |
 | 5 | Banco (só consulta) | <`banco/consultar` | não há> | <✅ | ⏸️ …> | 🔍 <.kiro/settings/mcp.json> |
-| 6 | Artefatos de produto | PR curto para a base | ➖ | 📐 |
+| 6 | Artefatos de produto | direto na branch base | ➖ | 📐 fixo |
 
 (se a branch base for ambígua) mostre os candidatos **antes** desta tabela e pergunte só isso:
 
@@ -248,7 +248,7 @@ Agentes do projeto (podem virar subagentes do codificador e do orquestrador):
 |---|---|---|---|
 | [✅] | <n> | `elm` | <🟢 consulta · 🟡 escrita na própria tarefa | 🟢 só o bundle local> |
 | <[✅] | [ ]> | <n> | `<banco/consultar>` | 🟢 só consulta |
-| [✅] | <n> | `gitlabpr` | <🟢 consulta · 🟡 abrir e mesclar PR | 🟢 consulta> |
+| [✅] | <n> | `gitlabpr` | <🟢 consulta · 🟡 abrir e mesclar PR | 🟢 consulta · 🟡 abrir PR | 🟢 consulta> |
 
 (se o agente tem subagentes — produto, codificador, orquestrador: os do fluxo, da tabela do Passo 6, mais os do projeto)
 | | # | Subagente | Para quê |
@@ -266,6 +266,8 @@ Agentes do projeto (podem virar subagentes do codificador e do orquestrador):
 ```
 
 Linhas numeradas em sequência pelas três tabelas (skills, MCPs, subagentes), para "tirar 3,5" valer em qualquer uma.
+As linhas `elm` e `gitlabpr` são fixas do papel (não se tiram por projeto); a do `gitlabpr` só existe no produto,
+codificador, revisor e orquestrador — o MCP serve só ao PR.
 Toda opção aparece — marcada ou não —, na ordem: marcadas primeiro, depois as desmarcadas. Depois de um ajuste,
 mostre o cartão de novo com as caixas atualizadas antes de pedir o "ok" final do agente.
 

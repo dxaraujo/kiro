@@ -63,8 +63,17 @@ class Gerar(unittest.TestCase):
         self.assertIn("sdd/elm/elm_comentar", regras(p, "power", "deny"))
         self.assertIn("sdd/gitlabpr/gitlab_criar_mr", regras(p, "power", "deny"))
         self.assertIn("*git push*", regras(p, "shell", "deny"))
-        self.assertEqual(regras(p, "power", "allow"), [f"sdd/{t}" for t in g.expandir(["+elm-local", "+gitlab-leitura"],
+        self.assertEqual(regras(p, "power", "allow"), [f"sdd/{t}" for t in g.expandir(["+elm-local"],
                                                                                       json.loads((g.ASSETS / "papeis.json").read_text())["grupos"])])
+
+    def test_gitlab_so_em_quem_lida_com_pr(self):
+        agentes = self.gerar()
+        for nome in ("pesquisador", "verificador"):
+            self.assertFalse([t for t in agentes[nome]["tools"] if t.startswith("@gitlabpr/")], nome)
+            self.assertIn("sdd/gitlabpr/gitlab_obter_mr", regras(agentes[nome], "power", "deny"), nome)
+        for nome in ("produto", "codificador", "revisor", "orquestrador"):
+            self.assertIn("sdd/gitlabpr/gitlab_obter_mr", regras(agentes[nome], "power", "allow"), nome)
+        self.assertIn("sdd/gitlabpr/gitlab_criar_mr", regras(agentes["produto"], "power", "deny"))
 
     def test_push_so_da_branch_e_merge_so_no_codificador(self):
         agentes = self.gerar()
@@ -117,6 +126,8 @@ class Gerar(unittest.TestCase):
         self.assertIn("`java`", linhas["**sdd-codificador**"])
         self.assertIn("`banco/consultar`", linhas["**sdd-codificador**"])
         self.assertIn("🟢 só o bundle local", linhas["**sdd-pesquisador**"])
+        self.assertIn("| ➖ |", linhas["**sdd-pesquisador**"])
+        self.assertIn("🟢 consulta · 🟡 abrir e mesclar PR", linhas["**sdd-codificador**"])
         self.assertIn("🟡 pergunta", linhas["**sdd-codificador**"])
         self.assertTrue(linhas["**sdd-produto**"].rstrip(" |").endswith("🔴 negado"))
 

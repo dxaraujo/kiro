@@ -140,8 +140,8 @@ def problemas(a, projeto):
 def resumo(agentes, cfg):
     """Tabela markdown do que cada agente recebeu, lida dos agentes gerados; ícones da legenda de references/wizard.md."""
     fluxo = f"skill://{cfg['power']}/skills/"
-    linhas = ["| Agente | Skills do fluxo | Skills do projeto | MCPs do projeto | ELM | Subagentes | Push |",
-              "|---|---|---|---|---|---|---|"]
+    linhas = ["| Agente | Skills do fluxo | Skills do projeto | MCPs do projeto | ELM | GitLab | Subagentes | Push |",
+              "|---|---|---|---|---|---|---|---|"]
     for a in agentes.values():
         skills = [r.removeprefix("skill://") for r in a["resources"] if r.startswith("skill://")]
         do_fluxo = [Path(s).parent.name.removeprefix("sdd-") for s in skills if f"skill://{s}".startswith(fluxo)]
@@ -152,11 +152,14 @@ def resumo(agentes, cfg):
                       for r in a["permissions"]["rules"])
         elm = ("➖" if not do_elm else "🟢 só o bundle local" if all(t.endswith("_local") for t in do_elm)
                else "🟢 consulta · 🟡 escrita" if escreve else "🟢 consulta")
+        do_gitlab = {t.removeprefix("@gitlabpr/") for t in a["tools"] if t.startswith("@gitlabpr/")}
+        gitlab = ("➖" if not do_gitlab else "🟢 consulta · 🟡 abrir e mesclar PR" if "gitlab_mesclar_mr" in do_gitlab
+                  else "🟢 consulta · 🟡 abrir PR" if "gitlab_criar_mr" in do_gitlab else "🟢 consulta")
         subs = a.get("toolsSettings", {}).get("subagent", {}).get("availableAgents", [])
         push = "🟡 pergunta" if any(r["capability"] == "shell" and r["effect"] == "ask" and "git push *" in r["match"]
                                  for r in a["permissions"]["rules"]) else "🔴 negado"
         cel = lambda xs: ", ".join(f"`{x}`" for x in xs) or "➖"
-        linhas.append(f"| **{a['name']}** | {cel(do_fluxo)} | {cel(do_projeto)} | {cel(mcps)} | {elm} | {cel(subs)} | {push} |")
+        linhas.append(f"| **{a['name']}** | {cel(do_fluxo)} | {cel(do_projeto)} | {cel(mcps)} | {elm} | {gitlab} | {cel(subs)} | {push} |")
     return "\n".join(linhas) + "\n"
 
 

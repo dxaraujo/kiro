@@ -134,8 +134,8 @@ Atualize "Próximos ids". O commit é **um só, no fim da sessão de triagem** (
 itens triados só nascem no EWM na sprint: o padrão é a tarefa **`[GB] Gerenciamento do backlog`** da linha
 `Sustentação:` do `backlog.md` — mostre-a e confirme (a pessoa pode indicar outra). Linha sem `[GB]` → sugira
 criá-la ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §2; só com sprint aberta, que dá a
-iteração) ou pergunte a tarefa. Sem tarefa, não commite: deixe os arquivos e o comando pronto; push ou PR curto com o "sim" da pessoa,
-como diz "Artefatos de produto" no `sdd.md` (no agente `sdd-produto`, que não faz push, entregue o comando pronto
+iteração) ou pergunte a tarefa. Sem tarefa, não commite: deixe os arquivos e o comando pronto; push direto na base com o "sim" da pessoa
+(no agente `sdd-produto`, que não faz push, entregue o comando pronto
 — a pessoa executa). **Conflito de id** no push (outra
 pessoa registrou o mesmo número antes): o agente não faz merge nem rebase — peça à pessoa `git pull --rebase`; no
 conflito do `backlog.md`, mantenha o remoto e, **antes de renumerar**, confira de novo a `origem` (DF, IB, AT, pedido):

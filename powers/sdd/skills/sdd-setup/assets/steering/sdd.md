@@ -95,7 +95,7 @@ Na worktree do `sdd-loop`: `cd .kiro/local/wt/<ft> && <comando>`. Falha de ambie
 | Branch base · prefixo · commit | `<develop>` · `<feature/>` · `<FT-<nnn> <verbo> <descrição> | Task <id> - …>` |
 | Mensagens do fluxo (dentro do padrão acima) | fatia: `<id> registrar plano` · `registrar análise do plano <N>` · `registrar aprovação do plano` · `registrar revisão <N>` · `registrar verificação` · tarefa: `<id> <o que a tarefa fez>` · triagem: `backlog: triagem <ids>` · AT: `AT-<nnn> concluir` · sprint: `sprint <nn>: <planejar | encaixe | virada>` · PRD: `EP-<nn> aprovar PRD` · ELM: `<id> publicar no ELM` · consolidação: `<id> consolidar` |
 | PR (merge request) | `<MCP gitlabpr — gitlab_listar_mrs · gitlab_obter_mr · gitlab_criar_mr (origem e destino sempre explícitos) · gitlab_mesclar_mr (merge pelo Dev responsável, com o `sha` aprovado) | entregar título e descrição>` — nunca `gh` nem `glab` |
-| Artefatos de produto (pasta do produto, glossário, ADRs, consolidação) | `<direto na branch base | PR curto para a base>` — nunca em branch de fatia; push ou PR com o "sim" da pessoa (o agente `sdd-produto` não faz push: entrega o comando) |
+| Artefatos de produto (pasta do produto, glossário, ADRs, consolidação) | direto na branch base — nunca em branch de fatia; push com o "sim" da pessoa (o agente `sdd-produto` não faz push: entrega o comando) |
 | MCP de banco | `<@servidor/tool | não há>` — **somente leitura** (`SELECT`/`WITH`), exceto os scripts de massa; DDL fora do fluxo |
 | Paralelo no loop | `<1>` (máx. 3) — o GATE do plano não se configura: sai da senioridade de quem implementa (`sdd-plano` Passo 5) |
 | Push e PR no loop | `<perguntar a cada lote (o Kiro confirma cada um) | não — a pessoa abre>` |

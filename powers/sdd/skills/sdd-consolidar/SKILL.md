@@ -87,8 +87,8 @@ retrospectiva do épico ou da sprint (`sdd-aprender`).
 
 ## Passo 4 — Fechar
 
-- Na **base** (já nela desde a Entrada; direto ou por PR curto, conforme "Artefatos de produto"
-  no `sdd.md` — várias fatias podem ir no mesmo PR de consolidação): `status.md` da fatia com
+- Na **base** (já nela desde a Entrada; commit direto — várias fatias podem ir no mesmo commit de
+  consolidação): `status.md` da fatia com
   `fase: concluida` e data; `backlog.md` com `status: concluida`, `concluida-em`, os ids de tarefa do campo ELM
   do `status.md` que a coluna `elm` ainda não tem; na coluna Créditos da linha da fatia no `sprint-<nn>.md`, a soma
   da seção **Créditos** do `status.md` da branch da fatia (`git show origin/<branch>:…`, com as linhas que o Dev

@@ -100,7 +100,7 @@ o caminho, e não comece.
    revisar o PR). A pessoa pode seguir mesmo assim: `WIP excedido: <motivo>` vai no Histórico do `status.md` ao
    criá-lo (Passo 4).
 5. **Registro publicado.** A linha da fatia, a ficha e o encaixe já estão em `origin/<base>`
-   (`git grep -q '<FT>' origin/<base> -- <produto>/backlog.md`)? Só no local → peça o push (ou o merge do PR curto)
+   (`git grep -q '<FT>' origin/<base> -- <produto>/backlog.md`)? Só no local → peça o push
    antes: a branch nasce de `origin/<base>`, e um id que ainda não chegou lá pode mudar. Repositório sem remoto
    (ou base nunca publicada) → não há o que conferir: a branch nasce da base local; diga isso e siga.
 

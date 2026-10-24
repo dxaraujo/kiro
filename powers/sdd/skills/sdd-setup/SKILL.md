@@ -103,7 +103,7 @@ trocar para a sessão padrão e pare.
    - tudo com `git mv`/`git rm` (arquivo não versionado → `mv`/`rm`), sem mudar o conteúdo dos movidos; diga que
      as fatias em andamento (`.kiro/specs/`) não mudam.
 5. **Pré-checagem** (tabela do W0): shell, `uv --version` (o gerador dos agentes precisa; sem ele → como instalar
-   e pare), `kiro-cli --version` (opcional), `elm_status` sem `projeto` (credencial do ELM) e se
+   e pare), `kiro-cli --version` (opcional), `elm_status(projeto=<raiz>)` (credencial do ELM; sem `pa` ainda, ele responde com `faltando`, o que é normal aqui) e se
    `~/.config/mcp-gitlabpr/gitlabpr.properties` existe (sem abrir). Mostre o W0 e espere o "ok" antes do Passo 1.
 6. **Vindo da v1 do `sdd`?** Existe `.kiro/steering/sdd-projeto.md` sem `.kiro/steering/sdd.md` → ofereça
    reaproveitar dele: steering, branch base, prefixo, padrão de commit, ferramenta de PR, comandos, gate de

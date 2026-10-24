@@ -63,39 +63,76 @@ não falam de defeito.
 | 2 | `tarefa` — ESP, DEV, REV, VER, APR, ATD, GB | <Tarefa> | 🧩 |
 | 3 | `defeito` (opcional) | <Defeito | não usa> | 🧩 |
 
+## Modelo do sdd: obrigatórios e valores por item
+
+Os campos abaixo a PA cobra para criar, mudar de estado ou lançar horas, **mesmo com o tipo marcando-os como
+opcionais** — por isso a descoberta não os traz em `obrigatorios`. É a configuração esperada em todo projeto: os
+blocos 3 a 5 **já começam com ela marcada e preenchida**; a pessoa só confirma ou muda. Cada valor sugerido é
+conferido contra a lista da PA (bloco 4): se a PA não tiver aquele valor, mostre a lista e pergunte — nunca grave um
+valor que não está nela.
+
+**Item de Backlog** — obrigatório 🔒 `Categoria` (o campo do tipo, não a categoria do time):
+
+| # | Item | Título começa por | Categoria |
+|---|---|---|---|
+| 1 | épico | `[EP-` | Nova funcionalidade |
+| 2 | fatia | `[FT-` | Nova funcionalidade |
+| 3 | IB de atendimento | `Atendimento` | Apoio Técnico |
+| 4 | épico de Sustentação | `[SUS-` | Apoio Técnico |
+| 5 | IB de defeito | — (vai na chamada) | Correção → linha "IB de defeito" do `sdd.md` |
+| — | padrão do tipo (`padroes`) | qualquer outro título | Apoio Técnico |
+
+**Tarefa** — obrigatórios 🔒 `Categoria` (de integração de horas), `OTR`, `ID do Produto (Clarity)` e `Classificação
+da Tarefa`:
+
+| # | Tarefa | Título começa por | Classificação da Tarefa |
+|---|---|---|---|
+| 6 | especificação | `[ESP]` | Análise / Especificação |
+| 7 | desenvolvimento | `[DEV]` | Desenvolvimento (Transacional / Analítico / IA / etc ) |
+| 8 | revisão | `[REV]` | Desenvolvimento (Transacional / Analítico / IA / etc ) |
+| 9 | verificação | `[VER]` | Testes |
+| 10 | aprovação do plano e do PR | `[APR]` | Outra - Não listada |
+| 11 | atendimento | `[ATD]` | Suporte / Apoio Técnico Especializado |
+| 12 | gerenciamento do backlog | `[GB]` | Outra - Não listada |
+| — | padrão do tipo (`padroes`) | qualquer outro título | Outra - Não listada |
+
+Iguais em toda tarefa (vão em `padroes`): `Categoria` = Aplicativo · `OTR` = 1-Apoio-Produtos · `ID do Produto
+(Clarity)` = o código do produto do projeto — campo de texto, **sempre perguntado** (é de cada projeto; sem ele a
+PA recusa o lançamento de horas).
+
 ## 3. Campos de cada tipo
 
 **Um tipo por mensagem** (IB, depois tarefa, depois defeito se houver). Por tipo, **todos** os campos da descoberta
-numa tabela `| | # | Campo | Tipo do valor |` com a caixa `[✅]`/`[ ]` (os do fluxo primeiro, já marcados; a
-pessoa marca os outros pelo número — `pôr 4,7`), com os que o fluxo usa já marcados: Planejado para, Responsável,
-Estimativa (Tarefa) e, no IB, o de critérios de aceite. Pergunte, por tipo: **"a PA exige mais algum campo para
-criar, mudar de estado ou lançar horas?"** — campos de processo não vêm marcados como obrigatórios (ex.: categoria de
-integração de horas, OTR, classificação, id do produto). Os que a pessoa indicar entram em `campos` e em
-`obrigatorios` do tipo: o MCP os exige já na criação, para nenhuma transição ou lançamento esbarrar neles depois.
+numa tabela `| | # | Campo | Tipo do valor | Obrigatório |` com a caixa `[✅]`/`[ ]` e a linha `<n> de <n> da
+descoberta`. Já vêm marcados os do fluxo (Planejado para, Responsável, Estimativa na tarefa, critérios de aceite no
+IB) e, como 🔒, os obrigatórios do **modelo do sdd** e os que a descoberta trouxe em `obrigatorios`. Campo do modelo
+que a PA não tem → diga qual e pergunte se há um equivalente. `ok` aceita a marcação; `tirar <n>` tira (confirme:
+sem ele a PA recusa depois); `pôr <n>` acrescenta (pergunte se é obrigatório).
+
+A **categoria do time** (`filedAgainst`, "Atendido por", bloco 1) não é um campo desta tabela: o "Categoria" do tipo
+é outro atributo, com a própria lista de valores — nunca use o nome da categoria do time como valor dele.
+
+Os marcados entram em `campos`; os 🔒 também em `obrigatorios` — o MCP os exige já na criação, para nenhuma transição
+ou lançamento esbarrar neles depois. Planejado para, Responsável e Estimativa podem ir em `obrigatorios` (chegam pela
+iteração, pelo dono e pelas horas da chamada), nunca em `padroes`.
 
 ## 4. Valores
 
-Chame de novo `elm_setup_descobrir` com `valores_de` = os campos de enumeração escolhidos no bloco 3. Para cada
-obrigatório, mostre a lista de valores da PA e pergunte o valor padrão (`padroes`). Campo de texto (ex.: id de
-produto) → pergunte o valor. "Planejado para" nunca vai em `padroes`: é sempre a iteração da sprint.
+Antes do cartão, chame de novo `elm_setup_descobrir` com `valores_de` = **todos** os campos de enumeração marcados
+no bloco 3 — sem isso a descoberta só traz valores dos obrigatórios do shape, e os do modelo ficam de fora. Um campo
+por linha, com o valor do modelo já preenchido (⭐) e marcado ✔ se estiver na lista da PA; valor fora da lista →
+mostre a lista inteira e pergunte. Campo de texto (o id de produto) → pergunte o valor; nunca deixe obrigatório sem
+valor. "Planejado para" nunca vai em `padroes`: é sempre a iteração da sprint.
 
 ## 5. Valor por item de trabalho
 
 O MCP aplica, na criação: os `padroes` do tipo, depois o `por-prefixo` cujo texto **inicia** o título, depois os
-campos da chamada. Pergunte, numa tabela com **linhas numeradas** e o valor proposto já preenchido, o valor de cada campo que muda
-conforme o item (`<n>: <valor>` muda; `<n>: não usa` tira o prefixo — confirme, porque o fluxo cria esses itens):
-
-| Item | Título começa por | Pergunte |
-|---|---|---|
-| épico | `[EP-` | categoria do IB |
-| fatia | `[FT-` | categoria do IB |
-| IB de atendimento | `Atendimento` | categoria do IB |
-| épico de Sustentação | `[SUS-` | categoria do IB |
-| IB de defeito | — (vai na chamada) | categoria de correção → linha "IB de defeito" do `sdd.md` |
-| tarefas | `[ESP]` `[DEV]` `[REV]` `[VER]` `[APR]` `[ATD]` `[GB]` | classificação e o que mais mudar por papel |
-
-O valor mais comum entre os itens vira o padrão do tipo (rede de segurança para título fora dos prefixos); os
-diferentes vão em `por-prefixo`.
+campos da chamada. Mostre as tabelas do **modelo do sdd** (IB e tarefa), com os valores conferidos no bloco 4 e
+**uma linha por item** — cada papel de tarefa na própria linha. A pessoa muda célula a célula (`<n>: <campo> =
+<valor>`; `<n>: não usa` tira o prefixo — confirme, porque o fluxo cria esses itens). Valor de enumeração só da
+lista da PA. Grave a linha "padrão do tipo" em `padroes` e cada prefixo com valor diferente em `por-prefixo`.
+Antes da conferência, confira: todo campo de `obrigatorios` tem valor em `padroes` ou chega por parâmetro
+(iteração, dono, estimativa).
 
 ## 6. Horas
 

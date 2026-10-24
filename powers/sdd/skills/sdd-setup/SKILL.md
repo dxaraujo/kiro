@@ -33,7 +33,8 @@ os de lá (legenda fixa); nunca improvise outro formato, outro ícone nem tabela
 - **Uma pergunta por mensagem**, sempre no fim, no bloco `❓`. Nunca duas etapas, nem duas perguntas, na mesma
   mensagem; nunca comece a etapa seguinte com uma pergunta da anterior em aberto.
 - **Linhas numeradas** em toda tabela que a pessoa pode mudar: ela responde `ok` ou `<n>: <novo valor>`.
-  Resposta ambígua → repita o que entendeu (em tabela) e confirme antes de seguir.
+  Resposta ambígua → repita o que entendeu (em tabela) e **pare**: a confirmação é a próxima resposta, nunca a
+  mesma mensagem que interpretou.
 - **Fonte de cada valor** visível (🔍 detectado em <onde> · 📐 padrão do sdd · 🙋 você · 🧩 ELM): nada escondido,
   nada que a pessoa só descubra depois de gravado.
 - **Status honesto:** ✅ só com resposta real; sem rede, sem credencial ou não rodado → ⏸️ com o motivo.

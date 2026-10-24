@@ -28,8 +28,9 @@ transição ou o lançamento de horas. Por isso aqui **não vale "padrão sem pe
   numa frase; a recomendada vai primeiro, com ⭐. Lista com mais de 12 opções → tabela em duas colunas
   (`| # | Opção | # | Opção |`). O resultado de um bloco pode abrir a mensagem do bloco seguinte só como a linha
   `✔ Bloco <n> — <valores>`, sem pergunta: dúvida sobre o bloco anterior → fica nele, com a pergunta dele. Resposta que não deixa claro o
-  que muda (um "não" no meio de uma linha, "ok" a uma pergunta com duas partes) → repita o que entendeu, em tabela, e
-  confirme antes de seguir; nunca passe ao bloco seguinte com uma pergunta aberta.
+  que muda (um "não" no meio de uma linha, "ok" a uma pergunta com duas partes, um formato que não é o do bloco)
+  → repita o que entendeu, em tabela, e **pare**: a confirmação é a próxima resposta da pessoa — nunca feche o bloco
+  na mesma mensagem em que interpretou; nunca passe ao bloco seguinte com uma pergunta aberta.
 - **Nada é gravado** antes da conferência do bloco 10.
 - **Modo atualização** (já existe `.kiro/config/sdd/pa_<nome>.json`): mostre o `pa` atual em tabela, bloco a bloco,
   e pergunte só o que muda.

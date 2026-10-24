@@ -20,12 +20,15 @@ transição ou o lançamento de horas. Por isso aqui **não vale "padrão sem pe
   |---|---|---|---|
   | 1 | <valor> ⭐ (recomendado) | <…> | 🧩 |
 
+  <n> de <n> da descoberta
+
   > ❓ **<pergunta do bloco>**
   > `<n>` escolhe · `ok` aceita a recomendada · `<n>: <valor>` muda uma linha
   ```
 
-  **Todas** as opções que a descoberta trouxe aparecem na tabela — nunca "os mais prováveis" com o resto resumido
-  numa frase; a recomendada vai primeiro, com ⭐. Lista com mais de 12 opções → tabela em duas colunas
+  **Todas** as opções que a descoberta trouxe aparecem na tabela — nunca "os mais prováveis" nem "os relevantes",
+  com o resto resumido ou cortado; logo abaixo da tabela, a linha `<n> de <n> da descoberta` (os dois números iguais:
+  conte os itens que o MCP devolveu antes de montar a tabela); a recomendada vai primeiro, com ⭐. Lista com mais de 12 opções → tabela em duas colunas
   (`| # | Opção | # | Opção |`). O resultado de um bloco pode abrir a mensagem do bloco seguinte só como a linha
   `✔ Bloco <n> — <valores>`, sem pergunta: dúvida sobre o bloco anterior → fica nele, com a pergunta dele. Resposta que não deixa claro o
   que muda (um "não" no meio de uma linha, "ok" a uma pergunta com duas partes, um formato que não é o do bloco)

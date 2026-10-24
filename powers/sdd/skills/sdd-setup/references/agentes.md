@@ -11,8 +11,8 @@ Os agentes são **gerados**, nunca editados à mão. Três fontes:
 O script [../scripts/gerar_agentes.py](../scripts/gerar_agentes.py) junta as três e grava os seis agentes:
 
 ```bash
-uv run --no-project python <power>/skills/sdd-setup/scripts/gerar_agentes.py --projeto <raiz> --diff   # mostra
-uv run --no-project python <power>/skills/sdd-setup/scripts/gerar_agentes.py --projeto <raiz>          # grava
+uv run --no-project python <power>/skills/sdd-setup/scripts/gerar_agentes.py --projeto <raiz>            # mostra o diff e a tabela
+uv run --no-project python <power>/skills/sdd-setup/scripts/gerar_agentes.py --projeto <raiz> --gravar   # grava
 ```
 
 Sai com código 1 (sem gravar nada) se sobrou um `{{…}}` ou se um `skill://`/`file://` não existe ou é absoluto.
@@ -90,4 +90,4 @@ com "atualizar os agentes do sdd".
 ## Gravação
 
 O Kiro sempre pergunta antes de gravar em `.kiro/agents/`, `.kiro/hooks/` e `.kiro/workflows/`: o script grava
-pelo shell, então a confirmação é a do comando — mostre antes o `--diff`.
+pelo shell, então a confirmação é a do comando — mostre antes o diff (o script sem `--gravar`).

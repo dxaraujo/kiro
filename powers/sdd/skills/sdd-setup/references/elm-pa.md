@@ -24,7 +24,10 @@ transição ou o lançamento de horas. Por isso aqui **não vale "padrão sem pe
   > `<n>` escolhe · `ok` aceita a recomendada · `<n>: <valor>` muda uma linha
   ```
 
-  Lista com mais de 12 opções → tabela em duas colunas (`| # | Opção | # | Opção |`). Resposta que não deixa claro o
+  **Todas** as opções que a descoberta trouxe aparecem na tabela — nunca "os mais prováveis" com o resto resumido
+  numa frase; a recomendada vai primeiro, com ⭐. Lista com mais de 12 opções → tabela em duas colunas
+  (`| # | Opção | # | Opção |`). O resultado de um bloco pode abrir a mensagem do bloco seguinte só como a linha
+  `✔ Bloco <n> — <valores>`, sem pergunta: dúvida sobre o bloco anterior → fica nele, com a pergunta dele. Resposta que não deixa claro o
   que muda (um "não" no meio de uma linha, "ok" a uma pergunta com duas partes) → repita o que entendeu, em tabela, e
   confirme antes de seguir; nunca passe ao bloco seguinte com uma pergunta aberta.
 - **Nada é gravado** antes da conferência do bloco 10.
@@ -58,7 +61,9 @@ não falam de defeito.
 
 ## 3. Campos de cada tipo
 
-**Um tipo por mensagem** (IB, depois tarefa, depois defeito se houver). Por tipo, a lista de campos da descoberta, com os que o fluxo usa já marcados: Planejado para, Responsável,
+**Um tipo por mensagem** (IB, depois tarefa, depois defeito se houver). Por tipo, **todos** os campos da descoberta
+numa tabela `| | # | Campo | Tipo do valor |` com a caixa `[✅]`/`[ ]` (os do fluxo primeiro, já marcados; a
+pessoa marca os outros pelo número — `pôr 4,7`), com os que o fluxo usa já marcados: Planejado para, Responsável,
 Estimativa (Tarefa) e, no IB, o de critérios de aceite. Pergunte, por tipo: **"a PA exige mais algum campo para
 criar, mudar de estado ou lançar horas?"** — campos de processo não vêm marcados como obrigatórios (ex.: categoria de
 integração de horas, OTR, classificação, id do produto). Os que a pessoa indicar entram em `campos` e em

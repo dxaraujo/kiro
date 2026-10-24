@@ -1,6 +1,6 @@
 ---
 name: sdd-setup
-description: "Wizard de 9 etapas que configura o fluxo sdd num projeto, em cartões padronizados: entende o repositório (tipos de projeto — backend, batch, frontend, mobile, dados —, stack, módulos, comandos de build e teste, como verificar o aceite, git, banco, ELM), descobre as skills disponíveis no projeto, na pasta do usuário, em outros powers e nos toolkits de stack, e cria os agentes sdd (produto, pesquisador, codificador, revisor, verificador, orquestrador) perguntando, agente por agente, a quais skills e MCPs cada um terá acesso — ex.: num projeto Spring Batch, as skills de batch e Java para o codificador. Gera o .kiro/steering/sdd.md (único steering do fluxo), a pasta do produto, .kiro/agents/sdd-*.json (gerados por script no formato V3 do Kiro e validados pelo kiro-cli), hooks e workflows opcionais, e refaz tudo em modo atualização. Use em \"configurar o sdd\", \"setup do sdd\", \"criar os agentes do sdd\", \"atualizar os agentes do sdd\", \"ligar o toolkit\", \"atualizar a configuração do sdd\"."
+description: "Wizard de 9 etapas, em português do Brasil e em cartões padronizados, que configura o fluxo sdd num projeto: entende o repositório (tipo, stack, comandos de build e teste, git, banco, ELM), descobre as skills e os agentes do projeto, do usuário e dos toolkits de stack, pergunta agente por agente a quais skills e MCPs cada um dos seis agentes sdd terá acesso e, só depois de uma revisão final, grava o .kiro/steering/sdd.md, a pasta do produto, os agentes (gerados por script), hook e workflows. Refaz tudo em modo atualização. Use em \"configurar o sdd\", \"setup do sdd\", \"criar os agentes do sdd\", \"atualizar os agentes do sdd\", \"ligar o toolkit\", \"atualizar a configuração do sdd\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -205,14 +205,18 @@ precisar lembrar deles.
 Para cada agente, nesta ordem, monte a proposta com o inventário **agrupado por toolkit/origem** e as skills
 pré-marcadas pelos `papeis` do toolkit e pelo tipo de projeto (formato em `toolkits.md`):
 
-| Agente | Já tem (do fluxo) | Sugestão de extras |
-|---|---|---|
-| `sdd-produto` | triar, entrevistar, especificar, prd, fatiar, planejamento, atender, consolidar, aprender (registrar), iniciar, status | skills de domínio/negócio |
-| `sdd-pesquisador` | pesquisar | skills de stack para ler o código (ex.: `java`) |
-| `sdd-codificador` | desenvolver, plano, implementar, iniciar, status | skills de stack e de teste do toolkit (ex.: `spring-batch-job`, `java`) |
-| `sdd-revisor` | revisar, iniciar, status | skills de padrões e de revisão da stack |
-| `sdd-verificador` | verificar, iniciar, status | skills de teste de aceite (Playwright, teste de job, API) |
-| `sdd-orquestrador` | loop, desenvolver, plano, implementar, status | normalmente nenhuma |
+| Agente | Já tem (do fluxo) | `elm` | `gitlabpr` | Subagentes do fluxo | Push | Sugestão de extras |
+|---|---|---|---|---|---|---|
+| `sdd-produto` | triar, entrevistar, especificar, prd, fatiar, planejamento, atender, consolidar, aprender (registrar), iniciar, status | 🟢 consulta · 🟡 escrita | 🟢 consulta · 🟡 abrir PR | `sdd-pesquisador`, `sdd-revisor` | 🔴 negado | skills de domínio/negócio |
+| `sdd-pesquisador` | pesquisar | 🟢 só o bundle local | 🟢 consulta | — | 🔴 negado | skills de stack para ler o código |
+| `sdd-codificador` | desenvolver, plano, implementar, iniciar, status | 🟢 consulta · 🟡 escrita | 🟢 consulta · 🟡 abrir e mesclar PR | `sdd-pesquisador`, `sdd-revisor`, `sdd-verificador` | 🟡 pergunta | skills de stack e de teste do toolkit |
+| `sdd-revisor` | revisar, iniciar, status | 🟢 consulta · 🟡 escrita | 🟢 consulta | — | 🟡 pergunta | skills de padrões e de revisão da stack |
+| `sdd-verificador` | verificar, iniciar, status | 🟢 consulta · 🟡 escrita | 🟢 consulta | — | 🟡 pergunta | skills de teste de aceite |
+| `sdd-orquestrador` | loop, desenvolver, plano, implementar, status | 🟢 consulta · 🟡 escrita | 🟢 consulta · 🟡 abrir PR | `sdd-pesquisador`, `sdd-codificador`, `sdd-revisor`, `sdd-verificador` | 🟡 pergunta | normalmente nenhuma |
+
+As colunas `elm`, `gitlabpr`, Subagentes do fluxo e Push vêm do `papeis.json` e vão **todas** no W6 do agente, como
+estão (projeto sem ELM → a linha do `elm` com ➖; PR entregue como texto → a do `gitlabpr` continua, com a nota
+"sem projeto no GitLab ainda"): nunca omita uma linha fixa nem mude o acesso dela.
 
 Aprender e setup rodam na **sessão padrão** (sem agente); o modo registrar da aprender também no `sdd-produto`,
 na consolidação. A consolidação é do P.O. ou do SM, no `sdd-produto`
@@ -269,14 +273,16 @@ receitas (a pessoa, no chat do Kiro; nenhum agente as dispara) e que os dois exi
 
 Na ordem:
 - **a.** Monte em memória os itens 1 a 5 abaixo.
-- **b.** Grave o rascunho `.kiro/config/sdd/agentes.json` e rode o gerador com `--diff`: ele confere os caminhos e
+- **b.** Grave o rascunho `.kiro/config/sdd/agentes.json` e rode o gerador **sem `--gravar`** (só mostra; não grave
+  o `sdd.md` nem nada mais antes do "ok" — o gerador não precisa dele): ele confere os caminhos e
   **imprime a tabela dos agentes** (skills, MCPs, ELM, subagentes, push) lida dos agentes que vai gerar. Confira
   cada linha com o que a pessoa aprovou no Passo 6 — diferente → corrija o `agentes.json` e rode de novo; nunca
   mostre nem grave um agente que não bate.
-- **c.** Mostre o W8 com essa tabela **colada sem mudar nada** e, no modo atualização, o diff de cada arquivo que
+- **c.** Mostre o W8 com essa tabela **colada sem mudar nada** — a partir da linha `| Agente |` que o gerador
+  imprimiu, com as mesmas colunas, na mesma ordem; nunca uma tabela sua — e, no modo atualização, o diff de cada arquivo que
   muda.
-- **d.** "ok" → grave nesta ordem: `sdd.md`, agentes (gerador sem `--diff`), hook, workflows, `http.sh`, pasta do
-  produto, `.gitignore`. Recusa de uma confirmação do Kiro → diga qual arquivo ficou de fora e ofereça regravar;
+- **d.** "ok" → grave nesta ordem: `sdd.md`, agentes (gerador com `--gravar`), hook, workflows, `http.sh`, pasta do
+  produto, glossário e ADRs, `.gitignore`. Recusa de uma confirmação do Kiro → diga qual arquivo ficou de fora e ofereça regravar;
   nunca siga como se tivesse gravado.
 
 Itens:
@@ -286,8 +292,8 @@ Itens:
 2. `.kiro/config/sdd/agentes.json` com as respostas (campos em [references/agentes.md](references/agentes.md):
    caminhos, base, bundle, ELM, push no loop, `http.sh`, steering, comandos, e skills, leituras, MCPs, subagentes e
    modelo por agente) e, a partir dele, os agentes pelo gerador:
-   `uv run --no-project python <power>/skills/sdd-setup/scripts/gerar_agentes.py --projeto <raiz> --diff` mostra
-   o que muda e a tabela dos agentes; depois do "ok", o mesmo comando sem `--diff` grava `.kiro/agents/sdd-*.json`
+   `uv run --no-project python <power>/skills/sdd-setup/scripts/gerar_agentes.py --projeto <raiz>` mostra
+   o que muda e a tabela dos agentes, sem gravar; depois do "ok", o mesmo comando com `--gravar` grava `.kiro/agents/sdd-*.json`
    (e imprime a tabela de novo). As chaves de `agentes` são os nomes dos agentes (`sdd-codificador`, …); chave
    desconhecida faz o gerador parar. Nunca edite os agentes à mão nem os passe pelo `kiro-cli agent upgrade`.
 3. Hook e workflows escolhidos (Passo 7); script de chamada do verificador, se escolhido (Passo 6):
@@ -302,7 +308,11 @@ Itens:
    nunca recrie o que existe; subpasta `<produto>/planejamento/` (layout da 2.6.0) →
    ofereça mover o conteúdo dela para a raiz de `<produto>/` com `git mv` (com "ok"), sem sobrescrever o que já
    estiver lá, e apagar a subpasta vazia.
-5. `.gitignore`: acrescente `.kiro/local/` se faltar. Migração do layout antigo (Passo 0), se aceita.
+5. Glossário e ADRs que o W4 disse "será criado" (só o que não existe): `<glossario>` com `# Glossário — <nome>` e a
+   tabela vazia `| Termo | Definição | Evitar | Fonte | ELM |` (formato da `sdd-entrevistar`); `<adr>/` com um
+   `README.md` de uma linha ("Decisões que devem durar — um arquivo por decisão, gravado pela consolidação").
+   Prometido no W4 e não gravado → o fluxo aponta para um caminho que não existe: confira na etapa 9.
+6. `.gitignore`: acrescente `.kiro/local/` se faltar. Migração do layout antigo (Passo 0), se aceita.
 
 Agente existente e editado à mão → mostre o diff e pergunte antes de sobrescrever. O Kiro pede confirmação para
 cada arquivo gravado em `.kiro/agents/`, `.kiro/hooks/` e `.kiro/workflows/` — avise antes.
@@ -313,6 +323,8 @@ Rode as verificações abaixo e mostre o W9 com o status de cada uma; depois o c
 "Quero… / Diga" e o próximo passo. A tabela final dos agentes é a que o gerador imprimiu ao gravar — nunca uma
 escrita de memória.
 
+- Todo caminho que o `sdd.md` e o `agentes.json` citam (pasta do produto, glossário, ADRs, massa) existe — ou é
+  "não há"/`null`.
 - O GitLab que ficou ⏸️ no Passo 3 → teste de novo (`gitlab_listar_mrs`) e diga o resultado.
 - O gerador já confere os agentes (sai com 1 e não grava se sobrou `{{…}}` ou se um `skill://`/`file://` não existe
   ou é absoluto). Confira também: nenhum servidor `elm` no `mcp.json` do projeto; `.kiro/steering/` tem só o

@@ -250,7 +250,7 @@ Agentes do projeto (podem virar subagentes do codificador e do orquestrador):
 | <[✅] | [ ]> | <n> | `<banco/consultar>` | 🟢 só consulta |
 | [✅] | <n> | `gitlabpr` | <🟢 consulta · 🟡 abrir e mesclar PR | 🟢 consulta> |
 
-(se codificador ou orquestrador)
+(se o agente tem subagentes — produto, codificador, orquestrador: os do fluxo, da tabela do Passo 6, mais os do projeto)
 | | # | Subagente | Para quê |
 |---|---|---|---|
 | [✅] | <n> | `sdd-revisor` | análise do plano e revisão do código |
@@ -303,7 +303,7 @@ mostre o cartão de novo com as caixas atualizadas antes de pedir o "ok" final d
 | Automação | hook <[✅] | [ ]> · workflows <[✅] | [ ]> · paralelo <n> |
 
 ### Agentes
-<a tabela que o gerador imprimiu no --diff, colada sem mudar nada>
+<a tabela que o gerador imprimiu (sem `--gravar`), colada como está — mesmas colunas, mesma ordem>
 
 ### Arquivos
 | Arquivo | Ação |
@@ -316,6 +316,8 @@ mostre o cartão de novo com as caixas atualizadas antes de pedir o "ok" final d
 | `.kiro/workflows/sdd-*.workflow.json` (2) | <criar | alterar | ➖> |
 | `.kiro/sdd/http.sh` | <criar | ➖> |
 | `<produto>/` | <criar backlog.md, aprendizado/licoes.md, fatias/ | acrescentar <…> | manter> |
+| `<glossário>` | <criar | manter | ➖ não há> |
+| `<pasta de ADRs>/` | <criar com README.md | manter | ➖ não há> |
 | `.gitignore` | <acrescentar `.kiro/local/` | manter> |
 
 O Kiro pede confirmação para cada arquivo em `.kiro/agents`, `.kiro/hooks` e `.kiro/workflows` — se recusar um
@@ -338,9 +340,10 @@ por engano, diga `regravar <arquivo>`.
 | 3 | Hook e workflows fazem parse; agentes citados existem | <✅ | ❌ | ➖> |
 | 4 | `pa` do ELM válido (`elm_status`) | <✅ | ❌ <faltando> | ➖> |
 | 5 | GitLab responde (`gitlab_listar_mrs`) | <✅ | ⏸️ <motivo> | ➖> |
-| 6 | Sem resto de versão antiga (`sdd2*`, `sdd-projeto.md`) | <✅ | ⚠️ <arquivo>> |
-| 7 | Ferramentas que varrem a raiz ignoram `.kiro/local/` | <✅ | ⚠️ <ferramenta>> |
-| 8 | Workspace confiável no Kiro | <✅ | ⚠️ confie no workspace para carregar agentes e skills> |
+| 6 | Caminhos citados no `sdd.md` e nos agentes existem | <✅ | ❌ <caminho>> |
+| 7 | Sem resto de versão antiga (`sdd2*`, `sdd-projeto.md`) | <✅ | ⚠️ <arquivo>> |
+| 8 | Ferramentas que varrem a raiz ignoram `.kiro/local/` | <✅ | ⚠️ <ferramenta>> |
+| 9 | Workspace confiável no Kiro | <✅ | ⚠️ confie no workspace para carregar agentes e skills> |
 ```
 
 Depois, numa mensagem só:

@@ -1,8 +1,8 @@
 """Gera .kiro/agents/sdd-<papel>.json (Kiro IDE e CLI V3) a partir de assets/agents/papeis.json, dos prompts
 assets/agents/sdd-<papel>.md e da configuração do projeto em .kiro/config/sdd/agentes.json.
 
-    uv run --no-project python gerar_agentes.py --projeto <raiz>          # grava
-    uv run --no-project python gerar_agentes.py --projeto <raiz> --diff   # só mostra o que mudaria
+    uv run --no-project python gerar_agentes.py --projeto <raiz>            # só mostra o diff e a tabela
+    uv run --no-project python gerar_agentes.py --projeto <raiz> --gravar   # grava (só depois do "ok" da pessoa)
 
 Sai com 1 se algum caminho citado não existe ou sobrou um {{…}} (nada é gravado). Termina com a tabela do que
 cada agente recebeu (skills, MCPs, ELM, subagentes, push), lida dos agentes gerados.
@@ -174,7 +174,9 @@ def main(argv=None):
     ap.add_argument("--projeto", type=Path, default=Path("."))
     ap.add_argument("--config", type=Path, help="padrão: <projeto>/.kiro/config/sdd/agentes.json")
     ap.add_argument("--saida", type=Path, help="padrão: <projeto>/.kiro/agents")
-    ap.add_argument("--diff", action="store_true", help="mostra o diff e não grava")
+    # gravar é opt-in: rodar sem flag nunca grava nada antes do "ok" da pessoa
+    ap.add_argument("--gravar", action="store_true", help="grava os agentes (sem ela, só mostra o diff)")
+    ap.add_argument("--diff", action="store_true", help="o padrão: mostra o diff e não grava")
     args = ap.parse_args(argv)
     projeto = args.projeto.resolve()
     cfg = json.loads((args.config or projeto / ".kiro/config/sdd/agentes.json").read_text(encoding="utf-8"))
@@ -192,7 +194,7 @@ def main(argv=None):
         novo = json.dumps(a, ensure_ascii=False, indent=2) + "\n"
         alvo = saida / arquivo
         antigo = alvo.read_text(encoding="utf-8") if alvo.exists() else ""
-        if args.diff:
+        if not args.gravar:
             sys.stdout.writelines(difflib.unified_diff(antigo.splitlines(True), novo.splitlines(True), str(alvo), str(alvo)))
         elif novo != antigo:
             saida.mkdir(parents=True, exist_ok=True)

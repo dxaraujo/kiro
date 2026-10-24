@@ -137,6 +137,8 @@ class Gerar(unittest.TestCase):
         self.assertEqual(g.main(["--projeto", str(self.projeto), "--diff"]), 0)
         self.assertFalse((self.projeto / ".kiro/agents").exists())
         self.assertEqual(g.main(["--projeto", str(self.projeto)]), 0)
+        self.assertFalse((self.projeto / ".kiro/agents").exists())  # sem --gravar nada é gravado
+        self.assertEqual(g.main(["--projeto", str(self.projeto), "--gravar"]), 0)
         self.assertEqual(len(list((self.projeto / ".kiro/agents").glob("sdd-*.json"))), 6)
 
 

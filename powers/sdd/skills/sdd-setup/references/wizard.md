@@ -278,7 +278,7 @@ mostre o cartão de novo com as caixas atualizadas antes de pedir o "ok" final d
 | # | Item | Valor | Fonte |
 |---|---|---|---|
 | 1 | Hook `sdd-backpressure` | <[✅] compila e testa depois de cada tarefa | [ ] sem comandos> | 📐 |
-| 2 | Workflows `sdd-planejar-fatia` · `sdd-entregar-fatia` | <[✅] instalados — você dispara no chat | [ ] recurso desligado no Kiro> | 🔍 <kiroAgent.workflows.enabled> |
+| 2 | Workflows `sdd-planejar-fatia` · `sdd-entregar-fatia` | <[✅] instalados — você dispara no chat | [ ] ficam de fora — recurso desligado na IDE e no CLI> | 🔍 <IDE `kiroAgent.workflows.enabled` | CLI `chat.enableWorkflows`> |
 | 3 | GATE do plano | pela senioridade: Júnior sempre · Pleno pergunta · Sênior nunca | 📐 fixo |
 | 4 | Paralelo no loop | 1 fatia por vez (máx. 3) | 📐 |
 | 5 | Push e PR no loop | 🟡 o Kiro pergunta a cada lote | 📐 |

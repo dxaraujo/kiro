@@ -266,7 +266,10 @@ não pergunte (`➖`). Nunca uma URL de produção.
 
 Um só cartão para o que roda sozinho. Padrões (linhas 1 e 2 do W7), conforme [references/automacoes.md](references/automacoes.md): hook `sdd-backpressure` **ligado**
 quando há comandos de compilar e testar; receitas de Kiro Workflows **instaladas** só quando o recurso já está
-habilitado (`kiroAgent.workflows.enabled` ou `chat.enableWorkflows`), senão de fora. Na tabela, diga quem dispara as
+habilitado, senão de fora. Onde conferir — basta um dos dois `true`: na IDE, `kiroAgent.workflows.enabled` no
+`settings.json` do usuário (macOS `~/Library/Application Support/Kiro/User/settings.json`; Linux
+`~/.config/Kiro/User/settings.json`; Windows `%APPDATA%\Kiro\User\settings.json`); no CLI, `kiro-cli settings
+chat.enableWorkflows`. Diga na linha 2 do W7 qual dos dois foi lido. Na tabela, diga quem dispara as
 receitas (a pessoa, no chat do Kiro; nenhum agente as dispara) e que os dois exigem a IDE ou a engine V3 do
 `kiro-cli`. A pessoa tira um da tabela → não instale.
 

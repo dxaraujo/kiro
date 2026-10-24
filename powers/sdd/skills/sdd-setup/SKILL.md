@@ -229,7 +229,9 @@ item. Pedido que não é marcar/desmarcar (ex.: "quando a tarefa for de batch, u
 que o fluxo tem (subagente com o "para quê" do pedido), mostre o cartão atualizado e confirme.
 
 Padrões da proposta:
-1. **Skills:** marcadas só as de toolkits **detectados** com o papel do agente; as outras aparecem desmarcadas.
+1. **Skills:** marcadas só as de toolkits **detectados** com o papel do agente; as outras aparecem desmarcadas —
+   inclusive skill avulsa que pareça útil (recomende em texto, ex. "recomendo `pôr 1`") e skill que a pessoa marcou
+   em **outro** agente: a escolha de um agente não passa para o seguinte.
 2. **MCPs:** o de banco entra como somente leitura em pesquisador, codificador, revisor e verificador — só a tool
    de consulta (`<servidor>/<tool>` em `agentes.sdd-<papel>.mcp`), nunca o servidor inteiro se ele tiver tool de
    escrita; browser/Playwright marcado no verificador em projeto `frontend`. **ELM** (projeto com ELM): as tools do

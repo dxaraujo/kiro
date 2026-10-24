@@ -122,7 +122,8 @@ mostre; senão sugira `docs/elm/<nome>` e pergunte.
 
 ## 9. ETM
 
-PA do ETM do bloco 0 → `qm` (nome e id). Sem PA → registre "sem casos de teste no ETM".
+PA do ETM do bloco 0 → `qm` (nome e id). Sem PA → registre "sem casos de teste no ETM". Já decidido no bloco 0: sem cartão
+nem pergunta — vira a linha `✔ Bloco 9 — …` no começo da conferência (bloco 10).
 
 ## 10. Conferência
 

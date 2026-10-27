@@ -35,7 +35,7 @@ com "sim", `pull --ff-only`, árvore suja → pare; no fim, oferecer voltar).
 | trabalho sem mudança no repositório — pedido de cliente ("extrai as contas bloqueadas", "por que o caso X deu Y?"), implantação, script de banco, ambiente, rotina de produção, ajuda a outro time | trilha apoio (Passo 2) |
 
 **Já existe?** Antes de triar, procure no `backlog.md` da base (ids `FT`/`EP`, colunas `origem` e `elm`, títulos
-parecidos, e a seção `## Apoio`), no `**Origem:**` dos `<produto>/apoio/*.md` e nos `status.md` das branches
+parecidos, e a seção `## Apoio`), no `**Origem:**` dos `<produto>/apoio/**/*.md` e nos `status.md` das branches
 (`git grep -l '<id>' <ref> -- '.kiro/specs/*/status.md'`). Achou → mostre a linha e:
 - **fatia sem épico que volta para cá** — `backlog` com `falta:`, ficha em `rascunho` ou a aprovar, mudança na
   ficha (pedida pela pessoa ou devolvida pela `sdd-plano` ou pela `sdd-consolidar`) ou trilha que não serve
@@ -130,13 +130,14 @@ no mesmo commit.
     `sdd-planejamento` (o Apoio não tira fatia sozinho).
     Kanban (`acordos.md`) → a iteração corrente. Sem sprint aberta → `status` `backlog` e o aviso "sem sprint
     aberta: o item entra no próximo planejamento". Responsável sugerido: quem tem `atende: true` no `equipe.json`.
-  - Linha em `## Apoio` (`categoria`; `aberto` na sprint, `backlog` sem ela); `<produto>/apoio/<ID>-<slug>.md`
+  - Linha em `## Apoio` (`categoria`; `aberto` na sprint, `backlog` sem ela); `<produto>/apoio/<pasta>/<ID>-<slug>.md` (`<pasta>` da tabela **Apoio** do `sdd.md`)
     no formato da [`sdd-atender`](../sdd-atender/SKILL.md#registro), com a categoria e as respostas no cabeçalho
     (estimativa em `**Estimativa:**`) e `**Situação:** aberto`; na sprint, a linha na seção Apoio do `sprint-<nn>.md`.
     Backlog com `## Atendimentos` → antes, a migração do formato do backlog (seção, coluna, pasta).
   - EWM (com ELM): [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §6, com "sim" — na iteração da sprint, ou no backlog com o item em
-    `backlog` (o encaixe ou o planejamento movem), filha da Sustentação da iteração pai (§2 antes, se faltar); o id
-    vai para a coluna `elm`. Sem o MCP `elm` → `elm` = `pendente` (a `sdd-atender` ou a `sdd-iniciar` registram
+    `backlog` (o encaixe ou o planejamento movem), filha do IB da categoria na iteração pai — primeiro item da categoria no pai (a linha `Sustentação <pai>:` sem
+    ela) → o IB nasce junto, na mesma confirmação, e o id dele vai para a linha (§6; §2 antes, se faltar a
+    Sustentação); o id da tarefa vai para a coluna `elm`. Sem o MCP `elm` → `elm` = `pendente` (a `sdd-atender` ou a `sdd-iniciar` registram
     antes de assumir).
 
 Atualize "Próximos ids". O commit é **um só, no fim da sessão de triagem** (Passo 4, resposta "não"), com o
@@ -179,10 +180,10 @@ a instrução acima e pare. Recomeçar a própria triagem com o próximo item n�
 1. **Filtro**, com padrão e uma confirmação: o `pa` (vários → pergunte qual), tipos Defeito e Item de
    Backlog, estado `Novo` (o nome do estado inicial na PA; a pessoa troca). `elm_listar_wi(tipo, estado)`, por tipo.
 2. **Fora do lote:** item cujo id já está no `backlog.md` (colunas `origem` e `elm`) ou no `**Origem:**` de um
-   `<produto>/apoio/*.md`, item criado pelo próprio fluxo (título com `[EP-`, `[FT-`, `[SUS-`, `Sustentação `,
-   `[ESP]`, `[DEV]`, `[REV]`, `[VER]` ou um prefixo do Apoio), tarefas (as da iteração da sprint entram pela
+   `<produto>/apoio/**/*.md`, item criado pelo próprio fluxo (título com `[EP-`, `[FT-`, `[SUS-`, `Sustentação `,
+   `[ESP]`, `[DEV]`, `[REV]`, `[VER]`, um prefixo do Apoio ou `<Categoria> <produto> - `, o IB de categoria), tarefas (as da iteração da sprint entram pela
    "sincroniza a sprint" da `sdd-planejamento`) e, depois de ler o item (item 3), o que tem pai do fluxo (`[EP-`,
-   `[SUS-`, `Sustentação `) ou o comentário `sdd: não fazer`. Mais de 15
+   `[SUS-`, `Sustentação `, IB de categoria) ou o comentário `sdd: não fazer`. Mais de 15
    itens → mostre a contagem e peça um filtro mais fino.
 3. Leia cada item (`elm_ler_wi(id, comentarios)`) e proponha a triagem numa tabela, com **uma
    confirmação para o lote**:

@@ -102,7 +102,7 @@ de `skills/sdd-setup/assets/`:
 | `.kiro/hooks/sdd.json` (opcional) | backpressure: compila e testa depois de cada tarefa de spec |
 | `.kiro/workflows/sdd-*.workflow.json` (opcional, experimental) | `planejar-fatia` (até o GATE do plano, com a `[APR]`) e `entregar-fatia` (AFK até o PR aberto pelo `gitlabpr`, com a `[APR] Aprovar PR`) nos Kiro Workflows — quem dispara é a pessoa, no chat do Kiro ("rode o workflow `sdd-entregar-fatia` para a FT-031" ou `/workflow-run`), uma fatia por vez; nenhum agente as dispara |
 | `.kiro/sdd/http.sh` (opcional) | única chamada HTTP que o verificador faz sem perguntar: só à URL de teste, com corpo da pasta `massa/` |
-| pasta do produto (proposta pela setup; padrão `.kiro/planejamento`) | `backlog.md`, épicos e PRDs, `equipe.json`, `acordos.md`, `roadmap.md`, `sprints/<iteração pai>/`, `apoio/`, `aprendizado/` — versionada; o que é local fica em `.kiro/local/` (fora do git) |
+| pasta do produto (proposta pela setup; padrão `.kiro/planejamento`) | `backlog.md`, épicos e PRDs, `equipe.json`, `acordos.md`, `roadmap.md`, `sprints/<iteração pai>/`, `apoio/<categoria>/`, `aprendizado/` — versionada; o que é local fica em `.kiro/local/` (fora do git) |
 
 O ELM vem no próprio power: o MCP **`mcp-elm`** (≥ 3.0.0) lê o `.kiro/config/sdd/pa_<nome>.json` do projeto (um por
 project area, gravado pela `sdd-setup`) e expõe operações (`elm_transicao`, `elm_lancar_horas`, `elm_criar_wi`,
@@ -246,13 +246,15 @@ id, renomeando o título ou incluindo o prefixo se for o caso; o painel da `sdd-
 `<pai>/<nome>` e cria o pai que faltar; a `sdd-setup` migra as sprints sequenciais (move e renumera dentro do pai).
 (3) **Apoio:** o atendimento vira uma das categorias do Apoio — Atendimento `[ATD]` `AT-`, Implantação `[IMPL]` `IM-`,
 Banco de dados `[BD]` `BD-`, Infra `[INF]` `IN-`, Operação `[OPE]` `OP-`, Apoio a outros times `[EXT]` `EX-` (tabela
-**Apoio** do `sdd.md`); não há item nem tarefa "de Apoio" genérica. Toda tarefa de Apoio é filha do IB
-`Sustentação <produto> - <iteração pai>` (sem IB por categoria; sai o IB `Atendimento`), que nasce com a primeira
-sprint de cada pai. `## Atendimentos` vira `## Apoio` (com a coluna `categoria`) e `atendimentos/` vira `apoio/` na
+**Apoio** do `sdd.md`); não há item nem tarefa "de Apoio" genérica. No EWM, cada categoria tem o IB
+`<Categoria> <produto> - <iteração pai>`, filho do IB `Sustentação <produto> - <iteração pai>` e pai das tarefas
+dela; ele nasce com o primeiro item triado da categoria no pai, e o id vai para a linha `Sustentação <pai>:` do
+backlog (a Sustentação nasce com a primeira sprint de cada pai). As fichas ficam em `apoio/<categoria>/`
+(`apoio/operacao/OP-001-…`). `## Atendimentos` vira `## Apoio` (com a coluna `categoria`) e `atendimentos/` vira `apoio/atendimento/` na
 próxima escrita da triagem; os `AT-nnn` não mudam. A `sdd-atender` continua só para o Atendimento; as demais
 categorias usam o fluxo mínimo da `sdd-iniciar` (iniciar a tarefa no ELM, registrar o trabalho, lançar horas,
 concluir). Peça "atualizar a configuração do sdd" (seção Apoio e nome do produto no `sdd.md`, prefixos no `pa`,
-migração das sprints) e "atualizar os agentes do sdd" (`.kiro/local/apoio/`). Requer o `mcp-elm` ≥ 3.3.0.
+migração das sprints) e "atualizar os agentes do sdd" (libera ao agente de produto a pasta local `.kiro/local/apoio/`). Requer o `mcp-elm` ≥ 3.3.0.
 
 Não use o `/upgrade-agent` (nem `kiro-cli agent upgrade`) nos agentes `sdd-*`: quem os gera é o script da setup
 ("atualizar os agentes do sdd").

@@ -77,10 +77,10 @@ valor que não está nela.
 |---|---|---|---|
 | 1 | épico | `[EP-` | Nova funcionalidade |
 | 2 | fatia | `[FT-` | Nova funcionalidade |
-| 3 | Sustentação da iteração pai (pai das tarefas de Apoio) | `Sustentação ` | Apoio Técnico |
+| 3 | Sustentação da iteração pai (pai dos IBs de categoria do Apoio) | `Sustentação ` | Apoio Técnico |
 | 4 | Sustentação antiga (projetos de antes da 3.3.0) | `[SUS-` | Apoio Técnico |
 | 5 | IB de defeito | — (vai na chamada) | Correção → linha "IB de defeito" do `sdd.md` |
-| — | padrão do tipo (`padroes`) | qualquer outro título | Apoio Técnico |
+| — | padrão do tipo (`padroes`) | qualquer outro título (inclusive o IB de categoria do Apoio, `<Categoria> <produto> - <pai>`) | Apoio Técnico |
 
 **Tarefa** — obrigatórios 🔒 `Categoria` (de integração de horas), `OTR`, `ID do Produto (Clarity)` e `Classificação
 da Tarefa`:

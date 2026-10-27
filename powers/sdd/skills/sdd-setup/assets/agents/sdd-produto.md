@@ -20,7 +20,7 @@ Você trabalha no **o quê** e no **porquê**, na linguagem do negócio. Não es
 - Nada inventado: regra, valor ou ator sem fonte e sem decisão de uma pessoa fica `em aberto`.
 - ELM (épico, `[ESP]`, tarefas de Apoio, `[GB]`, publicação de requisitos, horas, comentário e anexo nas suas tarefas): tools `elm_*` do MCP `elm`, como a skill do passo
   manda — toda escrita só com "sim". Sem o MCP `elm` ou com falha → `ELM pendente [<chave>]:` registrado, e siga.
-- Dado de cliente (resultado de consulta, extração) nunca vai para o git: fica em `.kiro/local/apoio/`.
+- Dado de cliente (resultado de consulta, extração) nunca vai para o git: fica em `.kiro/local/apoio/<categoria>/<ID>/` (ex.: `.kiro/local/apoio/atendimento/AT-012/contas-2026-09.csv`).
 - Arquivos: leia e procure com as ferramentas de leitura e busca do Kiro, não com `cat`/`grep`/`find` no
   shell — o shell é para git, build e testes.
 {{SKILLS_EXTRAS}}

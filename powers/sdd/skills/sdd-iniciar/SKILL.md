@@ -78,7 +78,7 @@ Item de Apoio sem skill própria → siga direto na seção abaixo, nesta mesma 
 Implantação `[IMPL]`, Banco de dados `[BD]`, Infra `[INF]`, Operação `[OPE]`, Apoio a outros times `[EXT]` — e toda
 categoria da tabela **Apoio** do `sdd.md` com Skill `sdd-iniciar`. O trabalho acontece fora do repositório (a
 pessoa executa; o agente não roda script, deploy nem comando em ambiente): aqui só se registra. Item registrado na
-seção `## Apoio` do `backlog.md` da base, com a ficha `<produto>/apoio/<ID>-<slug>.md` (formato:
+seção `## Apoio` do `backlog.md` da base, com a ficha `<produto>/apoio/<pasta>/<ID>-<slug>.md` (formato:
 [`sdd-atender`](../sdd-atender/SKILL.md#registro), com `## O que foi feito`); id fora do backlog → `sdd-triar` e
 pare; `concluido`/`cancelado` → mostre e pare. Os passos valem em qualquer ordem e em várias sessões; cada escrita
 no EWM com "sim". Ficha e backlog são gravados na base (bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base)).
@@ -88,7 +88,7 @@ no EWM com "sim". Ficha e backlog são gravados na base (bloco [Gravar na base](
    ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §6). Fora da sprint aberta ou fora da reserva → a
    decisão é do P.O. (`sdd-planejamento`, Encaixe) e pare.
 2. **Registrar o trabalho:** em `## O que foi feito` da ficha, os passos e a evidência (o que foi executado, onde,
-   resultado, link do chamado ou da mudança), **sem dado de cliente** — dado real fica em `.kiro/local/apoio/<ID>/`.
+   resultado, link do chamado ou da mudança), **sem dado de cliente** — dado real fica em `.kiro/local/apoio/<pasta>/<ID>/`.
    Comentário ou anexo na própria tarefa (`elm_comentar`, `elm_anexo enviar`), se a pessoa quiser.
 3. **Lançar horas:** a qualquer momento, `elm_lancar_horas(id, horas)`; cada lançamento é uma linha na tabela Horas
    da ficha. Lançar **não** conclui.

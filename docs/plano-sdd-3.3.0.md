@@ -28,11 +28,12 @@ Registro do que foi discutido no planejamento, para o time saber por que o desen
 | 5 | Ids e prefixos | tudo muda (`AP-nnn`, `[APO]`) · só o nome muda · novo vale, antigo fica | **não existe item nem tarefa "de Apoio"** (`AP-nnn`, `[APO]`): Apoio é só o guarda-chuva das categorias do D2, cada uma com prefixo e série de ids próprios (`[ATD] AT-nnn`, `[IMPL] IM-nnn`…); os `AT-nnn` existentes seguem válidos, sem migração |
 | 6 | "Manutenção" como categoria | manter · trocar | **sai**: é vaga e sinônimo de Sustentação |
 | 7 | Chamado aberto pelo cliente | categoria pela natureza · Atendimento = chamados · categoria `Chamado` | chamado **é** atendimento — nada muda, a regra de hoje vale |
-| 8 | Pai das tarefas de Apoio no EWM | um IB por categoria · o IB de Sustentação | **o IB de Sustentação** é o pai direto; a categoria vive no prefixo e na Classificação da Tarefa |
+| 8 | Pai das tarefas de Apoio no EWM | um IB por categoria · o IB de Sustentação | **um IB por categoria** (`<Categoria> <produto> - <iteração pai>`), filho da Sustentação; nasce com o primeiro item triado da categoria no pai, junto com a tarefa, e o id vai para a linha `Sustentação <pai>:` do `backlog.md` (revisto depois do plano: a primeira escolha era a Sustentação como pai direto) |
 | 9 | Nome do IB de Sustentação | `[SUS-<ano>] Sustentação` (hoje) · `Sustentação <produto> - <iteração pai>` | **`Sustentação <produto> - <iteração pai>`** (ex.: `Sustentação <produto> - 2026`): acompanha a iteração pai do item 2, não o ano civil |
 | 10 | Skill das categorias | uma por categoria · `sdd-apoiar` · `sdd-atender` + genérica | **`sdd-atender` continua** (só Atendimento: é a única com fluxo próprio); as demais, fluxo mínimo. `sdd-apoiar` e `sdd-tarefa` rejeitados |
 | 11 | Onde mora o fluxo mínimo | skill nova · `sdd-iniciar` renomeada (`sdd-tarefas`, `sdd-trabalhar`…) · `sdd-iniciar` com o mesmo nome | **dentro da `sdd-iniciar`, sem renomear**: iniciar a tarefa no ELM, registrar o trabalho, lançar horas e concluir |
 | 12 | Versão | major (4.0.0) · minor | **3.3.0** para power, skills e MCP (se a 3.3.0 já existir na hora, 3.4.0) |
+| 13 | Pasta das fichas de Apoio | `apoio/` única (o prefixo do id diz a categoria) · `apoio/<categoria>/` | **`apoio/<categoria>/`** (coluna Pasta da tabela Apoio do `sdd.md`: `atendimento`, `implantacao`, `banco-de-dados`, `infra`, `operacao`, `outros-times`); o local fora do git segue igual: `.kiro/local/apoio/<categoria>/<ID>/` |
 
 **D1 — Apoio.** Alternativas avaliadas: Sustentação (já é o IB pai; mistura com fatias sem épico e a `[GB]`),
 Operação (estranho para Atendimento), Serviços (ambíguo com o código), Suporte (puxa para atendimento). Apoio casa
@@ -80,10 +81,10 @@ inclusive a Classificação — e `iteracao`) e `elm_atualizar_wi(ids, titulo, p
      não mexe no `backlog.md` — a `sdd-consolidar` leva os ids (regra de hoje); o Dev é avisado para registrar no
      `status.md`.
    - **Categoria de Apoio** → próximo id da série dela; linha na seção Apoio do `backlog.md` (`origem: EWM <id>`,
-     `elm` = id, `sprint`, `responsavel` = dono, `status` pelo estado), ficha mínima em `<produto>/apoio/<ID>-<slug>.md`
+     `elm` = id, `sprint`, `responsavel` = dono, `status` pelo estado), ficha mínima em `<produto>/apoio/<categoria>/<ID>-<slug>.md`
      e linha na seção Apoio do `sprint-<nn>.md` com `trazida do EWM`. Consome a reserva (passou → aviso ao P.O.).
    - **EWM:** `elm_atualizar_wi(id, titulo)` conforme a escolha da linha; sem pai → `pai` = o IB da fatia, o épico
-     ou a Sustentação (regra "todo trabalho tem pai"); pai existente não muda.
+     ou o IB da categoria (regra "todo trabalho tem pai"); pai existente não muda.
 
 **Onde roda:** `sdd-planejamento` depois de publicar a sprint e na [pré-condição dos ritos de
 fechamento](skills/sdd-planejamento/SKILL.md) (antes da review, retro e virada); `sdd-status` só **conta** e avisa
@@ -126,9 +127,10 @@ o `planejamento/` antigo, `sdd-status/SKILL.md:88`) e executada pela `sdd-setup`
 
 ## 3. Apoio com categorias
 
-**Estrutura:** IB `Sustentação <produto> - <iteração pai>` → tarefas `[ATD] AT-nnn <pedido>`, `[IMPL] IM-nnn
-<pedido>`… direto, sem IB por categoria (decisões 8 e 9). O IB `Atendimento` intermediário de hoje deixa de nascer:
-os `[ATD]` já criados ficam onde estão (nada se apaga no EWM); os novos nascem filhos da Sustentação.
+**Estrutura:** IB `Sustentação <produto> - <iteração pai>` → IB `<Categoria> <produto> - <iteração pai>` → tarefas
+`[ATD] AT-nnn <pedido>`, `[IMPL] IM-nnn <pedido>`… (decisões 8 e 9). O IB da categoria nasce com o primeiro item
+triado dela no pai, junto com a tarefa, e o id vai para a linha `Sustentação <pai>:` do `backlog.md`. O IB
+`Atendimento` antigo e os `[ATD]` já criados ficam onde estão (nada se apaga no EWM).
 
 - **Sustentação por iteração pai** (`elm-sprint.md` §2): nasce com a primeira sprint de um pai novo (não mais "uma vez
   por ano"); `<produto>` = o nome do produto do `sdd.md` (a setup pergunta, se faltar). Idempotência por
@@ -140,21 +142,21 @@ os `[ATD]` já criados ficam onde estão (nada se apaga no EWM); os novos nascem
   `pa`, uma linha `por-prefixo` por tarefa (`[IMPL]` → Classificação…) — o MCP já aplica classificação por prefixo,
   sem código novo; sai a linha do "IB de atendimento". Projetos existentes: "atualizar a configuração do sdd"
   acrescenta as categorias; `Atendimento` já está lá.
-- **`elm-sprint.md` §6** vira "Apoio": `elm_criar_wi(tipo tarefa, "<prefixo> <ID> <pedido>", pai = Sustentação, …)`.
-  `elm.md` (tabela "Tarefas no EWM"): uma linha por categoria, pai = Sustentação.
+- **`elm-sprint.md` §6** vira "Apoio": `elm_criar_wi(tipo tarefa, "<prefixo> <ID> <pedido>", pai = o IB da categoria, …)`; o IB da categoria nasce com o primeiro item dela no pai.
+  `elm.md` (tabela "Tarefas no EWM"): uma linha por categoria, pai = o IB da categoria.
 - **`backlog.md`** (`sdd-fatiar/references/backlog.md`): `## Atendimentos` → `## Apoio`, com a coluna `categoria`;
   "Próximos ids" com uma série por categoria. Backlog antigo → a próxima escrita renomeia a seção e preenche
   `categoria = Atendimento` (regra de migração no formato, como as já existentes).
-- **Pasta:** `<produto>/atendimentos/` → `<produto>/apoio/` (fichas `AT-012-…`, `IM-003-…`); local
-  `.kiro/local/apoio/<ID>/`. Migração por `git mv` junto com a da seção.
+- **Pasta:** `<produto>/atendimentos/` → `<produto>/apoio/atendimento/`; demais categorias em `<produto>/apoio/<categoria>/`
+  (`apoio/implantacao/IM-003-…`); local `.kiro/local/apoio/<categoria>/<ID>/`. Migração por `git mv` junto com a da seção.
 - **`sdd-triar`:** trilha "atendimento" → "apoio"; a categoria é proposta pelo pedido e confirmada na entrevista
   curta. Continua: nada muda no repositório, senão é fatia rápida.
-- **`sdd-atender` continua**, só para Atendimento: fluxo atual; ajusta só o caminho da ficha (`apoio/`), a seção
+- **`sdd-atender` continua**, só para Atendimento: fluxo atual; ajusta só o caminho da ficha (`apoio/atendimento/`), a seção
   `## Apoio` e o pai da `[ATD]` (Sustentação).
 - **`sdd-iniciar` (mesmo nome) ganha a seção "Tarefas de Apoio sem skill própria"** (`[IMPL]` `[BD]` `[INF]`
   `[OPE]` `[EXT]`), quatro passos, cada escrita com "sim":
   1. **Iniciar:** `elm_transicao(id, "assumir")` (já minha → `ja_estava`; de outra pessoa → `conflito`, pergunta).
-  2. **Registrar o trabalho:** na ficha `<produto>/apoio/<ID>-<slug>.md`, o que foi feito fora do repo (passos,
+  2. **Registrar o trabalho:** na ficha `<produto>/apoio/<categoria>/<ID>-<slug>.md`, o que foi feito fora do repo (passos,
      evidência sem dado de cliente); comentário/anexo na própria tarefa, se a pessoa quiser.
   3. **Lançar horas:** `elm_lancar_horas(id, horas)` a qualquer momento — lançar não conclui.
   4. **Concluir:** saldo de horas, `elm_transicao(id, "concluir")`, `status concluido` + `concluida-em` no
@@ -188,5 +190,5 @@ os `[ATD]` já criados ficam onde estão (nada se apaga no EWM); os novos nascem
 - Ensaio num projeto piloto: (a) migração das sprints e da seção de Atendimentos com prévia e um commit; (b) criar
   à mão no EWM, na iteração da sprint, uma `[DEV]` sem prefixo sob o IB de uma fatia e uma tarefa de implantação
   sem pai, rodar "sincroniza a sprint" → a primeira vai para a linha da fatia com o título renomeado, a segunda vira
-  `IM-001` filha da Sustentação; as duas aparecem no painel e nos Números; (c) planejar a sprint seguinte com troca
+  `IM-001` filha do IB `Implantação <produto> - 2026` (criado ali, filho da Sustentação); as duas aparecem no painel e nos Números; (c) planejar a sprint seguinte com troca
   de pai (`2026/04 → 2027/01`) e conferir a iteração e a `Sustentação <produto> - 2027` criadas no EWM.

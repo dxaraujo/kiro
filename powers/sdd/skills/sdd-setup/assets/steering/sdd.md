@@ -120,17 +120,19 @@ Na worktree do `sdd-loop`: `cd .kiro/local/wt/<ft> && <comando>`. Falha de ambie
 ## Apoio
 
 Trabalho sem mudança no repositório (mudança de código ou config é fatia rápida). Apoio é só o nome do conjunto: cada
-item é de uma categoria, com prefixo de tarefa e série de ids próprios; toda tarefa é filha do IB
-`Sustentação <produto> - <iteração pai>`.
+item é de uma categoria, com prefixo de tarefa, série de ids e pasta de fichas próprios. No EWM, cada categoria tem
+o IB `<Categoria> <produto> - <iteração pai>`, filho do IB `Sustentação <produto> - <iteração pai>` e pai das tarefas
+dela; ele nasce com o primeiro item triado da categoria na iteração pai. Ficha: `<produto>/apoio/<pasta>/<ID>-<slug>.md`;
+dado de cliente: `.kiro/local/apoio/<pasta>/<ID>/` (fora do git).
 
-| Categoria | O que cobre | Tarefa | Id | Classificação da Tarefa (PA) | Skill |
+| Categoria | O que cobre | Tarefa | Id | Pasta | Classificação da Tarefa (PA) | Skill |
 |---|---|---|---|---|---|
-| Atendimento | chamado ou pedido do cliente: consulta, extração, explicação, conferência | `[ATD]` | `AT-` | `<Suporte / Apoio Técnico Especializado>` | `sdd-atender` |
-| Implantação | preparar e acompanhar a subida de versão: pacote, janela, roteiro, validação pós-implantação | `[IMPL]` | `IM-` | `<…>` | `sdd-iniciar` |
-| Banco de dados | script de correção ou carga de dados, conferência de base, apoio ao DBA | `[BD]` | `BD-` | `<…>` | `sdd-iniciar` |
-| Infra | ambiente, acesso, certificado, fila, servidor, pedido a outra equipe | `[INF]` | `IN-` | `<…>` | `sdd-iniciar` |
-| Operação | rotina de produção: reprocessar job, acompanhar execução, incidente sem mudança de código | `[OPE]` | `OP-` | `<…>` | `sdd-iniciar` |
-| Apoio a outros times | ajuda técnica a outra equipe ou outro produto | `[EXT]` | `EX-` | `<…>` | `sdd-iniciar` |
+| Atendimento | chamado ou pedido do cliente: consulta, extração, explicação, conferência | `[ATD]` | `AT-` | `atendimento` | `<Suporte / Apoio Técnico Especializado>` | `sdd-atender` |
+| Implantação | preparar e acompanhar a subida de versão: pacote, janela, roteiro, validação pós-implantação | `[IMPL]` | `IM-` | `implantacao` | `<…>` | `sdd-iniciar` |
+| Banco de dados | script de correção ou carga de dados, conferência de base, apoio ao DBA | `[BD]` | `BD-` | `banco-de-dados` | `<…>` | `sdd-iniciar` |
+| Infra | ambiente, acesso, certificado, fila, servidor, pedido a outra equipe | `[INF]` | `IN-` | `infra` | `<…>` | `sdd-iniciar` |
+| Operação | rotina de produção: reprocessar job, acompanhar execução, incidente sem mudança de código | `[OPE]` | `OP-` | `operacao` | `<…>` | `sdd-iniciar` |
+| Apoio a outros times | ajuda técnica a outra equipe ou outro produto | `[EXT]` | `EX-` | `outros-times` | `<…>` | `sdd-iniciar` |
 
 ## Agentes
 

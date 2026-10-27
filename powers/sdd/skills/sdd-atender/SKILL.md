@@ -1,6 +1,6 @@
 ---
 name: sdd-atender
-description: "Skill de quem atende no fluxo sdd — executa um atendimento (chamado ou pedido do cliente; a categoria Atendimento do Apoio) já registrado pela sdd-triar (AT-nnn, tarefa [ATD]): assume a [ATD] no EWM, consulta o banco (somente leitura) e o bundle do ELM, com código só em escopo fechado, guarda extrações fora do git (.kiro/local/apoio/), redige a resposta para o \"ok\" da pessoa e finaliza — registra a resposta, lança o saldo de horas, conclui a [ATD] e pergunta os desdobramentos (arquivar · alteração pela sdd-triar · regra pela sdd-entrevistar · lição pela sdd-aprender). Pedido novo não abre aqui: passa pela sdd-triar. Use em \"atender o AT-012\", \"pegar a [ATD] 669380\", \"extrai os dados do AT-012\", \"enviei a resposta\", \"conclui o AT-012\"."
+description: "Skill de quem atende no fluxo sdd — executa um atendimento (chamado ou pedido do cliente; a categoria Atendimento do Apoio) já registrado pela sdd-triar (AT-nnn, tarefa [ATD]): assume a [ATD] no EWM, consulta o banco (somente leitura) e o bundle do ELM, com código só em escopo fechado, guarda extrações fora do git (.kiro/local/apoio/atendimento/), redige a resposta para o \"ok\" da pessoa e finaliza — registra a resposta, lança o saldo de horas, conclui a [ATD] e pergunta os desdobramentos (arquivar · alteração pela sdd-triar · regra pela sdd-entrevistar · lição pela sdd-aprender). Pedido novo não abre aqui: passa pela sdd-triar. Use em \"atender o AT-012\", \"pegar a [ATD] 669380\", \"extrai os dados do AT-012\", \"enviei a resposta\", \"conclui o AT-012\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -20,9 +20,9 @@ Leia antes: `.kiro/steering/sdd.md`. Sem ele → ofereça a **`sdd-setup`** ("co
 
 ## Arquivos
 
-- `<produto>/apoio/AT-<nnn>-<slug>.md` — o registro (formato no fim), criado pela triagem.
+- `<produto>/apoio/atendimento/AT-<nnn>-<slug>.md` — o registro (formato no fim), criado pela triagem.
 - Linha do AT em `## Apoio` do `backlog.md` e na seção Apoio do `sprints/<pai>/sprint-<nn>.md`.
-- `.kiro/local/apoio/AT-<nnn>/` — extrações, telas e respostas com dado real. Fora do git.
+- `.kiro/local/apoio/atendimento/AT-<nnn>/` — extrações, telas e respostas com dado real. Fora do git.
 
 ## Passo 1 — O que chegou
 
@@ -53,7 +53,7 @@ siga.
    simples de dados — considere acionar o **`sdd-pesquisar`** antes das consultas SQL para entender o contexto
    do código; nesse caso, registre no AT: `"análise baseada em pesquisa de código"`. Sem tempo para pesquisa:
    registre `"resposta baseada apenas no bundle do ELM e no banco"` na seção Consultas do AT.
-2. **Resultado com dado real** (linhas, telas, planilhas) → `.kiro/local/apoio/AT-<nnn>/`. No registro
+2. **Resultado com dado real** (linhas, telas, planilhas) → `.kiro/local/apoio/atendimento/AT-<nnn>/`. No registro
    ficam só a consulta (SQL), a contagem, o caminho do arquivo e um resumo **sem identificar pessoas**.
 3. **Rascunho da resposta** → "ok" da pessoa antes de enviar. Quem envia é a pessoa; o agente não manda e-mail
    nem responde chamado.
@@ -90,7 +90,7 @@ instrui e para: **nunca invoque nem simule outra skill**.
 
 ## Registro
 
-`<produto>/apoio/<ID>-<slug>.md` — o mesmo formato para toda categoria do Apoio; fora do Atendimento, `## Consultas`
+`<produto>/apoio/<pasta>/<ID>-<slug>.md` (pasta da categoria na tabela **Apoio** do `sdd.md`) — o mesmo formato para toda categoria do Apoio; fora do Atendimento, `## Consultas`
 e `## Resposta enviada` dão lugar a `## O que foi feito` (passos e evidência, sem dado de cliente).
 
 ```markdown
@@ -108,7 +108,7 @@ e `## Resposta enviada` dão lugar a `## O que foi feito` (passos e evidência, 
 |---|---|---|
 | 1 | `select count(*) from conta where situacao = 'B' and dt_bloqueio between …` | 1.284 contas |
 
-Arquivo: `.kiro/local/apoio/AT-012/contas-bloqueadas-2026-09.csv` (fora do git)
+Arquivo: `.kiro/local/apoio/atendimento/AT-012/contas-bloqueadas-2026-09.csv` (fora do git)
 
 ## Resposta enviada
 <texto, sem dado que identifique pessoas>
@@ -130,7 +130,7 @@ Arquivo: `.kiro/local/apoio/AT-012/contas-bloqueadas-2026-09.csv` (fora do git)
 ## Regras
 
 - **Dado de cliente nunca vai para o git**: resultado de consulta, extração ou tela com dado real fica em
-  `.kiro/local/apoio/AT-<nnn>/`. O registro guarda consulta, contagem, caminho e resumo anônimo.
+  `.kiro/local/apoio/atendimento/AT-<nnn>/`. O registro guarda consulta, contagem, caminho e resumo anônimo.
 - Banco só em leitura. Pedido que exige escrita na base não é atendimento: vira Banco de dados (`[BD]`, a pessoa
   executa o script fora; fluxo mínimo da `sdd-iniciar`) ou, se muda o repositório, fatia rápida.
 - Um `[ATD]` por demanda, sem balde. Registrar o AT é da `sdd-triar`; esta skill nunca numera nem abre AT.

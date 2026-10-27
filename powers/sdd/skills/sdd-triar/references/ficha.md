@@ -11,7 +11,7 @@ sempre preenchida e a Definition of Ready confere o arquivo. O conteúdo muda co
 | padrão de épico | Objetivo · Cobre (links para os cenários do PRD, sem copiar) · Como verificar | o PRD (`cobre`) |
 | rápida | Comportamento (atual com evidência · esperado com fonte · o que não muda) · Como verificar | a ficha — é o que o `bugfix.md` detalha |
 
-Apoio não tem ficha de fatia (tem o registro `<produto>/apoio/<ID>-<slug>.md`).
+Apoio não tem ficha de fatia (tem o registro `<produto>/apoio/<pasta>/<ID>-<slug>.md`).
 
 ## Formato — padrão sem épico
 

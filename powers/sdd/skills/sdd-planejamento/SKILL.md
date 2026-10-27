@@ -1,6 +1,6 @@
 ---
 name: sdd-planejamento
-description: "Planejamento ágil do projeto no fluxo sdd, ajustado a times que trabalham com agentes — roadmap e releases a partir dos épicos, acordos do time (cadência Scrum ou Kanban, Definition of Ready e Done, limites de WIP incluindo a capacidade de revisão humana, que é o gargalo), planejamento da sprint como cadência — compromisso com a meta, previsão por prioridade, dependências e capacidade (vazão de fatias e lead time, especificação e reserva de apoio), fluxo puxado dentro da sprint —, acompanhamento, review com as evidências de aceite, retrospectiva com dados e virada de sprint; publica a sprint no EWM pelo MCP elm. Use em \"monta o planejamento\", \"planejar a sprint\", \"roadmap\", \"virada de sprint\", \"fechar a sprint\", \"review da sprint\", \"capacidade do time\", \"acordos do time\", \"encaixe na sprint\"."
+description: "Planejamento ágil do projeto no fluxo sdd, ajustado a times que trabalham com agentes — roadmap e releases a partir dos épicos, acordos do time (cadência Scrum ou Kanban, Definition of Ready e Done, limites de WIP incluindo a capacidade de revisão humana, que é o gargalo), planejamento da sprint como cadência — compromisso com a meta, previsão por prioridade, dependências e capacidade (vazão de fatias e lead time, especificação e reserva de apoio), fluxo puxado dentro da sprint —, acompanhamento, review com as evidências de aceite, retrospectiva com dados e virada de sprint; publica a sprint no EWM pelo MCP elm. Use em \"monta o planejamento\", \"planejar a sprint\", \"roadmap\", \"virada de sprint\", \"fechar a sprint\", \"review da sprint\", \"capacidade do time\", \"acordos do time\", \"encaixe na sprint\", \"sincroniza a sprint\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -121,7 +121,8 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
    ```
 7. "ok" → grave `sprints/<pai>/sprint-<nn>.md` (com `**Power sdd:**` = o `metadata.version` desta skill), `sprint`, `responsavel`, `status` e o `modo` final no `backlog.md` pelo bloco
    [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base) e **publique sempre no EWM** ([references/elm-sprint.md](references/elm-sprint.md) §1–4), para a sprint e o EWM ficarem iguais. Sem o MCP `elm` ou com
-   falha, a coluna "Tarefa ELM" fica `pendente` e é publicada depois.
+   falha, a coluna "Tarefa ELM" fica `pendente` e é publicada depois. Publicada, **sincronize** (abaixo): o que já
+   estava na iteração por fora entra na sprint.
 
 ## Modo pela senioridade
 
@@ -153,6 +154,12 @@ Fatia já iniciada (com `status.md`) só troca de **AFK para HITL**, pela [Troca
 PRs parados). Fatia que cresceu (passou de `G` no plano) → volte para a `sdd-fatiar` (dividir) em vez de esticar.
 Apoio que estoura a reserva → mostre ao P.O. e ele decide qual fatia sai da sprint; o Apoio nunca tira
 fatia sozinho.
+
+**Sincronizar com o EWM** ("sincroniza a sprint"; o painel da `sdd-status` avisa quando há tarefa por fora) — tarefa
+criada direto no EWM na iteração da sprint (Apoio, ou uma `[DEV]`/`[ESP]` aberta à mão quando a sessão do agente
+parou) entra na sprint com o mesmo id: o sdd infere o que ela é, pergunta e, se for o caso, renomeia o título ou
+inclui o prefixo ([references/elm-sprint.md](references/elm-sprint.md) §9). Sem o MCP `elm` → diga que não há como
+comparar e pare.
 
 **Encaixe** — só quando puxar não basta: a fatia `pronta` que alguém quer começar **não é a do topo** (fura a
 fila) ou o **WIP de revisão está no limite** (de qualquer trilha); a `sdd-desenvolver` manda para cá. Apoio triado quando a reserva estourou é o mesmo encaixe (a
@@ -194,7 +201,8 @@ Não troca → Observação `modo: AFK mantido (<quem>, <data>)` no `sprint-<nn>
 
 ### Pré-condição dos ritos de fechamento
 
-Antes da review, da retrospectiva da sprint e da virada — **em cada um** —, levante as fatias da sprint aberta que
+Antes da review, da retrospectiva da sprint e da virada — **em cada um** —, **sincronize com o EWM** (§9 do
+[elm-sprint.md](references/elm-sprint.md); sem tarefa por fora, segue calado) e levante as fatias da sprint aberta que
 esperam só a consolidação, como a [`sdd-status`](../sdd-status/SKILL.md) (Coleta, itens 1–2: `status.md` nas
 branches remotas e o PR pelo `gitlab_listar_mrs`): fase `mergeada`, ou `pronta-para-merge` com o PR `merged` (antes,
 o Dev registra `mergeada` e conclui a `[DEV]` — `sdd-desenvolver` Passo 6). Nenhuma → siga o rito. Alguma →

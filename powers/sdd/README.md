@@ -236,6 +236,24 @@ mergeadas que esperam a `sdd-consolidar` e para; só segue com a decisão do P.O
 consolidar:**` no `sprint-<nn>.md` (essas fatias migram como `não consolidada`). O painel da `sdd-status` avisa no
 último dia da sprint. Reinstale o power (sem mudança no `mcp-elm`).
 
+Na **3.3.0**, três mudanças. (1) **A sprint traz o que nasceu no EWM por fora:** "sincroniza a sprint" (`sdd-planejamento`,
+também depois de publicar a sprint e antes da review, da retrospectiva e da virada) lista as tarefas da iteração que
+o sdd não conhece, infere o que cada uma é — tarefa de papel de uma fatia ou épico (`[DEV]`, `[ESP]`… abertas à mão,
+por exemplo quando a sessão parou por limite de tokens) ou uma categoria de Apoio —, pergunta e as traz com o mesmo
+id, renomeando o título ou incluindo o prefixo se for o caso; o painel da `sdd-status` conta as que estão por fora.
+(2) **Sprints por iteração pai:** a sprint segue a iteração do EWM de que é filha — `sprints/2026/sprint-01.md`,
+`sprints/2027/sprint-01.md`, chave `2026/01` no `backlog.md` e no `equipe.json`; o `elm_iteracao` recebe o caminho
+`<pai>/<nome>` e cria o pai que faltar; a `sdd-setup` migra as sprints sequenciais (move e renumera dentro do pai).
+(3) **Apoio:** o atendimento vira uma das categorias do Apoio — Atendimento `[ATD]` `AT-`, Implantação `[IMPL]` `IM-`,
+Banco de dados `[BD]` `BD-`, Infra `[INF]` `IN-`, Operação `[OPE]` `OP-`, Apoio a outros times `[EXT]` `EX-` (tabela
+**Apoio** do `sdd.md`); não há item nem tarefa "de Apoio" genérica. Toda tarefa de Apoio é filha do IB
+`Sustentação <produto> - <iteração pai>` (sem IB por categoria; sai o IB `Atendimento`), que nasce com a primeira
+sprint de cada pai. `## Atendimentos` vira `## Apoio` (com a coluna `categoria`) e `atendimentos/` vira `apoio/` na
+próxima escrita da triagem; os `AT-nnn` não mudam. A `sdd-atender` continua só para o Atendimento; as demais
+categorias usam o fluxo mínimo da `sdd-iniciar` (iniciar a tarefa no ELM, registrar o trabalho, lançar horas,
+concluir). Peça "atualizar a configuração do sdd" (seção Apoio e nome do produto no `sdd.md`, prefixos no `pa`,
+migração das sprints) e "atualizar os agentes do sdd" (`.kiro/local/apoio/`). Requer o `mcp-elm` ≥ 3.3.0.
+
 Não use o `/upgrade-agent` (nem `kiro-cli agent upgrade`) nos agentes `sdd-*`: quem os gera é o script da setup
 ("atualizar os agentes do sdd").
 

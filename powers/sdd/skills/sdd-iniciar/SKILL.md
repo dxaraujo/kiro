@@ -67,8 +67,9 @@ Item de Apoio sem skill própria → siga direto na seção abaixo, nesta mesma 
    Qual? (número)
    ```
    Tarefa sem tipo do sdd no título (`[DEV]`, `[REV]`, `[APR]`, `[VER]`, `[ESP]`, `[GB]` e os prefixos do Apoio não aparecem): mostre no fim, com
-   Skill `— (fora do sdd)`; escolhida → diga que não é do fluxo e ofereça a `sdd-triar` se ela deve virar trabalho
-   do fluxo.
+   Skill `— (fora do sdd)`; escolhida → diga que ela ainda não está na sprint e indique "sincroniza a sprint"
+   (`sdd-planejamento`, P.O. ou SM), que a traz com o mesmo id — como Apoio ou como tarefa de papel de uma fatia ou
+   épico ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §9).
 3. A pessoa escolhe → Passo 2 com o item escolhido. Nenhuma tarefa → diga e ofereça "próxima fatia"
    (`sdd-desenvolver`) ou a `sdd-status`.
 

@@ -78,7 +78,7 @@ sem `elm` → §6; com a tarefa no backlog → move (§6). Ids na coluna "Tarefa
 
 ## 5. Virada
 
-Próxima sprint em outro pai (`2026/04` → `2027/01`) → §1 com o pai novo e §2 (Sustentação e `[GB]` do pai novo)
+Antes de tudo, §9 (o que nasceu por fora entra nos Números). Próxima sprint em outro pai (`2026/04` → `2027/01`) → §1 com o pai novo e §2 (Sustentação e `[GB]` do pai novo)
 antes de mover. Tarefas, IBs e épicos não concluídos da sprint (inclusive a `[GB]`, se o pai não muda; Sustentação e o que está no
 backlog ficam onde estão) → `elm_atualizar_wi(ids, iteracao = a nova)` numa chamada (move, nunca recria; o pai não muda). Baseline por sprint, se o
 `sdd.md` exigir → roteiro manual. Relatório: `elm_horas(iteracao)` → horas por prefixo e por pessoa, planejadas ×
@@ -103,3 +103,52 @@ muda. HITL → AFK não existe.
 aprovada depois de ajustes). Senão `elm_criar_wi(tipo tarefa, "[APR] FT-<nnn> Aprovar <plano|PR>", pai = IB, dono = o
 Dev Sênior escolhido, estimativa_h perguntada, iteracao da fatia)`. Fica no estado inicial; o id vai para o campo ELM
 do `status.md`.
+
+## 9. Trazer o EWM para a sprint ("sincroniza a sprint")
+
+Tarefa criada direto no EWM na iteração da sprint — à mão, por outra pessoa, ou porque a sessão do agente parou (ex.:
+limite de tokens) e alguém abriu a `[DEV]` ou a `[ESP]` por fora — entra na sprint com o **mesmo id** (nunca recria).
+Roda depois de publicar a sprint (§4), na pré-condição dos ritos de fechamento e sob pedido.
+
+1. `elm_listar_wi(iteracao = "<pai>/<nome>" da sprint, tipo tarefa, limite 200)`.
+2. **Conhecidas:** os ids da coluna "Tarefa ELM" de todas as seções do `sprint-<nn>.md`, a `[GB]` da linha
+   `Sustentação <pai>:` e a coluna `elm` do `backlog.md`; e as dos `status.md` das fatias em andamento (Histórico e
+   campo ELM, `git show origin/<branch>:…` — a `sdd-consolidar` ainda não as levou à base). O resto é **externa**.
+   Nenhuma → "sprint e EWM iguais" e fim.
+3. **Inferir** cada externa com `elm_ler_wi(id)` (`pai`, `campos`, descrição), nesta ordem de pistas:
+   - prefixo do sdd já no título (`[DEV]`, `[ESP]`, `[IMPL]`…) → é ele;
+   - pai no EWM: IB `[FT-nnn]` → tarefa de papel da fatia (`[DEV]`, `[REV]`, `[VER]`, `[APR]`); épico `[EP-nn]` →
+     `[ESP]` do épico; `Sustentação …`, `[SUS-…]` ou sem pai → Apoio;
+   - Classificação da Tarefa: Desenvolvimento → `[DEV]` (ou `[REV]`, se o dono é o revisor da fatia); Testes →
+     `[VER]`; Análise / Especificação → `[ESP]`; a de uma categoria da tabela **Apoio** do `sdd.md` → ela;
+   - título e descrição (chamado → Atendimento; versão, deploy → Implantação; script, carga → Banco de dados…).
+   Fatia ou épico sem pista → deixe `?` para a pessoa dizer.
+4. **Perguntar**, numa tabela, o que cada uma é e o que fazer com o título:
+   ```
+   🔄 Sprint <pai>/<nn> × EWM — <n> tarefas fora da sprint
+   | # | Tarefa | Título atual | Dono | Estado | É (inferido) | De | Título proposto |
+   | 1 | 670210 | ajustar job de carga | joao.lima | Em Andamento | [DEV] | FT-034 | [DEV] FT-034 ajustar job de carga |
+   | 2 | 670215 | subir versão 1.4 | ana.souza | Novo | [IMPL] | — (IM-004) | [IMPL] IM-004 subir versão 1.4 |
+   | 3 | 670220 | reunião com a área | rita.melo | Novo | ? | ? | — |
+   Título: renomear (padrão do sdd) · só incluir o prefixo · manter. Responda por linha ("3: [EXT]", "1: manter")
+   ou "ok" para tudo como proposto.
+   ```
+   Tarefa de papel cuja fatia ou épico não está no `backlog.md` → não entra: indique a `sdd-triar` ("importar do
+   EWM") para o IB e pare só nessa linha. Item que não é tarefa (IB, defeito) planejado na iteração e fora do
+   `backlog.md` → liste à parte, com a mesma indicação.
+5. **Gravar**, com um "sim" para o lote:
+   - **tarefa de papel** → o id entra na coluna "Tarefa ELM" da linha da fatia ou do épico no `sprint-<nn>.md`
+     (`DEV 669401 · DEV 670210`), com a Observação `trazida do EWM`; fatia ou épico que ainda não está na sprint →
+     é um encaixe: a linha nasce com `encaixe: trazida do EWM (<quem>, <data>)` e o P.O. confirma. Fatia em
+     andamento (`status.md` numa branch) → o `backlog.md` não muda (a `sdd-consolidar` leva os ids); avise o Dev
+     para registrar o id no `status.md`;
+   - **Apoio** → próximo id da série da categoria; linha em `## Apoio` do `backlog.md` (`origem` `EWM <id>`, `elm` =
+     `<prefixo> <id>`, `sprint`, `responsavel` = dono, `status` pelo estado: concluída → `concluido` com
+     `concluida-em`), registro mínimo `<produto>/apoio/<ID>-<slug>.md` (o título e a descrição do EWM, sem dado de
+     cliente) e linha na seção Apoio do `sprint-<nn>.md` com `trazida do EWM` — consome a reserva (passou → aviso
+     ao P.O., como no Encaixe);
+   - **EWM:** `elm_atualizar_wi(id, titulo)` pela escolha da linha; sem pai → `pai` = o IB da fatia, o épico ou a
+     Sustentação do pai (todo trabalho tem pai). Pai existente, dono e horas não mudam.
+   Um commit `sprint <pai>/<nn>: sincronizar com o EWM`, pelo bloco [Gravar na base](../../sdd-fatiar/references/backlog.md#gravar-na-base),
+   na `[GB]`. As horas dessas tarefas já entram no relatório da virada (§5): `elm_horas(iteracao)` lista toda tarefa
+   da iteração.

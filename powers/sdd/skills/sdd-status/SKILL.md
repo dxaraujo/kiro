@@ -37,7 +37,9 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
    Sprint aberta (`sprint-<nn>.md`): seções Especificação e Apoio (reserva × consumido) e as linhas
    `ELM pendente [<chave>]:`. Apoio aberto: as linhas `aberto` e `backlog` de `## Apoio` do `backlog.md`, por
    categoria (backlog de antes da 3.3.0: `## Atendimentos`; mais antigo, sem a seção: os `AT-*.md` com
-   `**Situação:** aberto`).
+   `**Situação:** aberto`). Com o MCP `elm`: **tarefas por fora** — `elm_listar_wi(iteracao da sprint, tipo
+   tarefa)` menos os ids conhecidos (os mesmos do §9, item 2, do
+   [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md)); só conta, não grava.
 7. Lotes autônomos em andamento: `.kiro/local/loop-*.md`.
 8. "Minhas" = responsável igual ao login da pessoa: `git config user.name` cruzado com `nome`/`login` do
    `equipe.json`; sem correspondência, pergunte o login uma vez.
@@ -69,6 +71,7 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
 
 🎧 Reserva (apoio + retrabalho): <h>h · consumido <h>h (retrabalho <x>h · Apoio <y>h) · abertos: AT-012 (joao.lima, prazo 2026-10-16) · IM-003 (ana.souza)
 
+🔄 EWM: <n> tarefas na iteração fora da sprint (<ids>) → sincroniza a sprint (sdd-planejamento)
 ⛔ Fechamento (último dia da sprint ou depois): <n> fatias esperando consolidação (FT-…) → consolide antes da review (sdd-consolidar)
 🏛️ ELM pendente: <n> (lista) · 🔁 Lições propostas: <n>
 ⚠️ Inconsistências: <lista | nenhuma>

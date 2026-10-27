@@ -143,6 +143,7 @@ loop, a fatia para sozinha e o lote segue.
 | escrever o PRD de um épico | `sdd-prd` |
 | quebrar o PRD em fatias / refinar o backlog | `sdd-fatiar` |
 | planejar sprint, roadmap, virada, review | `sdd-planejamento` |
+| trazer para a sprint tarefa criada direto no EWM ("sincroniza a sprint") | `sdd-planejamento` |
 | executar um atendimento já triado (`AT-nnn`, `[ATD]`) | `sdd-atender` |
 | iniciar, registrar, lançar horas e concluir outra tarefa de Apoio (`[IMPL]`, `[BD]`, `[INF]`, `[OPE]`, `[EXT]`) | `sdd-iniciar` |
 | lançar horas ou ver o relatório de horas | `sdd-status` (fechar a sessão) · relatório: `sdd-planejamento` |

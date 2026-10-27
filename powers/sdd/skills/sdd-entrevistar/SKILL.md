@@ -4,7 +4,7 @@ description: "Entrevista de alinhamento do fluxo sdd (técnica \"grill me\"): pe
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.1.0"
+  version: "3.2.0"
 ---
 
 # sdd-entrevistar — Alinhar antes de escrever

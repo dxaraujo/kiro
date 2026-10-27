@@ -230,6 +230,12 @@ ou o cria, com pai ou sem pai, pela nova tool `elm_backlog`; o `elm_iteracao` pa
 Peça "atualizar a configuração do sdd" (configura o backlog e espelha no EWM o que está no `backlog.md`). Requer o
 `mcp-elm` ≥ 3.1.0.
 
+Na **3.2.0**, a consolidação vira pré-condição dos ritos de fechamento da sprint: antes da review, da
+retrospectiva e da virada, a `sdd-planejamento` (e a `sdd-aprender`, na retrospectiva de sprint) lista as fatias
+mergeadas que esperam a `sdd-consolidar` e para; só segue com a decisão do P.O., gravada em `**Fechamento sem
+consolidar:**` no `sprint-<nn>.md` (essas fatias migram como `não consolidada`). O painel da `sdd-status` avisa no
+último dia da sprint. Reinstale o power (sem mudança no `mcp-elm`).
+
 Não use o `/upgrade-agent` (nem `kiro-cli agent upgrade`) nos agentes `sdd-*`: quem os gera é o script da setup
 ("atualizar os agentes do sdd").
 

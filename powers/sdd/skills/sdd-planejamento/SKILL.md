@@ -4,7 +4,7 @@ description: "Planejamento ágil do projeto no fluxo sdd, ajustado a times que t
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.1.0"
+  version: "3.2.0"
 ---
 
 # sdd-planejamento — Planejar o fluxo, não só o calendário
@@ -187,12 +187,37 @@ Não troca → Observação `modo: AFK mantido (<quem>, <data>)` no `sprint-<nn>
 
 ## Review
 
+### Pré-condição dos ritos de fechamento
+
+Antes da review, da retrospectiva da sprint e da virada — **em cada um** —, levante as fatias da sprint aberta que
+esperam só a consolidação, como a [`sdd-status`](../sdd-status/SKILL.md) (Coleta, itens 1–2: `status.md` nas
+branches remotas e o PR pelo `gitlab_listar_mrs`): fase `mergeada`, ou `pronta-para-merge` com o PR `merged` (antes,
+o Dev registra `mergeada` e conclui a `[DEV]` — `sdd-desenvolver` Passo 6). Nenhuma → siga o rito. Alguma →
+**pare** e mostre:
+
+```
+⛔ Consolidação antes do fechamento da sprint <nn>
+| FT | Fase | PR | Falta |
+| FT-031 | mergeada | <link> | sdd-consolidar (P.O. ou SM, agente sdd-produto) |
+Consolide todas antes da review, da retrospectiva e da virada: só fatia consolidada conta na vazão, entra na
+review e fecha no EWM. Seguir mesmo assim? (decisão do P.O.)
+```
+
+Segue só com o "sim" do **P.O.** (outra pessoa → peça a decisão a ele), gravado no cabeçalho do `sprint-<nn>.md`:
+`**Fechamento sem consolidar:** FT-… (<P.O.>, <data>)`. A decisão vale para essas fatias nos ritos seguintes da
+mesma sprint (não pergunte de novo); elas migram como as não concluídas, com a Observação `não consolidada`. Fatia
+sem merge (`pr-aberto`, `em-revisao`…) não entra aqui: migra, como sempre.
+
+### Rito
+
 Para cada fatia concluída: o cenário entregue e a **evidência** do `verificacao.md` (resposta, contagem,
 screenshot). Registre o retorno do P.O. no `sprint-<nn>.md`; pedido novo vira cenário/fatia nova pela `sdd-prd`/
 `sdd-fatiar` — não reabre fatia concluída.
 
 ## Retrospectiva e virada
 
+0. **Pré-condição** — a [dos ritos de fechamento](#pré-condição-dos-ritos-de-fechamento), antes da retrospectiva
+   e de novo antes da virada.
 1. **Retrospectiva com dados** — `sdd-aprender` modo retrospectiva (vazão, lead time, rodadas de revisão,
    correções humanas por causa, AFK que chegaram ao PR sozinhas). Registre no `sprint-<nn>.md`: bom · melhorar ·
    ações (cada ação com dono).
@@ -205,7 +230,8 @@ screenshot). Registre o retorno do P.O. no `sprint-<nn>.md`; pedido novo vira ce
    que for consolidada. **`backlog.md`:** a coluna `creditos` de cada fatia, AT e épico concluído na sprint recebe
    o valor da coluna Créditos dele no `sprint-<nn>.md` — só aqui, no commit da virada (bloco Gravar na base).
 3. **Fechar:** concluídas — previstas e puxadas — contam na vazão e no lead time; a meta é avaliada (atingida ou
-   não, e por quê); não concluídas — fatias, `[ESP]` e `[ATD]` — **migram**
+   não, e por quê); não concluídas — fatias (inclusive as do `**Fechamento sem consolidar:**`, com `não consolidada`), `[ESP]` e
+   `[ATD]` — **migram**
    para a próxima sprint (no `sprint-<nn>.md` antigo ficam com "→ sprint <nn+1>"; o histórico não é apagado) e
    ele fica com `**Situação:** fechada`; no `sprint-<nn+1>.md` novo, cada item migrado ganha a sua linha (seção
    Fatias, Especificação ou Atendimento) com a Observação `migrada da sprint <nn>`. Fatia ou AT migrado → `sprint` = nn+1 na linha do `backlog.md` (fatias e

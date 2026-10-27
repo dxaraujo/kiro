@@ -4,7 +4,7 @@ description: "Skill de quem atende no fluxo sdd — executa um atendimento já r
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.1.0"
+  version: "3.2.0"
 ---
 
 # sdd-atender — Atender sem perder o rastro

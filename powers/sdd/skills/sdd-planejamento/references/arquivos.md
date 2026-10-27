@@ -122,6 +122,7 @@ máxima das últimas sprints) quando houver histórico.
 **Iteração no EWM:** <nome | —>
 **Power sdd:** <versões usadas, crescente: 2.9.0 · 2.9.1>   (o planejamento grava a da abertura; a virada acrescenta as das linhas de créditos)
 **Situação:** <aberta | fechada>   (a virada grava `fechada`; o painel usa a última `aberta`)
+**Fechamento sem consolidar:** <FT-… (<P.O.>, <data>)>   (só quando o P.O. decide fechar com fatia mergeada sem consolidação)
 
 ## Fatias
 
@@ -182,7 +183,7 @@ Situação da especificação: `entrevista`, `PRD`, `fatiamento`, `concluida` ou
 atendimento: `aberto`, `concluido` ou `→ sprint <nn+1>`. "Tarefa ELM" é o id da tarefa no EWM, ou `pendente`
 (nas fatias, as tarefas com prefixo — `DEV <id> · REV <id> · VER <id>`, mais `APR <id>` das aprovações criadas no
 gate; AFK, a `DEV` e as `APR`), gravada na publicação da sprint ([elm-sprint.md](elm-sprint.md) §4; e pela `sdd-consolidar` na fatia puxada). Observação: `puxada`, `encaixe: <decisão>
-(<quem>, <data>)`, `modo: AFK → HITL (<quem>, <data>, <motivo>)`, `modo: AFK mantido (<quem>, <data>)`, `migrada da sprint <nn>` ou texto livre.
+(<quem>, <data>)`, `modo: AFK → HITL (<quem>, <data>, <motivo>)`, `modo: AFK mantido (<quem>, <data>)`, `migrada da sprint <nn>`, `não consolidada` ou texto livre.
 
 Créditos (do Kiro): nas Fatias, Especificação e Atendimento, a soma das linhas de créditos do item, gravada na
 conclusão dele (`sdd-consolidar`, `sdd-especificar`, `sdd-atender`), `—` antes; em Créditos de gestão, uma linha por

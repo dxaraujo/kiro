@@ -4,7 +4,7 @@ description: "Aprendizado composto do fluxo sdd — transforma cada correção h
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.1.0"
+  version: "3.2.0"
 ---
 
 # sdd-aprender — Cada erro corrigido uma vez só
@@ -79,6 +79,9 @@ pedido e o resultado esperado em `<produto>/aprendizado/avaliacoes/` para confer
 que o erro não voltou.
 
 ## Modo retrospectiva (fim de fatia, épico ou sprint)
+
+De **sprint**: antes dos dados, a [pré-condição dos ritos de fechamento](../sdd-planejamento/SKILL.md#pré-condição-dos-ritos-de-fechamento)
+(fatia mergeada esperando a consolidação → pare, salvo decisão do P.O.).
 
 Com dados, não impressões:
 

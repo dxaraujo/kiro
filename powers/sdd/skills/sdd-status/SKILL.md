@@ -4,7 +4,7 @@ description: "Painel do fluxo sdd, somente leitura — onde parei e o que fazer 
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.1.0"
+  version: "3.2.0"
 ---
 
 # sdd-status — Onde parei
@@ -68,6 +68,7 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
 
 🎧 Reserva (atendimento + retrabalho): <h>h · consumido <h>h (retrabalho <x>h · AT <y>h) · abertos: AT-012 (joao.lima, prazo 2026-10-16)
 
+⛔ Fechamento (último dia da sprint ou depois): <n> fatias esperando consolidação (FT-…) → consolide antes da review (sdd-consolidar)
 🏛️ ELM pendente: <n> (lista) · 🔁 Lições propostas: <n>
 ⚠️ Inconsistências: <lista | nenhuma>
 

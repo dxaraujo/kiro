@@ -4,7 +4,7 @@ description: "Fecha uma fatia do fluxo sdd depois do merge do PR — processo de
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.1.0"
+  version: "3.2.0"
 ---
 
 # sdd-consolidar — Documentação viva depois do merge
@@ -61,7 +61,8 @@ Numa confirmação só, nesta ordem, como diz [references/elm-publicar.md](refer
   plano ou do PR; no AFK não há `[REV]` nem `[VER]`). Tarefa da fatia ainda aberta → mostre qual e de quem, e
   registre `ELM pendente [<chave>]: concluir <tarefa> (<login>)`, que a pessoa faz na sessão dela;
 - *backlog* — concluir o IB da fatia (e o do épico, na última fatia — Passo 4). Tarefa concluída sem horas não
-  trava: a virada aponta;
+  trava: a virada aponta. A consolidação é **pré-condição dos ritos de fechamento** da sprint (review, retrospectiva,
+  virada): fatia mergeada sem ela para o rito, salvo decisão do P.O.;
 - *horas* — as da consolidação na `[GB] Gerenciamento do backlog`: `elm_lancar_horas(id, horas)` (lança, não
   conclui — a `[GB]` é contínua). Os créditos desta sessão vão na seção **Créditos de gestão** do `sprint-<nn>.md` aberto (Atividade `consolidação FT-<nnn>`;
   ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4)), no commit do Passo 4. Linha `Sustentação:` sem `[GB]` → como na `sdd-triar` (sugira criá-la ou pergunte a tarefa). Quem consolida não é o

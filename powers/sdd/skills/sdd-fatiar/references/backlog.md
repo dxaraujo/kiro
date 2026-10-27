@@ -25,7 +25,7 @@ Sustentação: [SUS-2026] [612000](https://elm.exemplo/ccm/resource/itemName/com
 
 | id | título | cobre | ficha | bloqueada-por | tamanho | modo | prioridade | status | sprint | responsavel | elm | concluida-em | creditos | obs |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| FT-031 | Bloquear a conta após 3 tentativas inválidas | HF-01#1.1, HF-01#1.2, REG-01 | [ficha](fatias/FT-031-bloquear-conta.md) | — | M | AFK | 1 | pronta | 3 | joao.lima | — | — | — | — |
+| FT-031 | Bloquear a conta após 3 tentativas inválidas | HF-01#1.1, HF-01#1.2, REG-01 | [ficha](fatias/FT-031-bloquear-conta.md) | — | M | AFK | 1 | pronta | 3 | joao.lima | [612010](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612010) · DEV [612011](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612011) | — | — | — |
 
 ## Fatias — sem épico
 
@@ -58,12 +58,12 @@ linha da tabela — sem quebra de linha nem `|` dentro de célula (troque por `/
 | fatia `status` | `backlog` → `pronta` (passou na Definition of Ready) → `concluida`; desvios `dividida` (`obs`: `substituida-por FT-…`), `cancelada` (`obs`: motivo). "Em andamento" não é gravado: é a fatia que tem `status.md` numa branch |
 | `creditos` | créditos do Kiro do item: soma das linhas de créditos do `status.md` da fatia, do `status.md` do épico (a `[ESP]`) ou da ficha do AT, copiada do `sprint-<nn>.md` na virada da sprint (`sdd-planejamento`; a conclusão grava só na sprint); `—` antes; backlog antigo sem a coluna → a próxima escrita a acrescenta |
 | `sprint` | número da sprint (`sdd-planejamento`) ou `—`; no Kanban, `—` |
-| `elm` | `—`, `pendente` (registrado sem o MCP `elm`; criado depois) ou `[<id>](<url>)`; tarefas do EWM em seguida, `<prefixo> [<id>](<url>)`, separadas por ` · ` (gravado na publicação — [elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §3–4) |
+| `elm` | o item no EWM — o backlog do EWM é a cópia deste arquivo: nasce no backlog do produto ao registrar (triagem, GATE do backlog) e muda de iteração ao entrar na sprint ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md)) —: `[<id>](<url>)`, `pendente` (registrado sem o MCP `elm`; criado depois) ou `—` (sem ELM); tarefas do EWM em seguida, `<prefixo> [<id>](<url>)`, separadas por ` · ` (gravadas na publicação da sprint, §4) |
 | `concluida-em` | data `AAAA-MM-DD` ou `—` |
 | atendimento `status` | `backlog` (sem sprint aberta) · `aberto` (na sprint ou na iteração corrente do Kanban) · `concluido` · `cancelado` |
 | atendimento `origem` | chamado, e-mail, `DF 4567`, `IB 615` ou `pedido` |
 | atendimento `registro` | `[AT-<nnn>](atendimentos/AT-<nnn>-<slug>.md)` |
-| linha `Sustentação:` | épico de Sustentação do ano, o IB `Atendimento` filho dele (pais do que não nasce de PRD) e a tarefa `[GB] Gerenciamento do backlog` (commits da triagem); `—` até a publicação criá-los |
+| linha `Sustentação:` | épico de Sustentação do ano, o IB `Atendimento` filho dele (pais do que não nasce de PRD) e a tarefa `[GB] Gerenciamento do backlog` (commits da triagem); `—` até a primeira triagem (ou a configuração do backlog do EWM) criar o épico e o IB, que ficam no backlog do EWM; a `[GB]` nasce na primeira sprint |
 
 ## Quem escreve o quê
 
@@ -80,8 +80,8 @@ linha da tabela — sem quebra de linha nem `|` dentro de célula (troque por `/
 | atendimento registrado (`AT-nnn`, `backlog`/`aberto`, `sprint`, `responsavel`, registro) | `sdd-triar` (na base) |
 | atendimento `concluido`, `concluida-em` | `sdd-atender` (na base) |
 | `concluida`, `concluida-em` | `sdd-consolidar` (depois do merge, na base) |
-| linha `Sustentação:` | publicação da sprint ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §2) |
-| `elm` (ids e urls) | publicação da sprint ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §3–6) |
+| linha `Sustentação:` | `sdd-triar` ou a setup (épico e `Atendimento`), publicação da sprint (`[GB]`) ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §2) |
+| `elm` (ids e urls) | `sdd-triar` (épico, fatia sem épico, `[ATD]`), `sdd-fatiar` (IB das fatias de épico), publicação da sprint (tarefas e o que estava `pendente`) ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §2–6) |
 
 ## Definition of Ready (o que faz uma fatia `pronta`)
 

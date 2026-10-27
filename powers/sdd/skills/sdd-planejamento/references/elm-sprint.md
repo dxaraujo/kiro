@@ -1,28 +1,57 @@
 # Sprint no EWM
 
 Regras comuns (prévia, um "sim", idempotência, pendências): [../../sdd/references/elm.md](../../sdd/references/elm.md).
-**Só nasce no EWM o que entra numa sprint** (exceto a `[GB]`); **todo trabalho tem pai**: épico → IB → tarefa, ou o
-épico de Sustentação para o que não vem de PRD. Ordem: épico, IB, tarefa. `iteracao` = a da sprint em tudo.
+**O backlog do EWM é a cópia do `backlog.md`:** todo épico, fatia e atendimento registrado tem o seu item no EWM.
+Nasce com `iteracao = backlog` (o backlog do produto gravado no `pa`, §0) ou, se já entra numa sprint, com a iteração
+dela. **Entrar na sprint** = `elm_atualizar_wi(ids, iteracao = a da sprint)` — move, nunca recria; só se cria o
+que está `—` ou `pendente` na coluna `elm`. **Todo trabalho tem pai**: épico → IB → tarefa, ou o épico de
+Sustentação para o que não vem de PRD. Ordem: épico, IB, tarefa. Tarefas (`[ESP]`, `[DEV]`, `[REV]`, `[VER]`,
+`[APR]`, `[GB]`) nascem só na sprint; a única tarefa no backlog é a `[ATD]` que não coube numa (§6).
 
-## 1. Iteração e planos
+## 0. Backlog do produto (na setup ou em "atualizar a configuração do sdd"; uma vez por projeto)
 
-`elm_iteracao(nome)` acha ou cria a iteração e os planos do time (backlog e sprint) e guarda os ids no `pa`.
-Criar exige a permissão de modificar iterações — erro `permissao` → peça a quem administra a PA.
+1. `elm_backlog()` → `atual` (o `ccm.backlog` do `pa`) e `candidatos` (planos de backlog da PA). Já há `atual` →
+   mostre e confirme; fim.
+2. Pergunte se o projeto **já tem** um backlog do produto no EWM — um só pode servir a todas as entregas (ex.:
+   PA → `Backlog`, PA → `Entrega 1`, `Entrega 2`… com as sprints dentro), ou cada entrega pode ter o seu. Mostre os
+   `candidatos`.
+   - **Sim** → a pessoa escolhe um candidato ou cola o link do plano (o da UI web, com `id=_…`) →
+     `elm_backlog(plano)`.
+   - **Não** → pergunte o nome (padrão `Backlog`) e se a iteração é **filha** de outra (a entrega, a release) ou
+     **sem pai** (no topo da timeline) → `elm_backlog(nome, pai?)`, com "sim" (cria a iteração e o plano
+     `Backlog <time>`). Erro `permissao` → peça a quem administra a PA.
+3. O `pa` passa a ter `ccm.backlog`; daí em diante `iteracao: "backlog"` nas tools é ele. Sem ele, criar no backlog
+   falha com `precondicao` — volte a este §0, nunca escolha outra iteração.
+4. **Espelhamento** (backlog já existente): linhas do `backlog.md` com `elm` `—` ou `pendente` que não estão
+   concluídas nem canceladas → prévia numa tabela (item, tipo, pai, iteração) e um "sim" → §2, §3 e §6 na ordem;
+   itens com `elm` que estão fora de sprint e numa iteração antiga → `elm_atualizar_wi(ids, iteracao = backlog)`.
+
+## 1. Iteração e plano da sprint
+
+`elm_iteracao(nome)` acha ou cria a iteração da sprint e o plano da sprint do time e guarda os ids no `pa` (o
+backlog do produto não é criado aqui: é o do §0). Criar exige a permissão de modificar iterações — erro
+`permissao` → peça a quem administra a PA.
 
 ## 2. Sustentação (uma vez por ano, com a linha `Sustentação:` do `backlog.md` vazia)
 
-Épico `[SUS-<ano>] Sustentação` (`tipo: ib` — ou o tipo de épico, se o `pa` tiver), filho dele o IB `Atendimento`
-(pai das `[ATD]`) e a tarefa `[GB] Gerenciamento do backlog` (dono = o P.O. ativo do `equipe.json`). Ids na linha:
-`Sustentação: SUS <id> · Atendimento <id> · Backlog [GB] <id>`. Sustentação já existe sem a `[GB]` → crie só a `[GB]`.
+Épico `[SUS-<ano>] Sustentação` (`tipo: ib` — ou o tipo de épico, se o `pa` tiver) e, filho dele, o IB
+`Atendimento` (pai das `[ATD]`), os dois com `iteracao = backlog` — nascem no §0 ou na primeira triagem do ano e
+**ficam no backlog** (não entram em sprint nem movem na virada). A tarefa `[GB] Gerenciamento do backlog` (filha da
+Sustentação, dono = o P.O. ativo do `equipe.json`) nasce na primeira sprint aberta, com a iteração dela. Ids na
+linha: `Sustentação: SUS <id> · Atendimento <id> · Backlog [GB] <id>`. Sustentação já existe sem a `[GB]` → crie
+só a `[GB]` (com sprint aberta).
 
-## 3. Épico e IB (quando entram na sprint)
+## 3. Épico e IB (nascem no registro; movem na sprint)
 
-- **Épico** (pela `[ESP]` ou pela primeira fatia): `elm_criar_wi(tipo ib, "[EP-<nn>] <título>", dono = po da linha,
+- **Épico** (na triagem, com "sim"; `iteracao = backlog`): `elm_criar_wi(tipo ib, "[EP-<nn>] <título>", dono = po da linha,
   descricao_md = problema, quem pede, resultado; depois do GATE, a solução e o link do PRD)`. Item de origem do EWM
-  (`origem: <id>` na `obs`): já é do tipo épico → é o épico; senão `elm_atualizar_wi(origem, pai = épico novo)`.
-  Histórias publicadas → `elm_ligar(wi = épico, req, tipo rastreia)`.
-- **IB da fatia:** `elm_criar_wi(tipo ib, "[FT-<nnn>] <título>", pai = épico — sem épico, a Sustentação; com item
-  de origem, não há IB novo —, dono = P.O., descricao_md = modo, bloqueada por, pasta prevista, campos =
+  (`origem: <id>` na `obs`): já é do tipo épico → é o épico; senão `elm_atualizar_wi(origem, pai = épico novo, iteracao = backlog)`.
+  Histórias publicadas → `elm_ligar(wi = épico, req, tipo rastreia)`. Épico registrado e não iniciado fica só ele
+  no backlog; quando entra numa sprint (a `[ESP]` ou a primeira fatia), move para a iteração dela e a `[ESP]` nasce
+  lá (§4).
+- **IB da fatia** (no GATE do backlog da `sdd-fatiar`; fatia sem épico, na triagem; `iteracao = backlog` ou a da
+  sprint em que já entra): `elm_criar_wi(tipo ib, "[FT-<nnn>] <título>", pai = épico — sem épico, a Sustentação;
+  com item de origem, não há IB novo: `elm_atualizar_wi(origem, iteracao = backlog)` —, dono = P.O., descricao_md = modo, bloqueada por, pasta prevista, campos =
   {<campo de critérios do sdd.md>: os cenários Dado/Quando/Então copiados do PRD ou da ficha, com "gerado do PRD — não
   edite aqui"})`. Defeito: `campos` com a categoria de correção da seção ELM do `sdd.md`. Depois `elm_ligar(wi, req)`
   (implementa) para cada história coberta e `elm_ligar(wi, wi_destino, tipo depende)` para cada `bloqueada-por`
@@ -30,24 +59,28 @@ Criar exige a permissão de modificar iterações — erro `permissao` → peça
 - **Fatia dividida:** como a linha do `sdd.md` manda (filhos do IB original, ou fecha o original e cria novos);
   pai errado → `elm_atualizar_wi(id, pai)`.
 - Ids na coluna `elm` do `backlog.md`.
+- **Na sprint** (depois do "ok"): épicos e IBs das fatias da sprint que já têm `elm` →
+  `elm_atualizar_wi(ids, iteracao = a da sprint)` numa chamada; os `—`/`pendente` nascem como acima, já na iteração da
+  sprint. Item que sai da sprint sem ter começado volta com `iteracao = backlog`.
 
 ## 4. Tarefas da sprint (depois do "ok" da sprint)
 
 Para cada linha do `sprint-<nn>.md`, com a tabela "Tarefas no EWM" de `elm.md`: `elm_criar_wi(tipo tarefa, título,
 pai, dono, estimativa_h, iteracao)` (Kanban: a iteração corrente). Fatia **AFK**: só a `[DEV]`. A `[APR]` não nasce aqui. AT da seção Atendimento
-sem `elm` → §6. Ids na coluna "Tarefa ELM" (`DEV <id> · REV <id> · VER <id>`) e no `elm` do `backlog.md`.
+sem `elm` → §6; com a `[ATD]` no backlog → move (§6). Ids na coluna "Tarefa ELM" (`DEV <id> · REV <id> · VER <id>`) e no `elm` do `backlog.md`.
 
 ## 5. Virada
 
-Tarefas, IBs e épicos não concluídos (inclusive Sustentação, Atendimento e `[GB]`) →
-`elm_atualizar_wi(ids, iteracao = a nova)` numa chamada (move, nunca recria; o pai não muda). Baseline por sprint, se o
+Tarefas, IBs e épicos não concluídos da sprint (inclusive a `[GB]`; Sustentação, Atendimento e o que está no
+backlog ficam onde estão) → `elm_atualizar_wi(ids, iteracao = a nova)` numa chamada (move, nunca recria; o pai não muda). Baseline por sprint, se o
 `sdd.md` exigir → roteiro manual. Relatório: `elm_horas(iteracao)` → horas por prefixo e por pessoa, planejadas ×
 lançadas, e as tarefas concluídas sem horas.
 
 ## 6. Atendimento `[ATD]` (chamado pela `sdd-triar`, pelo encaixe ou aqui)
 
 `elm_criar_wi(tipo tarefa, "[ATD] AT-<nnn> <título>", pai = Atendimento, dono = quem atende, estimativa_h, iteracao
-= a da sprint do AT; Kanban: a corrente)`. AT sem sprint não é registrado. Fica no estado inicial.
+= a da sprint do AT; Kanban: a corrente; AT sem sprint ou fora da reserva: backlog)`. Fica no estado inicial. AT do
+backlog que entra numa sprint → `elm_atualizar_wi(id, iteracao = a da sprint)`.
 
 ## 7. Troca AFK → HITL (só pela seção "Troca de modo")
 

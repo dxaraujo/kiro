@@ -4,7 +4,7 @@ description: "Planejamento ágil do projeto no fluxo sdd, ajustado a times que t
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.0.0"
+  version: "3.1.0"
 ---
 
 # sdd-planejamento — Planejar o fluxo, não só o calendário
@@ -102,7 +102,7 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
    (e de Pleno que costuma pedir o GATE) e o PR de cada fatia AFK. A `[APR]` não nasce aqui — nasce no gate.
 4. **Meta da sprint:** uma frase de resultado de negócio que as fatias entregam juntas.
 5. **Iteração:** pergunte a iteração do EWM da sprint (`elm_iteracao(nome)` acha ou cria — [references/elm-sprint.md](references/elm-sprint.md) §1); é o `plannedFor` de
-   todos os IBs e tarefas desta sprint.
+   todos os IBs e tarefas desta sprint — os que estão no backlog do EWM só mudam de iteração (§3).
 6. **Proposta**, com as três seções:
    ```
    🗓️ Sprint <nn> · <início> → <fim> · iteração <nome> · meta: <…>
@@ -160,8 +160,9 @@ capacidade (revisão, vazão, HITL) e as opções, com a recomendada:
 Com a decisão do P.O. (ou de quem ele delegou): `sprint`, `responsavel` e o modo final pela
 [senioridade](#modo-pela-senioridade) no `backlog.md` (e, na fatia HITL, revisor — Dev Sênior, pela [regra do
 revisor](#modo-pela-senioridade) — e verificador, que não seja quem implementa — as `[REV]`/`[VER]` precisam deles), uma linha no
-`sprint-<nn>.md` com a Observação `encaixe: <decisão> (<quem decidiu>, <data>)`, pelo bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base), e as tarefas da fatia
-no EWM ([references/elm-sprint.md](references/elm-sprint.md) §3–4; AT: §6). Na troca, as tarefas da fatia que sai vão para a próxima iteração
+`sprint-<nn>.md` com a Observação `encaixe: <decisão> (<quem decidiu>, <data>)`, pelo bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base), e no EWM o IB da fatia
+passa do backlog para a iteração da sprint e as tarefas nascem ([references/elm-sprint.md](references/elm-sprint.md) §3–4; AT: §6). Na troca, a fatia que
+sai volta para `sprint` `—`: o IB dela volta ao backlog e as tarefas vão para a próxima iteração
 (`elm_atualizar_wi(ids, iteracao)`). Depois, volte à `sdd-desenvolver` (Passo 3, item 4). Sem
 decisão, a fatia não começa; urgência acelera a decisão, não a dispensa.
 

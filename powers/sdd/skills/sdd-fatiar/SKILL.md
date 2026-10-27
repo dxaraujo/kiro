@@ -4,7 +4,7 @@ description: "Quebra um PRD aprovado do fluxo sdd em fatias verticais (tracer bu
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.0.0"
+  version: "3.1.0"
 ---
 
 # sdd-fatiar — PRD → fatias verticais
@@ -86,19 +86,21 @@ fatia ponta a ponta.
 ## Passo 3 — Gravar
 
 1. `backlog.md` (na **base** — ver [references/backlog.md](references/backlog.md)): épico com `status: fatiado`;
-   uma linha por fatia com prioridade (ordem da tabela, respeitando dependências), `elm` `—` e `status`
+   uma linha por fatia com prioridade (ordem da tabela, respeitando dependências), `elm` (item 4) e `status`
    `pronta` se passa na **Definition of Ready** (seção do [references/backlog.md](references/backlog.md)) ou
    `backlog` com o que falta. Ids `FT-<nnn>` sequenciais no projeto, **nunca reaproveitados**.
 2. **Fichas** das fatias (`<produto>/fatias/FT-<nnn>-<slug>.md`, formato "padrão de épico"): Objetivo, Cobre (links
    para os cenários do PRD, sem copiar) e Como verificar; a coluna `ficha` aponta para elas.
 3. PRD: `status: fatiado`.
-4. Commit (padrão do `sdd.md`): `backlog.md`, fichas, `prd.md`.
+4. **EWM** (com ELM, com "sim"): um IB por fatia sob o épico, no backlog do EWM ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §3,
+   `iteracao = backlog`); os ids vão para a coluna `elm`. Sem o MCP `elm` → `pendente`.
+5. Commit (padrão do `sdd.md`): `backlog.md`, fichas, `prd.md`.
 
 ## Passo 4 — Próximos passos (na mesma resposta)
 
 - Primeiro fatiamento do épico → "use `sdd-especificar EP-<nn>`": ela conclui a `[ESP]` (o refinamento não tem
   `[ESP]` a concluir).
-- Com ELM: nada no EWM aqui — o item de backlog de cada fatia nasce quando ela entra na sprint
+- Com ELM: os IBs das fatias já estão no backlog do EWM; entrar na sprint só muda o "Planejado para"
   ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §3).
 - **`sdd-planejamento`** — encaixar as fatias na sprint (ou no fluxo Kanban).
 - Para começar uma fatia já: "vamos trabalhar na FT-031" (`sdd-desenvolver`, ou o hub `sdd-iniciar`).
@@ -108,8 +110,10 @@ fatia ponta a ponta.
 "Refinar o backlog", "a FT-033 está grande demais", "faltou uma fatia":
 - **Dividir:** a fatia original fica `status: dividida` com `substituida-por: [FT-x, FT-y]`; as novas herdam a
   cobertura (repartida), as dependências, o épico e uma ficha cada. No EWM: [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §3, "Fatia dividida".
-- **Juntar:** só fatias ainda em `backlog`; a que some fica `status: cancelada` com `motivo`.
-- **Nova fatia:** cenário novo exige PRD alterado antes (`sdd-prd`, mudança depois de aprovado).
+- **Juntar:** só fatias ainda em `backlog`; a que some fica `status: cancelada` com `motivo` (o IB dela no EWM é
+  cancelado: `elm_transicao`, com "sim").
+- **Nova fatia:** o IB nasce no backlog do EWM como no Passo 3, item 4.
+- **Fatia nova com cenário novo** exige PRD alterado antes (`sdd-prd`, mudança depois de aprovado).
 - **Definition of Ready:** a cada refinamento, confira as fatias `backlog` e grave `pronta` nas que passam (e
   volte a `backlog` as que deixaram de passar). Critérios na seção do [references/backlog.md](references/backlog.md).
 

@@ -4,7 +4,7 @@ description: "Skill do papel Dev no fluxo sdd — começa ou retoma uma fatia j�
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.0.0"
+  version: "3.1.0"
 ---
 
 # sdd-desenvolver — Compromisso e início do código
@@ -119,8 +119,9 @@ o caminho, e não comece.
    `sdd-consolidar`); a fatia em andamento é a que tem `status.md` numa branch.
 4. **Assumir a `[DEV]`** (com o MCP `elm`; nunca sem "sim") — `elm_transicao(<id da [DEV]>, "assumir",
    iniciar_pai: true)`, com `estimativa_h` se faltar (regras: [elm.md](../sdd/references/elm.md)). O item de backlog continua do P.O.
-   Tarefa ainda não existe (encaixe aprovado agora, Kanban, ou publicação que falhou no planejamento) → antes, crie
-   as da trilha ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §3–4; pai sempre definido):
+   Tarefa ainda não existe (encaixe aprovado agora, Kanban, ou publicação que falhou no planejamento) → antes, o
+   IB (ou o item de origem) sai do backlog do EWM para a iteração da sprint (`elm_atualizar_wi(id, iteracao)`; `elm`
+   `pendente` → crie-o) e crie as tarefas da trilha ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §3–4; pai sempre definido):
 
    | Fatia | Tarefas | Pai |
    |---|---|---|

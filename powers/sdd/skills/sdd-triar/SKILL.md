@@ -4,7 +4,7 @@ description: "Entrada de todo trabalho novo no fluxo sdd — recebe um pedido em
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.0.0"
+  version: "3.1.0"
 ---
 
 # sdd-triar — Triagem e registro
@@ -81,10 +81,12 @@ no mesmo commit.
   prioriza é o planejamento), `prd` `—` e `po` = o P.O. ativo do `equipe.json` (outro, se a pessoa disser).
   Descrição mínima (a mesma que a Definition of Ready do épico confere): o problema, quem pede e o resultado
   esperado — falta algum → pergunte numa rodada; sem resposta, `rascunho` com `obs` `falta: <o quê>`. Com ELM:
-  nada é criado no EWM agora — o épico nasce quando entra numa sprint ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §3); `elm` = `—`. Veio
-  de um item do EWM: se ele já é do tipo de épico do `sdd.md`, ele é o épico (grave o id na coluna `elm`) — quando
+  o épico nasce agora no backlog do EWM ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §3, `iteracao = backlog`, com "sim"; `pa` sem
+  backlog → §0 antes) e o id vai para a coluna `elm`; sem o MCP `elm` → `pendente`. Veio
+  de um item do EWM: se ele já é do tipo de épico do `sdd.md`, ele é o épico (grave o id na coluna `elm` e leve-o
+  para o backlog: `elm_atualizar_wi(id, iteracao = backlog)`) — quando
   esse tipo é o mesmo do item (Item de Backlog pai), pergunte se ele vira o épico ou o filho; filho (ou outro tipo)
-  → `obs` `origem: <id>` (a sprint cria o épico e põe o item sob ele).
+  → `obs` `origem: <id>`, cria o épico e põe o item sob ele, no backlog (§3).
 
   **Pasta antecipada:** se o título tem mais de 3 palavras (slug formável), crie
   `<produto>/epicos/<EP>-<slug>/` com:
@@ -105,9 +107,10 @@ no mesmo commit.
     senão `backlog` com `obs` `falta: <o quê>`.
   - **Ficha** (`<produto>/fatias/FT-<nnn>-<slug>.md`, formato da trilha em [references/ficha.md](references/ficha.md);
     crie a pasta se não existir): sempre.
-  - EWM (com ELM): item de origem no EWM → nada a criar (ele será o pai das tarefas). Padrão ou rápida sem item de
-    origem → nada agora: o IB `[FT-nnn]` (sob o épico de Sustentação) nasce quando a fatia entra na sprint (o
-    planejamento cria).
+  - EWM (com ELM, com "sim"): item de origem no EWM → nada a criar (ele será o pai das tarefas); só
+    `elm_atualizar_wi(origem, iteracao = backlog)`. Padrão ou rápida sem item de origem → o IB `[FT-nnn]` nasce
+    agora sob o épico de Sustentação, no backlog ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §3; Sustentação ainda não existe → §2
+    antes); o id vai para a coluna `elm`. Sem o MCP `elm` → `pendente`.
 - **Atendimento:**
   - **Entrevista curta:** `sdd-entrevistar` modo *atendimento* (uma rodada: o que o cliente precisa receber,
     origem, prazo, quem atende, critério de pronto). Regra de negócio em aberto → não é atendimento: volte ao
@@ -116,22 +119,22 @@ no mesmo commit.
   - **Sprint sugerida:** a aberta (`sprint-<nn>.md` com `**Situação:** aberta`), pela regra da reserva — a reserva
     (atendimento + retrabalho) está na seção Atendimento do `sprint-<nn>.md`; o usado é o retrabalho migrado mais a
     soma das estimativas dos AT dela; cabe com a
-    estimativa deste (A-6) → quem triou confirma; estourou → `status` `backlog`, sem `[ATD]` (nasce quando o AT
-    entrar numa sprint), e a decisão é do P.O. pelo Encaixe da
+    estimativa deste (A-6) → quem triou confirma; estourou → `status` `backlog`, com a `[ATD]` no backlog do EWM (move
+    quando o AT entrar numa sprint), e a decisão é do P.O. pelo Encaixe da
     `sdd-planejamento` (o atendimento não tira fatia sozinho).
     Kanban (`acordos.md`) → a iteração corrente. Sem sprint aberta → `status` `backlog` e o aviso "sem sprint
     aberta: o AT entra no próximo planejamento". Responsável sugerido: quem tem `atende: true` no `equipe.json`.
   - Linha em `## Atendimentos` (`aberto` na sprint, `backlog` sem ela); `<produto>/atendimentos/AT-<nnn>-<slug>.md`
     no formato da [`sdd-atender`](../sdd-atender/SKILL.md), com as respostas da entrevista no cabeçalho (A-6 em
     `**Estimativa:**`) e `**Situação:** aberto`; na sprint, a linha na seção Atendimento do `sprint-<nn>.md`.
-  - EWM (com ELM), só com o AT na sprint: [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §6, com "sim"; o id vai para a
-    coluna `elm`. AT em `backlog` → nada agora (o encaixe ou o planejamento registram). Sem o MCP `elm` → `elm` =
+  - EWM (com ELM): [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §6, com "sim" — na iteração da sprint, ou no backlog com o AT em
+    `backlog` (o encaixe ou o planejamento movem); o id vai para a coluna `elm`. Sem o MCP `elm` → `elm` =
     `pendente` (a `sdd-atender` registra antes de assumir).
 
 Atualize "Próximos ids". O commit é **um só, no fim da sessão de triagem** (Passo 4, resposta "não"), com o
 `backlog.md`, as fichas, os registros de AT e a linha de créditos da sessão na seção **Créditos de gestão** do `sprint-<nn>.md` aberto (Atividade `triagem`;
-([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4); sem sprint aberta, não há onde gravar) (padrão de commit do `sdd.md`). A triagem não tem tarefa própria e os
-itens triados só nascem no EWM na sprint: o padrão é a tarefa **`[GB] Gerenciamento do backlog`** da linha
+([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4); sem sprint aberta, não há onde gravar) (padrão de commit do `sdd.md`). A triagem não tem tarefa própria (os
+itens triados nascem no backlog do EWM, mas tarefa só nasce na sprint): o padrão é a tarefa **`[GB] Gerenciamento do backlog`** da linha
 `Sustentação:` do `backlog.md` — mostre-a e confirme (a pessoa pode indicar outra). Linha sem `[GB]` → sugira
 criá-la ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §2; só com sprint aberta, que dá a
 iteração) ou pergunte a tarefa. Sem tarefa, não commite: deixe os arquivos e o comando pronto; push direto na base com o "sim" da pessoa

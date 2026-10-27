@@ -221,6 +221,15 @@ com o último passo feito com a pessoa. Desinstale o power `elm`, peça "atualiz
 setup pergunta a pasta do produto, junta os steerings num só, renomeia hooks, workflows e agentes e move
 `.kiro/produto/` e `.kiro/aprendizado/` com `git mv`.
 
+Na **3.1.0**, o backlog do EWM volta a ser a cópia do `backlog.md` (desfaz o "nada nasce fora de sprint" da
+2.6.1): épico, IB de fatia e `[ATD]` nascem no **backlog do produto** — a triagem cria o épico e a fatia sem épico,
+o GATE do backlog os IBs das fatias, e a Sustentação e o `Atendimento` ficam lá —, já na sprint quando nascem
+endereçados a uma; entrar na sprint só muda o "Planejado para". O backlog do produto é um só por projeto (pode
+servir a várias entregas) e fica no `pa` (`ccm.backlog`): a setup pergunta se ele já existe (link ou id do plano)
+ou o cria, com pai ou sem pai, pela nova tool `elm_backlog`; o `elm_iteracao` passa a criar só o plano da sprint.
+Peça "atualizar a configuração do sdd" (configura o backlog e espelha no EWM o que está no `backlog.md`). Requer o
+`mcp-elm` ≥ 3.1.0.
+
 Não use o `/upgrade-agent` (nem `kiro-cli agent upgrade`) nos agentes `sdd-*`: quem os gera é o script da setup
 ("atualizar os agentes do sdd").
 

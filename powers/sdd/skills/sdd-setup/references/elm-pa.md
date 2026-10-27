@@ -122,7 +122,8 @@ Antes do cartão, chame de novo `elm_setup_descobrir` com `valores_de` = **todos
 no bloco 3 — sem isso a descoberta só traz valores dos obrigatórios do shape, e os do modelo ficam de fora. Um campo
 por linha, com o valor do modelo já preenchido (⭐) e marcado ✔ se estiver na lista da PA; valor fora da lista →
 mostre a lista inteira e pergunte. Campo de texto (o id de produto) → pergunte o valor; nunca deixe obrigatório sem
-valor. "Planejado para" nunca vai em `padroes`: é sempre a iteração da sprint.
+valor. "Planejado para" nunca vai em `padroes`: é a iteração da sprint ou o backlog do produto (`ccm.backlog`,
+gravado pela `elm_backlog` depois do bloco 10).
 
 ## 5. Valor por item de trabalho
 
@@ -176,4 +177,10 @@ muda e peça "ok" de novo; nunca regrave em silêncio o que a pessoa aprovou.
 sdd-setup` (pai = um IB que a pessoa indicar), de um IB e de um defeito, `elm_transicao` de cada um até concluir e um
 `elm_lancar_horas` na tarefa → cada recusa `precondicao` traz o `campo`: pergunte o valor (bloco 4), ponha-o em
 `obrigatorios` e `padroes` e tente de novo. Os itens criados a pessoa cancela na UI; as horas de teste, remova com
-`elm_remover_horas`. Outra project area → repita tudo (outro `pa_<nome>.json`) e diga na seção ELM qual é o padrão.
+`elm_remover_horas`.
+
+**Backlog do produto** (depois do `pa` gravado, e também em "atualizar a configuração do sdd" com `pa` sem
+`ccm.backlog`): é onde os itens triados nascem no EWM — siga
+[elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §0 (já existe → link ou id do plano; não existe →
+cria, perguntando se é filho de alguma iteração ou sem pai; depois, com o `backlog.md` já em uso, o espelhamento).
+Sem `ccm.backlog`, nada nasce no backlog do EWM. Outra project area → repita tudo (outro `pa_<nome>.json`) e diga na seção ELM qual é o padrão.

@@ -4,7 +4,7 @@ description: "Wizard de 9 etapas, em português do Brasil e em cartões padroniz
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.0.0"
+  version: "3.1.0"
 ---
 
 # sdd-setup — Configurar o fluxo no projeto
@@ -183,7 +183,11 @@ mais longa (10 blocos) e o que ela decide.
    - Seção ELM do `sdd.md`, sem perguntas (linha 6 do W4): publicar requisitos `na-aprovacao`, ET `não
      publica`, manual `nada`, pontos `não`, fatia dividida "filhos do item original", títulos das tarefas e colunas
      do `CT.csv` do template; a categoria do IB de defeito é a do bloco 5 do `elm-pa.md`. Sustentação e Atendimento não são
-     perguntados: nascem na primeira sprint ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §2).
+     perguntados: nascem no backlog do EWM na primeira triagem do ano, ou no espelhamento do backlog
+     ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §0 e §2).
+   - **Backlog do produto no EWM** (`ccm.backlog` do `pa`; também no modo atualização, com `pa` sem ele): onde os
+     itens triados nascem — [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §0 (pergunta se já
+     existe; senão cria, com pai ou sem pai; com `backlog.md` em uso, oferece o espelhamento).
    - **Bundle do RM** (`rm.download` do `pa`): pastas com `index.md` de `okf_version` → mostre e confirme; vazio →
      ofereça a `sdd-sync` (baixar). É a base que os agentes consultam **pelas `elm_*_local` do MCP `elm`**, nunca lendo os arquivos —
      com "sim", `elm_indexar_local` (segundo plano: responde na hora; a 1ª vez baixa o modelo) e mostre quantos

@@ -4,7 +4,7 @@ description: "Escreve o PRD de um épico ou demanda no fluxo sdd — o quê e o 
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.0.0"
+  version: "3.1.0"
 ---
 
 # sdd-prd — O quê e por quê (épico)
@@ -45,8 +45,8 @@ sem pessoa na conversa) → "PRD, backlog e atendimento nunca são AFK — espec
    não passou pela triagem → "use `sdd-triar`" e pare. Pasta de trabalho: a da `sdd-especificar`
    (`.kiro/local/especificacao/<EP>-<slug>/`, `slug` em kebab-case, sem acento); sem ela → "use
    `sdd-especificar EP-<nn>`" e pare (é ela que assume a `[ESP]` e monta a pasta).
-4. **EWM:** nada a registrar aqui — o épico já existe se a `[ESP]` dele está numa sprint (a publicação da
-   sprint o cria antes da tarefa); fora de sprint, nasce quando entrar numa.
+4. **EWM:** nada a registrar aqui — o épico nasceu no backlog do EWM na triagem (coluna `elm`; `pendente` → crie
+   pela [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §3) e entrou na sprint com a `[ESP]`.
 
 ## Passo 2 — Entrevistar
 

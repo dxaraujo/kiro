@@ -23,7 +23,8 @@ Toda tool devolve `{"ok":true,"dados":{…}}` ou `{"ok":false,"erro":{"codigo","
 | buscar · ler · publicar requisito | `elm_buscar_req` · `elm_ler_req` · `elm_publicar_req` |
 | buscar · ler · listar requisito local (bundle) + indexar | `elm_buscar_req_local` · `elm_ler_req_local(id ou path)` · `elm_listar_req_local` · `elm_indexar_local` |
 | criar caso de teste (já ligado) | `elm_criar_ct` |
-| iteração e planos | `elm_iteracao` |
+| iteração e plano da sprint | `elm_iteracao` |
+| backlog do produto (onde os itens nascem; `iteracao: "backlog"`) | `elm_backlog` |
 | bundle do DOORS Next | `elm_sync` (skill `sdd-sync`, que pergunta se indexa no fim) |
 
 **Comentário e anexo na própria tarefa:** todo papel com tarefa — Dev na `[DEV]`, revisor na `[REV]` e na `[APR]`,
@@ -84,11 +85,12 @@ Resolver ("resolve as pendências do ELM"): a `sdd-status` lista; para cada uma,
 | `[DEV] FT-<nnn> Implementar` | IB da fatia | Dev | planejamento | merge |
 | `[REV] FT-<nnn> Revisar` · `[VER] FT-<nnn> Verificar` | IB | revisor · verificador (só HITL) | planejamento ou troca AFK→HITL | aprovar · aceitar (depois do push) |
 | `[APR] FT-<nnn> Aprovar plano` · `Aprovar PR` | IB | Dev Sênior | no gate | na aprovação |
-| `[ATD] AT-<nnn> <pedido>` | IB `Atendimento` | quem atende | quando o AT entra na sprint | ao finalizar |
+| `[ATD] AT-<nnn> <pedido>` | IB `Atendimento` | quem atende | triagem (na sprint ou no backlog) | ao finalizar |
 | `[GB] Gerenciamento do backlog` | épico de Sustentação | P.O. | 1ª sprint do ano | não conclui (move na virada) |
 
-O `pa` aplica os campos que a PA exige (categoria, campos exigidos por processo, classificação por prefixo); `iteracao` é sempre a
-da sprint. Assumir = `elm_transicao(id, "assumir")`; concluir = saldo de horas e `elm_transicao(id, "concluir")`.
+O `pa` aplica os campos que a PA exige (categoria, campos exigidos por processo, classificação por prefixo); `iteracao` é a
+da sprint, ou `backlog` para épico, IB e `[ATD]` fora de sprint (o backlog do EWM é a cópia do `backlog.md`:
+[elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md)). Assumir = `elm_transicao(id, "assumir")`; concluir = saldo de horas e `elm_transicao(id, "concluir")`.
 
 ## O que o MCP não grava (roteiro manual)
 

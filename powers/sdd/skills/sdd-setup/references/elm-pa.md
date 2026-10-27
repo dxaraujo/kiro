@@ -53,14 +53,14 @@ Liste os times (`ccm.times`) com as categorias de cada um; recomende o de quem c
 
 ## 2. Tipos
 
-Confirme o tipo do EWM para `ib` (épico, fatia e atendimento) e `tarefa`, entre os tipos da descoberta, e pergunte
+Confirme o tipo do EWM para `ib` (épico, fatia e Sustentação) e `tarefa`, entre os tipos da descoberta, e pergunte
 se o projeto registra **defeitos** no EWM: `defeito` é opcional — "não" → o `pa` fica sem ele e os blocos seguintes
 não falam de defeito.
 
 | # | Uso no fluxo | Tipo do EWM | Fonte |
 |---|---|---|---|
-| 1 | `ib` — épico, fatia, atendimento | <Item de Backlog> | 🧩 |
-| 2 | `tarefa` — ESP, DEV, REV, VER, APR, ATD, GB | <Tarefa> | 🧩 |
+| 1 | `ib` — épico, fatia, Sustentação | <Item de Backlog> | 🧩 |
+| 2 | `tarefa` — ESP, DEV, REV, VER, APR, GB e as de Apoio (ATD, IMPL, BD, INF, OPE, EXT) | <Tarefa> | 🧩 |
 | 3 | `defeito` (opcional) | <Defeito | não usa> | 🧩 |
 
 ## Modelo do sdd: obrigatórios e valores por item
@@ -77,8 +77,8 @@ valor que não está nela.
 |---|---|---|---|
 | 1 | épico | `[EP-` | Nova funcionalidade |
 | 2 | fatia | `[FT-` | Nova funcionalidade |
-| 3 | IB de atendimento | `Atendimento` | Apoio Técnico |
-| 4 | épico de Sustentação | `[SUS-` | Apoio Técnico |
+| 3 | Sustentação da iteração pai (pai das tarefas de Apoio) | `Sustentação ` | Apoio Técnico |
+| 4 | Sustentação antiga (projetos de antes da 3.3.0) | `[SUS-` | Apoio Técnico |
 | 5 | IB de defeito | — (vai na chamada) | Correção → linha "IB de defeito" do `sdd.md` |
 | — | padrão do tipo (`padroes`) | qualquer outro título | Apoio Técnico |
 
@@ -92,9 +92,17 @@ da Tarefa`:
 | 8 | revisão | `[REV]` | Desenvolvimento (Transacional / Analítico / IA / etc ) |
 | 9 | verificação | `[VER]` | Testes |
 | 10 | aprovação do plano e do PR | `[APR]` | Outra - Não listada |
-| 11 | atendimento | `[ATD]` | Suporte / Apoio Técnico Especializado |
+| 11 | Apoio — Atendimento | `[ATD]` | Suporte / Apoio Técnico Especializado |
 | 12 | gerenciamento do backlog | `[GB]` | Outra - Não listada |
+| 13 | Apoio — Implantação | `[IMPL]` | — (pergunte: valor da lista da PA) |
+| 14 | Apoio — Banco de dados | `[BD]` | — (pergunte) |
+| 15 | Apoio — Infra | `[INF]` | — (pergunte) |
+| 16 | Apoio — Operação | `[OPE]` | — (pergunte) |
+| 17 | Apoio — Apoio a outros times | `[EXT]` | — (pergunte) |
 | — | padrão do tipo (`padroes`) | qualquer outro título | Outra - Não listada |
+
+As linhas 11 e 13–17 são as categorias da tabela **Apoio** do `sdd.md` (a Classificação escolhida aqui vai também
+para a coluna dela lá); categoria que o projeto acrescenta ganha uma linha aqui, com o prefixo dela.
 
 Iguais em toda tarefa (vão em `padroes`): `Categoria` = Aplicativo · `OTR` = 1-Apoio-Produtos · `ID do Produto
 (Clarity)` = o código do produto do projeto — campo de texto, **sempre perguntado** (é de cada projeto; sem ele a

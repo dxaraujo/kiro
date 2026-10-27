@@ -1,6 +1,6 @@
 # Backlog do produto — `<produto>/backlog.md`
 
-Fonte única dos ids locais (`EP-nn`, `FT-nnn`, `AT-nnn`), do **planejamento** (o que existe, em que ordem, em que sprint) e do
+Fonte única dos ids locais (`EP-nn`, `FT-nnn` e os de Apoio — `AT-nnn`, `IM-nnn`… uma série por categoria), do **planejamento** (o que existe, em que ordem, em que sprint) e do
 mapeamento com o ELM. Versionado. Só markdown: editado direto, sem arquivo JSON por trás.
 
 **Onde é escrito:** só na **branch base**, com commit direto nela — **nunca numa branch de fatia**, para que fatias em paralelo não disputem o mesmo arquivo. O
@@ -12,8 +12,8 @@ andamento de uma fatia (fase, branch, PR) não mora aqui: mora no `status.md` da
 ```markdown
 # Backlog — Gestão de Acessos
 
-Próximos ids: EP-04 · FT-034 · AT-013
-Sustentação: [SUS-2026] [612000](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612000) · Atendimento [612005](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612005) · Backlog [GB] [612006](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612006)
+Próximos ids: EP-04 · FT-034 · AT-013 · IM-004 · BD-001 · IN-002 · OP-001 · EX-001
+Sustentação 2026: [612000](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612000) · Backlog [GB] [612006](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612006)
 
 ## Épicos
 
@@ -32,15 +32,16 @@ Sustentação: [SUS-2026] [612000](https://elm.exemplo/ccm/resource/itemName/com
 | id | título | trilha | origem | ficha | tamanho | modo | prioridade | status | sprint | responsavel | elm | concluida-em | creditos | obs |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 
-## Atendimentos
+## Apoio
 
-| id | título | origem | status | sprint | responsavel | elm | registro | concluida-em | creditos |
-|---|---|---|---|---|---|---|---|---|---|
-| AT-012 | Extração de contas bloqueadas em setembro | chamado 4521 | aberto | 3 | joao.lima | [ATD] [669380](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/669380) | [AT-012](atendimentos/AT-012-contas-bloqueadas.md) | — | — |
+| id | categoria | título | origem | status | sprint | responsavel | elm | registro | concluida-em | creditos |
+|---|---|---|---|---|---|---|---|---|---|---|
+| AT-012 | Atendimento | Extração de contas bloqueadas em setembro | chamado 4521 | aberto | 2026/03 | joao.lima | [ATD] [669380](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/669380) | [AT-012](apoio/AT-012-contas-bloqueadas.md) | — | — |
+| IM-003 | Implantação | Subir a versão 1.4 em produção | pedido | aberto | 2026/03 | ana.souza | [IMPL] [669390](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/669390) | [IM-003](apoio/IM-003-versao-1-4.md) | — | — |
 ```
 
 Uma seção `## Fatias — <EP> <título>` por épico, na ordem de prioridade dos épicos, e uma `## Fatias — sem épico`
-no fim, e a `## Atendimentos` por último (linhas na ordem dos ids); fatias na ordem de `prioridade`. Célula vazia é `—`. Listas (`cobre`, `bloqueada-por`) separadas por vírgula. Cada fatia é **uma**
+no fim, e a `## Apoio` por último (linhas na ordem dos ids, agrupadas por categoria); fatias na ordem de `prioridade`. Célula vazia é `—`. Listas (`cobre`, `bloqueada-por`) separadas por vírgula. Cada fatia é **uma**
 linha da tabela — sem quebra de linha nem `|` dentro de célula (troque por `/`).
 
 | Coluna | Valores |
@@ -60,10 +61,11 @@ linha da tabela — sem quebra de linha nem `|` dentro de célula (troque por `/
 | `sprint` | número da sprint (`sdd-planejamento`) ou `—`; no Kanban, `—` |
 | `elm` | o item no EWM — o backlog do EWM é a cópia deste arquivo: nasce no backlog do produto ao registrar (triagem, GATE do backlog) e muda de iteração ao entrar na sprint ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md)) —: `[<id>](<url>)`, `pendente` (registrado sem o MCP `elm`; criado depois) ou `—` (sem ELM); tarefas do EWM em seguida, `<prefixo> [<id>](<url>)`, separadas por ` · ` (gravadas na publicação da sprint, §4) |
 | `concluida-em` | data `AAAA-MM-DD` ou `—` |
-| atendimento `status` | `backlog` (sem sprint aberta) · `aberto` (na sprint ou na iteração corrente do Kanban) · `concluido` · `cancelado` |
-| atendimento `origem` | chamado, e-mail, `DF 4567`, `IB 615` ou `pedido` |
-| atendimento `registro` | `[AT-<nnn>](atendimentos/AT-<nnn>-<slug>.md)` |
-| linha `Sustentação:` | épico de Sustentação do ano, o IB `Atendimento` filho dele (pais do que não nasce de PRD) e a tarefa `[GB] Gerenciamento do backlog` (commits da triagem); `—` até a primeira triagem (ou a configuração do backlog do EWM) criar o épico e o IB, que ficam no backlog do EWM; a `[GB]` nasce na primeira sprint |
+| apoio `categoria` | uma das categorias da tabela **Apoio** do `sdd.md` (padrão: Atendimento `[ATD]` `AT-` · Implantação `[IMPL]` `IM-` · Banco de dados `[BD]` `BD-` · Infra `[INF]` `IN-` · Operação `[OPE]` `OP-` · Apoio a outros times `[EXT]` `EX-`); o id é da série da categoria. Não existe item nem tarefa "de Apoio" genérica: Apoio é só o nome do conjunto |
+| apoio `status` | `backlog` (sem sprint aberta) · `aberto` (na sprint ou na iteração corrente do Kanban) · `concluido` · `cancelado` |
+| apoio `origem` | chamado, e-mail, `DF 4567`, `IB 615`, `pedido` ou `EWM <id>` (tarefa criada direto no EWM e trazida para a sprint — [elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §9) |
+| apoio `registro` | `[<ID>](apoio/<ID>-<slug>.md)` — a ficha do item (formato na [`sdd-atender`](../../sdd-atender/SKILL.md#registro); o mesmo para toda categoria) |
+| linha `Sustentação <pai>:` | o IB `Sustentação <produto> - <pai>` da iteração pai da sprint aberta (pai direto de toda tarefa de Apoio e do que não nasce de PRD) e a tarefa `[GB] Gerenciamento do backlog` (commits da triagem); `—` até a primeira triagem (ou a configuração do backlog do EWM) criar o IB, que fica no backlog do EWM; a `[GB]` nasce na primeira sprint do pai. Pai novo (virada para `2027`) → a linha é trocada pela do pai novo ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §2) |
 
 ## Quem escreve o quê
 
@@ -77,11 +79,11 @@ linha da tabela — sem quebra de linha nem `|` dentro de célula (troque por `/
 | fatias criadas, divididas, juntadas, canceladas, fichas das fatias de épico · `pronta` (DoR conferida) | `sdd-fatiar` |
 | `sprint`, `responsavel`, `modo` final (pela senioridade), prioridade · `pronta` (DoR conferida de novo no planejamento) · encaixe durante a sprint | `sdd-planejamento` |
 | fatia sem épico (padrão, rápida), ficha e `falta:` em `obs` | `sdd-triar` (na base) |
-| atendimento registrado (`AT-nnn`, `backlog`/`aberto`, `sprint`, `responsavel`, registro) | `sdd-triar` (na base) |
-| atendimento `concluido`, `concluida-em` | `sdd-atender` (na base) |
+| apoio registrado (id da categoria, `backlog`/`aberto`, `sprint`, `responsavel`, registro) | `sdd-triar` (na base); tarefa trazida do EWM: `sdd-planejamento` (§9 do `elm-sprint.md`) |
+| apoio `concluido`, `concluida-em` | `sdd-atender` (Atendimento) · `sdd-iniciar` (demais categorias) (na base) |
 | `concluida`, `concluida-em` | `sdd-consolidar` (depois do merge, na base) |
-| linha `Sustentação:` | `sdd-triar` ou a setup (épico e `Atendimento`), publicação da sprint (`[GB]`) ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §2) |
-| `elm` (ids e urls) | `sdd-triar` (épico, fatia sem épico, `[ATD]`), `sdd-fatiar` (IB das fatias de épico), publicação da sprint (tarefas e o que estava `pendente`) ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §2–6) |
+| linha `Sustentação <pai>:` | `sdd-triar` ou a setup (o IB), publicação da sprint (`[GB]`; o IB do pai novo) ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §2) |
+| `elm` (ids e urls) | `sdd-triar` (épico, fatia sem épico, tarefas de Apoio), `sdd-fatiar` (IB das fatias de épico), publicação da sprint (tarefas e o que estava `pendente`) ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §2–6) |
 
 ## Definition of Ready (o que faz uma fatia `pronta`)
 
@@ -118,6 +120,11 @@ ADRs, lições, `sdd.md` Regras aprendidas). As skills citam este bloco em vez d
 - Backlog sem `AT-` em "Próximos ids" (antes da 2.5.0): o próximo é o maior entre o `Próximo:` do antigo
   `<produto>/atendimentos/README.md` e os `AT-*.md` existentes, mais um; a próxima escrita da `sdd-triar` acrescenta
   o `AT-` e a seção `## Atendimentos` (com os AT abertos do README) e deixa de gravar no README.
+- Backlog com `## Atendimentos` (antes da 3.3.0): a próxima escrita renomeia a seção para `## Apoio`, acrescenta a
+  coluna `categoria` (`Atendimento` em toda linha), troca `atendimentos/` por `apoio/` na coluna `registro` e move
+  as fichas (`git mv <produto>/atendimentos <produto>/apoio`) no mesmo commit; "Próximos ids" ganha as séries das
+  demais categorias (`IM-001`…). A linha `Sustentação: [SUS-<ano>] … · Atendimento …` fica como está até a primeira
+  sprint de um pai novo; os ids `AT-nnn` não mudam.
 - Backlog com a seção antiga `## Fatias — trilha rápida` (antes da 2.3.0): leia as linhas como `trilha` `rápida` e
   `ficha` `—`; a próxima escrita da `sdd-triar` renomeia a seção e acrescenta as colunas, sem perder linha.
 - Antes de gravar: `git switch <base>` e `git pull --ff-only`; depois, commit pequeno só com ele quando não houver

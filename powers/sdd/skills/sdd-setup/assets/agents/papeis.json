@@ -44,8 +44,8 @@
   },
   "papeis": {
     "produto": {
-      "description": "Agente de produto do fluxo sdd — faz a triagem de toda demanda nova e a registra no backlog, conduz a entrevista de alinhamento (grill), escreve o PRD do épico, quebra em fatias verticais, cuida do planejamento ágil (roadmap, sprint, review, virada) e dos atendimentos de cliente e da consolidação da fatia mergeada, com o glossário do domínio e o ELM. Não escreve código.",
-      "welcomeMessage": "Vamos trabalhar em quê? (nova demanda, PRD, fatiar, planejar a sprint, review, virada, atendimento, consolidar uma fatia mergeada)",
+      "description": "Agente de produto do fluxo sdd — faz a triagem de toda demanda nova e a registra no backlog, conduz a entrevista de alinhamento (grill), escreve o PRD do épico, quebra em fatias verticais, cuida do planejamento ágil (roadmap, sprint, review, virada) e do Apoio (atendimentos de cliente e demais categorias) e da consolidação da fatia mergeada, com o glossário do domínio e o ELM. Não escreve código.",
+      "welcomeMessage": "Vamos trabalhar em quê? (nova demanda, PRD, fatiar, planejar a sprint, review, virada, atendimento ou outro apoio, consolidar uma fatia mergeada)",
       "skills": ["sdd-triar", "sdd-entrevistar", "sdd-prd", "sdd-fatiar", "sdd-planejamento", "sdd-atender", "sdd-consolidar",
                  "sdd-aprender", "sdd-especificar", "sdd-iniciar", "sdd-status"],
       "subagentes": ["sdd-pesquisador", "sdd-revisor"],
@@ -53,7 +53,7 @@
       "push": "negar",
       "escreve": ["{{PRODUTO}}/**", "{{GLOSSARIO}}", "{{ADR}}/**", ".kiro/specs/*/decisoes.md", ".kiro/specs/*/status.md",
                   ".kiro/specs/*/verificacao.md", ".kiro/specs/*/elm/**", ".kiro/local/wt/*/.kiro/specs/*/decisoes.md",
-                  ".kiro/local/atendimentos/**", ".kiro/local/especificacao/**"],
+                  ".kiro/local/apoio/**", ".kiro/local/atendimentos/**", ".kiro/local/especificacao/**"],
       "mcp_libera": ["+elm-leitura", "elm/elm_buscar_req", "elm/elm_ler_req", "+gitlab-leitura"],
       "mcp_pergunta": ["+elm-tarefa", "elm/elm_criar_wi", "elm/elm_atualizar_wi", "elm/elm_ligar", "elm/elm_publicar_req",
                        "elm/elm_criar_ct", "elm/elm_iteracao", "elm/elm_sync"]

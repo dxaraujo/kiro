@@ -1,10 +1,10 @@
 ---
 name: sdd-desenvolver
-description: "Skill do papel Dev no fluxo sdd — começa ou retoma uma fatia já registrada no backlog (FT-031, DF ou IB que o backlog conhece, tarefa [DEV]), em qualquer trilha. É o ponto de compromisso: confere a Definition of Ready, o responsável, a sprint aberta (fora dela, encaixe pela sdd-planejamento) e o WIP; cria a branch (sugere o nome e aguarda) e a pasta .kiro/specs/ com o status.md, assume a [DEV] no EWM (com confirmação) e encaminha pela fase: pesquisar → plano → implementar → PR. Em pronta-para-merge, faz o merge do PR aprovado, grava as lições da fatia e conclui a [DEV]. Pedido novo vai para a sdd-triar; [REV], [VER], [ESP] e atendimento têm skill própria (o hub sdd-iniciar encaminha). Use em \"vamos trabalhar na FT-031\", \"pegar a [DEV] da FT-031\", \"corrigir o defeito 4567\", \"próxima fatia\", \"retomar a FT-031\", \"mergeia a FT-031\", \"o PR da FT-031 foi aprovado\"."
+description: "Skill do papel Dev no fluxo sdd — começa ou retoma uma fatia já registrada no backlog (FT-031, DF ou IB que o backlog conhece, tarefa [DEV]), em qualquer trilha. É o ponto de compromisso: confere a Definition of Ready, o responsável, a sprint aberta (fora dela, encaixe pela sdd-planejamento) e o WIP; cria a branch (sugere o nome e aguarda) e a pasta .kiro/specs/ com o status.md, assume a [DEV] no EWM (com confirmação) e encaminha pela fase: pesquisar → plano → implementar → PR. Em pronta-para-merge, faz o merge do PR aprovado, grava as lições da fatia e conclui a [DEV]. Pedido novo vai para a sdd-triar; [REV], [VER], [ESP] e Apoio têm skill própria (o hub sdd-iniciar encaminha). Use em \"vamos trabalhar na FT-031\", \"pegar a [DEV] da FT-031\", \"corrigir o defeito 4567\", \"próxima fatia\", \"retomar a FT-031\", \"mergeia a FT-031\", \"o PR da FT-031 foi aprovado\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.2.0"
+  version: "3.3.0"
 ---
 
 # sdd-desenvolver — Compromisso e início do código
@@ -16,7 +16,7 @@ metadata:
 Começar é um compromisso: daqui em diante a fatia consome a capacidade do time e o lead time corre. Por isso esta
 skill só começa o que já está registrado e planejado; a entrada de trabalho novo é da **`sdd-triar`**. É a skill do
 papel **Dev**: assume a `[DEV]` da fatia (Passo 4), encaminha cada fase para a skill dela (Passo 5) e encerra a `[DEV]` no merge do PR aprovado (Passo 6). Revisão (`[REV]`), verificação (`[VER]`), especificação
-(`[ESP]`) e atendimento (`[ATD]`) têm skill própria; na dúvida sobre o item, o hub **`sdd-iniciar`** diz qual.
+(`[ESP]`) e Apoio (`[ATD]`, `[IMPL]`…) têm skill própria; na dúvida sobre o item, o hub **`sdd-iniciar`** diz qual.
 
 Leia antes: `.kiro/steering/sdd.md`. Sem ele → ofereça a **`sdd-setup`** ("configurar o sdd") e pare.
 
@@ -34,7 +34,7 @@ inventa dado de work item: (1) `status.md` nas branches (atual, worktrees, remot
 | número do EWM (DF, IB) | a linha do `backlog.md` com esse id em `origem` ou `elm` |
 | tarefa `[DEV] FT-nnn` | a fatia do pai |
 | "próxima fatia" | a `pronta` de maior prioridade da sprint aberta sem `status.md` em nenhuma branch; nenhuma → a `pronta` do topo do backlog, também sem `status.md` em branch ou worktree (puxada; no Kanban, sempre esta) |
-| `[REV]`, `[VER]`, `EP-nn`/`[ESP]`, `AT-nnn`/`[ATD]` | não é deste papel → "use `sdd-iniciar <item>`" e pare |
+| `[REV]`, `[VER]`, `EP-nn`/`[ESP]`, item ou tarefa de Apoio (`AT-nnn`/`[ATD]`, `IM-nnn`/`[IMPL]`…) | não é deste papel → "use `sdd-iniciar <item>`" e pare |
 | pedido em texto, ou id que não está no backlog | não está registrado → "use `sdd-triar`" e pare |
 
 Fatia já iniciada (tem pasta em `.kiro/specs/` nesta branch, em worktrees ou em branches remotas —

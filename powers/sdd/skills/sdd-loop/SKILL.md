@@ -4,7 +4,7 @@ description: "Execução autônoma (AFK) de várias fatias do fluxo sdd — pega
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.2.0"
+  version: "3.3.0"
 ---
 
 # sdd-loop — Fatias AFK até o PR
@@ -36,7 +36,7 @@ e pergunte se retoma. Retomar = continuar cada fatia da fase registrada no `stat
    (`acordos.md`): não há sprint nem encaixe — vale a `pronta` do topo do backlog, e as `[DEV]` do lote nascem na
    confirmação ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §4, iteração corrente).
 2. Fica de fora (diga o motivo): HITL; `EP-nn`, PRD, fatiamento e `AT-nnn`
-   ("PRD, backlog e atendimento nunca são AFK"); Definition of Ready não atendida; `bloqueada-por` não concluída e
+   ("PRD, backlog e Apoio nunca são AFK"); Definition of Ready não atendida; `bloqueada-por` não concluída e
    não presente antes no lote; já em andamento (tem `status.md`).
 3. **Limite:** paralelismo do `sdd.md` (padrão 1, máximo 3) **e** vagas de WIP de revisão humana (limite
    dos acordos menos as fatias já esperando pessoa: `plano-em-revisao`, `pr-aberto`, `em-revisao`,

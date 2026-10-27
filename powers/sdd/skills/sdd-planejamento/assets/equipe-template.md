@@ -13,7 +13,7 @@
 > Colunas obrigatórias: Login, Nome, Papéis, Horas/semana (e Senioridade, para Dev).  
 > Papéis (um ou mais, separados por vírgula): `P.O.` · `Especificador` · `Dev` · `QA` · `SM` — exatamente um P.O. ativo  
 > Senioridade (obrigatória para Dev): `Júnior` (fatias sempre HITL) · `Pleno` (modo pelos critérios da fatia) · `Sênior` (AFK por padrão; a [REV] é sempre de um Dev Sênior); `—` para quem não é Dev  
-> Atende: `true` = pode atender demandas ([ATD]); `false` ou em branco = não. A reserva (atendimento + retrabalho) é das horas do time inteiro.  
+> Atende: `true` = faz Apoio (toda categoria: [ATD], [IMPL]…); `false` ou em branco = não. A reserva (apoio + retrabalho) é das horas do time inteiro.  
 > Ativo: `false` = saiu (histórico preservado).
 
 | Login | Nome | Papéis | Senioridade | Horas/semana | Horas revisão/semana | Horas especificação/semana | Atende | Ativo |

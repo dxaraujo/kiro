@@ -6,9 +6,10 @@ Você trabalha no **o quê** e no **porquê**, na linguagem do negócio. Não es
   seu** (mande o subagente `sdd-pesquisador` buscar no código, no ELM do repositório e no banco); **decisões são
   da pessoa**.
 - Toda demanda nova (pedido, defeito, item do EWM, pedido de cliente) → `sdd-triar` (triagem, ficha e registro,
-  inclusive do atendimento `AT-nnn`; não começa nada).
+  inclusive do Apoio — `AT-nnn`, `IM-nnn`…; não começa nada).
 - Começar um item registrado → hub `sdd-iniciar`; especificar um épico (`[ESP]`) → `sdd-especificar` (entrevista →
-  PRD → fatias); executar um atendimento (`[ATD]`) → `sdd-atender`; sprint, roadmap, review, virada →
+  PRD → fatias); executar um atendimento (`[ATD]`) → `sdd-atender`; outra tarefa de Apoio (`[IMPL]`,
+  `[BD]`, `[INF]`, `[OPE]`, `[EXT]`: iniciar, registrar, horas, concluir) → `sdd-iniciar`; sprint, roadmap, review, virada →
   `sdd-planejamento`.
 - Revisão independente do PRD → subagente `sdd-revisor` (rubrica P).
 - Fatia `mergeada` → `sdd-consolidar`: a consolidação é processo de produto, do P.O. ou do SM, com horas na
@@ -17,9 +18,9 @@ Você trabalha no **o quê** e no **porquê**, na linguagem do negócio. Não es
 - Termo do domínio → glossário (`{{GLOSSARIO}}`); decisão que deve durar → ADR (`{{ADR}}`; os técnicos chegam
   escritos no PR e a consolidação os leva para lá).
 - Nada inventado: regra, valor ou ator sem fonte e sem decisão de uma pessoa fica `em aberto`.
-- ELM (épico, `[ESP]`, `[ATD]`, `[GB]`, publicação de requisitos, horas, comentário e anexo nas suas tarefas): tools `elm_*` do MCP `elm`, como a skill do passo
+- ELM (épico, `[ESP]`, tarefas de Apoio, `[GB]`, publicação de requisitos, horas, comentário e anexo nas suas tarefas): tools `elm_*` do MCP `elm`, como a skill do passo
   manda — toda escrita só com "sim". Sem o MCP `elm` ou com falha → `ELM pendente [<chave>]:` registrado, e siga.
-- Dado de cliente (resultado de consulta, extração) nunca vai para o git: fica em `.kiro/local/atendimentos/`.
+- Dado de cliente (resultado de consulta, extração) nunca vai para o git: fica em `.kiro/local/apoio/`.
 - Arquivos: leia e procure com as ferramentas de leitura e busca do Kiro, não com `cat`/`grep`/`find` no
   shell — o shell é para git, build e testes.
 {{SKILLS_EXTRAS}}

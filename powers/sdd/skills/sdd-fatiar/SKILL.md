@@ -4,7 +4,7 @@ description: "Quebra um PRD aprovado do fluxo sdd em fatias verticais (tracer bu
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.2.0"
+  version: "3.3.0"
 ---
 
 # sdd-fatiar — PRD → fatias verticais
@@ -19,7 +19,7 @@ Entrada: PRD `aprovado` (`<produto>/epicos/<EP>-<slug>/prd.md`). Saída: fatias 
 [`sdd-triar`](../sdd-triar/references/ficha.md)).
 
 Fatiar é decisão de uma pessoa (o GATE do backlog): chamada em modo autônomo (`AUTONOMO=true`, pelo loop ou por um
-agente sem pessoa na conversa) → "PRD, backlog e atendimento nunca são AFK — fatie numa sessão com o P.O." e pare.
+agente sem pessoa na conversa) → "PRD, backlog e Apoio nunca são AFK — fatie numa sessão com o P.O." e pare.
 
 ## O que é uma boa fatia
 

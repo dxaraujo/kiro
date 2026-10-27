@@ -10,8 +10,8 @@ depois. O sdd põe as pessoas onde elas têm mais alavanca — decidir o quê, a
 o resto com agentes de contexto limpo, presos a feedback automático.
 
 ```
-ENTRADA   triar ─► backlog: EP rascunho · FT sem épico (padrão com ficha, rápida) · AT + [ATD] ─► "mais algum?"
-HUB       iniciar <item> ─► especificar · desenvolver · plano ([APR]) · revisar · verificar · atender · planejamento (troca) · consolidar (cada uma assume a sua tarefa)
+ENTRADA   triar ─► backlog: EP rascunho · FT sem épico (padrão com ficha, rápida) · Apoio (AT-/IM-… + tarefa) ─► "mais algum?"
+HUB       iniciar <item> ─► especificar · desenvolver · plano ([APR]) · revisar · verificar · atender · planejamento (troca) · consolidar (cada uma assume a sua tarefa; Apoio sem skill própria: o próprio hub)
             │
 PRODUTO   entrevistar ─► PRD ─► GATE PRD ─► ELM (HF/REG/GL) ─► fatiar ─► GATE backlog ─► sprint (EWM)
                                                                                  │
@@ -26,7 +26,7 @@ PRODUTO   consolidar (P.O./SM, [GB]): drift da REV/VER ─► ELM as-built (ET, 
 
 | `sdd` v1 | `sdd` v2 |
 |---|---|
-| um fluxo para tudo (HF/REG/ET/CT + spec SDD em todo IB) | **trilhas** pelo tamanho: rápida (bugfix spec), padrão, épico — e atendimento, sem código |
+| um fluxo para tudo (HF/REG/ET/CT + spec SDD em todo IB) | **trilhas** pelo tamanho: rápida (bugfix spec), padrão, épico — e apoio (atendimento e outras categorias), sem código |
 | especificação por IB, em três papéis assíncronos | **PRD por épico** + **fatias verticais** que cabem numa janela de contexto |
 | entrevista uma pergunta por vez | entrevista em **rodadas pela fronteira** de decisões, sempre com recomendação |
 | spec SDD → implementação → judge | **pesquisa** compactada → **plano com a forma do programa** e o **contrato de pronto** → **GATE do plano** |
@@ -69,15 +69,15 @@ Fontes no fim deste arquivo.
 | `sdd` | guia do fluxo: trilhas, gates, princípios, qual skill usar |
 | `sdd-setup` | configura o projeto: entende o repositório, descobre skills e toolkits, cria os agentes perguntando as skills de cada um |
 | `sdd-status` | painel "onde parei", WIP de revisão, próxima ação de maior alavanca |
-| `sdd-triar` | entrada de toda demanda nova: triagem em qualquer trilha, duplicados, ficha da fatia padrão sem épico, registro no backlog (inclusive o atendimento: AT-nnn, sprint sugerida, `[ATD]`), importação de itens do EWM, "mais algum item?" — não começa nada |
-| `sdd-iniciar` | hub: recebe o item registrado (ou "minha próxima tarefa") e diz a skill do papel |
+| `sdd-triar` | entrada de toda demanda nova: triagem em qualquer trilha, duplicados, ficha da fatia padrão sem épico, registro no backlog (inclusive o Apoio: categoria, AT-nnn/IM-nnn…, sprint sugerida, `[ATD]`/`[IMPL]`…), importação de itens do EWM, "mais algum item?" — não começa nada |
+| `sdd-iniciar` | hub: recebe o item registrado (ou "minha próxima tarefa") e diz a skill do papel; conduz as tarefas de Apoio sem skill própria (`[IMPL]` `[BD]` `[INF]` `[OPE]` `[EXT]`): iniciar no ELM, registrar o trabalho, lançar horas, concluir |
 | `sdd-especificar` | Especificador: assume a `[ESP]`, conduz entrevista → PRD → fatias numa pasta local até o GATE e registra cada sessão na tarefa (comentário + anexos) |
 | `sdd-desenvolver` | Dev: compromisso (Definition of Ready, sprint/encaixe, WIP), branch, pasta, assume a `[DEV]`; retomada pela fase; merge do PR aprovado e conclusão da `[DEV]` |
 | `sdd-entrevistar` | alinhamento em rodadas (grill), decisões e glossário |
 | `sdd-prd` | PRD do épico (o quê e por quê) e GATE do PRD |
 | `sdd-fatiar` | PRD → fatias verticais AFK/HITL, backlog e GATE do backlog |
-| `sdd-planejamento` | roadmap, acordos (cadência, DoR/DoD, WIP, reserva de atendimento), sprint com especificação e atendimento, review, retrospectiva, virada |
-| `sdd-atender` | executa o atendimento já triado (AT-nnn): assume a `[ATD]`, consulta só leitura, extração fora do git, resposta, saldo de horas, desdobramentos |
+| `sdd-planejamento` | roadmap, acordos (cadência, DoR/DoD, WIP, reserva de apoio), sprint com especificação e Apoio, review, retrospectiva, virada |
+| `sdd-atender` | executa o atendimento (categoria Atendimento do Apoio) já triado (AT-nnn): assume a `[ATD]`, consulta só leitura, extração fora do git, resposta, saldo de horas, desdobramentos |
 | `sdd-pesquisar` | pesquisa do código compactada em `research.md` |
 | `sdd-plano` | spec do Kiro (`requirements.md`/`bugfix.md`, `design.md`, `tasks.md`) e GATE do plano |
 | `sdd-implementar` | TDD + backpressure, commits pequenos, revisão e PR (termina no PR) |
@@ -102,7 +102,7 @@ de `skills/sdd-setup/assets/`:
 | `.kiro/hooks/sdd.json` (opcional) | backpressure: compila e testa depois de cada tarefa de spec |
 | `.kiro/workflows/sdd-*.workflow.json` (opcional, experimental) | `planejar-fatia` (até o GATE do plano, com a `[APR]`) e `entregar-fatia` (AFK até o PR aberto pelo `gitlabpr`, com a `[APR] Aprovar PR`) nos Kiro Workflows — quem dispara é a pessoa, no chat do Kiro ("rode o workflow `sdd-entregar-fatia` para a FT-031" ou `/workflow-run`), uma fatia por vez; nenhum agente as dispara |
 | `.kiro/sdd/http.sh` (opcional) | única chamada HTTP que o verificador faz sem perguntar: só à URL de teste, com corpo da pasta `massa/` |
-| pasta do produto (proposta pela setup; padrão `.kiro/planejamento`) | `backlog.md`, épicos e PRDs, `equipe.json`, `acordos.md`, `roadmap.md`, `sprints/`, `atendimentos/`, `aprendizado/` — versionada; o que é local fica em `.kiro/local/` (fora do git) |
+| pasta do produto (proposta pela setup; padrão `.kiro/planejamento`) | `backlog.md`, épicos e PRDs, `equipe.json`, `acordos.md`, `roadmap.md`, `sprints/<iteração pai>/`, `apoio/`, `aprendizado/` — versionada; o que é local fica em `.kiro/local/` (fora do git) |
 
 O ELM vem no próprio power: o MCP **`mcp-elm`** (≥ 3.0.0) lê o `.kiro/config/sdd/pa_<nome>.json` do projeto (um por
 project area, gravado pela `sdd-setup`) e expõe operações (`elm_transicao`, `elm_lancar_horas`, `elm_criar_wi`,

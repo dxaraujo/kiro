@@ -4,7 +4,7 @@ description: "Wizard de 9 etapas, em português do Brasil e em cartões padroniz
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.2.0"
+  version: "3.3.0"
 ---
 
 # sdd-setup — Configurar o fluxo no projeto
@@ -182,9 +182,12 @@ mais longa (10 blocos) e o que ela decide.
      validação com itens de teste é recomendada.
    - Seção ELM do `sdd.md`, sem perguntas (linha 6 do W4): publicar requisitos `na-aprovacao`, ET `não
      publica`, manual `nada`, pontos `não`, fatia dividida "filhos do item original", títulos das tarefas e colunas
-     do `CT.csv` do template; a categoria do IB de defeito é a do bloco 5 do `elm-pa.md`. Sustentação e Atendimento não são
-     perguntados: nascem no backlog do EWM na primeira triagem do ano, ou no espelhamento do backlog
-     ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §0 e §2).
+     do `CT.csv` do template; a categoria do IB de defeito é a do bloco 5 do `elm-pa.md`. A Sustentação não é
+     perguntada: nasce no backlog do EWM na primeira triagem ou com a primeira sprint de cada iteração pai, ou no
+     espelhamento do backlog ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §0 e §2); pergunte só o
+     nome curto do produto (linha "Produto" da seção ELM). A seção **Apoio** do `sdd.md` vem do template com as seis
+     categorias, a Classificação de cada uma pelo bloco 5 do `elm-pa.md`; modo atualização com `sdd.md` sem a
+     seção → acrescente-a (com "ok").
    - **Backlog do produto no EWM** (`ccm.backlog` do `pa`; também no modo atualização, com `pa` sem ele): onde os
      itens triados nascem — [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §0 (pergunta se já
      existe; senão cria, com pai ou sem pai; com `backlog.md` em uso, oferece o espelhamento).
@@ -313,10 +316,10 @@ Itens:
    `.kiro/sdd/http.sh` ← [assets/scripts/http.sh](assets/scripts/http.sh) com `{{URL_TESTE}}` trocado pela URL
    base do ambiente de teste (sem barra no fim).
 4. `<produto>/` (só o que não existir): `backlog.md` mínimo
-   (`# Backlog — <nome>`, `Próximos ids: EP-01 · FT-001 · AT-001`, `Sustentação: —` e as tabelas `## Épicos`,
-   `## Fatias — sem épico` e `## Atendimentos` vazias — formato na `sdd-fatiar`),
-   `<produto>/aprendizado/licoes.md` com o título `# Lições` (a pasta `atendimentos/` nasce
-   com o primeiro AT, pela `sdd-triar`) e `fatias/` (as fichas). O `equipe.json` e o `acordos.md` não: são da
+   (`# Backlog — <nome>`, `Próximos ids: EP-01 · FT-001 · AT-001 · IM-001 · BD-001 · IN-001 · OP-001 · EX-001`,
+   `Sustentação: —` e as tabelas `## Épicos`, `## Fatias — sem épico` e `## Apoio` vazias — formato na `sdd-fatiar`),
+   `<produto>/aprendizado/licoes.md` com o título `# Lições` (a pasta `apoio/` nasce
+   com o primeiro item de Apoio, pela `sdd-triar`) e `fatias/` (as fichas). O `equipe.json` e o `acordos.md` não: são da
    `sdd-planejamento` (modo inicial), que só grava a equipe depois dos acordos (cadência e duração da sprint). No modo atualização, acrescente só o que falta —
    nunca recrie o que existe; subpasta `<produto>/planejamento/` (layout da 2.6.0) →
    ofereça mover o conteúdo dela para a raiz de `<produto>/` com `git mv` (com "ok"), sem sobrescrever o que já

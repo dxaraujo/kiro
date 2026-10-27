@@ -1,10 +1,10 @@
 ---
 name: sdd-status
-description: "Painel do fluxo sdd, somente leitura — onde parei e o que fazer agora: fatias em andamento (nesta branch, nas worktrees e nas branches remotas) com fase, trilha, modo AFK/HITL, progresso do tasks.md, achados abertos e PR; WIP de revisão humana contra o acordo do time; sprint atual e meta, com especificação e atendimento (reserva × consumido); fatias prontas para começar; épicos e PRDs pendentes de aprovação; pendências de ELM; lições propostas; e inconsistências. Também fecha a sessão de trabalho numa fatia (atualiza o status.md, lança as horas da sessão com confirmação, registra os créditos do Kiro, deixa o git pronto para commit e diz como retomar). SEMPRE use esta skill (leia-a antes de responder) em \"onde parei\", \"status\", \"painel\", \"bom dia\", \"o que tem pendente\", \"qual a próxima fatia\", \"como está a sprint\", \"retomar\", \"fechar a sessão\", \"encerrar por hoje\"."
+description: "Painel do fluxo sdd, somente leitura — onde parei e o que fazer agora: fatias em andamento (nesta branch, nas worktrees e nas branches remotas) com fase, trilha, modo AFK/HITL, progresso do tasks.md, achados abertos e PR; WIP de revisão humana contra o acordo do time; sprint atual e meta, com especificação e Apoio (reserva × consumido); fatias prontas para começar; épicos e PRDs pendentes de aprovação; pendências de ELM; lições propostas; e inconsistências. Também fecha a sessão de trabalho numa fatia (atualiza o status.md, lança as horas da sessão com confirmação, registra os créditos do Kiro, deixa o git pronto para commit e diz como retomar). SEMPRE use esta skill (leia-a antes de responder) em \"onde parei\", \"status\", \"painel\", \"bom dia\", \"o que tem pendente\", \"qual a próxima fatia\", \"como está a sprint\", \"retomar\", \"fechar a sessão\", \"encerrar por hoje\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.2.0"
+  version: "3.3.0"
 ---
 
 # sdd-status — Onde parei
@@ -34,9 +34,10 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
    `sdd-planejamento` modo inicial). Sem `<produto>/equipe.json` → sugira o mesmo modo inicial: sem ele não há
    senioridade (modo da fatia, GATE do plano, quem revisa).
 6. `<produto>/aprendizado/licoes.md`: lições com situação `proposta`.
-   Sprint aberta (`sprint-<nn>.md`): seções Especificação e Atendimento (reserva × consumido) e as linhas
-   `ELM pendente [<chave>]:`. Atendimentos abertos: as linhas `aberto` e `backlog` de `## Atendimentos` do `backlog.md`
-   (backlog antigo, sem a seção: os `AT-*.md` com `**Situação:** aberto`).
+   Sprint aberta (`sprint-<nn>.md`): seções Especificação e Apoio (reserva × consumido) e as linhas
+   `ELM pendente [<chave>]:`. Apoio aberto: as linhas `aberto` e `backlog` de `## Apoio` do `backlog.md`, por
+   categoria (backlog de antes da 3.3.0: `## Atendimentos`; mais antigo, sem a seção: os `AT-*.md` com
+   `**Situação:** aberto`).
 7. Lotes autônomos em andamento: `.kiro/local/loop-*.md`.
 8. "Minhas" = responsável igual ao login da pessoa: `git config user.name` cruzado com `nome`/`login` do
    `equipe.json`; sem correspondência, pergunte o login uma vez.
@@ -66,7 +67,7 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
 - EP-04 PRD em-revisao · EP-05 a descobrir
 - Especificação na sprint: EP-05 (rita.melo) PRD · 8/16 h
 
-🎧 Reserva (atendimento + retrabalho): <h>h · consumido <h>h (retrabalho <x>h · AT <y>h) · abertos: AT-012 (joao.lima, prazo 2026-10-16)
+🎧 Reserva (apoio + retrabalho): <h>h · consumido <h>h (retrabalho <x>h · Apoio <y>h) · abertos: AT-012 (joao.lima, prazo 2026-10-16) · IM-003 (ana.souza)
 
 ⛔ Fechamento (último dia da sprint ou depois): <n> fatias esperando consolidação (FT-…) → consolide antes da review (sdd-consolidar)
 🏛️ ELM pendente: <n> (lista) · 🔁 Lições propostas: <n>
@@ -76,7 +77,7 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
 ```
 
 **Sugestão** — nesta ordem: desbloquear quem espera uma pessoa (plano ou PR parado, WIP de revisão estourado) →
-atendimento com prazo vencendo → terminar a fatia em andamento → começar a próxima pronta (AFK prontas em quantidade → ofereça o `sdd-loop`) →
+item de Apoio com prazo vencendo → terminar a fatia em andamento → começar a próxima pronta (AFK prontas em quantidade → ofereça o `sdd-loop`) →
 trabalho de produto (PRD/fatiar) para manter o backlog com fatias prontas.
 
 ## Inconsistências a apontar
@@ -93,7 +94,8 @@ trabalho de produto (PRD/fatiar) para manter o backlog com fatias prontas.
 - conceito de `elm/` com `verified` humano e sem `resource` há mais de 1 dia (projeto que publica na aprovação);
 - conceito de `elm/` alterado (`generated.at`) depois do último `verified` e ainda `stable` (falta reaprovar);
 - `backlog.md` alterado numa branch de fatia (deve mudar só na base);
-- reserva de atendimento estourada (consumido > reserva) sem decisão do P.O. registrada no `sprint-<nn>.md`;
+- `backlog.md` com `## Atendimentos` (antes da 3.3.0) — a próxima escrita da `sdd-triar` migra para `## Apoio`;
+- reserva de apoio estourada (consumido > reserva) sem decisão do P.O. registrada no `sprint-<nn>.md`;
 - arquivo com dado de cliente versionado (extração, CSV ou evidência fora de `.kiro/local/`).
 
 Tarefa concluída **sem horas lançadas** não é apontada aqui: só no fechamento da sprint (`sdd-planejamento`,
@@ -133,7 +135,7 @@ fio:
    o número que o Kiro mostra, Sessão `informado`; nunca estime. Sobra só o turno do próprio registro, pequeno: o
    próximo fechamento do item o pega pelo `--desde`.
 
-   O mesmo vale fora da fatia, mudando só onde a linha vai: atendimento → seção Créditos da ficha `AT-<nnn>`;
+   O mesmo vale fora da fatia, mudando só onde a linha vai: Apoio → seção Créditos da ficha `<ID>` (`AT-<nnn>`, `IM-<nnn>`…);
    especificação → `status.md` do épico (`sdd-especificar`); gestão (triagem, consolidação, planejamento,
    retrospectiva, horas na `[GB]`) → seção **Créditos de gestão** do `sprint-<nn>.md` aberto, com Atividade no
    lugar de Papel.

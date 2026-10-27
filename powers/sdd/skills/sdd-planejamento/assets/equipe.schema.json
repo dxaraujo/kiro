@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://raw.githubusercontent.com/dxaraujo/kiro/main/powers/sdd/skills/sdd-planejamento/assets/equipe.schema.json",
   "title": "Equipe do sdd",
-  "description": "<produto>/equipe.json: projeto, cadência, histórico de vazão e de horas e membros com a capacidade de trabalho, de revisão, de especificação e de atendimento. Chaves em kebab-case; valores derivados (capacidade da sprint, totais) não são gravados, são calculados na hora.",
+  "description": "<produto>/equipe.json: projeto, cadência, histórico de vazão e de horas e membros com a capacidade de trabalho, de revisão, de especificação e de apoio. Chaves em kebab-case; valores derivados (capacidade da sprint, totais) não são gravados, são calculados na hora.",
   "type": "object",
   "required": [
     "atualizado",
@@ -76,7 +76,7 @@
               },
               "horas-lancadas": {
                 "type": "object",
-                "description": "Horas lançadas no EWM na sprint por tipo de tarefa ([DEV] entrega, [REV] revisao, [APR] aprovacao, [VER] verificacao, [ESP] especificacao, [ATD] atendimento); vem do relatorio de horas da virada (elm_horas da iteracao).",
+                "description": "Horas lançadas no EWM na sprint por tipo de tarefa ([DEV] entrega, [REV] revisao, [APR] aprovacao, [VER] verificacao, [ESP] especificacao, Apoio — [ATD] [IMPL] [BD] [INF] [OPE] [EXT] — apoio; atendimento só no histórico antigo); vem do relatorio de horas da virada (elm_horas da iteracao).",
                 "additionalProperties": false,
                 "properties": {
                   "entrega": {
@@ -99,17 +99,29 @@
                     "type": "number",
                     "minimum": 0
                   },
+                  "apoio": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Soma das tarefas de Apoio de toda categoria."
+                  },
                   "atendimento": {
                     "type": "number",
-                    "minimum": 0
+                    "minimum": 0,
+                    "description": "Histórico de antes da 3.3.0 (só [ATD]); sprints novas usam apoio."
                   }
                 }
+              },
+              "reserva-apoio": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "description": "Reserva da sprint para o Apoio (toda categoria) e o retrabalho da sprint anterior (0.2 = 20% das horas da sprint do time)."
               },
               "reserva-atendimento": {
                 "type": "number",
                 "minimum": 0,
                 "maximum": 1,
-                "description": "Reserva da sprint para atendimento e retrabalho da sprint anterior (0.2 = 20% das horas da sprint do time)."
+                "description": "Histórico de antes da 3.3.0; sprints novas usam reserva-apoio."
               }
             }
           }
@@ -230,7 +242,7 @@
         },
         "atende": {
           "type": "boolean",
-          "description": "Atende demandas (tarefas [ATD]): responsável sugerido na triagem. A reserva é das horas do time inteiro. Ausente = false."
+          "description": "Faz Apoio (tarefas de toda categoria: [ATD], [IMPL]…): responsável sugerido na triagem. A reserva é das horas do time inteiro. Ausente = false."
         },
         "ativo": {
           "type": "boolean",

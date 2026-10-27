@@ -1,12 +1,12 @@
 # Sprint no EWM
 
 Regras comuns (prévia, um "sim", idempotência, pendências): [../../sdd/references/elm.md](../../sdd/references/elm.md).
-**O backlog do EWM é a cópia do `backlog.md`:** todo épico, fatia e atendimento registrado tem o seu item no EWM.
+**O backlog do EWM é a cópia do `backlog.md`:** todo épico, fatia e item de Apoio registrado tem o seu item no EWM.
 Nasce com `iteracao = backlog` (o backlog do produto gravado no `pa`, §0) ou, se já entra numa sprint, com a iteração
 dela. **Entrar na sprint** = `elm_atualizar_wi(ids, iteracao = a da sprint)` — move, nunca recria; só se cria o
-que está `—` ou `pendente` na coluna `elm`. **Todo trabalho tem pai**: épico → IB → tarefa, ou o épico de
-Sustentação para o que não vem de PRD. Ordem: épico, IB, tarefa. Tarefas (`[ESP]`, `[DEV]`, `[REV]`, `[VER]`,
-`[APR]`, `[GB]`) nascem só na sprint; a única tarefa no backlog é a `[ATD]` que não coube numa (§6).
+que está `—` ou `pendente` na coluna `elm`. **Todo trabalho tem pai**: épico → IB → tarefa, ou o IB de
+Sustentação da iteração pai para o que não vem de PRD. Ordem: épico, IB, tarefa. Tarefas (`[ESP]`, `[DEV]`, `[REV]`,
+`[VER]`, `[APR]`, `[GB]`) nascem só na sprint; as únicas tarefas no backlog são as de Apoio que não couberam numa (§6).
 
 ## 0. Backlog do produto (na setup ou em "atualizar a configuração do sdd"; uma vez por projeto)
 
@@ -32,14 +32,19 @@ Sustentação para o que não vem de PRD. Ordem: épico, IB, tarefa. Tarefas (`[
 backlog do produto não é criado aqui: é o do §0). Criar exige a permissão de modificar iterações — erro
 `permissao` → peça a quem administra a PA.
 
-## 2. Sustentação (uma vez por ano, com a linha `Sustentação:` do `backlog.md` vazia)
+## 2. Sustentação (uma por iteração pai, com a linha `Sustentação <pai>:` do `backlog.md` vazia ou de outro pai)
 
-Épico `[SUS-<ano>] Sustentação` (`tipo: ib` — ou o tipo de épico, se o `pa` tiver) e, filho dele, o IB
-`Atendimento` (pai das `[ATD]`), os dois com `iteracao = backlog` — nascem no §0 ou na primeira triagem do ano e
-**ficam no backlog** (não entram em sprint nem movem na virada). A tarefa `[GB] Gerenciamento do backlog` (filha da
-Sustentação, dono = o P.O. ativo do `equipe.json`) nasce na primeira sprint aberta, com a iteração dela. Ids na
-linha: `Sustentação: SUS <id> · Atendimento <id> · Backlog [GB] <id>`. Sustentação já existe sem a `[GB]` → crie
-só a `[GB]` (com sprint aberta).
+IB `Sustentação <produto> - <pai>` (`tipo: ib`; `<produto>` = o nome do produto do `sdd.md`; `<pai>` = a iteração
+pai das sprints, ex.: `2026`), com `iteracao = backlog` — nasce no §0, na primeira triagem ou com a primeira sprint
+de um pai novo, e **fica no backlog** (não entra em sprint nem move na virada). É o pai direto de toda tarefa de
+Apoio (`[ATD]`, `[IMPL]`, `[BD]`, `[INF]`, `[OPE]`, `[EXT]` — sem IB por categoria) e das fatias sem épico.
+Idempotência: `elm_listar_wi(iteracao = backlog, titulo_prefixo "Sustentação <produto> - <pai>")`. A tarefa
+`[GB] Gerenciamento do backlog` (filha da Sustentação, dono = o P.O. ativo do `equipe.json`) nasce na primeira
+sprint do pai, com a iteração dela. Ids na linha: `Sustentação <pai>: <id> · Backlog [GB] <id>`. Sustentação já
+existe sem a `[GB]` → crie só a `[GB]` (com sprint aberta). **Pai novo** (a sprint nova é `2027/01`): nasce a
+Sustentação do pai novo e a `[GB]` dela; a `[GB]` antiga conclui com o saldo de horas (`elm_transicao concluir`); a
+linha do `backlog.md` passa a ser a do pai novo. Projeto com a antiga `[SUS-<ano>] Sustentação` e o IB `Atendimento`:
+ficam como estão (nada se apaga no EWM) até o primeiro pai novo.
 
 ## 3. Épico e IB (nascem no registro; movem na sprint)
 
@@ -66,21 +71,23 @@ só a `[GB]` (com sprint aberta).
 ## 4. Tarefas da sprint (depois do "ok" da sprint)
 
 Para cada linha do `sprint-<nn>.md`, com a tabela "Tarefas no EWM" de `elm.md`: `elm_criar_wi(tipo tarefa, título,
-pai, dono, estimativa_h, iteracao)` (Kanban: a iteração corrente). Fatia **AFK**: só a `[DEV]`. A `[APR]` não nasce aqui. AT da seção Atendimento
-sem `elm` → §6; com a `[ATD]` no backlog → move (§6). Ids na coluna "Tarefa ELM" (`DEV <id> · REV <id> · VER <id>`) e no `elm` do `backlog.md`.
+pai, dono, estimativa_h, iteracao)` (Kanban: a iteração corrente). Fatia **AFK**: só a `[DEV]`. A `[APR]` não nasce aqui. Item da seção Apoio
+sem `elm` → §6; com a tarefa no backlog → move (§6). Ids na coluna "Tarefa ELM" (`DEV <id> · REV <id> · VER <id>`) e no `elm` do `backlog.md`.
 
 ## 5. Virada
 
-Tarefas, IBs e épicos não concluídos da sprint (inclusive a `[GB]`; Sustentação, Atendimento e o que está no
+Tarefas, IBs e épicos não concluídos da sprint (inclusive a `[GB]`, se o pai não muda; Sustentação e o que está no
 backlog ficam onde estão) → `elm_atualizar_wi(ids, iteracao = a nova)` numa chamada (move, nunca recria; o pai não muda). Baseline por sprint, se o
 `sdd.md` exigir → roteiro manual. Relatório: `elm_horas(iteracao)` → horas por prefixo e por pessoa, planejadas ×
 lançadas, e as tarefas concluídas sem horas.
 
-## 6. Atendimento `[ATD]` (chamado pela `sdd-triar`, pelo encaixe ou aqui)
+## 6. Apoio (chamado pela `sdd-triar`, pelo encaixe ou aqui)
 
-`elm_criar_wi(tipo tarefa, "[ATD] AT-<nnn> <título>", pai = Atendimento, dono = quem atende, estimativa_h, iteracao
-= a da sprint do AT; Kanban: a corrente; AT sem sprint ou fora da reserva: backlog)`. Fica no estado inicial. AT do
-backlog que entra numa sprint → `elm_atualizar_wi(id, iteracao = a da sprint)`.
+`elm_criar_wi(tipo tarefa, "<prefixo> <ID> <título>", pai = Sustentação <produto> - <pai>, dono = quem faz,
+estimativa_h, iteracao = a da sprint do item; Kanban: a corrente; sem sprint ou fora da reserva: backlog)` — prefixo
+e série do id pela categoria (tabela **Apoio** do `sdd.md`: `[ATD] AT-012 …`, `[IMPL] IM-003 …`); o `pa` aplica a
+Classificação da Tarefa pelo prefixo. Fica no estado inicial. Item do backlog que entra numa sprint →
+`elm_atualizar_wi(id, iteracao = a da sprint)`.
 
 ## 7. Troca AFK → HITL (só pela seção "Troca de modo")
 

@@ -8,7 +8,7 @@ Este repositório usa o fluxo **sdd** (power `sdd`): alinhar antes de escrever, 
 aprovado por um Dev Sênior (GATE pela senioridade), teste primeiro com backpressure, revisão e verificação independentes, PR lido por uma
 pessoa, e o IBM ELM como registro oficial da documentação. Como funciona: skill `sdd`. Toda demanda nova: `sdd-triar`.
 Começar um item registrado: hub `sdd-iniciar` (diz a skill do papel: `sdd-especificar`, `sdd-desenvolver`,
-`sdd-revisar`, `sdd-verificar`, `sdd-atender`; `sdd-revisar` também nas `[APR]` (plano e PR), `sdd-planejamento` na troca de modo, `sdd-consolidar` na fatia mergeada). Onde parei ou fechar a sessão: `sdd-status`.
+`sdd-revisar`, `sdd-verificar`, `sdd-atender`; `sdd-revisar` também nas `[APR]` (plano e PR), `sdd-planejamento` na troca de modo, `sdd-consolidar` na fatia mergeada; as tarefas de Apoio sem skill própria — `[IMPL]` `[BD]` `[INF]` `[OPE]` `[EXT]` — ficam na própria `sdd-iniciar`). Onde parei ou fechar a sessão: `sdd-status`.
 
 - **Créditos do Kiro:** nenhuma sessão termina sem registrá-los. Skill que termina (diz a próxima e para) sem ter
   registrado os desta sessão, ou pessoa que encerra → pergunte `💳 Fechar a sessão e registrar os créditos? (sim)`
@@ -41,12 +41,13 @@ Começar um item registrado: hub `sdd-iniciar` (diz a skill do papel: `sdd-espec
   `revisor único`). **GATE do plano** pela senioridade: Júnior → sempre; Pleno → pergunta (no loop, vale para o
   lote); Sênior → nunca (aprova o próprio plano). Fatia AFK cujo plano mostra risco → sugerir HITL; a troca é do
   P.O. na base. HITL → AFK nunca.
-- Toda hora tem tarefa (`[ESP]` `[DEV]` `[REV]` `[VER]` `[ATD]`; no AFK, só a `[DEV]`; `[APR]` do Dev Sênior nos
+- Toda hora tem tarefa (`[ESP]` `[DEV]` `[REV]` `[VER]` e as de Apoio — `[ATD]` `[IMPL]` `[BD]` `[INF]` `[OPE]` `[EXT]`; no AFK, só a `[DEV]`; `[APR]` do Dev Sênior nos
   gates sem tarefa de papel — aprovar plano, aprovar PR do AFK —, criada quando a fatia chega ao gate; `[GB]
   Gerenciamento do backlog` do P.O. ou do SM: triagem e consolidação). Lançar horas é
   registro de empenho, a qualquer momento na tarefa iniciada; concluir é da skill do papel, com o saldo: `[DEV]` no
   merge, `[REV]` ao aprovar (depois do push), `[VER]` ao aceitar (depois do push), `[APR]` na aprovação, `[ESP]` no
-  GATE do backlog, `[ATD]` ao finalizar.
+  GATE do backlog, Apoio ao finalizar. Tarefa criada direto no EWM na iteração da sprint é trazida para a sprint
+  (`sdd-planejamento`, "sincroniza a sprint").
 - **Consolidação é processo de produto:** fatia `mergeada` → o P.O. ou o SM, no agente `sdd-produto`
   (`sdd-consolidar`, horas na `[GB]`): lê o Drift de negócio que a REV e a VER marcaram no `status.md`, publica no
   ELM o *as-built* (requisitos, ET, casos de teste), leva os ADRs do PR à pasta de ADRs e fecha a fatia na base.
@@ -112,8 +113,24 @@ Na worktree do `sdd-loop`: `cd .kiro/local/wt/<ft> && <comando>`. Falha de ambie
 | Pontos P/M/G no EWM | `<não | 2 · 3 · 5>` (opcional; o planejamento prevê pela vazão) |
 | Critérios de aceite no IB | `<nome do campo em ccm.tipos.ib.campos do pa | descrição>` |
 | IB de defeito | `<campo = valor de correção (ex.: Categoria = Correção) | —>` (os demais padrões estão no `pa`) |
-| Tarefas (títulos padrão; editáveis à mão) | `[ESP] EP-<nn> Especificação` · `[DEV] FT-<nnn> Implementar` · `[REV] FT-<nnn> Revisar` · `[VER] FT-<nnn> Verificar` · `[APR] FT-<nnn> Aprovar plano` · `[APR] FT-<nnn> Aprovar PR` · `[ATD] AT-<nnn> <pedido>` · `[GB] Gerenciamento do backlog` |
+| Tarefas (títulos padrão; editáveis à mão) | `[ESP] EP-<nn> Especificação` · `[DEV] FT-<nnn> Implementar` · `[REV] FT-<nnn> Revisar` · `[VER] FT-<nnn> Verificar` · `[APR] FT-<nnn> Aprovar plano` · `[APR] FT-<nnn> Aprovar PR` · `<prefixo do Apoio> <ID> <pedido>` · `[GB] Gerenciamento do backlog` |
+| Produto (no nome da Sustentação) | `<nome curto do produto>` — o IB `Sustentação <produto> - <iteração pai>` |
 | `CT.csv` (colunas na ordem do template do ETM) | `<Tipo=Caso de Teste · Resumo · Responsável · Status=<inicial> · Categoria · Planejado para · Descrição>` |
+
+## Apoio
+
+Trabalho sem mudança no repositório (mudança de código ou config é fatia rápida). Apoio é só o nome do conjunto: cada
+item é de uma categoria, com prefixo de tarefa e série de ids próprios; toda tarefa é filha do IB
+`Sustentação <produto> - <iteração pai>`.
+
+| Categoria | O que cobre | Tarefa | Id | Classificação da Tarefa (PA) | Skill |
+|---|---|---|---|---|---|
+| Atendimento | chamado ou pedido do cliente: consulta, extração, explicação, conferência | `[ATD]` | `AT-` | `<Suporte / Apoio Técnico Especializado>` | `sdd-atender` |
+| Implantação | preparar e acompanhar a subida de versão: pacote, janela, roteiro, validação pós-implantação | `[IMPL]` | `IM-` | `<…>` | `sdd-iniciar` |
+| Banco de dados | script de correção ou carga de dados, conferência de base, apoio ao DBA | `[BD]` | `BD-` | `<…>` | `sdd-iniciar` |
+| Infra | ambiente, acesso, certificado, fila, servidor, pedido a outra equipe | `[INF]` | `IN-` | `<…>` | `sdd-iniciar` |
+| Operação | rotina de produção: reprocessar job, acompanhar execução, incidente sem mudança de código | `[OPE]` | `OP-` | `<…>` | `sdd-iniciar` |
+| Apoio a outros times | ajuda técnica a outra equipe ou outro produto | `[EXT]` | `EX-` | `<…>` | `sdd-iniciar` |
 
 ## Agentes
 

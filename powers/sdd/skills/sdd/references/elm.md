@@ -28,7 +28,7 @@ Toda tool devolve `{"ok":true,"dados":{…}}` ou `{"ok":false,"erro":{"codigo","
 | bundle do DOORS Next | `elm_sync` (skill `sdd-sync`, que pergunta se indexa no fim) |
 
 **Comentário e anexo na própria tarefa:** todo papel com tarefa — Dev na `[DEV]`, revisor na `[REV]` e na `[APR]`,
-verificador na `[VER]`, produto na `[ESP]`, na `[ATD]` e na `[GB]` — pode comentar (`elm_comentar`) e anexar
+verificador na `[VER]`, produto na `[ESP]` e na `[GB]`, quem faz o Apoio na tarefa dele (`[ATD]`, `[IMPL]`…) — pode comentar (`elm_comentar`) e anexar
 (`elm_anexo enviar`, arquivo de dentro do projeto) nela, sempre com "sim"; na tarefa de outro papel, não.
 
 ## Bundle local
@@ -71,7 +71,7 @@ identifica ação e alvo (`[DEV 669412 concluir]`, `[IB FT-031 concluir]`, `[REG
 |---|---|
 | fatia | Histórico do `status.md` |
 | épico | rodapé do `prd.md` (antes do GATE, o `rascunho.md`) |
-| atendimento | campo `**ELM:**` do `AT-<nnn>-<slug>.md` |
+| Apoio (toda categoria) | campo `**ELM:**` do `<produto>/apoio/<ID>-<slug>.md` |
 | sprint | coluna "Tarefa ELM" do `sprint-<nn>.md` (`pendente`) |
 
 Resolver ("resolve as pendências do ELM"): a `sdd-status` lista; para cada uma, faça a operação e acrescente
@@ -85,11 +85,11 @@ Resolver ("resolve as pendências do ELM"): a `sdd-status` lista; para cada uma,
 | `[DEV] FT-<nnn> Implementar` | IB da fatia | Dev | planejamento | merge |
 | `[REV] FT-<nnn> Revisar` · `[VER] FT-<nnn> Verificar` | IB | revisor · verificador (só HITL) | planejamento ou troca AFK→HITL | aprovar · aceitar (depois do push) |
 | `[APR] FT-<nnn> Aprovar plano` · `Aprovar PR` | IB | Dev Sênior | no gate | na aprovação |
-| `[ATD] AT-<nnn> <pedido>` | IB `Atendimento` | quem atende | triagem (na sprint ou no backlog) | ao finalizar |
-| `[GB] Gerenciamento do backlog` | épico de Sustentação | P.O. | 1ª sprint do ano | não conclui (move na virada) |
+| Apoio: `[ATD] AT-<nnn>` · `[IMPL] IM-<nnn>` · `[BD] BD-<nnn>` · `[INF] IN-<nnn>` · `[OPE] OP-<nnn>` · `[EXT] EX-<nnn>` + `<pedido>` | IB `Sustentação <produto> - <pai>` | quem faz | triagem (na sprint ou no backlog) ou trazida do EWM ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §9) | ao finalizar (`sdd-atender` no Atendimento; `sdd-iniciar` nas demais) |
+| `[GB] Gerenciamento do backlog` | IB `Sustentação <produto> - <pai>` | P.O. | 1ª sprint do pai | na troca de pai (a do pai novo nasce); senão move na virada |
 
 O `pa` aplica os campos que a PA exige (categoria, campos exigidos por processo, classificação por prefixo); `iteracao` é a
-da sprint, ou `backlog` para épico, IB e `[ATD]` fora de sprint (o backlog do EWM é a cópia do `backlog.md`:
+da sprint, ou `backlog` para épico, IB e tarefa de Apoio fora de sprint (o backlog do EWM é a cópia do `backlog.md`:
 [elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md)). Assumir = `elm_transicao(id, "assumir")`; concluir = saldo de horas e `elm_transicao(id, "concluir")`.
 
 ## O que o MCP não grava (roteiro manual)

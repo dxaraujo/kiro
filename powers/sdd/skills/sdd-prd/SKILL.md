@@ -4,7 +4,7 @@ description: "Escreve o PRD de um épico ou demanda no fluxo sdd — o quê e o 
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.2.0"
+  version: "3.3.0"
 ---
 
 # sdd-prd — O quê e por quê (épico)
@@ -30,7 +30,7 @@ Leia antes: `.kiro/steering/sdd.md` (ELM, caminhos, papéis) e o steering de pro
 ## Passo 1 — Entender a demanda
 
 PRD é decisão de uma pessoa (o GATE do PRD): chamada em modo autônomo (`AUTONOMO=true`, pelo loop ou por um agente
-sem pessoa na conversa) → "PRD, backlog e atendimento nunca são AFK — especifique numa sessão com o P.O." e pare.
+sem pessoa na conversa) → "PRD, backlog e Apoio nunca são AFK — especifique numa sessão com o P.O." e pare.
 
 1. Peça (ou leia, se veio da `sdd-triar`) a descrição **longa** da demanda: quem pediu, o problema, exemplos
    reais, prazos. Work item do EWM → `elm_ler_wi(id, comentarios)`.

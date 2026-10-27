@@ -21,7 +21,7 @@ Leia antes: `.kiro/steering/sdd.md`. Sem ele → ofereça a **`sdd-setup`** ("co
 ## Arquivos
 
 - `<produto>/apoio/AT-<nnn>-<slug>.md` — o registro (formato no fim), criado pela triagem.
-- Linha do AT em `## Apoio` do `backlog.md` e na seção Apoio do `sprints/sprint-<nn>.md`.
+- Linha do AT em `## Apoio` do `backlog.md` e na seção Apoio do `sprints/<pai>/sprint-<nn>.md`.
 - `.kiro/local/apoio/AT-<nnn>/` — extrações, telas e respostas com dado real. Fora do git.
 
 ## Passo 1 — O que chegou

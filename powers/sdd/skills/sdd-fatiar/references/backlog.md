@@ -25,7 +25,7 @@ Sustentação 2026: [612000](https://elm.exemplo/ccm/resource/itemName/com.ibm.t
 
 | id | título | cobre | ficha | bloqueada-por | tamanho | modo | prioridade | status | sprint | responsavel | elm | concluida-em | creditos | obs |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| FT-031 | Bloquear a conta após 3 tentativas inválidas | HF-01#1.1, HF-01#1.2, REG-01 | [ficha](fatias/FT-031-bloquear-conta.md) | — | M | AFK | 1 | pronta | 3 | joao.lima | [612010](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612010) · DEV [612011](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612011) | — | — | — |
+| FT-031 | Bloquear a conta após 3 tentativas inválidas | HF-01#1.1, HF-01#1.2, REG-01 | [ficha](fatias/FT-031-bloquear-conta.md) | — | M | AFK | 1 | pronta | 2026/03 | joao.lima | [612010](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612010) · DEV [612011](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612011) | — | — | — |
 
 ## Fatias — sem épico
 
@@ -58,7 +58,7 @@ linha da tabela — sem quebra de linha nem `|` dentro de célula (troque por `/
 | `modo` | `AFK` · `HITL` — proposto na triagem ou no fatiamento (critérios da `sdd-fatiar`); o modo final é gravado pela `sdd-planejamento` quando a fatia ganha responsável, pela senioridade dele (Júnior → `HITL` · Pleno → os critérios · Sênior → `AFK` por padrão) |
 | fatia `status` | `backlog` → `pronta` (passou na Definition of Ready) → `concluida`; desvios `dividida` (`obs`: `substituida-por FT-…`), `cancelada` (`obs`: motivo). "Em andamento" não é gravado: é a fatia que tem `status.md` numa branch |
 | `creditos` | créditos do Kiro do item: soma das linhas de créditos do `status.md` da fatia, do `status.md` do épico (a `[ESP]`) ou da ficha do AT, copiada do `sprint-<nn>.md` na virada da sprint (`sdd-planejamento`; a conclusão grava só na sprint); `—` antes; backlog antigo sem a coluna → a próxima escrita a acrescenta |
-| `sprint` | número da sprint (`sdd-planejamento`) ou `—`; no Kanban, `—` |
+| `sprint` | chave da sprint `<pai>/<nn>` (`2026/03`: iteração pai do EWM e número dentro dela — [arquivos.md](../../sdd-planejamento/references/arquivos.md#sprintspaisprint-nnmd)) (`sdd-planejamento`) ou `—`; no Kanban, `—`; backlog antigo com número solto → a migração das sprints (`sdd-setup`) troca pela chave |
 | `elm` | o item no EWM — o backlog do EWM é a cópia deste arquivo: nasce no backlog do produto ao registrar (triagem, GATE do backlog) e muda de iteração ao entrar na sprint ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md)) —: `[<id>](<url>)`, `pendente` (registrado sem o MCP `elm`; criado depois) ou `—` (sem ELM); tarefas do EWM em seguida, `<prefixo> [<id>](<url>)`, separadas por ` · ` (gravadas na publicação da sprint, §4) |
 | `concluida-em` | data `AAAA-MM-DD` ou `—` |
 | apoio `categoria` | uma das categorias da tabela **Apoio** do `sdd.md` (padrão: Atendimento `[ATD]` `AT-` · Implantação `[IMPL]` `IM-` · Banco de dados `[BD]` `BD-` · Infra `[INF]` `IN-` · Operação `[OPE]` `OP-` · Apoio a outros times `[EXT]` `EX-`); o id é da série da categoria. Não existe item nem tarefa "de Apoio" genérica: Apoio é só o nome do conjunto |

@@ -27,7 +27,8 @@ Toda hora do time cabe numa tarefa da sprint, em seis frentes: entrega `[DEV]`, 
 Apoio (`[ATD]`, `[IMPL]`, `[BD]`, `[INF]`, `[OPE]`, `[EXT]` — tabela **Apoio** do `sdd.md`).
 
 Arquivos na raiz de `<produto>/` (formatos em [references/arquivos.md](references/arquivos.md)):
-`equipe.json`, `acordos.md`, `roadmap.md`, `sprints/sprint-<nn>.md`. Fatias: `<produto>/backlog.md`.
+`equipe.json`, `acordos.md`, `roadmap.md`, `sprints/<pai>/sprint-<nn>.md` (a sprint segue a iteração pai do EWM:
+`2026/03`). Fatias: `<produto>/backlog.md`.
 
 Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
 
@@ -101,11 +102,15 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
    **aprovações previstas** também consomem as horas de revisão dos Dev Sêniores: o plano de cada fatia de Júnior
    (e de Pleno que costuma pedir o GATE) e o PR de cada fatia AFK. A `[APR]` não nasce aqui — nasce no gate.
 4. **Meta da sprint:** uma frase de resultado de negócio que as fatias entregam juntas.
-5. **Iteração:** pergunte a iteração do EWM da sprint (`elm_iteracao(nome)` acha ou cria — [references/elm-sprint.md](references/elm-sprint.md) §1); é o `plannedFor` de
-   todos os IBs e tarefas desta sprint — os que estão no backlog do EWM só mudam de iteração (§3).
+5. **Iteração e número:** proponha o **pai** — o da sprint anterior; se a nova começa depois do fim dele (virada do
+   ano, entrega nova), o próximo (`2026` → `2027`) — e a próxima `<nn>` dentro dele (pai novo → `01`); a pessoa
+   confirma ou troca. Pergunte o nome da iteração no EWM (padrão `Sprint <n>`) e chame
+   `elm_iteracao("<pai>/<nome>")`, que acha ou cria a sprint dentro do pai e o pai que faltar
+   ([references/elm-sprint.md](references/elm-sprint.md) §1); é o `plannedFor` de todos os IBs e tarefas desta
+   sprint — os que estão no backlog do EWM só mudam de iteração (§3). Pai novo → a Sustentação dele (§2).
 6. **Proposta**, com as três seções:
    ```
-   🗓️ Sprint <nn> · <início> → <fim> · iteração <nome> · meta: <…>
+   🗓️ Sprint <pai>/<nn> · <início> → <fim> · iteração <pai>/<nome> · meta: <…>
    Fatias
    | Prioridade | FT | Título | Tam. | Modo | Depende de | Responsável | Revisor | Verificador |
    Especificação
@@ -114,7 +119,7 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
    Capacidade: revisão <h>h (usa <x>h) · especificação <h>h (usa <x>h) · vazão prevista <n> fatias · lead time médio <d> dias · HITL <h>h
    Próximas a puxar (fora da previsão, na ordem): <FT…>
    ```
-7. "ok" → grave `sprints/sprint-<nn>.md` (com `**Power sdd:**` = o `metadata.version` desta skill), `sprint`, `responsavel`, `status` e o `modo` final no `backlog.md` pelo bloco
+7. "ok" → grave `sprints/<pai>/sprint-<nn>.md` (com `**Power sdd:**` = o `metadata.version` desta skill), `sprint`, `responsavel`, `status` e o `modo` final no `backlog.md` pelo bloco
    [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base) e **publique sempre no EWM** ([references/elm-sprint.md](references/elm-sprint.md) §1–4), para a sprint e o EWM ficarem iguais. Sem o MCP `elm` ou com
    falha, a coluna "Tarefa ELM" fica `pendente` e é publicada depois.
 
@@ -232,9 +237,9 @@ screenshot). Registre o retorno do P.O. no `sprint-<nn>.md`; pedido novo vira ce
 3. **Fechar:** concluídas — previstas e puxadas — contam na vazão e no lead time; a meta é avaliada (atingida ou
    não, e por quê); não concluídas — fatias (inclusive as do `**Fechamento sem consolidar:**`, com `não consolidada`), `[ESP]` e
    Apoio — **migram**
-   para a próxima sprint (no `sprint-<nn>.md` antigo ficam com "→ sprint <nn+1>"; o histórico não é apagado) e
-   ele fica com `**Situação:** fechada`; no `sprint-<nn+1>.md` novo, cada item migrado ganha a sua linha (seção
-   Fatias, Especificação ou Apoio) com a Observação `migrada da sprint <nn>`. Fatia ou item de Apoio migrado → `sprint` = nn+1 na linha do `backlog.md` (fatias e
+   para a próxima sprint (no `sprint-<nn>.md` antigo ficam com "→ sprint <próxima chave>" — `2026/04` → `2027/01`
+   na troca de pai; o histórico não é apagado) e ele fica com `**Situação:** fechada`; no arquivo da próxima, cada item migrado ganha a sua linha (seção
+   Fatias, Especificação ou Apoio) com a Observação `migrada da sprint <chave>`. Fatia ou item de Apoio migrado → `sprint` = a próxima chave na linha do `backlog.md` (fatias e
    `## Apoio`), pelo bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base). Item de Apoio em `backlog` (triado sem sprint aberta) entra no planejamento da próxima como as fatias.
 4. Recalcule vazão média, lead time médio e horas por tipo (`equipe.json` → `historico`). Reserva (apoio +
    retrabalho): o % é o do `acordos.md`; mostre o consumido da sprint (horas das tarefas de Apoio + retrabalho) contra ela

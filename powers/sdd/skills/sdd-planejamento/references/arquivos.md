@@ -20,7 +20,7 @@ URL abaixo, nunca um caminho local:
     "duracao-sprint-semanas": 2,
     "inicio": "2026-10-06",
     "historico": [
-      { "sprint": 1, "fatias-concluidas": 5, "lead-time-medio-dias": 3.2, "horas-revisao": 22,
+      { "sprint": "2026/01", "fatias-concluidas": 5, "lead-time-medio-dias": 3.2, "horas-revisao": 22,
         "horas-lancadas": { "entrega": 120, "revisao": 18, "aprovacao": 4, "verificacao": 6, "especificacao": 24, "apoio": 9 },
         "reserva-apoio": 0.2 }
     ]
@@ -107,20 +107,27 @@ O time só acrescenta itens próprios aqui (ex.: "massa de teste disponível"), 
 
 | Release | Objetivo | Épicos | Previsão |
 |---|---|---|---|
-| R1 | Bloquear abuso de login | EP-03, EP-04 | sprint 3 (pela vazão média) |
+| R1 | Bloquear abuso de login | EP-03, EP-04 | sprint 2026/03 (pela vazão média) |
 | R2 | … | EP-05 (a descobrir) | — |
 ```
 
 A previsão vem da vazão: `fatias restantes ÷ vazão média`, arredondando para cima, com a faixa (vazão mínima e
 máxima das últimas sprints) quando houver histórico.
 
-## `sprints/sprint-<nn>.md`
+## `sprints/<pai>/sprint-<nn>.md`
+
+A sprint acompanha a iteração do EWM de que ela é filha (`<release>` → `2026` → Sprint 1, 2, 3…; `2027` → Sprint 1,
+2…): `<pai>` é o nome da iteração pai (`2026`) e `<nn>` recomeça em `01` em cada pai — `sprints/2026/sprint-01.md`,
+`sprints/2027/sprint-01.md`. A **chave** da sprint é `<pai>/<nn>` (`2026/03`): é ela que vai na coluna `sprint` do
+`backlog.md`, em `historico[].sprint` do `equipe.json`, em `→ sprint <chave>` e `migrada da sprint <chave>`. Nas
+skills, `sprint-<nn>.md` abrevia `sprints/<pai>/sprint-<nn>.md` e "sprint `<nn>`", a chave. A ordem das sprints é
+`(pai, nn)` — a do `historico`, que cruza pais na vazão. Kanban: o mesmo, com a iteração corrente.
 
 ```markdown
-# Sprint <nn> · <AAAA-MM-DD> → <AAAA-MM-DD>
+# Sprint <pai>/<nn> · <AAAA-MM-DD> → <AAAA-MM-DD>
 
 **Meta:** <resultado de negócio>
-**Iteração no EWM:** <nome | —>
+**Iteração no EWM:** <pai>/<nome> | —   (o caminho que o `elm_iteracao` recebe: `2026/Sprint 3`)
 **Power sdd:** <versões usadas, crescente: 2.9.0 · 2.9.1>   (o planejamento grava a da abertura; a virada acrescenta as das linhas de créditos)
 **Situação:** <aberta | fechada>   (a virada grava `fechada`; o painel usa a última `aberta`)
 **Fechamento sem consolidar:** <FT-… (<P.O.>, <data>)>   (só quando o P.O. decide fechar com fatia mergeada sem consolidação)
@@ -130,7 +137,7 @@ máxima das últimas sprints) quando houver histórico.
 | FT | Título | Tam. | Modo | Responsável | Revisor | Verificador | Status | Tarefa ELM | Créditos | Observação |
 |---|---|---|---|---|---|---|---|---|---|---|
 | FT-031 | Bloquear a conta após 3 tentativas | M | AFK | joao.lima | — | — | concluida | DEV 669401 | 41.20 | |
-| FT-033 | Avisar o usuário do bloqueio | M | HITL | ana.souza | joao.lima | rita.melo | → sprint <nn+1> | DEV 669410 · REV 669411 · VER 669412 | — | aguardando texto do e-mail |
+| FT-033 | Avisar o usuário do bloqueio | M | HITL | ana.souza | joao.lima | rita.melo | → sprint <próxima chave> | DEV 669410 · REV 669411 · VER 669412 | — | aguardando texto do e-mail |
 | FT-034 | Corrigir o texto do e-mail | P | — | joao.lima | — | — | concluida | DEV 669420 | 6.75 | puxada |
 
 ## Especificação
@@ -182,11 +189,11 @@ Concluídas: <n> fatias (<p> previstas · <q> puxadas) · meta: <atingida | não
 Créditos por fatia concluída: <média> · por versão do power sdd: <versão> <x> · …
 ```
 
-Situação da especificação: `entrevista`, `PRD`, `fatiamento`, `concluida` ou `→ sprint <nn+1>`. Situação do
-Apoio: `aberto`, `concluido` ou `→ sprint <nn+1>`. "Tarefa ELM" é o id da tarefa no EWM, ou `pendente`
+Situação da especificação: `entrevista`, `PRD`, `fatiamento`, `concluida` ou `→ sprint <próxima chave>`. Situação do
+Apoio: `aberto`, `concluido` ou `→ sprint <próxima chave>`. "Tarefa ELM" é o id da tarefa no EWM, ou `pendente`
 (nas fatias, as tarefas com prefixo — `DEV <id> · REV <id> · VER <id>`, mais `APR <id>` das aprovações criadas no
 gate; AFK, a `DEV` e as `APR`), gravada na publicação da sprint ([elm-sprint.md](elm-sprint.md) §4; e pela `sdd-consolidar` na fatia puxada). Observação: `puxada`, `encaixe: <decisão>
-(<quem>, <data>)`, `modo: AFK → HITL (<quem>, <data>, <motivo>)`, `modo: AFK mantido (<quem>, <data>)`, `migrada da sprint <nn>`, `não consolidada` ou texto livre.
+(<quem>, <data>)`, `modo: AFK → HITL (<quem>, <data>, <motivo>)`, `modo: AFK mantido (<quem>, <data>)`, `migrada da sprint <chave>`, `trazida do EWM`, `não consolidada` ou texto livre.
 
 Créditos (do Kiro): nas Fatias, Especificação e Apoio, a soma das linhas de créditos do item, gravada na
 conclusão dele (`sdd-consolidar`, `sdd-especificar`, `sdd-atender`, `sdd-iniciar`), `—` antes; em Créditos de gestão, uma linha por

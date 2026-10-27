@@ -163,7 +163,7 @@ loop, a fatia para sozinha e o lote segue.
 |---|---|
 | `.kiro/steering/sdd.md` | o único steering do fluxo: resumo, configuração do projeto e regras aprendidas |
 | `.kiro/agents/sdd-*.json` | agentes (criados pela setup, com as skills escolhidas por agente) |
-| `<produto>/` — a pasta escolhida na setup (padrão `.kiro/planejamento`), registrada no `sdd.md` | `backlog.md`, `epicos/<EP>-<slug>/` (PRDs), `equipe.json`, `acordos.md`, `roadmap.md`, `sprints/`, `apoio/`, `aprendizado/` (só na branch base) |
+| `<produto>/` — a pasta escolhida na setup (padrão `.kiro/planejamento`), registrada no `sdd.md` | `backlog.md`, `epicos/<EP>-<slug>/` (PRDs), `equipe.json`, `acordos.md`, `roadmap.md`, `sprints/<pai>/sprint-<nn>.md` (a sprint segue a iteração pai do EWM: `2026/03`), `apoio/`, `aprendizado/` (só na branch base) |
 | `.kiro/specs/<ft>-<slug>/` | uma pasta por fatia: `status.md`, `research.md`, spec do Kiro, revisões, verificação |
 | glossário · ADRs · bundle do ELM | caminhos na seção Projeto do `sdd.md` |
 | `.kiro/hooks/sdd.json` · `.kiro/workflows/sdd-*` · `.kiro/sdd/http.sh` | opcionais da setup: backpressure por tarefa, receitas, chamada HTTP do verificador |

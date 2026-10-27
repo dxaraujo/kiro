@@ -94,7 +94,8 @@ retrospectiva do épico ou da sprint (`sdd-aprender`).
   do `status.md` que a coluna `elm` ainda não tem; na coluna Créditos da linha da fatia no `sprint-<nn>.md`, a soma
   da seção **Créditos** do `status.md` da branch da fatia (`git show origin/<branch>:…`, com as linhas que o Dev
   gravou no merge) — o `creditos` do `backlog.md` é da virada da sprint; ADRs e glossário do Passo 3.
-- Fatia puxada (`Puxada para a sprint <nn>` no Histórico): `sprint` = <nn> na linha do `backlog.md` e uma linha na
+- Fatia puxada (`Puxada para a sprint <nn>` no Histórico): `sprint` = a chave `<pai>/<nn>` na linha do `backlog.md`
+  (número solto, de um `status.md` anterior à migração das sprints → a chave da sprint aberta) e uma linha na
   seção Fatias do `sprint-<nn>.md` (revisor e verificador do Histórico, Tarefa ELM com os ids do `status.md`), com
   a Observação `puxada` (e `revisor único`, se o Histórico o tiver) — ela conta na vazão da sprint.
 - Todas as fatias do épico concluídas → épico `concluido` (PRD e backlog) e, com ELM, o item do épico no EWM

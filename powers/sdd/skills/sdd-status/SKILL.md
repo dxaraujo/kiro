@@ -26,7 +26,7 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
    `merged` → próximo passo `sdd-consolidar`, do P.O. ou do SM no agente `sdd-produto` (fase ainda `pronta-para-merge` → o Dev registra `mergeada` e conclui a `[DEV]`); `closed` sem merge → inconsistência. Sem o MCP → o link do `status.md`.
 3. De cada `tasks.md`: `[x]`/total e o primeiro item pendente.
 4. `<produto>/backlog.md` (da base): épicos por status, fatias `pronta` sem `status.md` em nenhuma branch,
-   sprint atual (`<produto>/sprints/` de maior número com `**Situação:** aberta`) e a meta. "Em andamento" = fatia com
+   sprint atual (em `<produto>/sprints/<pai>/`, a de maior `(pai, nn)` com `**Situação:** aberta`) e a meta. "Em andamento" = fatia com
    `status.md` numa branch e fase diferente de `concluida`, e não `concluida` na base (a branch mergeada fica em
    `mergeada`; quem fecha é a consolidação, na base); o backlog não guarda isso.
    PRDs (`epicos/*/prd.md`): status e pendências `ELM pendente [<chave>]:` do rodapé.
@@ -45,7 +45,7 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
 ## Painel
 
 ```
-📊 sdd — <projeto> · sprint <nn> (<dias> dias restantes) · meta: <…>
+📊 sdd — <projeto> · sprint <pai>/<nn> (<dias> dias restantes) · meta: <…>
 
 🔨 Em andamento
 | FT | Título | Fase | Modo | Tarefas | Achados | PR | Parada há | Próximo passo |
@@ -87,6 +87,8 @@ trabalho de produto (PRD/fatiar) para manter o backlog com fatias prontas.
 - `ELM pendente` sem chave (formato antigo) — liste à parte, para a pessoa conferir à mão;
 - layout antigo do produto: subpasta `<produto>/planejamento/` (o lugar de `equipe.json`, `acordos.md`,
   `roadmap.md` e `sprints/` é a raiz de `<produto>/`) — ofereça a `sdd-setup` para mover (com "ok");
+- sprints numeradas em sequência na raiz de `sprints/` (`sprints/sprint-07.md`, antes da 3.3.0) — ofereça a
+  migração para `sprints/<pai>/` da `sdd-setup` ("atualizar a configuração do sdd");
 - fatia `concluida` no `status.md` e não no `backlog.md` (ou o contrário);
 - fatia em andamento sem commit há mais de 3 dias úteis;
 - `concluida` com Banco = `pendente` ou `aplicada em dev` (implantação bloqueada);

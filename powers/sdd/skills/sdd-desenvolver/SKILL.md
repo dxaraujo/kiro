@@ -48,7 +48,7 @@ próxima skill. Vale para todas as skills de papel que precisam da branch da fat
 
 **Troca AFK → HITL** (fatia em `bloqueada (de: <fase>)` com `aguardando troca para HITL`, ou com `Modo: AFK` no
 `status.md` e `HITL` no `backlog.md`): leia a base sem trocar de branch — `git fetch` e `git show origin/<base>:<produto>/backlog.md` e
-`…/sprints/sprint-<nn>.md`. A troca só vale registrada lá pelo P.O. (ou SM): `modo` `HITL` no backlog e a
+`…/sprints/<pai>/sprint-<nn>.md`. A troca só vale registrada lá pelo P.O. (ou SM): `modo` `HITL` no backlog e a
 Observação `modo: AFK → HITL (…)` na linha da fatia. Registrada → mostre e, com "sim", grave no `status.md`
 `Modo: HITL`, o revisor e o verificador (Histórico) e os ids da `[REV]` e da `[VER]` (campo ELM, da coluna "Tarefa
 ELM"), `Bloqueio: —` e a fase de origem (`planejando`); commit e push. A `[DEV]` é retomada por

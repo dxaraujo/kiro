@@ -28,8 +28,10 @@ Sustentação da iteração pai para o que não vem de PRD. Ordem: épico, IB, t
 
 ## 1. Iteração e plano da sprint
 
-`elm_iteracao(nome)` acha ou cria a iteração da sprint e o plano da sprint do time e guarda os ids no `pa` (o
-backlog do produto não é criado aqui: é o do §0). Criar exige a permissão de modificar iterações — erro
+`elm_iteracao("<pai>/<nome>")` acha ou cria a iteração da sprint **dentro da iteração pai** (o pai que falta nasce
+irmão do pai anterior, na mesma release) e o plano da sprint do time, e guarda os ids no `pa` com a chave do caminho
+(o backlog do produto não é criado aqui: é o do §0). O caminho tira a ambiguidade de duas `Sprint 1` em pais
+diferentes; use-o em toda tool que recebe `iteracao`. Criar exige a permissão de modificar iterações — erro
 `permissao` → peça a quem administra a PA.
 
 ## 2. Sustentação (uma por iteração pai, com a linha `Sustentação <pai>:` do `backlog.md` vazia ou de outro pai)
@@ -76,7 +78,8 @@ sem `elm` → §6; com a tarefa no backlog → move (§6). Ids na coluna "Tarefa
 
 ## 5. Virada
 
-Tarefas, IBs e épicos não concluídos da sprint (inclusive a `[GB]`, se o pai não muda; Sustentação e o que está no
+Próxima sprint em outro pai (`2026/04` → `2027/01`) → §1 com o pai novo e §2 (Sustentação e `[GB]` do pai novo)
+antes de mover. Tarefas, IBs e épicos não concluídos da sprint (inclusive a `[GB]`, se o pai não muda; Sustentação e o que está no
 backlog ficam onde estão) → `elm_atualizar_wi(ids, iteracao = a nova)` numa chamada (move, nunca recria; o pai não muda). Baseline por sprint, se o
 `sdd.md` exigir → roteiro manual. Relatório: `elm_horas(iteracao)` → horas por prefixo e por pessoa, planejadas ×
 lançadas, e as tarefas concluídas sem horas.

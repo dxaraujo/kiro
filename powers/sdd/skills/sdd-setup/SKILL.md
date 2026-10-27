@@ -323,7 +323,18 @@ Itens:
    `sdd-planejamento` (modo inicial), que só grava a equipe depois dos acordos (cadência e duração da sprint). No modo atualização, acrescente só o que falta —
    nunca recrie o que existe; subpasta `<produto>/planejamento/` (layout da 2.6.0) →
    ofereça mover o conteúdo dela para a raiz de `<produto>/` com `git mv` (com "ok"), sem sobrescrever o que já
-   estiver lá, e apagar a subpasta vazia.
+   estiver lá, e apagar a subpasta vazia. **Sprints em sequência** na raiz de `sprints/` (`sprint-07.md`, antes da
+   3.3.0) → ofereça a migração para `sprints/<pai>/sprint-<nn>.md` (formato no
+   [arquivos.md](../sdd-planejamento/references/arquivos.md#sprintspaisprint-nnmd)):
+   1. o pai de cada arquivo pela `**Iteração no EWM:**` — `elm_iteracao(nome)` devolve `pai`; sem ELM, iteração `—`
+      ou ambígua → pergunte o pai para o lote (padrão: o ano do início da sprint);
+   2. renumere dentro de cada pai na ordem atual (`01`, `02`…) e mostre a prévia
+      (`sprint-07.md → 2026/sprint-03.md`), com um "ok";
+   3. `git mv` de cada arquivo e troca das chaves antigas pelas novas: cabeçalho (`# Sprint 2026/03`, `**Iteração no
+      EWM:** 2026/<nome>`), coluna `sprint` do `backlog.md`, `historico[].sprint` do `equipe.json`, `→ sprint <n>` e
+      `migrada da sprint <n>` nos próprios arquivos, `Puxada para a sprint <n>` nos `status.md` só da base; um commit
+      (`sprint: migrar para sprints/<pai>/`), pelo bloco Gravar na base. Os nomes das iterações no EWM não mudam.
+   Os ids `FT`/`EP`/`AT` não mudam (a regra "ids nunca são renumerados" é dos itens, não das sprints).
 5. Glossário e ADRs que o W4 disse "será criado" (só o que não existe): `<glossario>` com `# Glossário — <nome>` e a
    tabela vazia `| Termo | Definição | Evitar | Fonte | ELM |` (formato da `sdd-entrevistar`); `<adr>/` com um
    `README.md` de uma linha ("Decisões que devem durar — um arquivo por decisão, gravado pela consolidação").

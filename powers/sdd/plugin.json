@@ -87,7 +87,7 @@
   "extensions": {
     "io.github.dxaraujo.sdd": {
       "requires": {
-        "pypi:mcp-elm": ">=3.3.1"
+        "pypi:mcp-elm": ">=3.3.2"
       },
       "note": "Projeto com ELM: a sdd-setup grava .kiro/config/sdd/pa_<nome>.json, que o MCP elm lê."
     }

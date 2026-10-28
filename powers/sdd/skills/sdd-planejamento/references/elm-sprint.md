@@ -17,10 +17,14 @@ Sustentação do produto para o que não vem de PRD. Ordem: épico, IB, tarefa. 
    `candidatos`.
    - **Sim** → a pessoa escolhe um candidato ou cola o link do plano (o da UI web, com `id=_…`) →
      `elm_backlog(plano)`.
-   - **Não** → pergunte o nome (padrão `Backlog`) e se a iteração é **filha** de outra (a entrega, a release) ou
-     **sem pai** (no topo da timeline) → `elm_backlog(nome, pai?)`, com "sim" (cria a iteração e o plano
-     `Backlog <time>`). Erro `permissao` → peça a quem administra a PA.
-3. O `pa` passa a ter `ccm.backlog`; daí em diante `iteracao: "backlog"` nas tools é ele. Sem ele, criar no backlog
+   - **Não, numa iteração que já existe** (a entrega, a release: os itens do backlog ficam planejados para ela e as
+     sprints são filhas dela) → `elm_backlog(nome = <essa iteração>)`, com "sim" (cria só o plano `Backlog <time>`).
+     Erro `entrada` no campo `plano` (o time já tem mais de um backlog nela) → mostre os nomes e use `elm_backlog(plano)`.
+   - **Não, numa iteração nova** → pergunte o nome (padrão `Backlog`) e se ela é **filha** de outra ou **sem pai** (no
+     topo da timeline) → `elm_backlog(nome, pai?)`, com "sim" (cria a iteração e o plano `Backlog <time>`).
+   Erro `permissao` → peça a quem administra a PA.
+3. O `pa` passa a ter `ccm.backlog`; daí em diante `iteracao: "backlog"` nas tools é ele, e a iteração dele é a
+   **linha de base**: os pais das sprints (`2026`, `Entrega 3`…) nascem e são procurados dentro dela. Sem ele, criar no backlog
    falha com `precondicao` — volte a este §0, nunca escolha outra iteração.
 4. **Espelhamento** (backlog já existente): linhas do `backlog.md` com `elm` `—` ou `pendente` que não estão
    concluídas nem canceladas → prévia numa tabela (item, tipo, pai, iteração) e um "sim" → §2, §3 e §6 na ordem;
@@ -28,8 +32,8 @@ Sustentação do produto para o que não vem de PRD. Ordem: épico, IB, tarefa. 
 
 ## 1. Iteração e plano da sprint
 
-`elm_iteracao("<pai>/<nome>")` acha ou cria a iteração da sprint **dentro da iteração pai** (o pai que falta nasce
-irmão do pai anterior, na mesma release; na primeira sprint do projeto, no topo da timeline) e o plano da sprint do time, e guarda os ids no `pa` com a chave do caminho
+`elm_iteracao("<pai>/<nome>")` acha ou cria a iteração da sprint **dentro da iteração pai**, e o pai dentro da linha
+de base (a iteração do backlog, §0; o caminho é relativo a ela, então um `2026` de fora não confunde), e o plano da sprint do time, e guarda os ids no `pa` com a chave do caminho
 (o backlog do produto não é criado aqui: é o do §0). **O pai:** a sprint nova herda o da anterior; pai novo só quando a
 pessoa diz, com o nome que ela der (`2026`, `Entrega 3`…); primeira sprint do projeto → pergunte. O caminho tira a
 ambiguidade de duas `Sprint 1` em pais diferentes; use-o em toda tool que recebe `iteracao`. Criar exige a permissão de modificar iterações — erro

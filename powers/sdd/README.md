@@ -10,12 +10,12 @@ depois. O sdd põe as pessoas onde elas têm mais alavanca — decidir o quê, a
 o resto com agentes de contexto limpo, presos a feedback automático.
 
 ```
-ENTRADA   triar ─► backlog: EP rascunho · FT sem épico (padrão com ficha, rápida) · Apoio (AT-/IM-… + tarefa) ─► "mais algum?"
-HUB       iniciar <item> ─► especificar · desenvolver · plano ([APR]) · revisar · verificar · atender · planejamento (troca) · consolidar · executar (cada uma assume a sua tarefa)
+ENTRADA   triar ─► backlog: EP rascunho · FT sem épico (padrão ou rápida, cada uma com a sua ficha) · Apoio (AT-/IM-… + tarefa) ─► "mais algum?"
+HUB       iniciar <item> ─► especificar · desenvolver · revisar ([REV], [APR]) · verificar · atender · planejamento (troca) · consolidar · executar (cada uma assume a sua tarefa)
             │
 PRODUTO   entrevistar ─► PRD ─► GATE PRD ─► ELM (HF/REG/GL) ─► fatiar ─► GATE backlog ─► sprint (EWM)
                                                                                  │
-FATIA     desenvolver ─► pesquisar ─► plano (spec do Kiro) ─► GATE plano ─► implementar (TDD) ─► revisar ─► verificar ─► PR
+FATIA     desenvolver ─► pesquisar ─► plano (spec do Kiro) ─► GATE plano ─► implementar (TDD) ─► PR ─► revisar ─► verificar   (AFK: revisão e verificação antes do PR)
                                                                                                                   │
 DEPOIS    merge (Dev; remove a worktree do loop)
             │
@@ -105,7 +105,7 @@ de `skills/sdd-setup/assets/`:
 | `.kiro/sdd/http.sh` (opcional) | única chamada HTTP que o verificador faz sem perguntar: só à URL de teste, com corpo da pasta `massa/` |
 | pasta do produto (proposta pela setup; padrão `.kiro/planejamento`) | `backlog.md`, épicos e PRDs, `equipe.json`, `acordos.md`, `roadmap.md`, `sprints/<iteração pai>/`, `apoio/<pasta>/`, `aprendizado/` — versionada; o que é local fica em `.kiro/local/` (fora do git) |
 
-O ELM vem no próprio power: o MCP **`mcp-elm`** (≥ 3.3.1) lê o `.kiro/config/sdd/pa_<nome>.json` do projeto (um por
+O ELM vem no próprio power: o MCP **`mcp-elm`** (≥ 3.3.2) lê o `.kiro/config/sdd/pa_<nome>.json` do projeto (um por
 project area, gravado pela `sdd-setup`) e expõe operações (`elm_transicao`, `elm_lancar_horas`, `elm_criar_wi`,
 `elm_ligar`, `elm_publicar_req`…): a skill do passo passa só o caminho do projeto, os ids e o conteúdo, e recebe
 `{"ok": …}`. Regras comuns em [`skills/sdd/references/elm.md`](skills/sdd/references/elm.md). Leituras liberadas nos
@@ -261,8 +261,10 @@ Na **3.3.1**, correções da 3.3.0. As tarefas de Apoio sem fluxo próprio (`[IM
 a skill **`sdd-executar`** (no agente `sdd-produto`), e a `sdd-iniciar` volta a só encaminhar. A Sustentação passa a ser
 **uma por produto**: o IB `Sustentação - <produto>`, no backlog do EWM, com os IBs `<Categoria> - <produto>` filhos dela,
 também no backlog; a linha do `backlog.md` é `Sustentação:`, e na troca de iteração pai só a `[GB]` muda. A sprint nova
-herda o pai da anterior; pai novo só quando a pessoa diz, com o nome que ela der. O `mcp-elm` 3.3.1 cria o pai da
-primeira sprint do projeto no topo da timeline. Peça "atualizar os agentes do sdd". Requer o `mcp-elm` ≥ 3.3.1.
+herda o pai da anterior; pai novo só quando a pessoa diz, com o nome que ela der. A iteração do backlog do produto é a
+**linha de base**: os pais das sprints nascem dentro dela e o caminho `<pai>/<sprint>` é relativo a ela (o `mcp-elm`
+3.3.2 resolve e cria assim, cria só o plano de backlog numa iteração que já existe e, com dois backlogs do time nela,
+pede o plano em vez de escolher; o plano da sprint volta a ser `<sprint> - <time>`). Peça "atualizar os agentes do sdd". Requer o `mcp-elm` ≥ 3.3.2.
 
 Não use o `/upgrade-agent` (nem `kiro-cli agent upgrade`) nos agentes `sdd-*`: quem os gera é o script da setup
 ("atualizar os agentes do sdd").

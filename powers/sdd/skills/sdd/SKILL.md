@@ -37,7 +37,7 @@ chamada direto:
 
 | Trilha | Quando | Caminho |
 |---|---|---|
-| **rápida** | defeito ou ajuste ≤ 1 dia, comportamento certo já conhecido — inclusive o diff que cabe numa frase | `bugfix.md` + `tasks.md` → implementação → revisão → verificação → PR |
+| **rápida** | defeito ou ajuste ≤ 1 dia, comportamento certo já conhecido — inclusive o diff que cabe numa frase | `bugfix.md` + `tasks.md` → implementação → revisão → verificação → PR → consolidação |
 | **padrão** | uma fatia do backlog: de um épico, ou sem épico com regra clara e ficha aprovada pelo P.O. | pesquisa → plano → **GATE do plano** → implementação (TDD) → revisão → verificação → PR → consolidação |
 | **épico** | funcionalidade com várias histórias ou decisão de produto em aberto | entrevista → PRD → **GATE do PRD** → ELM → fatias → **GATE do backlog** → planejamento → cada fatia na trilha padrão |
 | **apoio** | trabalho que não muda o repositório, numa categoria da tabela **Apoio** do `sdd.md` — Atendimento (o cliente pede consulta, extração ou explicação), Implantação, Banco de dados, Infra, Operação, Apoio a outros times | triagem: categoria e entrevista curta → item da categoria (`AT-nnn`, `IM-nnn`…) no backlog, sprint sugerida, tarefa (`[ATD]`, `[IMPL]`…) no EWM, filha do IB `<Categoria> - <produto>` (nasce com o 1º item da categoria, filho da `Sustentação - <produto>`) · Atendimento: `sdd-atender` (assume → banco só leitura e bundle → resposta com "ok" → saldo de horas → desdobramentos) · demais: `sdd-executar` (iniciar → registrar → horas → concluir) |
@@ -51,13 +51,13 @@ commit → push → conferir no remoto (`git rev-parse HEAD` = `git rev-parse or
 ou concluir a tarefa e avisar o próximo — quem vem depois só acha no remoto o que foi publicado.
 
 ```
-ENTRADA       triar ─► backlog: EP rascunho · FT sem épico (padrão com ficha, rápida) · Apoio (AT-/IM-… + tarefa) ─► "mais algum?"
+ENTRADA       triar ─► backlog: EP rascunho · FT sem épico (padrão ou rápida, cada uma com a sua ficha) · Apoio (AT-/IM-… + tarefa) ─► "mais algum?"
                 │
-HUB           iniciar <item> ─► especificar · desenvolver · plano ([APR]) · revisar · verificar · atender · executar · planejamento (troca) · consolidar   (cada uma assume a sua tarefa)
+HUB           iniciar <item> ─► especificar · desenvolver · revisar ([REV], [APR]) · verificar · atender · executar · planejamento (troca) · consolidar   (cada uma assume a sua tarefa)
                 │
 PRODUTO       especificar ─► entrevistar ─► PRD ─► GATE PRD ─► ELM (HF/REG/GL) ─► fatiar ─► GATE backlog ─► sprint (EWM)
                                                                                     │
-FATIA         desenvolver ─► pesquisar ─► plano ─► GATE plano ─► implementar (TDD) ─► revisar ─► verificar ─► PR
+FATIA         desenvolver ─► pesquisar ─► plano ─► GATE plano ─► implementar (TDD) ─► PR ─► revisar ─► verificar   (AFK: revisão e verificação antes do PR)
                                                                                                          │
 DEPOIS        merge (Dev, PR aprovado; remove a worktree do loop)
                 │

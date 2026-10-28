@@ -5,7 +5,7 @@ Powers do Kiro. Cada pasta é um power independente, instalado pelo painel **Pow
 
 | Power | O que faz | Skills | MCP |
 |---|---|---|---|
-| [sdd](sdd/) | Fluxo de engenharia agêntica orientada a especificação, com ELM e planejamento ágil | `sdd`, `sdd-setup`, `sdd-triar`, `sdd-iniciar`, `sdd-atender`…, `sdd-sync` (21) | `mcp-elm`, `mcp-gitlabpr` |
+| [sdd](sdd/) | Fluxo de engenharia agêntica orientada a especificação, com ELM e planejamento ágil | `sdd`, `sdd-setup`, `sdd-triar`, `sdd-iniciar`, `sdd-atender`…, `sdd-sync` (22) | `mcp-elm`, `mcp-gitlabpr` |
 
 ## Estrutura de um power
 

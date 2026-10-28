@@ -1,10 +1,13 @@
 # Backlog do produto — `<produto>/backlog.md`
 
-Fonte única dos ids locais (`EP-nn`, `FT-nnn` e os de Apoio — `AT-nnn`, `IM-nnn`… uma série por categoria), do **planejamento** (o que existe, em que ordem, em que sprint) e do
-mapeamento com o ELM. Versionado. Só markdown: editado direto, sem arquivo JSON por trás.
+Fonte única dos ids locais (`EP-nn`, `FT-nnn` e os da Sustentação — `AT-nnn`, `IM-nnn`… uma série por categoria), do
+**planejamento** (o que existe, em que ordem, em que sprint, em que situação) e do mapeamento com o ELM. Versionado.
+Só markdown: editado direto, sem arquivo JSON por trás.
 
-**Onde é escrito:** só na **branch base**, com commit direto nela — **nunca numa branch de fatia**, para que fatias em paralelo não disputem o mesmo arquivo. O
-andamento de uma fatia (fase, branch, PR) não mora aqui: mora no `status.md` da pasta dela, na branch dela, e o
+**Onde é escrito:** só na **branch base**, com commit direto nela — **nunca numa branch de fatia**, para que fatias em
+paralelo não disputem o mesmo arquivo. Cada situação é gravada aqui por quem a causa ([Situações](#situações)); o
+detalhe da fatia em andamento (fase, branch, PR) mora no `status.md` da pasta dela — na branch até o merge, depois na
+base (regra A base prevalece do [status-template.md](../../sdd-desenvolver/references/status-template.md)) —, e o
 `sdd-status` o lê de lá.
 
 ## Formato
@@ -12,97 +15,174 @@ andamento de uma fatia (fase, branch, PR) não mora aqui: mora no `status.md` da
 ```markdown
 # Backlog — Gestão de Acessos
 
-Próximos ids: EP-04 · FT-034 · AT-013 · IM-004 · BD-001 · IN-002 · OP-001 · EX-001
-Sustentação: [612000](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612000) · Backlog [GB] [612006](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612006)
+Próximos ids: EP-04 · FT-035 · AT-013 · IM-004 · BD-001 · IN-002 · OP-001 · EX-001
 
 ## Épicos
 
-| id | título | status | prioridade | po | prd | pasta | elm | creditos |
-|---|---|---|---|---|---|---|---|---|
-| EP-03 | Bloqueio por tentativas de login | fatiado | 1 | ana.souza | [prd](epicos/EP-03-bloqueio-login/prd.md) | [pasta](epicos/EP-03-bloqueio-login/) | [612001](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612001) | 18.40 |
-
-## Fatias — EP-03 Bloqueio por tentativas de login
-
-| id | título | cobre | ficha | bloqueada-por | tamanho | modo | prioridade | status | sprint | responsavel | elm | concluida-em | creditos | obs |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| FT-031 | Bloquear a conta após 3 tentativas inválidas | HF-01#1.1, HF-01#1.2, REG-01 | [ficha](fatias/FT-031-bloquear-conta.md) | — | M | AFK | 1 | pronta | 2026/03 | joao.lima | [612010](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612010) · DEV [612011](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612011) | — | — | — |
-
-## Fatias — sem épico
-
-| id | título | trilha | origem | ficha | tamanho | modo | prioridade | status | sprint | responsavel | elm | concluida-em | creditos | obs |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-
-## Apoio
-
-| id | categoria | título | origem | status | sprint | responsavel | elm | registro | concluida-em | creditos |
+| id | título | status | prioridade | po | sprint | prd | pasta | elm | creditos | obs |
 |---|---|---|---|---|---|---|---|---|---|---|
-| AT-012 | Atendimento | Extração de contas bloqueadas em setembro | chamado 4521 | aberto | 2026/03 | joao.lima | [ATD] [669380](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/669380) | [AT-012](apoio/atendimento/AT-012-contas-bloqueadas.md) | — | — |
-| IM-003 | Implantação | Subir a versão 1.4 em produção | pedido | aberto | 2026/03 | ana.souza | [IMPL] [669390](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/669390) | [IM-003](apoio/implantacao/IM-003-versao-1-4.md) | — | — |
+| EP-03 | Bloqueio por tentativas de login | iniciado | alta | ana.souza | 2026/Sprint 02 | [prd](epicos/EP-03-bloqueio-login/prd.md) | [pasta](epicos/EP-03-bloqueio-login/) | IB [612001](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612001) · ESP [669377](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/669377) | 18.40 | — |
+
+## Fatias
+
+| id | título | origem | trilha | cobre | ficha | bloqueada-por | tamanho | modo | prioridade | status | sprint | responsavel | elm | concluida-em | creditos | obs |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| FT-031 | Bloquear a conta após 3 tentativas inválidas | EP-03 | padrão | HF-01#1.1, HF-01#1.2, REG-01 | [ficha](fatias/FT-031-bloquear-conta.md) | — | M | AFK | alta | iniciada | 2026/Sprint 03 | joao.lima | IB [612010](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612010) · DEV [612011](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612011) | — | — | — |
+| FT-034 | Corrigir juros no atraso | Manutenção | rápida | — | [ficha](fatias/FT-034-juros-atraso.md) | — | P | AFK | crítica | elegivel | — | — | DF [4567](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/4567) | — | — | vinculada a [AT-012](sustentacao/atendimento/AT-012-contas-bloqueadas.md) |
+
+## Sustentação
+
+IB [612000](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612000) · GB [612006](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612006) · Manutenção IB [612030](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612030)
+
+### Atendimento
+
+IB [612020](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612020)
+
+| id | título | origem | status | sprint | responsavel | elm | registro | concluida-em | creditos |
+|---|---|---|---|---|---|---|---|---|---|
+| AT-012 | Extração de contas bloqueadas em setembro | chamado 4521 | em-andamento | 2026/Sprint 03 | joao.lima | IB [669379](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/669379) · ATD [669380](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/669380) | [AT-012](sustentacao/atendimento/AT-012-contas-bloqueadas.md) | — | — |
 ```
 
-Uma seção `## Fatias — <EP> <título>` por épico, na ordem de prioridade dos épicos, e uma `## Fatias — sem épico`
-no fim, e a `## Apoio` por último (linhas na ordem dos ids, agrupadas por categoria); fatias na ordem de `prioridade`. Célula vazia é `—`. Listas (`cobre`, `bloqueada-por`) separadas por vírgula. Cada fatia é **uma**
-linha da tabela — sem quebra de linha nem `|` dentro de célula (troque por `/`).
+Seções nesta ordem: `## Épicos`, `## Fatias` (uma tabela para todas, de épico e de Manutenção) e `## Sustentação`, com
+uma `### <Categoria>` por categoria, na ordem da tabela **Sustentação** do `sdd.md`, **criada quando o primeiro item
+dela é triado** (junto com o IB da categoria, cujo id abre a seção); sem coluna `categoria` (a seção diz). Épicos e
+fatias: a ordem é a `prioridade` (`crítica` → `baixa`, `—` no fim) e, no empate, a ordem da linha na tabela (o P.O.
+ordena as linhas). Itens de Sustentação na ordem dos ids. Célula vazia é `—`. Listas (`cobre`, `bloqueada-por`)
+separadas por vírgula. Cada item é **uma** linha da tabela — sem quebra de linha nem `|` dentro de célula (troque por
+`/`).
 
 | Coluna | Valores |
 |---|---|
-| épico `status` | `rascunho` · `em-revisao` · `aprovado` · `fatiado` · `concluido` · `cancelado` (o mesmo do frontmatter do PRD; publicação no ELM fica no `elm` do PRD, não no status) · `rascunho` com `prd` `—` = registrado pela `sdd-triar`, PRD ainda não escrito ("a descobrir" no roadmap) |
+| `status` | a situação do item — listas, transições e quem grava em [Situações](#situações) |
+| `prioridade` | épico e fatia: `crítica` · `alta` · `média` · `baixa` · `—` (sem prioridade; a ordem, acima). A fatia criada pela `sdd-fatiar` nasce com a do épico. Não vai ao EWM |
 | épico `po` | login do P.O. do épico (padrão: o P.O. ativo do `equipe.json`); é o responsável do épico no EWM e quem aprova o PRD |
-| épico `pasta` | `[pasta](epicos/<EP>-<slug>/)` (criada pela `sdd-triar`) ou `—` |
-| `trilha` | só nas fatias sem épico: `padrão` · `rápida` (fatia de épico é sempre padrão) |
-| fatia `origem` | só nas fatias sem épico: o item ou o pedido que a originou — `DF 4567`, `IB 611`, `AT-012`, `pedido: <resumo>` |
-| `ficha` | toda fatia: `[ficha](fatias/FT-<nnn>-<slug>.md)` — formato por trilha na `sdd-triar`, `references/ficha.md` (sem épico: escrita pela `sdd-triar`; de épico: pela `sdd-fatiar`) |
-| `cobre` | `HF-nn#c.c` (cenário) e `REG-nn` do PRD do épico; não existe nas fatias sem épico (os cenários da padrão ficam na ficha, `C<n>`) |
-| fatia `obs` | texto livre; convenções: `falta: <…>` (o que impede a Definition of Ready), `substituida-por FT-…`, o motivo do cancelamento |
+| épico `sprint` | a da `[ESP]` (formato na coluna `sprint` abaixo) |
+| épico `prd` · `pasta` | `[prd](epicos/<EP>-<slug>/prd.md)` (gravado no GATE do PRD) · `[pasta](epicos/<EP>-<slug>/)` (criada pela `sdd-triar`; sem a pasta antecipada, no GATE do PRD), ou `—` |
+| épico `obs` | `falta: <…>` (o que impede a DoR do épico), `origem: <id>` (item do EWM posto sob o épico — [elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §3), o motivo do cancelamento |
+| fatia `origem` | `EP-nn` (fatia do épico) ou `Manutenção` (sem épico; no EWM, sob o IB Manutenção); dividida → a da original. O item do EWM de onde ela veio fica na coluna `elm`; o atendimento, na `obs` (`vinculada a`); o pedido, na ficha |
+| `trilha` | `padrão` · `rápida` (fatia de épico é sempre `padrão`) |
+| `ficha` | toda fatia: `[ficha](fatias/FT-<nnn>-<slug>.md)` — formato por trilha na `sdd-triar`, `references/ficha.md` (de Manutenção: escrita pela `sdd-triar`; de épico: pela `sdd-fatiar`) |
+| `cobre` | `HF-nn#c.c` (cenário) e `REG-nn` do PRD do épico; `—` na fatia de Manutenção (os cenários da padrão ficam na ficha, `C<n>`) |
+| `bloqueada-por` | as fatias de que ela depende (toda fatia; `—` quando não há) |
+| fatia `obs` | texto livre; convenções: `falta: <…>` (o que impede a DoR); `vinculada a [AT-012](sustentacao/atendimento/AT-012-<slug>.md)` (veio de um atendimento; no EWM, o link `relacionado` com o IB do item: `elm_ligar(wi, wi_destino, tipo relacionado)`); `desmembrada de FT-…` (nas novas) e `substituida-por FT-…` (na dividida e na absorvida pelo juntar); o motivo do cancelamento |
 | `tamanho` | `P` · `M` · `G` |
 | `modo` | `AFK` · `HITL` — proposto na triagem ou no fatiamento (critérios da `sdd-fatiar`); o modo final é gravado pela `sdd-planejamento` quando a fatia ganha responsável, pela senioridade dele (Júnior → `HITL` · Pleno → os critérios · Sênior → `AFK` por padrão) |
-| fatia `status` | `backlog` → `pronta` (passou na Definition of Ready) → `concluida`; desvios `dividida` (`obs`: `substituida-por FT-…`), `cancelada` (`obs`: motivo). "Em andamento" não é gravado: é a fatia que tem `status.md` numa branch |
-| `creditos` | créditos do Kiro do item: soma das linhas de créditos do `status.md` da fatia, do `status.md` do épico (a `[ESP]`) ou da ficha do AT, copiada do `sprint-<nn>.md` na virada da sprint (`sdd-planejamento`; a conclusão grava só na sprint); `—` antes |
-| `sprint` | chave da sprint `<pai>/<nn>` (`2026/03`: iteração pai do EWM e número dentro dela — [arquivos.md](../../sdd-planejamento/references/arquivos.md#sprintspaisprint-nnmd)) (`sdd-planejamento`) ou `—`; no Kanban, `—` |
-| `elm` | o item no EWM — o backlog do EWM é a cópia deste arquivo: nasce no backlog do produto ao registrar (triagem, GATE do backlog) e muda de iteração ao entrar na sprint ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md)) —: `[<id>](<url>)`, `pendente` (registrado sem o MCP `elm`; criado depois) ou `—` (sem ELM); tarefas do EWM em seguida, `<prefixo> [<id>](<url>)`, separadas por ` · ` (gravadas na publicação da sprint, §4) |
+| `sprint` | chave da sprint `<pai>/Sprint <nn>` (`2026/Sprint 03`: o pai e o número do arquivo `sprints/<pai>/sprint-<nn>.md` — [arquivos.md](../../sdd-planejamento/references/arquivos.md#sprintspaisprint-nnmd)) ou `—` (fora de sprint); gravada com `planejada`/`planejado` (`sdd-planejamento`) ou ao iniciar fora do planejamento (fatia puxada, épico não planejado). Na [virada](../../sdd-planejamento/SKILL.md#retrospectiva-e-virada), o item que migra passa à chave da próxima (o épico acompanha a linha dele na Especificação, que migra só se não está `concluida` nem `cancelada`) |
+| `elm` | o item no EWM e as tarefas, com o tipo antes de cada id, separados por ` · ` — o backlog do EWM é a cópia deste arquivo: o item nasce no backlog do produto ao registrar (triagem, GATE do backlog) e muda de iteração ao entrar na sprint; as tarefas nascem na sprint ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md)). Épico: `IB [<id>](<url>) · ESP [<id>](<url>)`; fatia: `IB [<id>](<url>) · DEV [<id>](<url>) · REV … · VER … · APR …`; item de Sustentação: `IB [<id>](<url>) · ATD [<id>](<url>)` (a tarefa pelo prefixo da categoria, sem colchetes). Fatia ou item de Sustentação que veio de um defeito ou IB do EWM: esse item fica no lugar do IB, com o tipo dele como rótulo (`DF [4567](<url>) · DEV …` · `DF [4567](<url>) · ATD …`). `pendente` (registrado sem o MCP `elm`; criado depois); id sem link (`DF 4567`, nunca `pendente`): item conhecido cujo tratamento no EWM ficou pendente (registrado sem o MCP) — o espelhamento do §0 e a publicação da sprint fazem o que faltou (pai, dono, prefixo no título, link `relacionado`) e gravam o link; `—` (sem ELM) |
 | `concluida-em` | data `AAAA-MM-DD` ou `—` |
-| apoio `categoria` | uma das categorias da tabela **Apoio** do `sdd.md` (padrão: Atendimento `[ATD]` `AT-` · Implantação `[IMPL]` `IM-` · Banco de dados `[BD]` `BD-` · Infra `[INF]` `IN-` · Operação `[OPE]` `OP-` · Apoio a outros times `[EXT]` `EX-`); o id é da série da categoria. Não existe item nem tarefa "de Apoio" genérica: Apoio é só o nome do conjunto |
-| apoio `status` | `backlog` (sem sprint aberta) · `aberto` (na sprint ou na iteração corrente do Kanban) · `concluido` · `cancelado` |
-| apoio `origem` | chamado, e-mail, `DF 4567`, `IB 615`, `pedido` ou `EWM <id>` (tarefa criada direto no EWM e trazida para a sprint — [elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §9) |
-| apoio `registro` | `[<ID>](apoio/<pasta>/<ID>-<slug>.md)` — a ficha do item, na pasta da categoria (tabela **Apoio** do `sdd.md`) (formato na [`sdd-atender`](../../sdd-atender/SKILL.md#registro); o mesmo para toda categoria) |
-| linha `Sustentação:` | o IB `Sustentação - <produto>`, um por produto (pai dos IBs de categoria do Apoio e do que não nasce de PRD), a tarefa `[GB] Gerenciamento do backlog` da iteração pai atual (commits da triagem) e os IBs de categoria, cada um gravado quando nasce com o primeiro item da categoria (`Sustentação: <id> · Backlog [GB] <id> · Atendimento <id> · Operação <id>`); `—` até a primeira triagem (ou a configuração do backlog do EWM) criar o IB, que fica no backlog do EWM; a `[GB]` nasce na primeira sprint de cada pai. Pai novo (virada para `2027`) → só a `[GB]` é trocada pela do pai novo ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §2) |
+| `creditos` | créditos do Kiro do item, copiados da coluna Créditos do `sprint-<nn>.md` na virada da sprint (`sdd-planejamento`; a conclusão grava só na sprint); `—` antes. Fatia: a seção Créditos do `status.md`; épico: só a especificação (a `[ESP]`, do `status.md` do épico), na virada da sprint em que a linha dele na Especificação ficou `concluida`; item de Sustentação: o registro |
+| Sustentação `origem` | chamado, e-mail, `DF 4567`, `IB 615`, `pedido` ou `EWM <id>` (tarefa criada direto no EWM e trazida para a sprint — [elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §9) |
+| Sustentação `registro` | `[<ID>](sustentacao/<pasta>/<ID>-<slug>.md)` — o registro do item, na pasta da categoria (tabela **Sustentação** do `sdd.md`) (formato na [`sdd-atender`](../../sdd-atender/SKILL.md#registro); o mesmo para toda categoria) |
+| linha da `## Sustentação` | `IB [<id>](<url>) · GB [<id>](<url>) · Manutenção IB [<id>](<url>)`: o IB `Sustentação` (um por produto, fica no backlog do EWM; pai da `[GB]`, da Manutenção e dos IBs de categoria), a tarefa `[GB] Gerenciamento do backlog` do pai atual (horas da triagem e da consolidação) e o IB `Manutenção` (pai das fatias de Manutenção) — cada um entra quando nasce (`pendente` sem o MCP); `—` até a primeira triagem (ou o espelhamento do §0) criar o IB `Sustentação`: a setup grava o backlog mínimo com `## Épicos`, `## Fatias` e `## Sustentação` vazias. Pai novo (virada para `2027`) → só a `GB` é trocada pela do pai novo ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §2) |
+| linha da `### <Categoria>` | `IB [<id>](<url>)`: o IB `<Categoria>` (filho da Sustentação, pai dos IBs dos itens dela), que nasce com o primeiro item triado da categoria, junto com a seção ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §6) |
+
+## Situações
+
+Valores sem acento, como `concluida`; fatia no feminino, épico e item de Sustentação no masculino. Cada transição é
+gravada por quem a causa, pelo bloco [Gravar na base](#gravar-na-base); a que muda o `backlog.md` e a sprint vai **no
+mesmo commit** nos dois arquivos.
+
+### Fatia — `status` no backlog · Status na sprint
+
+`nova` → `elegivel` → `planejada` → `iniciada` → `pronta` → `concluida` · desvios `dividida` e `cancelada`
+
+| Situação | Quando | Quem grava | Onde |
+|---|---|---|---|
+| `nova` | registrada (triagem, fatiamento) ou DoR que deixou de valer (`obs` `falta: …`) | `sdd-triar` · `sdd-fatiar` · `sdd-planejamento` (Previsão) | backlog |
+| `elegivel` | passou na [Definition of Ready](#definition-of-ready-o-que-faz-uma-fatia-elegivel) da trilha | `sdd-triar` · `sdd-fatiar` · `sdd-planejamento` | backlog |
+| `planejada` | entrou numa sprint (planejamento, encaixe) | `sdd-planejamento` | backlog (+ `sprint`) · a linha nasce na sprint |
+| `iniciada` | a `sdd-desenvolver` começou: grava na base **e então** cria a branch | `sdd-desenvolver` Passo 4 · no loop, o orquestrador · a rede de proteção da `sdd-planejamento` (pré-condição dos ritos) | backlog (+ `responsavel`, se `—`) · sprint (puxada: + `sprint` no backlog, e a linha nasce aqui, com `puxada`, revisor, verificador e `revisor único`) |
+| `pronta` | PR mergeado | `sdd-desenvolver` Passo 6, na base | backlog · sprint · `status.md` da base |
+| `concluida` | consolidada | `sdd-consolidar` | backlog (+ `concluida-em`) · sprint (+ Créditos) · `status.md` |
+| `dividida` · `cancelada` | desvios (`obs` `substituida-por FT-…` · o motivo) | `sdd-fatiar` · `sdd-triar` (Manutenção) | backlog e a linha da sprint |
+
+- **Fase:** o detalhe de `iniciada` é a Fase do `status.md` da fatia
+  ([status-template.md](../../sdd-desenvolver/references/status-template.md)); `pronta` e `concluida` só existem no
+  `status.md` da base (regra A base prevalece do `status-template.md`).
+- **Volta.** A DoR que deixou de valer (PRD reaberto, ficha devolvida, decisão em aberto) rebaixa a `nova` só a fatia
+  `elegivel` ou `planejada`. A `planejada` que sai da sprint (DoR perdida ou troca do Encaixe) fica `nova` ou
+  `elegivel`, com `sprint` `—`, e a linha dela na sprint recebe a mesma situação e `saiu da sprint: <motivo>
+  (<quem>, <data>)`; no EWM, o IB e as tarefas voltam ao backlog
+  ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §3, "Item que sai da sprint sem ter começado").
+  De `iniciada` em diante nada volta: a fatia para em `bloqueada (de: <fase>)` no `status.md`, com o motivo, até o
+  P.O. decidir. Juntar só entre fatias não iniciadas (a absorvida: `cancelada` com `substituida-por`).
+- **Dividida ou cancelada depois de `iniciada`:** a `sdd-fatiar` (ou a `sdd-triar`, na de Manutenção) conclui as
+  tarefas abertas da fatia com as horas lançadas, avisa o Dev para fechar o PR, e as novas nascem `nova` com `obs`
+  `desmembrada de FT-…`. Os leitores ignoram o `status.md` da branch de fatia `dividida` ou `cancelada` na base.
+- **Cancelar no EWM é manual** (o MCP só assume, conclui e reabre; nunca `elm_transicao` para cancelar): o IB da
+  fatia `cancelada` (e as tarefas, se ela não foi iniciada) fica como `ELM pendente [FT-… cancelar]`, roteiro manual.
+  As pendências da fatia não iniciada, `dividida` ou `cancelada` — inclusive a conclusão das tarefas sem o MCP —
+  moram no rodapé da ficha dela.
+
+### Épico — `status` no backlog · Situação da Especificação na sprint
+
+`novo` → `elegivel` → `planejado` → `iniciado` → `concluido` · desvio `cancelado`
+
+| Épico | Especificação | Quando | Quem grava |
+|---|---|---|---|
+| `novo` | — | triado; sem informação para o PRD, a pasta antecipada guarda o `rascunho.md` | `sdd-triar` |
+| `elegivel` | — | passou na DoR do épico ([uma só](#definition-of-ready-o-que-faz-uma-fatia-elegivel): o problema, quem pede, o resultado e o `po`) | `sdd-triar` · `sdd-planejamento` |
+| `planejado` (+ `sprint`) | `planejada` | `[ESP]` planejada | `sdd-planejamento` |
+| `iniciado` | `iniciada` | `[ESP]` assumida: só a situação vai à base; épico não planejado → + `sprint` (a aberta), e a linha nasce nela com a Observação `puxada` | `sdd-especificar` Passo 2 |
+| `iniciado` | `concluida` (+ Créditos) | GATE do backlog: a `[ESP]` conclui; o épico segue com as fatias | `sdd-especificar` Passo 6 |
+| `concluido` | — | última fatia concluída, ou a última não terminal cancelada com outra `concluida` (backlog, Fase do `status.md` do épico e EWM); nunca o épico `cancelado`, que fica como está | `sdd-consolidar` · `sdd-fatiar` (Cancelar) |
+| `cancelado` | `cancelada` | decisão do P.O.: as fatias não iniciadas ficam `cancelada` e a `[ESP]` conclui com as horas lançadas, na mesma gravação | `sdd-fatiar` |
+
+- O GATE do PRD grava no backlog só o link `prd` (e a `pasta`, se estava `—`), pela `sdd-especificar`, no commit que
+  leva a pasta à base; o épico segue `iniciado`.
+- **Fase do `status.md` do épico** — o detalhe, como a da fatia (modelo na
+  [`sdd-especificar`, Passo 3](../../sdd-especificar/SKILL.md#passo-3--pasta-de-trabalho-fora-do-git)): `rascunho`
+  (triado, entrevista e escrita do PRD: `sdd-triar` · `sdd-especificar`) → `em-revisao` (revisão P, ou mudança depois
+  de aprovado: `sdd-prd`) → `aprovado` (GATE do PRD: `sdd-prd`) → `fatiado` (GATE do backlog: `sdd-fatiar`) →
+  `concluido` (`sdd-consolidar` · `sdd-fatiar`, ao cancelar a última não terminal) · `cancelado` (`sdd-fatiar`).
+
+### Item de Sustentação sem mudança no repositório — `status` no backlog · Situação na sprint
+
+`aberto` → `em-andamento` → `concluido` · desvio `cancelado`
+
+| Situação | Quando | Quem grava |
+|---|---|---|
+| `aberto` | triado (na sprint ou fora dela: `sprint` `—`) | `sdd-triar` · `sdd-planejamento` ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §9) |
+| `em-andamento` | tarefa assumida — antes, cria o IB e a tarefa que faltarem; commit `<ID> iniciar` (concluído na mesma sessão → um commit só) | `sdd-atender` · `sdd-executar` · `sdd-planejamento` (§9: tarefa trazida do EWM já nesse estado) |
+| `concluido` | tarefa e IB do item concluídos (+ `concluida-em` no backlog; Créditos na sprint e, na virada, no backlog) | `sdd-atender` · `sdd-executar` · `sdd-planejamento` (§9: tarefa trazida do EWM já nesse estado) |
+| `cancelado` | correção do registro; cancelar o IB e a tarefa é na UI do EWM (`ELM pendente [<ID> cancelar]` no campo `**ELM:**` do registro: o MCP não cancela) | `sdd-triar` |
 
 ## Quem escreve o quê
 
-| Transição | Skill |
+| O quê | Skill |
 |---|---|
-| épico registrado (`rascunho`, `prd` `—`, `po`, `pasta`) | `sdd-triar` |
-| épico `aprovado` e `prd` (no GATE do PRD; antes, o estado mora no `prd.md` da pasta de trabalho) | `sdd-prd` |
-| épico `fatiado` (GATE do backlog) | `sdd-fatiar` |
-| épico `concluido` (última fatia concluída) | `sdd-consolidar` |
-| épico `cancelado` | o P.O., pela `sdd-fatiar` (refinamento) |
-| fatias criadas, divididas, juntadas, canceladas, fichas das fatias de épico · `pronta` (DoR conferida) | `sdd-fatiar` |
-| `sprint`, `responsavel`, `modo` final (pela senioridade), prioridade · `pronta` (DoR conferida de novo no planejamento) · encaixe durante a sprint | `sdd-planejamento` |
-| fatia sem épico (padrão, rápida), ficha e `falta:` em `obs` | `sdd-triar` (na base) |
-| apoio registrado (id da categoria, `backlog`/`aberto`, `sprint`, `responsavel`, registro) | `sdd-triar` (na base); tarefa trazida do EWM: `sdd-planejamento` (§9 do `elm-sprint.md`) |
-| apoio `concluido`, `concluida-em` | `sdd-atender` (Atendimento) · `sdd-executar` (demais categorias) (na base) |
-| `concluida`, `concluida-em` | `sdd-consolidar` (depois do merge, na base) |
-| linha `Sustentação:` | `sdd-triar` ou a setup (o IB), publicação da sprint (`[GB]`, inclusive a do pai novo) ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §2); o IB de categoria: quem cria o primeiro item dela pelo §6 (`sdd-triar`, sincroniza a sprint, Encaixe, publicação da sprint, ou `sdd-atender`/`sdd-executar` com o item `pendente`) |
-| `elm` (ids e urls) | `sdd-triar` (épico, fatia sem épico, tarefas de Apoio), `sdd-fatiar` (IB das fatias de épico), publicação da sprint (tarefas e o que estava `pendente`), `sdd-atender`/`sdd-executar` (a tarefa de Apoio criada a partir de `pendente`) ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §2–6) |
+| `status` | quem causa a transição — [Situações](#situações) |
+| épico registrado (`po`, `pasta`, `obs`) | `sdd-triar` |
+| épico `prd` e `pasta` (se estava `—`), no GATE do PRD | `sdd-especificar` |
+| fatias de épico criadas (`origem` `EP-nn`, `prioridade` do épico), divididas, juntadas, canceladas; as fichas delas | `sdd-fatiar` |
+| fatia de Manutenção (`trilha`, ficha, `obs` `falta:` e `vinculada a`), dividida ou cancelada | `sdd-triar` |
+| `sprint`, `responsavel`, `modo` final (pela senioridade), `prioridade` e a ordem das linhas · encaixe durante a sprint · `sprint` dos itens que migram na virada | `sdd-planejamento` |
+| `responsavel` (se `—`) da fatia que inicia e `sprint` da puxada | `sdd-desenvolver` Passo 4 (no loop, o orquestrador) |
+| `sprint` do épico não planejado, ao assumir a `[ESP]` | `sdd-especificar` Passo 2 |
+| item de Sustentação registrado (id da série, `origem`, `sprint`, `responsavel`, `registro`) e a `### <Categoria>` do primeiro | `sdd-triar`; tarefa trazida do EWM: `sdd-planejamento` (§9 do `elm-sprint.md`) |
+| `concluida-em` | `sdd-consolidar` (fatia) · `sdd-atender`/`sdd-executar` (item de Sustentação) · `sdd-planejamento` (§9: tarefa trazida do EWM já concluída) |
+| `creditos` | a virada da sprint (`sdd-planejamento`) |
+| linhas da `## Sustentação` e da `### <Categoria>` | IB `Sustentação`: a setup ou a `sdd-triar`; `GB`: a publicação da sprint (inclusive a do pai novo); IB `Manutenção` e IB da categoria: quem cria no EWM o primeiro item deles ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §2, §3, §6) |
+| `elm` (ids e urls) | `sdd-triar` (épico, fatia de Manutenção, IB do item de Sustentação), `sdd-fatiar` (IB das fatias de épico), a publicação da sprint e o Encaixe (tarefas e o que estava `pendente` ou sem link), o espelhamento do §0 (o que estava `pendente` ou sem link), `sdd-consolidar` (item e tarefas do campo ELM do `status.md`), `sdd-atender`/`sdd-executar` (IB e tarefa que faltarem, ao assumir) ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §2–6) |
 
-## Definition of Ready (o que faz uma fatia `pronta`)
+## Definition of Ready (o que faz uma fatia `elegivel`)
 
-A única do fluxo — triagem, fatiamento, planejamento e `sdd-desenvolver` conferem por aqui.
+A única do fluxo — triagem, fatiamento, planejamento, `sdd-especificar` (épico) e `sdd-desenvolver` conferem por aqui.
+Passou → `elegivel`; deixou de valer → a [Volta](#situações) (`nova`, com `obs` `falta: …`).
 
-| Trilha | Pronta quando |
+| Trilha | Elegível quando |
 |---|---|
-| épico (para a `sdd-prd`) | descrição mínima — o problema, quem pede, o resultado esperado — e `po` preenchido |
-| padrão de épico | ficha com Objetivo, Cobre e Como verificar; cenários de aceite em `cobre` num PRD `aprovado`/`fatiado`; `bloqueada-por` concluídas, ou planejadas na mesma sprint antes dela (ela só **começa** quando o que precisa está na base) |
+| épico (DoR única do épico) | o problema, quem pede, o resultado esperado e o `po` preenchido |
+| padrão de épico | ficha com Objetivo, Cobre e Como verificar; cenários de aceite do PRD em `cobre`, com o épico na Fase `aprovado` ou `fatiado` (`status.md` do épico) |
 | padrão sem épico | ficha `aprovada por` o P.O., com cenários `C<n>` |
 | rápida | ficha com o atual (com evidência), o esperado (com fonte), o que não muda e como verificar; sem regra nova; tamanho ≤ M |
-| todas | a ficha existe no caminho da coluna `ficha`; nenhuma decisão bloqueante `em aberto` (`decisoes.md` ou ficha); tamanho ≤ G; modo declarado (AFK/HITL); cabe numa janela de contexto |
-
-Deixou de valer (PRD reaberto, decisão nova em aberto) → volta a `backlog`.
+| todas | a ficha existe no caminho da coluna `ficha`; `bloqueada-por` em `pronta` ou `concluida` (já na base) ou planejada antes dela na mesma sprint (ela só **começa** quando o que precisa está na base); nenhuma decisão bloqueante `em aberto` (`decisoes.md` ou ficha); tamanho ≤ G; modo declarado (AFK/HITL); cabe numa janela de contexto |
 
 ## Gravar na base
 
-O bloco único para todo artefato de produto (`backlog.md`, fichas, PRD, `sprint-<nn>.md`, registro de AT, glossário,
-ADRs, lições, `sdd.md` Regras aprendidas). As skills citam este bloco em vez de repetir:
+O bloco único para todo artefato de produto (`backlog.md`, fichas, PRD e `status.md` do épico, `sprint-<nn>.md`,
+registro de Sustentação, glossário, ADRs, lições, `sdd.md` Regras aprendidas) e para o `status.md` da fatia depois do
+merge. As skills citam este bloco em vez de repetir:
 
 1. **Base:** fora dela → "Troco para `<base>`? (sim)" — sem "sim", pare; árvore com alterações não commitadas →
    avise e pare (nunca ofereça descartar, `stash` ou `reset`). Na base: `git pull --ff-only`; falhou (divergiu) →
@@ -114,10 +194,26 @@ ADRs, lições, `sdd.md` Regras aprendidas). As skills citam este bloco em vez d
    Conflito de id no push → a regra de conflito abaixo.
 5. Ao terminar, ofereça voltar à branch anterior.
 
+**Pelo Dev** (o agente do Dev e o orquestrador do loop gravam só os registros de situação — `iniciada`, `pronta` — e o
+`status.md` da fatia na base; quem desenvolve tem push na base, requisito do sdd), o bloco muda assim:
+- item 1: `git fetch` antes de tudo. No loop, o orquestrador não troca de branch: grava só com o checkout principal
+  já na base e limpo (senão, pede à pessoa que troque — `sdd-loop` Passo 1);
+- item 3: pergunte antes do commit;
+- item 4: antes do push, confira o que sobe — `git diff --name-only origin/<base>..<base>` só com
+  `<produto>/backlog.md`, `<produto>/sprints/**` e o `status.md` da fatia; outro arquivo → pare (o Kiro não restringe
+  o push por arquivo). E `git log --oneline origin/<base>..<base>` só com o commit de registro; outro commit não
+  publicado → pare: a pessoa o publica antes (o `reset` do push recusado o descartaria junto). Push pelo agente, com "sim", sempre `git push origin <base>` (os agentes negam o push sem a
+  branch nomeada); depois `git fetch` e `git rev-parse <base>` = `git rev-parse origin/<base>`. Agente sem push
+  (orquestrador com `Push e PR no loop: não`) → entregue esse comando pronto e espere a pessoa publicar (`git fetch`
+  mostra o commit em `origin/<base>`), sem `reset`;
+- push recusado (só o que o agente tentou e o remoto recusou: base protegida, outro Dev publicou antes) → desfaça só
+  esse commit de registro, ainda não publicado, com `git reset --keep origin/<base>` e o "sim" da pessoa (a única
+  exceção ao "nunca ofereça `reset`"), e pare, explicando o motivo.
+
 ## Regras
 
 - Ids nunca são reaproveitados nem renumerados; "Próximos ids" só cresce.
 - Antes de gravar: `git switch <base>` e `git pull --ff-only`; depois, commit pequeno só com ele quando não houver
   outro artefato de produto junto. Push: com o "sim" da pessoa.
-- Conflito no `backlog.md`: mantenha o remoto e reaplique só a sua mudança, linha a linha (cada fatia é uma linha).
+- Conflito no `backlog.md`: mantenha o remoto e reaplique só a sua mudança, linha a linha (cada item é uma linha).
   Nunca resolva descartando o lado remoto.

@@ -2,7 +2,6 @@
 
 > **Formato:** Markdown (alternativo ao `equipe.json`).  
 > **Atualizado:** AAAA-MM-DD  
-> **Cadência:** scrum | kanban  
 > **Duração da sprint:** N semanas  
 > **Início (sprint 1):** AAAA-MM-DD  
 
@@ -13,7 +12,7 @@
 > Colunas obrigatórias: Login, Nome, Papéis, Horas/semana (e Senioridade, para Dev).  
 > Papéis (um ou mais, separados por vírgula): `P.O.` · `Especificador` · `Dev` · `QA` · `SM` — exatamente um P.O. ativo  
 > Senioridade (obrigatória para Dev): `Júnior` (fatias sempre HITL) · `Pleno` (modo pelos critérios da fatia) · `Sênior` (AFK por padrão; a [REV] é sempre de um Dev Sênior); `—` para quem não é Dev  
-> Atende: `true` = faz Apoio (toda categoria: [ATD], [IMPL]…); `false` ou em branco = não. A reserva (apoio + retrabalho) é das horas do time inteiro.  
+> Atende: `true` = faz Sustentação (toda categoria: [ATD], [IMPL]…); `false` ou em branco = não. A reserva (Sustentação + retrabalho) é das horas do time inteiro.  
 > Ativo: `false` = saiu (histórico preservado).
 
 | Login | Nome | Papéis | Senioridade | Horas/semana | Horas revisão/semana | Horas especificação/semana | Atende | Ativo |
@@ -35,8 +34,8 @@
 
 ## Histórico de sprints
 
-> Gravado na virada de cada sprint.  
-> Horas (DEV/REV/APR/VER/ESP/Apoio) vêm do relatório de horas da virada (`elm_horas(iteracao)`).
+> Gravado na virada de cada sprint. Sprint: a chave `<pai>/Sprint <nn>` (`2026/Sprint 03`).  
+> Horas (DEV/REV/APR/VER/ESP/Sustentação) vêm do relatório de horas da virada (`elm_horas(iteracao)`).
 
-| Sprint | Fatias concluídas | Lead time médio (dias) | Horas DEV | Horas REV | Horas APR | Horas VER | Horas ESP | Horas Apoio | Reserva Apoio (%) |
+| Sprint | Fatias concluídas | Lead time médio (dias) | Horas DEV | Horas REV | Horas APR | Horas VER | Horas ESP | Horas Sustentação | Reserva Sustentação (%) |
 |---|---|---|---|---|---|---|---|---|---|

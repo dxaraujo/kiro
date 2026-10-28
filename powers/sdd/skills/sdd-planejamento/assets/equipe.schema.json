@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://raw.githubusercontent.com/dxaraujo/kiro/main/powers/sdd/skills/sdd-planejamento/assets/equipe.schema.json",
   "title": "Equipe do sdd",
-  "description": "<produto>/equipe.json: projeto, cadência, histórico de vazão e de horas e membros com a capacidade de trabalho, de revisão, de especificação e de apoio. Chaves em kebab-case; valores derivados (capacidade da sprint, totais) não são gravados, são calculados na hora.",
+  "description": "<produto>/equipe.json: projeto, duração da sprint, histórico de vazão e de horas e membros com a capacidade de trabalho, de revisão, de especificação e de Sustentação. Chaves em kebab-case; valores derivados (capacidade da sprint, totais) não são gravados, são calculados na hora.",
   "type": "object",
   "required": [
     "atualizado",
@@ -21,7 +21,6 @@
       "type": "object",
       "required": [
         "nome",
-        "cadencia",
         "duracao-sprint-semanas",
         "inicio",
         "historico"
@@ -31,12 +30,6 @@
         "nome": {
           "type": "string",
           "minLength": 1
-        },
-        "cadencia": {
-          "enum": [
-            "scrum",
-            "kanban"
-          ]
         },
         "duracao-sprint-semanas": {
           "type": "integer",
@@ -60,8 +53,8 @@
             "properties": {
               "sprint": {
                 "type": "string",
-                "pattern": "^[^/]+/[0-9]{2,}$",
-                "description": "Chave da sprint <pai>/<nn> (2026/03: iteração pai do EWM e número dentro dela)."
+                "pattern": "^[^/]+/Sprint [0-9]{2,}$",
+                "description": "Chave da sprint <pai>/Sprint <nn> (2026/Sprint 03: a iteração pai do EWM e o número do arquivo sprints/<pai>/sprint-<nn>.md)."
               },
               "fatias-concluidas": {
                 "type": "integer",
@@ -77,7 +70,7 @@
               },
               "horas-lancadas": {
                 "type": "object",
-                "description": "Horas lançadas no EWM na sprint por tipo de tarefa ([DEV] entrega, [REV] revisao, [APR] aprovacao, [VER] verificacao, [ESP] especificacao, Apoio — [ATD] [IMPL] [BD] [INF] [OPE] [EXT] — apoio); vem do relatorio de horas da virada (elm_horas da iteracao).",
+                "description": "Horas lançadas no EWM na sprint por tipo de tarefa ([DEV] entrega, [REV] revisao, [APR] aprovacao, [VER] verificacao, [ESP] especificacao, Sustentação — [ATD] [IMPL] [BD] [INF] [OPE] [EXT] — sustentacao); vem do relatorio de horas da virada (elm_horas da iteracao).",
                 "additionalProperties": false,
                 "properties": {
                   "entrega": {
@@ -100,18 +93,18 @@
                     "type": "number",
                     "minimum": 0
                   },
-                  "apoio": {
+                  "sustentacao": {
                     "type": "number",
                     "minimum": 0,
-                    "description": "Soma das tarefas de Apoio de toda categoria."
+                    "description": "Soma das tarefas de Sustentação de toda categoria (as fatias de Manutenção somam em entrega, revisao, aprovacao e verificacao)."
                   }
                 }
               },
-              "reserva-apoio": {
+              "reserva-sustentacao": {
                 "type": "number",
                 "minimum": 0,
                 "maximum": 1,
-                "description": "Reserva da sprint para o Apoio (toda categoria) e o retrabalho da sprint anterior (0.2 = 20% das horas da sprint do time)."
+                "description": "Reserva da sprint para a Sustentação (toda categoria) e o retrabalho da sprint anterior (0.2 = 20% das horas da sprint do time)."
               }
             }
           }
@@ -232,7 +225,7 @@
         },
         "atende": {
           "type": "boolean",
-          "description": "Faz Apoio (tarefas de toda categoria: [ATD], [IMPL]…): responsável sugerido na triagem. A reserva é das horas do time inteiro. Ausente = false."
+          "description": "Faz Sustentação (tarefas de toda categoria: [ATD], [IMPL]…): responsável sugerido na triagem. A reserva é das horas do time inteiro. Ausente = false."
         },
         "ativo": {
           "type": "boolean",

@@ -63,8 +63,8 @@ URL abaixo, nunca um caminho local:
   ausente = 0. Revisão + especificação nunca passam de `horas-semana`.
 - `atende: true` marca quem faz Apoio (toda categoria: responsável sugerido na triagem); a reserva é das horas do time
   inteiro, não só dessas pessoas.
-- `historico[].horas-lancadas` e `reserva-apoio` são gravados na virada (histórico antigo com `atendimento` e
-  `reserva-atendimento` continua válido), com o relatório de horas ([elm-sprint.md](elm-sprint.md) §5).
+- `historico[].horas-lancadas` e `reserva-apoio` são gravados na virada, com o relatório de horas
+  ([elm-sprint.md](elm-sprint.md) §5).
 - Capacidade da sprint e totais **não** são gravados: calcule na hora. `historico` fica dentro de `projeto`.
 - `motivo` da ausência: `férias`, `folga`, `treinamento` ou `outro`.
 - Exatamente um P.O. ativo. Quem sai fica `ativo: false` (preserva o histórico).

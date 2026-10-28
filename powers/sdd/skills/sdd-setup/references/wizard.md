@@ -121,9 +121,6 @@ No lugar da tabela de etapas do W0 (a pré-checagem continua):
 > `nada` só regenera agentes, hook e workflows · `<n>` refaz a etapa <n> · `<n>,<m>` refaz várias
 ```
 
-Migração de layout antigo (`sdd2`, v1, `planejamento/` da 2.6.0) → um cartão de bloqueio com a tabela
-`| # | De | Para | Como |` (`git mv` · `git rm` · `mv`) e "ok".
-
 ## W1 · Projeto (Passo 1)
 
 ```
@@ -344,9 +341,8 @@ por engano, diga `regravar <arquivo>`.
 | 4 | `pa` do ELM válido (`elm_status`) | <✅ | ❌ <faltando> | ➖> |
 | 5 | GitLab responde (`gitlab_listar_mrs`) | <✅ | ⏸️ <motivo> | ➖> |
 | 6 | Caminhos citados no `sdd.md` e nos agentes existem | <✅ | ❌ <caminho>> |
-| 7 | Sem resto de versão antiga (`sdd2*`, `sdd-projeto.md`) | <✅ | ⚠️ <arquivo>> |
-| 8 | Ferramentas que varrem a raiz ignoram `.kiro/local/` | <✅ | ⚠️ <ferramenta>> |
-| 9 | Workspace confiável no Kiro | <✅ | ⚠️ confie no workspace para carregar agentes e skills> |
+| 7 | Ferramentas que varrem a raiz ignoram `.kiro/local/` | <✅ | ⚠️ <ferramenta>> |
+| 8 | Workspace confiável no Kiro | <✅ | ⚠️ confie no workspace para carregar agentes e skills> |
 ```
 
 Depois, numa mensagem só:

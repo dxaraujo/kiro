@@ -59,11 +59,9 @@
             "additionalProperties": false,
             "properties": {
               "sprint": {
-                "description": "Chave da sprint <pai>/<nn> (2026/03: iteração pai do EWM e número dentro dela); inteiro só no histórico de antes da 3.3.0.",
-                "oneOf": [
-                  { "type": "string", "pattern": "^[^/]+/[0-9]{2,}$" },
-                  { "type": "integer", "minimum": 1 }
-                ]
+                "type": "string",
+                "pattern": "^[^/]+/[0-9]{2,}$",
+                "description": "Chave da sprint <pai>/<nn> (2026/03: iteração pai do EWM e número dentro dela)."
               },
               "fatias-concluidas": {
                 "type": "integer",
@@ -79,7 +77,7 @@
               },
               "horas-lancadas": {
                 "type": "object",
-                "description": "Horas lançadas no EWM na sprint por tipo de tarefa ([DEV] entrega, [REV] revisao, [APR] aprovacao, [VER] verificacao, [ESP] especificacao, Apoio — [ATD] [IMPL] [BD] [INF] [OPE] [EXT] — apoio; atendimento só no histórico antigo); vem do relatorio de horas da virada (elm_horas da iteracao).",
+                "description": "Horas lançadas no EWM na sprint por tipo de tarefa ([DEV] entrega, [REV] revisao, [APR] aprovacao, [VER] verificacao, [ESP] especificacao, Apoio — [ATD] [IMPL] [BD] [INF] [OPE] [EXT] — apoio); vem do relatorio de horas da virada (elm_horas da iteracao).",
                 "additionalProperties": false,
                 "properties": {
                   "entrega": {
@@ -106,11 +104,6 @@
                     "type": "number",
                     "minimum": 0,
                     "description": "Soma das tarefas de Apoio de toda categoria."
-                  },
-                  "atendimento": {
-                    "type": "number",
-                    "minimum": 0,
-                    "description": "Histórico de antes da 3.3.0 (só [ATD]); sprints novas usam apoio."
                   }
                 }
               },
@@ -119,12 +112,6 @@
                 "minimum": 0,
                 "maximum": 1,
                 "description": "Reserva da sprint para o Apoio (toda categoria) e o retrabalho da sprint anterior (0.2 = 20% das horas da sprint do time)."
-              },
-              "reserva-atendimento": {
-                "type": "number",
-                "minimum": 0,
-                "maximum": 1,
-                "description": "Histórico de antes da 3.3.0; sprints novas usam reserva-apoio."
               }
             }
           }

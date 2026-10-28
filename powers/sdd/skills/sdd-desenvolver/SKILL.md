@@ -61,7 +61,7 @@ avise a divergência ao P.O. e siga no HITL.
 ## Passo 2 — Trilha
 
 A trilha vem do registro, não de uma triagem nova: fatia de uma seção de épico → **padrão**; da seção
-`## Fatias — sem épico` → a da coluna `trilha` (seção antiga `## Fatias — trilha rápida` → **rápida**). Ao ler o
+`## Fatias — sem épico` → a da coluna `trilha`. Ao ler o
 item, a trilha registrada não serve (a "rápida" tem regra de negócio nova)
 → pare e devolva à `sdd-triar` para refazer a triagem.
 

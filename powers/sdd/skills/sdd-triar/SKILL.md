@@ -73,9 +73,7 @@ parecidos, e a seção `## Apoio`), no `**Origem:**` dos `<produto>/apoio/**/*.m
 
 ## Passo 3 — Registrar (na base)
 
-Grava-se na base, conferida no Passo 1. Backlog ainda com a seção antiga `## Fatias — trilha rápida` → renomeie-a
-para `## Fatias — sem épico` e acrescente as colunas `trilha` (`rápida` nas linhas que já existem) e `ficha` (`—`),
-no mesmo commit.
+Grava-se na base, conferida no Passo 1.
 
 - **Épico:** próximo `EP-nn` de "Próximos ids"; linha em `## Épicos` com `status` `rascunho`, prioridade `—` (quem
   prioriza é o planejamento), `prd` `—` e `po` = o P.O. ativo do `equipe.json` (outro, se a pessoa disser).
@@ -120,8 +118,7 @@ no mesmo commit.
     receber, origem, prazo, quem atende, critério de pronto). Demais categorias → sem entrevista: pergunte numa
     mensagem o pedido, a origem, o prazo, quem faz, o critério de pronto e a estimativa. Regra de negócio em aberto →
     não é Apoio: volte ao Passo 2.
-  - Próximo id da série da categoria em "Próximos ids" (`AT-`, `IM-`…; série que falta → começa em `001`; backlog
-    antigo, sem `AT-`: regra de migração no formato do backlog).
+  - Próximo id da série da categoria em "Próximos ids" (`AT-`, `IM-`…; série que falta → começa em `001`).
   - **Sprint sugerida:** a aberta (`sprint-<nn>.md` com `**Situação:** aberta`), pela regra da reserva — a reserva
     (apoio + retrabalho) está na seção Apoio do `sprint-<nn>.md`; o usado é o retrabalho migrado mais a
     soma das estimativas dos itens de Apoio dela; cabe com a
@@ -133,7 +130,6 @@ no mesmo commit.
   - Linha em `## Apoio` (`categoria`; `aberto` na sprint, `backlog` sem ela); `<produto>/apoio/<pasta>/<ID>-<slug>.md` (`<pasta>` da tabela **Apoio** do `sdd.md`)
     no formato da [`sdd-atender`](../sdd-atender/SKILL.md#registro), com a categoria e as respostas no cabeçalho
     (estimativa em `**Estimativa:**`) e `**Situação:** aberto`; na sprint, a linha na seção Apoio do `sprint-<nn>.md`.
-    Backlog com `## Atendimentos` → antes, a migração do formato do backlog (seção, coluna, pasta).
   - EWM (com ELM): [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §6, com "sim" — na iteração da sprint, ou no backlog com o item em
     `backlog` (o encaixe ou o planejamento movem), filha do IB da categoria — primeiro item da categoria (a linha `Sustentação:` sem
     ela) → o IB nasce junto, na mesma confirmação, e o id dele vai para a linha (§6; §2 antes, se faltar a
@@ -180,10 +176,10 @@ a instrução acima e pare. Recomeçar a própria triagem com o próximo item n�
 1. **Filtro**, com padrão e uma confirmação: o `pa` (vários → pergunte qual), tipos Defeito e Item de
    Backlog, estado `Novo` (o nome do estado inicial na PA; a pessoa troca). `elm_listar_wi(tipo, estado)`, por tipo.
 2. **Fora do lote:** item cujo id já está no `backlog.md` (colunas `origem` e `elm`) ou no `**Origem:**` de um
-   `<produto>/apoio/**/*.md`, item criado pelo próprio fluxo (título com `[EP-`, `[FT-`, `[SUS-`, `Sustentação `,
+   `<produto>/apoio/**/*.md`, item criado pelo próprio fluxo (título com `[EP-`, `[FT-`, `Sustentação `,
    `[ESP]`, `[DEV]`, `[REV]`, `[VER]`, um prefixo do Apoio ou `<Categoria> - <produto>`, o IB de categoria), tarefas (as da iteração da sprint entram pela
    "sincroniza a sprint" da `sdd-planejamento`) e, depois de ler o item (item 3), o que tem pai do fluxo (`[EP-`,
-   `[SUS-`, `Sustentação `, IB de categoria) ou o comentário `sdd: não fazer`. Mais de 15
+   `Sustentação `, IB de categoria) ou o comentário `sdd: não fazer`. Mais de 15
    itens → mostre a contagem e peça um filtro mais fino.
 3. Leia cada item (`elm_ler_wi(id, comentarios)`) e proponha a triagem numa tabela, com **uma
    confirmação para o lote**:

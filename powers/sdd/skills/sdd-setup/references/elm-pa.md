@@ -78,8 +78,7 @@ valor que não está nela.
 | 1 | épico | `[EP-` | Nova funcionalidade |
 | 2 | fatia | `[FT-` | Nova funcionalidade |
 | 3 | Sustentação do produto (pai dos IBs de categoria do Apoio) | `Sustentação ` | Apoio Técnico |
-| 4 | Sustentação antiga (projetos de antes da 3.3.0) | `[SUS-` | Apoio Técnico |
-| 5 | IB de defeito | — (vai na chamada) | Correção → linha "IB de defeito" do `sdd.md` |
+| 4 | IB de defeito | — (vai na chamada) | Correção → linha "IB de defeito" do `sdd.md` |
 | — | padrão do tipo (`padroes`) | qualquer outro título (inclusive o IB de categoria do Apoio, `<Categoria> - <produto>`) | Apoio Técnico |
 
 **Tarefa** — obrigatórios 🔒 `Categoria` (de integração de horas), `OTR`, `ID do Produto (Clarity)` e `Classificação
@@ -87,21 +86,21 @@ da Tarefa`:
 
 | # | Tarefa | Título começa por | Classificação da Tarefa |
 |---|---|---|---|
-| 6 | especificação | `[ESP]` | Análise / Especificação |
-| 7 | desenvolvimento | `[DEV]` | Desenvolvimento (Transacional / Analítico / IA / etc ) |
-| 8 | revisão | `[REV]` | Desenvolvimento (Transacional / Analítico / IA / etc ) |
-| 9 | verificação | `[VER]` | Testes |
-| 10 | aprovação do plano e do PR | `[APR]` | Outra - Não listada |
-| 11 | Apoio — Atendimento | `[ATD]` | Suporte / Apoio Técnico Especializado |
-| 12 | gerenciamento do backlog | `[GB]` | Outra - Não listada |
-| 13 | Apoio — Implantação | `[IMPL]` | — (pergunte: valor da lista da PA) |
-| 14 | Apoio — Banco de dados | `[BD]` | — (pergunte) |
-| 15 | Apoio — Infra | `[INF]` | — (pergunte) |
-| 16 | Apoio — Operação | `[OPE]` | — (pergunte) |
-| 17 | Apoio — Apoio a outros times | `[EXT]` | — (pergunte) |
+| 5 | especificação | `[ESP]` | Análise / Especificação |
+| 6 | desenvolvimento | `[DEV]` | Desenvolvimento (Transacional / Analítico / IA / etc ) |
+| 7 | revisão | `[REV]` | Desenvolvimento (Transacional / Analítico / IA / etc ) |
+| 8 | verificação | `[VER]` | Testes |
+| 9 | aprovação do plano e do PR | `[APR]` | Outra - Não listada |
+| 10 | Apoio — Atendimento | `[ATD]` | Suporte / Apoio Técnico Especializado |
+| 11 | gerenciamento do backlog | `[GB]` | Outra - Não listada |
+| 12 | Apoio — Implantação | `[IMPL]` | — (pergunte: valor da lista da PA) |
+| 13 | Apoio — Banco de dados | `[BD]` | — (pergunte) |
+| 14 | Apoio — Infra | `[INF]` | — (pergunte) |
+| 15 | Apoio — Operação | `[OPE]` | — (pergunte) |
+| 16 | Apoio — Apoio a outros times | `[EXT]` | — (pergunte) |
 | — | padrão do tipo (`padroes`) | qualquer outro título | Outra - Não listada |
 
-As linhas 11 e 13–17 são as categorias da tabela **Apoio** do `sdd.md` (a Classificação escolhida aqui vai também
+As linhas 10 e 12–16 são as categorias da tabela **Apoio** do `sdd.md` (a Classificação escolhida aqui vai também
 para a coluna dela lá); categoria que o projeto acrescenta ganha uma linha aqui, com o prefixo dela.
 
 Iguais em toda tarefa (vão em `padroes`): `Categoria` = Aplicativo · `OTR` = 1-Apoio-Produtos · `ID do Produto

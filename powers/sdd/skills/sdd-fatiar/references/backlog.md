@@ -47,18 +47,18 @@ linha da tabela — sem quebra de linha nem `|` dentro de célula (troque por `/
 | Coluna | Valores |
 |---|---|
 | épico `status` | `rascunho` · `em-revisao` · `aprovado` · `fatiado` · `concluido` · `cancelado` (o mesmo do frontmatter do PRD; publicação no ELM fica no `elm` do PRD, não no status) · `rascunho` com `prd` `—` = registrado pela `sdd-triar`, PRD ainda não escrito ("a descobrir" no roadmap) |
-| épico `po` | login do P.O. do épico (padrão: o P.O. ativo do `equipe.json`); é o responsável do épico no EWM e quem aprova o PRD; backlog antigo sem a coluna → a próxima escrita a acrescenta com o P.O. ativo |
-| épico `pasta` | `[pasta](epicos/<EP>-<slug>/)` (criada pela `sdd-triar`) ou `—`; backlog antigo sem a coluna → a próxima escrita a acrescenta |
+| épico `po` | login do P.O. do épico (padrão: o P.O. ativo do `equipe.json`); é o responsável do épico no EWM e quem aprova o PRD |
+| épico `pasta` | `[pasta](epicos/<EP>-<slug>/)` (criada pela `sdd-triar`) ou `—` |
 | `trilha` | só nas fatias sem épico: `padrão` · `rápida` (fatia de épico é sempre padrão) |
 | fatia `origem` | só nas fatias sem épico: o item ou o pedido que a originou — `DF 4567`, `IB 611`, `AT-012`, `pedido: <resumo>` |
-| `ficha` | toda fatia: `[ficha](fatias/FT-<nnn>-<slug>.md)` — formato por trilha na `sdd-triar`, `references/ficha.md` (sem épico: escrita pela `sdd-triar`; de épico: pela `sdd-fatiar`). Backlog antigo com `—` ou sem a coluna → a fatia fica `backlog` com `falta: ficha` até alguém escrevê-la |
+| `ficha` | toda fatia: `[ficha](fatias/FT-<nnn>-<slug>.md)` — formato por trilha na `sdd-triar`, `references/ficha.md` (sem épico: escrita pela `sdd-triar`; de épico: pela `sdd-fatiar`) |
 | `cobre` | `HF-nn#c.c` (cenário) e `REG-nn` do PRD do épico; não existe nas fatias sem épico (os cenários da padrão ficam na ficha, `C<n>`) |
 | fatia `obs` | texto livre; convenções: `falta: <…>` (o que impede a Definition of Ready), `substituida-por FT-…`, o motivo do cancelamento |
 | `tamanho` | `P` · `M` · `G` |
 | `modo` | `AFK` · `HITL` — proposto na triagem ou no fatiamento (critérios da `sdd-fatiar`); o modo final é gravado pela `sdd-planejamento` quando a fatia ganha responsável, pela senioridade dele (Júnior → `HITL` · Pleno → os critérios · Sênior → `AFK` por padrão) |
 | fatia `status` | `backlog` → `pronta` (passou na Definition of Ready) → `concluida`; desvios `dividida` (`obs`: `substituida-por FT-…`), `cancelada` (`obs`: motivo). "Em andamento" não é gravado: é a fatia que tem `status.md` numa branch |
-| `creditos` | créditos do Kiro do item: soma das linhas de créditos do `status.md` da fatia, do `status.md` do épico (a `[ESP]`) ou da ficha do AT, copiada do `sprint-<nn>.md` na virada da sprint (`sdd-planejamento`; a conclusão grava só na sprint); `—` antes; backlog antigo sem a coluna → a próxima escrita a acrescenta |
-| `sprint` | chave da sprint `<pai>/<nn>` (`2026/03`: iteração pai do EWM e número dentro dela — [arquivos.md](../../sdd-planejamento/references/arquivos.md#sprintspaisprint-nnmd)) (`sdd-planejamento`) ou `—`; no Kanban, `—`; backlog antigo com número solto → a migração das sprints (`sdd-setup`) troca pela chave |
+| `creditos` | créditos do Kiro do item: soma das linhas de créditos do `status.md` da fatia, do `status.md` do épico (a `[ESP]`) ou da ficha do AT, copiada do `sprint-<nn>.md` na virada da sprint (`sdd-planejamento`; a conclusão grava só na sprint); `—` antes |
+| `sprint` | chave da sprint `<pai>/<nn>` (`2026/03`: iteração pai do EWM e número dentro dela — [arquivos.md](../../sdd-planejamento/references/arquivos.md#sprintspaisprint-nnmd)) (`sdd-planejamento`) ou `—`; no Kanban, `—` |
 | `elm` | o item no EWM — o backlog do EWM é a cópia deste arquivo: nasce no backlog do produto ao registrar (triagem, GATE do backlog) e muda de iteração ao entrar na sprint ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md)) —: `[<id>](<url>)`, `pendente` (registrado sem o MCP `elm`; criado depois) ou `—` (sem ELM); tarefas do EWM em seguida, `<prefixo> [<id>](<url>)`, separadas por ` · ` (gravadas na publicação da sprint, §4) |
 | `concluida-em` | data `AAAA-MM-DD` ou `—` |
 | apoio `categoria` | uma das categorias da tabela **Apoio** do `sdd.md` (padrão: Atendimento `[ATD]` `AT-` · Implantação `[IMPL]` `IM-` · Banco de dados `[BD]` `BD-` · Infra `[INF]` `IN-` · Operação `[OPE]` `OP-` · Apoio a outros times `[EXT]` `EX-`); o id é da série da categoria. Não existe item nem tarefa "de Apoio" genérica: Apoio é só o nome do conjunto |
@@ -117,16 +117,6 @@ ADRs, lições, `sdd.md` Regras aprendidas). As skills citam este bloco em vez d
 ## Regras
 
 - Ids nunca são reaproveitados nem renumerados; "Próximos ids" só cresce.
-- Backlog sem `AT-` em "Próximos ids" (antes da 2.5.0): o próximo é o maior entre o `Próximo:` do antigo
-  `<produto>/atendimentos/README.md` e os `AT-*.md` existentes, mais um; a próxima escrita da `sdd-triar` acrescenta
-  o `AT-` e a seção `## Atendimentos` (com os AT abertos do README) e deixa de gravar no README.
-- Backlog com `## Atendimentos` (antes da 3.3.0): a próxima escrita renomeia a seção para `## Apoio`, acrescenta a
-  coluna `categoria` (`Atendimento` em toda linha), troca `atendimentos/` por `apoio/atendimento/` na coluna `registro` e move
-  as fichas (`git mv <produto>/atendimentos <produto>/apoio/atendimento`) no mesmo commit; "Próximos ids" ganha as séries das
-  demais categorias (`IM-001`…). A linha `Sustentação: [SUS-<ano>] … · Atendimento …` fica como está até a primeira
-  sprint de um pai novo; os ids `AT-nnn` não mudam.
-- Backlog com a seção antiga `## Fatias — trilha rápida` (antes da 2.3.0): leia as linhas como `trilha` `rápida` e
-  `ficha` `—`; a próxima escrita da `sdd-triar` renomeia a seção e acrescenta as colunas, sem perder linha.
 - Antes de gravar: `git switch <base>` e `git pull --ff-only`; depois, commit pequeno só com ele quando não houver
   outro artefato de produto junto. Push: com o "sim" da pessoa.
 - Conflito no `backlog.md`: mantenha o remoto e reaplique só a sua mudança, linha a linha (cada fatia é uma linha).

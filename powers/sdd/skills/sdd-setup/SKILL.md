@@ -88,30 +88,11 @@ trocar para a sessão padrão e pare.
 4. **Modo:** já existe `.kiro/steering/sdd.md` ou `.kiro/agents/sdd-*.json` → **atualização** (cartão W0-A): mostre a
    configuração atual e pergunte o que mudar ("nada — só regenerar os agentes", útil depois de
    atualizar o power ou um toolkit). Refaça só o que mudou nas respostas, mas agentes, hook e workflows
-   **sempre** a partir do power atual: os agentes pelo gerador, com o `.kiro/config/sdd/agentes.json` do projeto
-   (sem ele — projeto configurado antes da 3.0.0 —, monte-o com as respostas atuais: Passo 8), e hook e workflows
-   dos templates, mesmo os que já têm o nome certo — renomear um arquivo antigo não o atualiza. Mostre o diff de
-   cada um.
-   **Configurado com o nome `sdd2`** (o nome deste fluxo antes da v2: `.kiro/steering/sdd2*.md`,
-   `.kiro/agents/sdd2-*.json`) → proponha a migração, com o plano numa só mensagem e "ok":
-   - `.kiro/steering/sdd2.md` e `sdd2-projeto.md` → os valores vão para as seções do novo `.kiro/steering/sdd.md`;
-     `sdd2-licoes.md` → as regras promovidas vão para a seção Regras aprendidas, sem perder nenhuma;
-     `sdd2-fechar-sessao.md` → removido (fechar a sessão agora é da `sdd-status`). Todos saem do repositório;
-   - `.kiro/agents/sdd2-*.json` → removidos (os `sdd-*.json` são gerados de novo pelo Passo 8);
-     `.kiro/hooks/sdd2.json` → `.kiro/hooks/sdd.json`; `.kiro/workflows/sdd2-*.workflow.json` →
-     `.kiro/workflows/sdd-*.workflow.json`; `.kiro/sdd2/http.sh` → `.kiro/sdd/http.sh`;
-   - `.kiro/produto/` → a pasta do produto (Passo 4) e `.kiro/aprendizado/` → `<produto>/aprendizado/`;
-   - tudo com `git mv`/`git rm` (arquivo não versionado → `mv`/`rm`), sem mudar o conteúdo dos movidos; diga que
-     as fatias em andamento (`.kiro/specs/`) não mudam.
+   **sempre** a partir do power atual: os agentes pelo gerador, com o `.kiro/config/sdd/agentes.json` do projeto,
+   e hook e workflows dos templates. Mostre o diff de cada um.
 5. **Pré-checagem** (tabela do W0): shell, `uv --version` (o gerador dos agentes precisa; sem ele → como instalar
    e pare), `kiro-cli --version` (opcional), `elm_status(projeto=<raiz>)` (credencial do ELM; sem `pa` ainda, ele responde com `faltando`, o que é normal aqui) e se
    `~/.config/mcp-gitlabpr/gitlabpr.properties` existe (sem abrir). Mostre o W0 e espere o "ok" antes do Passo 1.
-6. **Vindo da v1 do `sdd`?** Existe `.kiro/steering/sdd-projeto.md` sem `.kiro/steering/sdd.md` → ofereça
-   reaproveitar dele: steering, branch base, prefixo, padrão de commit, ferramenta de PR, comandos, gate de
-   cobertura, banco, testes funcionais, ELM e skills por agente. Os agentes `sdd-codificador`, `sdd-revisor` e
-   `sdd-orquestrador` da v1 têm o mesmo nome dos novos: são **substituídos** no Passo 8 (mostre o diff). O que só a
-   v1 tinha sai com `git rm` e "ok": `.kiro/agents/sdd-especificador.json`, `.kiro/agents/prompts/sdd-*.md` e
-   `.kiro/steering/sdd-projeto.md`.
 
 ## Passo 1 — Entender o projeto (cartão W1)
 
@@ -186,8 +167,7 @@ mais longa (10 blocos) e o que ela decide.
      perguntada: nasce no backlog do EWM, uma por produto, na primeira triagem ou no
      espelhamento do backlog ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §0 e §2); pergunte só o
      nome curto do produto (linha 7 do W4; vai para a linha "Produto" da seção ELM). A seção **Apoio** do `sdd.md` vem do template com as seis
-     categorias, a Classificação de cada uma pelo bloco 5 do `elm-pa.md`; modo atualização com `sdd.md` sem a
-     seção → acrescente-a (com "ok").
+     categorias, a Classificação de cada uma pelo bloco 5 do `elm-pa.md`.
    - **Backlog do produto no EWM** (`ccm.backlog` do `pa`; também no modo atualização, com `pa` sem ele): onde os
      itens triados nascem — [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §0 (pergunta a linha de
      base e se `<linha de base>/Backlog` já existe; senão cria a iteração e o plano `Backlog`; com `backlog.md` em uso,
@@ -322,25 +302,12 @@ Itens:
    `<produto>/aprendizado/licoes.md` com o título `# Lições` (a pasta `apoio/` nasce
    com o primeiro item de Apoio, pela `sdd-triar`) e `fatias/` (as fichas). O `equipe.json` e o `acordos.md` não: são da
    `sdd-planejamento` (modo inicial), que só grava a equipe depois dos acordos (cadência e duração da sprint). No modo atualização, acrescente só o que falta —
-   nunca recrie o que existe; subpasta `<produto>/planejamento/` (layout da 2.6.0) →
-   ofereça mover o conteúdo dela para a raiz de `<produto>/` com `git mv` (com "ok"), sem sobrescrever o que já
-   estiver lá, e apagar a subpasta vazia. **Sprints em sequência** na raiz de `sprints/` (`sprint-07.md`, antes da
-   3.3.0) → ofereça a migração para `sprints/<pai>/sprint-<nn>.md` (formato no
-   [arquivos.md](../sdd-planejamento/references/arquivos.md#sprintspaisprint-nnmd)):
-   1. o pai de cada arquivo pela `**Iteração no EWM:**` — `elm_iteracao(nome)` devolve `pai`; sem ELM, iteração `—`
-      ou ambígua → pergunte o pai para o lote (padrão: o ano do início da sprint);
-   2. renumere dentro de cada pai na ordem atual (`01`, `02`…) e mostre a prévia
-      (`sprint-07.md → 2026/sprint-03.md`), com um "ok";
-   3. `git mv` de cada arquivo e troca das chaves antigas pelas novas: cabeçalho (`# Sprint 2026/03`, `**Iteração no
-      EWM:** 2026/<nome>`), coluna `sprint` do `backlog.md`, `historico[].sprint` do `equipe.json`, `→ sprint <n>` e
-      `migrada da sprint <n>` nos próprios arquivos, `Puxada para a sprint <n>` nos `status.md` só da base; um commit
-      (`sprint: migrar para sprints/<pai>/`), pelo bloco Gravar na base. Os nomes das iterações no EWM não mudam.
-   Os ids `FT`/`EP`/`AT` não mudam (a regra "ids nunca são renumerados" é dos itens, não das sprints).
+   nunca recrie o que existe.
 5. Glossário e ADRs que o W4 disse "será criado" (só o que não existe): `<glossario>` com `# Glossário — <nome>` e a
    tabela vazia `| Termo | Definição | Evitar | Fonte | ELM |` (formato da `sdd-entrevistar`); `<adr>/` com um
    `README.md` de uma linha ("Decisões que devem durar — um arquivo por decisão, gravado pela consolidação").
    Prometido no W4 e não gravado → o fluxo aponta para um caminho que não existe: confira na etapa 9.
-6. `.gitignore`: acrescente `.kiro/local/` se faltar. Migração do layout antigo (Passo 0), se aceita.
+6. `.gitignore`: acrescente `.kiro/local/` se faltar.
 
 Agente existente e editado à mão → mostre o diff e pergunte antes de sobrescrever. O Kiro pede confirmação para
 cada arquivo gravado em `.kiro/agents/`, `.kiro/hooks/` e `.kiro/workflows/` — avise antes.
@@ -355,8 +322,7 @@ escrita de memória.
   "não há"/`null`.
 - O GitLab que ficou ⏸️ no Passo 3 → teste de novo (`gitlab_listar_mrs`) e diga o resultado.
 - O gerador já confere os agentes (sai com 1 e não grava se sobrou `{{…}}` ou se um `skill://`/`file://` não existe
-  ou é absoluto). Confira também: nenhum servidor `elm` no `mcp.json` do projeto; `.kiro/steering/` tem só o
-  `sdd.md` do fluxo (nenhum `sdd2*.md` nem `sdd-projeto.md` sobrando), e nenhum `.kiro/agents/sdd2-*.json`.
+  ou é absoluto). Confira também: nenhum servidor `elm` no `mcp.json` do projeto.
 - Ferramentas que varrem a raiz do repositório (test runners, linters, `tsc`, varredura de arquivos) ignoram
   `.kiro/local/` — onde o loop cria as worktrees? Não ignoram → acrescente a exclusão na configuração delas (com
   "ok") ou registre no `sdd.md` que o loop não deve ser usado.
@@ -377,7 +343,7 @@ escrita de memória.
   e os workflows do projeto e pergunta antes de cada comando de shell.
 
 Sugira o commit — o comando pronto no shell da pessoa, no padrão de commit do projeto — (`.kiro/steering/sdd.md`, `.kiro/config/sdd/agentes.json`, `.kiro/agents/sdd-*.json`, `.kiro/hooks/`, `.kiro/workflows/`,
-`.kiro/sdd/`, `<produto>/`, `.gitignore` e o que a migração moveu ou removeu) — só com confirmação — e termine
+`.kiro/sdd/`, `<produto>/` e `.gitignore`) — só com confirmação — e termine
 com o próximo passo — sem `<produto>/equipe.json`, primeiro "monte o planejamento" (`sdd-planejamento`, modo
 inicial: equipe com a senioridade, acordos e roadmap; sem ela não há modo da fatia, GATE do plano nem revisor); depois
 "nova demanda: …" (`sdd-triar`: faz a triagem e registra no backlog; épico → `sdd-prd`), "iniciar <id>" ou "minha próxima tarefa"

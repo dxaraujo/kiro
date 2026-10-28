@@ -19,7 +19,7 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
    `HEAD`; `git ls-tree -r --name-only <ref> -- .kiro/specs/` e `git show <ref>:<caminho>`). A pasta da fatia
    costuma existir só na branch dela.
 2. De cada `status.md`: fatia, título, trilha, modo, fase, responsável, rodadas, achados abertos, PR, ELM,
-   Banco, última linha do Histórico (data) e pendências `ELM pendente [<chave>]:` sem `ELM feito` com a **mesma chave** (pendência antiga, sem chave → liste com "sem chave: confira") (também
+   Banco, última linha do Histórico (data) e pendências `ELM pendente [<chave>]:` sem `ELM feito` com a **mesma chave** (também
    no campo `**ELM:**` das fichas abertas de `apoio/**` e na coluna "Tarefa ELM" `pendente` da sprint aberta).
    PR das fatias em `pr-aberto`, `em-revisao`, `em-verificacao`, `retrabalho`, `pronta-para-merge` ou `mergeada`:
    `gitlab_listar_mrs(origem=<branch>, estado=all)` (MCP `gitlabpr`, só leitura) — estado, conflitos e link;
@@ -36,8 +36,7 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
 6. `<produto>/aprendizado/licoes.md`: lições com situação `proposta`.
    Sprint aberta (`sprint-<nn>.md`): seções Especificação e Apoio (reserva × consumido) e as linhas
    `ELM pendente [<chave>]:`. Apoio aberto: as linhas `aberto` e `backlog` de `## Apoio` do `backlog.md`, por
-   categoria (backlog de antes da 3.3.0: `## Atendimentos`; mais antigo, sem a seção: os `AT-*.md` com
-   `**Situação:** aberto`). Com o MCP `elm`: **tarefas por fora** — `elm_listar_wi(iteracao da sprint, tipo
+   categoria. Com o MCP `elm`: **tarefas por fora** — `elm_listar_wi(iteracao da sprint, tipo
    tarefa, limite 200)` menos os ids conhecidos (os mesmos do §9, item 2, do
    [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md)); só conta, não grava.
 7. Lotes autônomos em andamento: `.kiro/local/loop-*.md`.
@@ -87,11 +86,6 @@ trabalho de produto (PRD/fatiar) para manter o backlog com fatias prontas.
 
 - fase `pr-aberto` sem PR (nem `PR: texto entregue`), ou com tarefas pendentes no `tasks.md`;
 - fatia sem ficha (coluna `ficha` `—` ou arquivo inexistente) marcada `pronta`;
-- `ELM pendente` sem chave (formato antigo) — liste à parte, para a pessoa conferir à mão;
-- layout antigo do produto: subpasta `<produto>/planejamento/` (o lugar de `equipe.json`, `acordos.md`,
-  `roadmap.md` e `sprints/` é a raiz de `<produto>/`) — ofereça a `sdd-setup` para mover (com "ok");
-- sprints numeradas em sequência na raiz de `sprints/` (`sprints/sprint-07.md`, antes da 3.3.0) — ofereça a
-  migração para `sprints/<pai>/` da `sdd-setup` ("atualizar a configuração do sdd");
 - fatia `concluida` no `status.md` e não no `backlog.md` (ou o contrário);
 - fatia em andamento sem commit há mais de 3 dias úteis;
 - `concluida` com Banco = `pendente` ou `aplicada em dev` (implantação bloqueada);
@@ -99,7 +93,6 @@ trabalho de produto (PRD/fatiar) para manter o backlog com fatias prontas.
 - conceito de `elm/` com `verified` humano e sem `resource` há mais de 1 dia (projeto que publica na aprovação);
 - conceito de `elm/` alterado (`generated.at`) depois do último `verified` e ainda `stable` (falta reaprovar);
 - `backlog.md` alterado numa branch de fatia (deve mudar só na base);
-- `backlog.md` com `## Atendimentos` (antes da 3.3.0) — a próxima escrita da `sdd-triar` migra para `## Apoio`;
 - reserva de apoio estourada (consumido > reserva) sem decisão do P.O. registrada no `sprint-<nn>.md`;
 - arquivo com dado de cliente versionado (extração, CSV ou evidência fora de `.kiro/local/`).
 

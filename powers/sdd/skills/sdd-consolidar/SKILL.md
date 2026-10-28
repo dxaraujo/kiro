@@ -95,9 +95,8 @@ retrospectiva do épico ou da sprint (`sdd-aprender`).
   da seção **Créditos** do `status.md` da branch da fatia (`git show origin/<branch>:…`, com as linhas que o Dev
   gravou no merge) — o `creditos` do `backlog.md` é da virada da sprint; ADRs e glossário do Passo 3.
 - Fatia puxada (`Puxada para a sprint <nn>` no Histórico): `sprint` = a chave `<pai>/<nn>` na linha do `backlog.md`
-  (número solto, de um `status.md` anterior à migração das sprints → a chave da sprint aberta) e uma linha na
-  seção Fatias do `sprint-<nn>.md` (revisor e verificador do Histórico, Tarefa ELM com os ids do `status.md`), com
-  a Observação `puxada` (e `revisor único`, se o Histórico o tiver) — ela conta na vazão da sprint.
+  e uma linha na seção Fatias do `sprint-<nn>.md` (revisor e verificador do Histórico, Tarefa ELM com os ids do
+  `status.md`), com a Observação `puxada` (e `revisor único`, se o Histórico o tiver) — ela conta na vazão da sprint.
 - Todas as fatias do épico concluídas → épico `concluido` (PRD e backlog) e, com ELM, o item do épico no EWM
   concluído ([conclusão](references/elm-publicar.md#conclusão-do-ib-e-do-épico), na mesma confirmação do Passo 2; sem o MCP → `ELM pendente
   [EP-<nn> concluir]` no rodapé do PRD); sugira a retrospectiva do épico (`sdd-aprender`), com o lint do
@@ -105,7 +104,7 @@ retrospectiva do épico ou da sprint (`sdd-aprender`).
 - **`sdd-aprender`** modo registrar para cada linha das **Lições candidatas** que o Dev gravou no merge (`status.md`
   da branch da fatia, `git show origin/<branch>:…`): transcreva sem reclassificar — os fatos e a causa são de quem
   recebeu a correção — e grave o L-nnn na linha, levando a seção para o `status.md` da base. Causa `—` ou
-  `nenhuma` → nada a registrar. Seção ausente (fatia anterior a esta regra) → peça ao Dev; nunca reconstrua você.
+  `nenhuma` → nada a registrar.
 - Commit (padrão do `sdd.md`, `<id> consolidar`) com `status.md`, `backlog.md` e o que mudou. Branch da fatia: pode
   ser apagada depois do merge (a pasta da fatia já está na base).
 

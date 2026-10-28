@@ -1,0 +1,1318 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mapa do sdd</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Roboto+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: padrão dos decks do sdd — fundo branco, capa azul com faixas inclinadas, cartões com dois cantos opostos arredondados, sequências em chevron. Centro: mapa de metrô com itinerário por linha; à direita, a ficha que acompanha a linha, a senioridade e a trilha escolhidas. Um só tema, claro, como os slides. */
+:root{
+  --bg:#ffffff; --ink:#404040; --title:#2C5168; --muted:#6b7a88; --line:#C9D3DC; --soft:#EEF6FD; --grey:#F3F5F7; --grey2:#E6EBEF;
+  --brand:#0786E3; --blue:#0086C8; --navy:#2C5168; --cyan:#00BBCE; --teal:#0094AD; --green:#76B043; --lime:#B2D235; --yellow:#FEBE10; --orange:#FAA61A; --red:#D9534F;
+  --l-epico:#2C5168; --l-hitl:#0086C8; --l-afk:#00BBCE; --l-atd:#76B043; --l-min:#0094AD; --l-sprint:#FEBE10; --l-rapida:#FAA61A;
+  --r:18px 0 18px 0; --r-sm:12px 0 12px 0;
+  --display:"Segoe UI","Roboto",system-ui,-apple-system,sans-serif;
+  --body:"Segoe UI","Roboto",system-ui,-apple-system,sans-serif;
+  --mono:"Roboto Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:400 15px/1.55 var(--body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:16px 64px}
+.wrap{max-width:1560px;margin:0 auto}
+h1,h2,h3,h4{font-family:var(--display);margin:0;line-height:1.15;text-wrap:balance;color:var(--title)}
+p{margin:0}
+code{font-family:var(--mono);font-size:.84em;background:var(--soft);color:var(--title);padding:1px 5px;border-radius:4px 0 4px 0;overflow-wrap:anywhere}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+
+/* capa */
+.sign{position:relative;overflow:hidden;background:var(--brand);color:#fff;border-radius:28px 0 28px 0;padding:32px clamp(20px,4vw,48px) 74px;display:flex;flex-direction:column;gap:12px}
+.sign .eyebrow{font:700 12px/1 var(--display);letter-spacing:.14em;text-transform:uppercase;opacity:.9}
+.sign h1{color:#fff;font-size:clamp(32px,5vw,56px);font-weight:700;letter-spacing:-.01em}
+.sign .lead{max-width:70ch;font-size:16px;opacity:.95}
+.sign .ver{align-self:flex-start;font:600 12px/1 var(--mono);padding:8px 12px;background:rgba(255,255,255,.16);border-radius:8px 0 8px 0}
+.bands{position:absolute;right:-30px;bottom:0;display:flex;height:46px;pointer-events:none}
+.bands i{display:block;width:clamp(90px,16vw,230px);height:100%;transform:skewX(-32deg);border-radius:16px 0 0 0;margin-left:-6px}
+.bands i:nth-child(1){background:var(--cyan)}.bands i:nth-child(2){background:var(--lime)}.bands i:nth-child(3){background:var(--yellow);height:72px;margin-top:-26px}
+
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);display:flex;gap:6px;overflow-x:auto;padding-block:12px;border-bottom:2px solid var(--soft)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+nav.tabs a{white-space:nowrap;text-decoration:none;color:var(--title);font:600 13.5px/1 var(--display);padding:10px 18px 10px 16px;background:var(--soft);clip-path:polygon(0 0,calc(100% - 10px) 0,100% 50%,calc(100% - 10px) 100%,0 100%,8px 50%)}
+nav.tabs a:first-child{clip-path:polygon(0 0,calc(100% - 10px) 0,100% 50%,calc(100% - 10px) 100%,0 100%)}
+nav.tabs a:hover{background:var(--blue);color:#fff}
+
+section{padding-block:34px 8px;scroll-margin-top:64px}
+.sec-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.sec-head h2{font-size:clamp(24px,3vw,32px);font-weight:700;display:flex;align-items:center;gap:12px}
+.sec-head h2::before{content:"";width:26px;height:12px;background:var(--green);transform:skewX(-32deg);border-radius:5px 0 5px 0;flex:none}
+.sec-head p{max-width:76ch}
+
+/* controles */
+.controls{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px 14px;align-items:center;margin-bottom:14px}
+.controls .lbl{font:700 11px/1 var(--display);letter-spacing:.1em;text-transform:uppercase;color:var(--title)}
+.crow{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:7px;border:1.5px solid var(--line);background:#fff;border-radius:10px 0 10px 0;padding:7px 12px;font:600 13px/1 var(--display);color:var(--title);cursor:pointer;transition:background .2s,border-color .2s,color .2s}
+.chip .sw{width:20px;height:6px;border-radius:3px;background:var(--c)}
+.chip .sw.dash{background:repeating-linear-gradient(90deg,var(--c) 0 5px,transparent 5px 8px)}
+.chip:hover{border-color:var(--blue)}
+.chip[aria-pressed="true"]{border-color:var(--c,var(--blue));background:var(--c,var(--blue));color:#fff}
+.chip[aria-pressed="true"] .sw{background:#fff}
+.chip.snr[aria-pressed="true"]{--c:var(--navy)}
+.chip.na{opacity:.45}
+.hint{font-size:12.5px;color:var(--muted)}
+
+/* mapa + ficha */
+.board{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:16px;align-items:start}
+.mapbox{background:#fff;border:1.5px solid var(--line);border-radius:var(--r);position:relative;overflow:hidden}
+.mapscroll{overflow:auto;max-height:78vh}
+.mapscroll svg{display:block;width:100%;min-width:1040px;height:auto;transition:width .35s ease}
+.maptools{position:absolute;right:10px;top:10px;display:flex;gap:4px;z-index:2}
+.maptools button{width:34px;height:34px;border:1.5px solid var(--line);background:#fff;border-radius:8px 0 8px 0;cursor:pointer;font:700 16px/1 var(--display);color:var(--title)}
+.maptools button:hover{border-color:var(--blue);color:var(--blue)}
+.mapnote{font-size:12px;color:var(--muted);padding:9px 16px;background:var(--grey);display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+.mapnote i{display:inline-block;vertical-align:middle;margin-right:6px}
+.lg-main{width:22px;height:5px;background:var(--blue);border-radius:3px}
+.lg-loop{width:22px;height:0;border-top:3px dashed var(--orange)}
+.lg-alt{width:22px;height:0;border-top:3px dotted var(--navy)}
+.lg-xfer{width:22px;height:0;border-top:3px dashed var(--yellow)}
+
+svg .track{fill:none;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;transition:opacity .35s,stroke-width .35s}
+svg .track.dash{stroke-dasharray:14 7}
+svg .track.on{stroke-width:11}
+svg .track.blocked{opacity:.18;stroke-dasharray:3 9}
+svg .flow{fill:none;stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-dasharray:3 15;opacity:0;pointer-events:none;transition:opacity .3s}
+svg .flow.on{opacity:.95;animation:flow .9s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-18}}
+svg .xpath{fill:none;stroke-width:3;stroke-linecap:round;transition:opacity .3s}
+svg .x-loop .xpath{stroke:var(--orange);stroke-dasharray:7 5}
+svg .x-alt .xpath{stroke:var(--navy);stroke-dasharray:2 5}
+svg .x-skip .xpath{stroke:var(--l-rapida);stroke-dasharray:2 5;stroke-width:3.5}
+svg .x-xfer .xpath{stroke:var(--yellow);stroke-dasharray:8 6;stroke-width:3.5}
+svg .xedge{transition:opacity .3s}
+svg .xedge.na{opacity:.18}
+svg .xedge.hid{opacity:0;pointer-events:none}
+svg .xedge.hot .xpath{stroke-width:5}
+svg .xlab rect{fill:#fff;stroke-width:1.5}
+svg .x-loop .xlab rect{stroke:var(--orange)} svg .x-alt .xlab rect{stroke:var(--navy)} svg .x-skip .xlab rect{stroke:var(--l-rapida)} svg .x-xfer .xlab rect{stroke:var(--yellow)}
+svg .xlab text{font:600 10.5px/1 var(--display);fill:var(--title)}
+svg .st{cursor:pointer;transition:opacity .35s}
+svg .st .body{fill:#fff;stroke:var(--navy);stroke-width:3.5;transition:fill .2s,stroke .2s}
+svg .st.g-gate .body{fill:var(--navy);stroke:var(--navy)}
+svg .st .gtxt{fill:#fff;font:800 8.5px/1 var(--display);letter-spacing:.04em;pointer-events:none}
+svg .st.g-hub .body,svg .st.g-hubpill .body{stroke-width:4.5}
+svg .st:hover .body,svg .st:focus-visible .body{stroke:var(--brand);fill:var(--soft)}
+svg .st.g-gate:hover .body,svg .st.g-gate:focus-visible .body{fill:var(--brand);stroke:var(--brand)}
+svg .st.sel .body{stroke:var(--brand);stroke-width:5;fill:var(--soft)}
+svg .st.g-gate.sel .body{fill:var(--brand);stroke:var(--brand)}
+svg .st:focus{outline:none}
+svg .st .halo{fill:none;stroke:var(--brand);stroke-width:3;opacity:0;pointer-events:none;transform-box:fill-box;transform-origin:center}
+svg .st.sel .halo{animation:halo 1.8s ease-out infinite}
+@keyframes halo{0%{opacity:.7;transform:scale(.7)}100%{opacity:0;transform:scale(1.6)}}
+svg .st.dim{opacity:.16}
+svg .st.skip{opacity:.42}
+svg .st.skip .body{stroke-dasharray:4 3}
+svg .name{font:700 13px/1 var(--display);fill:var(--title)}
+svg .skill{font:400 10.5px/1 var(--mono);fill:var(--muted)}
+svg .halo-t{paint-order:stroke;stroke:#fff;stroke-width:4px;stroke-linejoin:round}
+svg .rowlbl{font:800 11px/1 var(--display);letter-spacing:.14em;fill:var(--blue)}
+svg .ringtxt{font:800 12px/1 var(--display);letter-spacing:.12em;fill:var(--navy)}
+svg .badge-t{font:700 10px/1 var(--display);fill:var(--navy)}
+svg .train{pointer-events:none;opacity:0;transition:opacity .25s}
+svg .train.on{opacity:1}
+svg .train .tb{fill:#fff;stroke-width:4}
+svg .train .tc{stroke:none}
+svg .train .tg{fill:none;stroke-width:2;opacity:.55}
+
+/* ficha lateral */
+.panel{position:sticky;top:70px;background:#fff;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;max-height:calc(100vh - 86px);display:flex;flex-direction:column}
+.ph{padding:16px 18px 14px;background:var(--navy);color:#fff;display:flex;flex-direction:column;gap:9px;position:relative}
+.ph::before{content:"";position:absolute;left:0;right:0;top:0;height:6px;background:var(--lc,var(--yellow))}
+.ph .ltabs{display:flex;gap:4px;flex-wrap:wrap}
+.ph .ltabs button{border:0;cursor:pointer;font:700 11px/1 var(--display);letter-spacing:.04em;padding:6px 9px;border-radius:7px 0 7px 0;background:rgba(255,255,255,.14);color:#fff;display:inline-flex;gap:6px;align-items:center}
+.ph .ltabs button i{width:14px;height:5px;border-radius:2px;background:var(--c)}
+.ph .ltabs button[aria-pressed="true"]{background:#fff;color:var(--navy)}
+.ph h3{font-size:24px;font-weight:700;color:#fff}
+.ph .sk{font:500 12.5px/1.35 var(--mono);color:#cfe3f1}
+.ph .nav{display:flex;align-items:center;gap:6px;font:600 12px/1 var(--display);color:#cfe3f1}
+.ph .nav button{width:30px;height:28px;border:0;border-radius:7px 0 7px 0;background:rgba(255,255,255,.16);color:#fff;cursor:pointer;font:700 14px/1 var(--display)}
+.ph .nav button:hover:not(:disabled){background:#fff;color:var(--navy)}
+.ph .nav button:disabled{opacity:.35;cursor:default}
+.ph .nav .play{width:auto;padding:0 12px;background:var(--yellow);color:var(--navy)}
+.ph .nav .sp{flex:1}
+.pb{padding:14px 18px 18px;overflow-y:auto;display:flex;flex-direction:column;gap:14px}
+.pb.fade{animation:fadein .35s ease}
+@keyframes fadein{from{opacity:.55;transform:translateY(6px)}to{opacity:1;transform:none}}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:13.5px;background:var(--soft);padding:10px 12px;border-radius:var(--r-sm)}
+.kv dt{font:700 11px/1.7 var(--display);text-transform:uppercase;letter-spacing:.07em;color:var(--blue)}
+.kv dd{margin:0;min-width:0;color:var(--title)}
+.blk h4{margin:0 0 8px;font:700 12px/1 var(--display);letter-spacing:.1em;text-transform:uppercase;color:var(--blue)}
+.blk ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;font-size:13.5px}
+.blk ul li::marker{color:var(--green)}
+.blk.elm ul{list-style:none;padding:0}
+.blk.elm li{border-left:4px solid var(--yellow);padding-left:9px}
+.senbox{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.senbox div{background:var(--grey);border-radius:10px 0 10px 0;padding:8px 9px;font-size:12px;color:var(--title);transition:background .25s,color .25s,opacity .25s}
+.senbox b{display:block;font:700 11px/1 var(--display);letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px;color:var(--blue)}
+.senbox div.on{background:var(--navy);color:#fff}
+.senbox div.on b{color:var(--yellow)}
+.senbox div.off{opacity:.5}
+.note{font-size:12.5px;background:#FFF6DC;border-left:4px solid var(--yellow);padding:8px 10px;color:var(--title)}
+.note.warn{background:#FDECEC;border-left-color:var(--red)}
+
+/* transições */
+.trans{display:flex;flex-direction:column;gap:6px}
+.tr{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;align-items:center;text-align:left;border:0;cursor:pointer;padding:8px 22px 8px 12px;background:var(--tc,var(--blue));color:#fff;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 50%,calc(100% - 12px) 100%,0 100%);transition:filter .2s,transform .2s}
+.tr:hover{filter:brightness(1.08);transform:translateX(3px)}
+.tr .ico{grid-row:span 2;font:800 16px/1 var(--display);width:20px;text-align:center}
+.tr b{font:700 13.5px/1.2 var(--display)}
+.tr span{font-size:12px;opacity:.95}
+.tr.k-loop{--tc:var(--orange)}
+.tr.k-alt{--tc:#5d7a90}
+.tr.k-xfer{--tc:var(--yellow);color:var(--navy)}
+.tr.k-skip{--tc:var(--l-rapida)}
+.tr.back{--tc:var(--grey2);color:var(--title);clip-path:polygon(12px 0,100% 0,100% 100%,12px 100%,0 50%);padding:8px 12px 8px 22px}
+.tr.na{--tc:var(--grey);color:var(--muted);cursor:default;transform:none;filter:none}
+.tr.na b{text-decoration:line-through}
+
+/* itinerário */
+.itin{list-style:none;margin:0;padding:0;position:relative}
+.itin li{position:relative;padding:0 0 0 30px}
+.itin li::before{content:"";position:absolute;left:9px;top:0;bottom:0;width:6px;background:var(--lc,var(--blue))}
+.itin li:first-child::before{top:14px}
+.itin li:last-child::before{bottom:calc(100% - 14px)}
+.itin li.skip::before{background:repeating-linear-gradient(180deg,var(--lc,var(--blue)) 0 5px,transparent 5px 9px)}
+.itin button{display:block;width:100%;text-align:left;border:0;background:none;cursor:pointer;padding:5px 6px;border-radius:8px 0 8px 0}
+.itin button:hover{background:var(--soft)}
+.itin .dot{position:absolute;left:3px;top:8px;width:18px;height:18px;border-radius:50%;background:#fff;border:3.5px solid var(--navy)}
+.itin li.gate .dot{border-radius:3px;transform:rotate(45deg) scale(.85);background:var(--navy)}
+.itin li.cur .dot{background:var(--yellow);border-color:var(--navy);box-shadow:0 0 0 4px rgba(254,190,16,.35)}
+.itin li.skip .dot{border-style:dashed;opacity:.6}
+.itin b{display:block;font:700 13.5px/1.25 var(--display);color:var(--title)}
+.itin small{display:block;font:400 11px/1.3 var(--mono);color:var(--muted)}
+.itin li.skip b{color:var(--muted);text-decoration:line-through}
+.itin .via{display:block;font-size:11.5px;color:var(--teal);padding:0 6px 6px;font-style:italic}
+.itin li.skip .via{color:var(--muted)}
+.linecard{background:var(--soft);border-radius:var(--r-sm);padding:12px 14px;font-size:13.5px;color:var(--title);display:flex;flex-direction:column;gap:6px}
+.linecard b{color:var(--blue)}
+
+/* serviços */
+.services{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+.svc{text-align:left;background:var(--soft);border:0;border-radius:var(--r);padding:14px 16px;cursor:pointer;display:flex;flex-direction:column;gap:4px;transition:background .2s}
+.svc:hover,.svc.sel{background:var(--blue)}
+.svc:hover b,.svc.sel b,.svc:hover span,.svc.sel span{color:#fff}
+.svc b{font:700 15px/1.2 var(--display);color:var(--title)}
+.svc span{font-size:12.5px;color:var(--ink)}
+.svc code{align-self:flex-start;background:#fff}
+
+/* papéis */
+.roles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.role{background:var(--soft);border:0;border-radius:var(--r);padding:0;display:flex;flex-direction:column;cursor:pointer;text-align:left;overflow:hidden;transition:box-shadow .2s}
+.role .top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;background:var(--rc,var(--blue));color:#fff;padding:14px 16px}
+.role .top h3{font-size:18px;font-weight:700;color:#fff}
+.role .who{font-size:12.5px;opacity:.92}
+.role .rb{padding:12px 16px 14px;display:flex;flex-direction:column;gap:10px;flex:1}
+.tag{display:inline-block;font:600 11.5px/1 var(--mono);padding:4px 6px;border-radius:5px 0 5px 0;background:#fff;color:var(--title);white-space:nowrap}
+.tag.t{background:var(--navy);color:#fff}
+.role .top .tag{background:rgba(255,255,255,.2);color:#fff}
+.role ul{margin:0;padding-left:17px;font-size:13px;display:flex;flex-direction:column;gap:3px;color:var(--title)}
+.role ul li::marker{color:var(--green)}
+.role .go{margin-top:auto;font:700 12px/1 var(--display);color:var(--blue)}
+.role:hover{box-shadow:0 0 0 2px var(--blue)}
+
+.scroll{overflow-x:auto;border:1.5px solid var(--line);border-radius:var(--r);background:#fff}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--grey2);vertical-align:top}
+tr:last-child td{border-bottom:0}
+th{font:700 11px/1.2 var(--display);letter-spacing:.08em;text-transform:uppercase;color:#fff;background:var(--navy)}
+td{color:var(--title)}
+td .tag{margin:1px 2px 1px 0;background:var(--soft)}
+td .tag.t{background:var(--navy)}
+.pill{display:inline-block;font:700 11px/1 var(--display);padding:5px 8px;border-radius:7px 0 7px 0;color:#fff;background:var(--blue)}
+.pill.no{background:var(--grey2);color:var(--ink)} .pill.ask{background:var(--yellow);color:var(--navy)} .pill.loop{background:var(--cyan)}
+
+/* arquivos */
+.files{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:16px;align-items:start}
+.tree{background:#fff;border:1.5px solid var(--line);border-radius:var(--r);padding:12px 8px;font-family:var(--mono);font-size:13px;color:var(--title)}
+.tree details{margin-left:14px}
+.tree>details{margin-left:0}
+.tree summary{cursor:pointer;padding:4px 6px;border-radius:6px 0 6px 0;list-style:none;display:flex;gap:8px;align-items:center;font-weight:500}
+.tree summary::-webkit-details-marker{display:none}
+.tree summary::before{content:"▸";color:var(--blue);width:10px;transition:transform .15s}
+.tree details[open]>summary::before{transform:rotate(90deg)}
+.tree .f{display:flex;gap:8px;align-items:center;padding:4px 6px 4px 24px;margin-left:14px;border-radius:6px 0 6px 0;cursor:pointer;border:0;background:none;width:calc(100% - 14px);text-align:left;font:inherit;color:var(--ink)}
+.tree .f:hover,.tree .f.sel,.tree summary:hover{background:var(--soft)}
+.tree .f.sel{box-shadow:inset 4px 0 0 var(--blue)}
+.badge{font:700 10px/1 var(--display);letter-spacing:.06em;text-transform:uppercase;padding:4px 6px;border-radius:5px 0 5px 0;margin-left:auto;white-space:nowrap;color:#fff}
+.badge.git{background:var(--blue)} .badge.local{background:var(--orange)} .badge.gen{background:var(--green)}
+.fileinfo{position:sticky;top:70px;background:var(--soft);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;gap:12px}
+.fileinfo h3{font:600 17px/1.3 var(--mono);overflow-wrap:anywhere}
+.fileinfo .k{font:700 11px/1 var(--display);letter-spacing:.08em;text-transform:uppercase;color:var(--blue);margin-bottom:4px}
+.fileinfo p{color:var(--title)}
+.fileinfo .go{align-self:flex-start;border:0;background:var(--green);color:#fff;padding:7px 18px 7px 12px;cursor:pointer;font:600 12.5px/1 var(--display);clip-path:polygon(0 0,calc(100% - 9px) 0,100% 50%,calc(100% - 9px) 100%,0 100%)}
+
+/* ciclo de vida */
+.modes{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
+.phases{display:flex;gap:4px;overflow-x:auto;padding-bottom:6px}
+.ph-step{flex:1 0 136px;min-width:0;border:0;cursor:pointer;text-align:left;background:var(--c,var(--blue));color:#fff;padding:14px 18px 14px 22px;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 50%,calc(100% - 14px) 100%,0 100%,14px 50%);display:flex;flex-direction:column;justify-content:center;min-height:78px;transition:background .3s,color .3s,transform .2s}
+.ph-step:first-child{clip-path:polygon(0 0,calc(100% - 14px) 0,100% 50%,calc(100% - 14px) 100%,0 100%);padding-left:14px}
+.ph-step:hover{transform:translateY(-2px)}
+.ph-step b{display:block;font:600 11.5px/1.2 var(--mono)}
+.ph-step small{display:block;font-size:11.5px;margin-top:4px;opacity:.92}
+.ph-step.skip{background:var(--grey2);color:var(--muted)}
+.phnote{font-size:13px;color:var(--muted);margin-top:8px}
+.statuses{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}
+.stbox{background:var(--soft);border-radius:var(--r);padding:16px}
+.stbox h3{font-size:16px;margin-bottom:10px}
+.flowr{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font:500 12px/1 var(--mono)}
+.flowr span{padding:6px 8px;border-radius:6px 0 6px 0;background:#fff;color:var(--title)}
+.flowr em{font-style:normal;color:var(--green);font-weight:700}
+.stbox p{font-size:12.5px;margin-top:10px}
+
+/* ELM */
+.elm3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.sys{background:var(--soft);border-radius:var(--r);overflow:hidden}
+.sys h3{font-size:18px;color:#fff;background:var(--c);padding:12px 16px}
+.sys .sub{font-size:12.5px;color:var(--muted);margin:10px 16px}
+.sys ul{margin:0 16px 16px;padding-left:17px;font-size:13.5px;display:flex;flex-direction:column;gap:4px;color:var(--title)}
+.sys ul li::marker{color:var(--green)}
+.ewmtree{background:#fff;border:1.5px solid var(--line);border-radius:var(--r);padding:16px 18px;font:400 13px/1.85 var(--mono);white-space:pre;overflow-x:auto;margin-bottom:16px;color:var(--title)}
+.ewmtree .c1{color:var(--navy);font-weight:700}.ewmtree .c2{color:var(--blue);font-weight:700}.ewmtree .c3{color:var(--green);font-weight:700}.ewmtree .c4{color:var(--teal);font-weight:700}.ewmtree .m{color:var(--muted)}
+
+/* gates */
+.gates{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.gt{background:var(--navy);color:#fff;border:0;border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:8px;text-align:left;cursor:pointer;transition:background .2s}
+.gt:hover{background:var(--blue)}
+.gt .dia{width:26px;height:26px;transform:rotate(45deg);background:var(--yellow);display:grid;place-items:center;margin:4px 0 4px 4px}
+.gt .dia span{transform:rotate(-45deg);font:800 8.5px/1 var(--display);color:var(--navy)}
+.gt h3{font-size:17px;color:#fff}
+.gt .q{font-size:12.5px;color:var(--yellow);font-weight:600}
+.gt p{font-size:13px}
+.sen{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.sen>div{border-radius:var(--r);padding:16px;color:#fff;cursor:pointer;transition:transform .2s}
+.sen>div:hover{transform:translateY(-2px)}
+.sen>div:nth-child(1){background:var(--blue)}.sen>div:nth-child(2){background:var(--teal)}.sen>div:nth-child(3){background:var(--green)}
+.sen b{font:700 20px/1 var(--display);display:block;margin-bottom:10px}
+.sen p{font-size:13px}
+.sen .m{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.sen .pill{background:rgba(255,255,255,.22);color:#fff}
+.sen code{background:rgba(255,255,255,.22);color:#fff}
+.golden{margin-top:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.golden div{background:var(--soft);border-radius:var(--r);padding:14px 16px;font-size:13.5px;color:var(--title)}
+.golden b{display:block;font-family:var(--display);font-size:15px;margin-bottom:4px;color:var(--blue)}
+
+footer{margin-top:40px;color:var(--muted);font-size:12px;border-top:2px solid var(--soft);padding-top:14px}
+
+@media (max-width:1240px){.board{grid-template-columns:minmax(0,1fr)}.panel{position:static;max-height:none}.roles{grid-template-columns:repeat(2,1fr)}.statuses{grid-template-columns:1fr 1fr}}
+@media (max-width:820px){.services,.elm3,.sen,.golden{grid-template-columns:1fr 1fr}.files{grid-template-columns:minmax(0,1fr)}.fileinfo{position:static}.gates{grid-template-columns:1fr 1fr}.controls{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:520px){.services,.roles,.elm3,.statuses,.sen,.golden,.gates{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+svg .decor{fill:none;stroke:var(--navy);stroke-width:2;stroke-dasharray:2 4}
+svg .dyn .xpath{stroke-width:3.5}
+svg .dyn.hot .xpath{stroke-width:4.5;animation:march 3.5s linear infinite}
+svg .dyn.na{opacity:.25}
+@keyframes march{to{stroke-dashoffset:-84}}
+.tree .f>span:first-child{min-width:0;overflow-wrap:anywhere}
+</style>
+<div class="wrap">
+  <header class="sign">
+    <span class="eyebrow">Power do Kiro · fluxo sdd</span>
+    <div>
+      <h1>Mapa do sdd</h1>
+      <p class="lead">Cada fluxo do power é uma linha, cada skill é uma estação e cada gate é o ponto em que uma pessoa aprova. Escolha a linha, a senioridade de quem implementa e a trilha da fatia: o mapa e a ficha ao lado mudam juntos, e o trem mostra cada transição.</p>
+    </div>
+    <span class="ver">power sdd 3.3.1 · mcp-elm 3.3.1</span>
+    <div class="bands" aria-hidden="true"><i></i><i></i><i></i></div>
+  </header>
+
+  <nav class="tabs" aria-label="Seções">
+    <a href="#mapa">Mapa das linhas</a><a href="#papeis">Papéis e agentes</a><a href="#arquivos">Arquivos</a><a href="#ciclo">Ciclo de vida</a><a href="#elm">ELM</a><a href="#gates">Gates e senioridade</a>
+  </nav>
+
+  <section id="mapa">
+    <div class="sec-head"><h2>Mapa das linhas</h2><p>Toda demanda entra pela Triagem, vai para o backlog e para a sprint, e começa pelo Hub. Dali, cada linha segue o próprio caminho. As voltas (retrabalho), os desvios por senioridade e as baldeações para outra linha aparecem como transições na ficha.</p></div>
+    <div class="controls">
+      <span class="lbl">Linha</span><div class="crow" id="lineChips"></div>
+      <span class="lbl">Senioridade</span><div class="crow" id="senChips"><span class="hint">de quem implementa a fatia: muda o modo, o GATE do plano e quem revisa</span></div>
+      <span class="lbl">Trilha</span><div class="crow" id="trChips"><span class="hint">da fatia: a rápida é para defeito ou ajuste de até 1 dia com o comportamento certo já conhecido</span></div>
+    </div>
+    <div class="board">
+      <div>
+        <div class="mapbox">
+          <div class="maptools"><button data-z="out" aria-label="Diminuir o mapa">−</button><button data-z="fit" aria-label="Ajustar o mapa à tela">⤢</button><button data-z="in" aria-label="Ampliar o mapa">+</button></div>
+          <div class="mapscroll"><svg id="map" viewBox="0 0 1400 800" role="img" aria-label="Mapa de metrô dos fluxos do sdd"></svg></div>
+          <div class="mapnote"><span><i class="lg-main"></i>caminho da linha</span><span><i class="lg-loop"></i>volta: retrabalho</span><span><i class="lg-alt"></i>desvio por senioridade</span><span>◆ gate: uma pessoa aprova</span><span>← → percorre a linha selecionada</span></div>
+        </div>
+        <div class="services" id="services"></div>
+      </div>
+      <aside class="panel" id="panel" aria-live="polite"></aside>
+    </div>
+  </section>
+
+  <section id="papeis">
+    <div class="sec-head"><h2>Papéis e agentes</h2><p>Toda hora trabalhada cabe numa tarefa do EWM. Clique num papel para ir à estação em que ele começa.</p></div>
+    <div class="roles" id="roles"></div>
+    <h3 style="font-size:19px;margin:26px 0 10px">Os seis agentes gerados pela setup</h3>
+    <div class="scroll"><table id="agents"><thead><tr><th>Agente</th><th>Para quem</th><th>Skills carregadas</th><th>Subagentes</th><th>Push</th><th>Observação</th></tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <section id="arquivos">
+    <div class="sec-head"><h2>Arquivos</h2><p>O que o fluxo grava no projeto. O que vai para o git é registro e decisão. Dado de cliente e trabalho em andamento ficam em <code>.kiro/local/</code>, fora do git.</p></div>
+    <div class="files"><div class="tree" id="tree"></div><div class="fileinfo" id="fileinfo"></div></div>
+  </section>
+
+  <section id="ciclo">
+    <div class="sec-head"><h2>Ciclo de vida da fatia</h2><p>A fase da fatia mora no <code>status.md</code>, na branch dela. A senioridade e a trilha escolhidas no mapa também valem aqui. Clique numa fase para ver a estação.</p></div>
+    <div class="modes" id="modeChips"></div>
+    <div class="phases" id="phases"></div>
+    <p class="phnote" id="phnote"></p>
+    <div class="statuses" id="statuses"></div>
+  </section>
+
+  <section id="elm">
+    <div class="sec-head"><h2>IBM ELM, o registro oficial</h2><p>O repositório guarda as propostas de mudança e como cada uma foi feita. O ELM guarda o que o sistema faz. Toda escrita passa pelo <code>mcp-elm</code> e pede “sim”. Sem o MCP, vira <code>ELM pendente</code> e o fluxo segue.</p></div>
+    <div id="elmbody"></div>
+  </section>
+
+  <section id="gates">
+    <div class="sec-head"><h2>Gates e senioridade</h2><p>Todo gate é de uma pessoa. PRD e backlog nunca são AFK. O PR e o merge nunca são dispensados.</p></div>
+    <div class="gates" id="gatecards"></div>
+    <h3 style="font-size:19px;margin:22px 0 10px">A senioridade de quem implementa decide o modo, o GATE do plano e quem revisa</h3>
+    <div class="sen" id="sencards"></div>
+    <div class="golden" id="golden"></div>
+  </section>
+
+  <footer>Fonte: power <code>sdd</code> 3.3.1 (skills e referências) e <code>mcp-elm</code> 3.3.1, na branch <code>sdd-3.3.0</code>. Ids, nomes e exemplos são ilustrativos.</footer>
+</div>
+<script>
+/* dados do mapa, tirados das skills do power sdd 3.3.1 (branch sdd-3.3.0) */
+(function(){
+"use strict";
+const LINES={
+ epico:{nome:"Épico",c:"--l-epico",sub:"entrevista → PRD → fatias",
+  quando:"Funcionalidade com várias histórias ou decisão de produto em aberto. O épico entra numa sprint para ser especificado: a [ESP] nasce no planejamento. O PRD aprovado vai para a base, os requisitos sobem ao DOORS Next e as fatias aprovadas no GATE do backlog ficam no backlog, de onde seguem pelas linhas da fatia."},
+ hitl:{nome:"Fatia · HITL",c:"--l-hitl",sub:"pessoas nos papéis",
+  quando:"O Dev implementa e abre o PR depois da revisão automática do codificador. Um Dev Sênior revisa o PR ([REV]), outra pessoa verifica ([VER]) e o Dev faz o merge. Vale para a trilha padrão e para a rápida.",
+  sen:{jr:"Sempre HITL.",pl:"HITL ou AFK pelos critérios da fatia, propostos pelo sdd e confirmados pela pessoa.",sr:"Só com motivo forte, registrado: decisão de produto ou de UX, dado sensível, risco alto."}},
+ afk:{nome:"Fatia · AFK",c:"--l-afk",dash:true,sub:"a IA leva a fatia até o PR",
+  quando:"Revisão e verificação rodam por subagente antes do PR, e só existe a [DEV]. Um Dev Sênior aprova o PR na [APR] e quem disparou faz o merge. Roda uma fatia pelas skills, várias pelo sdd-loop, ou pelas receitas do Kiro Workflows.",
+  sen:{jr:"Não pode: o Júnior não começa fatia AFK nem dispara o loop.",pl:"Se os critérios da fatia permitirem. No loop, a escolha do GATE do plano vale para o lote.",sr:"AFK por padrão, sem GATE do plano."}},
+ atd:{nome:"Apoio · Atendimento",c:"--l-atd",sub:"sdd-atender",
+  quando:"Chamado ou pedido do cliente que não muda o repositório: consulta, extração, explicação, conferência. Mudança de código ou de config é fatia rápida."},
+ min:{nome:"Apoio · demais categorias",c:"--l-min",sub:"sdd-executar",
+  quando:"Implantação [IMPL], Banco de dados [BD], Infra [INF], Operação [OPE] e Apoio a outros times [EXT]. A pessoa executa fora do repositório; a sdd-executar assume a tarefa, registra o que foi feito, lança horas e conclui."},
+ sprint:{nome:"Ciclo da sprint",c:"--l-sprint",sub:"sdd-planejamento",
+  quando:"A sprint é ritmo de inspeção, não escopo congelado. Planeja pela vazão, puxa e encaixa durante, sincroniza com o EWM e fecha com review, retrospectiva e virada. A consolidação das fatias mergeadas é pré-condição dos três ritos de fechamento."}
+};
+const SENNOME={jr:"Júnior",pl:"Pleno",sr:"Sênior"};
+
+const ROUTES={
+ epico:{pts:[[70,404],[436,404],[436,100],[1310,100],[1310,52],[200,52],[200,386]]},
+ afk:{pts:[[70,412],[448,412],[448,290],[990,290],[990,190],[1360,190],[1360,444],[1020,444]]},
+ hitl:{pts:[[70,420],[460,420],[460,298],[1345,298],[1345,430],[1020,430]]},
+ atd:{pts:[[70,428],[480,428],[480,580],[1010,580]]},
+ min:{pts:[[70,436],[468,436],[468,680],[830,680]]},
+ sprint:{ring:{cx:300,cy:565,r:121}}
+};
+const TEXTS=[
+ {x:30,y:300,t:"ENTRADA"},{x:458,y:84,t:"PRODUTO · ÉPICO"},{x:476,y:214,t:"FATIA · PADRÃO OU RÁPIDA"},
+ {x:1004,y:174,t:"AFK · SUBAGENTES ANTES DO PR"},{x:1004,y:330,t:"HITL · PESSOAS DEPOIS DO PR"},
+ {x:1030,y:410,t:"DEPOIS DO MERGE"},{x:500,y:556,t:"APOIO"},
+ {x:760,y:44,t:"fatias aprovadas ficam no backlog para a próxima sprint",cls:"badge-t",a:"middle"},
+ {x:300,y:556,t:"CICLO DA",cls:"ringtxt",a:"middle"},{x:300,y:572,t:"SPRINT",cls:"ringtxt",a:"middle"},{x:300,y:590,t:"sdd-planejamento",cls:"skill",a:"middle"}
+];
+const DECOR=[{pts:[[135,381],[135,399]]}];
+
+const r=(a,d)=>a*Math.PI/180;
+const RG=ROUTES.sprint.ring;const rp=a=>({x:+(RG.cx+RG.r*Math.cos(r(a))).toFixed(1),y:+(RG.cy+RG.r*Math.sin(r(a))).toFixed(1)});
+
+const S={
+/* ---------- entrada ---------- */
+ triar:{x:70,y:420,g:"hub",lab:"below",nome:"Triagem",sk:"sdd-triar",
+  papel:"P.O. ou SM (analista de negócio)",agente:"sdd-produto",tarefa:"não assume tarefa; o commit vai na [GB] Gerenciamento do backlog",
+  faz:["Recebe pedido em texto, item do EWM (elm_ler_wi) ou um lote de itens do EWM","Procura duplicados no backlog.md, nas fichas de Apoio e nos status.md das branches","Decide a trilha; na dúvida, a mais leve. Padrão com mais de ~3 cenários ou mais de uma regra nova vira épico","Registra e pergunta “mais algum item?”. Não começa nada: indica o hub sdd-iniciar"],
+  arq:["<produto>/backlog.md","um commit no fim da sessão: backlog: triagem <ids>","créditos em Créditos de gestão da sprint aberta (Atividade triagem)"],
+  elm:["Item novo no backlog do produto do EWM (elm_criar_wi), com “sim”","Sem o MCP: ELM pendente e o fluxo segue"],
+  ctx:{
+   epico:{faz:["Épico: várias histórias ou decisão de produto em aberto","Registra EP-nn em rascunho, prioridade —, prd —, po = o P.O. ativo","Título com mais de 3 palavras: cria <produto>/epicos/<EP>-<slug>/rascunho.md e decisoes.md","Avisa: o épico precisa entrar numa sprint para ser especificado"],
+    elm:["Épico no backlog do produto (elm_criar_wi); item de origem do tipo épico vira o próprio épico","Sem o MCP: ELM pendente e o fluxo segue"]},
+   hitl:{faz:["Fatia padrão sem épico: regra de negócio clara","Rodadas da sdd-entrevistar na seção Decisões da ficha, que nasce aqui com o próximo FT","Grava trilha, origem, ficha, tamanho e o modo proposto: AFK quando o esperado e o teste são claros e não há dado sensível","pronta se passa na Definition of Ready; senão backlog com falta:"],
+    arq:["<produto>/backlog.md (Fatias — sem épico)","<produto>/fatias/FT-<nnn>-<slug>.md","um commit no fim da sessão: backlog: triagem <ids>"],
+    elm:["Com item de origem: elm_atualizar_wi(origem, backlog); sem: IB [FT-nnn] sob a Sustentação","Sem o MCP: ELM pendente e o fluxo segue"]},
+   atd:{faz:["Pedido do cliente que não muda o repositório: Atendimento","Entrevista curta (sdd-entrevistar, modo atendimento); regra em aberto vira padrão ou épico","Próximo AT-nnn; entra na sprint aberta se cabe na reserva (estourou: backlog e Encaixe do P.O.)","Responsável sugerido: quem tem atende: true no equipe.json"],
+    arq:["<produto>/backlog.md (## Apoio)","<produto>/apoio/atendimento/AT-<nnn>-<slug>.md (Situação aberto)","linha na seção Apoio da sprint"],
+    elm:["Tarefa [ATD] AT-<nnn> filha do IB Atendimento - <produto>","1º item da categoria: o IB nasce junto, filho da Sustentação - <produto>, e o id vai para a linha Sustentação:"]},
+   min:{faz:["Implantação, Banco de dados, Infra, Operação ou Apoio a outros times","Uma mensagem com pedido, origem, prazo, quem faz, critério de pronto e estimativa","Próximo id da série (IM-, BD-, IN-, OP-, EX-); entra na sprint aberta se cabe na reserva"],
+    arq:["<produto>/backlog.md (## Apoio)","<produto>/apoio/<categoria>/<ID>-<slug>.md"],
+    elm:["Tarefa da categoria ([IMPL], [BD]…) filha do IB <Categoria> - <produto>; o IB nasce com o 1º item da categoria"]}},
+  trv:{rapida:{faz:["Fatia rápida: defeito ou ajuste de até 1 dia, com o comportamento certo conhecido, inclusive o diff que cabe numa frase","Uma rodada no formato da entrevista","Ficha de comportamento (atual · esperado · não muda) e como verificar; tamanho P ou M","pronta se passa na Definition of Ready; senão backlog com falta:"]}}},
+ ficha:{x:135,y:362,g:"gate",lab:"above",nome:"GATE da ficha",sk:"P.O.",
+  papel:"P.O.",agente:"sdd-produto",tarefa:"—",
+  aviso:"Só a fatia sem épico tem ficha própria da triagem. A fatia de épico chega ao backlog pelo GATE do backlog.",
+  faz:["O P.O. aprova as regras e os cenários da fatia padrão sem épico","Sem aprovação: backlog com falta: aprovação do P.O.","Mudar uma ficha aprovada a faz voltar a rascunho","Retomada pela triagem: “aprova a ficha da FT-040”"],
+  arq:["<produto>/fatias/FT-<nnn>-<slug>.md: Situação aprovada por <login> em <data>","backlog.md: pronta"],elm:["—"],
+  trv:{rapida:{aviso:"A fatia rápida é sempre sem épico e tem a sua ficha, de comportamento.",faz:["Na rápida, a ficha é de comportamento (atual · esperado · não muda) e traz o como verificar","A aprovação do P.O. só é pedida quando o esperado vem de uma decisão nova","Tamanho P ou M"]}}},
+ backlog:{x:200,y1:396,y2:444,g:"pill",lab:"below",an:"end",dx:6,nome:"Backlog",sk:"backlog.md",
+  papel:"P.O. (ordem e prioridade)",agente:"sdd-produto",tarefa:"—",
+  faz:["O backlog.md é a fonte; o backlog do produto no EWM é a cópia","Épicos, fatias com e sem épico e a seção Apoio, com status, sprint, responsável e ids do EWM","Fatia pronta = passou na Definition of Ready (modo declarado; na rápida, tamanho até M)","Linha Sustentação: com os ids da Sustentação do produto, da [GB] do pai atual e dos IBs de categoria"],
+  arq:["<produto>/backlog.md"],elm:["Backlog do produto no EWM (ccm.backlog do pa)"]},
+ planejar:{x:300,y1:396,y2:444,g:"pill",lab:"above",nome:"Planejar a sprint",sk:"sdd-planejamento",
+  papel:"P.O. ou SM, com o time",agente:"sdd-produto",tarefa:"não assume tarefa; créditos em Créditos de gestão",
+  faz:["Capacidade: horas de revisão (o limite principal), vazão das 3 últimas sprints, especificação e reserva de apoio e retrabalho","Especificação: um [ESP] por épico a especificar do topo","Previsão: entram as pronta, respeitando bloqueada-por; o modo final sai da senioridade do responsável","Fatia HITL ganha revisor (Dev Sênior) e verificador (nunca quem implementa)","Meta; o pai é o da sprint anterior (pai novo só quando a pessoa diz, com o nome que ela der: 2026, Entrega 3…) e a <nn> é a próxima dentro dele; proposta e “ok”; depois de publicar, sincroniza"],
+  arq:["sprints/<pai>/sprint-<nn>.md","backlog.md: sprint, responsavel, status e modo final","modo inicial: equipe.json, acordos.md, roadmap.md"],
+  elm:["elm_iteracao(“<pai>/Sprint n”): cria a iteração e o pai que faltar (na primeira sprint do projeto, no topo da timeline)",s=>s.line==="afk"?"Os IBs só mudam de iteração; na fatia AFK nasce só a [DEV]":s.line==="hitl"?"Os IBs só mudam de iteração; na fatia HITL nascem [DEV], [REV] e [VER]":"Épicos e IBs só mudam de iteração; nascem [ESP], [DEV] e, no HITL, [REV] e [VER]","A [APR] não nasce aqui; a [GB] nasce na 1ª sprint de cada pai","Primeira sprint numa PA com várias timelines: configure antes o backlog do produto, cuja timeline passa a valer, ou use o caminho com o ancestral"],
+  sen:{jr:"Responsável Júnior: sempre HITL",pl:"Pleno: modo pelos critérios da fatia, confirmado pela pessoa",sr:"Sênior: AFK por padrão; HITL só com motivo, registrado no obs"},
+  ctx:{epico:{faz:["O épico precisa estar na sprint para ser especificado","Seção Especificação: um [ESP] por épico, com responsável e horas","Sem horas de especificação, não há [ESP]","Depois do “ok”, a [ESP] nasce filha do épico"],sen:null},
+   atd:{faz:["O item de Apoio entra na sprint aberta já na triagem, se cabe na reserva","Sem sprint aberta, fica em backlog e entra no próximo planejamento, como as fatias","Apoio que estoura a reserva: o P.O. decide no Encaixe; o Apoio nunca tira fatia sozinho"],sen:null},
+   min:{faz:["O item de Apoio entra na sprint aberta já na triagem, se cabe na reserva","Sem sprint aberta, fica em backlog e entra no próximo planejamento, como as fatias","Apoio que estoura a reserva: o P.O. decide no Encaixe; o Apoio nunca tira fatia sozinho"],sen:null}}},
+ iniciar:{x:400,y1:396,y2:444,g:"hubpill",lab:"above",nome:"Hub",sk:"sdd-iniciar",
+  papel:"qualquer papel",agente:"sdd-produto, sdd-codificador, sdd-revisor, sdd-verificador e a sessão padrão",tarefa:"a do papel",
+  faz:["Recebe um item registrado, uma tarefa do EWM ou “minha próxima tarefa”","Procura nos status.md das branches, depois no backlog.md da base, depois no EWM","Diz a skill do papel e para; não confere compromisso, não toca no EWM nem cria branch","Texto ou id fora do backlog: sdd-triar; tarefa sem prefixo do sdd: sincroniza a sprint"],
+  arq:["lê status.md, backlog.md e a sprint"],elm:["elm_listar_wi(dono, iteracao) em “minha próxima tarefa”"],
+  ctx:{epico:{faz:["EP ou [ESP] → sdd-especificar, no sdd-produto","Texto ou id fora do backlog → sdd-triar"]},
+   hitl:{faz:["FT, DF/IB do backlog ou [DEV] → sdd-desenvolver","[REV] e [APR] → sdd-revisar (Dev Sênior); [VER] → sdd-verificar","pronta-para-merge → sdd-desenvolver P6; mergeada (não concluída na base) → sdd-consolidar","bloqueada aguardando troca para HITL → sdd-planejamento"]},
+   afk:{faz:["Fatia AFK pronta → sdd-desenvolver; várias prontas → o sdd-loop é oferecido","[APR] Aprovar PR → sdd-revisar (Dev Sênior)","pronta-para-merge → sdd-desenvolver P6; mergeada → sdd-consolidar"]},
+   atd:{faz:["AT-nnn ou [ATD] → sdd-atender, no sdd-produto"]},
+   min:{faz:["IM, BD, IN, OP, EX ou [IMPL]… → sdd-executar, no sdd-produto"]}}},
+
+/* ---------- épico ---------- */
+ especificar:{x:520,y:100,lab:"below",nome:"Especificar",sk:"sdd-especificar",
+  papel:"Especificador",agente:"sdd-produto",tarefa:"[ESP] EP-<nn> Especificação",
+  faz:["Entrada: EP no backlog, com título de mais de 5 palavras, problema em mais de 2 frases e P.O. definido","Assume a [ESP]; sem ela, oferece o planejamento ou segue com as horas em ELM pendente","Trabalha numa pasta local até o GATE do PRD e cria o status.md do épico","Retoma pelo estado do prd.md: sem PRD ou em rascunho → sdd-prd; aprovado → leva à base; na base → sdd-fatiar","Toda sessão fecha com créditos, comentário, anexos e horas na [ESP], num “sim”"],
+  arq:[".kiro/local/especificacao/<EP>-<slug>/ (até o GATE do PRD)","status.md do épico (créditos)"],
+  elm:["elm_transicao assumir a [ESP]","elm_comentar · elm_anexo enviar · elm_lancar_horas ao fechar cada sessão"]},
+ entrevistar:{x:600,y:100,lab:"below",dy:23,nome:"Entrevistar",sk:"sdd-entrevistar",
+  papel:"Especificador, com o P.O. e o cliente",agente:"sdd-produto",tarefa:"[ESP]",
+  faz:["Responde sozinha o que tem fonte (bundle, código): confirmada","Rodadas pela fronteira de decisões, sempre com a resposta recomendada","Termina com a fronteira vazia e o entendimento confirmado; “chega” deixa o resto em aberto","Termo novo vai para o glossário no GATE do PRD"],
+  arq:["decisoes.md na pasta local (só acréscimo)"],elm:["elm_buscar_req_local · elm_ler_req_local"]},
+ prd:{x:680,y:100,lab:"below",nome:"PRD",sk:"sdd-prd",
+  papel:"Especificador",agente:"sdd-produto, com os subagentes pesquisador e revisor",tarefa:"[ESP]",
+  faz:["Explora o EWM, o bundle, o código, o glossário e os ADRs; entrevista pela sdd-entrevistar","Procura similares no ELM: uma decisão por artefato","Escreve o prd.md e os conceitos HF, REG e GL (status draft)","Mais de ~8 histórias: propõe dividir o épico","Nunca é AFK"],
+  arq:["prd.md","elm/HF-*, REG-*, GL-*, index.md, log.md (pasta local)"],elm:["elm_buscar_req_local · elm_buscar_req (similares)","Não registra nada no EWM"]},
+ revprd:{x:760,y:100,lab:"below",dy:23,nome:"Revisão do PRD",sk:"rubrica P",
+  papel:"subagente sdd-revisor",agente:"sdd-revisor (subagente)",tarefa:"[ESP]",
+  faz:["Revisão independente, em contexto limpo, pela rubrica P","Até 2 rodadas; o PRD fica em-revisao","AJUSTAR → volta ao PRD"],
+  arq:["revisao-prd-<N>.md na pasta local"],elm:["—"]},
+ gprd:{x:840,y:100,g:"gate",lab:"below",nome:"GATE do PRD",sk:"P.O.",
+  papel:"P.O.",agente:"sdd-produto",tarefa:"—",
+  faz:["O P.O. aprova o quê e o porquê: histórias, cenários, regras e fora de escopo","Decisão em aberto que muda comportamento → volta à entrevista","Aprovado: prd aprovado v1.0; cada conceito stable com verified humano","No primeiro GATE grava só na pasta local e diz “use sdd-especificar”"],
+  arq:["prd.md: aprovado, com o aprovador no rodapé"],elm:["Sem verified humano, nada é publicado"]},
+ prdbase:{x:920,y:100,lab:"below",dy:23,nome:"PRD na base",sk:"sdd-especificar",
+  papel:"Especificador",agente:"sdd-produto",tarefa:"[ESP]",
+  faz:["Fecha a sessão: créditos, comentário, anexos e horas","Gravar na base: copia a pasta para <produto>/epicos/<EP>-<slug>/, com as revisões","Backlog: épico aprovado e o link do prd; sprint: Especificação em fatiamento","Um commit; nada é commitado antes do GATE do PRD"],
+  arq:["<produto>/epicos/<EP>-<slug>/prd.md e elm/","backlog.md · sprint-<nn>.md"],elm:["—"]},
+ elmpub:{x:1000,y:100,lab:"below",nome:"Publicar requisitos",sk:"DOORS Next",
+  papel:"Especificador",agente:"sdd-produto",tarefa:"[ESP]",
+  aviso:"Política na-aprovacao (padrão): publica aqui, antes de fatiar. Com no-merge, a publicação fica para a consolidação.",
+  faz:["Só conceitos stable com verified humano","Ordem GL → REG → HF; HF → REG vira embed","Similar igual ou que se sobrepõe → volta à sdd-prd","Grava de volta o resource e o id e sugere a sdd-sync","Numa mudança de PRD, só os artefatos alterados"],
+  arq:["conceitos HF, REG e GL na pasta elm/ do épico"],elm:["elm_publicar_req, com prévia e “sim”; conflito → pergunta","Atributos e links requisito↔requisito: roteiro manual"]},
+ fatiar:{x:1080,y:100,lab:"below",dy:23,nome:"Fatiar",sk:"sdd-fatiar",
+  papel:"Especificador, com o time",agente:"sdd-produto",tarefa:"[ESP]",
+  faz:["Entrada: PRD aprovado na base; nunca é AFK","Rascunho de fatias verticais, com conferência de cobertura e de ponta a ponta","Cada fatia cabe numa janela de contexto e prova algo demonstrável","Propõe tamanho, dependências e modo; tipo de trabalho novo começa HITL"],
+  arq:["backlog.md: fatias do épico","fichas “padrão de épico”"],elm:["—"]},
+ gbacklog:{x:1160,y:100,g:"gate",lab:"below",nome:"GATE do backlog",sk:"P.O. + time",
+  papel:"P.O. ou time, no refinamento",agente:"sdd-produto",tarefa:"—",
+  faz:["Aprovam as fatias: granularidade, dependências, AFK ou HITL","Repete até o “ok”; não vale sem a fatia ponta a ponta","Grava: épico fatiado, fatias pronta ou backlog, prd.md fatiado"],
+  arq:["backlog.md · fichas · prd.md","um commit"],elm:["Um IB por fatia no backlog do produto (elm_criar_wi + elm_ligar)"]},
+ espfim:{x:1240,y:100,lab:"below",dy:23,term:true,nome:"Fechar a [ESP]",sk:"sdd-especificar",
+  papel:"Especificador",agente:"sdd-produto",tarefa:"[ESP]",
+  faz:["Pergunta se a especificação terminou","Continua: não conclui e para; a virada move a [ESP]","Terminou: Especificação concluida na sprint e os créditos, num commit","Saldo de horas e conclusão da [ESP]"],
+  arq:["sprint-<nn>.md: Especificação concluida","status.md do épico"],elm:["elm_horas · elm_lancar_horas · elm_transicao concluir","Sem o MCP: pendência no rodapé do PRD"]},
+
+/* ---------- fatia: trecho comum ---------- */
+ desenvolver:{x:520,y1:290,y2:298,g:"pill",lab:"above",nome:"Desenvolver",sk:"sdd-desenvolver",
+  papel:"Dev",agente:"sdd-codificador",tarefa:"[DEV] FT-<nnn> Implementar",fase:"nenhuma → pesquisando",
+  faz:["Compromisso: Definition of Ready, responsável, sprint aberta (fora dela: puxada da pronta do topo, ou Encaixe do P.O.), WIP de revisão e linha da fatia na base","Sugere a branch e espera o “ok”; cria a pasta da fatia com status.md e .config.kiro","Assume a [DEV] (iniciando o pai) e cria as tarefas que faltam","Fatia já iniciada: retoma pela fase, sem repetir o compromisso","Encaminha pela fase e para"],
+  arq:[".kiro/specs/<ft>-<slug>/status.md (fase pesquisando)",".kiro/specs/<ft>-<slug>/.config.kiro (feature ou bugfix)","commit e push com “sim”"],
+  elm:["elm_transicao(“assumir”, iniciar_pai) na [DEV]","Fatia puxada HITL: pergunta o revisor (Dev Sênior) e o verificador e cria a [REV] e a [VER]"],
+  sen:{jr:"Júnior: sempre HITL; segue normalmente",pl:"Pleno: segue no modo gravado na sprint",sr:"Sênior em HITL só com motivo forte, registrado na sprint"},
+  ctx:{afk:{nome:"Desenvolver ou loop",sk:"sdd-desenvolver · sdd-loop",agente:"sdd-codificador (uma fatia) · sdd-orquestrador (lote)",tarefa:"[DEV], a única tarefa do AFK",
+   faz:["Uma fatia: o Dev conduz pelas skills, com revisão e verificação por subagente","Várias prontas: o sdd-loop, disparado por Dev Pleno ou Sênior; candidatas pronta e AFK; uma confirmação para o lote; paralelismo de 1 a 3","No loop: uma worktree por fatia em .kiro/local/wt/<ft>, com a [DEV] criada e assumida na confirmação do lote","Receitas do Kiro Workflows (sdd-planejar-fatia, sdd-entregar-fatia): quem dispara é a pessoa"],
+   arq:[".kiro/local/wt/<ft>/ (loop)",".kiro/specs/<ft>-<slug>/status.md","log do lote em .kiro/local/"],
+   elm:["Só a [DEV], assumida com iniciar_pai","No loop, as horas são lançadas numa pergunta só, no fim; os créditos ficam para o merge (rateio 1/n)"],
+   sen:{jr:"Não começa fatia AFK nem dispara o loop",pl:"Dispara o loop; uma pergunta só sobre o GATE do plano, para o lote",sr:"Dispara o loop; sem GATE do plano"}}}},
+ pesquisar:{x:605,y1:290,y2:298,g:"pill",lab:"above",dy:-26,nome:"Pesquisar",sk:"sdd-pesquisar",
+  papel:"Dev, pelo subagente",agente:"sdd-pesquisador (só leitura)",tarefa:"[DEV]",fase:"pesquisando → planejando",
+  faz:["De 3 a 7 perguntas sobre o código","Investiga o código e os requisitos pelo bundle; sem bundle, registra e indica a sdd-sync","Devolve fatos com arquivo:linha, sem opinar sobre o como",s=>s.line==="afk"?"Chamada pela sdd-plano, pelo loop ou pela receita de planejar":"Chamada pela sdd-plano (ou pela receita de planejar)"],
+  arq:[".kiro/specs/<ft>-<slug>/research.md (até ~150 linhas)","o commit é da sdd-plano"],elm:["elm_buscar_req_local · elm_ler_req_local"],
+  trv:{rapida:{faz:["Pesquisa curta sobre o defeito ou o pedido","De 3 a 7 perguntas; fatos com arquivo:linha","O commit é da sdd-plano"]}}},
+ plano:{x:690,y1:290,y2:298,g:"pill",lab:"above",nome:"Plano",sk:"sdd-plano",
+  papel:"Dev",agente:"sdd-codificador",tarefa:"[DEV]",fase:"planejando",
+  faz:["Sem research.md: sdd-pesquisar antes",s=>s.line==="afk"?"Lacuna de negócio: para (é do P.O.). Escolha técnica: decide e registra":"Lacuna de negócio: para (é do P.O.). Escolha técnica: apresenta à pessoa","Spec do Kiro: requirements.md, design.md e tasks.md, com a forma do programa e o contrato de pronto","Mais de ~200 linhas ou ~8 tarefas: propõe dividir (sdd-fatiar)"],
+  arq:["requirements.md · design.md · tasks.md","decisoes.md"],elm:["Horas na [DEV] (lançar não conclui)"],
+  trv:{rapida:{sk:"sdd-plano · bugfix.md",faz:["Spec de bugfix do Kiro: bugfix.md, design.md e tasks.md","O teste que reproduz o defeito e a correção formam um ciclo só","Lacuna de negócio: para (é do P.O.)"],arq:["bugfix.md · design.md · tasks.md","decisoes.md"]}}},
+ analise:{x:775,y1:290,y2:298,g:"pill",lab:"above",dy:-26,nome:"Análise do plano",sk:"rubrica L",
+  papel:"subagente sdd-revisor",agente:"sdd-revisor (subagente do codificador)",tarefa:"[DEV]",fase:"planejando",
+  faz:s=>["Análise independente do plano pela rubrica L"+(s.tr==="rapida"?", sobre o bugfix.md":""),"OK: segue para o P5 da sdd-plano: "+(s.line==="afk"?"troca de modo e GATE":"GATE"),s.tr==="rapida"?"AJUSTAR por falta do plano: corrige, até 2 rodadas. Lacuna de negócio: para, é do P.O.":"AJUSTAR por falta do plano: corrige, até 2 rodadas. Por falta do PRD: volta às lacunas","Sem subagente: para em “plano pronto para análise”"],
+  arq:["analise-plano-<N>.md","commit registrar análise do plano <N>"],elm:["—"],
+  ctx:{afk:{aviso:"Plano AFK com risco (regra sensível, muitos cenários, integração externa, mudança de dado): antes do GATE, o fluxo sugere a troca para HITL."}}},
+ gplano:{x:860,y:294,g:"gate",lab:"above",nome:"GATE do plano",sk:"[APR] Aprovar plano",
+  papel:"Dev Sênior, de preferência quem vai revisar o PR",agente:"sdd-revisor (sdd-revisar)",tarefa:"[APR] FT-<nnn> Aprovar plano",fase:"plano-em-revisao → implementando",
+  faz:["Com GATE: a [APR] nasce aqui; fase plano-em-revisao; commit registrar plano → push → conferir → horas na [DEV]","O Dev Sênior dono da [APR] aprova na sessão dele: implementando e “plano aprovado por <login>”; commit → push → conferir → conclui a [APR]","Reprovado: fase planejando; a mesma [APR] segue em andamento e o Dev replaneja","Vale para as duas trilhas e os dois modos"],
+  arq:["status.md: Histórico e Achados abertos"],elm:["elm_criar_wi da [APR], filha do IB da fatia","elm_transicao assumir/concluir, na sdd-revisar"],
+  sen:{jr:"Sempre",pl:"O fluxo pergunta. Se pedir, segue como o Júnior; se dispensar: implementando e “Pleno dispensou o GATE do plano”",sr:"Nunca: aprova o próprio plano (“plano do Sênior”), mesmo mudando a expectativa de um teste existente"},
+  ctx:{afk:{aviso:"No loop, a escolha do GATE é uma só para o lote. Com GATE, a fatia pausa em plano-em-revisao e o lote segue."}}},
+ implementar:{x:945,y1:290,y2:298,g:"pill",lab:"above",dy:-26,nome:"Implementar",sk:"sdd-implementar",
+  papel:"Dev",agente:"sdd-codificador",tarefa:"[DEV]",fase:"implementando",
+  faz:s=>[s.sen==="jr"?"Exige no Histórico a linha do GATE do plano aprovado":s.sen==="sr"?"Exige no Histórico a linha do plano do Sênior":s.sen==="pl"?"Exige no Histórico a linha do GATE aprovado ou da dispensa do Pleno":"Exige no Histórico a linha do GATE (ou do plano do Sênior, ou da dispensa do Pleno)","Uma tarefa por vez: vermelho → verde → arrumar → backpressure (compilar, testes, lint) → commit","Oráculo protegido: teste não se apaga nem se afrouxa","Duas correções sem avanço: bloqueada (de: implementando)","Validação completa no fim"],
+  arq:["código e testes · tasks.md · status.md","elm/ET-<slug>.md (as-built) e adr/, que vão no PR"],elm:["—"],
+  ctx:{hitl:{aviso:"No HITL, antes do PR há só a revisão automática do codificador (pré-PR)."},afk:{aviso:"No AFK, depois daqui vêm a revisão e a verificação por subagente, ainda antes do PR."}},
+  trv:{rapida:{faz:s=>[s.sen==="jr"?"Exige no Histórico a linha do GATE do plano aprovado":s.sen==="sr"?"Exige no Histórico a linha do plano do Sênior":s.sen==="pl"?"Exige no Histórico a linha do GATE aprovado ou da dispensa do Pleno":"Exige no Histórico a linha do GATE (ou do plano do Sênior, ou da dispensa do Pleno)","O teste que reproduz o defeito e a correção formam um ciclo só","Backpressure a cada tarefa; oráculo protegido","Duas correções sem avanço: bloqueada (de: implementando)"]}}},
+
+/* ---------- fatia: HITL ---------- */
+ prepr:{x:1020,y:298,lab:"above",dx:4,nome:"Pré-PR",sk:"rubrica C",
+  papel:"subagente sdd-revisor",agente:"chamado pelo sdd-codificador",tarefa:"[DEV]",fase:"implementando",
+  faz:["Revisão automática antes do PR, pela rubrica C, com o contexto “pré-PR”","O relatório fica só na conversa: não grava revisao-codigo nem conta rodada","REVISAR: tarefas [R<n>], até 2 vezes; persistindo, a pessoa decide abrir o PR com os achados ou corrigir","APROVADO, ou sem subagente: segue para o PR"],
+  arq:["—"],elm:["—"]},
+ pr_h:{x:1105,y:298,lab:"above",nome:"PR aberto",sk:"gitlab_criar_mr",
+  papel:"Dev",agente:"sdd-codificador",tarefa:"[DEV] em andamento",fase:"pr-aberto",
+  faz:["ADRs e a ET as-built vão no PR","Branch desatualizada: com “sim”, git merge origin/<base>","Commit → push → conferir no remoto → gitlab_listar_mrs (se já existe, é esse) ou gitlab_criar_mr","Horas na [DEV] (lança, não conclui) e avisa o revisor"],
+  arq:["texto do PR, com caminho de leitura e evidência"],elm:["gitlab_criar_mr, com a confirmação do Kiro","Sem GitLab: entrega título e descrição e a pessoa abre"]},
+ revisar:{x:1190,y:298,lab:"above",nome:"Revisar",sk:"sdd-revisar",
+  papel:"Revisor (Dev Sênior)",agente:"sdd-revisor",tarefa:"[REV] FT-<nnn> Revisar",fase:"pr-aberto → em-revisao → em-verificacao",
+  faz:["Só Dev Sênior ativo; quem implementou, só se for o único Sênior (revisor único)","gitlab_obter_mr, troca para a branch do PR, fase em-revisao","Rubrica C nos dois eixos, spec e padrões, sobre o diff; marca o drift de negócio","APROVADO: em-verificacao. REVISAR: retrabalho (de: em-revisao)","Entrega: créditos → commit → push → conferir → saldo e conclusão da [REV] → avisa o verificador"],
+  arq:["revisao-codigo-<N>.md","commit FT-<nnn> revisão <N>: <veredito>"],elm:["elm_transicao assumir/concluir a [REV]","gitlab_obter_mr"],
+  sen:{jr:"O PR do Júnior é revisado por um Dev Sênior",pl:"O PR do Pleno é revisado por um Dev Sênior",sr:"O PR do Sênior vai para outro Sênior; se ele é o único Sênior ativo, ele mesmo (revisor único na Observação)"}},
+ verificar:{x:1275,y:298,lab:"above",nome:"Verificar",sk:"sdd-verificar",
+  papel:"Verificador (QA)",agente:"sdd-verificador",tarefa:"[VER] FT-<nnn> Verificar",fase:"em-verificacao → pronta-para-merge",
+  faz:["Só depois da revisão APROVADO; nunca quem implementa","Roteiro no verificacao.md a partir do contrato de pronto","Executa na aplicação de verdade (API, batch, tela, carga), nunca em produção","ACEITO: CT.csv e pronta-para-merge. REJEITADO: retrabalho (de: em-verificacao)","Entrega: créditos → commit → push → conferir → saldo e conclusão da [VER] → avisa o Dev"],
+  arq:["verificacao.md · CT.csv · evidencias/ · massa/"],elm:["elm_transicao assumir/concluir a [VER]"],
+  trv:{rapida:{faz:["Só depois da revisão APROVADO; nunca quem implementa","Roteiro no verificacao.md a partir do bugfix.md","Executa na aplicação de verdade, nunca em produção","ACEITO: CT.csv e pronta-para-merge. REJEITADO: retrabalho (de: em-verificacao)"]}}},
+
+/* ---------- fatia: AFK ---------- */
+ rev_a:{x:1050,y:190,lab:"below",nome:"Revisão C",sk:"subagente",
+  papel:"subagente sdd-revisor",agente:"chamado pelo codificador ou pelo orquestrador",tarefa:"[DEV]",fase:"revisando",
+  faz:["Rubrica C nos dois eixos, sobre o diff; grava o drift de negócio","APROVADO: segue para a verificação","REVISAR: tarefas [R<n>] e volta à implementação; a 2ª reprovação → bloqueada (de: revisando)"],
+  arq:["revisao-codigo-<N>.md","commit registrar revisão <N>"],elm:["Subagente não faz push nem toca no ELM"]},
+ ver_a:{x:1130,y:190,lab:"below",nome:"Verificação",sk:"subagente",
+  papel:"subagente sdd-verificador",agente:"chamado pelo codificador ou pelo orquestrador",tarefa:"[DEV]",fase:"verificando → aceita",
+  faz:["Executa o contrato de pronto na aplicação de verdade, nunca em produção","ACEITO: aceita (quem grava é o verificador) e CT.csv","REJEITADO: volta à implementação e passa de novo pela revisão; a 2ª rejeição → bloqueada (de: verificando)"],
+  arq:["verificacao.md · CT.csv","commit registrar verificação"],elm:["—"]},
+ pr_a:{x:1210,y:190,lab:"below",nome:"PR",sk:"gitlab_criar_mr",
+  papel:"Dev, ou o orquestrador se o lote autorizou",agente:"sdd-codificador · sdd-orquestrador",tarefa:"[DEV]",fase:"aceita → pronta-para-merge",
+  faz:["Começa só com a fase aceita","Commit → push → conferir → gitlab_criar_mr","Cria a [APR] Aprovar PR para um Dev Sênior, de preferência outro que não quem disparou","Push ou PR não autorizado no lote: a fatia fica aceita e o Dev abre o PR pela sdd-implementar","Horas na [DEV] e avisa o Sênior da [APR]"],
+  arq:["texto do PR"],elm:["elm_criar_wi da [APR] Aprovar PR","gitlab_criar_mr"]},
+ aprpr:{x:1290,y:190,g:"gate",lab:"below",nome:"Aprovar PR",sk:"[APR]",
+  papel:"Dev Sênior dono da [APR]",agente:"sdd-revisor (sdd-revisar)",tarefa:"[APR] FT-<nnn> Aprovar PR",fase:"pronta-para-merge",
+  faz:["Lê o PR de verdade, na sessão dele; anota o sha e roda o backpressure","Aprovado: sem commit; comentário “PR aprovado, sha <sha>” na [APR], saldo e conclusão","Mudanças pedidas: retrabalho (de: pronta-para-merge), com a mesma [APR] e o mesmo PR"],
+  arq:["status.md: Achados abertos, se houver"],elm:["elm_transicao assumir/concluir · elm_comentar com o sha"],
+  sen:{jr:"—",pl:"Um Dev Sênior aprova o PR AFK do Pleno",sr:"Outro Sênior, de preferência; ele mesmo só se for o único Sênior ativo"}},
+
+/* ---------- depois do merge ---------- */
+ merge:{x:1240,y1:430,y2:444,g:"pill",lab:"below",nome:"Merge",sk:"sdd-desenvolver P6",
+  papel:"Dev responsável (no AFK, quem disparou)",agente:"sdd-codificador, o único com gitlab_mesclar_mr",tarefa:"[DEV]",fase:"pronta-para-merge → mergeada",
+  ctx:{hitl:{papel:"Dev responsável",faz:["Pré-condição: REV APROVADO e VER ACEITO","PR aberto, sem Draft e sem conflito; o sha tem de ser o aprovado","gitlab_mesclar_mr(iid, sha, remover_origem=false), com confirmação; sem o MCP, a pessoa mergeia na interface","Lições candidatas, créditos e fase mergeada no status.md; commit e push","Conclui a [DEV] com o saldo e avisa o P.O. ou o SM"]},
+   afk:{papel:"quem disparou o loop (ou o Dev da fatia)",faz:["Pré-condição: a [APR] Aprovar PR concluída, com o sha no comentário","PR aberto, sem Draft e sem conflito; o sha tem de ser o aprovado","gitlab_mesclar_mr(iid, sha, remover_origem=false), com confirmação; sem o MCP, a pessoa mergeia na interface","Lições candidatas, créditos do lote (rateio 1/n) e fase mergeada no status.md; commit e push","Conclui a [DEV] com o saldo; a pessoa remove a worktree do loop (git worktree remove, sem --force) e avisa o P.O. ou o SM"]}},
+  faz:["Pré-condição: no HITL, REV APROVADO e VER ACEITO; no AFK, a [APR] concluída com o sha no comentário","PR aberto, sem Draft e sem conflito; o sha tem de ser o aprovado","gitlab_mesclar_mr(iid, sha, remover_origem=false), com confirmação; sem o MCP, a pessoa mergeia na interface","Lições candidatas, créditos e fase mergeada no status.md; commit e push","Conclui a [DEV] com o saldo; a pessoa remove a worktree (git worktree remove, sem --force) e avisa o P.O. ou o SM"],
+  arq:["status.md: mergeada, Lições candidatas, Créditos","a branch fica até a consolidação"],elm:["gitlab_obter_mr · gitlab_mesclar_mr","elm_lancar_horas · elm_transicao concluir a [DEV]"]},
+ consolidar:{x:1130,y1:430,y2:444,g:"pill",lab:"below",nome:"Consolidar",sk:"sdd-consolidar",
+  papel:"P.O. ou SM",agente:"sdd-produto",tarefa:"[GB] (lança horas, não conclui)",fase:"mergeada → concluida",
+  aviso:"É pré-condição da review, da retrospectiva e da virada. A trilha rápida também passa por aqui.",
+  faz:s=>["Entrada: fase mergeada; confere o merge pelo gitlab_obter_mr","Drift de negócio marcado pela revisão e pela verificação: sim → nova versão do PRD (sdd-prd) ou da ficha (sdd-triar) antes de publicar","Publica no ELM numa confirmação: requisitos, regra da ficha as-built, ET as-built do PR, casos de teste no ETM","Conclui o IB da fatia (e o épico na última fatia); não conclui "+(s.line==="afk"?"a [DEV] nem a [APR]":"[DEV], [REV], [VER] nem [APR]"),"Leva os ADRs do PR à pasta de ADRs e corrige o glossário","Fecha: fase concluida, backlog concluida, créditos na sprint; lições pela sdd-aprender"],
+  arq:["status.md: fase concluida","backlog.md: concluida, concluida-em","pasta de ADRs · glossário","commit <id> consolidar"],
+  elm:["elm_publicar_req (GL → REG → HF) · elm_ligar(IB, ET)","elm_criar_ct por cenário aceito; erro → CT.csv importado à mão","elm_comentar + elm_transicao concluir no IB (e no épico)","elm_lancar_horas na [GB]"],
+  trv:{rapida:{aviso:"É pré-condição da review, da retrospectiva e da virada.",faz:s=>["Entrada: fase mergeada; confere o merge pelo gitlab_obter_mr","Drift de negócio marcado pela revisão e pela verificação: sim → nova versão da ficha (sdd-triar) antes de publicar","Na rápida não há requisitos nem regra da ficha: publica a ET as-built do PR (se houver) e os casos de teste no ETM","Conclui o IB da fatia; não conclui "+(s.line==="afk"?"a [DEV] nem a [APR]":"[DEV], [REV], [VER] nem [APR]"),"Leva os ADRs do PR à pasta de ADRs","Fecha: fase concluida, backlog concluida, créditos na sprint; lições pela sdd-aprender"],elm:["elm_ligar(IB, ET) quando há ET as-built","elm_criar_ct por cenário aceito; erro → CT.csv importado à mão","elm_comentar + elm_transicao concluir no IB","elm_lancar_horas na [GB]"]}}},
+ aprender:{x:1020,y1:430,y2:444,g:"pill",lab:"below",term:true,nome:"Aprender",sk:"sdd-aprender",
+  papel:"qualquer pessoa",agente:"sessão padrão; o modo registrar também roda no sdd-produto",tarefa:"—",
+  faz:["Registrar: fatos, causa (proposta pelo agente, confirmada pela pessoa) e uma entrada L-nnn","Segunda ocorrência da mesma causa: propõe promover a regra R-nn, de preferência como checagem determinística","Retrospectiva de fatia, épico ou sprint, com dados de fluxo, autonomia AFK/HITL e créditos"],
+  arq:["<produto>/aprendizado/licoes.md","Regras aprendidas no .kiro/steering/sdd.md","<produto>/aprendizado/avaliacoes/"],elm:["—"]},
+
+/* ---------- Apoio: Atendimento ---------- */
+ atd1:{x:560,y:580,lab:"below",nome:"Assumir",sk:"sdd-atender",
+  papel:"quem atende",agente:"sdd-produto",tarefa:"[ATD] AT-<nnn> <pedido>",
+  faz:["Lê a linha e a ficha na base (troca para a base com “sim”; pull --ff-only)","Pedido novo ou fora do backlog: sdd-triar. Outra categoria: sdd-executar","Pedido que muda o sistema ou regra não decidida: volta à triagem"],
+  arq:["<produto>/apoio/atendimento/AT-<nnn>-<slug>.md"],elm:["elm_transicao assumir (ja_estava · conflito → forcar)","elm pendente: cria a [ATD] antes","Sem o MCP: ELM pendente na ficha"]},
+ atd2:{x:650,y:580,lab:"below",nome:"Consultar",sk:"só leitura",
+  papel:"quem atende",agente:"sdd-produto, com o subagente sdd-pesquisador",tarefa:"[ATD]",
+  faz:["Banco só em leitura, pelo MCP de consulta","Bundle do ELM pelo pesquisador; sem bundle, ELM remoto","Código só em escopo fechado; lógica complexa: sdd-pesquisar antes"],
+  arq:["ficha: ## Consultas (SQL e contagem)"],elm:["elm_buscar_req_local · elm_ler_req_local"]},
+ atd3:{x:740,y:580,lab:"below",nome:"Extrair",sk:"fora do git",
+  papel:"quem atende",agente:"sdd-produto",tarefa:"[ATD]",
+  faz:["Dado real (linhas, telas, planilhas) nunca vai para o git","Na ficha ficam só a SQL, a contagem, o caminho e um resumo que não identifica pessoas"],
+  arq:[".kiro/local/apoio/atendimento/AT-<nnn>/<arquivo>"],elm:["elm_lancar_horas a qualquer momento (não conclui)"]},
+ atd4:{x:830,y:580,lab:"below",nome:"Responder",sk:"“ok” da pessoa",
+  papel:"quem atende",agente:"sdd-produto",tarefa:"[ATD]",
+  faz:["Rascunho da resposta para o “ok” da pessoa","Quem envia é a pessoa; o agente não manda e-mail nem responde chamado"],
+  arq:["ficha: ## Resposta enviada (sem dado de cliente)"],elm:["—"]},
+ atd5:{x:920,y:580,lab:"below",nome:"Concluir",sk:"saldo",
+  papel:"quem atende",agente:"sdd-produto",tarefa:"[ATD]",
+  faz:["“enviei” ou “conclui o AT-012”","elm_horas mostra o lançado; pergunta só o saldo","Ficha: Situação concluido. Backlog: concluido e concluida-em. Sprint: situação e créditos"],
+  arq:["ficha · backlog.md · sprint-<nn>.md"],elm:["elm_lancar_horas + elm_transicao concluir, numa confirmação","Sem o MCP: ELM pendente [<chave>]"]},
+ atd6:{x:1010,y:580,lab:"below",term:true,nome:"Desdobrar",sk:"commit e saída",
+  papel:"quem atende",agente:"sdd-produto",tarefa:"—",
+  faz:["Pergunta o desdobramento: arquivar · alteração (sdd-triar) · regra (sdd-entrevistar) · lição (sdd-aprender)","Grava a resposta em Saída e faz o commit único AT-<nnn> concluir, na base","O sdd-produto não faz push: entrega o comando pronto"],
+  arq:["ficha · backlog.md · sprint-<nn>.md"],elm:["—"]},
+
+/* ---------- Apoio: demais categorias ---------- */
+ min1:{x:560,y:680,lab:"below",nome:"Iniciar no ELM",sk:"sdd-executar",
+  papel:"quem faz o Apoio",agente:"sdd-produto",tarefa:"[IMPL] [BD] [INF] [OPE] [EXT]",
+  faz:["Entrada: IM-, BD-, IN-, OP-, EX-nnn ou a tarefa, com linha em ## Apoio e ficha. AT-nnn: sdd-atender; pedido novo ou fora do backlog: sdd-triar; concluido ou cancelado: para","Fora da sprint aberta ou da reserva: Encaixe do P.O. e para","A pessoa executa o trabalho; o agente não roda script, deploy nem comando em ambiente"],
+  arq:["<produto>/apoio/<categoria>/<ID>-<slug>.md"],elm:["elm_transicao assumir (de outra pessoa: pergunta e forcar)","elm pendente: cria a tarefa antes"]},
+ min2:{x:650,y:680,lab:"below",nome:"Registrar",sk:"na ficha",
+  papel:"quem faz o Apoio",agente:"sdd-produto",tarefa:"a da categoria",
+  faz:["## O que foi feito: passos e evidência (o que, onde, resultado, link do chamado ou da mudança)","Sem dado de cliente"],
+  arq:["ficha da categoria",".kiro/local/apoio/<categoria>/<ID>/<arquivo>"],elm:["elm_comentar · elm_anexo enviar, se a pessoa quiser"]},
+ min3:{x:740,y:680,lab:"below",nome:"Lançar horas",sk:"várias vezes",
+  papel:"quem faz o Apoio",agente:"sdd-produto",tarefa:"a da categoria",
+  faz:["A qualquer momento, em várias sessões","Uma linha por lançamento na tabela Horas","Lançar não conclui"],
+  arq:["ficha: ## Horas"],elm:["elm_lancar_horas"]},
+ min4:{x:830,y:680,lab:"below",term:true,nome:"Concluir",sk:"<ID> concluir",
+  papel:"quem faz o Apoio",agente:"sdd-produto",tarefa:"a da categoria",
+  faz:["Saldo de horas e conclusão numa confirmação","Ficha: Situação concluido e créditos. Backlog: concluido e concluida-em. Sprint: situação","Um commit <ID> concluir","Desdobramento que muda o repositório: sdd-triar com origem <ID>"],
+  arq:["ficha · backlog.md · sprint-<nn>.md"],elm:["elm_horas · elm_lancar_horas · elm_transicao concluir"]},
+
+/* ---------- ciclo da sprint ---------- */
+ durante:Object.assign(rp(-30),{lab:"in-left",nome:"Durante",sk:"puxar · encaixe · troca",
+  papel:"P.O. (encaixe e troca) · Dev (puxar)",agente:"sdd-produto · sdd-codificador",tarefa:"[GB]",
+  faz:["Puxar: a pronta do topo entra quando o WIP de revisão tem folga, pela sdd-desenvolver, sem cerimônia","Encaixe: fura a fila, WIP no limite ou Apoio além da reserva. O P.O. decide: entra na folga, troca por fatia não iniciada ou fica para a próxima","Troca AFK → HITL: o P.O. ou o SM grava o modo, sugere revisor e verificador de menor alocação e cria a [REV] e a [VER]","Fatia que passou de G volta para a sdd-fatiar"],
+  arq:["sprint-<nn>.md: encaixe: <decisão> (<quem>, <data>)","backlog.md: modo HITL"],elm:["Encaixe: o IB entra na iteração e as tarefas nascem","Troca: [REV] e [VER] nascem com o mesmo pai da [DEV]; nenhuma [APR] nasce"]}),
+ sincroniza:Object.assign(rp(30),{lab:"in-left",nome:"Sincroniza",sk:"EWM ↔ sprint",
+  papel:"P.O. ou SM",agente:"sdd-produto",tarefa:"[GB]",
+  faz:["“sincroniza a sprint”: tarefas criadas direto no EWM, na iteração","Infere pelo prefixo, pelo pai e pela Classificação; pergunta numa tabela","Traz com o mesmo id: tarefa de papel → linha da fatia; Apoio → liga ao item da categoria com elm pendente que seja o mesmo pedido, senão id novo da série","Roda depois de publicar, antes dos ritos de fechamento e sob pedido; sem o MCP, os ritos avisam “sincronização com o EWM não feita” e seguem"],
+  arq:["sprint-<nn>.md: trazida do EWM","backlog.md: seção Apoio","commit sprint <pai>/<nn>: sincronizar com o EWM"],elm:["elm_listar_wi · elm_ler_wi · elm_atualizar_wi"]}),
+ review:Object.assign(rp(90),{lab:"above",nome:"Review",sk:"rito",
+  papel:"P.O. e time",agente:"sdd-produto",tarefa:"[GB]",
+  faz:["Pré-condição: sincroniza e confere as fatias mergeadas que esperam a consolidação. Alguma: para; só segue com o “sim” do P.O. (Fechamento sem consolidar)","Cada fatia concluída: o cenário entregue e a evidência do verificacao.md","Pedido novo vai para a sdd-prd ou a sdd-fatiar; nunca reabre fatia concluída"],
+  arq:["sprint-<nn>.md: ## Review","**Fechamento sem consolidar:** FT-… (<P.O.>, <data>)"],elm:["—"]}),
+ retro:Object.assign(rp(150),{lab:"left",nome:"Retro",sk:"sdd-aprender",
+  papel:"time",agente:"sessão padrão",tarefa:"[GB]",
+  faz:["A pré-condição vale de novo","Retrospectiva com dados pela sdd-aprender: fluxo, autonomia AFK/HITL, créditos","Bom · melhorar · ações, cada ação com dono"],
+  arq:["sprint-<nn>.md: ## Retrospectiva","aprendizado/licoes.md"],elm:["—"]}),
+ virada:Object.assign(rp(210),{lab:"left",nome:"Virada",sk:"fecha e replaneja",
+  papel:"P.O. ou SM",agente:"sdd-produto",tarefa:"[GB]",
+  faz:["A pré-condição antes da virada","Números: horas planejadas × lançadas por tipo (DEV, REV, APR, VER, ESP e Apoio) pelo elm_horas, créditos só do git, versões do power","Não concluídas migram (fatias, [ESP], Apoio) com “migrada da sprint <chave>”","Vazão, lead time e horas por tipo no histórico; replaneja com as migradas primeiro","Pai novo, só quando a pessoa diz: nasce a [GB] dele e a antiga conclui com o saldo; a Sustentação e os IBs de categoria não mudam"],
+  arq:["sprint-<nn>.md: ## Números, Situação fechada","backlog.md: sprint e creditos","equipe.json: historico"],elm:["elm_horas(iteracao)","elm_atualizar_wi(ids, iteração nova): move, nunca recria"]})
+};
+S.triar.ctx.afk=S.triar.ctx.hitl;
+/* a estação Planejar também é do anel; na linha da sprint ela mostra o planejamento completo */
+S.planejar.ctx.sprint={sen:S.planejar.sen};
+
+const ALL={
+ epico:["triar","backlog","planejar","iniciar","especificar","entrevistar","prd","revprd","gprd","prdbase","elmpub","fatiar","gbacklog","espfim","backlog@fim"],
+ hitl:["triar","ficha","backlog","planejar","iniciar","desenvolver","pesquisar","plano","analise","gplano","implementar","prepr","pr_h","revisar","verificar","merge","consolidar","aprender"],
+ afk:["triar","ficha","backlog","planejar","iniciar","desenvolver","pesquisar","plano","analise","gplano","implementar","rev_a","ver_a","pr_a","aprpr","merge","consolidar","aprender"],
+ atd:["triar","backlog","planejar","iniciar","atd1","atd2","atd3","atd4","atd5","atd6"],
+ min:["triar","backlog","planejar","iniciar","min1","min2","min3","min4"],
+ sprint:["planejar","durante","sincroniza","review","retro","virada","planejar@fim"]
+};
+const SKIP={
+ gplano:s=>s.sen==="sr"?"Sênior: aprova o próprio plano (sem GATE)":null
+};
+const VIA={
+ "triar>ficha":"fatia sem épico: a ficha","ficha>backlog":"ficha aprovada: pronta",
+ "epico:triar>backlog":"épico em rascunho","atd:triar>backlog":"AT-nnn e [ATD]; na sprint se cabe na reserva","min:triar>backlog":"item e tarefa da categoria",
+ "epico:backlog>planejar":"o épico entra na sprint","hitl:backlog>planejar":"selecionada pela vazão (ou puxada, ou encaixe)","afk:backlog>planejar":"selecionada pela vazão (ou puxada, ou encaixe)",
+ "atd:backlog>planejar":"sem sprint aberta: no próximo planejamento","min:backlog>planejar":"sem sprint aberta: no próximo planejamento",
+ "epico:planejar>iniciar":"[ESP] criada no EWM","hitl:planejar>iniciar":"[DEV], [REV] e [VER] criadas","afk:planejar>iniciar":"só a [DEV]",
+ "atd:planejar>iniciar":"a tarefa nasceu na triagem","min:planejar>iniciar":"a tarefa nasceu na triagem",
+ "iniciar>especificar":"[ESP] → sdd-especificar","hitl:iniciar>desenvolver":"[DEV] → sdd-desenvolver","afk:iniciar>desenvolver":"uma fatia ou o lote do loop",
+ "iniciar>atd1":"[ATD] → sdd-atender","iniciar>min1":"[IMPL]… → sdd-executar",
+ "especificar>entrevistar":"pasta local","entrevistar>prd":"decisões e glossário","prd>revprd":"subagente revisor","revprd>gprd":"OK: o P.O. decide",
+ "gprd>prdbase":"aprovado: sdd-especificar","prdbase>elmpub":"política na-aprovacao","elmpub>fatiar":"PRD e requisitos publicados","fatiar>gbacklog":"rascunho das fatias",
+ "gbacklog>espfim":"fatias no backlog e no EWM","espfim>backlog":"fatias prontas para a próxima sprint",
+ "desenvolver>pesquisar":"branch, status.md e [DEV] assumida","pesquisar>plano":"research.md","plano>analise":"subagente revisor","analise>gplano":"OK: troca de modo e GATE",
+ "gplano>implementar":"plano aprovado","analise>implementar":s=>s.sen==="sr"?"plano do Sênior":"Pleno dispensou o GATE",
+ "implementar>prepr":"validação completa","prepr>pr_h":"APROVADO: push e PR","pr_h>revisar":"o revisor assume a [REV]","revisar>verificar":"APROVADO, depois do push","verificar>merge":"ACEITO: pronta-para-merge",
+ "implementar>rev_a":"fase revisando","rev_a>ver_a":"APROVADO","ver_a>pr_a":"ACEITO: aceita","pr_a>aprpr":"[APR] Aprovar PR criada","aprpr>merge":"aprovado com o sha",
+ "merge>consolidar":"mergeada; avisa o P.O. ou o SM","consolidar>aprender":"lições candidatas",
+ "atd1>atd2":"[ATD] assumida","atd2>atd3":"consultas registradas","atd3>atd4":"resultado fora do git","atd4>atd5":"a pessoa enviou","atd5>atd6":"[ATD] concluída",
+ "min1>min2":"tarefa assumida","min2>min3":"trabalho registrado","min3>min4":"saldo",
+ "planejar>durante":"sprint publicada no EWM","durante>sincroniza":"tarefas abertas por fora","sincroniza>review":"último dia: pré-condição","review>retro":"pré-condição de novo","retro>virada":"ações com dono","virada>planejar":"migradas primeiro"
+};
+
+const EXTRA=[
+ /* desenhados no mapa */
+ {id:"sr_bypass",f:"analise",t:"implementar",kind:"alt",lines:["hitl","afk"],pts:[[775,310],[775,334],[945,334],[945,312]],rad:10,lp:[860,334],
+  when:s=>s.sen!=="jr",why:"Júnior: o GATE do plano é obrigatório",
+  lab:s=>s.sen==="sr"?"Sênior aprova o próprio plano (plano do Sênior)":s.sen==="pl"?"Pleno dispensou o GATE (registrado no Histórico)":"sem GATE: Sênior, ou Pleno que dispensa",
+  short:s=>s.sen==="pl"?"Pleno: se dispensar":s.sen==="sr"?"Sênior: sem GATE":"sem GATE: Sênior · Pleno"},
+ {id:"cons_rev",f:"consolidar",t:"review",kind:"xfer",lines:["hitl","afk"],toLine:"sprint",
+  lab:"a consolidação é pré-condição da review, da retrospectiva e da virada",short:"consolidação: pré-condição da review"},
+ /* aparecem com a linha e a estação escolhidas */
+ {id:"an_rep",f:"analise",t:"plano",kind:"loop",lines:["hitl","afk"],bend:-1,lab:s=>s.tr==="rapida"?"AJUSTAR: corrige o plano, até 2 rodadas; lacuna de negócio para no P.O.":"AJUSTAR: corrige o plano, até 2 rodadas; falta do PRD volta às lacunas",short:"AJUSTAR ↺ até 2 rodadas"},
+ {id:"gate_rep",f:"gplano",t:"plano",kind:"loop",lines:["hitl","afk"],bend:-1,when:s=>s.sen!=="sr",lab:"reprovado: fase planejando; a mesma [APR] segue em andamento",short:"reprovado ↺"},
+ {id:"troca",f:"analise",t:"durante",kind:"xfer",lines:["afk"],toLine:"sprint",bend:-1,tname:"Troca para HITL (P.O.)",
+  lab:"plano AFK com risco: o Dev aceita a sugestão; bloqueada (aguardando troca para HITL); o P.O. troca",short:"risco: troca para HITL"},
+ {id:"retoma",f:"durante",t:"desenvolver",kind:"xfer",lines:["sprint"],toLine:"hitl",tname:"Desenvolver (HITL)",
+  lab:"trocada para HITL: o Dev retoma pela sdd-desenvolver e volta ao P5 da sdd-plano, com GATE pela senioridade",short:"o Dev retoma no HITL"},
+ {id:"encaixe",f:"desenvolver",t:"durante",kind:"xfer",lines:["hitl","afk"],toLine:"sprint",tname:"Encaixe (P.O.)",
+  lab:"fora da sprint: puxada se for a pronta do topo e o WIP tiver folga; senão, Encaixe do P.O.",short:"fora da sprint: encaixe"},
+ {id:"pre_rep",f:"prepr",t:"implementar",kind:"loop",lines:["hitl"],bend:-1,lab:"REVISAR: tarefas [R<n>], até 2 vezes; persistindo, a pessoa decide",short:"REVISAR ↺ até 2 vezes"},
+ {id:"rev_rep",f:"revisar",t:"implementar",kind:"loop",lines:["hitl"],bend:-1,lab:"REVISAR: retrabalho (de: em-revisao); a [REV] fica em andamento; correção no mesmo PR",short:"REVISAR ↺ mesmo PR"},
+ {id:"ver_rej",f:"verificar",t:"implementar",kind:"loop",lines:["hitl"],bend:-1,lab:"REJEITADO: retrabalho (de: em-verificacao); o PR volta a passar pela revisão",short:"REJEITADO ↺ volta à revisão"},
+ {id:"reva_rep",f:"rev_a",t:"implementar",kind:"loop",lines:["afk"],bend:1,lab:"REVISAR: tarefas [R<n>], até 2 rodadas; a 2ª reprovação bloqueia",short:"REVISAR ↺ até 2 rodadas"},
+ {id:"vera_rej",f:"ver_a",t:"implementar",kind:"loop",lines:["afk"],bend:1,lab:"REJEITADO: volta à implementação e passa de novo pela revisão; a 2ª rejeição bloqueia",short:"REJEITADO ↺ e revisa de novo"},
+ {id:"apr_rep",f:"aprpr",t:"implementar",kind:"loop",lines:["afk"],bend:1,lab:"mudanças pedidas: retrabalho (de: pronta-para-merge); a mesma [APR] e o mesmo PR",short:"mudanças ↺ mesmo PR"},
+ {id:"revprd_rep",f:"revprd",t:"prd",kind:"loop",lines:["epico"],bend:1,lab:"AJUSTAR: volta ao PRD, até 2 rodadas",short:"AJUSTAR ↺"},
+ {id:"gprd_rep",f:"gprd",t:"entrevistar",kind:"loop",lines:["epico"],bend:1,lab:"decisão em aberto que muda comportamento: volta à entrevista",short:"decisão em aberto ↺"},
+ {id:"gbk_rep",f:"gbacklog",t:"fatiar",kind:"loop",lines:["epico"],bend:1,lab:"repete até o “ok”; precisa da fatia ponta a ponta",short:"ajustes ↺"},
+ {id:"drift",f:"consolidar",t:"prd",kind:"xfer",lines:["hitl","afk"],toLine:"epico",tname:"PRD (nova versão)",when:s=>s.tr!=="rapida",why:"a rápida não tem épico nem PRD",
+  lab:"drift de negócio numa fatia de épico: nova versão do PRD pela sdd-prd, antes de publicar",short:"drift: nova versão do PRD"},
+ {id:"drift_ficha",f:"consolidar",t:"triar",kind:"xfer",lines:["hitl","afk"],toLine:"hitl",tname:"Triagem (ficha)",
+  lab:"drift de negócio numa fatia sem épico: nova versão da ficha pela sdd-triar, antes de publicar",short:"drift: nova versão da ficha"},
+ {id:"atd_back",f:"atd1",t:"triar",kind:"xfer",lines:["atd"],toLine:"hitl",tname:"Triagem",lab:"muda o sistema ou tem regra não decidida: volta à triagem",short:"não é Apoio: triagem"},
+ {id:"atd_alt",f:"atd6",t:"triar",kind:"xfer",lines:["atd"],toLine:"hitl",tname:"Triagem",lab:"alteração (defeito ou mudança): sdd-triar com origem AT-<nnn>",short:"alteração: triagem"},
+ {id:"atd_reg",f:"atd6",t:"entrevistar",kind:"xfer",lines:["atd"],toLine:"epico",tname:"Entrevistar",lab:"regra que ninguém decidiu: sdd-entrevistar",short:"regra: entrevista"},
+ {id:"atd_lic",f:"atd6",t:"aprender",kind:"xfer",lines:["atd"],toLine:"hitl",tname:"Aprender",lab:"consulta reaproveitável: lição pela sdd-aprender",short:"lição: aprender"},
+ {id:"min_enc",f:"min1",t:"durante",kind:"xfer",lines:["min"],toLine:"sprint",tname:"Encaixe (P.O.)",lab:"fora da sprint ou da reserva: Encaixe do P.O.",short:"fora da reserva: encaixe"},
+ {id:"min_tri",f:"min4",t:"triar",kind:"xfer",lines:["min"],toLine:"hitl",tname:"Triagem",lab:"desdobramento que muda o repositório: sdd-triar com origem <ID>",short:"muda o repositório: triagem"},
+ {id:"sync_tri",f:"sincroniza",t:"triar",kind:"xfer",lines:["sprint"],toLine:"hitl",tname:"Triagem",lab:"tarefa de fatia ou épico que não está no backlog: sdd-triar (importar do EWM)",short:"fora do backlog: triagem"},
+ {id:"rev_novo",f:"review",t:"prd",kind:"xfer",lines:["sprint"],toLine:"epico",tname:"PRD ou fatiar",lab:"pedido novo na review: sdd-prd ou sdd-fatiar; nunca reabre fatia concluída",short:"pedido novo: PRD"},
+ {id:"retro_apr",f:"retro",t:"aprender",kind:"xfer",lines:["sprint"],toLine:"hitl",tname:"Aprender",lab:"retrospectiva com dados pela sdd-aprender",short:"retrospectiva: aprender"}
+];
+
+const SERV=[
+ {sk:"sdd-setup",nome:"Configurar o projeto",desc:"Wizard de 10 passos: projeto, comandos, git, ELM, agentes",papel:"quem configura o projeto",agente:"sessão padrão",tarefa:"—",
+  faz:["Roda na sessão padrão; uma pergunta por mensagem; nada é gravado antes do “ok” do Passo 8","Projeto, comandos (roda de verdade), git, PR e banco","Pasta do produto, glossário, ADRs, o nome curto do produto (títulos Sustentação - <produto> e <Categoria> - <produto>) e o pa do ELM, montado bloco a bloco com a pessoa","Inventário de skills e toolkits; um cartão por agente para escolher as skills","Automações (hook de backpressure, receitas), revisão, gravação e validação","Modo atualização: “atualizar a configuração do sdd” e “atualizar os agentes do sdd”; migra as sprints para sprints/<pai>/"],
+  arq:[".kiro/steering/sdd.md",".kiro/config/sdd/agentes.json",".kiro/config/sdd/pa_<nome>.json",".kiro/agents/sdd-*.json (gerados)",".kiro/hooks/sdd.json · .kiro/workflows/ · .kiro/sdd/http.sh","pasta do produto: backlog.md mínimo, aprendizado/, fatias/"],
+  elm:["elm_setup_descobrir para montar o pa","elm_backlog: backlog do produto no EWM","elm_status confere a configuração"]},
+ {sk:"sdd-status",nome:"Onde parei",desc:"Painel, próxima ação e fechar a sessão",papel:"qualquer pessoa",agente:"todos, menos o pesquisador",tarefa:"a do papel de quem fecha a sessão",
+  faz:["Só leitura: status.md das branches, worktrees e remotas, PRs, backlog, sprint e acordos","Painel: em andamento, esperando pessoa (com o WIP), retrabalho, prontas, reserva, EWM por fora, fechamento, ELM pendente","Sugere a próxima ação de maior alavanca","Fechar a sessão: Histórico, tasks.md, horas na tarefa do papel e créditos do Kiro (creditos.py); commit só com “ok”, nunca push"],
+  arq:["linha de créditos no status.md, na ficha, no status.md do épico ou em Créditos de gestão"],elm:["elm_horas · elm_lancar_horas ao fechar a sessão","gitlab_listar_mrs"]},
+ {sk:"sdd-sync",nome:"Sincronizar o bundle",desc:"Cópia local do DOORS Next, nas duas vias",papel:"quem precisa do bundle",agente:"sessão padrão",tarefa:"—",
+  faz:["Plano, conflitos perguntados, baixar e enviar com “sim”","Commit ELM - Sincronizar bundle na sessão padrão; num agente, entrega o comando","Pergunta se indexa o bundle"],
+  arq:["bundle do ELM (caminho no sdd.md)"],elm:["elm_sync · elm_indexar_local"]},
+ {sk:"Kiro Workflows",nome:"Receitas de workflow",desc:"planejar-fatia e entregar-fatia, disparadas pela pessoa",papel:"Dev (a pessoa dispara)",agente:"revisor, pesquisador, codificador e verificador, em passos",tarefa:"[DEV] · [APR]",
+  faz:["sdd-planejar-fatia: conferir, pesquisa, plano, análise (até 2) e a entrega do plano com a pessoa (P5 da sdd-plano)","sdd-entregar-fatia (só AFK): ciclo implementar → revisar → verificar, até 3 voltas; entrega com a pessoa: PR e [APR] Aprovar PR","Nenhum agente dispara as receitas"],
+  arq:[".kiro/workflows/sdd-*.workflow.json",".kiro/local/wf/<id>/plano.json · codigo.json · aceite.json"],elm:["Horas na [DEV]; a [APR] nasce na entrega"]}
+];
+
+const ROLES=[
+ {nome:"P.O. / SM",who:"analista de negócio",tarefa:"[GB]",c:"--navy",agente:"sdd-produto",st:"triar",line:"hitl",
+  faz:["Triagem e GATE da ficha","GATE do PRD e do backlog","Planejamento, encaixe, troca de modo e ritos","Consolidação da fatia mergeada"]},
+ {nome:"Especificador",who:"especifica o épico",tarefa:"[ESP]",c:"--teal",agente:"sdd-produto",st:"especificar",line:"epico",
+  faz:["Entrevista em rodadas","PRD e revisão P","PRD na base e requisitos no DOORS Next","Fatias e fechamento da [ESP]"]},
+ {nome:"Dev",who:"a fatia é dele de ponta a ponta",tarefa:"[DEV]",c:"--blue",agente:"sdd-codificador",st:"desenvolver",line:"hitl",
+  faz:["Compromisso, branch e pasta da fatia","Pesquisa, plano e implementação com TDD","PR e retrabalho no mesmo PR","Merge do PR aprovado"]},
+ {nome:"Revisor",who:"sempre um Dev Sênior",tarefa:"[REV]",c:"--cyan",agente:"sdd-revisor",st:"revisar",line:"hitl",
+  faz:["Lê o PR nos dois eixos: spec e padrões","Marca o drift de negócio","Revisor único, se for o só Sênior ativo"]},
+ {nome:"Aprovador",who:"Dev Sênior, nos gates sem tarefa de papel",tarefa:"[APR]",c:"--navy",agente:"sdd-revisor",st:"gplano",line:"hitl",
+  faz:["GATE do plano (Júnior sempre, Pleno se pedir)","Aprovar PR do AFK, com o sha","A mesma [APR] volta depois de ajustes"]},
+ {nome:"Verificador",who:"QA; nunca quem implementa",tarefa:"[VER]",c:"--green",agente:"sdd-verificador",st:"verificar",line:"hitl",
+  faz:["Aceite de ponta a ponta com evidência","Nunca em produção","CT.csv para o ETM"]},
+ {nome:"Quem faz o Apoio",who:"quem tem atende: true",tarefa:"[ATD] [IMPL] …",c:"--teal",agente:"sdd-produto",st:"atd1",line:"atd",
+  faz:["Atendimento pela sdd-atender","Demais categorias pela sdd-executar","Dado de cliente fora do git"]},
+ {nome:"Orquestrador",who:"agente do loop AFK",tarefa:"[DEV] de quem disparou",c:"--blue",agente:"sdd-orquestrador",st:"desenvolver",line:"afk",
+  faz:["Lote de fatias AFK, uma worktree por fatia","Uma fase por contexto limpo, com subagentes","Para no PR; nunca faz merge"]}
+];
+
+const AGENTS=[
+ {id:"sdd-produto",quem:"P.O., SM, especificador, quem faz o Apoio",skills:["triar","entrevistar","prd","fatiar","planejamento","atender","executar","consolidar","aprender","especificar","iniciar","status"],sub:"pesquisador · revisor",push:"não faz",pk:"no",obs:"Escreve a pasta do produto, glossário, ADRs e .kiro/local/apoio/; entrega o comando de push"},
+ {id:"sdd-pesquisador",quem:"subagente de quem planeja ou atende",skills:["pesquisar"],sub:"—",push:"não faz",pk:"no",obs:"Só leitura; escreve só o research.md; MCP de banco só para consulta"},
+ {id:"sdd-codificador",quem:"Dev",skills:["plano","implementar","desenvolver","iniciar","status"],sub:"pesquisador · revisor · verificador",push:"pergunta",pk:"ask",obs:"Único com gitlab_mesclar_mr (merge do PR aprovado, com confirmação)"},
+ {id:"sdd-revisor",quem:"Revisor e aprovador (Dev Sênior)",skills:["revisar","iniciar","status"],sub:"—",push:"pergunta",pk:"ask",obs:"Assume a [REV] ou a [APR]; como subagente, sem push e sem ELM"},
+ {id:"sdd-verificador",quem:"Verificador (QA)",skills:["verificar","iniciar","status"],sub:"—",push:"pergunta",pk:"ask",obs:"Nunca contra produção nem com dado real; sem acesso ao GitLab"},
+ {id:"sdd-orquestrador",quem:"loop AFK",skills:["loop","status","desenvolver","plano","implementar"],sub:"pesquisador · codificador · revisor · verificador",push:"no loop",pk:"loop",obs:"Push e PR só se o lote autorizou; nunca faz merge nem escreve código"}
+];
+
+const TREE=[
+ {d:".kiro/",open:true,c:[
+  {d:"steering/",c:[{f:"sdd.md",b:"gen",w:"sdd-setup; regras aprendidas pela sdd-aprender",q:"sempre carregado",o:"O único steering do fluxo: resumo, configuração do projeto (pasta do produto, comandos, git, banco, autonomia, ELM, agentes, tabela de Apoio) e regras aprendidas."}]},
+  {d:"config/sdd/",c:[{f:"agentes.json",b:"gen",w:"sdd-setup",q:"ao configurar ou atualizar os agentes",o:"As escolhas do projeto para os agentes: caminhos, comandos, skills e MCPs por agente. É a entrada do gerador."},
+   {f:"pa_<nome>.json",b:"gen",w:"sdd-setup, com a pessoa, bloco a bloco",q:"um por project area",o:"Configuração do ELM lida pelo mcp-elm: tipos, campos obrigatórios, classificação por prefixo, iterações e o backlog do produto."}]},
+  {d:"agents/",c:[{f:"sdd-*.json",b:"gen",w:"gerar_agentes.py da sdd-setup",q:"“atualizar os agentes do sdd”",o:"Seis agentes no formato V3, com permissões mínimas por papel e as skills escolhidas."}]},
+  {d:"hooks/",c:[{f:"sdd.json",b:"gen",w:"sdd-setup (opcional)",q:"depois de cada tarefa de spec",o:"Backpressure: compila e testa depois de cada tarefa; não bloqueia a próxima.",st:"implementar",line:"hitl"}]},
+  {d:"workflows/",c:[{f:"sdd-planejar-fatia.workflow.json",b:"gen",w:"sdd-setup (opcional, experimental)",q:"a pessoa dispara no chat do Kiro",o:"Leva a fatia até a entrega do plano, com a análise L e o GATE.",st:"plano",line:"hitl"},
+   {f:"sdd-entregar-fatia.workflow.json",b:"gen",w:"sdd-setup (opcional, experimental)",q:"a pessoa dispara no chat do Kiro",o:"Só AFK: implementar, revisar e verificar até 3 voltas; entrega com o PR e a [APR] Aprovar PR.",st:"pr_a",line:"afk"}]},
+  {d:"sdd/",c:[{f:"http.sh",b:"gen",w:"sdd-setup (opcional)",q:"na verificação",o:"Única chamada HTTP que o verificador faz sem perguntar: só à URL de teste, com corpo da pasta massa/.",st:"verificar",line:"hitl"}]},
+  {d:"planejamento/  (pasta do produto)",open:true,c:[
+   {f:"backlog.md",b:"git",w:"sdd-triar · sdd-fatiar · sdd-planejamento · sdd-consolidar · Apoio",q:"a cada triagem, GATE, sprint e consolidação",o:"Épicos, fatias com e sem épico e a seção Apoio, com ids, status, sprint, responsável, ids do EWM e créditos. Linha Sustentação: o IB do produto, a [GB] do pai atual e os IBs de categoria.",st:"backlog",line:"hitl"},
+   {f:"equipe.json",b:"git",w:"sdd-planejamento (modo inicial e virada)",q:"ao formar o time e na virada",o:"Pessoas, papéis, senioridade dos Devs, quem atende, horas de revisão e especificação e o histórico de vazão.",st:"planejar",line:"sprint"},
+   {f:"acordos.md",b:"git",w:"sdd-planejamento",q:"modo inicial",o:"Cadência, WIP, Definition of Ready e Done, tamanhos e a reserva de apoio e retrabalho.",st:"planejar",line:"sprint"},
+   {f:"roadmap.md",b:"git",w:"sdd-planejamento",q:"modo inicial e revisões",o:"Épicos ordenados por valor e risco; sem PRD = a descobrir.",st:"planejar",line:"sprint"},
+   {d:"epicos/<EP>-<slug>/",c:[{f:"rascunho.md · decisoes.md",b:"git",w:"sdd-triar",q:"na triagem do épico",o:"O rascunho do épico e as primeiras decisões.",st:"triar",line:"epico"},
+    {f:"prd.md · elm/ · revisao-prd-<N>.md",b:"git",w:"sdd-especificar (PRD na base)",q:"depois do GATE do PRD",o:"O PRD aprovado, os conceitos HF, REG e GL e as revisões P.",st:"prdbase",line:"epico"},
+    {f:"status.md",b:"git",w:"sdd-especificar",q:"a cada sessão",o:"Créditos da [ESP]; até o GATE do PRD fica na pasta local.",st:"especificar",line:"epico"}]},
+   {d:"fatias/",c:[{f:"FT-<nnn>-<slug>.md",b:"git",w:"sdd-triar (sem épico) · sdd-fatiar (de épico)",q:"na triagem ou no fatiamento",o:"A ficha: regras e cenários na padrão; Comportamento e Como verificar na rápida.",st:"ficha",line:"hitl"}]},
+   {d:"sprints/2026/",c:[{f:"sprint-03.md",b:"git",w:"sdd-planejamento",q:"planejar, encaixe, sincronizar, review, retro, virada",o:"Meta, fatias, especificação, Apoio, capacidade, créditos de gestão, review, retrospectiva e números. A chave é 2026/03; a ordem das sprints é a da data de início (o nome do pai é livre).",st:"planejar",line:"sprint"}]},
+   {d:"apoio/",c:[{d:"atendimento/",c:[{f:"AT-012-<slug>.md",b:"git",w:"sdd-triar cria; sdd-atender completa",q:"por item de Atendimento",o:"Pedido, consultas (SQL e contagem), resposta enviada, horas, créditos e saída. Sem dado de cliente.",st:"atd1",line:"atd"}]},
+    {d:"operacao/",c:[{f:"OP-001-<slug>.md",b:"git",w:"sdd-triar cria; sdd-executar completa",q:"por item de Operação",o:"Pedido e O que foi feito: passos e evidência, sem dado de cliente. As outras categorias seguem o mesmo formato, cada uma na sua pasta.",st:"min2",line:"min"}]}]},
+   {d:"aprendizado/",c:[{f:"licoes.md",b:"git",w:"sdd-aprender (a consolidação chama o modo registrar)",q:"a cada lição",o:"Lições L-nnn, que podem virar checagem ou regra do revisor.",st:"aprender",line:"hitl"},
+    {f:"avaliacoes/",b:"git",w:"sdd-aprender",q:"casos de avaliação",o:"Casos para avaliar o fluxo em retrospectivas.",st:"aprender",line:"hitl"}]}
+  ]},
+  {d:"specs/<ft>-<slug>/  (na branch da fatia)",open:true,c:[
+   {f:"status.md · .config.kiro",b:"git",w:"sdd-desenvolver cria; todos os papéis atualizam",q:"a cada fase",o:"Fase, branch, PR, modo, revisor e verificador, Histórico, drift de negócio, Lições candidatas e créditos.",st:"desenvolver",line:"hitl"},
+   {f:"research.md",b:"git",w:"sdd-pesquisar (commit da sdd-plano)",q:"antes do plano",o:"Pesquisa compactada com arquivo:linha.",st:"pesquisar",line:"hitl"},
+   {f:"requirements.md · bugfix.md",b:"git",w:"sdd-plano",q:"plano (bugfix.md na rápida)",o:"Spec do Kiro: o que a fatia precisa fazer.",st:"plano",line:"hitl"},
+   {f:"design.md · tasks.md · decisoes.md",b:"git",w:"sdd-plano",q:"plano",o:"A forma do programa, as tarefas e as decisões da fatia.",st:"plano",line:"hitl"},
+   {f:"analise-plano-<N>.md",b:"git",w:"subagente sdd-revisor (rubrica L)",q:"a cada rodada da análise",o:"A análise independente do plano.",st:"analise",line:"hitl"},
+   {f:"revisao-codigo-<N>.md",b:"git",w:"sdd-revisar ([REV] ou subagente no AFK)",q:"a cada rodada",o:"Revisão nos dois eixos: spec e padrões.",st:"revisar",line:"hitl"},
+   {f:"verificacao.md · CT.csv · evidencias/ · massa/",b:"git",w:"sdd-verificar",q:"no aceite",o:"Cenários executados com evidência; CT.csv para o ETM.",st:"verificar",line:"hitl"},
+   {f:"elm/ET-<slug>.md · adr/",b:"git",w:"Dev, no PR",q:"implementação",o:"Especificação técnica as-built e decisões técnicas, levadas ao ELM e à pasta de ADRs na consolidação.",st:"pr_h",line:"hitl"}
+  ]},
+  {d:"local/  (fora do git)",c:[
+   {f:"wt/<ft>/",b:"local",w:"sdd-loop",q:"uma por fatia AFK do lote",o:"Worktree da fatia no loop; quem remove é a pessoa, depois do merge.",st:"desenvolver",line:"afk"},
+   {f:"especificacao/<EP>-<slug>/",b:"local",w:"sdd-especificar · sdd-prd · revisor",q:"até o GATE do PRD",o:"Especificação em andamento: prd.md, conceitos, decisões e revisões do PRD.",st:"especificar",line:"epico"},
+   {f:"apoio/<categoria>/<ID>/<arquivo>",b:"local",w:"sdd-atender · sdd-executar",q:"quando há dado real",o:"Dado de cliente: extrações, telas, planilhas. Nunca vai para o git.",st:"atd3",line:"atd"},
+   {f:"verificacao/ · wf/<id>/",b:"local",w:"verificador · receitas de workflow",q:"na verificação e nas receitas",o:"Evidências com dado sensível e os vereditos das receitas (plano.json, codigo.json, aceite.json).",st:"verificar",line:"hitl"},
+   {f:"loop-*.md",b:"local",w:"sdd-orquestrador",q:"a cada lote",o:"Log do lote do loop AFK.",st:"desenvolver",line:"afk"}
+  ]}
+ ]},
+ {d:"docs/  (padrão; caminhos no sdd.md)",c:[{f:"glossario.md",b:"git",w:"GATE do PRD · sdd-consolidar",q:"termos novos e correções",o:"Linguagem ubíqua usada no PRD, nos testes e no código.",st:"consolidar",line:"hitl"},{f:"adr/",b:"git",w:"sdd-consolidar (leva os ADRs do PR)",q:"depois do merge",o:"Decisões que devem durar, numeradas, com a origem FT-<nnn>.",st:"consolidar",line:"hitl"}]}
+];
+
+const GATES=[
+ {n:"PRD",q:"P.O.",o:"O quê e o porquê: histórias, cenários, regras e fora de escopo. Nunca é AFK.",st:"gprd",line:"epico"},
+ {n:"Backlog",q:"P.O. ou time, no refinamento",o:"As fatias: granularidade, dependências e AFK ou HITL; precisa da fatia ponta a ponta.",st:"gbacklog",line:"epico"},
+ {n:"Ficha",q:"P.O.",o:"A fatia padrão sem épico: regras e cenários. Na rápida, só quando o esperado vem de decisão nova.",st:"ficha",line:"hitl"},
+ {n:"Plano",q:"Dev Sênior na [APR] Aprovar plano",o:"A forma do programa e o contrato de pronto. Júnior sempre, Pleno se pedir, Sênior nunca.",st:"gplano",line:"hitl"},
+ {n:"PR · HITL",q:"[REV] Dev Sênior e [VER]",o:"O código lido de verdade, nos dois eixos, e o aceite com evidência. O merge é do Dev.",st:"revisar",line:"hitl"},
+ {n:"PR · AFK",q:"Dev Sênior na [APR] Aprovar PR",o:"O PR que a IA levou até o fim, lido por uma pessoa, com o sha anotado para o merge.",st:"aprpr",line:"afk"}
+];
+
+const PHASES={
+ hitl:[
+  {f:"pesquisando",sub:"sdd-pesquisar",st:"pesquisar"},
+  {f:"planejando",sub:"plano e análise L",st:"plano"},
+  {f:"plano-em-revisao",sub:"GATE do plano",st:"gplano",skip:c=>c.sen==="sr"?"Sênior: sem GATE":null},
+  {f:"implementando",sub:"TDD e pré-PR",st:"implementar"},
+  {f:"pr-aberto",sub:"PR aberto",st:"pr_h"},
+  {f:"em-revisao",sub:"[REV] Dev Sênior",st:"revisar"},
+  {f:"em-verificacao",sub:"[VER]",st:"verificar"},
+  {f:"pronta-para-merge",sub:"merge pelo Dev",st:"merge"},
+  {f:"mergeada",sub:"espera a consolidação",st:"consolidar"},
+  {f:"concluida",sub:"consolidada",st:"consolidar"}],
+ afk:[
+  {f:"pesquisando",sub:"sdd-pesquisar",st:"pesquisar"},
+  {f:"planejando",sub:"plano e análise L",st:"plano"},
+  {f:"plano-em-revisao",sub:"GATE do plano",st:"gplano",skip:c=>c.sen==="sr"?"Sênior: sem GATE":null},
+  {f:"implementando",sub:"TDD",st:"implementar"},
+  {f:"revisando",sub:"revisão C (subagente)",st:"rev_a"},
+  {f:"verificando",sub:"verificação (subagente)",st:"ver_a"},
+  {f:"aceita",sub:"espera o PR",st:"pr_a"},
+  {f:"pronta-para-merge",sub:"[APR] Aprovar PR",st:"aprpr"},
+  {f:"mergeada",sub:"espera a consolidação",st:"consolidar"},
+  {f:"concluida",sub:"consolidada",st:"consolidar"}]
+};
+const PHNOTE=c=>{
+ const sen=c.sen==="jr"&&c.mode==="afk"?"O Júnior não começa fatia AFK: estas fases valem para Pleno e Sênior. ":c.sen==="pl"?"Pleno: plano-em-revisao só se ele pedir a aprovação. ":"";
+ const modo=c.mode==="afk"?"No AFK, a revisão e a verificação rodam por subagente antes do PR; sem push autorizado no lote, a fatia fica em aceita até o Dev abrir o PR. ":"No HITL, antes do PR há só a revisão automática do codificador. ";
+ const tr=c.tr==="rapida"?"Na trilha rápida as fases são as mesmas; o plano é o bugfix.md. ":"";
+ return sen+modo+tr+"Retrabalho: retrabalho (de: <fase>), no mesmo PR. Bloqueio: bloqueada (de: <fase>), com o motivo; resolvido, volta à skill da fase de origem.";
+};
+
+const STATUSES=`
+<div class="stbox"><h3>Épico</h3><div class="flowr"><span>rascunho</span><em>→</em><span>em-revisao</span><em>→</em><span>aprovado</span><em>→</em><span>fatiado</span><em>→</em><span>concluido</span></div><p>Rascunho na triagem, aprovado no GATE do PRD, fatiado no GATE do backlog, concluído na consolidação da última fatia. Desvio: <code>cancelado</code>.</p></div>
+<div class="stbox"><h3>Ficha</h3><div class="flowr"><span>rascunho</span><em>→</em><span>aprovada por &lt;login&gt; em &lt;data&gt;</span></div><p>Mudar uma ficha aprovada a faz voltar a rascunho. Na rápida, a aprovação só é pedida quando o esperado vem de decisão nova.</p></div>
+<div class="stbox"><h3>Fatia no backlog</h3><div class="flowr"><span>backlog</span><em>→</em><span>pronta</span><em>→</em><span>concluida</span></div><p>“Em andamento” não é gravado: a fase está no <code>status.md</code>. Quem grava concluida é só a consolidação. Desvios: <code>dividida</code>, <code>cancelada</code>.</p></div>
+<div class="stbox"><h3>Item de Apoio</h3><div class="flowr"><span>backlog</span><em>→</em><span>aberto</span><em>→</em><span>concluido</span></div><p><code>aberto</code> quando está na sprint ou na iteração corrente do Kanban. Desvio: <code>cancelado</code>.</p></div>`;
+
+const ELM_HTML=`
+<div class="elm3">
+ <div class="sys" style="--c:var(--navy)"><h3>DOORS Next</h3><p class="sub">requisitos · política na-aprovacao (padrão) ou no-merge</p><ul><li>História de Usuário (HF), Regra (REG) embutida na HF, Termos de Glossário (GL)</li><li>Na-aprovacao: depois do GATE do PRD, antes de fatiar. No-merge: na consolidação</li><li>Regra da ficha e especificação técnica (ET) as-built, na consolidação</li><li>Bundle local pela <code>sdd-sync</code>, consultado só pelo MCP</li></ul></div>
+ <div class="sys" style="--c:var(--blue)"><h3>EWM</h3><p class="sub">trabalho · o backlog do EWM é a cópia do <code>backlog.md</code></p><ul><li>Épico e IB da fatia nascem no backlog do produto; entrar na sprint só muda a iteração</li><li>Iteração da sprint: <code>&lt;pai&gt;/Sprint n</code></li><li>Tarefas por papel, com horas; lançar não conclui</li><li>Sustentação - &lt;produto&gt; (uma por produto) e um IB por categoria do Apoio, no backlog</li></ul></div>
+ <div class="sys" style="--c:var(--green)"><h3>ETM</h3><p class="sub">testes · criados na consolidação</p><ul><li>Um Caso de Teste por cenário aceito (<code>elm_criar_ct</code>)</li><li>Link <b>valida</b> para a história</li><li>Sem permissão no ETM, o <code>CT.csv</code> é importado à mão</li></ul></div>
+</div>
+<div class="ewmtree" aria-label="Hierarquia de work items no EWM"><span class="m">EWM · backlog do produto e iterações</span>
+<span class="c1">Épico [EP-07] …</span>                                      <span class="m">nasce na triagem, no backlog do produto</span>
+├─ [ESP] EP-07 Especificação                         <span class="m">nasce no planejamento · conclui depois do GATE do backlog</span>
+└─ <span class="c2">IB [FT-031] …</span>                                     <span class="m">nasce no GATE do backlog</span>
+   ├─ [DEV] FT-031 Implementar                       <span class="m">Dev · conclui no merge</span>
+   ├─ [REV] FT-031 Revisar · [VER] FT-031 Verificar  <span class="m">só HITL · concluem ao aprovar e ao aceitar</span>
+   └─ [APR] FT-031 Aprovar plano · Aprovar PR        <span class="m">Dev Sênior · nasce no gate</span>
+<span class="c4">Sustentação - &lt;produto&gt;</span>                              <span class="m">uma por produto, no backlog</span>
+├─ [GB] Gerenciamento do backlog                     <span class="m">P.O./SM · uma por iteração pai, nasce na 1ª sprint dela</span>
+├─ <span class="c2">IB [FT-040] …</span>                                     <span class="m">fatia sem épico</span>
+├─ <span class="c3">Atendimento - &lt;produto&gt;</span>                           <span class="m">nasce com o 1º item da categoria</span>
+│  └─ [ATD] AT-013 …
+└─ <span class="c3">Operação - &lt;produto&gt;</span>
+   └─ [OPE] OP-001 …</div>
+<div class="scroll"><table><thead><tr><th>Tarefa</th><th>Pai</th><th>Quem</th><th>Nasce</th><th>Conclui</th></tr></thead><tbody>
+ <tr><td><span class="tag t">[ESP]</span></td><td>épico</td><td>quem especifica</td><td>planejamento da sprint</td><td>depois do GATE do backlog, se a especificação terminou</td></tr>
+ <tr><td><span class="tag t">[DEV]</span></td><td>IB da fatia</td><td>Dev</td><td>planejamento, puxada, encaixe ou loop</td><td>no merge</td></tr>
+ <tr><td><span class="tag t">[REV]</span> <span class="tag t">[VER]</span></td><td>IB da fatia</td><td>Dev Sênior · verificador (só HITL)</td><td>planejamento, puxada HITL, encaixe ou troca AFK → HITL</td><td>ao aprovar · ao aceitar, depois do push</td></tr>
+ <tr><td><span class="tag t">[APR]</span></td><td>IB da fatia</td><td>Dev Sênior</td><td>no gate: GATE do plano (sdd-plano) ou PR do AFK (sdd-implementar, loop)</td><td>na aprovação</td></tr>
+ <tr><td><span class="tag t">[ATD]</span> <span class="tag t">[IMPL]</span> <span class="tag t">[BD]</span> <span class="tag t">[INF]</span> <span class="tag t">[OPE]</span> <span class="tag t">[EXT]</span></td><td>IB da categoria</td><td>quem faz o Apoio</td><td>triagem, ou trazida pela sincronização</td><td>ao finalizar</td></tr>
+ <tr><td><span class="tag t">[GB]</span></td><td>Sustentação</td><td>P.O. ou SM</td><td>1ª sprint do pai</td><td>na troca de pai</td></tr>
+</tbody></table></div>
+<p style="font-size:13px;margin-top:10px"><b style="color:var(--title)">Lançar ≠ concluir.</b> Lançar horas é registro de empenho, a qualquer momento numa tarefa iniciada. Concluir é da skill do papel, com o saldo. Entrega de todo papel do HITL: commit → push → conferir no remoto → lançar ou concluir → avisar o próximo.</p>`;
+
+const SENCARDS=`
+<div data-sen="jr"><b>Júnior</b><div class="m"><span class="pill">sempre HITL</span><span class="pill">GATE do plano sempre</span></div><p>Não começa fatia AFK nem dispara o loop. O PR é revisado por um Dev Sênior.</p></div>
+<div data-sen="pl"><b>Pleno</b><div class="m"><span class="pill">HITL ou AFK</span><span class="pill">GATE: pergunta</span></div><p>O modo sai dos critérios da fatia, confirmados pela pessoa. Pode disparar o loop; a escolha do GATE vale para o lote.</p></div>
+<div data-sen="sr"><b>Sênior</b><div class="m"><span class="pill">AFK por padrão</span><span class="pill">GATE: nunca</span></div><p>Aprova o próprio plano. HITL só com motivo forte, registrado. O PR dele vai para outro Sênior, ou para ele mesmo se for o único (revisor único).</p></div>`;
+
+const GOLDEN=`
+<div><b>Alinhar antes de escrever</b>Entrevista em rodadas, com recomendação. Fatos o agente busca, decisões a pessoa toma.</div>
+<div><b>Gerador ≠ avaliador</b>Revisão e verificação em contexto limpo, com os eixos spec e padrões separados.</div>
+<div><b>Verificação acima de geração</b>Teste primeiro, backpressure a cada passo e oráculo protegido.</div>
+<div><b>Contexto limpo, estado em disco</b>Uma fatia por sessão; o <code>status.md</code>, o <code>research.md</code> e o plano carregam o fio.</div>
+<div><b>Autonomia gradual</b>HITL até o tipo de trabalho provar que anda sozinho; o AFK é limitado pela revisão humana.</div>
+<div><b>Toda skill diz a próxima e para</b>Nenhuma invoca a do passo seguinte; quem segue é a pessoa, ou o orquestrador no loop.</div>`;
+
+const INTRO=`<div class="ph"><h3>Escolha uma linha</h3><div class="sk">ou clique numa estação do mapa</div></div>
+<div class="pb fade"><p style="font-size:14px">Cada linha é um fluxo do power. Ao escolher uma, o mapa acende o caminho dela e a ficha mostra o itinerário, passo a passo, com as transições. Use ▶ para o trem percorrer a linha.</p>
+<div class="trans">${Object.keys(LINES).map(k=>`<button class="tr" data-line-pick="${k}" style="--tc:var(${LINES[k].c})${k==="sprint"?";color:var(--navy)":""}"><span class="ico">→</span><b>${LINES[k].nome}</b><span>${LINES[k].sub}</span></button>`).join("")}</div>
+<div class="blk"><h4>Senioridade de quem implementa</h4><div class="crow">${["jr","pl","sr"].map(k=>`<button class="chip snr" data-sen-pick="${k}">${SENNOME[k]}</button>`).join("")}</div></div></div>`;
+
+const SENRULE={jrAfk:"Júnior: sempre HITL. Não começa fatia AFK nem dispara o sdd-loop; com fatia AFK, a sdd-desenvolver manda para a sdd-planejamento."};
+
+window.SDD={LINES,SENNOME,SENRULE,ROUTES,TEXTS,DECOR,S,ALL,SKIP,VIA,EXTRA,SERV,ROLES,AGENTS,TREE,GATES,PHASES,PHNOTE,STATUSES,ELM_HTML,SENCARDS,GOLDEN,INTRO};
+})();
+
+/* motor do mapa: desenha linhas, estações e transições a partir dos dados; mantém o estado (linha, estação, senioridade, trilha) e a ficha lateral em sincronia */
+(function(){
+"use strict";
+const D=window.SDD;
+const NS="http://www.w3.org/2000/svg";
+const $=(s,r=document)=>r.querySelector(s);
+const reduce=()=>matchMedia("(prefers-reduced-motion: reduce)").matches;
+const cv=v=>`var(${v})`;
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const RX=/(\[[A-Z]+\]|\.kiro\/(?:[\w.\/*-]|&lt;|&gt;)*|(?:[\w.\/*-]|&lt;|&gt;)+\.(?:md|json|csv|sh|py)\b|sdd-[a-z]+|elm_[a-z_]+|gitlab_[a-z_]+)/g;
+const fmt=t=>esc(t).replace(RX,"<code>$1</code>");
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+
+const ST={line:null,st:null,sen:null,tr:"padrao",zoom:1,touring:false};
+window.SDD_STATE=ST;
+const val=(v)=>typeof v==="function"?v(ST):v;
+
+/* ---------- geometria ---------- */
+function rpath(pts,r=16){
+  let d=`M${pts[0][0]},${pts[0][1]}`;
+  for(let i=1;i<pts.length-1;i++){
+    const [x0,y0]=pts[i-1],[x1,y1]=pts[i],[x2,y2]=pts[i+1];
+    const l1=Math.hypot(x1-x0,y1-y0),l2=Math.hypot(x2-x1,y2-y1),rr=Math.min(r,l1/2,l2/2);
+    d+=` L${x1-(x1-x0)/l1*rr},${y1-(y1-y0)/l1*rr} Q${x1},${y1} ${x1+(x2-x1)/l2*rr},${y1+(y2-y1)/l2*rr}`;
+  }
+  const p=pts[pts.length-1];return d+` L${p[0]},${p[1]}`;
+}
+const ringD=({cx,cy,r})=>`M${cx},${cy-r} A${r},${r} 0 1 1 ${cx},${cy+r} A${r},${r} 0 1 1 ${cx},${cy-r}`;
+function center(id){const s=D.S[id];if(s.g==="pill"||s.g==="hubpill")return[s.x,(s.y1+s.y2)/2];return[s.x,s.y]}
+
+/* membros de cada linha, a partir dos itinerários */
+const base=id=>id.split("@")[0];
+const MEMB={};
+for(const L in D.ALL)for(const raw of D.ALL[L]){const id=base(raw);(MEMB[id]=MEMB[id]||[]).includes(L)||MEMB[id].push(L)}
+const LORDER=Object.keys(D.LINES);
+const membOf=id=>(MEMB[id]||[]).slice().sort((a,b)=>LORDER.indexOf(a)-LORDER.indexOf(b));
+
+/* ---------- SVG ---------- */
+const svg=$("#map");
+function el(t,a={},p=svg){const n=document.createElementNS(NS,t);for(const k in a)n.setAttribute(k,a[k]);p.appendChild(n);return n}
+const defs=el("defs");
+const MK={loop:"--orange",alt:"--navy",skip:"--l-rapida",xfer:"--yellow"};
+for(const k in MK){const m=el("marker",{id:"arr-"+k,viewBox:"0 0 10 10",refX:"7",refY:"5",markerWidth:"5",markerHeight:"5",orient:"auto-start-reverse"},defs);el("path",{d:"M0,0 L10,5 L0,10 z",fill:cv(MK[k])},m)}
+const gRows=el("g"),gConn=el("g"),gTracks=el("g"),gX=el("g"),gDyn=el("g"),gFlow=el("g"),gSt=el("g"),gXL=el("g"),gDynL=el("g"),gTrain=el("g");
+for(const d of D.DECOR||[])el("path",{d:rpath(d.pts,6),class:d.cls||"decor"},gConn);
+for(const t of D.TEXTS)el("text",{x:t.x,y:t.y,class:t.cls||"rowlbl","text-anchor":t.a||"start"},gRows).textContent=t.t;
+
+const TRACK={},FLOW={};
+for(const L in D.ROUTES){
+  const r=D.ROUTES[L],d=r.ring?ringD(r.ring):rpath(r.pts,r.rad||16);
+  TRACK[L]=el("path",{d,class:"track"+(D.LINES[L].dash?" dash":""),stroke:cv(D.LINES[L].c),"data-line":L},gTracks);
+  FLOW[L]=el("path",{d,class:"flow"},gFlow);
+}
+if(D.TRUNK)el("path",{d:rpath(D.TRUNK),class:"track",stroke:cv("--navy"),"stroke-width":"12"},gTracks);
+
+/* transições desenhadas (laços, desvios, baldeações) */
+for(const e of D.EXTRA){
+  if(!e.pts&&!e.d)continue;
+  const g=el("g",{class:`xedge x-${e.kind}`,"data-e":e.id},gX);
+  const d=e.d||rpath(e.pts,e.rad||14);
+  e.el=el("path",{d,class:"xpath","marker-end":`url(#arr-${e.kind})`},g);
+  if(e.lp){const lg=el("g",{class:`xlab x-${e.kind}`},gXL);e.lab_el=lg;const txt=val(e.short||e.lab);const w=Math.max(30,txt.length*5.6+14);
+    el("rect",{x:e.lp[0]-w/2,y:e.lp[1]-9,width:w,height:18,rx:6},lg);const tt=el("text",{x:e.lp[0],y:e.lp[1]+3.5,"text-anchor":"middle"},lg);tt.textContent=txt;e.lab_t=tt;e.lab_r=lg.querySelector("rect")}
+  e.g=g;
+}
+
+/* estações */
+for(const id in D.S){
+  const s=D.S[id];const g=el("g",{class:`st g-${s.g}`,tabindex:"0",role:"button","aria-label":`${s.nome} — ${s.sk||""}`,"data-id":id},gSt);
+  const [cx,cy]=center(id);
+  el("circle",{cx,cy,r:s.g==="hubpill"?34:s.g==="hub"?26:s.g==="pill"?((s.y2-s.y1)/2+16):18,class:"halo"},g);
+  if(s.g==="hub")el("circle",{cx:s.x,cy:s.y,r:20,class:"body"},g);
+  else if(s.g==="hubpill")el("rect",{x:s.x-15,y:s.y1-8,width:30,height:s.y2-s.y1+16,rx:15,class:"body"},g);
+  else if(s.g==="pill")el("rect",{x:s.x-10,y:s.y1-10,width:20,height:s.y2-s.y1+20,rx:10,class:"body"},g);
+  else if(s.g==="gate"){el("rect",{x:s.x-13,y:s.y-13,width:26,height:26,rx:3,transform:`rotate(45 ${s.x} ${s.y})`,class:"body"},g);el("text",{x:s.x,y:s.y+3.2,"text-anchor":"middle",class:"gtxt"},g).textContent="GATE"}
+  else el("circle",{cx:s.x,cy:s.y,r:s.term?10:8.5,class:"body"},g);
+  const top=s.g==="pill"||s.g==="hubpill"?s.y1-(s.g==="hubpill"?8:10):s.y-(s.g==="gate"?18:s.g==="hub"?20:9);
+  const bot=s.g==="pill"||s.g==="hubpill"?s.y2+(s.g==="hubpill"?8:10):s.y+(s.g==="gate"?18:s.g==="hub"?20:9);
+  let tx=s.x,ty,an="middle";const L=s.lab||"below";
+  if(L==="above")ty=top-22;else if(L==="below")ty=bot+17;
+  else if(L==="left"){tx=s.x-20;ty=cy-2;an="end"}else if(L==="right"){tx=s.x+20;ty=cy-2;an="start"}
+  else if(L==="in-left"){tx=s.x-16;ty=cy-2;an="end"}
+  if(s.dx)tx+=s.dx;if(s.dy)ty+=s.dy;if(s.an)an=s.an;
+  el("text",{x:tx,y:ty,"text-anchor":an,class:"name halo-t"},g).textContent=s.nome;
+  if(s.sk&&!s.nosk)el("text",{x:tx,y:ty+13,"text-anchor":an,class:"skill halo-t"},g).textContent=s.sk;
+  g.addEventListener("click",()=>pick(id));
+  g.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();pick(id)}});
+}
+
+/* trem */
+const train=el("g",{class:"train"},gTrain);
+const tg=el("circle",{r:16,class:"tg"},train),tb=el("circle",{r:11,class:"tb"},train),tc=el("circle",{r:4.5,class:"tc"},train);
+function paint(L){const c=cv(D.LINES[L]?D.LINES[L].c:"--navy");tb.setAttribute("stroke",c);tc.setAttribute("fill",c);tg.setAttribute("stroke",c)}
+
+/* posição de cada estação ao longo da linha */
+const POS={};
+function measure(){for(const L in D.ALL){const p=TRACK[L];if(!p)continue;const T=p.getTotalLength(),N=Math.ceil(T/3),pts=[];
+  for(let i=0;i<=N;i++){const q=p.getPointAtLength(T*i/N);pts.push([q.x,q.y])}
+  let k=0;POS[L]=D.ALL[L].map(raw=>{const c=center(base(raw));let b=k,bd=1e12;for(let i=k;i<pts.length;i++){const d=(pts[i][0]-c[0])**2+(pts[i][1]-c[1])**2;if(d<bd-0.01){bd=d;b=i}}k=b;return T*b/N})}}
+measure();
+
+function animateAlong(path,a,b,L){return new Promise(res=>{
+  paint(L);const q0=path.getPointAtLength(a);train.setAttribute("transform",`translate(${q0.x},${q0.y})`);
+  if(reduce()){const q=path.getPointAtLength(b);train.setAttribute("transform",`translate(${q.x},${q.y})`);train.classList.add("on");setTimeout(()=>{train.classList.remove("on");res()},250);return}
+  train.classList.add("on");const dur=Math.min(3200,Math.max(1200,Math.abs(b-a)*4.5)),t0=performance.now();
+  (function step(t){const k=Math.min(1,(t-t0)/dur),e=k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2,q=path.getPointAtLength(a+(b-a)*e);
+    train.setAttribute("transform",`translate(${q.x},${q.y})`);follow(q.x,q.y);if(k<1)requestAnimationFrame(step);else{setTimeout(()=>train.classList.remove("on"),500);res()}})(t0);
+})}
+
+/* ---------- itinerário ---------- */
+function itinerary(L){
+  const out=[];const all=D.ALL[L]||[];
+  all.forEach((raw,i)=>{const id=base(raw);const sk=D.SKIP[`${L}:${id}`]||D.SKIP[id];const why=sk?sk(ST):null;out.push({raw,id,i,skip:why})});
+  return out;
+}
+const active=it=>it.filter(x=>!x.skip);
+function idxIn(L,id){const it=active(itinerary(L));if(ST.k!=null&&it[ST.k]&&it[ST.k].id===id)return{it,i:ST.k};let i=it.findIndex(x=>x.id===id);return{it,i}}
+function viaLabel(L,a,b){const v=D.VIA[`${L}:${a}>${b}`]||D.VIA[`${a}>${b}`];return v?val(v):""}
+function okEdge(e){return!e.when||e.when(ST)}
+function edgeFor(a,b,L){return D.EXTRA.find(e=>e.f===a&&e.t===b&&(!e.lines||e.lines.includes(L))&&okEdge(e))}
+
+/* ---------- estado e vista ---------- */
+function setLine(L,keepSt){ST.line=L;if(!keepSt)ST.st=null;view();panel()}
+function pick(id,L,k){
+  ST.k=k==null?null:k;
+  const m=membOf(id);
+  if(L)ST.line=L;else if(!ST.line||!m.includes(ST.line))ST.line=m[0]||null;
+  ST.st=id;view();panel();
+}
+function view(){
+  const L=ST.line;
+  for(const k in TRACK){const t=TRACK[k];t.classList.toggle("on",k===L);
+    t.style.opacity=L&&k!==L?.14:"";
+    const blocked=k==="afk"&&ST.sen==="jr";t.classList.toggle("blocked",blocked&&(!L||L==="afk"));
+    FLOW[k].classList.toggle("on",k===L&&!blocked)}
+  const it=L?itinerary(L):[];
+  document.querySelectorAll("#map .st").forEach(g=>{const id=g.dataset.id;const m=membOf(id);
+    const inL=!L||m.includes(L)||(D.S[id].also||[]).includes(L);
+    const sk=L&&it.find(x=>x.id===id&&x.skip);
+    g.classList.toggle("dim",!inL);g.classList.toggle("skip",!!sk&&inL);g.classList.toggle("sel",id===ST.st)});
+  for(const e of D.EXTRA){if(!e.g)continue;const vis=!L||!e.lines||e.lines.includes(L);
+    e.g.classList.toggle("hid",!vis||!okEdge(e));e.g.classList.toggle("na",false);
+    if(e.lab_el){e.lab_el.style.opacity=vis&&okEdge(e)?1:0;const t=val(e.short||e.lab);if(e.lab_t.textContent!==t){e.lab_t.textContent=t;const w=Math.max(30,t.length*5.6+14);e.lab_r.setAttribute("width",w);e.lab_r.setAttribute("x",e.lp[0]-w/2)}}}
+  document.querySelectorAll("#lineChips .chip").forEach(c=>c.setAttribute("aria-pressed",c.dataset.k===L));
+  document.querySelectorAll("#senChips .chip").forEach(c=>c.setAttribute("aria-pressed",(c.dataset.k||null)===(ST.sen||null)||(c.dataset.k==="all"&&!ST.sen)));
+  document.querySelectorAll("#trChips .chip").forEach(c=>{c.setAttribute("aria-pressed",c.dataset.k===ST.tr);c.classList.toggle("na",!!L&&!["hitl","afk"].includes(L))});
+  document.querySelectorAll(".svc").forEach(b=>b.classList.remove("sel"));
+  drawDyn();
+  phases();
+}
+
+/* arcos das transições da linha e da estação escolhidas */
+function anchor(id){return center(id)}
+function arcOf(e){const[x1,y1]=anchor(e.f),[x2,y2]=anchor(e.t);const dx=x2-x1,dy=y2-y1,len=Math.hypot(dx,dy)||1;const nx=-dy/len,ny=dx/len;
+  const b=(e.bend||1)*Math.min(160,Math.max(46,len*.3));const cx=(x1+x2)/2+nx*b,cy=(y1+y2)/2+ny*b;
+  return{d:`M${x1},${y1} Q${cx},${cy} ${x2},${y2}`,mx:.25*x1+.5*cx+.25*x2,my:.25*y1+.5*cy+.25*y2}}
+function drawDyn(){gDyn.innerHTML="";gDynL.innerHTML="";const L=ST.line;if(!L)return;
+  for(const e of D.EXTRA){if(e.pts||e.kind==="xfer")continue;
+    const rel=(!e.lines||e.lines.includes(L))||e.toLine===L;if(!rel)continue;
+    const hot=ST.st&&(e.f===ST.st||e.t===ST.st);if(ST.st&&!hot)continue;
+    const ok=okEdge(e);if(!ok)continue;const a=arcOf(e);
+    const g=el("g",{class:`xedge dyn x-${e.kind}${hot?" hot":""}${ok?"":" na"}`},gDyn);
+    e.el=el("path",{d:a.d,class:"xpath","marker-end":`url(#arr-${e.kind})`},g);
+    if(hot&&ok){const t=val(e.short||e.lab);const txt=t.length>34?t.slice(0,33)+"…":t;const w=txt.length*5.6+14;const lg=el("g",{class:`xlab x-${e.kind}`},gDynL);
+      el("rect",{x:a.mx-w/2,y:a.my-9,width:w,height:18,rx:6},lg);el("text",{x:a.mx,y:a.my+3.5,"text-anchor":"middle"},lg).textContent=txt}}}
+
+/* rolagem do mapa ampliado para acompanhar o trem ou a estação */
+const box=$(".mapscroll");
+function follow(x,y){if(ST.zoom<=1)return;const r=svg.getBoundingClientRect(),vb=svg.viewBox.baseVal,sx=r.width/vb.width;
+  const px=x*sx,py=y*sx;if(px<box.scrollLeft+80||px>box.scrollLeft+box.clientWidth-80)box.scrollLeft=px-box.clientWidth/2;
+  if(py<box.scrollTop+60||py>box.scrollTop+box.clientHeight-60)box.scrollTop=py-box.clientHeight/2}
+
+/* ---------- movimento entre estações ---------- */
+let busy=false;
+async function go(to,opt={}){
+  if(busy)return;busy=true;
+  const L=opt.line||ST.line,from=ST.st;
+  let nk=null;if(from&&L&&!opt.toLine){const r=idxIn(L,from);if(r.i>=0&&r.it[r.i+1]&&r.it[r.i+1].id===to)nk=r.i+1;else if(r.i>0&&r.it[r.i-1].id===to)nk=r.i-1}
+  try{
+    const e=opt.edge||(from?edgeFor(from,to,L):null);
+    if(e&&e.el&&!opt.track){await animateAlong(e.el,0,e.el.getTotalLength(),L)}
+    else if(from&&L&&TRACK[L]){
+      const all=D.ALL[L];let ia=-1,ib=-1;
+      const fullA=itinerary(L);const ai=a=>{const act=fullA.filter(x=>!x.skip);return act[a]?act[a].i:-1};
+      const r0=idxIn(L,from);if(r0.i>=0)ia=ai(r0.i);
+      if(ia<0)for(let i=0;i<all.length;i++){if(base(all[i])===from){ia=i;break}}
+      if(nk!=null)ib=ai(nk);
+      if(ib<0)for(let i=Math.max(0,ia+1);i<all.length;i++){if(base(all[i])===to){ib=i;break}}
+      if(ia<0||ib<0){for(let i=all.length-1;i>=0;i--){if(base(all[i])===to){ib=i;break}}}
+      if(ia>=0&&ib>=0&&POS[L])await animateAlong(TRACK[L],POS[L][ia],POS[L][ib],L);
+    }
+    pick(to,opt.toLine||L,opt.toLine?null:nk);
+  }finally{busy=false}
+}
+async function tour(){
+  if(ST.touring){ST.touring=false;panel();return}
+  if(!ST.line)return;ST.touring=true;
+  let{it,i}=idxIn(ST.line,ST.st);if(i<0){pick(it[0].id,ST.line);i=0;await sleep(700)}
+  while(ST.touring){const r=idxIn(ST.line,ST.st);if(r.i<0||r.i>=r.it.length-1)break;await go(r.it[r.i+1].id);for(let w=0;w<60&&ST.touring;w++)await sleep(100)}
+  ST.touring=false;panel();
+}
+
+/* ---------- ficha lateral ---------- */
+const P=$("#panel");
+function info(id){const s=D.S[id];const ctx=(s.ctx&&ST.line&&s.ctx[ST.line])||{};const tr=(s.trv&&ST.tr&&s.trv[ST.tr]&&["hitl","afk"].includes(ST.line))?s.trv[ST.tr]:{};return Object.assign({},s,ctx,tr)}
+function lbar(L){return `--lc:${cv(D.LINES[L].c)}`}
+function trBtn(o){return `<button class="tr k-${o.kind||"main"}${o.na?" na":""}${o.back?" back":""}" ${o.na?"disabled":""} data-to="${o.to||""}" data-edge="${o.edge||""}" ${o.toLine?`data-line="${o.toLine}"`:""} ${o.kind==="main"&&o.L?`style="--tc:${cv(D.LINES[o.L].c)}"`:""}><span class="ico">${o.ico||"→"}</span><b>${esc(o.title)}</b><span>${fmt(o.sub||"")}</span></button>`}
+function panel(){
+  P.style.cssText="";
+  if(!ST.st&&!ST.line){P.innerHTML=D.INTRO;bind();return}
+  if(!ST.st){lineView(ST.line);return}
+  stationView(ST.st);
+}
+function lineView(L){
+  const Ln=D.LINES[L];const it=itinerary(L);
+  const warn=L==="afk"&&ST.sen==="jr";
+  P.innerHTML=`<div class="ph" style="${lbar(L)}"><div class="ltabs"><button aria-pressed="true" style="--c:${cv(Ln.c)}"><i></i>${esc(Ln.nome)}</button></div>
+  <h3>${esc(Ln.nome)}</h3><div class="sk">${esc(Ln.sub||"")}</div>
+  <div class="nav"><button class="play" data-act="tour" ${warn?"disabled":""}>${ST.touring?"❚❚ Pausar":"▶ Percorrer a linha"}</button><span class="sp"></span></div></div>
+  <div class="pb fade">${warn?`<div class="note warn">${fmt(D.SENRULE.jrAfk)}</div>`:""}
+  <div class="linecard">${fmt(Ln.quando)}</div>${senStrip(Ln.sen)}
+  <div class="blk"><h4>Itinerário${["hitl","afk"].includes(L)?` · trilha ${ST.tr==="rapida"?"rápida":"padrão"}`:""}${ST.sen?` · ${D.SENNOME[ST.sen]}`:""}</h4>${itinHTML(L,it,null)}</div></div>`;
+  bind();
+}
+function itinHTML(L,it,cur){
+  let prev=null,k=-1;const curK=ST.k;
+  return `<ol class="itin" style="${lbar(L)}">`+it.map(x=>{const s=D.S[x.id];
+    const via=!x.skip&&prev?viaLabel(L,prev,x.id):"";if(!x.skip){prev=x.id;k++}
+    const isCur=x.id===cur&&!x.skip&&(curK==null?(cur&&!it.slice(0,x.i).some(y=>y.id===cur&&!y.skip)):k===curK);
+    return `<li class="${x.skip?"skip":""}${isCur?" cur":""}${s.g==="gate"?" gate":""}"><span class="dot"></span>${via?`<span class="via">${esc(via)}</span>`:""}<button data-to="${x.id}" data-line="${L}" ${x.skip?"":`data-k="${k}"`}><b>${esc(s.nome)}</b><small>${x.skip?esc(x.skip):esc(s.sk||"")}</small></button></li>`}).join("")+`</ol>`;
+}
+function senStrip(n){if(!n)return"";const k=["jr","pl","sr"];
+  return `<div class="blk"><h4>Senioridade de quem implementa</h4><div class="senbox">${k.map(x=>`<div class="${ST.sen===x?"on":ST.sen?"off":""}"><b>${D.SENNOME[x]}</b>${fmt(val(n[x]))}</div>`).join("")}</div></div>`}
+function stationView(id){
+  const L=ST.line;const s=info(id);const m=membOf(id).concat((D.S[id].also||[]).filter(x=>!membOf(id).includes(x)));
+  const{it,i}=L?idxIn(L,id):{it:[],i:-1};
+  const full=L?itinerary(L):[];
+  const skipped=full.find(x=>x.id===id&&x.skip);
+  const prevId=i>0?it[i-1].id:null,nextId=i>=0&&i<it.length-1?it[i+1].id:null;
+  /* transições de saída */
+  const outs=[];
+  if(skipped)outs.push({kind:"alt",na:true,title:"Fora do itinerário",sub:skipped.skip});
+  if(nextId){const e=edgeFor(id,nextId,L);outs.push({kind:e&&e.kind!=="loop"?e.kind:"main",L,to:nextId,title:D.S[nextId].nome,sub:(e?val(e.lab):"")||viaLabel(L,id,nextId)||D.S[nextId].sk,ico:e&&e.kind==="skip"?"⤳":"→"})}
+  /* próxima estação pulada nesta linha, para mostrar o porquê */
+  if(L){const fi=full.findIndex(x=>x.id===id);if(fi>=0)for(let j=fi+1;j<full.length&&full[j].skip;j++)outs.push({kind:"alt",na:true,title:D.S[full[j].id].nome,sub:full[j].skip,ico:"⊘"})}
+  for(const e of D.EXTRA){if(e.f!==id)continue;if(e.lines&&L&&!e.lines.includes(L))continue;if(e.pts&&e.kind==="alt"&&e.t===nextId)continue;if(e.t===nextId&&okEdge(e))continue;
+    const ok=okEdge(e);if(!ok)continue;outs.push({kind:e.kind,na:!ok,to:e.t,edge:e.id,toLine:e.toLine,title:(e.tname||D.S[e.t].nome),sub:ok?val(e.lab):(e.why?val(e.why):val(e.lab)),ico:e.kind==="loop"?"↺":e.kind==="xfer"?"⇄":e.kind==="skip"?"⤳":"↗"})}
+  const ins=[];
+  if(prevId)ins.push({back:true,to:prevId,title:D.S[prevId].nome,sub:viaLabel(L,prevId,id)||D.S[prevId].sk,ico:"←"});
+  for(const e of D.EXTRA){if(e.t!==id||!okEdge(e)||e.f===prevId)continue;if(e.lines&&L&&!e.lines.includes(L)&&e.toLine!==L)continue;ins.push({back:true,to:e.f,edge:"",title:D.S[e.f].nome,sub:val(e.lab),ico:e.kind==="loop"?"↺":"←",toLine:e.fromLine||(e.lines&&!e.lines.includes(L)?e.lines[0]:L)})}
+  const tabs=m.map(x=>`<button data-tab="${x}" aria-pressed="${x===L}" style="--c:${cv(D.LINES[x].c)}"><i></i>${esc(D.LINES[x].nome)}</button>`).join("");
+  P.innerHTML=`<div class="ph" style="${L?lbar(L):""}"><div class="ltabs">${tabs}</div>
+   <h3>${esc(s.nome)}</h3><div class="sk">${esc(s.sk||"")}</div>
+   <div class="nav"><button data-to="${prevId||""}" ${prevId?"":"disabled"} aria-label="Estação anterior">◀</button><button data-to="${nextId||""}" ${nextId?"":"disabled"} aria-label="Próxima estação">▶</button>
+   <span>${i>=0?`passo ${i+1} de ${it.length}`:skipped?"fora deste itinerário":""}</span><span class="sp"></span>${L?`<button class="play" data-act="tour">${ST.touring?"❚❚ Pausar":"▶ Percorrer"}</button>`:""}</div></div>
+   <div class="pb fade">
+   ${s.aviso?`<div class="note">${fmt(val(s.aviso))}</div>`:""}
+   ${L==="afk"&&ST.sen==="jr"?`<div class="note warn">${fmt(D.SENRULE.jrAfk)}</div>`:""}
+   <dl class="kv"><dt>Papel</dt><dd>${fmt(val(s.papel))}</dd><dt>Agente</dt><dd>${fmt(val(s.agente))}</dd><dt>Tarefa</dt><dd>${fmt(val(s.tarefa))}</dd>${s.fase?`<dt>Fase</dt><dd>${fmt(val(s.fase))}</dd>`:""}</dl>
+   ${senStrip(s.sen)}
+   <div class="blk"><h4>Transições</h4><div class="trans">${outs.map(trBtn).join("")||`<span class="hint">Fim da linha.</span>`}</div></div>
+   ${ins.length?`<div class="blk"><h4>Chega de</h4><div class="trans">${ins.map(trBtn).join("")}</div></div>`:""}
+   <div class="blk"><h4>O que acontece</h4><ul>${val(s.faz).map(x=>`<li>${fmt(val(x))}</li>`).join("")}</ul></div>
+   <div class="blk"><h4>Arquivos</h4><ul>${val(s.arq).map(x=>`<li>${fmt(val(x))}</li>`).join("")}</ul></div>
+   <div class="blk elm"><h4>${["hitl","afk"].includes(L)?"ELM e PR":"ELM"}</h4><ul>${val(s.elm).map(x=>`<li>${fmt(val(x))}</li>`).join("")}</ul></div>
+   ${L?`<div class="blk"><h4>Itinerário · ${esc(D.LINES[L].nome)}</h4>${itinHTML(L,full,id)}</div>`:""}
+   </div>`;
+  bind();
+}
+function bind(){
+  P.querySelectorAll("[data-to]").forEach(b=>b.addEventListener("click",()=>{const to=b.dataset.to;if(!to)return;const eid=b.dataset.edge;const e=eid?D.EXTRA.find(x=>x.id===eid):null;
+    const tl=b.dataset.line;
+    if(b.closest(".itin")){pick(to,tl,b.dataset.k!=null?+b.dataset.k:null);return}
+    go(to,{edge:e,toLine:tl||(e&&e.toLine)})}));
+  P.querySelectorAll("[data-tab]").forEach(b=>b.addEventListener("click",()=>{ST.line=b.dataset.tab;view();panel()}));
+  P.querySelectorAll("[data-act=tour]").forEach(b=>b.addEventListener("click",tour));
+  P.querySelectorAll("[data-line-pick]").forEach(b=>b.addEventListener("click",()=>setLine(b.dataset.linePick)));
+  P.querySelectorAll("[data-sen-pick]").forEach(b=>b.addEventListener("click",()=>{ST.sen=b.dataset.senPick;view();panel()}));
+}
+
+/* ---------- controles ---------- */
+const lc=$("#lineChips");
+for(const k in D.LINES){const b=document.createElement("button");b.className="chip";b.dataset.k=k;b.style.setProperty("--c",cv(D.LINES[k].c));
+  b.innerHTML=`<span class="sw${D.LINES[k].dash?" dash":""}"></span>${esc(D.LINES[k].nome)}`;b.setAttribute("aria-pressed","false");
+  b.addEventListener("click",()=>{ST.touring=false;setLine(ST.line===k?null:k)});lc.appendChild(b)}
+const sc=$("#senChips");
+[["all","Todas"],["jr","Júnior"],["pl","Pleno"],["sr","Sênior"]].forEach(([k,n])=>{const b=document.createElement("button");b.className="chip snr";b.dataset.k=k;b.textContent=n;
+  b.addEventListener("click",()=>{ST.sen=k==="all"?null:k;view();panel()});sc.insertBefore(b,sc.querySelector(".hint"))});
+const tc2=$("#trChips");
+[["padrao","Padrão"],["rapida","Rápida"]].forEach(([k,n])=>{const b=document.createElement("button");b.className="chip";b.dataset.k=k;b.style.setProperty("--c",cv(k==="rapida"?"--l-rapida":"--blue"));b.textContent=n;
+  b.addEventListener("click",()=>{ST.tr=k;view();panel()});tc2.insertBefore(b,tc2.querySelector(".hint"))});
+document.querySelectorAll(".maptools button").forEach(b=>b.addEventListener("click",()=>{const z=b.dataset.z;ST.zoom=z==="in"?Math.min(2.2,ST.zoom+.4):z==="out"?Math.max(1,ST.zoom-.4):1;
+  svg.style.width=(ST.zoom*100)+"%";svg.style.minWidth=(1040*ST.zoom)+"px";if(ST.st){const[x,y]=center(ST.st);setTimeout(()=>follow(x,y),380)}}));
+document.addEventListener("keydown",e=>{if(e.target.closest("input,textarea"))return;if(!ST.st||!ST.line)return;
+  const{it,i}=idxIn(ST.line,ST.st);if(e.key==="ArrowRight"&&i>=0&&i<it.length-1){e.preventDefault();go(it[i+1].id)}if(e.key==="ArrowLeft"&&i>0){e.preventDefault();pick(it[i-1].id)}});
+
+/* serviços (fora das linhas) */
+const sv=$("#services");
+for(const s of D.SERV){const b=document.createElement("button");b.className="svc";b.innerHTML=`<code>${esc(s.sk)}</code><b>${esc(s.nome)}</b><span>${esc(s.desc)}</span>`;
+  b.addEventListener("click",()=>{ST.st=null;ST.line=null;ST.touring=false;view();b.classList.add("sel");
+    P.innerHTML=`<div class="ph"><h3>${esc(s.nome)}</h3><div class="sk">${esc(s.sk)}</div></div><div class="pb fade"><dl class="kv"><dt>Papel</dt><dd>${fmt(s.papel)}</dd><dt>Agente</dt><dd>${fmt(s.agente)}</dd><dt>Tarefa</dt><dd>${fmt(s.tarefa)}</dd></dl>
+    <div class="blk"><h4>O que acontece</h4><ul>${s.faz.map(x=>`<li>${fmt(x)}</li>`).join("")}</ul></div><div class="blk"><h4>Arquivos</h4><ul>${s.arq.map(x=>`<li>${fmt(x)}</li>`).join("")}</ul></div><div class="blk elm"><h4>ELM</h4><ul>${s.elm.map(x=>`<li>${fmt(x)}</li>`).join("")}</ul></div></div>`;bind()});sv.appendChild(b)}
+
+/* ---------- ciclo de vida (fases do status.md) ---------- */
+const phEl=$("#phases"),mc=$("#modeChips");let PM="hitl";
+[["hitl","HITL"],["afk","AFK"]].forEach(([k,n])=>{const b=document.createElement("button");b.className="chip";b.dataset.k=k;b.style.setProperty("--c",cv(D.LINES[k].c));b.innerHTML=`<span class="sw${k==="afk"?" dash":""}"></span>${n}`;b.addEventListener("click",()=>{PM=k;phases()});mc.appendChild(b)});
+function phases(){
+  if(!phEl)return;
+  mc.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed",c.dataset.k===PM));
+  const ctx={mode:PM,sen:ST.sen,tr:ST.tr};
+  phEl.innerHTML=D.PHASES[PM].map(p=>{const sk=p.skip?p.skip(ctx):null;return `<button class="ph-step${sk?" skip":""}" style="--c:${cv(D.LINES[PM].c)}" data-st="${val(p.st)}" title="${esc(sk||p.sub)}"><b>${esc(p.f)}</b><small>${esc(sk||p.sub)}</small></button>`}).join("");
+  $("#phnote").innerHTML=fmt(D.PHNOTE(ctx));
+  phEl.querySelectorAll("[data-st]").forEach(b=>b.addEventListener("click",()=>{pick(b.dataset.st,PM);document.getElementById("mapa").scrollIntoView({behavior:reduce()?"auto":"smooth"})}));
+}
+window.SDD_PICK=(id,L)=>{pick(id,L);document.getElementById("mapa").scrollIntoView({behavior:reduce()?"auto":"smooth"})};
+window.SDD_SEN=(k)=>{ST.sen=k;view();panel();document.getElementById("mapa").scrollIntoView({behavior:reduce()?"auto":"smooth"})};
+window.SDD_LINE=(L)=>{setLine(L);document.getElementById("mapa").scrollIntoView({behavior:reduce()?"auto":"smooth"})};
+view();panel();
+})();
+
+/* seções abaixo do mapa: papéis, agentes, arquivos e gates; cada uma leva de volta ao mapa */
+(function(){
+"use strict";
+const D=window.SDD;
+const $=(s,r=document)=>r.querySelector(s);
+const cv=v=>`var(${v})`;
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const RX=/(\[[A-Z]+\]|\.kiro\/(?:[\w.\/*-]|&lt;|&gt;)*|(?:[\w.\/*-]|&lt;|&gt;)+\.(?:md|json|csv|sh|py)\b|sdd-[a-z]+|elm_[a-z_]+|gitlab_[a-z_]+)/g;
+const fmt=t=>esc(t).replace(RX,"<code>$1</code>");
+
+$("#statuses").innerHTML=D.STATUSES;$("#elmbody").innerHTML=D.ELM_HTML;$("#sencards").innerHTML=D.SENCARDS;$("#golden").innerHTML=D.GOLDEN;
+
+/* papéis */
+const rolesEl=$("#roles");
+for(const r of D.ROLES){const b=document.createElement("button");b.className="role";b.style.setProperty("--rc",cv(r.c));
+  b.innerHTML=`<div class="top"><div><h3>${esc(r.nome)}</h3><div class="who">${esc(r.who)}</div></div><span class="tag">${esc(r.tarefa)}</span></div>
+  <div class="rb"><ul>${r.faz.map(s=>`<li>${fmt(s)}</li>`).join("")}</ul><div><span class="tag">${esc(r.agente)}</span></div><span class="go">ver no mapa: ${esc(D.S[r.st].nome)} →</span></div>`;
+  b.addEventListener("click",()=>window.SDD_PICK(r.st,r.line));rolesEl.appendChild(b)}
+
+/* agentes */
+const tb=$("#agents tbody");
+for(const a of D.AGENTS){const tr=document.createElement("tr");
+  tr.innerHTML=`<td><code>${esc(a.id)}</code></td><td>${esc(a.quem)}</td><td>${a.skills.map(s=>`<span class="tag">${esc(s)}</span>`).join("")}</td><td>${esc(a.sub)}</td><td><span class="pill ${a.pk}">${esc(a.push)}</span></td><td>${fmt(a.obs)}</td>`;tb.appendChild(tr)}
+
+/* arquivos */
+const tree=$("#tree"),fi=$("#fileinfo");
+const BN={git:"git",local:"local",gen:"setup"},BL={git:"versionado no git",local:"local · fora do git",gen:"instalado pela setup"};
+function build(nodes,parent){for(const n of nodes){
+  if(n.d){const d=document.createElement("details");if(n.open)d.open=true;const s=document.createElement("summary");s.textContent=n.d;d.appendChild(s);build(n.c,d);parent.appendChild(d)}
+  else{const b=document.createElement("button");b.className="f";b.innerHTML=`<span>${esc(n.f)}</span><span class="badge ${n.b}">${BN[n.b]}</span>`;
+    b.addEventListener("click",()=>{tree.querySelectorAll(".f.sel").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");show(n)});parent.appendChild(b)}}}
+function show(n){fi.innerHTML=`<span class="badge ${n.b}" style="margin:0;align-self:flex-start">${BL[n.b]}</span><h3>${esc(n.f)}</h3><p>${fmt(n.o)}</p>
+  <div><div class="k">Quem escreve</div><p>${fmt(n.w)}</p></div><div><div class="k">Quando</div><p>${fmt(n.q)}</p></div>${n.st?`<button class="go" data-st="${n.st}">ver a estação no mapa</button>`:""}`;
+  const g=fi.querySelector(".go");if(g)g.addEventListener("click",()=>window.SDD_PICK(n.st,n.line))}
+build(D.TREE,tree);
+fi.innerHTML=`<h3 style="font-family:var(--display)">Escolha um arquivo</h3><p>A árvore mostra o projeto depois da setup. Cada arquivo diz quem o escreve e quando, e leva à estação do mapa que o grava. A pasta do produto aparece com o nome padrão, <code>.kiro/planejamento</code>.</p>
+<div class="flowr"><span class="badge git" style="margin:0">git</span><em>registro e decisão</em><span class="badge local" style="margin:0">local</span><em>fora do git</em><span class="badge gen" style="margin:0">setup</span><em>configuração</em></div>`;
+
+/* gates */
+const gc=$("#gatecards");
+for(const g of D.GATES){const b=document.createElement("button");b.className="gt";
+  b.innerHTML=`<div class="dia"><span>GATE</span></div><h3>${esc(g.n)}</h3><div class="q">${esc(g.q)}</div><p>${esc(g.o)}</p>`;
+  b.addEventListener("click",()=>window.SDD_PICK(g.st,g.line));gc.appendChild(b)}
+document.querySelectorAll(".sen>div[data-sen]").forEach(d=>d.addEventListener("click",()=>window.SDD_SEN(d.dataset.sen)));
+})();
+
+</script>

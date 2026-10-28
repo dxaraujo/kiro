@@ -428,3 +428,35 @@ Lacunas que a primeira passada pelos arquivos mostrou e que o plano não fechava
 | Mensagens de commit | `<id> iniciar` para fatia, épico e item de Sustentação (lote do loop: `FT-031, FT-032 iniciar`; a rede de proteção usa a mesma) e `<FT> registrar merge` |
 | `bloqueada-por` na DoR | a dependência em `pronta` ou `concluida` (já na base) ou planejada antes na mesma sprint |
 | Permissão do codificador em `<produto>/` | `{{PRODUTO}}/**` negado com `exclude` de `backlog.md` e `sprints/**`, conforme o motor V3 do Kiro; o `agent validate` não confere `permissions`, então a confirmação fica para o ensaio no piloto |
+
+## 11. Como revisar de novo depois de uma alteração
+
+A 3.4.0 foi conferida em duas camadas. Repita as duas a cada mudança no power.
+
+**1. Conferências mecânicas** (rodam no fish, uma por linha, a partir da raiz do repositório):
+
+```
+git diff --stat
+grep -rn 'pronta-para-merge\|plano-em-revisao\|mergeada\|→ sprint\|## Apoio\|reserva de apoio\|apoio/\|Kanban\|cadencia\|\[SUS-\|tarefa iniciada' powers/sdd --include='*.md' --include='*.json'
+uv run --with pytest pytest powers/sdd/skills/sdd-setup/scripts powers/sdd/skills/sdd-status/scripts -q
+python3 -c "import json; [json.load(open(p)) for p in ('powers/sdd/skills/sdd-planejamento/assets/equipe.schema.json', 'powers/sdd/skills/sdd-setup/assets/agents/papeis.json')]; print('json ok')"
+```
+
+A varredura só pode achar o histórico do `powers/sdd/README.md`.
+
+**2. Revisão por agentes** (no Claude Code, nesta pasta). Peça com a palavra "workflow", que autoriza o
+orquestrador de vários agentes:
+
+> Rode um workflow de revisão da minha alteração no power sdd: `git diff <commit-base>` (ou o que não foi
+> commitado). Três revisores independentes, só leitura, cada um num ângulo — (1) situações, fases e roteamento
+> (listas fechadas de `backlog.md#situações`, gravador único por transição, WIP e roteamento iguais no
+> `status-template.md`, `sdd-desenvolver` Passo 5, `sdd-iniciar`, `sdd-status`, `sdd/SKILL.md`); (2) formatos e
+> referências (formato do `backlog.md` e da sprint em toda skill que lê ou grava, chave da sprint, mensagens de
+> commit do `sdd.md`, citações "Passo N, item M" e "§n", âncoras); (3) git, EWM e permissões (Gravar na base,
+> push da base, `papeis.json` × textos dos agentes, tools e parâmetros que existem em
+> `mcps/elm/mcp_elm/server.py`). Especificação: `docs/plano-sdd-3.4.0.md`. Só defeitos reais, com arquivo e
+> linha. Depois, um corretor que confere cada achado antes de mudar; sem commit.
+
+Para uma alteração pequena, sem workflow: "revise minha alteração no power sdd contra o
+`docs/plano-sdd-3.4.0.md`, pelos três ângulos da seção 11". Em qualquer caso, termine com as conferências
+mecânicas e confira as âncoras ("confira os links e âncoras do power").

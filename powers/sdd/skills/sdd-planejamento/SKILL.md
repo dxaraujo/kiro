@@ -1,6 +1,6 @@
 ---
 name: sdd-planejamento
-description: "Planejamento ágil do projeto no fluxo sdd, ajustado a times que trabalham com agentes — roadmap e releases a partir dos épicos, acordos do time (cadência Scrum ou Kanban, Definition of Ready e Done, limites de WIP incluindo a capacidade de revisão humana, que é o gargalo), planejamento da sprint como cadência — compromisso com a meta, previsão por prioridade, dependências e capacidade (vazão de fatias e lead time, especificação e reserva de apoio), fluxo puxado dentro da sprint —, acompanhamento, review com as evidências de aceite, retrospectiva com dados e virada de sprint; publica a sprint no EWM pelo MCP elm. Use em \"monta o planejamento\", \"planejar a sprint\", \"roadmap\", \"virada de sprint\", \"fechar a sprint\", \"review da sprint\", \"capacidade do time\", \"acordos do time\", \"encaixe na sprint\", \"sincroniza a sprint\"."
+description: "Planejamento ágil do projeto no fluxo sdd, ajustado a times que trabalham com agentes — roadmap e releases a partir dos épicos, acordos do time (cadência Scrum ou Kanban, Definition of Ready e Done, limites de WIP incluindo a capacidade de revisão humana, que é o gargalo), planejamento da sprint como cadência — compromisso com a meta, previsão por prioridade, dependências e capacidade (vazão de fatias e lead time, especificação e reserva de apoio), fluxo puxado dentro da sprint —, acompanhamento, review com as evidências de aceite, retrospectiva com dados e virada de sprint, troca AFK → HITL e relatório de horas; publica a sprint no EWM pelo MCP elm. Use em \"monta o planejamento\", \"planejar a sprint\", \"roadmap\", \"virada de sprint\", \"fechar a sprint\", \"review da sprint\", \"capacidade do time\", \"acordos do time\", \"encaixe na sprint\", \"sincroniza a sprint\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -101,16 +101,19 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
    (revisão e verificação por subagente, sem `[REV]`/`[VER]`) — a revisão humana dela é a leitura do PR. As
    **aprovações previstas** também consomem as horas de revisão dos Dev Sêniores: o plano de cada fatia de Júnior
    (e de Pleno que costuma pedir o GATE) e o PR de cada fatia AFK. A `[APR]` não nasce aqui — nasce no gate.
-4. **Meta da sprint:** uma frase de resultado de negócio que as fatias entregam juntas.
+4. **Meta da sprint:** uma frase de resultado de negócio que as fatias entregam juntas, e o **nome curto** dela
+   (até ~6 palavras: `Exportar o relatório de contas`), que vai no nome do plano no EWM.
 5. **Iteração e número:** o **pai** é o da sprint anterior (a nova herda); pai novo só quando a pessoa diz, com o
    nome que ela der (`2026`, `Entrega 3`…); primeira sprint do projeto → pergunte o nome. A `<nn>` é a próxima
-   dentro do pai (pai novo → `01`). Pergunte o nome da iteração no EWM (padrão `Sprint <n>`) e chame
-   `elm_iteracao("<pai>/<nome>")`, que acha ou cria a sprint dentro do pai e o pai que faltar
-   ([references/elm-sprint.md](references/elm-sprint.md) §1); é o `plannedFor` de todos os IBs e tarefas desta
-   sprint — os que estão no backlog do EWM só mudam de iteração (§3). Pai novo → a `[GB]` dele (§2).
+   dentro do pai (pai novo → `01`). Proponha o nome da iteração no EWM (padrão `Sprint <nn>`) e o do plano
+   (`<nome> - <nome curto da meta>`: `Sprint 01 - Exportar o relatório de contas`); nada é criado no EWM antes do
+   "ok" — a iteração, o pai que faltar e o plano nascem na publicação (passo 7;
+   [references/elm-sprint.md](references/elm-sprint.md) §1), com as datas da sprint. A iteração é o `plannedFor` de
+   todos os IBs e tarefas desta sprint — os que estão no backlog do EWM só mudam de iteração (§3). Pai novo → a
+   `[GB]` dele (§2).
 6. **Proposta**, com as três seções:
    ```
-   🗓️ Sprint <pai>/<nn> · <início> → <fim> · iteração <pai>/<nome> · meta: <…>
+   🗓️ Sprint <pai>/<nn> · <início> → <fim> · iteração <pai>/<nome> · plano <nome> - <nome curto da meta> · meta: <…>
    Fatias
    | Prioridade | FT | Título | Tam. | Modo | Depende de | Responsável | Revisor | Verificador |
    Especificação
@@ -174,8 +177,8 @@ Com a decisão do P.O. (ou de quem ele delegou): `sprint`, `responsavel` e o mod
 revisor](#modo-pela-senioridade) — e verificador, que não seja quem implementa — as `[REV]`/`[VER]` precisam deles), uma linha no
 `sprint-<nn>.md` com a Observação `encaixe: <decisão> (<quem decidiu>, <data>)`, pelo bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base), e no EWM o IB da fatia
 passa do backlog para a iteração da sprint e as tarefas nascem ([references/elm-sprint.md](references/elm-sprint.md) §3–4; Apoio: §6). Na troca, a fatia que
-sai volta para `sprint` `—`: o IB dela volta ao backlog e as tarefas vão para a próxima iteração
-(`elm_atualizar_wi(ids, iteracao)`). Depois, volte à `sdd-desenvolver` (Passo 3, item 4). Sem
+sai volta para `sprint` `—`: o IB dela e as tarefas voltam ao backlog do EWM
+(`elm_atualizar_wi(ids, iteracao = backlog)`; [references/elm-sprint.md](references/elm-sprint.md) §3). Depois, volte à `sdd-desenvolver` (Passo 3, item 4). Sem
 decisão, a fatia não começa; urgência acelera a decisão, não a dispensa.
 
 ## Troca de modo (AFK → HITL)

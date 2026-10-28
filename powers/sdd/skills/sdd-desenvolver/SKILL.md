@@ -67,8 +67,8 @@ item, a trilha registrada não serve (a "rápida" tem regra de negócio nova)
 
 | Trilha | Caminho depois daqui |
 |---|---|
-| **padrão** | pesquisa → plano → **GATE do plano** → implementação → revisão → verificação → PR |
-| **rápida** | pesquisa curta → `bugfix.md` + `tasks.md` (o teste que reproduz primeiro) → implementação → revisão → verificação → PR |
+| **padrão** | pesquisa → plano → **GATE do plano** → implementação → PR → revisão → verificação (AFK: revisão e verificação antes do PR) |
+| **rápida** | pesquisa curta → `bugfix.md` + `tasks.md` (o teste que reproduz primeiro) → implementação → PR → revisão → verificação (AFK: antes do PR) |
 
 ## Passo 3 — Compromisso
 
@@ -127,7 +127,7 @@ o caminho, e não comece.
    |---|---|---|
    | de épico (padrão) | `[DEV]` `[REV]` `[VER]` | IB da fatia, filho do épico |
    | sem épico, com item de origem (DF, IB) | `[DEV]` `[REV]` `[VER]` | o próprio item de origem — **sem IB novo** |
-   | sem épico, pedido em texto | `[DEV]` `[REV]` `[VER]` | IB `[FT-nnn]`, filho do épico de Sustentação |
+   | sem épico, pedido em texto | `[DEV]` `[REV]` `[VER]` | IB `[FT-nnn]`, filho do IB de Sustentação |
 
    Fatia **AFK**: só a `[DEV]`, em qualquer linha — revisão e verificação são subagentes, sem tarefa. Fatia
    **HITL puxada** (não passou pelo planejamento, sem revisor nem verificador na sprint) → antes de criar `[REV]`

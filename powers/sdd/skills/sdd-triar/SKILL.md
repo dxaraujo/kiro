@@ -109,7 +109,7 @@ no mesmo commit.
     crie a pasta se não existir): sempre.
   - EWM (com ELM, com "sim"): item de origem no EWM → nada a criar (ele será o pai das tarefas); só
     `elm_atualizar_wi(origem, iteracao = backlog)`. Padrão ou rápida sem item de origem → o IB `[FT-nnn]` nasce
-    agora sob o épico de Sustentação, no backlog ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §3; Sustentação ainda não existe → §2
+    agora sob o IB de Sustentação, no backlog ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §3; Sustentação ainda não existe → §2
     antes); o id vai para a coluna `elm`. Sem o MCP `elm` → `pendente`.
 - **Apoio:**
   - **Categoria:** proponha a da tabela **Apoio** do `sdd.md` pelo pedido (consulta ou extração para o cliente →

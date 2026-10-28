@@ -159,7 +159,7 @@ de bloqueio com o erro em uma linha; a pessoa decide (corrigir o comando, seguir
 
 ## Passo 4 — Produto, conhecimento e ELM (cartão W4)
 
-O W4 mostra as seis linhas de uma vez (pasta do produto, glossário, ADRs, ELM, bundle e regras do ELM), com uma
+O W4 mostra as sete linhas de uma vez (pasta do produto, glossário, ADRs, ELM, bundle, regras do ELM e produto), com uma
 pergunta. Glossário e ADRs aparecem sempre, mesmo quando a resposta é "não há". Faltando o `pa`, a montagem
 dele vem depois do "ok" do W4, em cartões próprios (um bloco por mensagem); antes do bloco 0, avise que é a parte
 mais longa (10 blocos) e o que ela decide.
@@ -189,8 +189,9 @@ mais longa (10 blocos) e o que ela decide.
      categorias, a Classificação de cada uma pelo bloco 5 do `elm-pa.md`; modo atualização com `sdd.md` sem a
      seção → acrescente-a (com "ok").
    - **Backlog do produto no EWM** (`ccm.backlog` do `pa`; também no modo atualização, com `pa` sem ele): onde os
-     itens triados nascem — [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §0 (pergunta se já
-     existe; senão cria, com pai ou sem pai; com `backlog.md` em uso, oferece o espelhamento).
+     itens triados nascem — [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §0 (pergunta a linha de
+     base e se `<linha de base>/Backlog` já existe; senão cria a iteração e o plano `Backlog`; com `backlog.md` em uso,
+     oferece o espelhamento). Estrutura padrão no início do [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md#estrutura-no-ewm-padrão).
    - **Bundle do RM** (`rm.download` do `pa`): pastas com `index.md` de `okf_version` → mostre e confirme; vazio →
      ofereça a `sdd-sync` (baixar). É a base que os agentes consultam **pelas `elm_*_local` do MCP `elm`**, nunca lendo os arquivos —
      com "sim", `elm_indexar_local` (segundo plano: responde na hora; a 1ª vez baixa o modelo) e mostre quantos
@@ -215,7 +216,7 @@ pré-marcadas pelos `papeis` do toolkit e pelo tipo de projeto (formato em `tool
 
 | Agente | Já tem (do fluxo) | `elm` | `gitlabpr` | Subagentes do fluxo | Push | Sugestão de extras |
 |---|---|---|---|---|---|---|
-| `sdd-produto` | triar, entrevistar, especificar, prd, fatiar, planejamento, atender, consolidar, aprender (registrar), iniciar, status | 🟢 consulta · 🟡 escrita | 🟢 consulta | `sdd-pesquisador`, `sdd-revisor` | 🔴 negado | skills de domínio/negócio |
+| `sdd-produto` | triar, entrevistar, especificar, prd, fatiar, planejamento, atender, executar, consolidar, aprender (registrar), iniciar, status | 🟢 consulta · 🟡 escrita | 🟢 consulta | `sdd-pesquisador`, `sdd-revisor` | 🔴 negado | skills de domínio/negócio |
 | `sdd-pesquisador` | pesquisar | 🟢 só o bundle local | ➖ | — | 🔴 negado | skills de stack para ler o código |
 | `sdd-codificador` | desenvolver, plano, implementar, iniciar, status | 🟢 consulta · 🟡 escrita | 🟢 consulta · 🟡 abrir e mesclar PR | `sdd-pesquisador`, `sdd-revisor`, `sdd-verificador` | 🟡 pergunta | skills de stack e de teste do toolkit |
 | `sdd-revisor` | revisar, iniciar, status | 🟢 consulta · 🟡 escrita | 🟢 consulta | — | 🟡 pergunta | skills de padrões e de revisão da stack |

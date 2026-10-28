@@ -109,7 +109,8 @@ virada).
 ## Fechar a sessão
 
 Ao encerrar uma sessão numa fatia, para que a próxima — sua, de outra pessoa ou de um agente — retome sem perder o
-fio:
+fio (sessão numa tarefa de Apoio, sem `status.md` → horas e registro pela skill dela: `sdd-atender` no Atendimento,
+`sdd-executar` nas demais; aqui, só os créditos do item 4):
 
 1. Acrescente ao Histórico do `status.md` da fatia o que foi feito, o **próximo passo exato** e as decisões desta
    sessão.

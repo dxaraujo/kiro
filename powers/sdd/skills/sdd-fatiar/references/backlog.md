@@ -82,8 +82,8 @@ linha da tabela — sem quebra de linha nem `|` dentro de célula (troque por `/
 | apoio registrado (id da categoria, `backlog`/`aberto`, `sprint`, `responsavel`, registro) | `sdd-triar` (na base); tarefa trazida do EWM: `sdd-planejamento` (§9 do `elm-sprint.md`) |
 | apoio `concluido`, `concluida-em` | `sdd-atender` (Atendimento) · `sdd-executar` (demais categorias) (na base) |
 | `concluida`, `concluida-em` | `sdd-consolidar` (depois do merge, na base) |
-| linha `Sustentação:` | `sdd-triar` ou a setup (o IB), publicação da sprint (`[GB]`, inclusive a do pai novo) ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §2); o IB de categoria: quem cria o primeiro item dela (`sdd-triar`, sincroniza a sprint — §6) |
-| `elm` (ids e urls) | `sdd-triar` (épico, fatia sem épico, tarefas de Apoio), `sdd-fatiar` (IB das fatias de épico), publicação da sprint (tarefas e o que estava `pendente`) ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §2–6) |
+| linha `Sustentação:` | `sdd-triar` ou a setup (o IB), publicação da sprint (`[GB]`, inclusive a do pai novo) ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §2); o IB de categoria: quem cria o primeiro item dela pelo §6 (`sdd-triar`, sincroniza a sprint, Encaixe, publicação da sprint, ou `sdd-atender`/`sdd-executar` com o item `pendente`) |
+| `elm` (ids e urls) | `sdd-triar` (épico, fatia sem épico, tarefas de Apoio), `sdd-fatiar` (IB das fatias de épico), publicação da sprint (tarefas e o que estava `pendente`), `sdd-atender`/`sdd-executar` (a tarefa de Apoio criada a partir de `pendente`) ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §2–6) |
 
 ## Definition of Ready (o que faz uma fatia `pronta`)
 

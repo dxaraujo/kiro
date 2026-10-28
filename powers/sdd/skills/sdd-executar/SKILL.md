@@ -1,6 +1,6 @@
 ---
 name: sdd-executar
-description: "Skill de quem faz as tarefas de Apoio sem fluxo próprio no sdd — Implantação [IMPL], Banco de dados [BD], Infra [INF], Operação [OPE], Apoio a outros times [EXT] (IM-, BD-, IN-, OP-, EX-nnn), já registradas pela sdd-triar. O trabalho acontece fora do repositório (a pessoa executa; o agente não roda script, deploy nem comando em ambiente): aqui só se registra — iniciar a tarefa no ELM, registrar o que foi feito na ficha (sem dado de cliente), lançar horas e concluir. Atendimento (AT-nnn, [ATD]) é da sdd-atender; pedido novo passa pela sdd-triar. Use em \"executar o IM-003\", \"iniciar a [IMPL] 670100\", \"registrar o que fiz no IM-003\", \"lançar horas no IM-003\", \"concluir o IM-003\"."
+description: "Skill de quem faz as tarefas de Apoio sem fluxo próprio no sdd — Implantação [IMPL], Banco de dados [BD], Infra [INF], Operação [OPE], Apoio a outros times [EXT] (IM-, BD-, IN-, OP-, EX-nnn), já registradas pela sdd-triar (ou trazidas do EWM pela sincronização da sprint). O trabalho acontece fora do repositório (a pessoa executa; o agente não roda script, deploy nem comando em ambiente): aqui só se registra — iniciar a tarefa no ELM, registrar o que foi feito na ficha (sem dado de cliente), lançar horas e concluir. Atendimento (AT-nnn, [ATD]) é da sdd-atender; pedido novo passa pela sdd-triar. Use em \"executar o IM-003\", \"iniciar a [IMPL] 670100\", \"registrar o que fiz no IM-003\", \"lançar horas no IM-003\", \"concluir o IM-003\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -27,13 +27,17 @@ Leia antes: `.kiro/steering/sdd.md`. Sem ele → ofereça a **`sdd-setup`** ("co
 
 ## Passo 2 — Registrar
 
-Os passos valem em qualquer ordem e em várias sessões; cada escrita no EWM com "sim". Ficha e backlog são gravados
+O passo 1 vem primeiro; com a tarefa já assumida, os demais valem em qualquer ordem e em várias sessões (lançar
+horas ou concluir sem a tarefa assumida → o passo 1 antes). Cada escrita no EWM com "sim". Ficha e backlog são gravados
 na base (bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base)).
 
 1. **Iniciar a tarefa no ELM:** `elm_transicao(id, "assumir")` (já minha → `ja_estava`; de outra pessoa →
-   `conflito`: pergunte e repita com `forcar: true`). Item com `elm` `pendente` → antes, crie a tarefa
-   ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §6). Fora da sprint aberta ou fora da reserva → a
-   decisão é do P.O. (`sdd-planejamento`, Encaixe) e pare.
+   `conflito`: pergunte e repita com `forcar: true`). Antes de tudo: item em `backlog`, sem linha na seção Apoio do
+   `sprint-<nn>.md` aberto (sem sprint, ou fora da reserva na triagem) → a decisão é do P.O. (`sdd-planejamento`,
+   Encaixe) e pare; com a linha na sprint, siga (a reserva já foi decidida ali); Kanban (`acordos.md`) → não há sprint nem encaixe: siga
+   (a tarefa fica na iteração corrente). Item com `elm` `pendente` → antes de assumir, crie a
+   tarefa ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §6) e grave o id na coluna `elm` do
+   `backlog.md` e em "Tarefa ELM" da linha da seção Apoio do `sprint-<nn>.md`, no commit da ficha.
 2. **Registrar o trabalho:** em `## O que foi feito` da ficha, os passos e a evidência (o que foi executado, onde,
    resultado, link do chamado ou da mudança), **sem dado de cliente** — dado real fica em `.kiro/local/apoio/<pasta>/<ID>/`.
    Comentário ou anexo na própria tarefa (`elm_comentar`, `elm_anexo enviar`), se a pessoa quiser.

@@ -22,6 +22,11 @@ DEPOIS    merge (Dev; remove a worktree do loop)
 PRODUTO   consolidar (P.O./SM, [GB]): drift da REV/VER ─► ELM as-built (ET, CTs) ─► ADRs do PR ─► conclusão ─► aprender
 ```
 
+**Mapa interativo do fluxo:** <https://dxaraujo.github.io/kiro/> — cada trilha é uma linha de metrô e cada skill uma
+estação. Escolha a linha (épico, fatia HITL ou AFK, Apoio, ciclo da sprint), a senioridade de quem implementa e a
+trilha da fatia; a ficha ao lado mostra papel, agente, tarefa no EWM, arquivos, chamadas ao ELM e as transições de
+cada passo. Fonte: branch `gh-pages` deste repositório.
+
 ## O que mudou da v1 para a v2
 
 | `sdd` v1 | `sdd` v2 |
@@ -76,7 +81,7 @@ Fontes no fim deste arquivo.
 | `sdd-entrevistar` | alinhamento em rodadas (grill), decisões e glossário |
 | `sdd-prd` | PRD do épico (o quê e por quê) e GATE do PRD |
 | `sdd-fatiar` | PRD → fatias verticais AFK/HITL, backlog e GATE do backlog |
-| `sdd-planejamento` | roadmap, acordos (cadência, DoR/DoD, WIP, reserva de apoio), sprint com especificação e Apoio, review, retrospectiva, virada |
+| `sdd-planejamento` | roadmap, acordos (cadência, DoR/DoD, WIP, reserva de apoio), sprint com especificação e Apoio, encaixe, troca AFK → HITL, "sincroniza a sprint", review, retrospectiva, virada e relatório de horas |
 | `sdd-executar` | executa as demais tarefas de Apoio já triadas (`[IMPL]` `[BD]` `[INF]` `[OPE]` `[EXT]`; a pessoa faz o trabalho fora do repositório): iniciar no ELM, registrar o trabalho, lançar horas, concluir |
 | `sdd-atender` | executa o atendimento (categoria Atendimento do Apoio) já triado (AT-nnn): assume a `[ATD]`, consulta só leitura, extração fora do git, resposta, saldo de horas, desdobramentos |
 | `sdd-pesquisar` | pesquisa do código compactada em `research.md` |
@@ -105,7 +110,7 @@ de `skills/sdd-setup/assets/`:
 | `.kiro/sdd/http.sh` (opcional) | única chamada HTTP que o verificador faz sem perguntar: só à URL de teste, com corpo da pasta `massa/` |
 | pasta do produto (proposta pela setup; padrão `.kiro/planejamento`) | `backlog.md`, épicos e PRDs, `equipe.json`, `acordos.md`, `roadmap.md`, `sprints/<iteração pai>/`, `apoio/<pasta>/`, `aprendizado/` — versionada; o que é local fica em `.kiro/local/` (fora do git) |
 
-O ELM vem no próprio power: o MCP **`mcp-elm`** (≥ 3.3.2) lê o `.kiro/config/sdd/pa_<nome>.json` do projeto (um por
+O ELM vem no próprio power: o MCP **`mcp-elm`** (≥ 3.3.5) lê o `.kiro/config/sdd/pa_<nome>.json` do projeto (um por
 project area, gravado pela `sdd-setup`) e expõe operações (`elm_transicao`, `elm_lancar_horas`, `elm_criar_wi`,
 `elm_ligar`, `elm_publicar_req`…): a skill do passo passa só o caminho do projeto, os ids e o conteúdo, e recebe
 `{"ok": …}`. Regras comuns em [`skills/sdd/references/elm.md`](skills/sdd/references/elm.md). Leituras liberadas nos
@@ -164,7 +169,7 @@ processo do projeto exige algum deles, a skill do passo entrega o roteiro manual
 - Toolkits da stack do projeto (opcional — sem eles os agentes dependem do steering e do código vizinho).
 
 Horas: **lançar ≠ concluir** — lançar é registro de empenho, a qualquer momento numa tarefa iniciada (ao fechar a
-sessão, por exemplo); concluir é da skill do papel, com o saldo. No AFK só existe a `[DEV]`.
+sessão, por exemplo); concluir é da skill do papel, com o saldo. No AFK há a `[DEV]` e a `[APR] Aprovar PR`.
 
 ## Primeiros passos
 
@@ -261,10 +266,14 @@ Na **3.3.1**, correções da 3.3.0. As tarefas de Apoio sem fluxo próprio (`[IM
 a skill **`sdd-executar`** (no agente `sdd-produto`), e a `sdd-iniciar` volta a só encaminhar. A Sustentação passa a ser
 **uma por produto**: o IB `Sustentação - <produto>`, no backlog do EWM, com os IBs `<Categoria> - <produto>` filhos dela,
 também no backlog; a linha do `backlog.md` é `Sustentação:`, e na troca de iteração pai só a `[GB]` muda. A sprint nova
-herda o pai da anterior; pai novo só quando a pessoa diz, com o nome que ela der. A iteração do backlog do produto é a
-**linha de base**: os pais das sprints nascem dentro dela e o caminho `<pai>/<sprint>` é relativo a ela (o `mcp-elm`
-3.3.2 resolve e cria assim, cria só o plano de backlog numa iteração que já existe e, com dois backlogs do time nela,
-pede o plano em vez de escolher; o plano da sprint volta a ser `<sprint> - <time>`). Peça "atualizar os agentes do sdd". Requer o `mcp-elm` ≥ 3.3.2.
+herda o pai da anterior; pai novo só quando a pessoa diz, com o nome que ela der. Estrutura padrão no EWM:
+`<linha de base>/Backlog` (plano `Backlog`) e `<linha de base>/<pai>/<sprint>` (cada sprint é uma iteração, com o
+plano `<sprint> - <nome curto da meta>`); o caminho `<pai>/<sprint>` é relativo à linha de base, o pai da iteração do backlog
+([elm-sprint.md](skills/sdd-planejamento/references/elm-sprint.md#estrutura-no-ewm-padrão)). O `mcp-elm` 3.3.5
+resolve e cria assim, cria só o plano numa iteração que já existe, nunca escolhe nem cria uma terceira entre duas
+homônimas (dois backlogs do time, duas `2026` no mesmo pai) e recusa caminho com parte vazia. A sprint nasce no EWM só
+depois do "ok", com as datas e o plano `**Plano no EWM:**` do cabeçalho (`Sprint 01 - <nome curto da meta>`). Peça "atualizar a configuração do sdd" (backlog na linha de base) e "atualizar os agentes do sdd".
+Requer o `mcp-elm` ≥ 3.3.5.
 
 Não use o `/upgrade-agent` (nem `kiro-cli agent upgrade`) nos agentes `sdd-*`: quem os gera é o script da setup
 ("atualizar os agentes do sdd").

@@ -6,41 +6,68 @@ Nasce com `iteracao = backlog` (o backlog do produto gravado no `pa`, §0) ou, s
 dela. **Entrar na sprint** = `elm_atualizar_wi(ids, iteracao = a da sprint)` — move, nunca recria; só se cria o
 que está `—` ou `pendente` na coluna `elm`. **Todo trabalho tem pai**: épico → IB → tarefa, ou o IB de
 Sustentação do produto para o que não vem de PRD. Ordem: épico, IB, tarefa. Tarefas (`[ESP]`, `[DEV]`, `[REV]`,
-`[VER]`, `[APR]`, `[GB]`) nascem só na sprint; as únicas tarefas no backlog são as de Apoio que não couberam numa (§6).
+`[VER]`, `[APR]`, `[GB]`) nascem só na sprint; no backlog só ficam as tarefas de Apoio sem sprint aberta ou fora da
+reserva (§6) e as da fatia que saiu da sprint sem começar (Encaixe).
+
+## Estrutura no EWM (padrão)
+
+Cada sprint é uma **iteração** com o seu plano; o backlog do produto é uma iteração irmã dos pais das sprints. Tudo
+fica dentro de uma **linha de base** — a iteração do projeto na timeline:
+
+```
+<linha de base>            (ex.: Evolução do produto — sem datas)
+├── Backlog                iteração do backlog do produto, com o plano "Backlog" (tipo product backlog)
+├── 2026                   iteração pai (o nome é livre: 2026, Entrega 3…)
+│   ├── Sprint 01          iteração da sprint, com datas, e o plano "Sprint 01 - <nome curto da meta>"
+│   ├── Sprint 02
+│   └── …
+└── 2027
+    └── Sprint 01
+```
+
+Por que cada sprint é uma iteração, e não um plano a mais no pai: no EWM o plano mostra os itens cujo "Planejado
+para" é a iteração dele (e o time); dois planos na mesma iteração mostram os mesmos itens. O "Planejado para" é o
+que diz em que sprint está cada tarefa, o que migra na virada e o que soma as horas da sprint (`elm_horas`).
+
+A linha de base é o **pai da iteração do backlog** (`ccm.backlog` do `pa`). O caminho que as skills passam ao MCP é
+relativo a ela: `2026/Sprint 01` é `<linha de base>/2026/Sprint 01` — uma `2026` de outro lugar da PA não confunde.
+Nos arquivos do sdd: `sprints/2026/sprint-01.md`, chave `2026/01`, `**Iteração no EWM:** 2026/Sprint 01`.
 
 ## 0. Backlog do produto (na setup ou em "atualizar a configuração do sdd"; uma vez por projeto)
 
 1. `elm_backlog()` → `atual` (o `ccm.backlog` do `pa`) e `candidatos` (planos de backlog da PA). Já há `atual` →
    mostre e confirme; fim.
-2. Pergunte se o projeto **já tem** um backlog do produto no EWM — um só pode servir a todas as entregas (ex.:
-   PA → `Backlog`, PA → `Entrega 1`, `Entrega 2`… com as sprints dentro), ou cada entrega pode ter o seu. Mostre os
+2. Pergunte a **linha de base** do projeto (a iteração da timeline onde ficam o backlog e os pais das sprints; quem
+   administra a PA cria, se não existir) e se ela **já tem** a iteração `Backlog` com o plano. Mostre os
    `candidatos`.
-   - **Sim** → a pessoa escolhe um candidato ou cola o link do plano (o da UI web, com `id=_…`) →
-     `elm_backlog(plano)`.
-   - **Não, numa iteração que já existe** (a entrega, a release: os itens do backlog ficam planejados para ela e as
-     sprints são filhas dela) → `elm_backlog(nome = <essa iteração>)`, com "sim" (cria só o plano `Backlog <time>`).
-     Erro `entrada` no campo `plano` (o time já tem mais de um backlog nela) → mostre os nomes e use `elm_backlog(plano)`.
-   - **Não, numa iteração nova** → pergunte o nome (padrão `Backlog`) e se ela é **filha** de outra ou **sem pai** (no
-     topo da timeline) → `elm_backlog(nome, pai?)`, com "sim" (cria a iteração e o plano `Backlog <time>`).
+   - **Já tem** → a pessoa escolhe o candidato ou cola o link do plano (o da UI web, com `id=_…`) →
+     `elm_backlog(plano)`. Só serve o plano cuja iteração é filha da linha de base (o `pai` de cada candidato e do
+     resultado): noutro lugar, avise que a estrutura padrão não se forma e não siga com ele.
+   - **Não tem** → `elm_backlog(nome = "Backlog", pai = <linha de base>)`, com "sim": cria `<linha de base>/Backlog`
+     e o plano `Backlog` (iteração `Backlog` que já existe na base → só o plano). Erro `entrada` no campo `plano` (o
+     time já tem mais de um backlog nela) → mostre os nomes e use `elm_backlog(plano)`.
    Erro `permissao` → peça a quem administra a PA.
-3. O `pa` passa a ter `ccm.backlog`; daí em diante `iteracao: "backlog"` nas tools é ele, e a iteração dele é a
-   **linha de base**: os pais das sprints (`2026`, `Entrega 3`…) nascem e são procurados dentro dela. Sem ele, criar no backlog
-   falha com `precondicao` — volte a este §0, nunca escolha outra iteração.
+3. O `pa` passa a ter `ccm.backlog`; daí em diante `iteracao: "backlog"` nas tools é ele, e o pai dele é a linha de
+   base. Sem ele, criar no backlog falha com `precondicao` — peça "atualizar a configuração do sdd" (a `sdd-setup`, na
+   sessão padrão, roda este §0; os agentes não têm o `elm_backlog`), nunca escolha outra iteração.
 4. **Espelhamento** (backlog já existente): linhas do `backlog.md` com `elm` `—` ou `pendente` que não estão
    concluídas nem canceladas → prévia numa tabela (item, tipo, pai, iteração) e um "sim" → §2, §3 e §6 na ordem;
    itens com `elm` que estão fora de sprint e numa iteração antiga → `elm_atualizar_wi(ids, iteracao = backlog)`.
 
 ## 1. Iteração e plano da sprint
 
-`elm_iteracao("<pai>/<nome>")` acha ou cria a iteração da sprint **dentro da iteração pai**, e o pai dentro da linha
-de base (a iteração do backlog, §0; o caminho é relativo a ela, então um `2026` de fora não confunde), e o plano da sprint do time, e guarda os ids no `pa` com a chave do caminho
-(o backlog do produto não é criado aqui: é o do §0). **O pai:** a sprint nova herda o da anterior; pai novo só quando a
-pessoa diz, com o nome que ela der (`2026`, `Entrega 3`…); primeira sprint do projeto → pergunte. O caminho tira a
-ambiguidade de duas `Sprint 1` em pais diferentes; use-o em toda tool que recebe `iteracao`. Criar exige a permissão de modificar iterações — erro
-`permissao` → peça a quem administra a PA. Erro `entrada` "várias timelines" (primeira sprint, PA com mais de uma
-timeline) → configure antes o backlog do produto (§0), cuja timeline passa a valer, ou use o caminho com o ancestral.
+Depois do "ok" da sprint: `elm_iteracao("<pai>/<nome>", inicio = <início da sprint>, fim = <fim>, plano = <o
+**Plano no EWM:** do cabeçalho do `sprint-<nn>.md`>)` — o caminho e o plano vêm do cabeçalho (`**Iteração no EWM:**
+2026/Sprint 01`, `**Plano no EWM:** Sprint 01 - Exportar o relatório de contas`), também na publicação feita depois e
+na virada. Acha ou cria a iteração da sprint dentro do pai, o pai dentro da linha de base (se faltar) e o plano (o
+nome só vale ao criar: o plano que já existe não é renomeado), e guarda os ids no `pa` com a chave do caminho (o backlog
+não é criado aqui: é o do §0). **O pai:** a sprint nova herda o da anterior; pai novo só quando a pessoa diz, com o
+nome que ela der (`2026`, `Entrega 3`…); primeira sprint do projeto → pergunte. Use o caminho em toda tool que recebe
+`iteracao`. Criar exige a permissão de modificar iterações — erro `permissao` → peça a quem administra a PA. Erro
+`entrada` "ambígua" (duas iterações com o mesmo nome no mesmo pai) → mostre e peça à pessoa que resolva no EWM;
+nunca crie outra.
 
-## 2. Sustentação (uma por produto, com a linha `Sustentação:` do `backlog.md` vazia)
+## 2. Sustentação e `[GB]` (a Sustentação: uma por produto, com a linha `Sustentação:` vazia; a `[GB]`: na primeira sprint de cada pai)
 
 IB `Sustentação - <produto>` (`tipo: ib`; `<produto>` = o nome do produto do `sdd.md`), com `iteracao = backlog` —
 nasce no §0 ou na primeira triagem e **fica no backlog** (não entra em sprint nem move na virada). É o pai dos IBs
@@ -155,11 +182,16 @@ Roda depois de publicar a sprint (§4), na pré-condição dos ritos de fechamen
      para registrar o id no `status.md`;
    - **Apoio** → antes, a linha de `## Apoio` da mesma categoria com `elm` `pendente` que seja o mesmo pedido
      (triado sem o MCP e aberto à mão no EWM) → proponha ligar: o id vai para a coluna `elm` (sem id nem ficha novos); a linha dele na seção Apoio do
-     `sprint-<nn>.md` recebe o id em "Tarefa ELM" (sem linha ali → o item entra na sprint como abaixo). Senão, próximo id da série da categoria; linha em `## Apoio` do `backlog.md` (`origem` `EWM <id>`, `elm` =
-     `<prefixo> <id>`, `sprint`, `responsavel` = dono, `status` pelo estado: concluída → `concluido` com
-     `concluida-em`), registro mínimo `<produto>/apoio/<pasta>/<ID>-<slug>.md` (o título e a descrição do EWM, sem dado de
-     cliente; `**Estimativa:**` a da tarefa no EWM, ou `—`) e linha na seção Apoio do `sprint-<nn>.md` com `trazida do EWM` — consome a reserva (passou → aviso
-     ao P.O., como no Encaixe);
+     `sprint-<nn>.md` recebe o id em "Tarefa ELM" (sem linha ali → o item entra na sprint como abaixo). Senão, registre **pelas regras do Apoio da
+     [`sdd-triar`](../../sdd-triar/SKILL.md#passo-3--registrar-na-base)** (categoria confirmada, próximo id da série,
+     duplicado pelo `**Origem:**` das fichas de `apoio/**`, regra da reserva), com `origem` `EWM <id>`, `elm` =
+     `<prefixo> <id>`, `responsavel` = o dono no EWM e o `status` pelo estado (concluída → `concluido` com
+     `concluida-em`); a ficha leva o título e a descrição do EWM (sem dado de cliente), `**Estimativa:**` a da tarefa
+     (ou `—`) e `falta: prazo, critério de pronto` no que o EWM não traz; linha na seção Apoio do `sprint-<nn>.md` com
+     `trazida do EWM`. Reserva estourada com a tarefa ainda Nova → como na triagem: o item fica `backlog` (sem a linha
+     na sprint), a tarefa volta ao backlog do EWM (`elm_atualizar_wi(id, iteracao = backlog)`) e a decisão é do P.O.
+     pelo Encaixe; já em andamento → fica na sprint (consome a reserva) e o P.O. decide qual fatia sai, como em
+     [Durante a sprint](../SKILL.md#durante-a-sprint);
    - **EWM:** `elm_atualizar_wi(id, titulo)` pela escolha da linha; sem pai → `pai` = o IB da fatia, o épico ou, no
      Apoio, o IB da categoria (§6: nasce aqui, se for o primeiro da categoria) — todo trabalho tem pai. Pai
      existente, dono e horas não mudam.

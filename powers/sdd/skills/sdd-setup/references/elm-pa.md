@@ -189,6 +189,6 @@ sdd-setup` (pai = um IB que a pessoa indicar), de um IB e de um defeito, `elm_tr
 
 **Backlog do produto** (depois do `pa` gravado, e também em "atualizar a configuração do sdd" com `pa` sem
 `ccm.backlog`): é onde os itens triados nascem no EWM — siga
-[elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §0 (já existe → link ou id do plano; não existe →
-cria, perguntando se é filho de alguma iteração ou sem pai; depois, com o `backlog.md` já em uso, o espelhamento).
+[elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §0 (pergunta a linha de base; já existe `<linha de base>/Backlog` → link ou id do plano; não existe → cria a
+iteração e o plano `Backlog`; depois, com o `backlog.md` já em uso, o espelhamento).
 Sem `ccm.backlog`, nada nasce no backlog do EWM. Outra project area → repita tudo (outro `pa_<nome>.json`) e diga na seção ELM qual é o padrão.

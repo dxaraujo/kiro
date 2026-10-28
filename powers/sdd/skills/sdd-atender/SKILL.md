@@ -39,9 +39,13 @@ Não é atendimento (pedido que muda o comportamento do sistema, ou regra que ni
 
 ## Passo 2 — Assumir a `[ATD]`
 
+AT em `backlog`, sem linha na seção Apoio do `sprint-<nn>.md` aberto (sem sprint, ou fora da reserva na triagem) → a
+decisão é do P.O. (`sdd-planejamento`, Encaixe) e pare; com a linha na sprint, siga (a reserva já foi decidida ali). Kanban
+(`acordos.md`) → não há sprint nem encaixe: siga (a `[ATD]` fica na iteração corrente).
 `elm_transicao(id, "assumir")`, com "sim" (já minha → `ja_estava`, nada a fazer; de outra pessoa → `conflito`:
 pergunte e repita com `forcar: true`). AT com `elm` `pendente` (registrado sem o MCP `elm`) → antes, registre a `[ATD]`
-([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §6). Sem o MCP `elm` → `ELM pendente [<chave>]: assumir [ATD] AT-<nnn>` no registro do AT, e
+([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §6) e grave o id na coluna `elm` do `backlog.md` e em
+"Tarefa ELM" da linha do AT na seção Apoio do `sprint-<nn>.md`, no commit do registro. Sem o MCP `elm` → `ELM pendente [<chave>]: assumir [ATD] AT-<nnn>` no registro do AT, e
 siga.
 
 ## Passo 3 — Executar

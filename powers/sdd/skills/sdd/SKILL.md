@@ -33,17 +33,17 @@ chamada direto:
 | Verificador (QA) | `[VER]` | `sdd-verificar` |
 | quem atende | `[ATD]` (Apoio — Atendimento) | `sdd-atender` |
 | quem faz o Apoio | `[IMPL]` `[BD]` `[INF]` `[OPE]` `[EXT]` (demais categorias) | `sdd-executar` (iniciar no ELM, registrar o trabalho, lançar horas, concluir) |
-| P.O. ou SM (analista de negócio) | `[GB] Gerenciamento do backlog` | `sdd-triar` (triagem) · `sdd-consolidar` (fatia `mergeada`: processo de produto, no agente `sdd-produto`) |
+| P.O. ou SM (analista de negócio) | `[GB] Gerenciamento do backlog` | `sdd-triar` (triagem) · `sdd-consolidar` (fatia `mergeada`: processo de produto, no agente `sdd-produto`) · `sdd-planejamento` (sprint, ritos e sincronização) |
 
 | Trilha | Quando | Caminho |
 |---|---|---|
-| **rápida** | defeito ou ajuste ≤ 1 dia, comportamento certo já conhecido — inclusive o diff que cabe numa frase | `bugfix.md` + `tasks.md` → implementação → revisão → verificação → PR → consolidação |
-| **padrão** | uma fatia do backlog: de um épico, ou sem épico com regra clara e ficha aprovada pelo P.O. | pesquisa → plano → **GATE do plano** → implementação (TDD) → revisão → verificação → PR → consolidação |
+| **rápida** | defeito ou ajuste ≤ 1 dia, comportamento certo já conhecido — inclusive o diff que cabe numa frase | `bugfix.md` + `tasks.md` → implementação → PR → revisão → verificação → consolidação (AFK: revisão e verificação antes do PR) |
+| **padrão** | uma fatia do backlog: de um épico, ou sem épico com regra clara e ficha aprovada pelo P.O. | pesquisa → plano → **GATE do plano** → implementação (TDD) → PR → revisão → verificação → consolidação (AFK: revisão e verificação antes do PR) |
 | **épico** | funcionalidade com várias histórias ou decisão de produto em aberto | entrevista → PRD → **GATE do PRD** → ELM → fatias → **GATE do backlog** → planejamento → cada fatia na trilha padrão |
 | **apoio** | trabalho que não muda o repositório, numa categoria da tabela **Apoio** do `sdd.md` — Atendimento (o cliente pede consulta, extração ou explicação), Implantação, Banco de dados, Infra, Operação, Apoio a outros times | triagem: categoria e entrevista curta → item da categoria (`AT-nnn`, `IM-nnn`…) no backlog, sprint sugerida, tarefa (`[ATD]`, `[IMPL]`…) no EWM, filha do IB `<Categoria> - <produto>` (nasce com o 1º item da categoria, filho da `Sustentação - <produto>`) · Atendimento: `sdd-atender` (assume → banco só leitura e bundle → resposta com "ok" → saldo de horas → desdobramentos) · demais: `sdd-executar` (iniciar → registrar → horas → concluir) |
 
 Toda hora trabalhada cabe numa tarefa da sprint: `[ESP]` (especificação do épico), `[DEV]`, `[REV]`, `[VER]` (por
-fatia; no AFK só a `[DEV]`), `[APR]` (por gate com aprovação: plano, PR do AFK), as de Apoio (`[ATD]`, `[IMPL]`… — uma por item) e `[GB]` (triagem e consolidação, do P.O. ou do SM). **Lançar ≠ concluir:** lançar horas é registro de
+fatia; no AFK só a `[DEV]`), `[APR]` (por gate com aprovação: plano, PR do AFK), as de Apoio (`[ATD]`, `[IMPL]`… — uma por item) e `[GB]` (triagem, consolidação, planejamento e sincronização, do P.O. ou do SM). **Lançar ≠ concluir:** lançar horas é registro de
 empenho, a qualquer momento numa tarefa iniciada (inclusive antes de um GATE); concluir é da skill do papel quando
 o trabalho dela termina, perguntando só o saldo — `[DEV]` no merge, `[REV]` ao aprovar (depois do push), `[VER]` ao
 aceitar (depois do push), `[APR]` na aprovação, `[ESP]` no GATE do backlog, Apoio ao finalizar. **Entrega** (todo papel do HITL):

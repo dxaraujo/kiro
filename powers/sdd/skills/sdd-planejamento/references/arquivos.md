@@ -116,8 +116,8 @@ máxima das últimas sprints) quando houver histórico.
 
 ## `sprints/<pai>/sprint-<nn>.md`
 
-A sprint acompanha a iteração do EWM de que ela é filha (`<release>` → `2026` → Sprint 1, 2, 3…; `2027` → Sprint 1,
-2…): `<pai>` é o nome da iteração pai (`2026`) e `<nn>` recomeça em `01` em cada pai — `sprints/2026/sprint-01.md`,
+A sprint acompanha a iteração do EWM de que ela é filha (estrutura padrão: `<linha de base>` → `2026` → `Sprint 01`, `Sprint 02`…;
+`2027` → `Sprint 01`… — [elm-sprint.md](elm-sprint.md#estrutura-no-ewm-padrão)): `<pai>` é o nome da iteração pai (`2026`) e `<nn>` recomeça em `01` em cada pai — `sprints/2026/sprint-01.md`,
 `sprints/2027/sprint-01.md`. A **chave** da sprint é `<pai>/<nn>` (`2026/03`): é ela que vai na coluna `sprint` do
 `backlog.md`, em `historico[].sprint` do `equipe.json`, em `→ sprint <chave>` e `migrada da sprint <chave>`. Nas
 skills, `sprint-<nn>.md` abrevia `sprints/<pai>/sprint-<nn>.md` e "sprint `<nn>`", a chave. A ordem das sprints é a
@@ -127,7 +127,8 @@ da data de início do cabeçalho (o nome do pai é livre e não ordena) — a do
 # Sprint <pai>/<nn> · <AAAA-MM-DD> → <AAAA-MM-DD>
 
 **Meta:** <resultado de negócio>
-**Iteração no EWM:** <pai>/<nome> | —   (o caminho que o `elm_iteracao` recebe: `2026/Sprint 3`)
+**Iteração no EWM:** <pai>/<nome> | —   (o caminho que o `elm_iteracao` recebe: `2026/Sprint 03`)
+**Plano no EWM:** <nome> - <nome curto da meta>   (o `plano` do `elm_iteracao`: `Sprint 03 - Exportar o relatório de contas`)
 **Power sdd:** <versões usadas, crescente: 2.9.0 · 2.9.1>   (o planejamento grava a da abertura; a virada acrescenta as das linhas de créditos)
 **Situação:** <aberta | fechada>   (a virada grava `fechada`; o painel usa a última `aberta`)
 **Fechamento sem consolidar:** <FT-… (<P.O.>, <data>)>   (só quando o P.O. decide fechar com fatia mergeada sem consolidação)

@@ -1,6 +1,6 @@
 ---
 name: sdd-iniciar
-description: "Hub de início do fluxo sdd — recebe um work item já registrado (FT-031, EP-03, AT-012, IM-003, DF ou IB que o backlog conhece, tarefa [DEV] [REV] [VER] [ESP] [ATD] [IMPL] [BD] [INF] [OPE] [EXT]) ou \"minha próxima tarefa\", descobre o tipo e diz qual skill de papel usar: sdd-desenvolver (Dev), sdd-revisar (Revisor), sdd-verificar (QA), sdd-especificar (Especificador), sdd-atender (Atendimento) ou sdd-executar (demais categorias do Apoio); pedido novo ou item fora do backlog vai para a sdd-triar. Use em \"iniciar\", \"começar\", \"pegar a task 123\", \"vamos trabalhar na FT-031\", \"iniciar o AT-012\", \"minha próxima tarefa\", \"o que eu pego agora?\"."
+description: "Hub de início do fluxo sdd — recebe um work item já registrado (FT-031, EP-03, AT-012, IM-003, DF ou IB que o backlog conhece, tarefa [DEV] [REV] [APR] [VER] [ESP] [GB] [ATD] [IMPL] [BD] [INF] [OPE] [EXT]) ou \"minha próxima tarefa\", descobre o tipo e diz qual skill de papel usar: sdd-desenvolver (Dev), sdd-revisar (Revisor e [APR]), sdd-verificar (QA), sdd-especificar (Especificador), sdd-atender (Atendimento), sdd-executar (demais categorias do Apoio), sdd-consolidar (fatia mergeada) ou sdd-planejamento (troca de modo, sprint); pedido novo ou item fora do backlog vai para a sdd-triar. Use em \"iniciar\", \"começar\", \"pegar a task 123\", \"vamos trabalhar na FT-031\", \"iniciar o AT-012\", \"minha próxima tarefa\", \"o que eu pego agora?\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
@@ -39,7 +39,7 @@ está em (1) nem (2) não está registrado.
 | fatia em `pronta-para-merge` (qualquer item dela, menos a `[APR]`) | **`sdd-desenvolver`** (Passo 6 — merge do PR aprovado) | Dev responsável / `sdd-codificador` |
 | fatia em `bloqueada` com `aguardando troca para HITL` | **`sdd-planejamento`** (Troca de modo, na base); feita a troca, o Dev retoma pela **`sdd-desenvolver`** | P.O. ou SM / `sdd-produto` · Dev / `sdd-codificador` |
 | fatia em `mergeada` (e não `concluida` na base: `status.md` ou `backlog.md` da base — depois do merge vale a base) | **`sdd-consolidar`** (processo de produto; horas na `[GB]`) | P.O. ou SM / `sdd-produto` |
-| tarefa `[GB] Gerenciamento do backlog` | fatias em `mergeada` → **`sdd-consolidar`** (uma por vez); nenhuma → **`sdd-triar`** | P.O. ou SM / `sdd-produto` |
+| tarefa `[GB] Gerenciamento do backlog` | pedido de sprint (planejar, ritos, "sincroniza a sprint") → **`sdd-planejamento`**; senão, fatias em `mergeada` → **`sdd-consolidar`** (uma por vez); nenhuma → **`sdd-triar`** | P.O. ou SM / `sdd-produto` |
 
 ```
 🔀 <item> — <título> · <tipo> · <fase do status.md | status do backlog>

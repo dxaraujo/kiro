@@ -1,52 +1,56 @@
 ---
 name: sdd-atender
-description: "Skill de quem atende no fluxo sdd — executa um atendimento (chamado ou pedido do cliente; a categoria Atendimento do Apoio) já registrado pela sdd-triar (AT-nnn, tarefa [ATD]): assume a [ATD] no EWM, consulta o banco (somente leitura) e o bundle do ELM, com código só em escopo fechado, guarda extrações fora do git (.kiro/local/apoio/atendimento/), redige a resposta para o \"ok\" da pessoa e finaliza — registra a resposta, lança o saldo de horas, conclui a [ATD] e pergunta os desdobramentos (arquivar · alteração pela sdd-triar · regra pela sdd-entrevistar · lição pela sdd-aprender). Pedido novo não abre aqui: passa pela sdd-triar. Use em \"atender o AT-012\", \"pegar a [ATD] 669380\", \"extrai os dados do AT-012\", \"enviei a resposta\", \"conclui o AT-012\"."
+description: "Skill de quem atende no fluxo sdd — executa um atendimento (chamado ou pedido do cliente; a categoria Atendimento da Sustentação) já registrado pela sdd-triar (AT-nnn: IB [AT-nnn] e tarefa [ATD]): assume a [ATD] no EWM (criando o IB e a tarefa que faltarem) e grava o AT em-andamento na base, consulta o banco (somente leitura) e o bundle do ELM, com código só em escopo fechado, guarda extrações fora do git (.kiro/local/sustentacao/atendimento/), redige a resposta para o \"ok\" da pessoa e finaliza — registra a resposta, lança o saldo de horas, conclui a [ATD] e o IB do AT e pergunta os desdobramentos (arquivar · alteração pela sdd-triar · regra pela sdd-entrevistar · lição pela sdd-aprender). Pedido novo não abre aqui: passa pela sdd-triar. Use em \"atender o AT-012\", \"pegar a [ATD] 669380\", \"extrai os dados do AT-012\", \"enviei a resposta\", \"conclui o AT-012\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.3.1"
+  version: "3.4.0"
 ---
 
 # sdd-atender — Atender sem perder o rastro
 
 Atendimento é trabalho real que não vira código: alguém pergunta (chamado, e-mail, pedido), o time consulta, responde
-e segue. É a categoria **Atendimento** do **Apoio** — a única com fluxo próprio; as demais (Implantação, Banco de
-dados, Infra, Operação, Apoio a outros times) usam a [`sdd-executar`](../sdd-executar/SKILL.md).
-A **`sdd-triar`** registra a demanda (`AT-nnn`, linha na seção `## Apoio` do `backlog.md`, tarefa `[ATD]` na sprint);
-esta skill é a de quem **atende**: assume a `[ATD]`, executa e finaliza, deixando um registro versionado **sem dado
-de cliente**.
+e segue. É a categoria **Atendimento** da **Sustentação** — a única categoria com fluxo próprio; as demais
+(Implantação, Banco de dados, Infra, Operação, Apoio a outros times) usam a [`sdd-executar`](../sdd-executar/SKILL.md).
+A **`sdd-triar`** registra a demanda (`AT-nnn`, linha na `### Atendimento` da `## Sustentação` do `backlog.md`, IB
+`[AT-nnn]` no EWM; a tarefa `[ATD]` nasce quando o AT entra numa sprint); esta skill é a de quem **atende**: assume
+a `[ATD]`, executa e finaliza, deixando um registro versionado **sem dado de cliente**.
 
 Leia antes: `.kiro/steering/sdd.md`. Sem ele → ofereça a **`sdd-setup`** ("configurar o sdd") e pare.
 
 ## Arquivos
 
-- `<produto>/apoio/atendimento/AT-<nnn>-<slug>.md` — o registro (formato no fim), criado pela triagem.
-- Linha do AT em `## Apoio` do `backlog.md` e na seção Apoio do `sprints/<pai>/sprint-<nn>.md`.
-- `.kiro/local/apoio/atendimento/AT-<nnn>/` — extrações, telas e respostas com dado real. Fora do git.
+- `<produto>/sustentacao/atendimento/AT-<nnn>-<slug>.md` — o registro (formato no fim), criado pela triagem.
+- Linha do AT na `### Atendimento` da `## Sustentação` do `backlog.md` e do `sprints/<pai>/sprint-<nn>.md`.
+- `.kiro/local/sustentacao/atendimento/AT-<nnn>/` — extrações, telas e respostas com dado real. Fora do git.
 
 ## Passo 1 — O que chegou
 
 | Entrada | Como ler |
 |---|---|
-| `AT-nnn` ou `[ATD] AT-nnn` | a linha em `## Apoio` do `backlog.md` e o `AT-<nnn>-<slug>.md`, na base (itens 1 e 5 do bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base): o registro é gravado ali durante todo o atendimento) |
-| número do EWM de uma `[ATD]` | a linha do `backlog.md` com esse id em `elm` |
+| `AT-nnn` ou `[ATD] AT-nnn` | a linha na `### Atendimento` do `backlog.md` e o `AT-<nnn>-<slug>.md`, na base (itens 1 e 5 do bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base): o registro é gravado ali durante todo o atendimento) |
+| número do EWM do IB `[AT-nnn]` ou da `[ATD]` | a linha do `backlog.md` com esse id em `elm` |
 | pedido novo ("o cliente pediu …"), ou AT fora do backlog | não está registrado → "use `sdd-triar`" e pare — nunca abra AT aqui |
 | AT `concluido` ou `cancelado` | mostre a situação e pare; reabrir é um AT novo pela triagem |
-| item de outra categoria do Apoio (`IM-`, `BD-`, `IN-`, `OP-`, `EX-`; tarefa `[IMPL]` `[BD]` `[INF]` `[OPE]` `[EXT]`) | não é desta skill → "use `sdd-executar <item>`" e pare |
+| item de outra categoria da Sustentação (`IM-`, `BD-`, `IN-`, `OP-`, `EX-`; tarefa `[IMPL]` `[BD]` `[INF]` `[OPE]` `[EXT]`) | não é desta skill → "use `sdd-executar <item>`" e pare |
 
 Não é atendimento (pedido que muda o comportamento do sistema, ou regra que ninguém decidiu) → devolva à
 `sdd-triar` para refazer a triagem e pare.
 
 ## Passo 2 — Assumir a `[ATD]`
 
-AT em `backlog`, sem linha na seção Apoio do `sprint-<nn>.md` aberto (sem sprint, ou fora da reserva na triagem) → a
-decisão é do P.O. (`sdd-planejamento`, Encaixe) e pare; com a linha na sprint, siga (a reserva já foi decidida ali). Kanban
-(`acordos.md`) → não há sprint nem encaixe: siga (a `[ATD]` fica na iteração corrente).
-`elm_transicao(id, "assumir")`, com "sim" (já minha → `ja_estava`, nada a fazer; de outra pessoa → `conflito`:
-pergunte e repita com `forcar: true`). AT com `elm` `pendente` (registrado sem o MCP `elm`) → antes, registre a `[ATD]`
-([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §6) e grave o id na coluna `elm` do `backlog.md` e em
-"Tarefa ELM" da linha do AT na seção Apoio do `sprint-<nn>.md`, no commit do registro. Sem o MCP `elm` → `ELM pendente [<chave>]: assumir [ATD] AT-<nnn>` no registro do AT, e
-siga.
+AT fora da sprint aberta (`sprint` `—`, sem linha na `### Atendimento` do `sprint-<nn>.md` aberto: sem sprint, ou
+fora da reserva na triagem) → a decisão é do P.O. (`sdd-planejamento`, Encaixe) e pare; com a linha na sprint, siga
+(a reserva já foi decidida ali).
+
+1. **EWM**, com "sim": falta o IB `[AT-nnn]` (`elm` `pendente`: AT registrado sem o MCP `elm`) ou a `[ATD]` → antes,
+   crie o que faltar ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §6) e grave os ids na coluna `elm`
+   do `backlog.md` e em "Tarefa ELM" da linha do AT no `sprint-<nn>.md`. Depois `elm_transicao(<id da [ATD]>,
+   "assumir")` (já minha → `ja_estava`, nada a fazer; de outra pessoa → `conflito`: pergunte e repita com
+   `forcar: true`). Sem o MCP `elm` → `ELM pendente [<chave>]: assumir [ATD] AT-<nnn>` no registro do AT, e siga.
+2. **Base:** `em-andamento` no `status` do `backlog.md`, na Situação da linha do sprint e no `**Situação:**` do
+   registro, pelos itens 3 e 4 do bloco Gravar na base — commit `AT-<nnn> iniciar`, antes de executar (atender e
+   concluir de uma vez, nesta sessão → um commit só, o do Passo 5). Já `em-andamento` (retomada) → nada a gravar.
 
 ## Passo 3 — Executar
 
@@ -57,7 +61,7 @@ siga.
    simples de dados — considere acionar o **`sdd-pesquisar`** antes das consultas SQL para entender o contexto
    do código; nesse caso, registre no AT: `"análise baseada em pesquisa de código"`. Sem tempo para pesquisa:
    registre `"resposta baseada apenas no bundle do ELM e no banco"` na seção Consultas do AT.
-2. **Resultado com dado real** (linhas, telas, planilhas) → `.kiro/local/apoio/atendimento/AT-<nnn>/`. No registro
+2. **Resultado com dado real** (linhas, telas, planilhas) → `.kiro/local/sustentacao/atendimento/AT-<nnn>/`. No registro
    ficam só a consulta (SQL), a contagem, o caminho do arquivo e um resumo **sem identificar pessoas**.
 3. **Rascunho da resposta** → "ok" da pessoa antes de enviar. Quem envia é a pessoa; o agente não manda e-mail
    nem responde chamado.
@@ -69,13 +73,13 @@ siga.
 
 1. Grava no registro a resposta enviada (sem dado de cliente; o texto com dado real fica em `.kiro/local/`).
 2. **Saldo de horas:** mostre o que já foi lançado na `[ATD]` (`elm_horas(id)`) e pergunte só o que falta →
-   `elm_lancar_horas(id, horas)`; depois `elm_transicao(id, "concluir")`, com uma confirmação. Cada lançamento
-   ganha uma linha na tabela Horas do registro. Sem o MCP `elm` ou com
-   falha → `ELM pendente [<chave>]: lançar <h>h e concluir [ATD] AT-<nnn>` no registro.
+   `elm_lancar_horas(id, horas)`; depois `elm_transicao(id, "concluir")` na `[ATD]` e no IB `[AT-nnn]`, com uma
+   confirmação. Cada lançamento ganha uma linha na tabela Horas do registro. Sem o MCP `elm` ou com
+   falha → `ELM pendente [<chave>]: lançar <h>h e concluir [ATD] e IB AT-<nnn>` no registro.
 3. Créditos desta sessão na ficha (como no Passo 3, item 4); `**Situação:** concluido` no registro; na linha do AT
-   no `backlog.md`, `status` `concluido` e `concluida-em`; no `sprint-<nn>.md` (seção Apoio), a situação e os Créditos da linha do
-   AT (a soma da seção Créditos; o `creditos` do `backlog.md` é da virada da sprint). O commit é **um só**, no fim do Passo 5 (com a Saída), pelos itens 3 e 4 do
-   bloco Gravar na base.
+   no `backlog.md`, `status` `concluido` e `concluida-em`; na `### Atendimento` do `sprint-<nn>.md`, a Situação e os
+   Créditos da linha do AT (a soma da seção Créditos; o `creditos` do `backlog.md` é da virada da sprint). O commit
+   é **um só**, no fim do Passo 5 (com a Saída), pelos itens 3 e 4 do bloco Gravar na base.
 
 ## Passo 5 — Desdobramentos
 
@@ -94,14 +98,14 @@ instrui e para: **nunca invoque nem simule outra skill**.
 
 ## Registro
 
-`<produto>/apoio/<pasta>/<ID>-<slug>.md` (pasta da categoria na tabela **Apoio** do `sdd.md`) — o mesmo formato para toda categoria do Apoio; fora do Atendimento, `## Consultas`
+`<produto>/sustentacao/<pasta>/<ID>-<slug>.md` (pasta da categoria na tabela **Sustentação** do `sdd.md`) — o mesmo formato para toda categoria; fora do Atendimento, `## Consultas`
 e `## Resposta enviada` dão lugar a `## O que foi feito` (passos e evidência, sem dado de cliente).
 
 ```markdown
 # AT-012 · Extração de contas bloqueadas em setembro
 
 **Categoria:** Atendimento · **Origem:** chamado 4521 · **Pedido por:** área de segurança · **Prazo:** 2026-10-16
-**Responsável:** joao.lima · **Tarefa ELM:** 669380 · **Situação:** aberto | concluido
+**Responsável:** joao.lima · **Situação:** aberto | em-andamento | concluido | cancelado
 **Critério de pronto:** planilha com as contas bloqueadas por tentativas, por dia · **Estimativa:** 3 h
 
 ## Pedido
@@ -112,7 +116,7 @@ e `## Resposta enviada` dão lugar a `## O que foi feito` (passos e evidência, 
 |---|---|---|
 | 1 | `select count(*) from conta where situacao = 'B' and dt_bloqueio between …` | 1.284 contas |
 
-Arquivo: `.kiro/local/apoio/atendimento/AT-012/contas-bloqueadas-2026-09.csv` (fora do git)
+Arquivo: `.kiro/local/sustentacao/atendimento/AT-012/contas-bloqueadas-2026-09.csv` (fora do git)
 
 ## Resposta enviada
 <texto, sem dado que identifique pessoas>
@@ -134,9 +138,10 @@ Arquivo: `.kiro/local/apoio/atendimento/AT-012/contas-bloqueadas-2026-09.csv` (f
 ## Regras
 
 - **Dado de cliente nunca vai para o git**: resultado de consulta, extração ou tela com dado real fica em
-  `.kiro/local/apoio/atendimento/AT-<nnn>/`. O registro guarda consulta, contagem, caminho e resumo anônimo.
+  `.kiro/local/sustentacao/atendimento/AT-<nnn>/`. O registro guarda consulta, contagem, caminho e resumo anônimo.
 - Banco só em leitura. Pedido que exige escrita na base não é atendimento: vira Banco de dados (`[BD]`, a pessoa
-  executa o script fora; pela `sdd-executar`) ou, se muda o repositório, fatia rápida.
-- Um `[ATD]` por demanda, sem balde. Registrar o AT é da `sdd-triar`; esta skill nunca numera nem abre AT.
-- Lançar horas é registro de empenho, a qualquer momento na `[ATD]` iniciada; concluir é o Passo 4, com o saldo.
+  executa o script fora; pela `sdd-executar`) ou, se muda o repositório, fatia de Manutenção.
+- Um IB `[AT-nnn]` e uma `[ATD]` por demanda, sem balde. Registrar o AT é da `sdd-triar`; esta skill nunca numera
+  nem abre AT (só cria no EWM o IB e a tarefa que faltam a um AT registrado).
+- Lançar horas é registro de empenho, a qualquer momento na `[ATD]` assumida; concluir é o Passo 4, com o saldo.
 - Toda escrita no EWM e todo envio de resposta pedem confirmação da pessoa.

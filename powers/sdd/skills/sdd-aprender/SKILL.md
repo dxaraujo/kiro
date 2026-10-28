@@ -4,7 +4,7 @@ description: "Aprendizado composto do fluxo sdd — transforma cada correção h
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.3.1"
+  version: "3.4.0"
 ---
 
 # sdd-aprender — Cada erro corrigido uma vez só
@@ -29,7 +29,8 @@ curta, nunca a explicação longa (ela fica no `licoes.md`).
 Gatilhos: achado da revisão que chegou ao humano, cenário rejeitado na verificação, PR com mudança pedida,
 pessoa dizendo "não é assim", bloqueio por falta de informação.
 
-Chamada pela `sdd-consolidar` com uma linha das **Lições candidatas** do `status.md` (gravada pelo Dev no merge):
+Chamada pela `sdd-consolidar` com uma linha das **Lições candidatas** do `status.md` (gravada pelo Dev com a `pronta`,
+no `status.md` da base):
 os fatos e a causa já vêm de quem recebeu a correção — grave-os no `licoes.md` sem perguntar de novo (passo 3).
 
 1. **Fatos** (só verificados; o que a pessoa disse é registrado como dito por ela):
@@ -81,20 +82,21 @@ que o erro não voltou.
 ## Modo retrospectiva (fim de fatia, épico ou sprint)
 
 De **sprint**: antes dos dados, a [pré-condição dos ritos de fechamento](../sdd-planejamento/SKILL.md#pré-condição-dos-ritos-de-fechamento)
-(fatia mergeada esperando a consolidação → pare, salvo decisão do P.O.).
+(fatia `pronta` esperando a consolidação → pare, salvo decisão do P.O.).
 
 Com dados, não impressões:
 
 ```
-🔁 Retrospectiva — <FT | EP | Sprint N>
+🔁 Retrospectiva — <FT | EP | <pai>/Sprint <nn>>
 Fluxo: <fatias concluídas> · lead time médio <d> dias · retrabalho <n> rodadas de revisão / <n> verificações
 Onde o humano corrigiu: <lista de L-nnn por causa>
 Autonomia: AFK <n> (<x> chegaram ao PR sem intervenção) · HITL <n>
-Créditos: <total> · por fatia <média> · por versão do power sdd <versão> <x> · …   (seções Créditos)
+Créditos: <total> · por fatia <média> · por versão do power sdd <versão> <x> · …
 Propostas: <promoções, rubricas, skills, steering>
 ```
 
-Fontes: `status.md` das fatias (Histórico), `revisao-*`, `verificacao.md`, `licoes.md`, `backlog.md`. Termine
+Fontes: `status.md` das fatias (Histórico; a seção Créditos, para a versão do power), `revisao-*`, `verificacao.md`,
+`licoes.md`, `backlog.md` e `sprint-<nn>.md` (Status; a coluna Créditos, para o total por item). Termine
 perguntando quais propostas aplicar. Retrospectiva de épico ou de sprint grava, no commit dela, a linha de créditos
 da sessão na seção **Créditos de gestão** do `sprint-<nn>.md` aberto (Atividade `retrospectiva`; ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4)).
 

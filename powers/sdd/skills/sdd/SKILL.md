@@ -1,10 +1,10 @@
 ---
 name: sdd
-description: "Guia do fluxo sdd — engenharia agêntica orientada a especificação, com o IBM ELM como fonte oficial da documentação e planejamento ágil: trilhas por tamanho (rápida, padrão, épico) e de apoio (Atendimento, Implantação, Banco de dados, Infra, Operação, Apoio a outros times), fases, gates humanos, artefatos e onde moram, agentes, princípios e qual skill usar para cada pedido. Use para entender ou explicar o fluxo, decidir o próximo passo quando nenhuma outra skill sdd se encaixa, e em \"como funciona o sdd\", \"qual o fluxo\", \"o que eu faço agora com isso\", \"sdd\"."
+description: "Guia do fluxo sdd — engenharia agêntica orientada a especificação, com o IBM ELM como fonte oficial da documentação e planejamento ágil Scrumban: trilhas por tamanho (rápida, padrão, épico) e de sustentação (Atendimento, Implantação, Banco de dados, Infra, Operação, Apoio a outros times), fases, gates humanos, artefatos e onde moram, agentes, princípios e qual skill usar para cada pedido. Use para entender ou explicar o fluxo, decidir o próximo passo quando nenhuma outra skill sdd se encaixa, e em \"como funciona o sdd\", \"qual o fluxo\", \"o que eu faço agora com isso\", \"sdd\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.3.1"
+  version: "3.4.0"
 ---
 
 # sdd — Engenharia agêntica orientada a especificação
@@ -19,54 +19,56 @@ Configuração do projeto: `.kiro/steering/sdd.md` (gerado pela **`sdd-setup`**)
 
 ## Trilhas (o tamanho decide a cerimônia)
 
-Toda demanda nova entra pela **`sdd-triar`**: ela decide a trilha e registra o trabalho no backlog — inclusive o
-Apoio —, sem começar, e pergunta se há mais algum item. O hub **`sdd-iniciar`** recebe um item registrado e
+Toda demanda nova entra pela **`sdd-triar`**: ela decide a trilha e registra o trabalho no backlog — inclusive a
+Sustentação —, sem começar, e pergunta se há mais algum item. O hub **`sdd-iniciar`** recebe um item registrado e
 diz a skill do papel; cada skill de papel assume a própria tarefa no EWM (`elm_transicao`) e pode ser
 chamada direto:
 
 | Papel | Tarefa | Skill |
 |---|---|---|
 | Especificador | `[ESP]` | `sdd-especificar` (entrevista → PRD → fatias) |
-| Dev | `[DEV]` | `sdd-desenvolver` (compromisso, branch) → pesquisar → plano → implementar → PR → merge (a fatia é dele de ponta a ponta) |
+| Dev | `[DEV]` | `sdd-desenvolver` (compromisso, `iniciada` na base, branch) → pesquisar → plano → implementar → PR → merge (`pronta` na base; a fatia é dele de ponta a ponta) |
 | Revisor (Dev Sênior) | `[REV]` | `sdd-revisar` |
 | Aprovador (Dev Sênior) | `[APR]` — só nos gates sem tarefa de papel; nasce quando a fatia chega ao gate | `[APR] … Aprovar plano` → `sdd-revisar` (Aprovação do plano) · `[APR] … Aprovar PR` (AFK) → `sdd-revisar` (Aprovação do PR) |
 | Verificador (QA) | `[VER]` | `sdd-verificar` |
-| quem atende | `[ATD]` (Apoio — Atendimento) | `sdd-atender` |
-| quem faz o Apoio | `[IMPL]` `[BD]` `[INF]` `[OPE]` `[EXT]` (demais categorias) | `sdd-executar` (iniciar no ELM, registrar o trabalho, lançar horas, concluir) |
-| P.O. ou SM (analista de negócio) | `[GB] Gerenciamento do backlog` | `sdd-triar` (triagem) · `sdd-consolidar` (fatia `mergeada`: processo de produto, no agente `sdd-produto`) · `sdd-planejamento` (sprint, ritos e sincronização) |
+| quem atende | `[ATD]` (Sustentação — Atendimento) | `sdd-atender` |
+| quem faz o item de Sustentação | `[IMPL]` `[BD]` `[INF]` `[OPE]` `[EXT]` (demais categorias) | `sdd-executar` (assumir no ELM, registrar o trabalho, lançar horas, concluir) |
+| P.O. ou SM (analista de negócio) | `[GB] Gerenciamento do backlog` | `sdd-triar` (triagem) · `sdd-consolidar` (fatia `pronta`: processo de produto, no agente `sdd-produto`) · `sdd-planejamento` (sprint, ritos e sincronização) |
 
 | Trilha | Quando | Caminho |
 |---|---|---|
 | **rápida** | defeito ou ajuste ≤ 1 dia, comportamento certo já conhecido — inclusive o diff que cabe numa frase | `bugfix.md` + `tasks.md` → implementação → PR → revisão → verificação → consolidação (AFK: revisão e verificação antes do PR) |
-| **padrão** | uma fatia do backlog: de um épico, ou sem épico com regra clara e ficha aprovada pelo P.O. | pesquisa → plano → **GATE do plano** → implementação (TDD) → PR → revisão → verificação → consolidação (AFK: revisão e verificação antes do PR) |
+| **padrão** | uma fatia do backlog: de um épico, ou sem épico (Manutenção) com regra clara e ficha aprovada pelo P.O. | pesquisa → plano → **GATE do plano** → implementação (TDD) → PR → revisão → verificação → consolidação (AFK: revisão e verificação antes do PR) |
 | **épico** | funcionalidade com várias histórias ou decisão de produto em aberto | entrevista → PRD → **GATE do PRD** → ELM → fatias → **GATE do backlog** → planejamento → cada fatia na trilha padrão |
-| **apoio** | trabalho que não muda o repositório, numa categoria da tabela **Apoio** do `sdd.md` — Atendimento (o cliente pede consulta, extração ou explicação), Implantação, Banco de dados, Infra, Operação, Apoio a outros times | triagem: categoria e entrevista curta → item da categoria (`AT-nnn`, `IM-nnn`…) no backlog, sprint sugerida, tarefa (`[ATD]`, `[IMPL]`…) no EWM, filha do IB `<Categoria> - <produto>` (nasce com o 1º item da categoria, filho da `Sustentação - <produto>`) · Atendimento: `sdd-atender` (assume → banco só leitura e bundle → resposta com "ok" → saldo de horas → desdobramentos) · demais: `sdd-executar` (iniciar → registrar → horas → concluir) |
+| **sustentação** | trabalho que não muda o repositório, numa categoria da tabela **Sustentação** do `sdd.md` — Atendimento (o cliente pede consulta, extração ou explicação), Implantação, Banco de dados, Infra, Operação, Apoio a outros times. Mudança no repositório sem épico é fatia (rápida ou padrão) da Manutenção | triagem: categoria e entrevista curta → item da categoria (`AT-nnn`, `IM-nnn`…) no backlog e o IB dele no EWM (`[AT-nnn] <pedido>`), filho do IB da categoria (nasce com o 1º item dela, filho da `Sustentação`); a tarefa (`[ATD]`, `[IMPL]`…) nasce quando o item entra numa sprint · Atendimento: `sdd-atender` (assume → banco só leitura e bundle → resposta com "ok" → saldo de horas → desdobramentos) · demais: `sdd-executar` (assumir → registrar → horas → concluir) |
 
 Toda hora trabalhada cabe numa tarefa da sprint: `[ESP]` (especificação do épico), `[DEV]`, `[REV]`, `[VER]` (por
-fatia; no AFK só a `[DEV]`), `[APR]` (por gate com aprovação: plano, PR do AFK), as de Apoio (`[ATD]`, `[IMPL]`… — uma por item) e `[GB]` (triagem, consolidação, planejamento e sincronização, do P.O. ou do SM). **Lançar ≠ concluir:** lançar horas é registro de
-empenho, a qualquer momento numa tarefa iniciada (inclusive antes de um GATE); concluir é da skill do papel quando
-o trabalho dela termina, perguntando só o saldo — `[DEV]` no merge, `[REV]` ao aprovar (depois do push), `[VER]` ao
-aceitar (depois do push), `[APR]` na aprovação, `[ESP]` no GATE do backlog, Apoio ao finalizar. **Entrega** (todo papel do HITL):
+fatia; no AFK só a `[DEV]`), `[APR]` (por gate com aprovação: plano, PR do AFK), as de Sustentação (`[ATD]`,
+`[IMPL]`… — uma por item, filha do IB dele) e `[GB]` (triagem, consolidação, planejamento e sincronização, do P.O.
+ou do SM). **Lançar ≠ concluir:** lançar horas é registro de empenho, a qualquer momento numa tarefa assumida
+(inclusive antes de um GATE); concluir é da skill do papel quando o trabalho dela termina, perguntando só o saldo —
+`[DEV]` no merge, `[REV]` ao aprovar (depois do push), `[VER]` ao aceitar (depois do push), `[APR]` na aprovação,
+`[ESP]` no GATE do backlog, Sustentação ao finalizar (com o IB do item). **Entrega** (todo papel do HITL):
 commit → push → conferir no remoto (`git rev-parse HEAD` = `git rev-parse origin/<branch>`) → só então lançar horas
 ou concluir a tarefa e avisar o próximo — quem vem depois só acha no remoto o que foi publicado.
 
 ```
-ENTRADA       triar ─► backlog: EP rascunho · FT sem épico (padrão ou rápida, cada uma com a sua ficha) · Apoio (AT-/IM-… + tarefa) ─► "mais algum?"
+ENTRADA       triar ─► backlog: EP novo · FT sem épico (padrão ou rápida, cada uma com a sua ficha) · Sustentação (AT-/IM-… + IB) ─► "mais algum?"
                 │
 HUB           iniciar <item> ─► especificar · desenvolver · revisar ([REV], [APR]) · verificar · atender · executar · planejamento (troca) · consolidar   (cada uma assume a sua tarefa)
                 │
 PRODUTO       especificar ─► entrevistar ─► PRD ─► GATE PRD ─► ELM (HF/REG/GL) ─► fatiar ─► GATE backlog ─► sprint (EWM)
                                                                                     │
-FATIA         desenvolver ─► pesquisar ─► plano ─► GATE plano ─► implementar (TDD) ─► PR ─► revisar ─► verificar   (AFK: revisão e verificação antes do PR)
-                                                                                                         │
-DEPOIS        merge (Dev, PR aprovado; remove a worktree do loop)
+FATIA         desenvolver (iniciada na base) ─► pesquisar ─► plano ─► GATE plano ─► implementar (TDD) ─► PR ─► revisar ─► verificar   (AFK: revisão e verificação antes do PR)
+                                                                                                                            │
+DEPOIS        merge (Dev, PR aprovado; remove a worktree do loop) ─► pronta na base
                 │
-PRODUTO       consolidar (P.O./SM, [GB]): drift marcado pela REV/VER ─► ELM as-built (ET, CTs) ─► ADRs do PR ─► conclusão ─► aprender
+PRODUTO       consolidar (P.O./SM, [GB]): drift marcado pela REV/VER ─► ELM as-built (ET, CTs) ─► ADRs do PR ─► concluida ─► aprender
 ```
 
-**Cadência:** a sprint é ritmo de inspeção (meta, review, retro), não escopo congelado. O compromisso é a meta; a
-seleção é previsão, e dentro da sprint o fluxo é puxado (a `pronta` do topo entra quando o WIP de revisão tem
-folga). Previsão pela vazão e pelo lead time, sem pontos.
+**Scrumban:** a sprint é a cadência de inspeção (meta, review, retrospectiva, virada), não escopo congelado. O
+compromisso é a meta; a seleção é previsão, e dentro da sprint o fluxo é puxado, com WIP limitado (a `elegivel` do
+topo entra quando o WIP de revisão tem folga). Previsão pela vazão e pelo lead time, sem pontos.
 
 ## Gates — sempre de uma pessoa
 
@@ -75,8 +77,8 @@ folga). Previsão pela vazão e pelo lead time, sem pontos.
 | PRD | P.O. | o quê e o porquê: histórias, cenários, regras, fora de escopo |
 | Backlog | P.O. + time | as fatias: granularidade, dependências, AFK/HITL |
 | Ficha | P.O. | a fatia padrão sem épico: regras e cenários |
-| Plano | um Dev Sênior, na `[APR] Aprovar plano` (de preferência quem vai revisar o PR) | a forma do programa e o contrato de pronto — maior alavanca |
-| PR | HITL: revisor (`[REV]`) e verificador (`[VER]`) · AFK: um Dev Sênior, na `[APR] Aprovar PR` | o código, lido de verdade, com a evidência de aceite; aprovado, o merge é do Dev responsável |
+| Plano | um Dev Sênior, na `[APR] Aprovar plano` (de preferência quem vai revisar o PR), com a fatia em `aguardando-aprovacao-plano` | a forma do programa e o contrato de pronto — maior alavanca |
+| PR | HITL: revisor (`[REV]`) e verificador (`[VER]`) · AFK: um Dev Sênior, na `[APR] Aprovar PR`, com a fatia em `aguardando-aprovacao-pr` | o código, lido de verdade, com a evidência de aceite; aprovado, o merge é do Dev responsável |
 
 GATE do plano pela **senioridade** de quem implementa (trilha e modo não entram): **Júnior** → sempre; **Pleno** → o
 fluxo pergunta se ele quer a aprovação de um Dev Sênior (no loop, a escolha vale para o lote); **Sênior** → nunca: ele
@@ -89,9 +91,9 @@ dispensados.
 | | **HITL** — pessoas nos papéis, subfluxos assíncronos | **AFK** — a IA coordena, um fluxo só |
 |---|---|---|
 | Quem roda | cada pessoa, a skill do seu papel | `sdd-loop` (`sdd-orquestrador` + subagentes) |
-| Codificador (Dev) | revisão automática (rubrica C, subagente) → PR, com a `[DEV]` em andamento → merge depois da REV e da VER → `[DEV]` concluída | o loop leva a fatia até o PR; quem disparou o loop faz o merge do PR aprovado e conclui a `[DEV]` |
+| Codificador (Dev) | revisão automática (rubrica C, subagente) → PR, com a `[DEV]` em andamento → merge depois da REV e da VER → `pronta` na base e `[DEV]` concluída | o loop leva a fatia até o PR (`aguardando-aprovacao-pr`); quem disparou o loop faz o merge do PR aprovado, grava `pronta` na base e conclui a `[DEV]` |
 | Revisão | o revisor assume a `[REV]` e revisa o PR: aprova → VER; reprova → retrabalho | subagente, até 2 rodadas |
-| Verificação | o verificador assume a `[VER]` (só depois da REV): aceita → `pronta-para-merge` (o Dev mergeia → `mergeada`); rejeita → retrabalho | subagente |
+| Verificação | o verificador assume a `[VER]` (só depois da REV): aceita → fase `aceita` (o Dev mergeia → `pronta` na base; `concluida` na consolidação); rejeita → retrabalho | subagente: aceita → `verificada`, e o PR abre em `aguardando-aprovacao-pr` |
 | Retrabalho | a `[DEV]`, ainda em andamento, recebe a correção no mesmo PR, que passa de novo pela REV | volta à implementação |
 | Tarefas no EWM | `[DEV]` `[REV]` `[VER]`, cada uma da sua pessoa; `[APR]` do plano, se houver GATE | a `[DEV]`, de quem disparou; as `[APR]` (plano com GATE, PR) do Dev Sênior que aprova |
 
@@ -145,8 +147,8 @@ loop, a fatia para sozinha e o lote segue.
 | planejar sprint, roadmap, virada, review | `sdd-planejamento` |
 | trazer para a sprint tarefa criada direto no EWM ("sincroniza a sprint") | `sdd-planejamento` |
 | executar um atendimento já triado (`AT-nnn`, `[ATD]`) | `sdd-atender` |
-| iniciar, registrar, lançar horas e concluir outra tarefa de Apoio (`[IMPL]`, `[BD]`, `[INF]`, `[OPE]`, `[EXT]`) | `sdd-executar` |
-| lançar horas ou ver o relatório de horas | `sdd-status` (fechar a sessão) · Apoio: `sdd-atender` ou `sdd-executar` · relatório: `sdd-planejamento` |
+| assumir, registrar, lançar horas e concluir outro item de Sustentação (`[IMPL]`, `[BD]`, `[INF]`, `[OPE]`, `[EXT]`) | `sdd-executar` |
+| lançar horas ou ver o relatório de horas | `sdd-status` (fechar a sessão) · Sustentação: `sdd-atender` ou `sdd-executar` · relatório: `sdd-planejamento` |
 | entender o código antes de planejar | `sdd-pesquisar` |
 | planejar uma fatia (spec do Kiro) | `sdd-plano` |
 | implementar e abrir o PR | `sdd-implementar` |
@@ -164,7 +166,7 @@ loop, a fatia para sozinha e o lote segue.
 |---|---|
 | `.kiro/steering/sdd.md` | o único steering do fluxo: resumo, configuração do projeto e regras aprendidas |
 | `.kiro/agents/sdd-*.json` | agentes (criados pela setup, com as skills escolhidas por agente) |
-| `<produto>/` — a pasta escolhida na setup (padrão `.kiro/planejamento`), registrada no `sdd.md` | `backlog.md`, `epicos/<EP>-<slug>/` (PRDs), `equipe.json`, `acordos.md`, `roadmap.md`, `sprints/<pai>/sprint-<nn>.md` (a sprint segue a iteração pai do EWM: `2026/03`), `apoio/<pasta>/` (a pasta de cada categoria na tabela **Apoio** do `sdd.md`), `aprendizado/` (só na branch base) |
+| `<produto>/` — a pasta escolhida na setup (padrão `.kiro/planejamento`), registrada no `sdd.md` | `backlog.md`, `epicos/<EP>-<slug>/` (PRDs), `equipe.json`, `acordos.md`, `roadmap.md`, `sprints/<pai>/sprint-<nn>.md` (a sprint segue a iteração pai do EWM; chave `2026/Sprint 03`), `sustentacao/<pasta>/` (a pasta de cada categoria na tabela **Sustentação** do `sdd.md`), `aprendizado/` (só na branch base) |
 | `.kiro/specs/<ft>-<slug>/` | uma pasta por fatia: `status.md`, `research.md`, spec do Kiro, revisões, verificação |
 | glossário · ADRs · bundle do ELM | caminhos na seção Projeto do `sdd.md` |
 | `.kiro/hooks/sdd.json` · `.kiro/workflows/sdd-*` · `.kiro/sdd/http.sh` | opcionais da setup: backpressure por tarefa, receitas, chamada HTTP do verificador |
@@ -183,8 +185,10 @@ a próxima e para — nunca invoca nem simula a do passo seguinte.
   <fase>)` com o caminho e o que faltou (fora de fatia: diga e pare); gravação parcial → o próximo passo retoma pelo
   que está no disco. Nunca siga como se tivesse gravado.
 - Nada inventado: tabela, coluna, regra, id de work item — confirme no código, no banco (somente leitura) ou no ELM.
-- Toda escrita no ELM, troca de branch, push e alteração de work item só com "sim" de uma pessoa; push nunca para a
-  base. Merge só do PR aprovado, pelo **Dev responsável** (`gitlab_mesclar_mr`, com confirmação); nunca `--force`.
+- Toda escrita no ELM, troca de branch, push e alteração de work item só com "sim" de uma pessoa; na base, o agente
+  só dá push dos registros de situação, com a conferência dos arquivos
+  ([Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base)). Merge só do PR aprovado, pelo **Dev
+  responsável** (`gitlab_mesclar_mr`, com confirmação); nunca `--force`.
 - **ELM pelo MCP `elm` do power:** a skill do passo chama a tool (`elm_*`) com `projeto` e os ids; o MCP lê o
   `.kiro/config/sdd/pa_<nome>.json`. Regras de escrita, pendências e tarefas: [references/elm.md](references/elm.md).
   Sem o MCP ou com falha, a escrita vira `ELM pendente` registrada — o ELM nunca trava o fluxo.
@@ -198,17 +202,21 @@ a próxima e para — nunca invoca nem simula a do passo seguinte.
   `destino` sempre explícitos, porque o MCP roda no checkout principal, não na worktree) — nunca `gh` nem `glab`.
   MCP indisponível → diga e siga sem ele: bundle → o ELM ao vivo (`elm_buscar_req`); PR → título e descrição entregues.
 - Dado de cliente (resultado de consulta, extração, tela com dado real) nunca vai para o git: fica em
-  `.kiro/local/<origem>/<id>/`; o registro versionado guarda consulta, contagem, caminho e resumo sem identificar
-  pessoas.
+  `.kiro/local/` (`sustentacao/<pasta>/<ID>/`, `verificacao/`…); o registro versionado guarda consulta, contagem,
+  caminho e resumo sem identificar pessoas.
 - **Skills sem agente exclusivo:** `sdd-setup` e `sdd-aprender` rodam na **sessão padrão** (com o power
   carregado): gravam onde nenhum agente pode (steering, agentes); o modo registrar da `sdd-aprender`, que só grava
   as lições, também roda no `sdd-produto`. A **`sdd-consolidar`** é do P.O. ou do SM, no `sdd-produto`. **Push pelo agente:** orquestrador (no loop), codificador, revisor e verificador,
-  com `ask` (o Kiro pergunta sempre), só a branch da fatia — nunca a base; push recusado → a skill entrega o comando pronto e espera a pessoa dizer que publicou; produto e pesquisador não fazem
-  push. Subagente do AFK não faz push (quem conduz commita). Com a branch no remoto, o PR é aberto pela
+  com `ask` (o Kiro pergunta sempre), só a branch da fatia — e, no codificador e no orquestrador, a base com os
+  registros de situação (`iniciada`, `pronta`; o orquestrador, só a `iniciada` do lote); push recusado (pela pessoa
+  ou pela regra) → a skill entrega o comando pronto e espera a pessoa dizer que publicou; o da base recusado pelo
+  remoto → desfaz só o commit de registro, com "sim", e para; produto e pesquisador não
+  fazem push. Subagente do AFK não faz push (quem conduz commita). Com a branch no remoto, o PR é aberto pela
   `gitlab_criar_mr`, que o Kiro confirma (`ask` no codificador e no orquestrador; negada aos demais).
   **O que os agentes não fazem:** merge (exceto a `gitlab_mesclar_mr` no codificador, com `ask`: o Dev mergeia o
   PR aprovado), `--force`, `worktree remove` — nunca. O hub `sdd-iniciar` está em todos os agentes de papel, e a `sdd-status`
   em todos os agentes, menos o `sdd-pesquisador`; os dois também funcionam na sessão padrão. Nenhuma skill depende de um agente para operar: o agente apenas recebe a skill
   pré-carregada para conveniência.
 - **Nenhuma skill cria branch ou `.kiro/specs/<ft>/status.md`** sem passar pelos Passos 3–4 da `sdd-desenvolver`
-  (DoR, sprint, WIP, branch, commit). O `sdd-loop` é a única exceção (opera em worktree como orquestrador).
+  (DoR, sprint, WIP, `iniciada` na base, branch, commit). O `sdd-loop` é a única exceção (opera em worktree como
+  orquestrador e grava a `iniciada` do lote na base).

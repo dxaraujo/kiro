@@ -4,7 +4,7 @@ description: "Escreve o PRD de um épico ou demanda no fluxo sdd — o quê e o 
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.3.1"
+  version: "3.4.0"
 ---
 
 # sdd-prd — O quê e por quê (épico)
@@ -30,7 +30,8 @@ Leia antes: `.kiro/steering/sdd.md` (ELM, caminhos, papéis) e o steering de pro
 ## Passo 1 — Entender a demanda
 
 PRD é decisão de uma pessoa (o GATE do PRD): chamada em modo autônomo (`AUTONOMO=true`, pelo loop ou por um agente
-sem pessoa na conversa) → "PRD, backlog e Apoio nunca são AFK — especifique numa sessão com o P.O." e pare.
+sem pessoa na conversa) → "PRD, backlog e itens de Sustentação (`AT-`, `IM-`…) nunca são AFK — especifique numa
+sessão com o P.O." e pare.
 
 1. Peça (ou leia, se veio da `sdd-triar`) a descrição **longa** da demanda: quem pediu, o problema, exemplos
    reais, prazos. Work item do EWM → `elm_ler_wi(id, comentarios)`.
@@ -41,12 +42,13 @@ sem pessoa na conversa) → "PRD, backlog e Apoio nunca são AFK — especifique
    - código: onde o comportamento mora hoje, funcionalidades análogas;
    - glossário e ADRs (caminhos na seção Projeto do `sdd.md`): termos e decisões que já valem.
    Registre o que achou como fontes (id ELM, `arquivo:linha`).
-3. Defina o id: o `EP-<nn>` que a `sdd-triar` registrou (linha `rascunho` com `prd` `—`); sem registro, a demanda
-   não passou pela triagem → "use `sdd-triar`" e pare. Pasta de trabalho: a da `sdd-especificar`
-   (`.kiro/local/especificacao/<EP>-<slug>/`, `slug` em kebab-case, sem acento); sem ela → "use
-   `sdd-especificar EP-<nn>`" e pare (é ela que assume a `[ESP]` e monta a pasta).
-4. **EWM:** nada a registrar aqui — o épico nasceu no backlog do EWM na triagem (coluna `elm`; `pendente` → crie
-   pela [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §3) e entrou na sprint com a `[ESP]`.
+3. Defina o id: o `EP-<nn>` que a `sdd-triar` registrou (linha com `prd` `—`: `novo` ou `elegivel` na triagem,
+   `iniciado` pela `sdd-especificar`); sem registro, a demanda não passou pela triagem → "use `sdd-triar`" e pare.
+   Pasta de trabalho: a da `sdd-especificar` (`.kiro/local/especificacao/<EP>-<slug>/`, `slug` em kebab-case, sem
+   acento); sem ela → "use `sdd-especificar EP-<nn>`" e pare (é ela que assume a `[ESP]` e monta a pasta).
+4. **EWM:** nada a registrar aqui — o épico nasceu no backlog do EWM na triagem (o `IB` da coluna `elm`;
+   `pendente` → crie pela [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §3) e entrou na sprint com a
+   `[ESP]`.
 
 ## Passo 2 — Entrevistar
 
@@ -105,7 +107,8 @@ só aponta para eles. Regras de escrita:
 Peça ao agente **`sdd-revisor`** a revisão do PRD (rubrica **P** de
 [../sdd-revisar/references/rubricas.md](../sdd-revisar/references/rubricas.md)); sem o agente, aplique a rubrica
 você mesmo, sem usar o raciocínio de quem escreveu como evidência. Corrija os achados (até 2 rodadas); o que for
-decisão de negócio volta para a entrevista. `status: em-revisao` enquanto isso.
+decisão de negócio volta para a entrevista. Fase `em-revisao` no `status.md` do épico
+([modelo](../sdd-especificar/SKILL.md#passo-3--pasta-de-trabalho-fora-do-git)) enquanto isso.
 
 ## Passo 5 — GATE do PRD (pessoa)
 
@@ -118,12 +121,14 @@ Aprovar? (o P.O. ou quem ele delegou)
 ```
 
 - Decisão **em aberto que muda comportamento** → não há aprovação; volte à entrevista.
-- Aprovado → no `prd.md`: `status: aprovado`, versão `1.0`, data e quem aprovou no rodapé. Em **cada** conceito de
-  `elm/`: `status: stable` e um `verified` com `{ by: human:<login de quem aprovou>, at: <agora> }` — sem esse
-  `verified` humano nada é publicado. Entrada `**Update**` no `log.md`. Grave só onde o PRD está:
-  - **primeiro GATE** (PRD na pasta de trabalho) → só ali; levar para a base, o `backlog.md` e o `sprint-<nn>.md`
-    são da `sdd-especificar`. Próximo: "use `sdd-especificar EP-<nn>`" — ela fecha a sessão, leva o PRD aprovado
-    para a base e diz o que vem depois (publicação no ELM e `sdd-fatiar`). Pare;
+- Aprovado → Fase `aprovado` no `status.md` do épico; no `prd.md`, versão `1.0`, data e quem aprovou no rodapé. Em
+  **cada** conceito de `elm/`: `status: stable` e um `verified` com `{ by: human:<login de quem aprovou>, at:
+  <agora> }` — sem esse `verified` humano nada é publicado. Entrada `**Update**` no `log.md`. Grave só onde o PRD
+  está:
+  - **primeiro GATE** (PRD na pasta de trabalho) → só ali; levar a pasta para a base e gravar no `backlog.md` só o
+    link `prd` e, se estava `—`, o da `pasta` (o épico segue `iniciado`) são da `sdd-especificar`. Próximo: "use
+    `sdd-especificar EP-<nn>`" — ela fecha a sessão, leva o PRD aprovado para a base e diz o que vem depois
+    (publicação no ELM e `sdd-fatiar`). Pare;
   - **mudança depois de aprovado** (PRD já na base) → na base, pelo bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base),
     um commit; próximo: a [publicação dos requisitos](../sdd-consolidar/references/elm-publicar.md#requisitos-conceitos-okf-de-elm--doors-next) alterados (se a publicação é `na-aprovacao`)
     e o refinamento das fatias afetadas (`sdd-fatiar`). Pare — chamada pela `sdd-consolidar` (drift), devolva a ela,
@@ -131,11 +136,11 @@ Aprovar? (o P.O. ou quem ele delegou)
 
 ## Mudança depois de aprovado
 
-PRD `aprovado`/`fatiado` só muda por um pedido explícito: incremente a versão (`1.1` correção, `2.0` mudança de
-escopo), registre no rodapé, volte a `em-revisao` só o que mudou e repita o GATE. Conceito alterado: `status:
-draft`, `generated.at` novo; no GATE, um `verified` novo é acrescentado à lista. A publicação atualiza os mesmos
-artefatos (pelo `resource`/`id` de cada conceito). Fatias já entregues que dependem do que mudou → avise e proponha
-fatias novas; não altere fatia concluída.
+Épico na Fase `aprovado` ou `fatiado`: o PRD só muda por um pedido explícito — incremente a versão (`1.1` correção,
+`2.0` mudança de escopo), registre no rodapé, Fase `em-revisao` enquanto o que mudou é revisto, e repita o GATE.
+Conceito alterado: `status: draft`, `generated.at` novo; no GATE, um `verified` novo é acrescentado à lista. A
+publicação atualiza os mesmos artefatos (pelo `resource`/`id` de cada conceito). Fatias já entregues (`pronta` ou
+`concluida`) que dependem do que mudou → avise e proponha fatias novas; não as altere.
 
 ## Regras
 

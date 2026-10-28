@@ -4,7 +4,7 @@ description: "Implementa uma fatia do fluxo sdd a partir do plano aprovado (task
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.3.1"
+  version: "3.4.0"
 ---
 
 # sdd-implementar — Ciclo curto, verificação sempre
@@ -19,8 +19,9 @@ regras aprendidas).
 
 ## Passo 0 — Onde estou
 
-- **Fase:** `implementando`, `revisando`, `retrabalho (de: …)` ou `aceita` (Passo 5); `pronta-para-merge` → o merge é
-  da `sdd-desenvolver` (Passo 6): diga isso e pare; outra fase ou sem `status.md` → "use `sdd-desenvolver`" e pare — a entrada do Dev é ela, nunca esta skill.
+- **Fase:** `implementando`, `revisando`, `retrabalho (de: …)` ou `verificada` (AFK: Passo 5); `aceita` (HITL) ou
+  `aguardando-aprovacao-pr` (AFK) → o merge é da `sdd-desenvolver` (Passo 6): diga isso e pare; outra fase ou sem
+  `status.md` → "use `sdd-desenvolver`" e pare — a entrada do Dev é ela, nunca esta skill.
   `implementando` sem a linha do GATE no Histórico (`plano aprovado por <login>`, `plano do Sênior` ou `Pleno
   dispensou o GATE do plano`, gravada pela `sdd-plano` Passo 5) → o plano não passou pelo GATE: avise e pare.
 - Branch = a do `status.md`, no checkout ou na worktree dela (regra da `sdd-desenvolver`, Passo 1); senão avise e pare. `git status` limpo, **descontados** os relatórios que outros
@@ -37,8 +38,14 @@ regras aprendidas).
 - **Retrabalho** (`fase: retrabalho (de: em-revisao | em-verificacao)`, HITL): a `[DEV]` ainda está em andamento (só
   é concluída no merge) — `elm_transicao(<id>, "assumir")` só confere (`ja_estava`). Os achados vêm do último `revisao-codigo-<N>.md` ou dos cenários rejeitados do
   `verificacao.md`; `fase: implementando`, linha no Histórico. Ao fim, o mesmo PR é atualizado (Passo 5).
-  **AFK** (`retrabalho (de: pronta-para-merge)`, mudanças pedidas na `[APR] Aprovar PR`): o mesmo, com os achados de
-  Achados abertos (origem: PR); a correção passa de novo pelos Passos 2–4 antes de atualizar o PR.
+  **AFK** (`retrabalho (de: aguardando-aprovacao-pr)` sem a linha `conflito no merge` no fim do Histórico: mudanças
+  pedidas na `[APR] Aprovar PR`): o mesmo, com os achados de Achados abertos (origem: PR); a correção passa de novo
+  pelos Passos 2–4 antes de atualizar o PR.
+  **Conflito no merge** (`retrabalho (de: aceita | aguardando-aprovacao-pr)` com a linha `conflito no merge` no fim
+  do Histórico, gravada pela `sdd-desenvolver` no Passo 6): `fase: implementando` e, antes de tudo, a branch
+  atualizada com a base (item 1 do Passo 5); depois, como acima — HITL: o PR atualizado volta a `pr-aberto`, e o
+  revisor e o verificador reabrem a `[REV]` e a `[VER]`; AFK: Passos 2–4 de novo, e quem aprova reabre a
+  `[APR] Aprovar PR` (`sdd-revisar`).
 - Rode o comando de **testes** uma vez antes de mexer: vermelho antes de começar = problema do ambiente ou da
   base, não seu. Registre e avise; não "conserte" o que não é da fatia.
 
@@ -99,7 +106,7 @@ oficial (`[REV]`) e a verificação (`[VER]`) são das pessoas, sobre o PR. Sem 
 **AFK:** `fase: revisando`; incremente "revisão do código" em Rodadas. Peça ao agente **`sdd-revisor`** (subagente) a
 rubrica **C** passando só: id da fatia, pasta, branch/worktree e rodada — **nunca** o seu raciocínio. Ele grava o
 `revisao-codigo-<N>.md`. Sem subagente disponível (você é um agente sem essa ferramenta) → pare aqui e devolva a
-quem chamou: "pronta para a revisão (rodada <N>)".
+quem chamou: "aguardando revisão (rodada <N>)".
 
 Assim que o `revisao-codigo-<N>.md` estiver gravado, grave no campo **Drift de negócio** do `status.md` a
 penúltima linha do relatório (só sobe de `não` para `sim`) e **commite-o imediatamente com o `status.md`** (fase,
@@ -116,10 +123,11 @@ ele precisa estar na branch antes da abertura.
 
 Incremente "verificação" em Rodadas e peça ao agente **`sdd-verificador`** (subagente) a **`sdd-verificar`** (cenários
 de aceite executados de ponta a ponta, com evidência) — nunca a execute você: quem implementou não verifica. Sem
-subagente disponível → pare aqui e devolva a quem chamou: "pronta para a verificação (rodada <N>)". `ACEITO` → ela deixa a fatia em `fase: aceita`; `REJEITADO` → devolve para cá
-os cenários reprovados (Passo 0). Teto de 2 rodadas, como na revisão: 2ª rejeição seguida → `fase: bloqueada (de:
-verificando)` com as mesmas opções do Passo 3. Corrigida uma rejeição, volte ao Passo 2 e ao Passo 3 (a nova
-revisão conta no teto de rodadas) antes de verificar de novo.
+subagente disponível → pare aqui e devolva a quem chamou: "aguardando verificação (rodada <N>)". `ACEITO` → ela
+deixa a fatia em `fase: verificada`; `REJEITADO` → devolve para cá os cenários reprovados (Passo 0). Teto de 2
+rodadas, como na revisão: 2ª rejeição seguida → `fase: bloqueada (de: verificando)` com as mesmas opções do Passo 3.
+Corrigida uma rejeição, volte ao Passo 2 e ao Passo 3 (a nova revisão conta no teto de rodadas) antes de verificar de
+novo.
 
 Com `ACEITO` ou `REJEITADO`: grave o **Drift de negócio** do relatório no `status.md` (como no Passo 3) e
 **commite imediatamente** `verificacao.md`, `CT.csv`, `evidencias/`, `massa/` e o
@@ -127,7 +135,7 @@ Com `ACEITO` ou `REJEITADO`: grave o **Drift de negócio** do relatório no `sta
 
 ## Passo 5 — PR
 
-Com a revisão automática feita (HITL) ou com `fase: aceita` (AFK: revisão `APROVADO` e verificação `ACEITO`):
+Com a revisão automática feita (HITL) ou com `fase: verificada` (AFK: revisão `APROVADO` e verificação `ACEITO`):
 
 Push e PR são do Dev: o agente `sdd-codificador` (o Kiro confirma cada um) ou a sessão da pessoa; no loop, o
 `sdd-orquestrador` (fase 8 da `sdd-loop`). Modo autônomo: nada deste passo.
@@ -141,13 +149,16 @@ Push e PR são do Dev: o agente `sdd-codificador` (o Kiro confirma cada um) ou a
    `ET - FT-<nnn> <título>`, `status: draft`), escrito do `design.md` e do código do PR: interfaces, contratos, dados,
    integrações e decisões técnicas — nada do que não foi feito. Retrabalho que muda o que ela descreve a atualiza no
    mesmo PR. Vai no PR e é julgada com os ADRs (rubrica C15); quem a publica no ELM é a consolidação.
-1. Branch atualizada com a base? (`git fetch` e compare com `origin/<base>`). Desatualizada → numa sessão com a
+1. Branch atualizada com a base? `git fetch` e `git diff --name-only HEAD...origin/<base>`: vazio, ou só
+   `<produto>/backlog.md`, `<produto>/sprints/**` e `.kiro/specs/` de outras fatias (os registros de situação que o
+   time grava na base) → atualizada. Outro caminho (código, PRD, ficha) → desatualizada: numa sessão com a
    pessoa, com o "sim" dela, `git merge origin/<base>` (conflito → resolva e repita Passos 2–4); como agente,
    pare e devolva "branch desatualizada com a base". Esse merge (da base para a branch) é sempre de
-   uma pessoa; o do PR é da `sdd-desenvolver` (Passo 6).
+   uma pessoa; o do PR é da `sdd-desenvolver` (Passo 6). Atualizar é sempre por merge da base, nunca por rebase (nem
+   pelo botão Rebase do GitLab): o rebase reescreve os commits, o `sha` aprovado some e a mudança volta à revisão.
 2. Texto do PR:
    ```
-   FT-<nnn> — <título>   (EP-<nn> · IB <id ELM | —>)
+   FT-<nnn> — <título>   (<EP-<nn> | Manutenção> · <IB | DF> <id ELM | —>)
    O quê: <1–3 linhas do comportamento entregue>
    Cobre: HF-01 · 1.1, 1.2 · REG-01   (ELM: <ids | pendente>)
    Plano: .kiro/specs/<ft>-<slug>/ (research · requirements · design · tasks)
@@ -163,7 +174,8 @@ Push e PR são do Dev: o agente `sdd-codificador` (o Kiro confirma cada um) ou a
    1. **Commit** do que faltar (árvore limpa).
    2. **Push** da branch da fatia: `git push -u origin <branch>` (nunca a base; o Kiro pergunta). Push recusado
       (pela pessoa ou pela regra) → entregue o comando pronto e espere a pessoa dizer que publicou. Push "não" →
-      pare em "pronta para o PR", com o título e a descrição do item 2.
+      a branch não foi publicada e não há PR (nem PR atualizado): a fase não muda (AFK: `verificada`; HITL:
+      `implementando`); pare em "aguardando o PR", com o título e a descrição do item 2.
    3. **Confira no remoto:** `git fetch` e `git rev-parse HEAD` = `git rev-parse origin/<branch>`. Diferente → não
       siga: diga o que falta.
    4. **PR** pelo MCP `gitlabpr`: `gitlab_listar_mrs(origem=<branch>, estado=opened)` — já existe (retrabalho) → é
@@ -176,10 +188,11 @@ Push e PR são do Dev: o agente `sdd-codificador` (o Kiro confirma cada um) ou a
       implementa; ele mesmo só se for o único Dev Sênior ativo) → a `[APR]` de
       [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §8, com "sim". Sem o MCP `elm` → `ELM pendente [APR FT-<nnn>
       criar]: <login de quem aprova>` no Histórico.
-   7. `status.md`: HITL → `fase: pr-aberto`; AFK → `fase: pronta-para-merge`; link do PR (sem PR — push "não" ou sem
-      o MCP — `PR: texto entregue`, e a fase é a mesma); linha no Histórico e os **créditos da sessão** na seção
-      Créditos ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4). Commit, push e conferência como nos
-      itens 1–3 (o `status.md` vai junto no PR).
+   7. `status.md`: HITL → `fase: pr-aberto`; AFK → `fase: aguardando-aprovacao-pr`; link do PR (sem o MCP `gitlabpr`,
+      item 4: o que a pessoa passou ou `PR: texto entregue` — o push foi feito, e a fase é a mesma; push "não" já parou
+      no item 2); linha no Histórico e os **créditos da sessão** na seção Créditos
+      ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4). Commit, push e conferência como nos itens 1–3
+      (o `status.md` vai junto no PR).
    8. **Horas da sessão** na `[DEV]`: `elm_horas(<id>)` → desconte → `elm_lancar_horas(<id>, <h>)`, com "sim" — lança, não conclui (retrabalho: as horas
       também na tabela Retrabalho). Sem o MCP `elm` → `ELM pendente [DEV FT-<nnn> horas]: lançar <h>h` no
       Histórico. **A `[DEV]` não é concluída no PR:** fica em andamento até o merge (`sdd-desenvolver`, Passo 6).
@@ -188,7 +201,8 @@ Push e PR são do Dev: o agente `sdd-codificador` (o Kiro confirma cada um) ou a
 
 **Aqui a skill termina:** mostre o link do PR e quem foi avisado, e pare. O que vem depois é de outros papéis e de
 outro momento: a `[REV]` e a `[VER]` (HITL) ou a `[APR] Aprovar PR` (AFK); o merge do PR aprovado é do Dev, pela
-**`sdd-desenvolver`** (Passo 6), quando a fatia chegar a `pronta-para-merge`; a consolidação, depois do merge, é do
+**`sdd-desenvolver`** (Passo 6), quando a fatia chegar a `aceita` (HITL) ou, no AFK, com a `[APR] Aprovar PR`
+concluída em `aguardando-aprovacao-pr`; a consolidação, depois do merge, é do
 P.O. ou do SM (`sdd-consolidar`, agente `sdd-produto`). Pedido de merge ou de consolidação nesta sessão ("o PR foi
 aprovado", "mergeia", "consolida") → diga "use `sdd-desenvolver FT-<nnn>`" (ou, para consolidar, quem consolida) e
 pare: aprovação dita na conversa não vale — o merge confere a que está registrada.
@@ -201,8 +215,9 @@ pare: aprovação dita na conversa não vale — o merge confere a que está reg
 ## Regras
 
 - Nunca `--force`; merge só o da base para a branch, por uma pessoa (Passo 5), e o do PR aprovado, pelo Dev
-  responsável (`sdd-desenvolver`, Passo 6); push só da branch da fatia, nunca da base, com confirmação (ou pelo orquestrador, com a
-  autorização do lote); depois de todo push, conferir no remoto antes de seguir.
+  responsável (`sdd-desenvolver`, Passo 6); push, aqui, só da branch da fatia, nunca da base (os registros de situação
+  na base são da `sdd-desenvolver`), com confirmação (ou pelo orquestrador, com a autorização do lote); depois de todo
+  push, conferir no remoto antes de seguir.
 - Nada fora do escopo do `design.md`; melhoria vista no caminho vira sugestão de item no backlog (registrada pela `sdd-triar`).
 - Não invoque nem simule outra skill do fluxo: ao terminar (PR entregue, bloqueio, divergência), diga a próxima e
   pare. Os subagentes revisor e verificador, que os passos mandam chamar, fazem parte desta skill.

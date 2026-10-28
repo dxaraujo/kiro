@@ -1,7 +1,6 @@
 ---
 id: EP-<nn>
 titulo: <título curto, linguagem do negócio>
-status: rascunho            # rascunho → em-revisao → aprovado → fatiado → concluido (publicação no ELM: em cada elm/*.md)
 po: <login do P.O.>
 demanda: <id da demanda/épico no EWM | —>
 atualizado: <AAAA-MM-DD>

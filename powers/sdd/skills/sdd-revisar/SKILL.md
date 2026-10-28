@@ -4,7 +4,7 @@ description: "Revisão independente do fluxo sdd, com contexto limpo e sem alter
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.3.1"
+  version: "3.4.0"
 ---
 
 # sdd-revisar — Verificação independente
@@ -28,8 +28,10 @@ Chamada com a tarefa `[REV] FT-nnn` — direto, pela pessoa do papel, ou pelo hu
 quem está na sessão tem de ser **Dev Sênior** ativo (`papeis` com `Dev` e `senioridade` `Sênior` no `equipe.json`
 da base) — a `[REV]` é sempre de um Dev Sênior. Não é → diga isso, quem são os Dev Sêniores ativos, e pare. É quem
 implementa a fatia (o `responsavel`) → só se for o único Dev Sênior ativo (`revisor único` na Observação da fatia no
-`sprint-<nn>.md` ou, na fatia puxada, no Histórico do `status.md`); senão diga quem pode revisar e pare. Numa sessão com o
-MCP `elm`: `elm_transicao(<id da [REV]>, "assumir")`, com "sim" (regras: [elm.md](../sdd/references/elm.md)). Sem o MCP `elm` → `ELM pendente [<chave>]: assumir [REV] FT-<nnn>` no Histórico do `status.md`, e siga.
+`sprint-<nn>.md`, que a puxada também tem); senão diga quem pode revisar e pare. Numa sessão com o
+MCP `elm`: `elm_transicao(<id da [REV]>, "assumir")`, com "sim" (regras: [elm.md](../sdd/references/elm.md)); já
+concluída (o PR mudou depois da aprovação: retrabalho pedido pela VER, conflito no merge) → antes,
+`elm_transicao(<id>, "reabrir")`, na mesma confirmação. Sem o MCP `elm` → `ELM pendente [<chave>]: assumir [REV] FT-<nnn>` no Histórico do `status.md`, e siga.
 Chamada como subagente por outra skill (a rodada de revisão do plano, do PRD ou do código no loop), sem a tarefa → pule este passo: quem chamou é o dono da
 rodada.
 
@@ -80,8 +82,8 @@ revisão oficial é sua, na sua sessão:
    `conflitos` → anote no relatório. Vá para a branch do PR (`git switch <branch>` com "sim"; árvore suja → avise e pare; aberta numa worktree → trabalhe nela, regra da `sdd-desenvolver`, Passo 1) e `git pull --ff-only`.
    `fase: em-revisao`; incremente "revisão do código" em Rodadas — a rodada é sua (retomando `em-revisao` sem o
    relatório desta rodada gravado, não incremente de novo).
-   PR atualizado depois de um retrabalho pedido pela VER, com a `[REV]` já concluída → o Passo 0 a reabre (modo
-   *assumir* com retrabalho): toda mudança no PR passa de novo pela revisão.
+   PR atualizado com a `[REV]` já concluída (retrabalho pedido pela VER, conflito no merge) → o Passo 0 a reabre
+   (modo *assumir* com retrabalho): toda mudança no PR passa de novo pela revisão.
 2. Rubrica **C** (Passos 1–4) sobre `git diff origin/<base>...HEAD`, gravando `revisao-codigo-<N>.md`.
    Grave o campo **Drift de negócio** do `status.md` com a penúltima linha do relatório (só sobe de `não` para
    `sim`; outro `sim` acrescenta o motivo) — a consolidação só lê esse campo.
@@ -103,17 +105,19 @@ revisão oficial é sua, na sua sessão:
 
 ## Aprovação do plano — a `[APR]`
 
-Fatia em `fase: plano-em-revisao`, com a tarefa `[APR] FT-<nnn> Aprovar plano` (pelo hub `sdd-iniciar`, ou "aprovo o
-plano da FT-<nnn>"). A análise independente (rubrica L) já foi feita por subagente; aqui um Dev Sênior lê o plano e
-decide — sem editá-lo: ajuste é pedido a quem implementa, que replaneja pela `sdd-plano`.
+Fatia em `fase: aguardando-aprovacao-plano`, com a tarefa `[APR] FT-<nnn> Aprovar plano` (pelo hub `sdd-iniciar`,
+ou "aprovo o plano da FT-<nnn>"). A análise independente (rubrica L) já foi feita por subagente; aqui um Dev Sênior
+lê o plano e decide — sem editá-lo: ajuste é pedido a quem implementa, que replaneja pela `sdd-plano`.
 
 1. Quem está na sessão é Dev Sênior ativo (`senioridade` no `equipe.json` da base) **e** é o responsável pela `[APR]`
    (no EWM; sem o MCP `elm`, o `Responsável` do `status.md`)? Não → diga quem é e pare (trocar quem aprova é de
    quem implementa, no GATE da `sdd-plano`).
 2. Branch da fatia (`git switch <branch>` com "sim"; árvore suja → avise e pare; aberta numa worktree → trabalhe
    nela, regra da `sdd-desenvolver`, Passo 1) e `git pull --ff-only`; a fase tem
-   de ser `plano-em-revisao` (senão diga qual é e pare).
-3. `elm_transicao(<id da [APR]>, "assumir")` (sem o MCP `elm` → `ELM pendente [APR FT-<nnn> assumir]` no Histórico).
+   de ser `aguardando-aprovacao-plano` (senão diga qual é e pare).
+3. `elm_transicao(<id da [APR]>, "assumir")`; já concluída (replanejar depois da aprovação) → antes,
+   `elm_transicao(<id>, "reabrir")`, na mesma confirmação (sem o MCP `elm` → `ELM pendente [APR FT-<nnn> assumir]`
+   no Histórico).
 4. Mostre o resumo do GATE (bloco 🧭 do Passo 5 da [`sdd-plano`](../sdd-plano/SKILL.md)) e o último
    `analise-plano-<N>.md`, e leia com a pessoa a forma do programa e o contrato de pronto.
 5. **Aprovado** → `fase: implementando`, Histórico `plano aprovado por <login>`, `Responsável` volta a quem
@@ -130,8 +134,8 @@ lança e conclui a `[APR]` na própria sessão.
 
 ## Aprovação do PR — a `[APR]`
 
-Fatia `Modo: AFK` em `fase: pronta-para-merge`, com a tarefa `[APR] FT-<nnn> Aprovar PR` (pelo hub ou direto). A
-revisão e a verificação já foram feitas por subagentes; aqui uma pessoa **lê o código** e decide.
+Fatia `Modo: AFK` em `fase: aguardando-aprovacao-pr`, com a tarefa `[APR] FT-<nnn> Aprovar PR` (pelo hub ou
+direto). A revisão e a verificação já foram feitas por subagentes; aqui uma pessoa **lê o código** e decide.
 
 1. Quem está na sessão é **Dev Sênior** ativo (`senioridade` no `equipe.json` da base) e o responsável pela `[APR]`
    (sem o MCP `elm`, quem o Dev indicou)? Não → diga quem é e pare. PR de um Sênior (o `Responsável` da fatia) →
@@ -139,20 +143,23 @@ revisão e a verificação já foram feitas por subagentes; aqui uma pessoa **l�
 2. Leia o PR pelo `gitlab_obter_mr` (iid do link no `status.md`): `merged` ou `closed` → avise e pare. Vá para a
    branch do PR (`git switch <branch>` com "sim"; árvore suja → avise e pare; aberta numa worktree → trabalhe nela,
    regra da `sdd-desenvolver`, Passo 1) e `git pull --ff-only`; a fase tem de
-   ser `pronta-para-merge`. Anote o `sha` = `git rev-parse origin/<branch>` (o do PR).
-3. `elm_transicao(<id da [APR]>, "assumir")`.
+   ser `aguardando-aprovacao-pr`. Anote o `sha` = `git rev-parse origin/<branch>` (o do PR).
+3. `elm_transicao(<id da [APR]>, "assumir")` — já concluída (o PR mudou depois da aprovação: conflito no merge) →
+   antes, `elm_transicao(<id>, "reabrir")`, na mesma confirmação.
 4. Mostre o caminho de leitura: o texto do PR ("Como ler"), o `revisao-codigo-<N>.md` aprovado, as evidências do
    `verificacao.md` e os ADRs e a ET as-built do PR (`adr/` e `elm/ET-*.md` da pasta da fatia — C15: a pessoa julga se cada um descreve
    o que o código faz). **Execute** o backpressure (C3) — não confie no relatório. A leitura do código é da pessoa:
    você aponta, ela decide.
-5. **Aprovado** → **não commite na branch** (o `sha` que o Dev vai mergear não pode mudar): numa
+5. **Aprovado** → **não commite na branch nem grave fase** (o `sha` que o Dev vai mergear não pode mudar; a fatia
+   segue em `aguardando-aprovacao-pr` até o merge): numa
    confirmação, `elm_comentar(<id da [APR]>, "PR aprovado, sha <sha> · créditos <linha da seção Créditos>")` (
-   os créditos saem do script ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4), e o Dev grava a linha no `status.md` no merge), o saldo de horas e a
+   os créditos saem do script ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4), e o Dev grava a
+   linha no `status.md` da base, no registro do merge), o saldo de horas e a
    conclusão (`elm_lancar_horas`, `elm_transicao(<id>, "concluir")`). Avise o Dev responsável: o merge é dele (Passo 6 da `sdd-desenvolver`),
    que confere essa `[APR]`. Sem o MCP `elm` → entregue ao Dev a linha `PR aprovado por <login>, sha <sha>`, a linha de créditos e a
-   pendência `ELM pendente [APR FT-<nnn> concluir]: lançar <h>h e concluir (<login>)` — ele as grava no commit do
-   merge.
-6. **Mudanças pedidas** → cada uma em Achados abertos (origem: PR), `fase: retrabalho (de: pronta-para-merge)`,
+   pendência `ELM pendente [APR FT-<nnn> concluir]: lançar <h>h e concluir (<login>)` — ele as grava na base, no
+   commit `FT-<nnn> registrar merge`.
+6. **Mudanças pedidas** → cada uma em Achados abertos (origem: PR), `fase: retrabalho (de: aguardando-aprovacao-pr)`,
    "retrabalho" + 1 em Rodadas, uma linha na tabela Retrabalho (papel APR) e os créditos da sessão ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4). Commit
    (`FT-<nnn> aprovação do PR: mudanças pedidas`) → push → conferir no remoto (como no item 5 do modo HITL) → horas
    da sessão na `[APR]` (lança, não conclui) → avise o Dev responsável. A `[APR]` fica em andamento e é a mesma na

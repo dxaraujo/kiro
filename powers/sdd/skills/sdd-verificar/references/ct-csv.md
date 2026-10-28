@@ -23,7 +23,7 @@ linha `CT.csv` da seção ELM do `sdd.md` — o template de importação do ETM 
 | 3 | Responsável | login do ELM de quem verificou (AFK, verificado por subagente: quem disparou o loop ou o workflow — o responsável da `[DEV]`) |
 | 4 | Status | estado inicial (padrão do projeto) |
 | 5 | Categoria | do projeto, se houver |
-| 6 | Planejado para | sprint (iteração do EWM), se houver |
+| 6 | Planejado para | a iteração no EWM da sprint da fatia, se houver: o `**Iteração no EWM:**` do `sprint-<nn>.md` (o nome no EWM é livre e pode diferir da chave da sprint) |
 | 7 | Descrição | bloco abaixo, entre aspas duplas, com quebras de linha reais |
 
 ## Descrição

@@ -1,10 +1,10 @@
 ---
 name: sdd-fatiar
-description: "Quebra um PRD aprovado do fluxo sdd em fatias verticais (tracer bullets) — cada fatia atravessa todas as camadas, entrega um comportamento verificável de ponta a ponta, cita as histórias e cenários que cobre, as dependências (bloqueada por), o tamanho (P/M/G, nunca maior) e o modo de autonomia (AFK: o agente faz sozinho até o PR · HITL: precisa de uma pessoa no meio). Grava o backlog em <produto>/backlog.md, conduz o GATE do backlog e deixa os itens do EWM para quando as fatias entram na sprint. Use em \"fatiar o PRD\", \"quebrar em histórias\", \"gerar o backlog\", \"criar os itens de backlog\", \"PRD para issues\", \"refinar o backlog\"."
+description: "Quebra um PRD aprovado do fluxo sdd em fatias verticais (tracer bullets) — cada fatia atravessa todas as camadas, entrega um comportamento verificável de ponta a ponta, cita as histórias e cenários que cobre, as dependências (bloqueada por), o tamanho (P/M/G, nunca maior) e o modo de autonomia (AFK: o agente faz sozinho até o PR · HITL: precisa de uma pessoa no meio). Grava o backlog em <produto>/backlog.md, conduz o GATE do backlog e deixa as tarefas do EWM para quando as fatias entram na sprint; no refinamento, divide, junta e cancela fatias e cancela o épico. Use em \"fatiar o PRD\", \"quebrar em histórias\", \"gerar o backlog\", \"criar os itens de backlog\", \"PRD para issues\", \"refinar o backlog\", \"cancelar o EP-05\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.3.1"
+  version: "3.4.0"
 ---
 
 # sdd-fatiar — PRD → fatias verticais
@@ -13,13 +13,14 @@ metadata:
 > power instalado (ex.: `~/.kiro/powers/installed/sdd/skills/sdd-fatiar/`), não no projeto: abra-os por esse
 > caminho, relativo a este `SKILL.md`. A busca no workspace não os encontra — não procure no projeto.
 
-Entrada: PRD `aprovado` (`<produto>/epicos/<EP>-<slug>/prd.md`). Saída: fatias no
-`<produto>/backlog.md` (formato em [references/backlog.md](references/backlog.md)) e a ficha de cada uma
-(`<produto>/fatias/FT-<nnn>-<slug>.md`, formato "padrão de épico" da
-[`sdd-triar`](../sdd-triar/references/ficha.md)).
+Entrada: o PRD aprovado — `Fase: aprovado` no `status.md` do épico, na base (`<produto>/epicos/<EP>-<slug>/`, com o
+`prd.md`; no refinamento, `fatiado`, ou `aprovado` depois de uma mudança no PRD). Saída: fatias no
+`<produto>/backlog.md` (formato em [references/backlog.md](references/backlog.md)) e a ficha de cada uma (`<produto>/fatias/FT-<nnn>-<slug>.md`, formato
+"padrão de épico" da [`sdd-triar`](../sdd-triar/references/ficha.md)).
 
 Fatiar é decisão de uma pessoa (o GATE do backlog): chamada em modo autônomo (`AUTONOMO=true`, pelo loop ou por um
-agente sem pessoa na conversa) → "PRD, backlog e Apoio nunca são AFK — fatie numa sessão com o P.O." e pare.
+agente sem pessoa na conversa) → "PRD, backlog e itens de Sustentação (`AT-`, `IM-`…) nunca são AFK — fatie numa
+sessão com o P.O." e pare.
 
 ## O que é uma boa fatia
 
@@ -85,43 +86,69 @@ fatia ponta a ponta.
 
 ## Passo 3 — Gravar
 
-1. `backlog.md` (na **base** — ver [references/backlog.md](references/backlog.md)): épico com `status: fatiado`;
-   uma linha por fatia com prioridade (ordem da tabela, respeitando dependências), `elm` (item 4) e `status`
-   `pronta` se passa na **Definition of Ready** (seção do [references/backlog.md](references/backlog.md)) ou
-   `backlog` com o que falta. Ids `FT-<nnn>` sequenciais no projeto, **nunca reaproveitados**.
+Na **base**, pelo bloco [Gravar na base](references/backlog.md#gravar-na-base):
+
+1. `backlog.md`: uma linha por fatia no fim de `## Fatias`, na ordem do rascunho (que respeita as dependências), com
+   `origem` `EP-<nn>`, a `prioridade` do épico, `elm` (item 4) e `status` `elegivel` se passa na **Definition of
+   Ready** ([references/backlog.md](references/backlog.md#definition-of-ready-o-que-faz-uma-fatia-elegivel)) ou
+   `nova` com `obs` `falta: <o quê>`. Ids `FT-<nnn>` sequenciais no projeto, **nunca reaproveitados**. O `status` do
+   épico não muda (a `[ESP]` e a Especificação `concluida` são da `sdd-especificar`).
 2. **Fichas** das fatias (`<produto>/fatias/FT-<nnn>-<slug>.md`, formato "padrão de épico"): Objetivo, Cobre (links
    para os cenários do PRD, sem copiar) e Como verificar; a coluna `ficha` aponta para elas.
-3. PRD: `status: fatiado`.
+3. `status.md` do épico: `Fase: fatiado`.
 4. **EWM** (com ELM, com "sim"): um IB por fatia sob o épico, no backlog do EWM ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §3,
-   `iteracao = backlog`); os ids vão para a coluna `elm`. Sem o MCP `elm` → `pendente`.
-5. Commit (padrão do `sdd.md`): `backlog.md`, fichas, `prd.md`.
+   `iteracao = backlog`); os ids vão para a coluna `elm` (`IB [<id>](<url>)`). Sem o MCP `elm` → `pendente`.
+5. Commit (padrão do `sdd.md`): `backlog.md`, fichas, `status.md` do épico.
 
 ## Passo 4 — Próximos passos (na mesma resposta)
 
-- Primeiro fatiamento do épico → "use `sdd-especificar EP-<nn>`": ela conclui a `[ESP]` (o refinamento não tem
-  `[ESP]` a concluir).
+- Primeiro fatiamento do épico, ou refinamento com a linha da Especificação ainda `iniciada` → "use
+  `sdd-especificar EP-<nn>`": ela conclui a `[ESP]`.
 - Com ELM: os IBs das fatias já estão no backlog do EWM; entrar na sprint só muda o "Planejado para"
   ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §3).
-- **`sdd-planejamento`** — encaixar as fatias na sprint (ou no fluxo Kanban).
+- **`sdd-planejamento`** — encaixar as fatias na sprint.
 - Para começar uma fatia já: "vamos trabalhar na FT-031" (`sdd-desenvolver`, ou o hub `sdd-iniciar`).
 
 ## Refinamento (backlog já existe)
 
-"Refinar o backlog", "a FT-033 está grande demais", "faltou uma fatia":
-- **Dividir:** a fatia original fica `status: dividida` com `substituida-por: [FT-x, FT-y]`; as novas herdam a
-  cobertura (repartida), as dependências, o épico e uma ficha cada. No EWM: [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §3, "Fatia dividida".
-- **Juntar:** só fatias ainda em `backlog`; a que some fica `status: cancelada` com `motivo` (o IB dela no EWM é
-  cancelado: `elm_transicao`, com "sim").
-- **Nova fatia:** o IB nasce no backlog do EWM como no Passo 3, item 4.
+"Refinar o backlog", "a FT-033 está grande demais", "faltou uma fatia", "cancelar o EP-05" — fatia de Manutenção é da
+`sdd-triar`. Cada mudança vai ao `backlog.md` e, com a fatia numa sprint, à linha dela no `sprint-<nn>.md`, no mesmo
+commit, pelas [Situações](references/backlog.md#situações). Épico na Fase `aprovado` com fatias já no backlog (o PRD
+mudou depois do fatiamento) → o GATE do refinamento grava `Fase: fatiado` no `status.md` do épico, no mesmo commit.
+- **Dividir:** a original fica `dividida`, com `obs` `substituida-por FT-x, FT-y`; as novas entram no fim de
+  `## Fatias`, `nova`, com `obs` `desmembrada de FT-<nnn>`, a `origem` e a `prioridade` dela, a cobertura repartida,
+  as dependências e uma ficha cada. No EWM:
+  [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §3, "Fatia dividida".
+- **Juntar:** só entre fatias não iniciadas (`nova`, `elegivel`, `planejada`); a absorvida fica `cancelada`, com `obs`
+  `substituida-por FT-<a que fica>`, e a que fica herda a cobertura dela.
+- **Cancelar** uma fatia não iniciada: `cancelada`, com o motivo na `obs`. Era a última não terminal de um épico com
+  fatia `concluida` → no mesmo commit, o épico `concluido` no backlog, Fase `concluido` no `status.md` do épico e o
+  IB do épico concluído (como no Passo 4 da `sdd-consolidar`).
+- **No EWM**, a fatia `cancelada` (inclusive a absorvida pelo juntar) tem o IB (e, se não foi iniciada, as tarefas)
+  cancelado à mão na UI — o MCP só assume, conclui e reabre; nunca `elm_transicao` para cancelar:
+  `ELM pendente [FT-<nnn> cancelar]` (roteiro manual) no rodapé da ficha da fatia, onde moram as pendências da fatia
+  não iniciada, `dividida` ou `cancelada`.
+- **Dividir ou cancelar depois de `iniciada`** (juntar, nunca): conclua as tarefas abertas da fatia com as horas já
+  lançadas (`elm_transicao(<id>, "concluir")`, com "sim"; sem o MCP, `ELM pendente` no rodapé da ficha) e avise o Dev
+  para fechar o PR.
+- **Cancelar o épico** (decisão do P.O.), numa gravação: `Fase: cancelado` no `status.md` do épico (se já está na
+  base); no backlog, o épico `cancelado` (motivo na `obs`) e as fatias não iniciadas `cancelada`; na sprint, a linha
+  da Especificação não concluída `cancelada`; a `[ESP]` aberta conclui com as horas já lançadas, e o IB do épico é
+  cancelado à mão, como o das fatias (`ELM pendente [EP-<nn> cancelar]`, onde moram as do épico —
+  [pendências](../sdd/references/elm.md#pendências)). As fatias `iniciada` em diante não mudam aqui: mostre-as ao
+  P.O. (cancelar uma iniciada é o item acima).
+- **Nova fatia:** no fim de `## Fatias`, como no Passo 3 (item 1; o IB nasce no backlog do EWM pelo item 4).
 - **Fatia nova com cenário novo** exige PRD alterado antes (`sdd-prd`, mudança depois de aprovado).
-- **Definition of Ready:** a cada refinamento, confira as fatias `backlog` e grave `pronta` nas que passam (e
-  volte a `backlog` as que deixaram de passar). Critérios na seção do [references/backlog.md](references/backlog.md).
+- **Definition of Ready** ([critérios](references/backlog.md#definition-of-ready-o-que-faz-uma-fatia-elegivel)): a
+  cada refinamento, grave `elegivel` nas `nova` que passam; a `elegivel` ou `planejada` que deixou de passar volta a
+  `nova` com `falta:` — a `planejada` sai da sprint pela [Volta](references/backlog.md#situações) (no EWM, o IB e as
+  tarefas voltam ao backlog: [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §3).
 
 ## Regras
 
 - Nunca crie fatia por camada técnica ou por papel ("especificar X", "testar X") — o trabalho de todos os papéis
   na mesma fatia é a mesma fatia.
-- Nunca altere fatia `concluida`. Mudança de comportamento entregue = fatia nova.
+- Nunca altere fatia `pronta` ou `concluida` (já na base). Mudança de comportamento entregue = fatia nova.
 - Tamanho não é promessa de prazo: é o sinal de que a fatia cabe num PR revisável.
 - Não invoque nem simule outra skill além das que os passos mandam chamar (subagente pesquisador): depois
   do GATE do backlog, diga os próximos passos (Passo 4) e pare.

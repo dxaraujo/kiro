@@ -4,7 +4,7 @@ description: "Verificação de aceite de uma fatia do fluxo sdd — executa de p
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.3.1"
+  version: "3.4.0"
 ---
 
 # sdd-verificar — O comportamento existe de verdade?
@@ -29,9 +29,11 @@ resultado: seção **Verificação de aceite** do `.kiro/steering/sdd.md` (vem d
 
 Chamada com a tarefa `[VER] FT-nnn` (só existe no HITL) — direto, pela pessoa do papel, ou pelo hub `sdd-iniciar`: antes de tudo,
 quem está na sessão **não pode ser quem implementa** a fatia (o `responsavel` do `backlog.md` ou o `Responsável` do
-`status.md`) — sem exceção, nem com "sim". É → diga isso, quem é o verificador da fatia (`sprint-<nn>.md`) e pare,
-sem assumir a `[VER]`. Numa sessão com o
-MCP `elm`: `elm_transicao(<id da [VER]>, "assumir")`, com "sim" (regras: [elm.md](../sdd/references/elm.md)). Sem o MCP `elm` → `ELM pendente [<chave>]: assumir [VER] FT-<nnn>` no Histórico do `status.md`, e siga.
+`status.md`) — sem exceção, nem com "sim". É → diga isso, quem é o verificador da fatia (coluna Verificador no
+`sprint-<nn>.md`, que a puxada também tem) e pare, sem assumir a `[VER]`. Numa sessão com o
+MCP `elm`: `elm_transicao(<id da [VER]>, "assumir")`, com "sim" (regras: [elm.md](../sdd/references/elm.md)); já
+concluída (o PR mudou depois do aceite: conflito no merge) → antes, `elm_transicao(<id>, "reabrir")`, na mesma
+confirmação. Sem o MCP `elm` → `ELM pendente [<chave>]: assumir [VER] FT-<nnn>` no Histórico do `status.md`, e siga.
 Chamada como subagente por outra skill (a rodada de verificação do loop ou da implementação), sem a tarefa → pule este passo: quem chamou é o dono da
 rodada.
 
@@ -92,9 +94,9 @@ ser o do PRD ou da ficha, por decisão registrada). HITL: grave-o no campo do `s
 `sim`); AFK: fica no relatório e quem conduz grava. A consolidação só lê esse campo.
 
 - **ACEITO** (todos aceitos) → gere o `CT.csv` (Passo 5).
-  - **AFK** (subagente do loop ou da `sdd-implementar`): `fase: aceita` e devolva para abrir o PR (Passo 5 da
+  - **AFK** (subagente do loop ou da `sdd-implementar`): `fase: verificada` e devolva para abrir o PR (Passo 5 da
     `sdd-implementar`). Não há `[VER]` no EWM (Q8).
-  - **HITL**: `fase: pronta-para-merge`, e a **entrega**, nesta ordem — o Dev só acha o seu trabalho no remoto:
+  - **HITL**: `fase: aceita`, e a **entrega**, nesta ordem — o Dev só acha o seu trabalho no remoto:
     1. créditos da sessão no `status.md` ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4); commit de `verificacao.md`, `CT.csv`, `evidencias/`,
        `massa/` e `status.md` (`FT-<nnn> verificação: ACEITO`);
     2. push da branch do PR (`git push origin <branch>`, nunca a base; o Kiro pergunta). Push recusado (pela
@@ -103,7 +105,7 @@ ser o do PRD ou da ficha, por decisão registrada). HITL: grave-o no campo do `s
        siga: diga o que falta;
     4. só então: saldo de horas e conclusão da `[VER]` (`elm_horas` → `elm_lancar_horas` do saldo → `elm_transicao(<id>, "concluir")`, numa
        confirmação; sem o MCP `elm` → `ELM pendente [<chave>]: lançar <h>h e concluir [VER] FT-<nnn>`) e avise o **Dev
-       responsável** de que a fatia está pronta para o merge (Passo 6 da `sdd-desenvolver`).
+       responsável** de que a fatia está `aceita`, à espera do merge (Passo 6 da `sdd-desenvolver`).
 - **REJEITADO** → para cada cenário, esperado × obtido + evidência, registrados no `status.md` como achados.
   AFK: `fase: implementando`; a `sdd-implementar` corrige e a verificação roda de novo (só os rejeitados + os de
   repetição). HITL: `fase: retrabalho (de: em-verificacao)`, "retrabalho" +1 em Rodadas e uma linha na tabela

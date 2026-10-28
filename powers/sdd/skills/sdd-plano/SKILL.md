@@ -4,7 +4,7 @@ description: "Planeja uma fatia do fluxo sdd no formato de spec do Kiro — pesq
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.3.1"
+  version: "3.4.0"
 ---
 
 # sdd-plano — Decidir o como antes de codar
@@ -49,9 +49,11 @@ recomendada (HITL) ou decida e registre (AFK) em "Decisões técnicas".
 3. **`tasks.md`**: uma tarefa por comportamento, teste primeiro, comando de pronto, `_Requirements: N.M_`; a
    última é o checkpoint de validação completa + revisão.
 4. Skills do toolkit ligadas ao agente: consulte a da stack para a forma do programa (camadas, nomes, testes).
-5. Limite: plano que passa de ~200 linhas no total ou de ~8 tarefas → a fatia está grande: proponha à pessoa
-   dividi-la (`sdd-fatiar`, refinamento) em vez de escrever um plano maior. Modo autônomo → `fase: bloqueada (de: planejando)`
-   com a proposta de divisão.
+5. Limite: plano que passa de ~200 linhas no total ou de ~8 tarefas → a fatia está grande: em vez de escrever um
+   plano maior, proponha dividi-la. Ela já está `iniciada`: quem divide é o P.O., pela `sdd-fatiar` (sem épico, pela
+   `sdd-triar`), como manda a divisão depois de `iniciada` das
+   [Situações](../sdd-fatiar/references/backlog.md#situações). Aqui, `fase: bloqueada (de: planejando)` com a
+   proposta de divisão no Bloqueio, e a sessão fecha como na troca de modo (Passo 5, "Dev aceita").
 
 `status.md`: fase `planejando` (vale também durante a análise do Passo 4).
 
@@ -107,10 +109,11 @@ base decide — trilha e modo não entram:
 | **Sênior** | nunca: ele aprova o próprio plano — `fase: implementando`, Histórico `plano do Sênior` —, inclusive quando o plano muda a expectativa de um teste existente |
 
 **Com GATE** (Júnior, ou Pleno que pediu): pergunte qual Dev Sênior aprova — sugira o que vai revisar o PR (coluna
-Revisor do `sprint-<nn>.md` ou Histórico do `status.md`); AFK, sem revisor: um Dev Sênior ativo que não é quem
-implementa. Então `fase: plano-em-revisao` (conta no WIP de revisão humana), `Responsável` = quem aprova, e a tarefa
-**`[APR] FT-<nnn> Aprovar plano`** para ele ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §8, com "sim";
-sem o MCP `elm` → `ELM pendente [APR FT-<nnn> criar]`). Commit com `research.md`, `.config.kiro`,
+Revisor da fatia no `sprint-<nn>.md`, que a puxada também tem); AFK, sem revisor: um Dev Sênior ativo que não é quem
+implementa. Então `fase: aguardando-aprovacao-plano` (conta no WIP de revisão humana), `Responsável` = quem aprova,
+e a tarefa **`[APR] FT-<nnn> Aprovar plano`** para ele
+([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §8, com "sim"; sem o MCP `elm` →
+`ELM pendente [APR FT-<nnn> criar]`). Commit com `research.md`, `.config.kiro`,
 `requirements.md`/`bugfix.md`, `design.md`, `tasks.md` e `status.md`, já com os créditos da sessão ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4) (`registrar plano`) → push → conferir no remoto
 (itens 1–3 da Entrega do Passo 5 da `sdd-implementar`) — quem aprova lê o plano no remoto → horas da sessão na
 `[DEV]` (lança, não conclui) → avise o aprovador (`sdd-revisar`, Aprovação do plano).
@@ -119,8 +122,8 @@ sem o MCP `elm` → `ELM pendente [APR FT-<nnn> criar]`). Commit com `research.m
 mesmos arquivos (`registrar plano`). Próximo: **`sdd-implementar`** — numa sessão nova, de preferência (o plano está
 no disco; o contexto da pesquisa não é mais necessário).
 
-Retomando em `plano-em-revisao` sem `[APR]` (receita de workflow, pendência `[APR FT-<nnn> criar]`) → faça agora a
-pergunta ao Pleno, ou crie a `[APR]` (Júnior, Pleno que pediu).
+Retomando em `aguardando-aprovacao-plano` sem `[APR]` (receita de workflow, pendência `[APR FT-<nnn> criar]`) → faça
+agora a pergunta ao Pleno, ou crie a `[APR]` (Júnior, Pleno que pediu).
 
 ### Quem aprova
 
@@ -130,7 +133,7 @@ nunca nesta skill nem na sessão de quem implementa.
 ## Replanejar
 
 Implementação descobriu que o plano não serve (esperado × encontrado) → atualize `design.md`/`tasks.md` só no que
-mudou, acrescente tarefas (nunca desmarque as prontas), registre o motivo no Histórico e repita os Passos 4–5 para
+mudou, acrescente tarefas (nunca desmarque as feitas), registre o motivo no Histórico e repita os Passos 4–5 para
 a parte alterada (com GATE e a `[APR]` já concluída → o aprovador a reabre pela `sdd-revisar`: modo *assumir* com retrabalho).
 
 ## Modo autônomo
@@ -138,11 +141,11 @@ a parte alterada (com GATE e a `[APR]` já concluída → o aprovador a reabre p
 `AUTONOMO=true`: sem perguntas; decisão técnica com alternativas → escolha a recomendada e registre; lacuna de
 negócio → `fase: bloqueada (de: planejando)` com a pergunta para o P.O. Passo 5 sem pessoa: fatia AFK com risco →
 `fase: bloqueada (de: planejando)`, `aguardando troca para HITL` com o risco (a sugestão vai ao P.O.); GATE → Sênior
-segue para `implementando`; Pleno → a escolha do lote que quem chamou passou (sem ela: `plano-em-revisao`, e a
-pergunta fica para a sessão dele); nada de ELM (`ELM pendente [<chave>]`).
+segue para `implementando`; Pleno → a escolha do lote que quem chamou passou (sem ela: `aguardando-aprovacao-plano`,
+e a pergunta fica para a sessão dele); nada de ELM (`ELM pendente [<chave>]`).
 
 ## Regras
 
 - Não invoque nem simule outra skill do fluxo: termine dizendo a próxima (`sdd-implementar`, o Dev Sênior da `[APR]`
-  ou o P.O. na troca de modo) e pare. A `sdd-pesquisar` e o subagente revisor, que os passos mandam
+  ou o P.O. na troca de modo e na divisão) e pare. A `sdd-pesquisar` e o subagente revisor, que os passos mandam
   chamar, fazem parte desta skill.

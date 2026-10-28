@@ -4,7 +4,7 @@ description: "Pesquisa do código para uma fatia do fluxo sdd, antes de planejar
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.3.1"
+  version: "3.4.0"
 ---
 
 # sdd-pesquisar — Entender antes de planejar

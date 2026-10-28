@@ -11,7 +11,8 @@ sempre preenchida e a Definition of Ready confere o arquivo. O conteúdo muda co
 | padrão de épico | Objetivo · Cobre (links para os cenários do PRD, sem copiar) · Como verificar | o PRD (`cobre`) |
 | rápida | Comportamento (atual com evidência · esperado com fonte · o que não muda) · Como verificar | a ficha — é o que o `bugfix.md` detalha |
 
-Apoio não tem ficha de fatia (tem o registro `<produto>/apoio/<pasta>/<ID>-<slug>.md`).
+Item das categorias da Sustentação (`AT-nnn`, `IM-nnn`…) não é fatia: não tem ficha, tem o registro
+`<produto>/sustentacao/<pasta>/<ID>-<slug>.md`. A fatia de Manutenção (sem épico) tem ficha, como toda fatia.
 
 ## Formato — padrão sem épico
 
@@ -85,7 +86,7 @@ Então o desconto aplicado é de R$ 50,00
 ## Regras de escrita
 
 - **Situação** (padrão sem épico): `rascunho` ou `aprovada por <login do P.O.> em <data>`. Regra nova ou alterada só vale aprovada;
-  sem isso, a fatia fica `backlog` com `falta: aprovação do P.O.`.
+  sem isso, a fatia fica `nova` com `falta: aprovação do P.O.`.
 - **Cenários** como na `sdd-prd`: caminho feliz, o que **não** deve ser aceito, repetição, erro em um item — ou por
   que não se aplica; "Então" sempre verificável. Numerados `C1`, `C2`… — são o `cobre` da fatia: o plano, a
   rubrica L e a verificação leem daqui.
@@ -96,6 +97,10 @@ Então o desconto aplicado é de R$ 50,00
   uma decisão nova (aí é `D-nn` aprovada).
 - **Padrão de épico:** nada de regra ou cenário copiado do PRD — só os links; o PRD continua a fonte.
 - **Decisões** no formato do `decisoes.md` da `sdd-entrevistar`, aqui dentro (a ficha não tem pasta).
+- **Pendências do ELM** da fatia não iniciada, `dividida` ou `cancelada` (sem `status.md` que valha): no rodapé da
+  ficha, `ELM pendente [<chave>]: <o que falta>` — ex.: `[FT-040 cancelar]`, o IB e as tarefas cancelados na UI do
+  EWM (o MCP não cancela); resolvida, `ELM feito [<chave>]: …` abaixo dela
+  ([pendências](../../sdd/references/elm.md#pendências)).
 - Termos do glossário em todo o texto; termo novo vai para o glossário (a triagem roda na base).
 - Mais de ~3 cenários de comportamentos diferentes, ou mais de uma regra nova independente → não é uma fatia: a
   `sdd-triar` refaz a triagem como épico.

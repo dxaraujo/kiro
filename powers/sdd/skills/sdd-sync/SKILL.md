@@ -4,7 +4,7 @@ description: "Sincroniza o bundle OKF do DOORS Next com o ELM nas duas vias, pel
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.3.1"
+  version: "3.4.0"
 ---
 
 # sdd-sync — Bundle do DOORS Next nas duas vias

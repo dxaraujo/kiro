@@ -1,10 +1,10 @@
 ---
 name: sdd-consolidar
-description: "Fecha uma fatia do fluxo sdd depois do merge do PR — processo de produto, do P.O. ou do SM (analista de negócio) no agente sdd-produto, com horas na tarefa [GB] Gerenciamento do backlog: lê o campo Drift de negócio do status.md (marcado pela revisão e pela verificação) e, com drift, leva o PRD ou a ficha a nova versão; manda para o ELM pelo MCP elm, numa confirmação, os requisitos, a regra da ficha as-built, a especificação técnica as-built (escrita pelo Dev no PR), os casos de teste (criados pelo agente no ETM, um por cenário verificado) e a conclusão do item de backlog; leva os ADRs do PR para a pasta de ADRs, corrige o glossário, marca a fatia como concluída no backlog, registra as lições (sdd-aprender) e diz o que vem a seguir no épico. Use em \"PR mergeado\", \"fecha a FT-031\", \"consolidar\", \"concluir a fatia\", \"a fatia foi entregue\"."
+description: "Fecha uma fatia pronta do fluxo sdd (PR mergeado e registrado na base pelo Dev) — processo de produto, do P.O. ou do SM (analista de negócio) no agente sdd-produto, com horas na tarefa [GB] Gerenciamento do backlog: lê o campo Drift de negócio do status.md (marcado pela revisão e pela verificação) e, com drift, leva o PRD ou a ficha a nova versão; manda para o ELM pelo MCP elm, numa confirmação, os requisitos, a regra da ficha as-built, a especificação técnica as-built (escrita pelo Dev no PR), os casos de teste (criados pelo agente no ETM, um por cenário verificado) e a conclusão do item de backlog; leva os ADRs do PR para a pasta de ADRs, corrige o glossário, marca a fatia concluida no backlog e na sprint, registra as lições (sdd-aprender) e diz o que vem a seguir no épico. Use em \"PR mergeado\", \"fecha a FT-031\", \"consolidar\", \"concluir a fatia\", \"a fatia foi entregue\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.3.1"
+  version: "3.4.0"
 ---
 
 # sdd-consolidar — Documentação viva depois do merge
@@ -14,21 +14,18 @@ fica valendo é a documentação oficial no ELM — e ela tem de descrever o que
 distância entre os dois.
 
 **Processo de produto:** quem consolida é o **P.O. ou o SM** (analista de negócio), no agente **`sdd-produto`**, e
-as horas vão na tarefa **`[GB] Gerenciamento do backlog`** (linha `Sustentação:` do `backlog.md`). A consolidação
-não repete a revisão nem a verificação: o drift de negócio já vem marcado por elas no `status.md`; os ADRs já vêm
-escritos no PR.
+as horas vão na tarefa **`[GB] Gerenciamento do backlog`** (a `GB` da primeira linha de `## Sustentação` do
+`backlog.md`). A consolidação não repete a revisão nem a verificação: o drift de negócio já vem marcado por elas no
+`status.md`; os ADRs já vêm escritos no PR.
 
-Entrada: fatia em `mergeada` (o Dev responsável mergeou o PR aprovado — Passo 6 da `sdd-desenvolver`; a fase
-está no `status.md` da branch da fatia). **Já consolidada?** Depois do merge vale a fase da **base** (`git fetch` e
-`git show origin/<base>:.kiro/specs/<ft>-<slug>/status.md`; e o `status` da linha no `backlog.md` da base):
-`concluida` em qualquer um dos dois → diga "já consolidada em <data>" e pare — nada se repete (ADR, lições,
-glossário, CT, ELM). Senão, confira que o PR foi mesmo **mergeado** pelo MCP `gitlabpr`
-(`gitlab_obter_mr` com o `iid` do link no `status.md`, ou `gitlab_listar_mrs(origem=<branch>, estado=all)`: estado
-`merged`); `git branch -r --merged origin/<base>` é só atalho e não enxerga *squash* nem *rebase merge*. Sem PR
-(push "não", sem ferramenta, merge local) → pergunte à pessoa se foi mergeado e confira pelo conteúdo: `git diff
-<base> <branch> -- <arquivos que a fatia mudou>` vazio (fora a pasta da fatia). Não mergeado → pare. Tudo aqui é
-gravado na **base**, pelo bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base) (confirmado o
-merge, a troca e o `pull --ff-only` vêm antes de qualquer passo).
+Entrada: fatia `pronta` — o Dev responsável mergeou o PR aprovado e, conferido o merge, gravou `Fase: pronta` no
+`status.md` da **base** (Passo 6 da `sdd-desenvolver`). Leia a fase dali (`git fetch` e `git show
+origin/<base>:.kiro/specs/<ft>-<slug>/status.md`), com o `status` da linha no `backlog.md` da base: `concluida` em
+qualquer um dos dois → diga "já consolidada em <data>" e pare — nada se repete (ADR, lições, glossário, CT, ELM).
+Sem `pronta` na base (PR aberto, ou mergeado sem o registro) → não consolide: mande o Dev ao Passo 6 da
+`sdd-desenvolver` (o merge e o registro do merge são dele) e pare. Tudo aqui é gravado na **base**, pelo bloco
+[Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base) (a troca e o `pull --ff-only` vêm antes de
+qualquer passo).
 
 ## Passo 1 — Drift de negócio
 
@@ -62,10 +59,10 @@ Numa confirmação só, nesta ordem, como diz [references/elm-publicar.md](refer
   registre `ELM pendente [<chave>]: concluir <tarefa> (<login>)`, que a pessoa faz na sessão dela;
 - *backlog* — concluir o IB da fatia (e o do épico, na última fatia — Passo 4). Tarefa concluída sem horas não
   trava: a virada aponta. A consolidação é **pré-condição dos ritos de fechamento** da sprint (review, retrospectiva,
-  virada): fatia mergeada sem ela para o rito, salvo decisão do P.O.;
+  virada): fatia `pronta` sem ela para o rito, salvo decisão do P.O.;
 - *horas* — as da consolidação na `[GB] Gerenciamento do backlog`: `elm_lancar_horas(id, horas)` (lança, não
   conclui — a `[GB]` é contínua). Os créditos desta sessão vão na seção **Créditos de gestão** do `sprint-<nn>.md` aberto (Atividade `consolidação FT-<nnn>`;
-  ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4)), no commit do Passo 4. Linha `Sustentação:` sem `[GB]` → como na `sdd-triar` (sugira criá-la ou pergunte a tarefa). Quem consolida não é o
+  ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4)), no commit do Passo 4. `## Sustentação` sem a `GB` → como na `sdd-triar` (sugira criá-la ou pergunte a tarefa). Quem consolida não é o
   dono da `[GB]` (o SM, com a `[GB]` do P.O.) → o MCP recusa (`só o dono lança horas`): pergunte em que tarefa dele
   lançar, ou registre `ELM pendente [GB horas]: <login> <h>h (<data>)` para quem é dono.
 
@@ -89,24 +86,23 @@ retrospectiva do épico ou da sprint (`sdd-aprender`).
 ## Passo 4 — Fechar
 
 - Na **base** (já nela desde a Entrada; commit direto — várias fatias podem ir no mesmo commit de
-  consolidação): `status.md` da fatia com
-  `fase: concluida` e data; `backlog.md` com `status: concluida`, `concluida-em`, os ids de tarefa do campo ELM
-  do `status.md` que a coluna `elm` ainda não tem; na coluna Créditos da linha da fatia no `sprint-<nn>.md`, a soma
-  da seção **Créditos** do `status.md` da branch da fatia (`git show origin/<branch>:…`, com as linhas que o Dev
-  gravou no merge) — o `creditos` do `backlog.md` é da virada da sprint; ADRs e glossário do Passo 3.
-- Fatia puxada (`Puxada para a sprint <nn>` no Histórico): `sprint` = a chave `<pai>/<nn>` na linha do `backlog.md`
-  e uma linha na seção Fatias do `sprint-<nn>.md` (revisor e verificador do Histórico, Tarefa ELM com os ids do
-  `status.md`), com a Observação `puxada` (e `revisor único`, se o Histórico o tiver) — ela conta na vazão da sprint.
-- Todas as fatias do épico concluídas → épico `concluido` (PRD e backlog) e, com ELM, o item do épico no EWM
+  consolidação): `status.md` da fatia com `Fase: concluida` e data; no `backlog.md`, `status` `concluida`,
+  `concluida-em` e os ids do campo ELM do `status.md` (o item e as tarefas) que a coluna `elm` ainda não tem, no
+  lugar de `pendente` ou do id sem link (com o tipo antes: `REV [<id>](<url>)`); na linha da fatia no `sprint-<nn>.md` aberto, Status `concluida`, os ids que faltam na
+  Tarefa ELM (`DEV <id> · REV <id>`…) e Créditos = a soma da seção **Créditos** do `status.md` da base (com as
+  linhas que o Dev gravou com a `pronta`) — o `creditos` do `backlog.md` é da virada da sprint; ADRs e glossário do
+  Passo 3.
+- Fatia puxada: a linha dela na sprint (Observação `puxada`) e a `sprint` no backlog já vêm do `iniciar`
+  (`sdd-desenvolver` Passo 4) — aqui, só a Tarefa ELM, como acima; ela conta na vazão da sprint.
+- Última fatia do épico concluída (as demais `concluida`, `dividida` ou `cancelada`) → épico `concluido` no
+  `backlog.md` e Fase `concluido` no `status.md` do épico, no mesmo commit, e, com ELM, o IB do épico no EWM
   concluído ([conclusão](references/elm-publicar.md#conclusão-do-ib-e-do-épico), na mesma confirmação do Passo 2; sem o MCP → `ELM pendente
   [EP-<nn> concluir]` no rodapé do PRD); sugira a retrospectiva do épico (`sdd-aprender`), com o lint do
-  conhecimento.
-- **`sdd-aprender`** modo registrar para cada linha das **Lições candidatas** que o Dev gravou no merge (`status.md`
-  da branch da fatia, `git show origin/<branch>:…`): transcreva sem reclassificar — os fatos e a causa são de quem
-  recebeu a correção — e grave o L-nnn na linha, levando a seção para o `status.md` da base. Causa `—` ou
-  `nenhuma` → nada a registrar.
-- Commit (padrão do `sdd.md`, `<id> consolidar`) com `status.md`, `backlog.md` e o que mudou. Branch da fatia: pode
-  ser apagada depois do merge (a pasta da fatia já está na base).
+  conhecimento. Épico `cancelado` não conclui: fica `cancelado` no `backlog.md`, na Fase e no EWM.
+- **`sdd-aprender`** modo registrar para cada linha das **Lições candidatas** que o Dev gravou com a `pronta`
+  (`status.md` da base): transcreva sem reclassificar — os fatos e a causa são de quem recebeu a correção — e grave
+  o L-nnn na linha. Causa `—` ou `nenhuma` → nada a registrar.
+- Commit (padrão do `sdd.md`, `<id> consolidar`) com `status.md`, `backlog.md`, `sprint-<nn>.md` e o que mudou.
 
 ## Passo 5 — Próximo
 
@@ -114,7 +110,7 @@ retrospectiva do épico ou da sprint (`sdd-aprender`).
 ✅ FT-<nnn> concluída — <título>
 ELM: <publicado (requisitos · ET · CT <ids>) | pendente: …> · Drift de negócio: <não | PRD v1.1 | ficha v2>
 Créditos: <x.xx> (<n> sessões · power sdd <versões>)
-Épico EP-<nn>: <c>/<t> fatias · próxima pronta: FT-<…> (<AFK|HITL>, desbloqueada agora)
+Épico EP-<nn>: <c>/<t> fatias · próxima: FT-<…> (<planejada | elegivel> · <AFK|HITL>, desbloqueada agora)
 Lições: <n> registradas
 ```
 

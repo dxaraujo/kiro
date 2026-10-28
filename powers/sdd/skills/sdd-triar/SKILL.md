@@ -4,7 +4,7 @@ description: "Entrada de todo trabalho novo no fluxo sdd — recebe um pedido em
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.3.0"
+  version: "3.3.1"
 ---
 
 # sdd-triar — Triagem e registro
@@ -55,7 +55,7 @@ parecidos, e a seção `## Apoio`), no `**Origem:**` dos `<produto>/apoio/**/*.m
 | **épico** | funcionalidade nova com várias histórias ou fatias, mais de ~3 dias, mais de um objetivo, ou decisão de produto em aberto | `EP-nn` em `rascunho` → depois `sdd-prd` → `sdd-fatiar` |
 | **padrão** | uma fatia (≤ G) que cria ou muda regra de negócio **clara** — o P.O. decide aqui —, sem decisão de produto em aberto | fatia sem épico, com **ficha** (regras, cenários, decisões) aprovada pelo P.O. |
 | **rápida** | defeito ou ajuste ≤ 1 dia **sem** regra nova (o comportamento certo já está documentado ou é óbvio) — inclusive o diff que cabe numa frase (texto, configuração, ajuste trivial) | fatia sem épico, com ficha de **comportamento** (atual · esperado · não muda) e como verificar |
-| **apoio** | trabalho que não muda o repositório, numa das categorias da tabela **Apoio** do `sdd.md` (Atendimento: consulta, extração, explicação ou conferência pedida pelo cliente; Implantação; Banco de dados; Infra; Operação; Apoio a outros times) | item da categoria (`AT-nnn`, `IM-nnn`…) na seção `## Apoio`, com o registro, a sprint sugerida e a tarefa da categoria (`[ATD]`, `[IMPL]`…) (a triagem registra; quem executa: **`sdd-atender`** no Atendimento, o fluxo mínimo da **`sdd-iniciar`** nas demais) |
+| **apoio** | trabalho que não muda o repositório, numa das categorias da tabela **Apoio** do `sdd.md` (Atendimento: consulta, extração, explicação ou conferência pedida pelo cliente; Implantação; Banco de dados; Infra; Operação; Apoio a outros times) | item da categoria (`AT-nnn`, `IM-nnn`…) na seção `## Apoio`, com o registro, a sprint sugerida e a tarefa da categoria (`[ATD]`, `[IMPL]`…) (a triagem registra; quem executa: **`sdd-atender`** no Atendimento, a **`sdd-executar`** nas demais) |
 
 - Fatia de um épico não passa de novo por aqui: o épico foi triado na entrada e as fatias dele vêm da `sdd-fatiar`.
 - Diga a trilha e o motivo numa linha; dúvida entre duas → sim/não pela mais leve (rápida, depois padrão, depois épico). Padrão que precisaria de mais de
@@ -135,16 +135,16 @@ no mesmo commit.
     (estimativa em `**Estimativa:**`) e `**Situação:** aberto`; na sprint, a linha na seção Apoio do `sprint-<nn>.md`.
     Backlog com `## Atendimentos` → antes, a migração do formato do backlog (seção, coluna, pasta).
   - EWM (com ELM): [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §6, com "sim" — na iteração da sprint, ou no backlog com o item em
-    `backlog` (o encaixe ou o planejamento movem), filha do IB da categoria na iteração pai — primeiro item da categoria no pai (a linha `Sustentação <pai>:` sem
+    `backlog` (o encaixe ou o planejamento movem), filha do IB da categoria — primeiro item da categoria (a linha `Sustentação:` sem
     ela) → o IB nasce junto, na mesma confirmação, e o id dele vai para a linha (§6; §2 antes, se faltar a
-    Sustentação); o id da tarefa vai para a coluna `elm`. Sem o MCP `elm` → `elm` = `pendente` (a `sdd-atender` ou a `sdd-iniciar` registram
+    Sustentação); o id da tarefa vai para a coluna `elm`. Sem o MCP `elm` → `elm` = `pendente` (a `sdd-atender` ou a `sdd-executar` registram
     antes de assumir).
 
 Atualize "Próximos ids". O commit é **um só, no fim da sessão de triagem** (Passo 4, resposta "não"), com o
 `backlog.md`, as fichas, os registros de Apoio e a linha de créditos da sessão na seção **Créditos de gestão** do `sprint-<nn>.md` aberto (Atividade `triagem`;
 ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4); sem sprint aberta, não há onde gravar) (padrão de commit do `sdd.md`). A triagem não tem tarefa própria (os
-itens triados nascem no backlog do EWM, mas tarefa só nasce na sprint): o padrão é a tarefa **`[GB] Gerenciamento do backlog`** da linha
-`Sustentação <pai>:` do `backlog.md` — mostre-a e confirme (a pessoa pode indicar outra). Linha sem `[GB]` → sugira
+itens triados nascem no backlog do EWM, mas a `[GB]` só nasce com a primeira sprint do pai): o padrão é a tarefa **`[GB] Gerenciamento do backlog`** da linha
+`Sustentação:` do `backlog.md` — mostre-a e confirme (a pessoa pode indicar outra). Linha sem `[GB]` → sugira
 criá-la ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §2; só com sprint aberta, que dá a
 iteração) ou pergunte a tarefa. Sem tarefa, não commite: deixe os arquivos e o comando pronto; push direto na base com o "sim" da pessoa
 (no agente `sdd-produto`, que não faz push, entregue o comando pronto
@@ -181,7 +181,7 @@ a instrução acima e pare. Recomeçar a própria triagem com o próximo item n�
    Backlog, estado `Novo` (o nome do estado inicial na PA; a pessoa troca). `elm_listar_wi(tipo, estado)`, por tipo.
 2. **Fora do lote:** item cujo id já está no `backlog.md` (colunas `origem` e `elm`) ou no `**Origem:**` de um
    `<produto>/apoio/**/*.md`, item criado pelo próprio fluxo (título com `[EP-`, `[FT-`, `[SUS-`, `Sustentação `,
-   `[ESP]`, `[DEV]`, `[REV]`, `[VER]`, um prefixo do Apoio ou `<Categoria> <produto> - `, o IB de categoria), tarefas (as da iteração da sprint entram pela
+   `[ESP]`, `[DEV]`, `[REV]`, `[VER]`, um prefixo do Apoio ou `<Categoria> - <produto>`, o IB de categoria), tarefas (as da iteração da sprint entram pela
    "sincroniza a sprint" da `sdd-planejamento`) e, depois de ler o item (item 3), o que tem pai do fluxo (`[EP-`,
    `[SUS-`, `Sustentação `, IB de categoria) ou o comentário `sdd: não fazer`. Mais de 15
    itens → mostre a contagem e peça um filtro mais fino.

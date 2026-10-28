@@ -5,7 +5,7 @@ Regras comuns (prévia, um "sim", idempotência, pendências): [../../sdd/refere
 Nasce com `iteracao = backlog` (o backlog do produto gravado no `pa`, §0) ou, se já entra numa sprint, com a iteração
 dela. **Entrar na sprint** = `elm_atualizar_wi(ids, iteracao = a da sprint)` — move, nunca recria; só se cria o
 que está `—` ou `pendente` na coluna `elm`. **Todo trabalho tem pai**: épico → IB → tarefa, ou o IB de
-Sustentação da iteração pai para o que não vem de PRD. Ordem: épico, IB, tarefa. Tarefas (`[ESP]`, `[DEV]`, `[REV]`,
+Sustentação do produto para o que não vem de PRD. Ordem: épico, IB, tarefa. Tarefas (`[ESP]`, `[DEV]`, `[REV]`,
 `[VER]`, `[APR]`, `[GB]`) nascem só na sprint; as únicas tarefas no backlog são as de Apoio que não couberam numa (§6).
 
 ## 0. Backlog do produto (na setup ou em "atualizar a configuração do sdd"; uma vez por projeto)
@@ -29,26 +29,24 @@ Sustentação da iteração pai para o que não vem de PRD. Ordem: épico, IB, t
 ## 1. Iteração e plano da sprint
 
 `elm_iteracao("<pai>/<nome>")` acha ou cria a iteração da sprint **dentro da iteração pai** (o pai que falta nasce
-irmão do pai anterior, na mesma release) e o plano da sprint do time, e guarda os ids no `pa` com a chave do caminho
-(o backlog do produto não é criado aqui: é o do §0). O caminho tira a ambiguidade de duas `Sprint 1` em pais
-diferentes; use-o em toda tool que recebe `iteracao`. Criar exige a permissão de modificar iterações — erro
-`permissao` → peça a quem administra a PA.
+irmão do pai anterior, na mesma release; na primeira sprint do projeto, no topo da timeline) e o plano da sprint do time, e guarda os ids no `pa` com a chave do caminho
+(o backlog do produto não é criado aqui: é o do §0). **O pai:** a sprint nova herda o da anterior; pai novo só quando a
+pessoa diz, com o nome que ela der (`2026`, `Entrega 3`…); primeira sprint do projeto → pergunte. O caminho tira a
+ambiguidade de duas `Sprint 1` em pais diferentes; use-o em toda tool que recebe `iteracao`. Criar exige a permissão de modificar iterações — erro
+`permissao` → peça a quem administra a PA. Erro `entrada` "várias timelines" (primeira sprint, PA com mais de uma
+timeline) → configure antes o backlog do produto (§0), cuja timeline passa a valer, ou use o caminho com o ancestral.
 
-## 2. Sustentação (uma por iteração pai, com a linha `Sustentação <pai>:` do `backlog.md` vazia ou de outro pai)
+## 2. Sustentação (uma por produto, com a linha `Sustentação:` do `backlog.md` vazia)
 
-IB `Sustentação <produto> - <pai>` (`tipo: ib`; `<produto>` = o nome do produto do `sdd.md`; `<pai>` = a iteração
-pai das sprints, ex.: `2026`), com `iteracao = backlog` — nasce no §0, na primeira triagem ou com a primeira sprint
-de um pai novo, e **fica no backlog** (não entra em sprint nem move na virada). É o pai dos IBs de categoria do
-Apoio (§6), da `[GB]` e das fatias sem épico.
-Idempotência: `elm_listar_wi(iteracao = backlog, titulo_prefixo "Sustentação <produto> - <pai>")`. A tarefa
+IB `Sustentação - <produto>` (`tipo: ib`; `<produto>` = o nome do produto do `sdd.md`), com `iteracao = backlog` —
+nasce no §0 ou na primeira triagem e **fica no backlog** (não entra em sprint nem move na virada). É o pai dos IBs
+de categoria do Apoio (§6), da `[GB]` e das fatias sem épico.
+Idempotência: `elm_listar_wi(iteracao = backlog, titulo_prefixo "Sustentação - <produto>")`. A tarefa
 `[GB] Gerenciamento do backlog` (filha da Sustentação, dono = o P.O. ativo do `equipe.json`) nasce na primeira
-sprint do pai, com a iteração dela. Ids na linha: `Sustentação <pai>: <id> · Backlog [GB] <id>`, e cada IB de
-categoria entra nela quando nasce (`· Operação <id>`; §6). Sustentação já
-existe sem a `[GB]` → crie só a `[GB]` (com sprint aberta). **Pai novo** (a sprint nova é `2027/01`): nasce a
-Sustentação do pai novo e a `[GB]` dela (os IBs de categoria do pai novo nascem com o primeiro item de cada
-uma, §6); a `[GB]` antiga conclui com o saldo de horas (`elm_transicao concluir`); a
-linha do `backlog.md` passa a ser a do pai novo. Projeto com a antiga `[SUS-<ano>] Sustentação` e o IB `Atendimento`:
-ficam como estão (nada se apaga no EWM) até o primeiro pai novo.
+sprint de cada iteração pai, com a iteração dela. Ids na linha: `Sustentação: <id> · Backlog [GB] <id>`, e cada IB
+de categoria entra nela quando nasce (`· Operação <id>`; §6). Sustentação já existe sem a `[GB]` → crie só a `[GB]`
+(com sprint aberta). **Pai novo** (a sprint nova é `2027/01`): nasce a `[GB]` do pai novo e a antiga conclui com o
+saldo de horas (`elm_transicao concluir`) e sai da linha; a Sustentação e os IBs de categoria não mudam.
 
 ## 3. Épico e IB (nascem no registro; movem na sprint)
 
@@ -80,7 +78,7 @@ sem `elm` → §6; com a tarefa no backlog → move (§6). Ids na coluna "Tarefa
 
 ## 5. Virada
 
-Antes de tudo, §9 (o que nasceu por fora entra nos Números). Próxima sprint em outro pai (`2026/04` → `2027/01`) → §1 com o pai novo e §2 (Sustentação e `[GB]` do pai novo)
+Antes de tudo, §9 (o que nasceu por fora entra nos Números). Próxima sprint em outro pai (`2026/04` → `2027/01`) → §1 com o pai novo e §2 (`[GB]` do pai novo)
 antes de mover. Tarefas, IBs e épicos não concluídos da sprint (inclusive a `[GB]`, se o pai não muda; Sustentação e o que está no
 backlog ficam onde estão) → `elm_atualizar_wi(ids, iteracao = a nova)` numa chamada (move, nunca recria; o pai não muda). Baseline por sprint, se o
 `sdd.md` exigir → roteiro manual. Relatório: `elm_horas(iteracao)` → horas por prefixo e por pessoa, planejadas ×
@@ -88,11 +86,11 @@ lançadas, e as tarefas concluídas sem horas.
 
 ## 6. Apoio (chamado pela `sdd-triar`, pelo encaixe ou aqui)
 
-**IB da categoria** (tabela **Apoio** do `sdd.md`), um por categoria e iteração pai: a linha `Sustentação <pai>:`
-do `backlog.md` sem `<Categoria> <id>` → é o primeiro item da categoria no pai: crie, na mesma confirmação da
-tarefa, `elm_criar_wi(tipo ib, "<Categoria> <produto> - <pai>", pai = Sustentação <produto> - <pai>, iteracao =
-backlog)` (§2 antes, se a Sustentação faltar; idempotência: `elm_listar_wi(pai = <id da Sustentação>, titulo_prefixo
-"<Categoria> <produto> - <pai>")`) e grave `· <Categoria> <id>` na linha. Fica no backlog, como a Sustentação; a
+**IB da categoria** (tabela **Apoio** do `sdd.md`), um por categoria: a linha `Sustentação:` do `backlog.md` sem
+`<Categoria> <id>` → é o primeiro item da categoria: crie, na mesma confirmação da tarefa, `elm_criar_wi(tipo ib,
+"<Categoria> - <produto>", pai = Sustentação - <produto>, iteracao = backlog)` (§2 antes, se a Sustentação faltar;
+idempotência: `elm_listar_wi(pai = <id da Sustentação>, titulo_prefixo "<Categoria> - <produto>")`) e grave
+`· <Categoria> <id>` na linha. Fica no backlog, como a Sustentação; a
 Categoria do IB é a padrão do tipo no `pa`.
 
 **Tarefa:** `elm_criar_wi(tipo tarefa, "<prefixo> <ID> <título>", pai = o IB da categoria, dono = quem faz,
@@ -121,13 +119,13 @@ Roda depois de publicar a sprint (§4), na pré-condição dos ritos de fechamen
 
 1. `elm_listar_wi(iteracao = "<pai>/<nome>" da sprint, tipo tarefa, limite 200)`.
 2. **Conhecidas:** os ids da coluna "Tarefa ELM" de todas as seções do `sprint-<nn>.md`, a `[GB]` da linha
-   `Sustentação <pai>:` e a coluna `elm` do `backlog.md`; e as dos `status.md` das fatias em andamento (Histórico e
+   `Sustentação:` e a coluna `elm` do `backlog.md`; e as dos `status.md` das fatias em andamento (Histórico e
    campo ELM, `git show origin/<branch>:…` — a `sdd-consolidar` ainda não as levou à base). O resto é **externa**.
    Nenhuma → "sprint e EWM iguais" e fim.
 3. **Inferir** cada externa com `elm_ler_wi(id)` (`pai`, `campos`, descrição), nesta ordem de pistas:
    - prefixo do sdd já no título (`[DEV]`, `[ESP]`, `[IMPL]`…) → é ele;
    - pai no EWM: IB `[FT-nnn]` → tarefa de papel da fatia (`[DEV]`, `[REV]`, `[VER]`, `[APR]`); épico `[EP-nn]` →
-     `[ESP]` do épico; IB de categoria → a categoria dele; `Sustentação …`, `[SUS-…]` ou sem pai → Apoio;
+     `[ESP]` do épico; IB de categoria → a categoria dele; `Sustentação - <produto>` ou sem pai → Apoio;
    - Classificação da Tarefa: Desenvolvimento → `[DEV]` (ou `[REV]`, se o dono é o revisor da fatia); Testes →
      `[VER]`; Análise / Especificação → `[ESP]`; a de uma categoria da tabela **Apoio** do `sdd.md` → ela;
    - título e descrição (chamado → Atendimento; versão, deploy → Implantação; script, carga → Banco de dados…).
@@ -151,13 +149,15 @@ Roda depois de publicar a sprint (§4), na pré-condição dos ritos de fechamen
      é um encaixe: a linha nasce com `encaixe: trazida do EWM (<quem>, <data>)` e o P.O. confirma. Fatia em
      andamento (`status.md` numa branch) → o `backlog.md` não muda (a `sdd-consolidar` leva os ids); avise o Dev
      para registrar o id no `status.md`;
-   - **Apoio** → próximo id da série da categoria; linha em `## Apoio` do `backlog.md` (`origem` `EWM <id>`, `elm` =
+   - **Apoio** → antes, a linha de `## Apoio` da mesma categoria com `elm` `pendente` que seja o mesmo pedido
+     (triado sem o MCP e aberto à mão no EWM) → proponha ligar: o id vai para a coluna `elm` (sem id nem ficha novos); a linha dele na seção Apoio do
+     `sprint-<nn>.md` recebe o id em "Tarefa ELM" (sem linha ali → o item entra na sprint como abaixo). Senão, próximo id da série da categoria; linha em `## Apoio` do `backlog.md` (`origem` `EWM <id>`, `elm` =
      `<prefixo> <id>`, `sprint`, `responsavel` = dono, `status` pelo estado: concluída → `concluido` com
      `concluida-em`), registro mínimo `<produto>/apoio/<pasta>/<ID>-<slug>.md` (o título e a descrição do EWM, sem dado de
-     cliente) e linha na seção Apoio do `sprint-<nn>.md` com `trazida do EWM` — consome a reserva (passou → aviso
+     cliente; `**Estimativa:**` a da tarefa no EWM, ou `—`) e linha na seção Apoio do `sprint-<nn>.md` com `trazida do EWM` — consome a reserva (passou → aviso
      ao P.O., como no Encaixe);
    - **EWM:** `elm_atualizar_wi(id, titulo)` pela escolha da linha; sem pai → `pai` = o IB da fatia, o épico ou, no
-     Apoio, o IB da categoria (§6: nasce aqui, se for o primeiro da categoria no pai) — todo trabalho tem pai. Pai
+     Apoio, o IB da categoria (§6: nasce aqui, se for o primeiro da categoria) — todo trabalho tem pai. Pai
      existente, dono e horas não mudam.
    Um commit `sprint <pai>/<nn>: sincronizar com o EWM`, pelo bloco [Gravar na base](../../sdd-fatiar/references/backlog.md#gravar-na-base),
    na `[GB]`. As horas dessas tarefas já entram no relatório da virada (§5): `elm_horas(iteracao)` lista toda tarefa

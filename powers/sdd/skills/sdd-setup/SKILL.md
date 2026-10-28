@@ -4,7 +4,7 @@ description: "Wizard de 9 etapas, em português do Brasil e em cartões padroniz
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.3.0"
+  version: "3.3.1"
 ---
 
 # sdd-setup — Configurar o fluxo no projeto
@@ -183,9 +183,9 @@ mais longa (10 blocos) e o que ela decide.
    - Seção ELM do `sdd.md`, sem perguntas (linha 6 do W4): publicar requisitos `na-aprovacao`, ET `não
      publica`, manual `nada`, pontos `não`, fatia dividida "filhos do item original", títulos das tarefas e colunas
      do `CT.csv` do template; a categoria do IB de defeito é a do bloco 5 do `elm-pa.md`. A Sustentação não é
-     perguntada: nasce no backlog do EWM na primeira triagem ou com a primeira sprint de cada iteração pai, ou no
+     perguntada: nasce no backlog do EWM, uma por produto, na primeira triagem ou no
      espelhamento do backlog ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §0 e §2); pergunte só o
-     nome curto do produto (linha "Produto" da seção ELM). A seção **Apoio** do `sdd.md` vem do template com as seis
+     nome curto do produto (linha 7 do W4; vai para a linha "Produto" da seção ELM). A seção **Apoio** do `sdd.md` vem do template com as seis
      categorias, a Classificação de cada uma pelo bloco 5 do `elm-pa.md`; modo atualização com `sdd.md` sem a
      seção → acrescente-a (com "ok").
    - **Backlog do produto no EWM** (`ccm.backlog` do `pa`; também no modo atualização, com `pa` sem ele): onde os

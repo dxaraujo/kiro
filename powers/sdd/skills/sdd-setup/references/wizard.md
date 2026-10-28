@@ -206,6 +206,7 @@ Duas mensagens: a proposta (Status `⏸️ ainda não rodado`) e, depois do `ok`
 | 4 | Usa ELM | <sim — `pa_<nome>.json` | não> | <🔍 | 🙋> |
 | 5 | Bundle do RM | <`docs/elm/<nome>` · <n> documentos | não baixado — `sdd-sync` depois | ➖> | <🔍 | 🧩> |
 | 6 | Regras do ELM | publicar requisitos na aprovação · ET não publica · fatia dividida = filhos do item | 📐 |
+| 7 | Produto | <nome curto> — títulos `Sustentação - <produto>` e `<Categoria> - <produto>` no EWM | 🙋 |
 ```
 
 Montagem do `pa` (só quando falta): um cartão por bloco, com o cabeçalho

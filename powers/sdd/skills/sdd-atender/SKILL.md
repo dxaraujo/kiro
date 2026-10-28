@@ -4,14 +4,14 @@ description: "Skill de quem atende no fluxo sdd — executa um atendimento (cham
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.3.0"
+  version: "3.3.1"
 ---
 
 # sdd-atender — Atender sem perder o rastro
 
 Atendimento é trabalho real que não vira código: alguém pergunta (chamado, e-mail, pedido), o time consulta, responde
 e segue. É a categoria **Atendimento** do **Apoio** — a única com fluxo próprio; as demais (Implantação, Banco de
-dados, Infra, Operação, Apoio a outros times) usam o fluxo mínimo da [`sdd-iniciar`](../sdd-iniciar/SKILL.md#tarefas-de-apoio-sem-skill-própria).
+dados, Infra, Operação, Apoio a outros times) usam a [`sdd-executar`](../sdd-executar/SKILL.md).
 A **`sdd-triar`** registra a demanda (`AT-nnn`, linha na seção `## Apoio` do `backlog.md`, tarefa `[ATD]` na sprint);
 esta skill é a de quem **atende**: assume a `[ATD]`, executa e finaliza, deixando um registro versionado **sem dado
 de cliente**.
@@ -32,7 +32,7 @@ Leia antes: `.kiro/steering/sdd.md`. Sem ele → ofereça a **`sdd-setup`** ("co
 | número do EWM de uma `[ATD]` | a linha do `backlog.md` com esse id em `elm` |
 | pedido novo ("o cliente pediu …"), ou AT fora do backlog | não está registrado → "use `sdd-triar`" e pare — nunca abra AT aqui |
 | AT `concluido` ou `cancelado` | mostre a situação e pare; reabrir é um AT novo pela triagem |
-| item de outra categoria do Apoio (`IM-`, `BD-`, `IN-`, `OP-`, `EX-`; tarefa `[IMPL]` `[BD]` `[INF]` `[OPE]` `[EXT]`) | não é desta skill → "use `sdd-iniciar <item>`" e pare |
+| item de outra categoria do Apoio (`IM-`, `BD-`, `IN-`, `OP-`, `EX-`; tarefa `[IMPL]` `[BD]` `[INF]` `[OPE]` `[EXT]`) | não é desta skill → "use `sdd-executar <item>`" e pare |
 
 Não é atendimento (pedido que muda o comportamento do sistema, ou regra que ninguém decidiu) → devolva à
 `sdd-triar` para refazer a triagem e pare.
@@ -132,7 +132,7 @@ Arquivo: `.kiro/local/apoio/atendimento/AT-012/contas-bloqueadas-2026-09.csv` (f
 - **Dado de cliente nunca vai para o git**: resultado de consulta, extração ou tela com dado real fica em
   `.kiro/local/apoio/atendimento/AT-<nnn>/`. O registro guarda consulta, contagem, caminho e resumo anônimo.
 - Banco só em leitura. Pedido que exige escrita na base não é atendimento: vira Banco de dados (`[BD]`, a pessoa
-  executa o script fora; fluxo mínimo da `sdd-iniciar`) ou, se muda o repositório, fatia rápida.
+  executa o script fora; pela `sdd-executar`) ou, se muda o repositório, fatia rápida.
 - Um `[ATD]` por demanda, sem balde. Registrar o AT é da `sdd-triar`; esta skill nunca numera nem abre AT.
 - Lançar horas é registro de empenho, a qualquer momento na `[ATD]` iniciada; concluir é o Passo 4, com o saldo.
 - Toda escrita no EWM e todo envio de resposta pedem confirmação da pessoa.

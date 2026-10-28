@@ -36,7 +36,7 @@
 ## Histórico de sprints
 
 > Gravado na virada de cada sprint.  
-> Horas (DEV/REV/APR/VER/ESP/ATD) vêm do relatório de horas da virada (`elm_horas(iteracao)`).
+> Horas (DEV/REV/APR/VER/ESP/Apoio) vêm do relatório de horas da virada (`elm_horas(iteracao)`).
 
-| Sprint | Fatias concluídas | Lead time médio (dias) | Horas DEV | Horas REV | Horas APR | Horas VER | Horas ESP | Horas ATD | Reserva AT (%) |
+| Sprint | Fatias concluídas | Lead time médio (dias) | Horas DEV | Horas REV | Horas APR | Horas VER | Horas ESP | Horas Apoio | Reserva Apoio (%) |
 |---|---|---|---|---|---|---|---|---|---|

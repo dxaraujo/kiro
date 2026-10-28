@@ -4,7 +4,7 @@ description: "Painel do fluxo sdd, somente leitura — onde parei e o que fazer 
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.3.0"
+  version: "3.3.1"
 ---
 
 # sdd-status — Onde parei
@@ -20,13 +20,13 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
    costuma existir só na branch dela.
 2. De cada `status.md`: fatia, título, trilha, modo, fase, responsável, rodadas, achados abertos, PR, ELM,
    Banco, última linha do Histórico (data) e pendências `ELM pendente [<chave>]:` sem `ELM feito` com a **mesma chave** (pendência antiga, sem chave → liste com "sem chave: confira") (também
-   no campo `**ELM:**` dos `AT-*.md` abertos e na coluna "Tarefa ELM" `pendente` da sprint aberta).
+   no campo `**ELM:**` das fichas abertas de `apoio/**` e na coluna "Tarefa ELM" `pendente` da sprint aberta).
    PR das fatias em `pr-aberto`, `em-revisao`, `em-verificacao`, `retrabalho`, `pronta-para-merge` ou `mergeada`:
    `gitlab_listar_mrs(origem=<branch>, estado=all)` (MCP `gitlabpr`, só leitura) — estado, conflitos e link;
    `merged` → próximo passo `sdd-consolidar`, do P.O. ou do SM no agente `sdd-produto` (fase ainda `pronta-para-merge` → o Dev registra `mergeada` e conclui a `[DEV]`); `closed` sem merge → inconsistência. Sem o MCP → o link do `status.md`.
 3. De cada `tasks.md`: `[x]`/total e o primeiro item pendente.
 4. `<produto>/backlog.md` (da base): épicos por status, fatias `pronta` sem `status.md` em nenhuma branch,
-   sprint atual (em `<produto>/sprints/<pai>/`, a de maior `(pai, nn)` com `**Situação:** aberta`) e a meta. "Em andamento" = fatia com
+   sprint atual (em `<produto>/sprints/<pai>/`, a de início mais recente com `**Situação:** aberta`) e a meta. "Em andamento" = fatia com
    `status.md` numa branch e fase diferente de `concluida`, e não `concluida` na base (a branch mergeada fica em
    `mergeada`; quem fecha é a consolidação, na base); o backlog não guarda isso.
    PRDs (`epicos/*/prd.md`): status e pendências `ELM pendente [<chave>]:` do rodapé.
@@ -38,7 +38,7 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
    `ELM pendente [<chave>]:`. Apoio aberto: as linhas `aberto` e `backlog` de `## Apoio` do `backlog.md`, por
    categoria (backlog de antes da 3.3.0: `## Atendimentos`; mais antigo, sem a seção: os `AT-*.md` com
    `**Situação:** aberto`). Com o MCP `elm`: **tarefas por fora** — `elm_listar_wi(iteracao da sprint, tipo
-   tarefa)` menos os ids conhecidos (os mesmos do §9, item 2, do
+   tarefa, limite 200)` menos os ids conhecidos (os mesmos do §9, item 2, do
    [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md)); só conta, não grava.
 7. Lotes autônomos em andamento: `.kiro/local/loop-*.md`.
 8. "Minhas" = responsável igual ao login da pessoa: `git config user.name` cruzado com `nome`/`login` do

@@ -46,7 +46,7 @@
     "produto": {
       "description": "Agente de produto do fluxo sdd — faz a triagem de toda demanda nova e a registra no backlog, conduz a entrevista de alinhamento (grill), escreve o PRD do épico, quebra em fatias verticais, cuida do planejamento ágil (roadmap, sprint, review, virada) e do Apoio (atendimentos de cliente e demais categorias) e da consolidação da fatia mergeada, com o glossário do domínio e o ELM. Não escreve código.",
       "welcomeMessage": "Vamos trabalhar em quê? (nova demanda, PRD, fatiar, planejar a sprint, review, virada, atendimento ou outro apoio, consolidar uma fatia mergeada)",
-      "skills": ["sdd-triar", "sdd-entrevistar", "sdd-prd", "sdd-fatiar", "sdd-planejamento", "sdd-atender", "sdd-consolidar",
+      "skills": ["sdd-triar", "sdd-entrevistar", "sdd-prd", "sdd-fatiar", "sdd-planejamento", "sdd-atender", "sdd-executar", "sdd-consolidar",
                  "sdd-aprender", "sdd-especificar", "sdd-iniciar", "sdd-status"],
       "subagentes": ["sdd-pesquisador", "sdd-revisor"],
       "shell": ["git-leitura", "worktree", "creditos", "git-escrita"],

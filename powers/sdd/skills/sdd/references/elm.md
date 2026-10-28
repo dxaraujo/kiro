@@ -85,8 +85,8 @@ Resolver ("resolve as pendências do ELM"): a `sdd-status` lista; para cada uma,
 | `[DEV] FT-<nnn> Implementar` | IB da fatia | Dev | planejamento | merge |
 | `[REV] FT-<nnn> Revisar` · `[VER] FT-<nnn> Verificar` | IB | revisor · verificador (só HITL) | planejamento ou troca AFK→HITL | aprovar · aceitar (depois do push) |
 | `[APR] FT-<nnn> Aprovar plano` · `Aprovar PR` | IB | Dev Sênior | no gate | na aprovação |
-| Apoio: `[ATD] AT-<nnn>` · `[IMPL] IM-<nnn>` · `[BD] BD-<nnn>` · `[INF] IN-<nnn>` · `[OPE] OP-<nnn>` · `[EXT] EX-<nnn>` + `<pedido>` | IB `<Categoria> <produto> - <pai>` (filho da Sustentação; nasce com o 1º item da categoria no pai) | quem faz | triagem (na sprint ou no backlog) ou trazida do EWM ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §9) | ao finalizar (`sdd-atender` no Atendimento; `sdd-iniciar` nas demais) |
-| `[GB] Gerenciamento do backlog` | IB `Sustentação <produto> - <pai>` | P.O. | 1ª sprint do pai | na troca de pai (a do pai novo nasce); senão move na virada |
+| Apoio: `[ATD] AT-<nnn>` · `[IMPL] IM-<nnn>` · `[BD] BD-<nnn>` · `[INF] IN-<nnn>` · `[OPE] OP-<nnn>` · `[EXT] EX-<nnn>` + `<pedido>` | IB `<Categoria> - <produto>` (filho da Sustentação; nasce com o 1º item da categoria) | quem faz | triagem (na sprint ou no backlog) ou trazida do EWM ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §9) | ao finalizar (`sdd-atender` no Atendimento; `sdd-executar` nas demais) |
+| `[GB] Gerenciamento do backlog` | IB `Sustentação - <produto>` | P.O. | 1ª sprint do pai | na troca de pai (a do pai novo nasce); senão move na virada |
 
 O `pa` aplica os campos que a PA exige (categoria, campos exigidos por processo, classificação por prefixo); `iteracao` é a
 da sprint, ou `backlog` para épico, IB e tarefa de Apoio fora de sprint (o backlog do EWM é a cópia do `backlog.md`:

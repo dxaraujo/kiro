@@ -8,7 +8,7 @@ Este repositório usa o fluxo **sdd** (power `sdd`): alinhar antes de escrever, 
 aprovado por um Dev Sênior (GATE pela senioridade), teste primeiro com backpressure, revisão e verificação independentes, PR lido por uma
 pessoa, e o IBM ELM como registro oficial da documentação. Como funciona: skill `sdd`. Toda demanda nova: `sdd-triar`.
 Começar um item registrado: hub `sdd-iniciar` (diz a skill do papel: `sdd-especificar`, `sdd-desenvolver`,
-`sdd-revisar`, `sdd-verificar`, `sdd-atender`; `sdd-revisar` também nas `[APR]` (plano e PR), `sdd-planejamento` na troca de modo, `sdd-consolidar` na fatia mergeada; as tarefas de Apoio sem skill própria — `[IMPL]` `[BD]` `[INF]` `[OPE]` `[EXT]` — ficam na própria `sdd-iniciar`). Onde parei ou fechar a sessão: `sdd-status`.
+`sdd-revisar`, `sdd-verificar`, `sdd-atender`; `sdd-revisar` também nas `[APR]` (plano e PR), `sdd-planejamento` na troca de modo, `sdd-consolidar` na fatia mergeada, `sdd-executar` nas demais tarefas de Apoio — `[IMPL]` `[BD]` `[INF]` `[OPE]` `[EXT]`). Onde parei ou fechar a sessão: `sdd-status`.
 
 - **Créditos do Kiro:** nenhuma sessão termina sem registrá-los. Skill que termina (diz a próxima e para) sem ter
   registrado os desta sessão, ou pessoa que encerra → pergunte `💳 Fechar a sessão e registrar os créditos? (sim)`
@@ -114,25 +114,25 @@ Na worktree do `sdd-loop`: `cd .kiro/local/wt/<ft> && <comando>`. Falha de ambie
 | Critérios de aceite no IB | `<nome do campo em ccm.tipos.ib.campos do pa | descrição>` |
 | IB de defeito | `<campo = valor de correção (ex.: Categoria = Correção) | —>` (os demais padrões estão no `pa`) |
 | Tarefas (títulos padrão; editáveis à mão) | `[ESP] EP-<nn> Especificação` · `[DEV] FT-<nnn> Implementar` · `[REV] FT-<nnn> Revisar` · `[VER] FT-<nnn> Verificar` · `[APR] FT-<nnn> Aprovar plano` · `[APR] FT-<nnn> Aprovar PR` · `<prefixo do Apoio> <ID> <pedido>` · `[GB] Gerenciamento do backlog` |
-| Produto (no nome da Sustentação) | `<nome curto do produto>` — o IB `Sustentação <produto> - <iteração pai>` |
+| Produto (no nome da Sustentação) | `<nome curto do produto>` — o IB `Sustentação - <produto>` |
 | `CT.csv` (colunas na ordem do template do ETM) | `<Tipo=Caso de Teste · Resumo · Responsável · Status=<inicial> · Categoria · Planejado para · Descrição>` |
 
 ## Apoio
 
 Trabalho sem mudança no repositório (mudança de código ou config é fatia rápida). Apoio é só o nome do conjunto: cada
 item é de uma categoria, com prefixo de tarefa, série de ids e pasta de fichas próprios. No EWM, cada categoria tem
-o IB `<Categoria> <produto> - <iteração pai>`, filho do IB `Sustentação <produto> - <iteração pai>` e pai das tarefas
-dela; ele nasce com o primeiro item triado da categoria na iteração pai. Ficha: `<produto>/apoio/<pasta>/<ID>-<slug>.md`;
+o IB `<Categoria> - <produto>`, filho do IB `Sustentação - <produto>` e pai das tarefas
+dela, ambos no backlog do EWM; ele nasce com o primeiro item triado da categoria. Ficha: `<produto>/apoio/<pasta>/<ID>-<slug>.md`;
 dado de cliente: `.kiro/local/apoio/<pasta>/<ID>/` (fora do git).
 
 | Categoria | O que cobre | Tarefa | Id | Pasta | Classificação da Tarefa (PA) | Skill |
-|---|---|---|---|---|---|
+|---|---|---|---|---|---|---|
 | Atendimento | chamado ou pedido do cliente: consulta, extração, explicação, conferência | `[ATD]` | `AT-` | `atendimento` | `<Suporte / Apoio Técnico Especializado>` | `sdd-atender` |
-| Implantação | preparar e acompanhar a subida de versão: pacote, janela, roteiro, validação pós-implantação | `[IMPL]` | `IM-` | `implantacao` | `<…>` | `sdd-iniciar` |
-| Banco de dados | script de correção ou carga de dados, conferência de base, apoio ao DBA | `[BD]` | `BD-` | `banco-de-dados` | `<…>` | `sdd-iniciar` |
-| Infra | ambiente, acesso, certificado, fila, servidor, pedido a outra equipe | `[INF]` | `IN-` | `infra` | `<…>` | `sdd-iniciar` |
-| Operação | rotina de produção: reprocessar job, acompanhar execução, incidente sem mudança de código | `[OPE]` | `OP-` | `operacao` | `<…>` | `sdd-iniciar` |
-| Apoio a outros times | ajuda técnica a outra equipe ou outro produto | `[EXT]` | `EX-` | `outros-times` | `<…>` | `sdd-iniciar` |
+| Implantação | preparar e acompanhar a subida de versão: pacote, janela, roteiro, validação pós-implantação | `[IMPL]` | `IM-` | `implantacao` | `<…>` | `sdd-executar` |
+| Banco de dados | script de correção ou carga de dados, conferência de base, apoio ao DBA | `[BD]` | `BD-` | `banco-de-dados` | `<…>` | `sdd-executar` |
+| Infra | ambiente, acesso, certificado, fila, servidor, pedido a outra equipe | `[INF]` | `IN-` | `infra` | `<…>` | `sdd-executar` |
+| Operação | rotina de produção: reprocessar job, acompanhar execução, incidente sem mudança de código | `[OPE]` | `OP-` | `operacao` | `<…>` | `sdd-executar` |
+| Apoio a outros times | ajuda técnica a outra equipe ou outro produto | `[EXT]` | `EX-` | `outros-times` | `<…>` | `sdd-executar` |
 
 ## Agentes
 

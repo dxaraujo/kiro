@@ -4,7 +4,7 @@ description: "Planejamento ágil do projeto no fluxo sdd, ajustado a times que t
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.3.0"
+  version: "3.3.1"
 ---
 
 # sdd-planejamento — Planejar o fluxo, não só o calendário
@@ -102,12 +102,12 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
    **aprovações previstas** também consomem as horas de revisão dos Dev Sêniores: o plano de cada fatia de Júnior
    (e de Pleno que costuma pedir o GATE) e o PR de cada fatia AFK. A `[APR]` não nasce aqui — nasce no gate.
 4. **Meta da sprint:** uma frase de resultado de negócio que as fatias entregam juntas.
-5. **Iteração e número:** proponha o **pai** — o da sprint anterior; se a nova começa depois do fim dele (virada do
-   ano, entrega nova), o próximo (`2026` → `2027`) — e a próxima `<nn>` dentro dele (pai novo → `01`); a pessoa
-   confirma ou troca. Pergunte o nome da iteração no EWM (padrão `Sprint <n>`) e chame
+5. **Iteração e número:** o **pai** é o da sprint anterior (a nova herda); pai novo só quando a pessoa diz, com o
+   nome que ela der (`2026`, `Entrega 3`…); primeira sprint do projeto → pergunte o nome. A `<nn>` é a próxima
+   dentro do pai (pai novo → `01`). Pergunte o nome da iteração no EWM (padrão `Sprint <n>`) e chame
    `elm_iteracao("<pai>/<nome>")`, que acha ou cria a sprint dentro do pai e o pai que faltar
    ([references/elm-sprint.md](references/elm-sprint.md) §1); é o `plannedFor` de todos os IBs e tarefas desta
-   sprint — os que estão no backlog do EWM só mudam de iteração (§3). Pai novo → a Sustentação dele (§2).
+   sprint — os que estão no backlog do EWM só mudam de iteração (§3). Pai novo → a `[GB]` dele (§2).
 6. **Proposta**, com as três seções:
    ```
    🗓️ Sprint <pai>/<nn> · <início> → <fim> · iteração <pai>/<nome> · meta: <…>
@@ -202,7 +202,7 @@ Não troca → Observação `modo: AFK mantido (<quem>, <data>)` no `sprint-<nn>
 ### Pré-condição dos ritos de fechamento
 
 Antes da review, da retrospectiva da sprint e da virada — **em cada um** —, **sincronize com o EWM** (§9 do
-[elm-sprint.md](references/elm-sprint.md); sem tarefa por fora, segue calado) e levante as fatias da sprint aberta que
+[elm-sprint.md](references/elm-sprint.md); sem tarefa por fora, segue calado; sem o MCP `elm` → avise "sincronização com o EWM não feita" e siga) e levante as fatias da sprint aberta que
 esperam só a consolidação, como a [`sdd-status`](../sdd-status/SKILL.md) (Coleta, itens 1–2: `status.md` nas
 branches remotas e o PR pelo `gitlab_listar_mrs`): fase `mergeada`, ou `pronta-para-merge` com o PR `merged` (antes,
 o Dev registra `mergeada` e conclui a `[DEV]` — `sdd-desenvolver` Passo 6). Nenhuma → siga o rito. Alguma →

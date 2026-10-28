@@ -13,7 +13,7 @@ andamento de uma fatia (fase, branch, PR) não mora aqui: mora no `status.md` da
 # Backlog — Gestão de Acessos
 
 Próximos ids: EP-04 · FT-034 · AT-013 · IM-004 · BD-001 · IN-002 · OP-001 · EX-001
-Sustentação 2026: [612000](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612000) · Backlog [GB] [612006](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612006)
+Sustentação: [612000](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612000) · Backlog [GB] [612006](https://elm.exemplo/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/612006)
 
 ## Épicos
 
@@ -65,7 +65,7 @@ linha da tabela — sem quebra de linha nem `|` dentro de célula (troque por `/
 | apoio `status` | `backlog` (sem sprint aberta) · `aberto` (na sprint ou na iteração corrente do Kanban) · `concluido` · `cancelado` |
 | apoio `origem` | chamado, e-mail, `DF 4567`, `IB 615`, `pedido` ou `EWM <id>` (tarefa criada direto no EWM e trazida para a sprint — [elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §9) |
 | apoio `registro` | `[<ID>](apoio/<pasta>/<ID>-<slug>.md)` — a ficha do item, na pasta da categoria (tabela **Apoio** do `sdd.md`) (formato na [`sdd-atender`](../../sdd-atender/SKILL.md#registro); o mesmo para toda categoria) |
-| linha `Sustentação <pai>:` | o IB `Sustentação <produto> - <pai>` da iteração pai da sprint aberta (pai dos IBs de categoria do Apoio e do que não nasce de PRD), a tarefa `[GB] Gerenciamento do backlog` (commits da triagem) e os IBs de categoria do pai, cada um gravado quando nasce com o primeiro item da categoria (`Sustentação 2026: <id> · Backlog [GB] <id> · Atendimento <id> · Operação <id>`); `—` até a primeira triagem (ou a configuração do backlog do EWM) criar o IB, que fica no backlog do EWM; a `[GB]` nasce na primeira sprint do pai. Pai novo (virada para `2027`) → a linha é trocada pela do pai novo ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §2) |
+| linha `Sustentação:` | o IB `Sustentação - <produto>`, um por produto (pai dos IBs de categoria do Apoio e do que não nasce de PRD), a tarefa `[GB] Gerenciamento do backlog` da iteração pai atual (commits da triagem) e os IBs de categoria, cada um gravado quando nasce com o primeiro item da categoria (`Sustentação: <id> · Backlog [GB] <id> · Atendimento <id> · Operação <id>`); `—` até a primeira triagem (ou a configuração do backlog do EWM) criar o IB, que fica no backlog do EWM; a `[GB]` nasce na primeira sprint de cada pai. Pai novo (virada para `2027`) → só a `[GB]` é trocada pela do pai novo ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §2) |
 
 ## Quem escreve o quê
 
@@ -80,9 +80,9 @@ linha da tabela — sem quebra de linha nem `|` dentro de célula (troque por `/
 | `sprint`, `responsavel`, `modo` final (pela senioridade), prioridade · `pronta` (DoR conferida de novo no planejamento) · encaixe durante a sprint | `sdd-planejamento` |
 | fatia sem épico (padrão, rápida), ficha e `falta:` em `obs` | `sdd-triar` (na base) |
 | apoio registrado (id da categoria, `backlog`/`aberto`, `sprint`, `responsavel`, registro) | `sdd-triar` (na base); tarefa trazida do EWM: `sdd-planejamento` (§9 do `elm-sprint.md`) |
-| apoio `concluido`, `concluida-em` | `sdd-atender` (Atendimento) · `sdd-iniciar` (demais categorias) (na base) |
+| apoio `concluido`, `concluida-em` | `sdd-atender` (Atendimento) · `sdd-executar` (demais categorias) (na base) |
 | `concluida`, `concluida-em` | `sdd-consolidar` (depois do merge, na base) |
-| linha `Sustentação <pai>:` | `sdd-triar` ou a setup (o IB), publicação da sprint (`[GB]`; o IB do pai novo) ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §2); o IB de categoria: quem cria o primeiro item dela no pai (`sdd-triar`, sincroniza a sprint — §6) |
+| linha `Sustentação:` | `sdd-triar` ou a setup (o IB), publicação da sprint (`[GB]`, inclusive a do pai novo) ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §2); o IB de categoria: quem cria o primeiro item dela (`sdd-triar`, sincroniza a sprint — §6) |
 | `elm` (ids e urls) | `sdd-triar` (épico, fatia sem épico, tarefas de Apoio), `sdd-fatiar` (IB das fatias de épico), publicação da sprint (tarefas e o que estava `pendente`) ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §2–6) |
 
 ## Definition of Ready (o que faz uma fatia `pronta`)

@@ -4,7 +4,7 @@ description: "Guia do fluxo sdd — engenharia agêntica orientada a especifica�
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.3.0"
+  version: "3.3.1"
 ---
 
 # sdd — Engenharia agêntica orientada a especificação
@@ -32,7 +32,7 @@ chamada direto:
 | Aprovador (Dev Sênior) | `[APR]` — só nos gates sem tarefa de papel; nasce quando a fatia chega ao gate | `[APR] … Aprovar plano` → `sdd-revisar` (Aprovação do plano) · `[APR] … Aprovar PR` (AFK) → `sdd-revisar` (Aprovação do PR) |
 | Verificador (QA) | `[VER]` | `sdd-verificar` |
 | quem atende | `[ATD]` (Apoio — Atendimento) | `sdd-atender` |
-| quem faz o Apoio | `[IMPL]` `[BD]` `[INF]` `[OPE]` `[EXT]` (demais categorias) | `sdd-iniciar` (fluxo mínimo: iniciar no ELM, registrar o trabalho, lançar horas, concluir) |
+| quem faz o Apoio | `[IMPL]` `[BD]` `[INF]` `[OPE]` `[EXT]` (demais categorias) | `sdd-executar` (iniciar no ELM, registrar o trabalho, lançar horas, concluir) |
 | P.O. ou SM (analista de negócio) | `[GB] Gerenciamento do backlog` | `sdd-triar` (triagem) · `sdd-consolidar` (fatia `mergeada`: processo de produto, no agente `sdd-produto`) |
 
 | Trilha | Quando | Caminho |
@@ -40,7 +40,7 @@ chamada direto:
 | **rápida** | defeito ou ajuste ≤ 1 dia, comportamento certo já conhecido — inclusive o diff que cabe numa frase | `bugfix.md` + `tasks.md` → implementação → revisão → verificação → PR |
 | **padrão** | uma fatia do backlog: de um épico, ou sem épico com regra clara e ficha aprovada pelo P.O. | pesquisa → plano → **GATE do plano** → implementação (TDD) → revisão → verificação → PR → consolidação |
 | **épico** | funcionalidade com várias histórias ou decisão de produto em aberto | entrevista → PRD → **GATE do PRD** → ELM → fatias → **GATE do backlog** → planejamento → cada fatia na trilha padrão |
-| **apoio** | trabalho que não muda o repositório, numa categoria da tabela **Apoio** do `sdd.md` — Atendimento (o cliente pede consulta, extração ou explicação), Implantação, Banco de dados, Infra, Operação, Apoio a outros times | triagem: categoria e entrevista curta → item da categoria (`AT-nnn`, `IM-nnn`…) no backlog, sprint sugerida, tarefa (`[ATD]`, `[IMPL]`…) no EWM, filha do IB `<Categoria> <produto> - <iteração pai>` (nasce com o 1º item da categoria no pai, filho da `Sustentação <produto> - <iteração pai>`) · Atendimento: `sdd-atender` (assume → banco só leitura e bundle → resposta com "ok" → saldo de horas → desdobramentos) · demais: `sdd-iniciar` (iniciar → registrar → horas → concluir) |
+| **apoio** | trabalho que não muda o repositório, numa categoria da tabela **Apoio** do `sdd.md` — Atendimento (o cliente pede consulta, extração ou explicação), Implantação, Banco de dados, Infra, Operação, Apoio a outros times | triagem: categoria e entrevista curta → item da categoria (`AT-nnn`, `IM-nnn`…) no backlog, sprint sugerida, tarefa (`[ATD]`, `[IMPL]`…) no EWM, filha do IB `<Categoria> - <produto>` (nasce com o 1º item da categoria, filho da `Sustentação - <produto>`) · Atendimento: `sdd-atender` (assume → banco só leitura e bundle → resposta com "ok" → saldo de horas → desdobramentos) · demais: `sdd-executar` (iniciar → registrar → horas → concluir) |
 
 Toda hora trabalhada cabe numa tarefa da sprint: `[ESP]` (especificação do épico), `[DEV]`, `[REV]`, `[VER]` (por
 fatia; no AFK só a `[DEV]`), `[APR]` (por gate com aprovação: plano, PR do AFK), as de Apoio (`[ATD]`, `[IMPL]`… — uma por item) e `[GB]` (triagem e consolidação, do P.O. ou do SM). **Lançar ≠ concluir:** lançar horas é registro de
@@ -53,7 +53,7 @@ ou concluir a tarefa e avisar o próximo — quem vem depois só acha no remoto 
 ```
 ENTRADA       triar ─► backlog: EP rascunho · FT sem épico (padrão com ficha, rápida) · Apoio (AT-/IM-… + tarefa) ─► "mais algum?"
                 │
-HUB           iniciar <item> ─► especificar · desenvolver · plano ([APR]) · revisar · verificar · atender · planejamento (troca) · consolidar   (cada uma assume a sua tarefa)
+HUB           iniciar <item> ─► especificar · desenvolver · plano ([APR]) · revisar · verificar · atender · executar · planejamento (troca) · consolidar   (cada uma assume a sua tarefa)
                 │
 PRODUTO       especificar ─► entrevistar ─► PRD ─► GATE PRD ─► ELM (HF/REG/GL) ─► fatiar ─► GATE backlog ─► sprint (EWM)
                                                                                     │
@@ -145,8 +145,8 @@ loop, a fatia para sozinha e o lote segue.
 | planejar sprint, roadmap, virada, review | `sdd-planejamento` |
 | trazer para a sprint tarefa criada direto no EWM ("sincroniza a sprint") | `sdd-planejamento` |
 | executar um atendimento já triado (`AT-nnn`, `[ATD]`) | `sdd-atender` |
-| iniciar, registrar, lançar horas e concluir outra tarefa de Apoio (`[IMPL]`, `[BD]`, `[INF]`, `[OPE]`, `[EXT]`) | `sdd-iniciar` |
-| lançar horas ou ver o relatório de horas | `sdd-status` (fechar a sessão) · relatório: `sdd-planejamento` |
+| iniciar, registrar, lançar horas e concluir outra tarefa de Apoio (`[IMPL]`, `[BD]`, `[INF]`, `[OPE]`, `[EXT]`) | `sdd-executar` |
+| lançar horas ou ver o relatório de horas | `sdd-status` (fechar a sessão) · Apoio: `sdd-atender` ou `sdd-executar` · relatório: `sdd-planejamento` |
 | entender o código antes de planejar | `sdd-pesquisar` |
 | planejar uma fatia (spec do Kiro) | `sdd-plano` |
 | implementar e abrir o PR | `sdd-implementar` |
@@ -164,7 +164,7 @@ loop, a fatia para sozinha e o lote segue.
 |---|---|
 | `.kiro/steering/sdd.md` | o único steering do fluxo: resumo, configuração do projeto e regras aprendidas |
 | `.kiro/agents/sdd-*.json` | agentes (criados pela setup, com as skills escolhidas por agente) |
-| `<produto>/` — a pasta escolhida na setup (padrão `.kiro/planejamento`), registrada no `sdd.md` | `backlog.md`, `epicos/<EP>-<slug>/` (PRDs), `equipe.json`, `acordos.md`, `roadmap.md`, `sprints/<pai>/sprint-<nn>.md` (a sprint segue a iteração pai do EWM: `2026/03`), `apoio/<categoria>/`, `aprendizado/` (só na branch base) |
+| `<produto>/` — a pasta escolhida na setup (padrão `.kiro/planejamento`), registrada no `sdd.md` | `backlog.md`, `epicos/<EP>-<slug>/` (PRDs), `equipe.json`, `acordos.md`, `roadmap.md`, `sprints/<pai>/sprint-<nn>.md` (a sprint segue a iteração pai do EWM: `2026/03`), `apoio/<pasta>/` (a pasta de cada categoria na tabela **Apoio** do `sdd.md`), `aprendizado/` (só na branch base) |
 | `.kiro/specs/<ft>-<slug>/` | uma pasta por fatia: `status.md`, `research.md`, spec do Kiro, revisões, verificação |
 | glossário · ADRs · bundle do ELM | caminhos na seção Projeto do `sdd.md` |
 | `.kiro/hooks/sdd.json` · `.kiro/workflows/sdd-*` · `.kiro/sdd/http.sh` | opcionais da setup: backpressure por tarefa, receitas, chamada HTTP do verificador |

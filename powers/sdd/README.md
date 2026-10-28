@@ -11,7 +11,7 @@ o resto com agentes de contexto limpo, presos a feedback automático.
 
 ```
 ENTRADA   triar ─► backlog: EP rascunho · FT sem épico (padrão com ficha, rápida) · Apoio (AT-/IM-… + tarefa) ─► "mais algum?"
-HUB       iniciar <item> ─► especificar · desenvolver · plano ([APR]) · revisar · verificar · atender · planejamento (troca) · consolidar (cada uma assume a sua tarefa; Apoio sem skill própria: o próprio hub)
+HUB       iniciar <item> ─► especificar · desenvolver · plano ([APR]) · revisar · verificar · atender · planejamento (troca) · consolidar · executar (cada uma assume a sua tarefa)
             │
 PRODUTO   entrevistar ─► PRD ─► GATE PRD ─► ELM (HF/REG/GL) ─► fatiar ─► GATE backlog ─► sprint (EWM)
                                                                                  │
@@ -70,13 +70,14 @@ Fontes no fim deste arquivo.
 | `sdd-setup` | configura o projeto: entende o repositório, descobre skills e toolkits, cria os agentes perguntando as skills de cada um |
 | `sdd-status` | painel "onde parei", WIP de revisão, próxima ação de maior alavanca |
 | `sdd-triar` | entrada de toda demanda nova: triagem em qualquer trilha, duplicados, ficha da fatia padrão sem épico, registro no backlog (inclusive o Apoio: categoria, AT-nnn/IM-nnn…, sprint sugerida, `[ATD]`/`[IMPL]`…), importação de itens do EWM, "mais algum item?" — não começa nada |
-| `sdd-iniciar` | hub: recebe o item registrado (ou "minha próxima tarefa") e diz a skill do papel; conduz as tarefas de Apoio sem skill própria (`[IMPL]` `[BD]` `[INF]` `[OPE]` `[EXT]`): iniciar no ELM, registrar o trabalho, lançar horas, concluir |
+| `sdd-iniciar` | hub: recebe o item registrado (ou "minha próxima tarefa") e diz a skill do papel |
 | `sdd-especificar` | Especificador: assume a `[ESP]`, conduz entrevista → PRD → fatias numa pasta local até o GATE e registra cada sessão na tarefa (comentário + anexos) |
 | `sdd-desenvolver` | Dev: compromisso (Definition of Ready, sprint/encaixe, WIP), branch, pasta, assume a `[DEV]`; retomada pela fase; merge do PR aprovado e conclusão da `[DEV]` |
 | `sdd-entrevistar` | alinhamento em rodadas (grill), decisões e glossário |
 | `sdd-prd` | PRD do épico (o quê e por quê) e GATE do PRD |
 | `sdd-fatiar` | PRD → fatias verticais AFK/HITL, backlog e GATE do backlog |
 | `sdd-planejamento` | roadmap, acordos (cadência, DoR/DoD, WIP, reserva de apoio), sprint com especificação e Apoio, review, retrospectiva, virada |
+| `sdd-executar` | executa as demais tarefas de Apoio já triadas (`[IMPL]` `[BD]` `[INF]` `[OPE]` `[EXT]`; a pessoa faz o trabalho fora do repositório): iniciar no ELM, registrar o trabalho, lançar horas, concluir |
 | `sdd-atender` | executa o atendimento (categoria Atendimento do Apoio) já triado (AT-nnn): assume a `[ATD]`, consulta só leitura, extração fora do git, resposta, saldo de horas, desdobramentos |
 | `sdd-pesquisar` | pesquisa do código compactada em `research.md` |
 | `sdd-plano` | spec do Kiro (`requirements.md`/`bugfix.md`, `design.md`, `tasks.md`) e GATE do plano |
@@ -102,9 +103,9 @@ de `skills/sdd-setup/assets/`:
 | `.kiro/hooks/sdd.json` (opcional) | backpressure: compila e testa depois de cada tarefa de spec |
 | `.kiro/workflows/sdd-*.workflow.json` (opcional, experimental) | `planejar-fatia` (até o GATE do plano, com a `[APR]`) e `entregar-fatia` (AFK até o PR aberto pelo `gitlabpr`, com a `[APR] Aprovar PR`) nos Kiro Workflows — quem dispara é a pessoa, no chat do Kiro ("rode o workflow `sdd-entregar-fatia` para a FT-031" ou `/workflow-run`), uma fatia por vez; nenhum agente as dispara |
 | `.kiro/sdd/http.sh` (opcional) | única chamada HTTP que o verificador faz sem perguntar: só à URL de teste, com corpo da pasta `massa/` |
-| pasta do produto (proposta pela setup; padrão `.kiro/planejamento`) | `backlog.md`, épicos e PRDs, `equipe.json`, `acordos.md`, `roadmap.md`, `sprints/<iteração pai>/`, `apoio/<categoria>/`, `aprendizado/` — versionada; o que é local fica em `.kiro/local/` (fora do git) |
+| pasta do produto (proposta pela setup; padrão `.kiro/planejamento`) | `backlog.md`, épicos e PRDs, `equipe.json`, `acordos.md`, `roadmap.md`, `sprints/<iteração pai>/`, `apoio/<pasta>/`, `aprendizado/` — versionada; o que é local fica em `.kiro/local/` (fora do git) |
 
-O ELM vem no próprio power: o MCP **`mcp-elm`** (≥ 3.0.0) lê o `.kiro/config/sdd/pa_<nome>.json` do projeto (um por
+O ELM vem no próprio power: o MCP **`mcp-elm`** (≥ 3.3.1) lê o `.kiro/config/sdd/pa_<nome>.json` do projeto (um por
 project area, gravado pela `sdd-setup`) e expõe operações (`elm_transicao`, `elm_lancar_horas`, `elm_criar_wi`,
 `elm_ligar`, `elm_publicar_req`…): a skill do passo passa só o caminho do projeto, os ids e o conteúdo, e recebe
 `{"ok": …}`. Regras comuns em [`skills/sdd/references/elm.md`](skills/sdd/references/elm.md). Leituras liberadas nos
@@ -255,6 +256,13 @@ próxima escrita da triagem; os `AT-nnn` não mudam. A `sdd-atender` continua s�
 categorias usam o fluxo mínimo da `sdd-iniciar` (iniciar a tarefa no ELM, registrar o trabalho, lançar horas,
 concluir). Peça "atualizar a configuração do sdd" (seção Apoio e nome do produto no `sdd.md`, prefixos no `pa`,
 migração das sprints) e "atualizar os agentes do sdd" (libera ao agente de produto a pasta local `.kiro/local/apoio/`). Requer o `mcp-elm` ≥ 3.3.0.
+
+Na **3.3.1**, correções da 3.3.0. As tarefas de Apoio sem fluxo próprio (`[IMPL]` `[BD]` `[INF]` `[OPE]` `[EXT]`) ganham
+a skill **`sdd-executar`** (no agente `sdd-produto`), e a `sdd-iniciar` volta a só encaminhar. A Sustentação passa a ser
+**uma por produto**: o IB `Sustentação - <produto>`, no backlog do EWM, com os IBs `<Categoria> - <produto>` filhos dela,
+também no backlog; a linha do `backlog.md` é `Sustentação:`, e na troca de iteração pai só a `[GB]` muda. A sprint nova
+herda o pai da anterior; pai novo só quando a pessoa diz, com o nome que ela der. O `mcp-elm` 3.3.1 cria o pai da
+primeira sprint do projeto no topo da timeline. Peça "atualizar os agentes do sdd". Requer o `mcp-elm` ≥ 3.3.1.
 
 Não use o `/upgrade-agent` (nem `kiro-cli agent upgrade`) nos agentes `sdd-*`: quem os gera é o script da setup
 ("atualizar os agentes do sdd").

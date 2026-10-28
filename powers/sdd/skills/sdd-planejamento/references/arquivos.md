@@ -120,8 +120,8 @@ A sprint acompanha a iteração do EWM de que ela é filha (`<release>` → `202
 2…): `<pai>` é o nome da iteração pai (`2026`) e `<nn>` recomeça em `01` em cada pai — `sprints/2026/sprint-01.md`,
 `sprints/2027/sprint-01.md`. A **chave** da sprint é `<pai>/<nn>` (`2026/03`): é ela que vai na coluna `sprint` do
 `backlog.md`, em `historico[].sprint` do `equipe.json`, em `→ sprint <chave>` e `migrada da sprint <chave>`. Nas
-skills, `sprint-<nn>.md` abrevia `sprints/<pai>/sprint-<nn>.md` e "sprint `<nn>`", a chave. A ordem das sprints é
-`(pai, nn)` — a do `historico`, que cruza pais na vazão. Kanban: o mesmo, com a iteração corrente.
+skills, `sprint-<nn>.md` abrevia `sprints/<pai>/sprint-<nn>.md` e "sprint `<nn>`", a chave. A ordem das sprints é a
+da data de início do cabeçalho (o nome do pai é livre e não ordena) — a do `historico`, que cruza pais na vazão. Kanban: o mesmo, com a iteração corrente.
 
 ```markdown
 # Sprint <pai>/<nn> · <AAAA-MM-DD> → <AAAA-MM-DD>
@@ -196,7 +196,7 @@ gate; AFK, a `DEV` e as `APR`), gravada na publicação da sprint ([elm-sprint.m
 (<quem>, <data>)`, `modo: AFK → HITL (<quem>, <data>, <motivo>)`, `modo: AFK mantido (<quem>, <data>)`, `migrada da sprint <chave>`, `trazida do EWM`, `não consolidada` ou texto livre.
 
 Créditos (do Kiro): nas Fatias, Especificação e Apoio, a soma das linhas de créditos do item, gravada na
-conclusão dele (`sdd-consolidar`, `sdd-especificar`, `sdd-atender`, `sdd-iniciar`), `—` antes; em Créditos de gestão, uma linha por
+conclusão dele (`sdd-consolidar`, `sdd-especificar`, `sdd-atender`, `sdd-executar`), `—` antes; em Créditos de gestão, uma linha por
 sessão de triagem, consolidação, planejamento ou retrospectiva (`sdd-status`, Fechar a sessão, item 4).
 
 A coluna Status espelha o `backlog.md` do produto no fechamento; durante a sprint, o painel (`sdd-status`) é a fonte.

@@ -8,7 +8,7 @@ Este repositório usa o fluxo **sdd** (power `sdd`): alinhar antes de escrever, 
 aprovado por um Dev Sênior (GATE pela senioridade), teste primeiro com backpressure, revisão e verificação independentes, PR lido por uma
 pessoa, e o IBM ELM como registro oficial da documentação. Como funciona: skill `sdd`. Toda demanda nova: `sdd-triar`.
 Começar um item registrado: hub `sdd-iniciar` (diz a skill do papel: `sdd-especificar`, `sdd-desenvolver`,
-`sdd-revisar`, `sdd-verificar`, `sdd-atender`; `sdd-revisar` também nas `[APR]` (plano e PR), `sdd-planejamento` na troca de modo, `sdd-consolidar` na fatia mergeada, `sdd-executar` nas demais tarefas de Apoio — `[IMPL]` `[BD]` `[INF]` `[OPE]` `[EXT]`). Onde parei ou fechar a sessão: `sdd-status`.
+`sdd-revisar`, `sdd-verificar`, `sdd-atender`; `sdd-revisar` também nas `[APR]` (plano e PR), `sdd-planejamento` na troca de modo, `sdd-consolidar` na fatia `pronta`, `sdd-executar` nas demais tarefas de Sustentação — `[IMPL]` `[BD]` `[INF]` `[OPE]` `[EXT]`). Onde parei ou fechar a sessão: `sdd-status`.
 
 - **Créditos do Kiro:** nenhuma sessão termina sem registrá-los. Skill que termina (diz a próxima e para) sem ter
   registrado os desta sessão, ou pessoa que encerra → pergunte `💳 Fechar a sessão e registrar os créditos? (sim)`
@@ -24,34 +24,41 @@ Começar um item registrado: hub `sdd-iniciar` (diz a skill do papel: `sdd-espec
   relatório e a fase na branch do PR.
 - **Entrega (todo papel do HITL):** commit → push → **conferir no remoto** (`git fetch`; `git rev-parse HEAD` =
   `git rev-parse origin/<branch>`) → só então lançar horas ou concluir a tarefa do papel e avisar o próximo. Push
-  pelo agente com a confirmação do Kiro, só da branch da fatia; sem ela, o comando pronto e a pessoa diz que
-  publicou. Subagente do AFK não faz push (quem conduz commita).
+  da entrega pelo agente com a confirmação do Kiro, só da branch da fatia; sem ela, o comando pronto e a pessoa diz
+  que publicou. Subagente do AFK não faz push (quem conduz commita).
 - **Uma skill por vez:** cada skill termina dizendo a próxima e para — nunca invoca nem simula a do passo seguinte
   (os subagentes que ela manda chamar fazem parte dela); quem chama a próxima é a pessoa, ou o
-  orquestrador no loop. Consolidar (fatia `mergeada`) é do P.O. ou do SM, no `sdd-produto` — nunca do agente do Dev.
-- Push, troca de branch e escrita no ELM só com "sim" de uma pessoa; push nunca para a base. Merge só do PR
-  aprovado, pelo **Dev responsável** (`gitlab_mesclar_mr`, com confirmação); nunca `--force`.
+  orquestrador no loop. Consolidar (fatia `pronta`) é do P.O. ou do SM, no `sdd-produto` — nunca do agente do Dev.
+- Push, troca de branch e escrita no ELM só com "sim" de uma pessoa; push de agente para a base só dos registros de
+  situação da fatia (`<FT> iniciar`, `<FT> registrar merge`), com os arquivos conferidos antes (bloco Gravar na base
+  do `references/backlog.md` da `sdd-fatiar`). Merge só do PR aprovado, pelo **Dev responsável**
+  (`gitlab_mesclar_mr`, com confirmação); nunca `--force`.
 - Dado de cliente (consulta, extração, tela com dado real) nunca vai para o git: fica em `.kiro/local/<origem>/<id>/`;
   o versionado guarda consulta, contagem, caminho e resumo sem identificar pessoas.
-- Sprint é cadência (meta, review, retro), não contêiner de escopo: o compromisso é a meta; dentro dela, fluxo
-  puxado — a `pronta` do topo entra quando o WIP de revisão tem folga. Previsão pela vazão, sem pontos.
+- Scrumban: a sprint é cadência (meta, review, retro), não contêiner de escopo: o compromisso é a meta; dentro dela,
+  fluxo puxado — a `elegivel` de maior prioridade entra quando o WIP de revisão tem folga. Previsão pela vazão, sem
+  pontos.
 - **Modo pela senioridade** de quem implementa (`equipe.json`): Júnior → sempre HITL; Pleno → os critérios da fatia;
   Sênior → AFK por padrão (HITL só com motivo forte, registrado). Só Pleno ou Sênior dispara o `sdd-loop`. A `[REV]`
   e a `[APR]` são sempre de um **Dev Sênior** (PR de um Sênior: outro Sênior; único Sênior ativo → ele mesmo,
   `revisor único`). **GATE do plano** pela senioridade: Júnior → sempre; Pleno → pergunta (no loop, vale para o
   lote); Sênior → nunca (aprova o próprio plano). Fatia AFK cujo plano mostra risco → sugerir HITL; a troca é do
   P.O. na base. HITL → AFK nunca.
-- Toda hora tem tarefa (`[ESP]` `[DEV]` `[REV]` `[VER]` e as de Apoio — `[ATD]` `[IMPL]` `[BD]` `[INF]` `[OPE]` `[EXT]`; no AFK, só a `[DEV]`; `[APR]` do Dev Sênior nos
+- Toda hora tem tarefa (`[ESP]` `[DEV]` `[REV]` `[VER]` e as da Sustentação — `[ATD]` `[IMPL]` `[BD]` `[INF]` `[OPE]` `[EXT]`; no AFK, só a `[DEV]`; `[APR]` do Dev Sênior nos
   gates sem tarefa de papel — aprovar plano, aprovar PR do AFK —, criada quando a fatia chega ao gate; `[GB]
   Gerenciamento do backlog` do P.O. ou do SM: triagem e consolidação). Lançar horas é
-  registro de empenho, a qualquer momento na tarefa iniciada; concluir é da skill do papel, com o saldo: `[DEV]` no
+  registro de empenho, a qualquer momento na tarefa assumida; concluir é da skill do papel, com o saldo: `[DEV]` no
   merge, `[REV]` ao aprovar (depois do push), `[VER]` ao aceitar (depois do push), `[APR]` na aprovação, `[ESP]` no
-  GATE do backlog, Apoio ao finalizar. Tarefa criada direto no EWM na iteração da sprint é trazida para a sprint
-  (`sdd-planejamento`, "sincroniza a sprint").
-- **Consolidação é processo de produto:** fatia `mergeada` → o P.O. ou o SM, no agente `sdd-produto`
+  GATE do backlog, a da Sustentação ao concluir o item (junto com o IB dele). Tarefa criada direto no EWM na
+  iteração da sprint é trazida para a sprint (`sdd-planejamento`, "sincroniza a sprint").
+- **Consolidação é processo de produto:** fatia `pronta` → o P.O. ou o SM, no agente `sdd-produto`
   (`sdd-consolidar`, horas na `[GB]`): lê o Drift de negócio que a REV e a VER marcaram no `status.md`, publica no
-  ELM o *as-built* (requisitos, ET, casos de teste), leva os ADRs do PR à pasta de ADRs e fecha a fatia na base.
-- Estado em disco: cada fatia em `.kiro/specs/<ft>-<slug>/` (comece pelo `status.md`); produto na pasta abaixo.
+  ELM o *as-built* (requisitos, ET, casos de teste), leva os ADRs do PR à pasta de ADRs e fecha a fatia na base
+  (`concluida`).
+- Estado em disco: a situação de cada item no `backlog.md` e na sprint, gravada na base por quem a causa (seção
+  Situações do `references/backlog.md` da `sdd-fatiar`); o detalhe da fatia em `.kiro/specs/<ft>-<slug>/` (comece
+  pelo `status.md`; em `pronta` e `concluida` vale o da base — regra A base prevalece do `status-template.md` da
+  `sdd-desenvolver`); produto na pasta abaixo.
 
 > Gerado pela `sdd-setup` (power `sdd` <x.y.z>) em <AAAA-MM-DD>. Para mudar: "atualizar a configuração do sdd".
 > As skills e os agentes `sdd-*` leem os valores daqui.
@@ -94,12 +101,12 @@ Na worktree do `sdd-loop`: `cd .kiro/local/wt/<ft> && <comando>`. Falha de ambie
 | Item | Valor |
 |---|---|
 | Branch base · prefixo · commit | `<develop>` · `<feature/>` · `<FT-<nnn> <verbo> <descrição> | Task <id> - …>` |
-| Mensagens do fluxo (dentro do padrão acima) | fatia: `<id> registrar plano` · `registrar análise do plano <N>` · `registrar aprovação do plano` · `registrar revisão <N>` · `registrar verificação` · tarefa: `<id> <o que a tarefa fez>` · triagem: `backlog: triagem <ids>` · AT: `AT-<nnn> concluir` · sprint: `sprint <pai>/<nn>: <planejar | encaixe | virada | sincronizar com o EWM>` · PRD: `EP-<nn> aprovar PRD` · ELM: `<id> publicar no ELM` · consolidação: `<id> consolidar` |
+| Mensagens do fluxo (dentro do padrão acima) | início: `<id> iniciar` (fatia, épico ou item de Sustentação; lote do loop: `FT-031, FT-032 iniciar`) · fatia: `<FT> registrar plano` · `registrar análise do plano <N>` · `registrar aprovação do plano` · `registrar revisão <N>` · `registrar verificação` · `<FT> registrar merge` · tarefa: `<id> <o que a tarefa fez>` · triagem: `backlog: triagem <ids>` · Sustentação: `<ID> concluir` · sprint: `<pai>/Sprint <nn>: <planejar | encaixe | virada | sincronizar com o EWM>` (ex.: `2026/Sprint 03: planejar`) · PRD: `EP-<nn> aprovar PRD` · ELM: `<id> publicar no ELM` · consolidação: `<id> consolidar` |
 | PR (merge request) | `<MCP gitlabpr — gitlab_listar_mrs · gitlab_obter_mr · gitlab_criar_mr (origem e destino sempre explícitos) · gitlab_mesclar_mr (merge pelo Dev responsável, com o `sha` aprovado) | entregar título e descrição>` — nunca `gh` nem `glab` |
-| Artefatos de produto (pasta do produto, glossário, ADRs, consolidação) | direto na branch base — nunca em branch de fatia; push com o "sim" da pessoa (o agente `sdd-produto` não faz push: entrega o comando) |
+| Artefatos de produto (pasta do produto, glossário, ADRs, consolidação) | direto na branch base — nunca em branch de fatia; push com o "sim" da pessoa (o agente `sdd-produto` não faz push: entrega o comando; o agente do Dev publica ali só os registros de situação da fatia) |
 | MCP de banco | `<@servidor/tool | não há>` — **somente leitura** (`SELECT`/`WITH`), exceto os scripts de massa; DDL fora do fluxo |
 | Paralelo no loop | `<1>` (máx. 3) — o GATE do plano não se configura: sai da senioridade de quem implementa (`sdd-plano` Passo 5) |
-| Push e PR no loop | `<perguntar a cada lote (o Kiro confirma cada um) | não — a pessoa abre>` |
+| Push e PR no loop | `<perguntar a cada lote (o Kiro confirma cada um) | não — a pessoa abre (o push da base com a iniciada do lote também: o orquestrador entrega o comando e espera a publicação)>` |
 | Instalados | hook `<sdd-backpressure | nenhum>` · workflows `<sdd-planejar-fatia, sdd-entregar-fatia | nenhum>` (disparados pela pessoa) |
 
 ## ELM
@@ -113,17 +120,26 @@ Na worktree do `sdd-loop`: `cd .kiro/local/wt/<ft> && <comando>`. Falha de ambie
 | Pontos P/M/G no EWM | `<não | 2 · 3 · 5>` (opcional; o planejamento prevê pela vazão) |
 | Critérios de aceite no IB | `<nome do campo em ccm.tipos.ib.campos do pa | descrição>` |
 | IB de defeito | `<campo = valor de correção (ex.: Categoria = Correção) | —>` (os demais padrões estão no `pa`) |
-| Tarefas (títulos padrão; editáveis à mão) | `[ESP] EP-<nn> Especificação` · `[DEV] FT-<nnn> Implementar` · `[REV] FT-<nnn> Revisar` · `[VER] FT-<nnn> Verificar` · `[APR] FT-<nnn> Aprovar plano` · `[APR] FT-<nnn> Aprovar PR` · `<prefixo do Apoio> <ID> <pedido>` · `[GB] Gerenciamento do backlog` |
-| Produto (no nome da Sustentação) | `<nome curto do produto>` — o IB `Sustentação - <produto>` |
+| Tarefas (títulos padrão; editáveis à mão) | `[ESP] EP-<nn> Especificação` · `[DEV] FT-<nnn> Implementar` · `[REV] FT-<nnn> Revisar` · `[VER] FT-<nnn> Verificar` · `[APR] FT-<nnn> Aprovar plano` · `[APR] FT-<nnn> Aprovar PR` · `<prefixo da categoria> <ID> <pedido>`, filha do IB do item `[<ID>] <pedido>` (ex.: `[ATD] AT-012 <pedido>` sob `[AT-012] <pedido>`) · `[GB] Gerenciamento do backlog` |
 | `CT.csv` (colunas na ordem do template do ETM) | `<Tipo=Caso de Teste · Resumo · Responsável · Status=<inicial> · Categoria · Planejado para · Descrição>` |
 
-## Apoio
+## Sustentação
 
-Trabalho sem mudança no repositório (mudança de código ou config é fatia rápida). Apoio é só o nome do conjunto: cada
-item é de uma categoria, com prefixo de tarefa, série de ids e pasta de fichas próprios. No EWM, cada categoria tem
-o IB `<Categoria> - <produto>`, filho do IB `Sustentação - <produto>` e pai das tarefas
-dela, ambos no backlog do EWM; ele nasce com o primeiro item triado da categoria. Ficha: `<produto>/apoio/<pasta>/<ID>-<slug>.md`;
-dado de cliente: `.kiro/local/apoio/<pasta>/<ID>/` (fora do git).
+O que não vem de épico. No EWM, o IB `Sustentação` (um por produto, no backlog do EWM) é o pai da `[GB]`, do IB
+`Manutenção` e dos IBs de categoria.
+
+- **Manutenção:** o IB pai das fatias sem épico (trilha padrão ou rápida; `origem` `Manutenção` no `backlog.md`),
+  que nasce com a primeira delas. Elas mudam o repositório e seguem o fluxo da fatia: são do Dev e podem ser AFK.
+  Não é categoria: não tem prefixo de tarefa, série de ids nem pasta próprios.
+- **Categorias** (tabela abaixo): trabalho sem mudança no repositório (mudança de código ou config é fatia da
+  Manutenção). Cada item é de uma categoria, com prefixo de tarefa, série de ids e pasta de fichas próprios. No EWM:
+  IB `<Categoria>` (filho da Sustentação; nasce com o primeiro item triado dela, como a `### <Categoria>` do
+  `backlog.md`) → IB do item `[<ID>] <pedido>` (nasce na triagem; dono = P.O.) → tarefa `<prefixo> <ID> <pedido>`
+  (nasce quando o item entra numa sprint; dono = quem faz). Ficha: `<produto>/sustentacao/<pasta>/<ID>-<slug>.md`;
+  dado de cliente: `.kiro/local/sustentacao/<pasta>/<ID>/` (fora do git).
+
+Item de categoria (`AT-`, `IM-`, `BD-`, `IN-`, `OP-`, `EX-` e as tarefas deles) não é do agente do Dev nem AFK: a
+regra vale pelo tipo de id, não pelo nome Sustentação.
 
 | Categoria | O que cobre | Tarefa | Id | Pasta | Classificação da Tarefa (PA) | Skill |
 |---|---|---|---|---|---|---|

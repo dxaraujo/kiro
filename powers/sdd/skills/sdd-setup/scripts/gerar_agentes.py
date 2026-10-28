@@ -73,8 +73,9 @@ def agente(nome, p, base, cfg):
     regras = [regra("fs_read", "allow", preencher(base["ler"]["permitir"], valores) + extra.get("ler", [])),
               regra("fs_read", "deny", preencher(base["ler"]["negar"], valores)),
               regra("fs_write", "allow", preencher(p["escreve"], valores))]
-    if p.get("nao_escreve"):
-        regras.append(regra("fs_write", "deny", preencher(p["nao_escreve"], valores)))
+    if p.get("nao_escreve"):  # o `exclude` (V3) tira da negação o que o papel grava dentro de uma pasta negada
+        regras.append(regra("fs_write", "deny", preencher(p["nao_escreve"], valores),
+                            preencher(p.get("nao_escreve_exceto", []), valores)))
     for g in p["shell"]:
         regras.append(regra("shell", "allow", sh[g]["comandos"], sh[g].get("exceto")))
     soltos = p.get("shell_permitir", []) + [c for k in p.get("comandos", []) for c in cfg.get("comandos", {}).get(k, [])]

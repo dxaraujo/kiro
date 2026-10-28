@@ -1,17 +1,29 @@
 """uv run --no-project python -m unittest test_gerar_agentes   (nesta pasta)"""
 import json
 import os
+import re
 import tempfile
 import unittest
+from fnmatch import fnmatchcase
 from pathlib import Path
 
 import gerar_agentes as g
 
-PAPEIS = json.loads((g.ASSETS / "papeis.json").read_text(encoding="utf-8"))["papeis"]
+BASE = json.loads((g.ASSETS / "papeis.json").read_text(encoding="utf-8"))
+PAPEIS = BASE["papeis"]
 
 
 def regras(a, cap, efeito):
     return [m for r in a["permissions"]["rules"] if r["capability"] == cap and r["effect"] == efeito for m in r.get("match", [])]
+
+
+def efeito(a, cap, alvo):
+    """Como o V3 decide: entre as regras com um `match` que pega o alvo e nenhum `exclude` que o pegue, vence a mais
+    restritiva; sem regra, pergunta. `*` do fnmatch atravessa `/` (como o `like` do Cedar)."""
+    pega = lambda padroes: any(fnmatchcase(alvo, p.removeprefix("./")) for p in padroes)
+    efeitos = {r["effect"] for r in a["permissions"]["rules"]
+               if r["capability"] == cap and pega(r.get("match", ["*"])) and not pega(r.get("exclude", []))}
+    return next((e for e in ("deny", "ask", "allow") if e in efeitos), "ask")
 
 
 class Gerar(unittest.TestCase):
@@ -75,14 +87,44 @@ class Gerar(unittest.TestCase):
             self.assertIn("sdd/gitlabpr/gitlab_obter_mr", regras(agentes[nome], "power", "allow"), nome)
         self.assertIn("sdd/gitlabpr/gitlab_criar_mr", regras(agentes["produto"], "power", "deny"))
 
-    def test_push_so_da_branch_e_merge_so_no_codificador(self):
+    def test_push_da_branch_nomeada_e_merge_so_no_codificador(self):
         agentes = self.gerar()
         for nome in ("codificador", "revisor", "verificador", "orquestrador"):
             self.assertIn("git push *", regras(agentes[nome], "shell", "ask"))
-            self.assertIn("*git push* develop", regras(agentes[nome], "shell", "deny"))
+            self.assertEqual(efeito(agentes[nome], "shell", "git push -u origin feature/ft-031-x"), "ask", nome)
+            for cmd in ("git push", "git push origin", "cd .kiro/local/wt/ft-031 && git push", "git push origin HEAD",
+                        "git push -u origin HEAD:feature/ft-031-x", "git push origin @", "git push origin ft-031:develop",
+                        "git push origin refs/heads/develop", "git push -f origin ft-031"):
+                self.assertEqual(efeito(agentes[nome], "shell", cmd), "deny", (nome, cmd))
         for nome, a in agentes.items():
-            efeito = "ask" if nome == "codificador" else "deny"
-            self.assertIn("sdd/gitlabpr/gitlab_mesclar_mr", regras(a, "power", efeito), nome)
+            self.assertIn("sdd/gitlabpr/gitlab_mesclar_mr", regras(a, "power", "ask" if nome == "codificador" else "deny"), nome)
+
+    def test_registro_de_situacao_na_base(self):
+        """Codificador e orquestrador gravam a situação da fatia (backlog e sprint) na base e dão o push com pergunta."""
+        agentes = self.gerar()
+        for nome in ("codificador", "orquestrador"):
+            a = agentes[nome]
+            for p in ("backlog.md", "sprints/2026/sprint-03.md"):
+                self.assertEqual(efeito(a, "fs_write", f".kiro/planejamento/{p}"), "allow", (nome, p))
+            for p in ("equipe.json", "acordos.md", "roadmap.md", "epicos/ep-03-x/prd.md", "fatias/FT-031.md",
+                      "sustentacao/atendimento/AT-012-x.md", "aprendizado/licoes.md"):
+                self.assertNotEqual(efeito(a, "fs_write", f".kiro/planejamento/{p}"), "allow", (nome, p))
+            self.assertNotEqual(efeito(a, "fs_write", ".kiro/local/wt/ft-031/.kiro/planejamento/backlog.md"), "allow", nome)
+            self.assertEqual(efeito(a, "shell", "git push origin develop"), "ask", nome)
+            self.assertIn("git reset --keep origin/*", regras(a, "shell", "ask"), nome)
+            self.assertEqual(efeito(a, "shell", "git reset --keep origin/develop --hard"), "deny", nome)
+        for nome in ("revisor", "verificador"):
+            self.assertEqual(efeito(agentes[nome], "shell", "git push origin develop"), "deny", nome)
+            self.assertNotIn("git reset --keep origin/*", regras(agentes[nome], "shell", "ask"), nome)
+        self.assertEqual(efeito(agentes["produto"], "shell", "git push origin develop"), "deny")
+
+    def test_tool_do_elm_fora_do_papel_e_negada(self):
+        catalogo = BASE["mcp_do_power"]["elm"]
+        server = Path(__file__).resolve().parents[5] / "mcps/elm/mcp_elm/server.py"
+        if server.exists():  # tool do mcp-elm fora do catálogo escaparia das regras dos agentes
+            self.assertEqual(sorted(re.findall(r"^def (elm_\w+)\(", server.read_text(encoding="utf-8"), re.M)), sorted(catalogo))
+        for nome, a in self.gerar().items():
+            self.assertIn("sdd/elm/elm_backlog", regras(a, "power", "deny"), nome)
 
     def test_sem_elm(self):
         for a in self.gerar(elm=False).values():

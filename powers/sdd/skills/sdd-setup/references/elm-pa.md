@@ -53,14 +53,14 @@ Liste os times (`ccm.times`) com as categorias de cada um; recomende o de quem c
 
 ## 2. Tipos
 
-Confirme o tipo do EWM para `ib` (épico, fatia e Sustentação) e `tarefa`, entre os tipos da descoberta, e pergunte
-se o projeto registra **defeitos** no EWM: `defeito` é opcional — "não" → o `pa` fica sem ele e os blocos seguintes
-não falam de defeito.
+Confirme o tipo do EWM para `ib` (épico, fatia e os da Sustentação) e `tarefa`, entre os tipos da descoberta, e
+pergunte se o projeto registra **defeitos** no EWM: `defeito` é opcional — "não" → o `pa` fica sem ele e os blocos
+seguintes não falam de defeito.
 
 | # | Uso no fluxo | Tipo do EWM | Fonte |
 |---|---|---|---|
-| 1 | `ib` — épico, fatia, Sustentação | <Item de Backlog> | 🧩 |
-| 2 | `tarefa` — ESP, DEV, REV, VER, APR, GB e as de Apoio (ATD, IMPL, BD, INF, OPE, EXT) | <Tarefa> | 🧩 |
+| 1 | `ib` — épico, fatia, Sustentação, Manutenção, categoria e item de Sustentação | <Item de Backlog> | 🧩 |
+| 2 | `tarefa` — ESP, DEV, REV, VER, APR, GB e as da Sustentação (ATD, IMPL, BD, INF, OPE, EXT) | <Tarefa> | 🧩 |
 | 3 | `defeito` (opcional) | <Defeito | não usa> | 🧩 |
 
 ## Modelo do sdd: obrigatórios e valores por item
@@ -76,32 +76,35 @@ valor que não está nela.
 | # | Item | Título começa por | Categoria |
 |---|---|---|---|
 | 1 | épico | `[EP-` | Nova funcionalidade |
-| 2 | fatia | `[FT-` | Nova funcionalidade |
-| 3 | Sustentação do produto (pai dos IBs de categoria do Apoio) | `Sustentação ` | Apoio Técnico |
-| 4 | IB de defeito | — (vai na chamada) | Correção → linha "IB de defeito" do `sdd.md` |
-| — | padrão do tipo (`padroes`) | qualquer outro título (inclusive o IB de categoria do Apoio, `<Categoria> - <produto>`) | Apoio Técnico |
+| 2 | fatia (de épico ou da Manutenção) | `[FT-` | Nova funcionalidade |
+| 3 | Sustentação (pai da `[GB]`, da Manutenção e dos IBs de categoria) | `Sustentação` | Apoio Técnico |
+| 4 | Manutenção (pai das fatias sem épico) | `Manutenção` | — (pergunte: valor da lista da PA) |
+| 5 | item de Sustentação (`[AT-012] <pedido>`) | `[AT-` · `[IM-` · `[BD-` · `[IN-` · `[OP-` · `[EX-` | Apoio Técnico (a mesma da linha 3) |
+| 6 | IB de defeito | — (vai na chamada) | Correção → linha "IB de defeito" do `sdd.md` |
+| — | padrão do tipo (`padroes`) | qualquer outro título (inclusive o IB de categoria: `Atendimento`, `Implantação`…) | Apoio Técnico |
 
 **Tarefa** — obrigatórios 🔒 `Categoria` (de integração de horas), `OTR`, `ID do Produto (Clarity)` e `Classificação
 da Tarefa`:
 
 | # | Tarefa | Título começa por | Classificação da Tarefa |
 |---|---|---|---|
-| 5 | especificação | `[ESP]` | Análise / Especificação |
-| 6 | desenvolvimento | `[DEV]` | Desenvolvimento (Transacional / Analítico / IA / etc ) |
-| 7 | revisão | `[REV]` | Desenvolvimento (Transacional / Analítico / IA / etc ) |
-| 8 | verificação | `[VER]` | Testes |
-| 9 | aprovação do plano e do PR | `[APR]` | Outra - Não listada |
-| 10 | Apoio — Atendimento | `[ATD]` | Suporte / Apoio Técnico Especializado |
-| 11 | gerenciamento do backlog | `[GB]` | Outra - Não listada |
-| 12 | Apoio — Implantação | `[IMPL]` | — (pergunte: valor da lista da PA) |
-| 13 | Apoio — Banco de dados | `[BD]` | — (pergunte) |
-| 14 | Apoio — Infra | `[INF]` | — (pergunte) |
-| 15 | Apoio — Operação | `[OPE]` | — (pergunte) |
-| 16 | Apoio — Apoio a outros times | `[EXT]` | — (pergunte) |
+| 7 | especificação | `[ESP]` | Análise / Especificação |
+| 8 | desenvolvimento | `[DEV]` | Desenvolvimento (Transacional / Analítico / IA / etc ) |
+| 9 | revisão | `[REV]` | Desenvolvimento (Transacional / Analítico / IA / etc ) |
+| 10 | verificação | `[VER]` | Testes |
+| 11 | aprovação do plano e do PR | `[APR]` | Outra - Não listada |
+| 12 | Sustentação — Atendimento | `[ATD]` | Suporte / Apoio Técnico Especializado |
+| 13 | gerenciamento do backlog | `[GB]` | Outra - Não listada |
+| 14 | Sustentação — Implantação | `[IMPL]` | — (pergunte: valor da lista da PA) |
+| 15 | Sustentação — Banco de dados | `[BD]` | — (pergunte) |
+| 16 | Sustentação — Infra | `[INF]` | — (pergunte) |
+| 17 | Sustentação — Operação | `[OPE]` | — (pergunte) |
+| 18 | Sustentação — Apoio a outros times | `[EXT]` | — (pergunte) |
 | — | padrão do tipo (`padroes`) | qualquer outro título | Outra - Não listada |
 
-As linhas 10 e 12–16 são as categorias da tabela **Apoio** do `sdd.md` (a Classificação escolhida aqui vai também
-para a coluna dela lá); categoria que o projeto acrescenta ganha uma linha aqui, com o prefixo dela.
+As linhas 12 e 14–18 são as categorias da tabela **Sustentação** do `sdd.md` (a Classificação escolhida aqui vai
+também para a coluna dela lá); categoria que o projeto acrescenta ganha uma linha aqui, com o prefixo dela, e a série
+dela entra na linha 5. A Manutenção não tem linha de tarefa: as fatias dela usam as das linhas 8–11.
 
 Iguais em toda tarefa (vão em `padroes`): `Categoria` = Aplicativo · `OTR` = 1-Apoio-Produtos · `ID do Produto
 (Clarity)` = o código do produto do projeto — campo de texto, **sempre perguntado** (é de cada projeto; sem ele a

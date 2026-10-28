@@ -4,7 +4,7 @@ description: "Wizard de 9 etapas, em português do Brasil e em cartões padroniz
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.3.1"
+  version: "3.4.0"
 ---
 
 # sdd-setup — Configurar o fluxo no projeto
@@ -131,16 +131,17 @@ de bloqueio com o erro em uma linha; a pessoa decide (corrigir o comando, seguir
 
 | Item | Como detectar |
 |---|---|
-| Branch base | candidatos: `git symbolic-ref refs/remotes/origin/HEAD`, as remotas `develop`/`desenvolvimento`/`dev`/`main`/`master` e o destino dos últimos merges (`git log --merges -30 --format=%s` — "into '<branch>'"). Um só candidato, ou todos os sinais na mesma → padrão; sinais divergentes (ex.: `origin/HEAD` = `master`, merges em `desenvolvimento`) → pergunte, com a tabela de candidatos do W3. Vai também no `{{BASE}}` dos agentes (push para a base negado) |
+| Branch base | candidatos: `git symbolic-ref refs/remotes/origin/HEAD`, as remotas `develop`/`desenvolvimento`/`dev`/`main`/`master` e o destino dos últimos merges (`git log --merges -30 --format=%s` — "into '<branch>'"). Um só candidato, ou todos os sinais na mesma → padrão; sinais divergentes (ex.: `origin/HEAD` = `master`, merges em `desenvolvimento`) → pergunte, com a tabela de candidatos do W3. Vai também no `{{BASE}}` dos agentes (push para a base negado, salvo os registros de situação do codificador e do orquestrador, com pergunta) |
 | Prefixo da branch | branches remotas existentes; padrão `feature/` |
 | Padrão de commit | `git log --oneline -20` (Task/IB do EWM? Conventional Commits?) |
 | PR (merge request) | pelo MCP **`gitlabpr`** do power (GitLab, API v4, CE 10.8+; projeto vem do `origin` da raiz do workspace, informada em `pasta` a cada chamada; fora de um repositório, a URL do projeto colada pela pessoa vai em `url_projeto`). Teste uma vez com `gitlab_listar_mrs(pasta=<raiz do workspace>, limite=1)`: respondeu → `MCP gitlabpr` ✅; erro de rede → `MCP gitlabpr` ⏸️ (sem rede — testado de novo no Passo 9). Erro de credencial → mostre o modelo de `~/.config/mcp-gitlabpr/gitlabpr.properties` (`url` do GitLab e `token` pessoal com escopo `api`; a pessoa cria o arquivo, o agente não lê nem grava credencial) e teste de novo. `origin` fora do GitLab, ou a pessoa segue sem credencial → "entregar título e descrição" (troca depois por "atualizar a configuração do sdd"). Nunca `gh` nem `glab` |
 | MCP de banco | servidores em `.kiro/settings/mcp.json` e `~/.kiro/settings/mcp.json` — qual é o de consulta e **qual tool** só consulta (ou "não há"); recomende um usuário de banco somente leitura |
 | Artefatos de produto | fixo: `direto na branch base` (não pergunte) |
+| Push na base (requisito) | não se detecta: quem desenvolve grava na base a situação da fatia (`iniciada`, `pronta`) e dá o push — base protegida contra o push dele barra o início de toda fatia. Avise na linha 7 do W3 e siga |
 
 ## Passo 4 — Produto, conhecimento e ELM (cartão W4)
 
-O W4 mostra as sete linhas de uma vez (pasta do produto, glossário, ADRs, ELM, bundle, regras do ELM e produto), com uma
+O W4 mostra as seis linhas de uma vez (pasta do produto, glossário, ADRs, ELM, bundle e regras do ELM), com uma
 pergunta. Glossário e ADRs aparecem sempre, mesmo quando a resposta é "não há". Faltando o `pa`, a montagem
 dele vem depois do "ok" do W4, em cartões próprios (um bloco por mensagem); antes do bloco 0, avise que é a parte
 mais longa (10 blocos) e o que ela decide.
@@ -164,10 +165,11 @@ mais longa (10 blocos) e o que ela decide.
    - Seção ELM do `sdd.md`, sem perguntas (linha 6 do W4): publicar requisitos `na-aprovacao`, ET `não
      publica`, manual `nada`, pontos `não`, fatia dividida "filhos do item original", títulos das tarefas e colunas
      do `CT.csv` do template; a categoria do IB de defeito é a do bloco 5 do `elm-pa.md`. A Sustentação não é
-     perguntada: nasce no backlog do EWM, uma por produto, na primeira triagem ou no
-     espelhamento do backlog ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §0 e §2); pergunte só o
-     nome curto do produto (linha 7 do W4; vai para a linha "Produto" da seção ELM). A seção **Apoio** do `sdd.md` vem do template com as seis
-     categorias, a Classificação de cada uma pelo bloco 5 do `elm-pa.md`.
+     perguntada: o IB `Sustentação` nasce no backlog do EWM, um por produto, na primeira triagem ou no
+     espelhamento do backlog ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §0 e §2); o IB
+     `Manutenção` e os de categoria, com o primeiro item de cada um. A seção **Sustentação** do `sdd.md` vem do
+     template — a Manutenção (as fatias sem épico) e as seis categorias, a Classificação de cada uma pelo bloco 5 do
+     `elm-pa.md`, que também pergunta a Categoria do IB `Manutenção`.
    - **Backlog do produto no EWM** (`ccm.backlog` do `pa`; também no modo atualização, com `pa` sem ele): onde os
      itens triados nascem — [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §0 (pergunta a linha de
      base e se `<linha de base>/Backlog` já existe; senão cria a iteração e o plano `Backlog`; com `backlog.md` em uso,
@@ -206,9 +208,9 @@ pré-marcadas pelos `papeis` do toolkit e pelo tipo de projeto (formato em `tool
 As colunas `elm`, `gitlabpr`, Subagentes do fluxo e Push vêm do `papeis.json` e vão **todas** no W6 do agente, como
 estão (projeto sem ELM → a linha do `elm` com ➖; PR entregue como texto → a do `gitlabpr` continua, com a nota
 "sem projeto no GitLab ainda"): nunca omita uma linha fixa nem mude o acesso dela. O `gitlabpr` só serve ao PR e
-só aparece em quem lida com PR (produto: conferir o merge na consolidação; codificador: abrir e mesclar; revisor: ler o
-PR; orquestrador: abrir no loop) — pesquisador e verificador não o têm. Pedido de tirar uma linha fixa → explique
-que é do papel, não do projeto, e siga sem ela mudar.
+só aparece em quem lida com PR (produto: conferir o PR mergeado na pré-condição dos ritos e no painel; codificador:
+abrir e mesclar; revisor: ler o PR; orquestrador: abrir no loop) — pesquisador e verificador não o têm. Pedido de
+tirar uma linha fixa → explique que é do papel, não do projeto, e siga sem ela mudar.
 
 Aprender e setup rodam na **sessão padrão** (sem agente); o modo registrar da aprender também no `sdd-produto`,
 na consolidação. A consolidação é do P.O. ou do SM, no `sdd-produto`
@@ -244,10 +246,14 @@ perguntas**: GATE do
 plano pela senioridade de quem implementa (fixo: Júnior sempre, Pleno pergunta, Sênior nunca — `sdd-plano` Passo 5);
 paralelismo do loop `1`; push e PR no loop perguntando a cada lote (o orquestrador tem regra `ask` para push e PR, então
 o Kiro confirma cada um; a pessoa muda para "não — a pessoa abre" → `"push_pr_no_loop": false`, e a regra vira
-`deny`); **push pelo agente** no codificador, no revisor e no verificador (fixo, não é perguntado): `git push *` com
+`deny`: o orquestrador entrega também o comando do push da base (`iniciada` do lote) e espera a publicação);
+**push pelo agente** no codificador, no revisor e no verificador (fixo, não é perguntado): `git push *` com
 `ask` (o Kiro pergunta sempre), com as negações de `--force`, `-f`, `+ref`, `:ref`, `--mirror`, `--all`, `--prune`,
-`--delete` e do push para a branch base; revisor e verificador só publicam a branch do PR; push recusado → o agente
-entrega o comando pronto e espera a pessoa dizer que publicou; e, se a verificação chama a
+`--delete` e do push sem a branch nomeada (`git push`, `git push origin`, `HEAD`, `@`); revisor e verificador só
+publicam a branch do PR (push para a base negado); na base, o codificador publica só os registros de situação da
+fatia (`iniciada`, `pronta`) e o orquestrador, só a `iniciada` do lote, com os arquivos conferidos antes
+([Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base)); push da branch recusado → o agente entrega o
+comando pronto e espera a pessoa dizer que publicou (o da base segue o Gravar na base); e, se a verificação chama a
 aplicação por HTTP, o **script de chamada** do verificador `.kiro/sdd/http.sh` (o verificador roda só esse script sem
 perguntar, só contra a URL de teste e com corpo da pasta `massa/`; precisa de `sh` e `curl`; a pessoa pode trocar por
 "nenhum": cada `curl` pede confirmação, e no loop a verificação fica para a sessão dela). A única pergunta aqui é a
@@ -297,12 +303,12 @@ Itens:
    `.kiro/sdd/http.sh` ← [assets/scripts/http.sh](assets/scripts/http.sh) com `{{URL_TESTE}}` trocado pela URL
    base do ambiente de teste (sem barra no fim).
 4. `<produto>/` (só o que não existir): `backlog.md` mínimo
-   (`# Backlog — <nome>`, `Próximos ids: EP-01 · FT-001 · AT-001 · IM-001 · BD-001 · IN-001 · OP-001 · EX-001`,
-   `Sustentação: —` e as tabelas `## Épicos`, `## Fatias — sem épico` e `## Apoio` vazias — formato na `sdd-fatiar`),
-   `<produto>/aprendizado/licoes.md` com o título `# Lições` (a pasta `apoio/` nasce
-   com o primeiro item de Apoio, pela `sdd-triar`) e `fatias/` (as fichas). O `equipe.json` e o `acordos.md` não: são da
-   `sdd-planejamento` (modo inicial), que só grava a equipe depois dos acordos (cadência e duração da sprint). No modo atualização, acrescente só o que falta —
-   nunca recrie o que existe.
+   (`# Backlog — <nome>`, `Próximos ids: EP-01 · FT-001 · AT-001 · IM-001 · BD-001 · IN-001 · OP-001 · EX-001` e
+   as seções `## Épicos`, `## Fatias` e `## Sustentação` vazias, sem `### <Categoria>`: cada uma nasce com o primeiro
+   item dela — formato na `sdd-fatiar`), `<produto>/aprendizado/licoes.md` com o título `# Lições` (a pasta
+   `sustentacao/` nasce com o primeiro item de categoria, pela `sdd-triar`) e `fatias/` (as fichas). O `equipe.json`
+   e o `acordos.md` não: são da `sdd-planejamento` (modo inicial), que só grava a equipe depois dos acordos (duração
+   da sprint). No modo atualização, acrescente só o que falta — nunca recrie o que existe.
 5. Glossário e ADRs que o W4 disse "será criado" (só o que não existe): `<glossario>` com `# Glossário — <nome>` e a
    tabela vazia `| Termo | Definição | Evitar | Fonte | ELM |` (formato da `sdd-entrevistar`); `<adr>/` com um
    `README.md` de uma linha ("Decisões que devem durar — um arquivo por decisão, gravado pela consolidação").

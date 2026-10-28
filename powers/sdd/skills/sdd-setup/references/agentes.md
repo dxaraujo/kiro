@@ -30,11 +30,11 @@ rebuilt)` no `--dry-run` (por causa do `toolsSettings.subagent`, que a V3 ainda 
 |---|---|
 | `power` | a pasta do power, relativa ao home (Passo 0): `~/.kiro/powers/installed/sdd` |
 | `produto`, `glossario`, `adr` | os caminhos do Passo 4 (`null` = não há) |
-| `base` | a branch base, sem `origin/` — nas negações de push para a base |
+| `base` | a branch base, sem `origin/` — nas regras de push da base (pergunta no codificador e no orquestrador; negado nos demais) |
 | `bundle` | o `rm.download` do `pa` (leitura negada: a consulta é pelas `elm_*_local`), ou `null` |
 | `massa` | a pasta de massa do projeto que o verificador escreve, ou `null` |
 | `elm` | `false` → nenhuma tool do `elm` em nenhum agente (`sdd/elm/*` negado) |
-| `push_pr_no_loop` | `false` ("não — a pessoa abre") → o orquestrador não faz push nem abre PR |
+| `push_pr_no_loop` | `false` ("não — a pessoa abre") → o orquestrador não faz push (nem o da `iniciada` do lote, na base) nem abre PR |
 | `http_sh` | `true` se a setup instalou `.kiro/sdd/http.sh` |
 | `steering` | `file://` do steering de produto, tecnologia e estrutura, para todos os agentes |
 | `comandos.build` | compilar, testes, teste único, lint, cobertura (padrões de shell: `mvn test*`) |
@@ -59,9 +59,13 @@ recebe `build`; verificador, `verificacao`.
   `--no-verify`, `reset --hard`, `clean`, `stash`, `restore`, `checkout --`/`.`, `--force`, `--delete`, `rm -rf`,
   credenciais e o bundle em qualquer comando.
 - **Push:** codificador, revisor, verificador e orquestrador — `git push *` pergunta sempre (`ask`, sem "sempre
-  permitir"), e `push-perigoso` nega `-f`, `+ref`, `:ref`, `--mirror`, `--all`, `--prune` e o push para a base.
-  Produto e pesquisador: push negado. Push sem destino (`git push` puro) não é pego pelo padrão: as skills mandam
-  sempre `git push -u origin <branch>`.
+  permitir"); `push-perigoso` nega `-f`, `+ref`, `:ref`, `--mirror`, `--all`, `--prune`, o push sem a branch nomeada
+  (`git push`, `git push origin`, `HEAD`, `@`: as skills sempre a nomeiam) e outra ref para a base (`<ref>:<base>`,
+  `heads/<base>`). O push da base (`git push origin <base>`) pergunta no codificador e no orquestrador, só para os
+  registros de situação da fatia, com os arquivos conferidos antes
+  ([Gravar na base](../../sdd-fatiar/references/backlog.md#gravar-na-base)); nos dois, `git reset --keep origin/*`
+  também pergunta (desfaz o commit de registro de um push recusado). Revisor e verificador: push da base negado
+  (`shell_negar`). Produto e pesquisador: push negado.
 - **MCP do power** (`elm`, `gitlabpr`): regra `power` `sdd/<servidor>/<tool>` — leitura liberada (`mcp_libera`),
   escrita com confirmação (`mcp_pergunta`), e **toda tool do catálogo que o papel não usa, negada**: a IDE chama
   tool de power pela `kiro_powers`, fora do filtro de `tools`. Comentar e anexar: todo papel com tarefa, só na
@@ -71,17 +75,21 @@ recebe `build`; verificador, `verificacao`.
 - **Subagentes:** `tools` `subagent/<nome>`, `toolsSettings.subagent` e a regra `subagent`. O subagente herda as
   regras de quem o chama (interseção, o mais restritivo vence): por isso o orquestrador já tem os comandos de build
   e verificação e escreve nas worktrees.
-- **Escrita:** só o que o papel produz (`escreve`, `nao_escreve` no `papeis.json`). O codificador escreve no
-  projeto, menos `.kiro/agents`, `hooks`, `workflows`, `steering`, `settings`, `skills`, `toolkits`, `config`, o
-  `AGENTS.md`, a pasta do produto, `.kiro/local/wf`, `.kiro/sdd` e `.git`. Os relatórios do revisor e do
+- **Escrita:** só o que o papel produz (`escreve`, `nao_escreve` no `papeis.json`; `nao_escreve_exceto` vira o
+  `exclude` da negação). O codificador escreve no projeto, menos `.kiro/agents`, `hooks`, `workflows`, `steering`,
+  `settings`, `skills`, `toolkits`, `config`, o `AGENTS.md`, a pasta do produto (fora o `backlog.md` e as `sprints/`,
+  onde grava a situação da fatia na base; nas worktrees, toda ela), `.kiro/local/wf`, `.kiro/sdd` e `.git`; o
+  orquestrador grava os mesmos dois caminhos do produto, para a `iniciada` do lote. Os relatórios do revisor e do
   verificador não podem ser negados nele (os subagentes herdariam a negação): quem barra relatório forjado é o
   merge, que confere as tarefas no ELM.
 - **Limite: redireção.** O Kiro compara as regras só com o comando, sem o `> arquivo`: `git show … > <caminho>` passa
-  pelo `allow` de `git show*`. A defesa é fora do agente — branch base protegida, revisão do PR por pessoa e o merge
-  conferindo o ELM.
+  pelo `allow` de `git show*`. A defesa é fora do agente — a confirmação de cada push, a revisão do PR por pessoa e
+  o merge conferindo o ELM.
 
-Conferido em 23/10/2026 com o `kiro-cli` 2.32 na engine V3: os seis passam no `agent validate`; comando liberado
-roda, comando fora da lista e exceção caem em aprovação, `commit -n` e push para a base são negados pela regra.
+Conferido em 23/10/2026 com o `kiro-cli` 2.32 na engine V3, com as regras de então: os seis passam no
+`agent validate`; comando liberado roda, comando fora da lista e exceção caem em aprovação, `commit -n` e push para
+a base são negados pela regra. O `agent validate` não lê o `permissions`: o `exclude` no `fs_write` (3.4.0) foi
+conferido no motor V3 do `kiro-cli` 2.35, que o aplica aos caminhos como aos comandos.
 
 **Mudar uma regra** é no `papeis.json` do power, com o teste
 (`uv run --no-project python -m unittest test_gerar_agentes`, na pasta `scripts/`); os projetos pegam a mudança

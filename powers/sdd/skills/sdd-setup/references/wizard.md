@@ -67,9 +67,9 @@ Escolha numa lista → as opções numeradas logo acima da pergunta, a recomenda
 ## 👋 Configurar o sdd · <projeto>
 <✨ configuração inicial | 🔄 atualização da configuração de <data do sdd.md>>
 
-O sdd organiza o trabalho do time em fatias pequenas: plano aprovado, teste primeiro, revisão e verificação
-independentes, PR lido por uma pessoa e o ELM como registro. São **9 etapas** — e **nada é gravado antes da
-etapa 8**, quando você confere tudo numa tela só.
+O sdd organiza o trabalho do time em fatias pequenas — plano aprovado, teste primeiro, revisão e verificação
+independentes, PR lido por uma pessoa e o ELM como registro —, em sprints com fluxo puxado (Scrumban). São
+**9 etapas** — e **nada é gravado antes da etapa 8**, quando você confere tudo numa tela só.
 
 | # | Etapa | O que decide |
 |---|---|---|
@@ -180,6 +180,7 @@ Duas mensagens: a proposta (Status `⏸️ ainda não rodado`) e, depois do `ok`
 | 4 | PR (merge request) | <MCP `gitlabpr` | entregar título e descrição> | <✅ respondeu | ⏸️ sem rede — testo de novo na etapa 9 | ❌ sem credencial> | 🔍 |
 | 5 | Banco (só consulta) | <`banco/consultar` | não há> | <✅ | ⏸️ …> | 🔍 <.kiro/settings/mcp.json> |
 | 6 | Artefatos de produto | direto na branch base | ➖ | 📐 fixo |
+| 7 | Push na base para quem desenvolve | requisito: o Dev grava ali a situação da fatia (`iniciada`, `pronta`) | ⚠️ confira no GitLab se a `<branch>` protegida aceita o push dele — sem isso, nenhuma fatia começa | 📐 fixo |
 
 (se a branch base for ambígua) mostre os candidatos **antes** desta tabela e pergunte só isso:
 
@@ -203,7 +204,6 @@ Duas mensagens: a proposta (Status `⏸️ ainda não rodado`) e, depois do `ok`
 | 4 | Usa ELM | <sim — `pa_<nome>.json` | não> | <🔍 | 🙋> |
 | 5 | Bundle do RM | <`docs/elm/<nome>` · <n> documentos | não baixado — `sdd-sync` depois | ➖> | <🔍 | 🧩> |
 | 6 | Regras do ELM | publicar requisitos na aprovação · ET não publica · fatia dividida = filhos do item | 📐 |
-| 7 | Produto | <nome curto> — títulos `Sustentação - <produto>` e `<Categoria> - <produto>` no EWM | 🙋 |
 ```
 
 Montagem do `pa` (só quando falta): um cartão por bloco, com o cabeçalho
@@ -256,7 +256,7 @@ Agentes do projeto (podem virar subagentes do codificador e do orquestrador):
 
 | Item | Valor |
 |---|---|
-| Push | <🟡 pergunta a cada push (só a branch da fatia) | 🔴 negado> |
+| Push | <🟡 pergunta a cada push (só a branch da fatia) | 🟡 pergunta a cada push (a branch da fatia e, na base, só os registros de situação) | 🔴 negado> |
 | Modelo | padrão do Kiro |
 
 > ❓ **Confirma o `sdd-<papel>`?**
@@ -282,7 +282,7 @@ mostre o cartão de novo com as caixas atualizadas antes de pedir o "ok" final d
 | 3 | GATE do plano | pela senioridade: Júnior sempre · Pleno pergunta · Sênior nunca | 📐 fixo |
 | 4 | Paralelo no loop | 1 fatia por vez (máx. 3) | 📐 |
 | 5 | Push e PR no loop | 🟡 o Kiro pergunta a cada lote | 📐 |
-| 6 | Push pelos agentes | 🟡 pergunta sempre · 🔴 nunca `--force` nem para a base | 📐 fixo |
+| 6 | Push pelos agentes | 🟡 pergunta sempre — na base, só os registros de situação da fatia, com os arquivos conferidos · 🔴 nunca `--force` | 📐 fixo |
 | 7 | Chamada HTTP do verificador | <[✅] `.kiro/sdd/http.sh` → `<url de teste>` | ➖ projeto sem HTTP> | <🙋 | 📐> |
 ```
 

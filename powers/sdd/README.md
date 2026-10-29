@@ -342,6 +342,10 @@ sdd", também com o backlog do EWM já configurado. O IB `Sustentação`, `Manut
 parecido (`Sustentação - <produto>`) e sem o id no `backlog.md` é perguntado, e não nasce outro. O painel da
 `sdd-status` conta os itens sem IB. Requer o `mcp-elm` ≥ 3.4.2 (sem mudança no MCP).
 
+Na **3.4.4**, o `pa.schema.json` é publicado no repositório [`dxaraujo/mcps`](https://github.com/dxaraujo/mcps), em
+`https://dxaraujo.github.io/mcps/elm/pa.schema.json` (o `$id` e o `$schema` dos `pa_*.json`). O power e o `mcp-elm`
+guardam cópias iguais à publicada; com o `mcps` clonado ao lado, os testes conferem. Sem mudança no fluxo.
+
 Não use o `/upgrade-agent` (nem `kiro-cli agent upgrade`) nos agentes `sdd-*`: quem os gera é o script da setup
 ("atualizar os agentes do sdd").
 

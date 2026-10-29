@@ -126,6 +126,11 @@ class Gerar(unittest.TestCase):
         for nome, a in self.gerar().items():
             self.assertIn("sdd/elm/elm_backlog", regras(a, "power", "deny"), nome)
 
+    def test_pa_schema_igual_ao_publicado(self):
+        publicado = Path(__file__).resolve().parents[6] / "mcps/elm/pa.schema.json"
+        if publicado.exists():  # a cópia do power e a publicada no repositório mcps
+            self.assertEqual((Path(__file__).resolve().parents[1] / "assets/pa.schema.json").read_bytes(), publicado.read_bytes())
+
     def test_sem_elm(self):
         for a in self.gerar(elm=False).values():
             self.assertFalse([t for t in a["tools"] if t.startswith("@elm/")])

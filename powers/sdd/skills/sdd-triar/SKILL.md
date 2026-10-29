@@ -4,7 +4,7 @@ description: "Entrada de todo trabalho novo no fluxo sdd — recebe um pedido em
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.4.2"
+  version: "3.4.3"
 ---
 
 # sdd-triar — Triagem e registro
@@ -26,6 +26,12 @@ Ficha da fatia (toda trilha): [references/ficha.md](references/ficha.md).
 
 **Antes de tudo** — a triagem lê e escreve na base: itens 1 e 5 do bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base) (troca
 com "sim", `pull --ff-only`, árvore suja → pare; no fim, oferecer voltar).
+
+**Backlog sem IB** (com ELM e o MCP `elm` nesta sessão): o backlog do EWM é a fonte dos relatórios das demandas, e
+nenhum item espera a sprint para nascer nele. Linha do `backlog.md` não terminal com `elm` `—`, `pendente` ou id sem
+link → `🏛️ <n> itens do backlog sem IB no EWM: <ids> → criar agora? (sim)`, com a prévia e o "sim" do
+[elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §0, passo 4 (espelhamento). Os ids entram no commit
+único do Passo 3. "não" → a triagem segue, e o painel da `sdd-status` continua contando.
 
 | Entrada | Como ler |
 |---|---|
@@ -174,7 +180,7 @@ assim; o item de origem em outro estado volta a ele com `elm_transicao(<id>, "re
     id sem link); a `sdd-atender` ou a `sdd-executar` criam o que faltar antes de assumir.
 
 Atualize "Próximos ids". O commit é **um só, no fim da sessão de triagem** (Passo 4, resposta "não"), com o
-`backlog.md`, as fichas, as pastas dos épicos, os registros de Sustentação e, no `sprint-<nn>.md` aberto, as linhas
+`backlog.md` (também os ids do espelhamento do Passo 1), as fichas, as pastas dos épicos, os registros de Sustentação e, no `sprint-<nn>.md` aberto, as linhas
 da Sustentação e a de créditos da sessão na seção **Créditos de gestão** (Atividade `triagem`;
 ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4); sem sprint aberta, não há onde gravar) (padrão de
 commit do `sdd.md`). A triagem não tem tarefa própria: o padrão é a tarefa **`[GB] Gerenciamento do backlog`** (o
@@ -208,7 +214,8 @@ Mais algum item para triar?
 ```
 
 - **"sim"** → volte ao Passo 1 com o novo item, na mesma sessão e na base (sem novo `switch` nem `pull`).
-- **"não"** → mostre o resumo da sessão (ids, trilhas, pendências `falta:` e `ELM pendente`), registre os créditos
+- **"não"** → mostre o resumo da sessão (ids, trilhas, os itens espelhados no Passo 1, pendências `falta:` e `ELM
+  pendente`), registre os créditos
   (o comentário na `[GB]`; as horas, só se é o SM e não é o P.O.), faça o commit único do Passo 3 e encerre; se a
   triagem trocou de branch no Passo 1, ofereça voltar à anterior.
 

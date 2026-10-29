@@ -4,7 +4,7 @@ description: "Wizard de 9 etapas, em português do Brasil e em cartões padroniz
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.4.2"
+  version: "3.4.3"
 ---
 
 # sdd-setup — Configurar o fluxo no projeto
@@ -171,7 +171,7 @@ mais longa (10 blocos) e o que ela decide.
      `Manutenção` e os de categoria, com o primeiro item de cada um. A seção **Sustentação** do `sdd.md` vem do
      template — a Manutenção (as fatias sem épico) e as seis categorias, a Classificação de cada uma pelo bloco 5 do
      `elm-pa.md`, que também pergunta a Categoria do IB `Manutenção`.
-   - **Backlog do produto no EWM** (`ccm.backlog` do `pa`; também no modo atualização, com `pa` sem ele): onde os
+   - **Backlog do produto no EWM** (`ccm.backlog` do `pa`; também no modo atualização — com `pa` que já o tem, só o espelhamento): onde os
      itens triados nascem — [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §0 (pergunta a linha de
      base e se `<linha de base>/Backlog` já existe; senão cria a iteração e o plano `Backlog`; com `backlog.md` em uso,
      oferece o espelhamento). Estrutura padrão no início do [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md#estrutura-no-ewm-padrão).

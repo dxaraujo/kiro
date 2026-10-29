@@ -81,7 +81,7 @@ e pergunte se retoma. Retomar = continuar cada fatia da fase registrada no `stat
    topo e §3–4). Das tarefas, só a `[DEV]`, AFK: a `[REV]` e a `[VER]` de um planejamento HITL anterior não movem →
    `ELM pendente [<tipo> <id> cancelar]` no `status.md`. Depois `elm_transicao(<id>, "assumir", iniciar_pai: true)`
    em cada `[DEV]`; sem o MCP `elm` ou com falha → `ELM pendente [<chave>]: assumir a tarefa` no `status.md`
-   de cada fatia.
+   de cada fatia. Essas pendências entram no Histórico do `status.md` de cada fatia quando ele nasce (Passo 2).
 5. Log `.kiro/local/loop-<AAAA-MM-DD-HHMM>.md` (formato no fim).
 
 ## Passo 2 — Worktree por fatia
@@ -95,9 +95,10 @@ git worktree add .kiro/local/wt/<ft> -b <branch> origin/<base>     # nova
 git worktree add .kiro/local/wt/<ft> <branch>                      # já existe
 ```
 
-Dentro da worktree, faça só o item 4 e o commit do item 6 do Passo 4 da **`sdd-desenvolver`** (pasta, `status.md`
-com `Responsável: agente:sdd-orquestrador`, `.config.kiro`), sem perguntas — o lote já foi confirmado. A `iniciada`
-e o EWM já foram tratados na confirmação do lote (Passo 1), e não há push nesta hora.
+Dentro da worktree, faça só o item 4 e o commit do item 6 do Passo 4 da **`sdd-desenvolver`** (pasta, `status.md` com
+`Responsável: agente:sdd-orquestrador` e, no Histórico, as `ELM pendente` que o Passo 1 deixou para esta fatia —
+`[<tipo> <id> cancelar]`, `assumir a tarefa` —, `.config.kiro`), sem perguntas — o lote já foi confirmado. A
+`iniciada` e o EWM já foram tratados na confirmação do lote (Passo 1), e não há push nesta hora.
 
 **Comandos dentro da worktree** — diga isto a cada subagente: git, build e testes com
 `cd .kiro/local/wt/<ft> && <comando>` (o `git -C` é bloqueado nos agentes: com ele as regras de permissão não

@@ -185,11 +185,11 @@ conhecem (estado, iteração, dono, estimativa). Mostra **uma tabela** com todas
 linha com a solução proposta: "ok" aplica tudo como proposto, ou a pessoa ajusta uma ou mais linhas (`<n>: arquivo`,
 `<n>: EWM`, `<n>: manter`; na por fora, o tipo e o título). A situação da fatia e do épico nunca muda pelo estado do
 EWM, só pela skill que a causa; na Sustentação, o arquivo recebe o EWM. As linhas que mudam o escopo (o item que sai
-da sprint, o encaixe) esperam o "sim" do **P.O.** — sem ele, ficam `manter` nesta rodada —, e as `encaixe` seguem
-depois, uma a uma, para o Encaixe (abaixo). Sprint não publicada (`**Publicação no EWM:** pendente`) → a primeira
-linha cria a iteração e o plano (§1), e a listagem vem depois do "ok". Nada diverge → sempre a linha
-`🔄 <chave> × EWM: iguais — <n> itens conferidos`; nunca diga que "não é preciso sincronizar" sem ter rodado a
-comparação. Sem o MCP `elm` → diga que não há como comparar e pare.
+da sprint, o encaixe, o épico que entra com a `[ESP]`) esperam o "sim" do **P.O.** — sem ele, ficam `manter` nesta
+rodada —, e as `encaixe` seguem depois, uma a uma, para o Encaixe (abaixo). Sprint não publicada
+(`**Publicação no EWM:** pendente`) → a primeira linha cria a iteração e o plano (§1), e a listagem vem depois do
+"ok". Nada diverge → sempre a linha `🔄 <chave> × EWM: iguais — <n> itens conferidos`; nunca diga que "não é preciso
+sincronizar" sem ter rodado a comparação. Sem o MCP `elm` → diga que não há como comparar e pare.
 
 **Encaixe** — só quando puxar não basta: a fatia `elegivel` que alguém quer começar **não é a do topo** (fura a
 fila) ou o **WIP de revisão está no limite** (de qualquer trilha); a `sdd-desenvolver` manda para cá. Item de
@@ -322,14 +322,16 @@ pedido novo vira cenário/fatia nova pela `sdd-prd`/`sdd-fatiar` — não reabre
    com `**Publicação no EWM:** pendente` no cabeçalho (o §1 dela ainda não rodou; a publicação vem no passo 5).
 5. **ELM** — virada ([references/elm-sprint.md](references/elm-sprint.md) §5). O §9 da sprint que fecha é o da
    pré-condição (passo 0; o §5 não roda outro). Depois, nesta ordem: o §1 da próxima, também com o mesmo pai (pai
-   novo: também o §2, com a `[GB]` do pai novo); o **movimento** (só os ids abertos na listagem da iteração que
-   fecha: as tarefas e o item das linhas que migram, o IB de todo épico `planejado` ou `iniciado` e a `[GB]`, se o
-   pai não muda; o que está fechado fica na iteração em que fechou, com as horas dele); o §3–4 e o §6 das linhas
-   novas; e só então o §9 da próxima. **Virada pela metade** (sem o MCP, falha no movimento ou sessão parada
-   depois do passo 4): os arquivos seguem; diga que o movimento fica para a sincronização da próxima, que o
-   reconhece (§5 e §9). Iteração do
-   EWM mais longa que a sprint (a mesma cobre as duas) → nada muda no EWM; diga isso, e o relatório de horas da
-   sprint conta só as tarefas listadas no `sprint-<nn>.md`, não a iteração inteira.
+   novo: também o §2, com a `[GB]` do pai novo); o **movimento** (os ids abertos na listagem da iteração que
+   fecha — as tarefas e o item das linhas que migram, o IB de todo épico `planejado` ou `iniciado` e a `[GB]`, se o
+   pai não muda — e os abertos de linha migrada que ainda estão numa sprint anterior da cadeia `migrada de`; o que
+   está fechado fica na iteração em que fechou, com as horas dele); o §3–4 e o §6 das linhas novas; e só então o §9
+   da próxima. **Virada pela metade** (sem o MCP, falha no movimento ou sessão parada depois do passo 4): os
+   arquivos seguem; diga que o movimento fica para a sincronização da próxima, que o reconhece (§5 e §9). Iteração
+   do EWM mais longa que a sprint (a mesma cobre as duas) → o movimento não muda nada (os ids já estão nela; diga
+   isso), mas o §1 da próxima roda do mesmo jeito — acha a iteração e o plano, não cria nada e tira o
+   `**Publicação no EWM:** pendente` —, e também o §3–4, o §6 e o §9 dela; o relatório de horas da sprint conta só
+   as tarefas listadas no `sprint-<nn>.md`, não a iteração inteira.
 
 ## Regras
 

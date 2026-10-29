@@ -63,12 +63,13 @@ criado fora do fluxo recusado numa transição → mostre o campo e peça o valo
 4. **Nunca apague** nada no ELM: o que deixou de valer vira roteiro manual (obsoleto/remoção na UI).
 5. **Conflito no DOORS Next:** `elm_publicar_req` com `modificado_em` devolve `conflito` se o ELM mudou depois →
    mostre os dois lados e pergunte qual fica.
-6. **Sprint não publicada** (`**Publicação no EWM:** pendente` no cabeçalho do `sprint-<nn>.md`): nenhuma tool recebe
-   a iteração dela antes do §1 do [elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) — sem ele, o MCP
-   procura o caminho pelo nome na PA inteira e pode achar a sprint homônima de outro produto. No agente de produto,
-   rode o §1 antes, com o mesmo "sim", e tire o marcador no commit; nos agentes sem o `elm_iteracao` (codificador,
-   orquestrador), registre o lado do EWM como `ELM pendente [<chave>]` e indique "sincroniza a sprint"
-   (`sdd-planejamento`).
+6. **Sprint não publicada** (`**Publicação no EWM:** pendente` no cabeçalho do `sprint-<nn>.md`): nenhuma tool, de
+   leitura inclusive, recebe a iteração dela antes do §1 do
+   [elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) — sem ele, o MCP procura o caminho pelo nome na PA
+   inteira e pode achar a sprint homônima de outro produto. No agente de produto, rode o §1 antes — sprint em pai
+   novo: também o §2 (a `[GB]` do pai novo nasce, e a antiga conclui com o saldo e sai da linha) —, com o mesmo "sim",
+   e tire o marcador no commit; nos agentes sem o `elm_iteracao` (codificador, orquestrador), registre o lado do EWM
+   como `ELM pendente [<chave>]` e indique "sincroniza a sprint" (`sdd-planejamento`).
 
 ## Pendências
 
@@ -81,8 +82,8 @@ sempre roteiro manual, mesmo com o MCP (o `elm_transicao` só assume, conclui e 
 
 Exceção, na sincronização da sprint ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §9, passo 5): a
 falha que a próxima comparação vê de novo (estado, dono, estimativa ou iteração de item não terminal da sprint) não
-grava pendência — a pendência a esconderia —, e a linha que muda o escopo cujo movimento falhou não grava o lado do
-arquivo.
+grava pendência — a pendência a esconderia —, e a linha que entra na sprint ou sai dela cujo movimento falhou não
+grava o lado do arquivo.
 
 | Artefato | Onde mora |
 |---|---|

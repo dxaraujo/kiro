@@ -17,14 +17,15 @@ iniciada e a `[APR]`, a `[REV]` e a `[VER]` seguem abertas, mas está tudo feito
 compara o EWM com os arquivos, não olha o git, e a situação da fatia nunca muda por ela (decisão 3 da 3.4.1: nas
 linhas de estado da fatia, só `EWM` ou `manter`). O resultado é `manter` em toda rodada.
 
-Na conferência da 3.4.1 contra o que se pediu ao revisar o rascunho dela, sobraram também estas pendências:
+Na conferência da 3.4.1 contra o que se pediu ao revisar o rascunho dela, sobraram também estas pendências (todas
+decididas na tabela abaixo):
 
 1. **Campo que o EWM não traz.** O `—` foi cogitado no lugar do `falta: prazo, critério de pronto` da seção Por fora
    (`elm-sprint.md:494-495`); **fica como é hoje** (decisão 1).
 2. **Tabela agrupada por tarefa ou IB.** A tabela da 3.4.1 tem uma linha por WI e por campo, sem agrupamento
    (`elm-sprint.md:319-345`). O cabeçalho conta os itens conferidos (`9 divergências · 41 itens conferidos`), não os
    itens com divergência.
-3. **Lacunas que continuam abertas:**
+3. **Lacunas da 3.4.1:**
    1. **IB ou defeito do backlog alterado no EWM fora da sprint.** Os ids "do backlog" e "terminal de fora" só geram
       linha quando aparecem na listagem da iteração da sprint (`elm-sprint.md:260-307`). Fora dela, nunca são lidos:
       o IB cancelado ou concluído à mão no backlog do EWM segue `nova`/`elegivel` no `backlog.md`. O "importar do
@@ -62,12 +63,12 @@ Na conferência da 3.4.1 contra o que se pediu ao revisar o rascunho dela, sobra
 
 | # | Questão | Opções levantadas | Decisão |
 |---|---|---|---|
-| 1 | Campo que o EWM não traz (tarefa ou item trazido do EWM) | inferir · `falta: …` · `—` | **como é hoje** (pedido): a seção Por fora segue com `falta: prazo, critério de pronto` e `**Estimativa:**` a da tarefa (ou `—`) |
 | 0 | Para que serve a sincronização | conferir o EWM contra os arquivos (3.4.1) · levar o sdd até onde o trabalho chegou | **levar o sdd até onde o trabalho chegou** (pedido): possibilitar o desenvolvimento tradicional quando acabarem os tokens. Toda diferença entre `status.md` e EWM, ou entre `sprint-<nn>.md` e `backlog.md`, é uma linha da tabela com solução sugerida; o estado do git (branch, PR, merge) entra como evidência. Revê a decisão 3 da 3.4.1 (seção Desenvolvimento por fora do sdd) |
-| 2 | Agrupar a tabela | uma linha por WI e campo (3.4.1) · agrupada por tarefa ou IB | **agrupada** (pedido). Proposta de forma: as linhas de um mesmo item (o IB ou a origem e as tarefas dele) ficam juntas, na ordem da coluna Item; a linha de publicação continua primeiro; numeração corrida, para o ajuste por linha seguir igual. Cabeçalho `<n> divergências em <m> itens · <k> conferidos` |
+| 1 | Campo que o EWM não traz (tarefa ou item trazido do EWM) | inferir · `falta: …` · `—` | **como é hoje** (pedido): a seção Por fora segue com `falta: prazo, critério de pronto` e `**Estimativa:**` a da tarefa (ou `—`) |
+| 2 | Agrupar a tabela | uma linha por WI e campo (3.4.1) · agrupada por tarefa ou IB | **agrupada** (pedido): as linhas de um mesmo item (o IB ou a origem e as tarefas dele) ficam juntas, na ordem da coluna Item; a linha de publicação continua primeiro; numeração corrida, para o ajuste por linha seguir igual. Cabeçalho `<n> divergências em <m> itens · <k> conferidos` |
 | 3 | IB ou defeito do backlog alterado no EWM fora da sprint | um `elm_ler_wi` por id do backlog · uma listagem do backlog do EWM (`elm_listar_wi(iteracao = backlog)`) · passo novo no "importar do EWM" · aceitar | **a proposta** (aceita): a listagem do backlog no §9, numa chamada, comparando estado e dono dos ids "do backlog". Título não (decisão 11 da 3.4.1). Prioridade não vai ao EWM (`sdd-fatiar/references/backlog.md`, coluna `prioridade`). A descrição não vem na listagem |
 | 4 | `[DEV]` (e tarefa de Sustentação) já fechada quando o trabalho é retomado | ler o estado antes do `assumir` · tratar o `precondicao` do `assumir` · deixar para a sincronização | **a proposta** (aceita): tratar o `precondicao`, sem chamada a mais. Na `sdd-desenvolver`: PR mergeado → Passo 6; senão `elm_transicao(<id>, "reabrir")` com "sim". Na `sdd-atender`/`sdd-executar`: reabrir, ou levar o item a `concluido` como a sincronização faz |
-| 5 | Estado de `[REV]`, `[VER]`, `[APR]` e `[DEV]` pela fase do `status.md` | comparar pela fase · só as linhas genéricas (3.4.1) | **a proposta** (aceita): o §9 lê a `fase` (regra A base prevalece) e compara pelo estado esperado da fase (rascunho abaixo), com `manter` quando quem resolve é o papel e `EWM:` quando o EWM está à frente |
+| 5 | Estado de `[REV]`, `[VER]`, `[APR]` e `[DEV]` pela fase do `status.md` | comparar pela fase · só as linhas genéricas (3.4.1) | **a proposta** (aceita): o §9 lê a `fase` (regra A base prevalece) e compara pelo estado esperado da fase (tabela abaixo), com `manter` quando quem resolve é o papel e `EWM:` quando o EWM está à frente |
 | 6 | Fatia com `status.md` numa branch e ainda `planejada` na base | rede de proteção antes do §9 · o §9 trata a fatia como iniciada · como está | **a proposta** (aceita): o passo 2 do §9 olha os `status.md` das branches, como a rede de proteção. Fatia com `status.md` conta como iniciada para "saiu" (o EWM volta, nunca "sai da sprint") e gera a linha `arquivo: iniciada (status.md na branch)`, que grava como a rede de proteção grava. Vale também sob pedido |
 | 7 | WI que sumiu do EWM | `manter` (3.4.1) · `arquivo:` o id vira `pendente` e o §3–4 republica · `manter` com pendência registrada | **a proposta** (aceita): a solução continua `manter: confira na UI do EWM`, mas o `manter` dessa linha registra `ELM pendente [<tipo> <id> sumiu]`, que tira o id da comparação até o `ELM feito` (como a decisão 13 da 3.4.1). Em Outras, `arquivo: pendente (republicar)` |
 | 8 | MCP `elm` | sem mudança (decisão 17 da 3.4.1) · só cancelar · todas as melhorias da seção 6 da 3.4.1 | **cancelar** (pedido): `elm_transicao` ganha o alvo `cancelar` (seção MCP abaixo); a mcp-elm sobe para 3.4.2 junto com o power, e o `plugin.json` passa a exigir `mcp-elm ≥ 3.4.2`. As outras melhorias (estimativa e grupo do estado na listagem, data da conclusão, pai na listagem, teto de 1000) seguem adiadas |
@@ -82,7 +83,7 @@ base prevalece), o `sprint-<nn>.md`, o `backlog.md` e o git — a branch da fati
 (o mesmo dado que a rede de proteção e a `sdd-status` já leem). Toda solução segue a regra da 3.4.1: aparece na
 tabela, e nada é gravado sem o "ok" ou o ajuste da linha.
 
-Casos (rascunho — **propostas**, para confirmar):
+Casos:
 
 | Evidência | Arquivos | EWM | Solução sugerida |
 |---|---|---|---|
@@ -93,11 +94,11 @@ Casos (rascunho — **propostas**, para confirmar):
 | PR fechado sem merge | fatia não terminal | — | `manter: o Dev diz` (retomar ou cancelar pela `sdd-fatiar`) |
 | `sprint-<nn>.md` × `backlog.md` | situação, responsável ou sprint diferentes na linha viva e no backlog | — | `arquivo:` a mais adiantada pelas evidências acima; sem evidência, `manter` com as duas versões na linha (as inconsistências da `sdd-status` viram linhas da tabela) |
 
-Pontos para decidir com estes casos:
+Com estes casos:
 
-- **Cancelar no EWM:** decidido — o MCP passa a cancelar (decisão 8); o "cancelar" da tabela chama
+- **Cancelar no EWM:** o MCP passa a cancelar (decisão 8); o "cancelar" da tabela chama
   `elm_transicao(<id>, "cancelar")`, e a pendência `ELM pendente [<tipo> <id> cancelar]` fica só para a falha.
-- **Quem grava `pronta`:** decidido — também a sincronização, pela evidência do merge (decisão 8a).
+- **Quem grava `pronta`:** também a sincronização, pela evidência do merge (decisão 8a).
 - **O agente de produto** já lê o git (`git-leitura`) e o MR (`+gitlab-leitura`), grava `.kiro/specs/*/status.md` e
   pergunta antes de `+elm-tarefa` (`sdd-setup/assets/agents/papeis.json:46-61`): nenhuma permissão muda; o
   `cancelar` entra no mesmo grupo `elm-tarefa`, com pergunta.
@@ -126,7 +127,7 @@ pendências que sobrarem.
 
 ### Estado esperado pela fase (decisão 5)
 
-Conferir cada linha com quem grava a fase no `sdd-desenvolver/references/status-template.md` e com os nomes de estado
+Na implementação, conferir cada linha com quem grava a fase no `sdd-desenvolver/references/status-template.md` e com os nomes de estado
 da PA no `sdd.md`.
 
 | Fase no `status.md` | `[DEV]` | `[REV]` (HITL) | `[VER]` (HITL) | `[APR]` |
@@ -150,7 +151,7 @@ da PA no `sdd.md`.
 - **Soluções propostas** (`:372-`): a tabela nova de desenvolvimento por fora; a regra "nas linhas de estado da fatia
   não há `arquivo`" (`:342-343`) passa a ter a exceção da evidência do git.
 - **Tabela** (`:319-345`): agrupamento e cabeçalho (decisão 2), atualizando o exemplo.
-- **Passo 1 e 2** (`:254-307`): a listagem do backlog e os ids "do backlog" comparados (decisão 3, se aprovada); a
+- **Passo 1 e 2** (`:254-307`): a listagem do backlog e os ids "do backlog" comparados (decisão 3); a
   fatia com `status.md` em branch (decisão 6).
 - **Soluções propostas — Fatia** (`:392-406`): as linhas pela fase (decisão 5). A linha `:397` passa a cobrir a
   fatia com `status.md` em branch (decisão 6).
@@ -163,7 +164,6 @@ da PA no `sdd.md`.
 - `sdd-planejamento/SKILL.md` (pré-condição, `:250-264`): a rede de proteção entra no §9 (decisões 0 e 6).
 - `sdd-desenvolver/SKILL.md` (Passo 6) e `sdd-fatiar/references/backlog.md` (Situações, quem grava `pronta`): a
   sincronização como gravador de `pronta` pela evidência do merge (decisão 0).
-- `sdd-setup/assets/agents/papeis.json`: o agente de produto lê o git e o PR, se ainda não lê.
 - `sdd-status/SKILL.md`: o painel conta as divergências novas que a listagem já mostra. As que exigem `elm_ler_wi`
   ou a fase ficam para a sincronização, como a estimativa na 3.4.1.
 - `sdd/references/elm.md`: a chave `[<tipo> <id> sumiu]` na tabela de pendências (decisão 7).

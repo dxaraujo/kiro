@@ -56,11 +56,21 @@ criado fora do fluxo recusado numa transição → mostre o campo e peça o valo
    `IB [612010](…) · DEV [612011](…)` —, campo ELM do `status.md`, `resource` do conceito). Com id → atualizar o
    mesmo. Sem id → procure uma publicação interrompida: tarefa ou IB por `elm_listar_wi(pai, titulo_prefixo)`
    (`[DEV] FT-031`, `[FT-031]`, `[EP-03]`, `[AT-012]`); requisito por `elm_buscar_req`
-   (título). Achou → mostre e pergunte se é ele. Não achou → criar.
+   (título). Achou → mostre e pergunte se é ele. Não achou → criar. A tarefa descartada e a que tem pendência de
+   cancelamento aberta (`[<tipo> <id> cancelar]`) não contam: o papel nasce de novo, e a velha segue com a pendência
+   ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md), topo).
 3. **Grave de volta** cada id assim que nasce (falha no meio: o próximo passo 2 retoma). Commit no fim.
 4. **Nunca apague** nada no ELM: o que deixou de valer vira roteiro manual (obsoleto/remoção na UI).
 5. **Conflito no DOORS Next:** `elm_publicar_req` com `modificado_em` devolve `conflito` se o ELM mudou depois →
    mostre os dois lados e pergunte qual fica.
+6. **Sprint não publicada** (`**Publicação no EWM:** pendente` no cabeçalho do `sprint-<nn>.md`): nenhuma tool, de
+   leitura inclusive, recebe a iteração dela antes do §1 do
+   [elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) — sem ele, o MCP procura o caminho pelo nome na PA
+   inteira e pode achar a sprint homônima de outro produto. No agente de produto, rode o §1 antes — sprint em pai
+   novo: também o §2 (a `[GB]` do pai novo nasce, e a antiga conclui com o saldo e sai da linha) —, com o mesmo "sim",
+   e tire o marcador no commit (linha `migrada de` ou linha sem ids: indique também "sincroniza a sprint"); nos
+   agentes sem o `elm_iteracao` (codificador, orquestrador), registre o lado do EWM como `ELM pendente [<chave>]` e
+   indique "sincroniza a sprint" (`sdd-planejamento`).
 
 ## Pendências
 
@@ -70,6 +80,11 @@ identifica ação e alvo (`[DEV 669412 concluir]`, `[IB FT-031 concluir]`, `[IB 
 `[REG-01 publicar]`, `[CT FT-031 criar]`, `[DEV FT-031 horas]`); uma pendência por chave. Cancelar IB ou tarefa é
 sempre roteiro manual, mesmo com o MCP (o `elm_transicao` só assume, conclui e reabre): `ELM pendente [<id> cancelar]`
 (`[FT-031 cancelar]`, `[AT-012 cancelar]`) até a pessoa cancelar na UI do EWM.
+
+Exceção, na sincronização da sprint ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §9, passo 5): a
+falha que a próxima comparação vê de novo (estado, dono, estimativa ou iteração de item não terminal da sprint) não
+grava pendência — a pendência a esconderia —, e a linha que entra na sprint ou sai dela cujo movimento falhou não
+grava o lado do arquivo.
 
 | Artefato | Onde mora |
 |---|---|

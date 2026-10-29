@@ -1,10 +1,10 @@
 ---
 name: sdd-desenvolver
-description: "Skill do papel Dev no fluxo sdd — começa ou retoma uma fatia já registrada no backlog (FT-031, DF ou IB que o backlog conhece, tarefa [DEV]), em qualquer trilha. É o ponto de compromisso: confere a Definition of Ready, o responsável, a sprint aberta (fora dela, puxada ou encaixe pela sdd-planejamento) e o WIP; grava a fatia iniciada na base (backlog e sprint, com push), cria a branch (sugere o nome e aguarda) e a pasta .kiro/specs/ com o status.md, assume a [DEV] no EWM (com confirmação) e encaminha pela fase: pesquisar → plano → implementar → PR. Com o PR aprovado (aceita no HITL; a [APR] Aprovar PR concluída no AFK), faz o merge, grava a fatia pronta na base com as lições e os créditos e conclui a [DEV]. Pedido novo vai para a sdd-triar; [REV], [VER], [ESP] e os itens de Sustentação (AT-, IM-…) têm skill própria (o hub sdd-iniciar encaminha). Use em \"vamos trabalhar na FT-031\", \"pegar a [DEV] da FT-031\", \"corrigir o defeito 4567\", \"próxima fatia\", \"retomar a FT-031\", \"mergeia a FT-031\", \"o PR da FT-031 foi aprovado\"."
+description: "Skill do papel Dev no fluxo sdd — começa ou retoma uma fatia já registrada no backlog (FT-031, DF ou IB do backlog, tarefa [DEV]), em qualquer trilha. É o ponto de compromisso: confere a Definition of Ready, o responsável, a sprint aberta (fora dela, puxada ou encaixe pela sdd-planejamento) e o WIP; grava a fatia iniciada na base (backlog e sprint, com push), cria a branch (sugere o nome) e a pasta .kiro/specs/ com o status.md, assume a [DEV] no EWM (com confirmação) e encaminha pela fase: pesquisar → plano → implementar → PR. Com o PR aprovado (aceita no HITL; a [APR] concluída no AFK), faz o merge, grava a fatia pronta na base com as lições e os créditos e conclui a [DEV]. Pedido novo vai para a sdd-triar; [REV], [VER], [ESP] e os itens de Sustentação (AT-, IM-…) têm skill própria (o hub sdd-iniciar encaminha). Use em \"vamos trabalhar na FT-031\", \"pegar a [DEV] da FT-031\", \"corrigir o defeito 4567\", \"próxima fatia\", \"retomar a FT-031\", \"mergeia a FT-031\", \"o PR da FT-031 foi aprovado\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.4.0"
+  version: "3.4.1"
 ---
 
 # sdd-desenvolver — Compromisso e início do código
@@ -98,8 +98,8 @@ Vale para todas as trilhas. Tudo conferido **antes** de gravar na base, criar br
    `**Situação:** aberta`, como `2026/Sprint 03`)? Não está → **puxe** (fluxo puxado, a sprint é cadência): se ela
    é a `elegivel` do topo — nenhuma `elegivel` ou `planejada` de prioridade maior esperando (empate: a mais acima na
    tabela), dentro ou fora da sprint — e o WIP do item 4 tem folga, ela entra na sprint aberta sem cerimônia: a
-   linha nasce na sprint com a `iniciada` (Observação `puxada`), e as tarefas nascem na iteração da sprint
-   (Passo 4). Fura a fila ou estoura o WIP → **Encaixe**: a decisão é do P.O., pela
+   linha nasce na sprint com a `iniciada` (Observação `puxada`), e as tarefas vão para a iteração da sprint (Passo 4:
+   a que já existe move; só nasce a que falta). Fura a fila ou estoura o WIP → **Encaixe**: a decisão é do P.O., pela
    **`sdd-planejamento`** (seção Encaixe); sem a decisão registrada, não comece. Nenhuma sprint aberta
    (planejamento ainda não feito) → não é encaixe: ofereça a `sdd-planejamento` e não comece.
 4. **WIP** (`<produto>/acordos.md`; sem o arquivo, 2 fatias esperando pessoa). Conte as fatias em
@@ -148,10 +148,14 @@ começou.
    [../sdd-plano/references/plano-templates.md](../sdd-plano/references/plano-templates.md)).
 5. **Assumir a `[DEV]`** (com o MCP `elm`; nunca sem "sim") — `elm_transicao(<id da [DEV]>, "assumir",
    iniciar_pai: true)`, com `estimativa_h` se faltar (regras: [elm.md](../sdd/references/elm.md)). O item de backlog continua do P.O.
-   Tarefa ainda não existe (puxada, encaixe aprovado agora ou publicação que falhou no planejamento) → antes, o
+   Tarefa ainda fora da sprint (puxada, encaixe aprovado agora ou publicação que falhou no planejamento) → antes, o
    IB (ou o item de origem) sai do backlog do EWM para a iteração da sprint (`elm_atualizar_wi(id, iteracao)`; `elm`
    `pendente` → crie-o; id sem link, como `DF 4567` → complete o que a triagem não fez, como a publicação da sprint)
-   e crie as tarefas da trilha ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §3–4; pai sempre
+   e, na fatia que saiu de uma sprint sem começar (as tarefas ficaram no backlog do EWM), cada tarefa que já existe
+   move na chamada dela, com o dono e a estimativa do papel — `elm_atualizar_wi([id], iteracao, dono, estimativa_h)`:
+   a `[DEV]` com quem implementa, a `[REV]` e a `[VER]` com o revisor e o verificador da linha —; só nasce o papel
+   que falta, conferido com `elm_listar_wi(pai = IB)`, sem contar a tarefa descartada nem a que tem pendência de
+   cancelamento aberta ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md), topo e §3–4; pai sempre
    definido):
 
    | Fatia | Tarefas | Pai |
@@ -160,12 +164,13 @@ começou.
    | sem épico, com item de origem (DF, IB) | `[DEV]` `[REV]` `[VER]` | o próprio item de origem, sob a Manutenção — **sem IB novo** |
    | sem épico, pedido em texto | `[DEV]` `[REV]` `[VER]` | IB `[FT-nnn]`, filho da Manutenção |
 
-   Fatia **AFK**: só a `[DEV]`, em qualquer linha — revisão e verificação são subagentes, sem tarefa. Fatia
-   **HITL puxada**: a `[REV]` e a `[VER]` vão para o revisor e o verificador da linha da sprint (item 1).
+   Fatia **AFK**: só a `[DEV]`, em qualquer linha — revisão e verificação são subagentes, sem tarefa; a `[REV]` e a
+   `[VER]` da fatia HITL que volta AFK não movem: `ELM pendente [<tipo> <id> cancelar]` no `status.md` (elm-sprint.md,
+   topo). Fatia **HITL puxada**: a `[REV]` e a `[VER]` vão para o revisor e o verificador da linha da sprint (item 1).
 
-   Grave os ids das tarefas no campo ELM do `status.md` (`DEV <id> · REV <id> · VER <id>`) e, se o item nasceu ou
-   foi completado aqui, o dele (`IB <id>` ou `DF <id>`) — é por ele que as horas acham a tarefa; a `sdd-consolidar`
-   os leva à coluna `elm` do backlog e à Tarefa ELM da sprint. Sem o MCP `elm`:
+   Grave os ids das tarefas, as que moveram inclusive, no campo ELM do `status.md` (`DEV <id> · REV <id> · VER <id>`)
+   e, se o item nasceu ou foi completado aqui, o dele (`IB <id>` ou `DF <id>`) — é por ele que as horas acham a
+   tarefa; a `sdd-consolidar` os leva à coluna `elm` do backlog e à Tarefa ELM da sprint. Sem o MCP `elm`:
    `ELM pendente [DEV FT-<nnn> assumir]` no `status.md`.
 6. Commit pequeno do `status.md` e do `.config.kiro` e, com "sim", push da branch — publicada, quem retoma (e a
    `sdd-status`) acha o `status.md`.

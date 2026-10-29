@@ -4,7 +4,7 @@ description: "Hub de início do fluxo sdd — recebe um work item já registrado
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.4.0"
+  version: "3.4.1"
 ---
 
 # sdd-iniciar — Hub: qual skill faz este item
@@ -63,9 +63,12 @@ Responda com a instrução e **pare**: nunca invoque nem simule a skill do papel
 
 ## "Minha próxima tarefa"
 
-1. Com o MCP `elm`: `elm_listar_wi(dono: "eu", iteracao: <a da sprint aberta>, tipo: "tarefa")`; sem ele: as linhas
-   do `sprint-<nn>.md` aberto (Fatias, Especificação e as `### <Categoria>` da Sustentação) com `responsavel` = a
-   pessoa (login do `sdd.md` ou `git config user.email`).
+1. Com o MCP `elm` e a sprint publicada: `elm_listar_wi(dono: "eu", iteracao: <a da sprint aberta>, tipo: "tarefa")`;
+   sem ele, ou com `**Publicação no EWM:** pendente` no cabeçalho (nenhuma tool recebe a iteração dela antes da
+   publicação — [elm.md](../sdd/references/elm.md), Regras de toda escrita, item 6): as linhas do `sprint-<nn>.md`
+   aberto (Fatias, Especificação e as `### <Categoria>` da Sustentação) com `responsavel` = a pessoa (login do
+   `sdd.md` ou `git config user.email`) — com o marcador, diga também "sprint não publicada no EWM → sincroniza a
+   sprint (`sdd-planejamento`)".
 2. Mostre as tarefas abertas (não concluídas) de **qualquer tipo**, na ordem de prioridade do `backlog.md` (`crítica`
    → `baixa`, `—` no fim; empate pela ordem da linha) — as que já estão em andamento primeiro (sem o MCP: fatia e
    especificação `iniciada`, item `em-andamento`):

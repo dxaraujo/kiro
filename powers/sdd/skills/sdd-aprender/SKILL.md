@@ -4,7 +4,7 @@ description: "Aprendizado composto do fluxo sdd — transforma cada correção h
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.4.0"
+  version: "3.4.1"
 ---
 
 # sdd-aprender — Cada erro corrigido uma vez só
@@ -82,7 +82,10 @@ que o erro não voltou.
 ## Modo retrospectiva (fim de fatia, épico ou sprint)
 
 De **sprint**: antes dos dados, a [pré-condição dos ritos de fechamento](../sdd-planejamento/SKILL.md#pré-condição-dos-ritos-de-fechamento)
-(fatia `pronta` esperando a consolidação → pare, salvo decisão do P.O.).
+inteira — a sincronização com o EWM ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §9: sempre a
+tabela com as divergências e as por fora, ou a linha `🔄 <chave> × EWM: iguais — <n> itens conferidos`; sem o MCP
+`elm` → avise "sincronização com o EWM não feita" e siga), a rede de proteção e a consolidação (fatia `pronta` que
+a espera → pare, salvo decisão do P.O.).
 
 Com dados, não impressões:
 

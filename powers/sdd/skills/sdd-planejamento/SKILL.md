@@ -1,10 +1,10 @@
 ---
 name: sdd-planejamento
-description: "Planejamento ágil do projeto no fluxo sdd, ajustado a times que trabalham com agentes — roadmap e releases a partir dos épicos, acordos do time (Scrumban: duração da sprint, Definition of Ready e Done, limites de WIP incluindo a capacidade de revisão humana, que é o gargalo), planejamento da sprint como cadência — compromisso com a meta, previsão por prioridade, dependências e capacidade (vazão de fatias e lead time, especificação e reserva para Sustentação e retrabalho), fluxo puxado dentro da sprint —, acompanhamento, review com as evidências de aceite, retrospectiva com dados e virada de sprint, troca AFK → HITL e relatório de horas; publica a sprint no EWM pelo MCP elm. Use em \"monta o planejamento\", \"planejar a sprint\", \"roadmap\", \"virada de sprint\", \"fechar a sprint\", \"review da sprint\", \"capacidade do time\", \"acordos do time\", \"encaixe na sprint\", \"sincroniza a sprint\"."
+description: "Planejamento ágil do projeto no fluxo sdd, ajustado a times que trabalham com agentes — roadmap e releases a partir dos épicos, acordos do time (Scrumban: duração da sprint, Definition of Ready e Done, limites de WIP incluindo a capacidade de revisão humana, que é o gargalo), planejamento da sprint como cadência — compromisso com a meta, previsão por prioridade, dependências e capacidade (vazão de fatias e lead time, especificação e reserva para Sustentação e retrabalho), fluxo puxado dentro da sprint —, acompanhamento, review com as evidências de aceite, retrospectiva com dados e virada de sprint, troca AFK → HITL e relatório de horas; publica e sincroniza a sprint com o EWM pelo MCP elm. Use em \"monta o planejamento\", \"planejar a sprint\", \"roadmap\", \"virada de sprint\", \"fechar a sprint\", \"review da sprint\", \"capacidade do time\", \"acordos do time\", \"encaixe na sprint\", \"sincroniza a sprint\", \"sincronizar com o EWM\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.4.0"
+  version: "3.4.1"
 ---
 
 # sdd-planejamento — Planejar o fluxo, não só o calendário
@@ -91,7 +91,8 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
      inteiro** (todos os ativos, menos ausências), descontado antes de selecionar fatias. Dentro dela entram primeiro
      as **fatias migradas** da sprint anterior (horas que faltam, pela estimativa da `[DEV]` restante); o resto fica
      para a Sustentação da sprint, a começar pelos itens `aberto` com `sprint` `—` do `backlog.md` (triados sem
-     sprint aberta ou fora da reserva). Migradas que passam da reserva consomem a capacidade das fatias novas.
+     sprint aberta, fora da reserva ou que saíram de uma sprint). Migradas que passam da reserva consomem a
+     capacidade das fatias novas.
 2. **Especificação:** épicos `elegivel` que entram em especificação nesta sprint (do `roadmap.md`, os "a
    descobrir" do topo, e os do `backlog.md` que o roadmap ainda não tem — proponha a posição deles); épico `novo`
    no topo → confira a Definition of Ready do épico e grave `elegivel` se passa, senão aponte o que falta. Um
@@ -117,8 +118,9 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
    (`<nome> - <nome curto da meta>`: `Sprint 01 - Exportar o relatório de contas`); nada é criado no EWM antes do
    "ok" — a iteração, o pai que faltar e o plano nascem na publicação (passo 7;
    [references/elm-sprint.md](references/elm-sprint.md) §1), com as datas da sprint. A iteração é o `plannedFor` de
-   todos os IBs e tarefas desta sprint — os que estão no backlog do EWM só mudam de iteração (§3). Pai novo → a
-   `[GB]` dele (§2).
+   todos os IBs e tarefas desta sprint — os IBs que estão no backlog do EWM só mudam de iteração (§3), e a tarefa que
+   ficou lá (o item saiu de uma sprint sem começar) move com o dono e a estimativa do papel dela: só nasce o papel que
+   falta (elm-sprint.md, topo). Pai novo → a `[GB]` dele (§2).
 6. **Proposta**, com as três seções:
    ```
    🗓️ <pai>/Sprint <nn> · <início> → <fim> · iteração <pai>/<nome> · plano <nome> - <nome curto da meta> · meta: <…>
@@ -134,8 +136,14 @@ Regra de ouro: cada etapa termina com a proposta na tela e "ok" antes de gravar.
    novas nascem `planejada`, e as da Sustentação, `aberto`) e, no `backlog.md`, `status` `planejada` (no épico da
    `[ESP]`, `planejado`), `sprint`, `responsavel` e o `modo` final, pelo bloco
    [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base), e **publique sempre no EWM** ([references/elm-sprint.md](references/elm-sprint.md) §1–4 e §6), para a sprint e o EWM ficarem iguais. Sem o MCP `elm` ou com
-   falha, a coluna "Tarefa ELM" fica `pendente` e é publicada depois. Publicada, **sincronize** (abaixo): o que já
-   estava na iteração por fora entra na sprint.
+   falha, a coluna "Tarefa ELM" fica `pendente` e é publicada depois. O `sprint-<nn>.md` gravado antes do §1 — sem o
+   MCP, com falha ou sessão parada antes da publicação; e o da próxima, no passo 4 da virada — leva no cabeçalho
+   `**Publicação no EWM:** pendente`, que o §1 tira no commit da publicação. Publicada, **sincronize** (Sincronizar
+   com o EWM, abaixo): as tarefas por fora entram na sprint, e os itens que os arquivos já conhecem são comparados
+   (estado, iteração, dono, estimativa); o resultado é a tabela ou a linha
+   `🔄 <chave> × EWM: iguais — <n> itens conferidos`. Na virada, a publicação da próxima e a sincronização dela seguem
+   a ordem do §5 — o §1 da próxima antes do movimento, o §3–4 e o §6 das linhas novas depois dele e então o §9 dela
+   ([Retrospectiva e virada](#retrospectiva-e-virada), passo 5).
 
 ## Modo pela senioridade
 
@@ -167,34 +175,54 @@ Fatia `iniciada` só troca de **AFK para HITL**, pela [Troca de modo](#troca-de-
 PRs parados). Fatia que cresceu (passou de `G` no plano) → volte para a `sdd-fatiar` (dividir) em vez de esticar.
 Sustentação que estoura a reserva → o P.O. decide pelo Encaixe (abaixo); a Sustentação nunca tira fatia sozinha.
 
-**Sincronizar com o EWM** ("sincroniza a sprint"; o painel da `sdd-status` avisa quando há tarefa por fora) — tarefa
-criada direto no EWM na iteração da sprint (Sustentação, ou uma `[DEV]`/`[ESP]` aberta à mão quando a sessão do
-agente parou) entra na sprint com o mesmo id: o sdd infere o que ela é, pergunta e, se for o caso, renomeia o título
-ou inclui o prefixo; a de Sustentação sem item vira item, com o IB dele acima dela
-([references/elm-sprint.md](references/elm-sprint.md) §9). Sem o MCP `elm` → diga que não há como comparar e pare.
+**Sincronizar com o EWM** ("sincroniza a sprint", "sincronizar com o EWM"; o painel da `sdd-status` avisa quando há
+tarefa por fora, divergência ou id `a conferir`) — compara a sprint com a iteração dela no EWM nos dois sentidos
+([references/elm-sprint.md](references/elm-sprint.md) §9): o que nasceu **por fora** — tarefa criada direto no EWM
+(Sustentação, ou uma `[DEV]`/`[ESP]` aberta à mão quando a sessão do agente parou) entra na sprint com o mesmo id: o
+sdd infere o que ela é e propõe o tipo e o título (renomear, só incluir o prefixo ou manter o título); a de
+Sustentação sem item vira item, com o IB dele acima dela (a que tem por pai um IB ou defeito fora do `backlog.md` vai
+com ele para a triagem) — e **o que mudou no EWM** nos itens que os arquivos já
+conhecem (estado, iteração, dono, estimativa). Mostra **uma tabela** com todas as divergências e as por fora, cada
+linha com a solução proposta: "ok" aplica tudo como proposto, ou a pessoa ajusta uma ou mais linhas (`<n>: arquivo`,
+`<n>: EWM`, `<n>: manter`; na por fora, o tipo e o título). A situação da fatia e do épico nunca muda pelo estado do
+EWM, só pela skill que a causa; na Sustentação, o arquivo recebe o EWM. As linhas que mudam o escopo (o item que sai
+da sprint, o encaixe, o épico que entra com a `[ESP]`) esperam o "sim" do **P.O.** — sem ele, ficam `manter` nesta
+rodada —, e as `encaixe` seguem depois, uma a uma, para o Encaixe (abaixo). Sprint não publicada
+(`**Publicação no EWM:** pendente`) → a primeira linha cria a iteração e o plano (§1), e a listagem vem depois do
+"ok". Nada diverge → sempre a linha `🔄 <chave> × EWM: iguais — <n> itens conferidos`; nunca diga que "não é preciso
+sincronizar" sem ter rodado a comparação. Sem o MCP `elm` → diga que não há como comparar e pare.
 
 **Encaixe** — só quando puxar não basta: a fatia `elegivel` que alguém quer começar **não é a do topo** (fura a
 fila) ou o **WIP de revisão está no limite** (de qualquer trilha); a `sdd-desenvolver` manda para cá. Item de
 Sustentação com a reserva estourada é o mesmo encaixe (a `sdd-triar` manda para cá; o trazido do EWM já fica na
 sprint, §9, e só se decide se uma fatia sai): a decisão do P.O. vai na linha do item na `## Sustentação` do
-`sprint-<nn>.md`. Mostre ao P.O. a fatia (trilha, tamanho, modo, origem), o que sobra da capacidade (revisão, vazão,
-HITL) e as opções, com a recomendada:
+`sprint-<nn>.md`. A fatia fora da sprint cujo IB ou tarefas entraram na iteração da sprint pelo EWM (inclusive uma
+tarefa de papel por fora) chega aqui pela sincronização (§9) como linha `encaixe`: a mesma decisão com o P.O.
+(responsável, modo pela senioridade e, no HITL, revisor e verificador), com a Observação
+`encaixe: trazida do EWM — <decisão> (<quem decidiu>, <data>)`, e a tarefa que já existe é a do papel inferido.
+Mostre ao P.O. a fatia (trilha, tamanho, modo, origem), o que sobra da capacidade (revisão, vazão, HITL; no item de
+Sustentação, a reserva, cujo usado não soma as linhas com `saiu da sprint`: o item saiu da sprint e não a consome) e
+as opções, com a recomendada:
 - **entra na folga** — cabe sem tirar nada;
 - **entra no lugar de** `FT-…` — uma `planejada` (ainda não iniciada), que sai da sprint;
-- **fica para a próxima sprint**.
+- **fica para a próxima sprint** (a trazida do EWM: o IB e as tarefas voltam ao backlog do EWM).
 
 Com a decisão do P.O. (ou de quem ele delegou): `status` `planejada`, `sprint`, `responsavel` e o modo final pela
 [senioridade](#modo-pela-senioridade) no `backlog.md` (e, na fatia HITL, revisor — Dev Sênior, pela [regra do
 revisor](#modo-pela-senioridade) — e verificador, que não seja quem implementa — as `[REV]`/`[VER]` precisam deles),
 uma linha `planejada` no `sprint-<nn>.md` com a Observação `encaixe: <decisão> (<quem decidiu>, <data>)` (item de
-Sustentação: a `sprint` e a linha `aberto` na `### <Categoria>`, que nasce se for a primeira), pelo bloco
-[Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base), e no EWM o IB da fatia passa do backlog para a
-iteração da sprint e as tarefas nascem ([references/elm-sprint.md](references/elm-sprint.md) §3–4; item de
-Sustentação: o IB dele muda de iteração e a tarefa nasce, §6). Na troca, a fatia que sai fica `elegivel` com
+Sustentação: a `sprint` e a linha `aberto` na `### <Categoria>`, que nasce se for a primeira), pelo bloco [Gravar na
+base](../sdd-fatiar/references/backlog.md#gravar-na-base), e no EWM o IB da fatia passa do backlog para a iteração da
+sprint (só `iteracao`), cada tarefa que já existe (a que ficou no backlog do EWM quando a fatia saiu de uma sprint sem
+começar, ou a que o EWM trouxe) move na chamada dela, com o dono e a estimativa do papel — uma por papel: com duas, a
+que o EWM trouxe é a dele, e a que ficou no backlog não move e vira `ELM pendente [<tipo> <id> cancelar]` no rodapé da
+ficha —, e só nasce o papel que falta ([references/elm-sprint.md](references/elm-sprint.md), topo e §3–4; item de
+Sustentação: o IB dele muda de iteração e a tarefa move ou nasce, §6). Na troca, a fatia que sai fica `elegivel` com
 `sprint` `—` no `backlog.md`, e a linha dela no `sprint-<nn>.md` recebe Status `elegivel` e a Observação
 `saiu da sprint: encaixe de <FT> (<quem>, <data>)`; o IB dela e as tarefas voltam ao backlog do EWM
-(`elm_atualizar_wi(ids, iteracao = backlog)`; [references/elm-sprint.md](references/elm-sprint.md) §3). Depois, volte à `sdd-desenvolver` (Passo 3, item 4). Sem
-decisão, a fatia não começa; urgência acelera a decisão, não a dispensa.
+(`elm_atualizar_wi(ids, iteracao = backlog)`; [references/elm-sprint.md](references/elm-sprint.md) §3) e ficam lá até
+ela voltar a uma sprint, quando movem. Depois, volte à `sdd-desenvolver` (Passo 3, item 4) ou à sincronização (a
+próxima linha `encaixe`). Sem decisão, a fatia não começa; urgência acelera a decisão, não a dispensa.
 
 ## Troca de modo (AFK → HITL)
 
@@ -209,7 +237,8 @@ SM), aqui, na base:
    de fatias de cada um no `sprint-<nn>.md`.
 2. "ok" → `modo: HITL` na linha da fatia no `backlog.md`; no `sprint-<nn>.md`, Modo `HITL`, Revisor, Verificador e a
    Observação `modo: AFK → HITL (<quem>, <data>, <motivo>)` — pelo bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base).
-   Com o "ok", crie a `[REV]` e a `[VER]` ([references/elm-sprint.md](references/elm-sprint.md) §7) e grave os ids na coluna "Tarefa ELM"
+   Com o "ok", crie a `[REV]` e a `[VER]` que faltam (a que já existe move,
+   [references/elm-sprint.md](references/elm-sprint.md) §7) e grave os ids na coluna "Tarefa ELM"
    (`REV <id> · VER <id>`) e no `elm` do `backlog.md`.
 3. Avise o Dev: ele retoma pela `sdd-iniciar` → `sdd-desenvolver`, que sincroniza o `status.md` com a troca.
 
@@ -221,7 +250,11 @@ Não troca → Observação `modo: AFK mantido (<quem>, <data>)` no `sprint-<nn>
 ### Pré-condição dos ritos de fechamento
 
 Antes da review, da retrospectiva da sprint e da virada — **em cada um** —, **sincronize com o EWM** (§9 do
-[elm-sprint.md](references/elm-sprint.md); sem tarefa por fora, segue calado; sem o MCP `elm` → avise "sincronização com o EWM não feita" e siga) e passe a
+[elm-sprint.md](references/elm-sprint.md): as tarefas por fora e as divergências dos itens conhecidos, na tabela com
+a solução proposta; sem tarefa por fora nem divergência, **sempre** a linha
+`🔄 <chave> × EWM: iguais — <n> itens conferidos` — nunca diga que "não é preciso sincronizar" sem ter rodado a
+comparação; sem o MCP `elm` → avise "sincronização com o EWM não feita" e siga; antes da virada, é a sincronização
+da virada: roda antes da migração, e o §5 não roda outra) e passe a
 **rede de proteção**: os `status.md` das branches e o PR de cada um, como a [`sdd-status`](../sdd-status/SKILL.md)
 (Coleta, itens 1–2), pela regra A base prevalece do
 [status-template.md](../sdd-desenvolver/references/status-template.md):
@@ -279,16 +312,28 @@ pedido novo vira cenário/fatia nova pela `sdd-prd`/`sdd-fatiar` — não reabre
    `status` do épico: épico `iniciado` com a Especificação `concluida` não migra) e Sustentação: no `sprint-<nn>.md`
    que fecha, a linha guarda a última situação e ganha `migrada para <próxima chave>` (`2026/Sprint 04` →
    `2027/Sprint 01` na troca de pai; o histórico não é apagado), e ele fica com `**Situação:** fechada`; no da
-   próxima, a linha nasce na mesma seção, com a mesma situação e `migrada de <chave>`. No `backlog.md` só muda a
+   próxima, a linha nasce na mesma seção, com a mesma situação e `migrada de <chave>`. A linha com `saiu da sprint`
+   não migra: é histórico; o item que voltou à sprint tem a linha viva, que migra se não está em situação terminal
+   ([Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base), Linha viva). No `backlog.md` só muda a
    `sprint` (a próxima chave; no épico, quando a linha dele na Especificação migra), pelo bloco
    [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base).
 4. Recalcule vazão média, lead time médio e horas por tipo (`equipe.json` → `historico`). Reserva (Sustentação +
    retrabalho): o % é o do `acordos.md`; mostre o consumido da sprint (horas das tarefas de Sustentação +
    retrabalho) contra ela e, se ficou muito acima ou abaixo, **proponha** um novo % ao P.O. — muda o acordo só com
-   "ok". Replaneje a próxima pelo modo sprint (migradas consomem capacidade primeiro).
-5. **ELM** — virada ([references/elm-sprint.md](references/elm-sprint.md) §5): as que migram só mudam de iteração e as novas são publicadas (§4). Iteração do
-   EWM mais longa que a sprint (a mesma cobre as duas) → nada muda no EWM; diga isso, e o relatório de horas da
-   sprint conta só as tarefas listadas no `sprint-<nn>.md`, não a iteração inteira.
+   "ok". Replaneje a próxima pelo modo sprint (migradas consomem capacidade primeiro); o `sprint-<nn>.md` dela nasce
+   com `**Publicação no EWM:** pendente` no cabeçalho (o §1 dela ainda não rodou; a publicação vem no passo 5).
+5. **ELM** — virada ([references/elm-sprint.md](references/elm-sprint.md) §5). O §9 da sprint que fecha é o da
+   pré-condição (passo 0; o §5 não roda outro). Depois, nesta ordem: o §1 da próxima, também com o mesmo pai (pai
+   novo: também o §2, com a `[GB]` do pai novo); o **movimento** (os ids abertos na listagem da iteração que
+   fecha — as tarefas e o item das linhas que migram, o IB de todo épico `planejado` ou `iniciado` e a `[GB]`, se o
+   pai não muda — e os abertos de linha migrada que ainda estão numa sprint anterior da cadeia `migrada de`; o que
+   está fechado fica na iteração em que fechou, com as horas dele); o §3–4 e o §6 das linhas novas; e só então o §9
+   da próxima. **Virada pela metade** (sem o MCP, falha no movimento ou sessão parada depois do passo 4): os
+   arquivos seguem; diga que o movimento fica para a sincronização da próxima, que o reconhece (§5 e §9). Iteração
+   do EWM mais longa que a sprint (a mesma cobre as duas) → o movimento não muda nada (os ids já estão nela; diga
+   isso), mas o §1 da próxima roda do mesmo jeito — acha a iteração e o plano, não cria nada e tira o
+   `**Publicação no EWM:** pendente` —, e também o §3–4, o §6 e o §9 dela; o relatório de horas da sprint conta só
+   as tarefas listadas no `sprint-<nn>.md`, não a iteração inteira.
 
 ## Regras
 

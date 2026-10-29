@@ -1,10 +1,10 @@
 ---
 name: sdd-triar
-description: "Entrada de todo trabalho novo no fluxo sdd — recebe um pedido em texto, um item do EWM (defeito, item de backlog) ou um lote de itens do EWM, procura duplicados e faz a triagem: épico (várias histórias ou decisão de produto em aberto), padrão (regra de negócio clara, ficha aprovada pelo P.O.), rápida (defeito ou ajuste ≤ 1 dia sem regra nova, inclusive o que cabe numa frase) ou sustentação (trabalho sem mudar o repositório, numa categoria: Atendimento, Implantação, Banco de dados, Infra, Operação, Apoio a outros times). Registra no backlog.md da base — épico EP-nn, fatia com ficha (a sem épico, sob a Manutenção) ou item de Sustentação (AT-nnn, IM-nnn…) com o registro e o IB do item ([AT-nnn]; a tarefa da categoria, [ATD], [IMPL]…, nasce quando ele entra numa sprint); EWM com confirmação — e não começa nada: indica o hub sdd-iniciar e pergunta se há mais itens. Use em \"nova demanda\", \"chegou um pedido\", \"o cliente pediu\", \"nova funcionalidade\", \"registra o defeito 4567\", \"coloca no backlog\", \"triagem\", \"aprova a ficha da FT-040\", \"importar do EWM\", \"triar os defeitos do time\"."
+description: "Entrada de todo trabalho novo no fluxo sdd — recebe um pedido em texto, um item do EWM ou um lote de itens do EWM, procura duplicados e faz a triagem: épico (várias histórias ou decisão de produto em aberto), padrão (regra de negócio clara, ficha aprovada pelo P.O.), rápida (defeito ou ajuste ≤ 1 dia sem regra nova) ou sustentação (trabalho sem mudar o repositório, numa categoria: Atendimento, Implantação, Banco de dados, Infra, Operação, Apoio a outros times). Registra no backlog.md da base — épico EP-nn, fatia com ficha (a sem épico, sob a Manutenção) ou item de Sustentação (AT-nnn, IM-nnn…) com o registro e o IB do item ([AT-nnn]; a tarefa da categoria, [ATD], [IMPL]…, nasce na sprint); EWM com confirmação — e não começa nada: indica o hub sdd-iniciar e pergunta se há mais itens. Use em \"nova demanda\", \"chegou um pedido\", \"o cliente pediu\", \"nova funcionalidade\", \"registra o defeito 4567\", \"coloca no backlog\", \"triagem\", \"aprova a ficha da FT-040\", \"importar do EWM\", \"triar os defeitos do time\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.4.0"
+  version: "3.4.1"
 ---
 
 # sdd-triar — Triagem e registro
@@ -145,7 +145,8 @@ Grava-se na base, conferida no Passo 1. Ids do EWM na coluna `elm` com o tipo an
   - Próximo id da série da categoria em "Próximos ids" (`AT-`, `IM-`…; série que falta → começa em `001`).
   - **Sprint sugerida:** a aberta (`sprint-<nn>.md` com `**Situação:** aberta`), pela regra da reserva — a reserva
     (Sustentação + retrabalho) está na `## Sustentação` do `sprint-<nn>.md`; o usado é o retrabalho migrado mais a
-    soma das estimativas dos itens das `### <Categoria>` dela; cabe com a estimativa deste (A-6) → quem triou
+    soma das estimativas dos itens das `### <Categoria>` dela, sem as linhas com `saiu da sprint` (o item
+    saiu da sprint e não consome a reserva); cabe com a estimativa deste (A-6) → quem triou
     confirma; estourou → fica fora da sprint (`sprint` `—`), e a decisão é do P.O. pelo Encaixe da
     `sdd-planejamento` (a Sustentação não tira fatia sozinha). Sem sprint aberta → `sprint` `—` e o aviso "sem sprint
     aberta: o item entra no próximo planejamento". Responsável sugerido: quem tem `atende: true` no `equipe.json`.
@@ -157,7 +158,8 @@ Grava-se na base, conferida no Passo 1. Ids do EWM na coluna `elm` com o tipo an
   - EWM (com ELM, com "sim"): [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §6 — o IB do item,
     `[<ID>] <pedido>` (dono = o P.O.), filho do IB da categoria; se o item já entra na sprint, na iteração dela e com
     a tarefa `<prefixo> <ID> <pedido>` (dono = quem faz); senão, só o IB, no backlog (a tarefa nasce quando o item
-    entrar numa sprint). Veio de um IB ou DF do EWM → ele é o IB do item (sem IB novo): sem pai, sob o IB da
+    entrar numa sprint). Veio de um IB ou DF do EWM → ele é o IB do item (sem IB novo), e a tarefa que já está sob ele
+    (`elm_listar_wi(pai = <id>)`) é a do item, sem tarefa nova: sem pai, sob o IB da
     categoria (outro pai: mantenha e avise), e o título ganha o `[<ID>]` pelas opções do §9 (renomear · só incluir o
     prefixo · manter). Primeiro item da categoria → o IB `<Categoria>` nasce junto, na mesma confirmação, e o id dele
     abre a `### <Categoria>` (§6; §2 antes, se faltar a Sustentação). Sem o MCP `elm` → `pendente` (veio do EWM: o

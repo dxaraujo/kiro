@@ -4,7 +4,7 @@ description: "Skill do papel Especificador no fluxo sdd — conduz a especifica�
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.4.0"
+  version: "3.4.1"
 ---
 
 # sdd-especificar — Especificação de épico
@@ -35,7 +35,9 @@ salvo `concluido` com a linha da Especificação ainda `iniciada`: só os itens 
 (Passo 6), que gravam `concluida` e concluem a `[ESP]`. Épico
 não planejado (`novo` ou `elegivel`, sem `[ESP]`) → ofereça a `sdd-planejamento` (seção Especificação); a pessoa
 pode seguir sem tarefa — a linha dele nasce na sprint aberta (Passo 2), como a da fatia puxada, e as horas ficam
-`ELM pendente`.
+`ELM pendente`. O `elegivel` que saiu de uma sprint sem começar (a linha dele nessa sprint tem `saiu da sprint`, e o
+`elm` do épico no `backlog.md` guarda o `ESP <id>`) não conta como sem `[ESP]`: a dele ficou no backlog do EWM, é a
+`[ESP]` da linha e move com o IB do épico para a iteração da sprint (Passo 2).
 
 ## Passo 2 — Assumir a `[ESP]`
 
@@ -43,12 +45,16 @@ pode seguir sem tarefa — a linha dele nasce na sprint aberta (Passo 2), como a
    [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base), o épico `iniciado` no `backlog.md` e a linha
    dele na seção Especificação do `sprint-<nn>.md` aberto com Situação `iniciada`; um commit, `EP-<nn> iniciar`.
    Épico não planejado → no backlog, `sprint` = a chave da sprint aberta, e a linha nasce agora (quem assume, Horas
-   previstas `—`, a `[ESP]` ou `pendente`, Observação `puxada`); nenhuma sprint aberta (planejamento ainda não
+   previstas `—`, `ESP <id>` — a que ficou no backlog do EWM — ou `pendente`, Observação `puxada`), nova mesmo se a
+   sprint tem a dele com `saiu da sprint` (histórico, pela Linha viva); nenhuma sprint aberta (planejamento ainda não
    feito) → ofereça a `sdd-planejamento` e não comece (nada na base nem no EWM). Já `iniciado` (retomada) → nada a
    gravar.
 2. **EWM** — `elm_transicao(id, "assumir")`, com "sim" (já minha → `ja_estava`, nada a fazer; de outra pessoa →
-   `conflito`: pergunte e repita com `forcar: true`). Sem o MCP `elm` → `ELM pendente [<chave>]: assumir [ESP]
-   EP-<nn>` no `rascunho.md` da pasta de trabalho.
+   `conflito`: pergunte e repita com `forcar: true`). Épico não planejado → antes, no mesmo "sim", o IB do épico vai
+   para a iteração da sprint, só com `iteracao`, e a `[ESP]` que ficou no backlog do EWM (Passo 1) move com ele:
+   `elm_atualizar_wi([id], iteracao = a da sprint, dono = quem assume)`, com `estimativa_h` se faltar
+   ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md), topo e §3). Sem o MCP `elm` →
+   `ELM pendente [<chave>]: assumir [ESP] EP-<nn>` no `rascunho.md` da pasta de trabalho.
 
 ## Passo 3 — Pasta de trabalho (fora do git)
 

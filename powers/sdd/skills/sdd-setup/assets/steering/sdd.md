@@ -49,8 +49,9 @@ Começar um item registrado: hub `sdd-iniciar` (diz a skill do papel: `sdd-espec
   Gerenciamento do backlog` do P.O. ou do SM: triagem e consolidação). Lançar horas é
   registro de empenho, a qualquer momento na tarefa assumida; concluir é da skill do papel, com o saldo: `[DEV]` no
   merge, `[REV]` ao aprovar (depois do push), `[VER]` ao aceitar (depois do push), `[APR]` na aprovação, `[ESP]` no
-  GATE do backlog, a da Sustentação ao concluir o item (junto com o IB dele). Tarefa criada direto no EWM na
-  iteração da sprint é trazida para a sprint (`sdd-planejamento`, "sincroniza a sprint").
+  GATE do backlog, a da Sustentação ao concluir o item (junto com o IB dele). A sincronização com o EWM traz para
+  a sprint a tarefa criada direto no EWM na iteração dela e compara os itens que os arquivos já conhecem (estado,
+  iteração, dono, estimativa), numa tabela com a solução proposta (`sdd-planejamento`, "sincroniza a sprint").
 - **Consolidação é processo de produto:** fatia `pronta` → o P.O. ou o SM, no agente `sdd-produto`
   (`sdd-consolidar`, horas na `[GB]`): lê o Drift de negócio que a REV e a VER marcaram no `status.md`, publica no
   ELM o *as-built* (requisitos, ET, casos de teste), leva os ADRs do PR à pasta de ADRs e fecha a fatia na base

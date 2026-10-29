@@ -303,6 +303,22 @@ do backlog. (6) **Só Scrumban:** sai a escolha entre Scrum e Kanban nos acordos
 pergunta. Sem migração: o power ainda não tem usuários — e saem as regras de compatibilidade e migração das versões
 anteriores. Requer o `mcp-elm` ≥ 3.3.5 (sem mudança no MCP).
 
+Na **3.4.1**, a sincronização com o EWM ("sincroniza a sprint", `sdd-planejamento`) passa a comparar também o que
+mudou no EWM nos itens que os arquivos já conhecem — estado, iteração, dono e estimativa —, e não só as tarefas
+criadas por fora: lista a iteração da sprint sem filtro de tipo e mostra **uma tabela** com todas as divergências e as
+tarefas por fora, cada linha com a solução proposta (`arquivo:`, `EWM:`, `manter:`, `encaixe` ou `triar`); "ok" aplica
+tudo, ou a pessoa ajusta uma ou mais linhas, e o que muda o escopo (o item que sai da sprint, o encaixe, o épico que
+entra com a `[ESP]`) espera o "sim" do P.O. A situação da fatia e do épico nunca muda pelo estado do EWM; na
+Sustentação, o arquivo recebe o EWM. Nada diverge → sempre a linha `🔄 <chave> × EWM: iguais — <n> itens conferidos`,
+também na pré-condição da review, da retrospectiva e da virada (o agente não diz mais que "não é preciso
+sincronizar"); o painel da `sdd-status` conta as tarefas por fora, as divergências e os ids a conferir. A virada move
+no EWM só o que está aberto — o que fechou fica na iteração em que fechou, com as horas —, depois de criar a iteração
+da próxima sprint e antes de publicar as linhas novas dela; a sprint gravada antes de ser publicada leva
+`**Publicação no EWM:** pendente` no cabeçalho, e nenhuma skill passa a iteração dela ao MCP antes da publicação, que
+a acha dentro da linha de base do produto. O item que volta a uma sprint leva as tarefas que ficaram no backlog do
+EWM, que movem com o dono e a estimativa do papel em vez de nascer de novo, e ganha linha nova (a com `saiu da sprint`
+fica como histórico). Requer o `mcp-elm` ≥ 3.3.5 (sem mudança no MCP).
+
 Não use o `/upgrade-agent` (nem `kiro-cli agent upgrade`) nos agentes `sdd-*`: quem os gera é o script da setup
 ("atualizar os agentes do sdd").
 

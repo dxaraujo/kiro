@@ -1,6 +1,24 @@
-# Plano — a sincronização leva o sdd até onde o trabalho chegou (sdd 3.4.2)
+# Plano — todo item nasce no backlog do EWM, e a sincronização leva o sdd até onde o trabalho chegou (sdd 3.4.2)
 
-## Objetivo
+## TOP 1 — todo item triado nasce no backlog do EWM
+
+Regras (pedido):
+
+1. **O planejamento inicial cria a base do EWM:** o IB `Sustentação` e a tarefa `[GB] Gerenciamento do backlog`
+   nascem quando o planejamento começa (modo inicial da `sdd-planejamento`), antes da primeira triagem e da primeira
+   sprint. Hoje o IB nasce no §0 ou na primeira triagem, e a `[GB]` só na primeira sprint de cada pai.
+2. **Todo item triado tem um IB na iteração de backlog** ("Planejado para" = o backlog do produto): épico, fatia,
+   defeito e item de Sustentação.
+3. **Entrou numa sprint → o IB move para a iteração dela** (como hoje).
+4. **IB no backlog e fora de sprint fica sempre no estado inicial** (Novo). Item que sai da sprint volta ao backlog
+   no estado inicial; a sincronização acusa o IB do backlog em outro estado (`EWM: voltar ao estado inicial`).
+5. **A `[GB]` tem sempre o SM como dono, e o P.O. nunca lança horas.** Na sessão do P.O. (triagem, consolidação,
+   planejamento), nada vai para `elm_lancar_horas`; o registro é o comentário do item 6.
+6. **Toda triagem registra os créditos gastos na `[GB]`, com um comentário** (`elm_comentar`), por exemplo
+   `Créditos triagem FT-040, AT-013: 2.40 (sessão 9ec1dcaa, ana.souza, 2026-10-29)`. Continua também a linha em
+   Créditos de gestão do `sprint-<nn>.md` quando há sprint aberta.
+
+## Objetivo da sincronização
 
 Permitir o desenvolvimento tradicional quando os tokens acabam. A pessoa segue sem agente (código, PR, merge, tarefas
 no EWM), e a "sincroniza a sprint" (§9 do `sdd-planejamento/references/elm-sprint.md`) leva o sdd até onde o
@@ -27,6 +45,10 @@ três canceladas.
 | 8a | Quem grava `pronta` | só a `sdd-desenvolver` · também a sincronização | **também a sincronização**, pela evidência do merge (Créditos e lições `—`) |
 | 9 | Versão | — | **3.4.2** para o `plugin.json`, as 22 skills e a mcp-elm, juntos; `plugin.json` exige `mcp-elm ≥ 3.4.2` |
 | 10 | Migração | — | nenhuma |
+| 11 | Onde a `[GB]` nasce antes de haver sprint | na iteração de backlog e move com a primeira sprint · espera a primeira sprint (3.4.1) | **proposta:** nasce no backlog com o IB `Sustentação` e move para a iteração da primeira sprint de cada pai; com pai novo, nasce a `[GB]` do pai novo, como hoje |
+| 12 | Sem SM ativo no `equipe.json` | o schema exige um SM ativo · a `[GB]` fica sem dono · pergunta na hora | **proposta:** o schema passa a exigir exatamente um SM ativo, como o P.O. |
+| 13 | A mesma pessoa é P.O. e SM | proibir no schema · pode, e lança horas como SM | **em aberto** — pela regra 5, o P.O. nunca lança horas |
+| 14 | Créditos da sessão do P.O. fora da triagem (consolidação, planejamento) | só na triagem (pedido) · em toda sessão do P.O. | **proposta:** em toda sessão do P.O., o mesmo comentário na `[GB]`, já que ela não recebe horas dele |
 
 ## Casos de desenvolvimento por fora
 
@@ -56,6 +78,12 @@ Conferir na implementação com o `sdd-desenvolver/references/status-template.md
 
 ## O que muda
 
+- **TOP 1:** `elm-sprint.md` §0 e §2 (Sustentação e `[GB]` no planejamento inicial; dono da `[GB]` = SM;
+  iteração de backlog); `sdd-planejamento` (modo inicial); `sdd-triar` (IB no backlog no estado inicial; créditos
+  como comentário na `[GB]`; sem o "sem `GB` → sugira criá-la"); `sdd-consolidar` e `sdd-status` (Fechar a sessão,
+  item 4: horas só do SM, comentário de créditos); `sdd-planejamento/assets/equipe.schema.json` (SM ativo);
+  `sdd/SKILL.md` e o steering `sdd.md` (a `[GB]` é do SM); §9 (IB do backlog fora do estado inicial; Volta leva o IB
+  ao estado inicial).
 - **`elm-sprint.md` §9:** fontes novas (git, PR, `sprint-<nn>.md` × `backlog.md`, backlog do EWM, fase do
   `status.md`); tabela agrupada; soluções novas (casos acima, fase, `status.md` em branch, `sumiu`); exceção à regra
   "linha de estado da fatia não tem `arquivo`" quando há evidência do git.
@@ -73,6 +101,11 @@ Conferir na implementação com o `sdd-desenvolver/references/status-template.md
 
 ## Verificação
 
+- Planejamento inicial sem nada no EWM → nascem o IB `Sustentação` e a `[GB]` (dono = SM), no backlog.
+- Triagem de um item → IB na iteração de backlog, estado Novo; comentário de créditos na `[GB]`; nenhuma hora lançada
+  pelo P.O.
+- IB no backlog em Em Andamento → a sincronização propõe `EWM: voltar ao estado inicial`.
+- Item que sai da sprint → o IB volta ao backlog no estado inicial.
 - PR mergeado por fora com `[DEV]`, `[APR]`, `[REV]` e `[VER]` abertas → a tabela propõe `pronta`, concluir e
   cancelar; com o "ok", a `sdd-consolidar` aceita a fatia.
 - PR aberto por fora, fatia `planejada` sem `status.md` → propõe `iniciada` e a fase do PR.

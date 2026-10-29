@@ -4,7 +4,7 @@ description: "Verificação de aceite de uma fatia do fluxo sdd — executa de p
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.4.1"
+  version: "3.4.2"
 ---
 
 # sdd-verificar — O comportamento existe de verdade?

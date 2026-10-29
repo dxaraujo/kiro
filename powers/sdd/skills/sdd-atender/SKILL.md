@@ -4,7 +4,7 @@ description: "Skill de quem atende no fluxo sdd — executa um atendimento (cham
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.4.1"
+  version: "3.4.2"
 ---
 
 # sdd-atender — Atender sem perder o rastro
@@ -48,7 +48,10 @@ Linha viva) → a decisão é do P.O. (`sdd-planejamento`, Encaixe) e pare; com 
    crie o que faltar ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §6) e grave os ids na coluna `elm`
    do `backlog.md` e em "Tarefa ELM" da linha do AT no `sprint-<nn>.md`. Depois `elm_transicao(<id da [ATD]>,
    "assumir")` (já minha → `ja_estava`, nada a fazer; de outra pessoa → `conflito`: pergunte e repita com
-   `forcar: true`). Sem o MCP `elm` → `ELM pendente [<chave>]: assumir [ATD] AT-<nnn>` no registro do AT, e siga.
+   `forcar: true`; já fechada → `precondicao` "já concluída: reabra antes": mostre o estado e, com "sim",
+   `elm_transicao(<id>, "reabrir")` e de novo o `assumir`, ou o AT a `concluido` como a sincronização faz — linha
+   "tarefa concluída" da Sustentação ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §9) — e pare).
+   Sem o MCP `elm` → `ELM pendente [<chave>]: assumir [ATD] AT-<nnn>` no registro do AT, e siga.
 2. **Base:** `em-andamento` no `status` do `backlog.md`, na Situação da linha do sprint e no `**Situação:**` do
    registro, pelos itens 3 e 4 do bloco Gravar na base — commit `AT-<nnn> iniciar`, antes de executar (atender e
    concluir de uma vez, nesta sessão → um commit só, o do Passo 5). Já `em-andamento` (retomada) → nada a gravar.

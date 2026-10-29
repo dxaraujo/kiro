@@ -4,7 +4,7 @@ description: "Skill de quem faz os itens da Sustentação sem fluxo próprio no 
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.4.1"
+  version: "3.4.2"
 ---
 
 # sdd-executar — Sustentação sem fluxo próprio
@@ -38,9 +38,11 @@ gravados na base (bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gra
    `pendente`) ou a tarefa → crie o que faltar ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §6) e
    grave os ids na coluna `elm` do `backlog.md` e em "Tarefa ELM" da linha do `sprint-<nn>.md`. Então
    `elm_transicao(id, "assumir")` na tarefa (já minha → `ja_estava`; de outra pessoa → `conflito`: pergunte e repita
-   com `forcar: true`). Na base, `em-andamento` no `status` do `backlog.md`, na Situação da linha do sprint e no
-   `**Situação:**` da ficha — commit `<ID> iniciar` (assumir e concluir de uma vez, nesta sessão → um commit só, o
-   `<ID> concluir`); já `em-andamento` (retomada) → nada a gravar.
+   com `forcar: true`; já fechada → `precondicao` "já concluída: reabra antes": mostre o estado e, com "sim",
+   `elm_transicao(id, "reabrir")` e de novo o `assumir`, ou o item a `concluido` como a sincronização faz — linha
+   "tarefa concluída" da Sustentação ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §9) — e pare). Na base,
+   `em-andamento` no `status` do `backlog.md`, na Situação da linha do sprint e no `**Situação:**` da ficha — commit
+   `<ID> iniciar` (assumir e concluir de uma vez, nesta sessão → um commit só, o `<ID> concluir`); já `em-andamento` (retomada) → nada a gravar.
 2. **Registrar o trabalho:** em `## O que foi feito` da ficha, os passos e a evidência (o que foi executado, onde,
    resultado, link do chamado ou da mudança), **sem dado de cliente** — dado real fica em `.kiro/local/sustentacao/<pasta>/<ID>/`.
    Comentário ou anexo na própria tarefa (`elm_comentar`, `elm_anexo enviar`), se a pessoa quiser.

@@ -4,7 +4,7 @@ description: "Guia do fluxo sdd — engenharia agêntica orientada a especifica�
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.4.1"
+  version: "3.4.2"
 ---
 
 # sdd — Engenharia agêntica orientada a especificação
@@ -33,7 +33,7 @@ chamada direto:
 | Verificador (QA) | `[VER]` | `sdd-verificar` |
 | quem atende | `[ATD]` (Sustentação — Atendimento) | `sdd-atender` |
 | quem faz o item de Sustentação | `[IMPL]` `[BD]` `[INF]` `[OPE]` `[EXT]` (demais categorias) | `sdd-executar` (assumir no ELM, registrar o trabalho, lançar horas, concluir) |
-| P.O. ou SM (analista de negócio) | `[GB] Gerenciamento do backlog` | `sdd-triar` (triagem) · `sdd-consolidar` (fatia `pronta`: processo de produto, no agente `sdd-produto`) · `sdd-planejamento` (sprint, ritos e sincronização) |
+| P.O. ou SM (analista de negócio) | `[GB] Gerenciamento do backlog` (do SM; o P.O. nunca lança horas: os créditos de toda sessão vão num comentário na `[GB]`) | `sdd-triar` (triagem) · `sdd-consolidar` (fatia `pronta`: processo de produto, no agente `sdd-produto`) · `sdd-planejamento` (sprint, ritos e sincronização) |
 
 | Trilha | Quando | Caminho |
 |---|---|---|
@@ -44,9 +44,10 @@ chamada direto:
 
 Toda hora trabalhada cabe numa tarefa da sprint: `[ESP]` (especificação do épico), `[DEV]`, `[REV]`, `[VER]` (por
 fatia; no AFK só a `[DEV]`), `[APR]` (por gate com aprovação: plano, PR do AFK), as de Sustentação (`[ATD]`,
-`[IMPL]`… — uma por item, filha do IB dele) e `[GB]` (triagem, consolidação, planejamento e sincronização, do P.O.
-ou do SM). **Lançar ≠ concluir:** lançar horas é registro de empenho, a qualquer momento numa tarefa assumida
-(inclusive antes de um GATE); concluir é da skill do papel quando o trabalho dela termina, perguntando só o saldo —
+`[IMPL]`… — uma por item, filha do IB dele) e `[GB]` (triagem, consolidação, planejamento e sincronização; horas só
+do SM; os créditos de toda sessão do P.O. ou do SM vão num comentário nela — [elm.md](references/elm.md)). **Lançar ≠
+concluir:** lançar horas é registro de empenho, a qualquer momento numa tarefa assumida (inclusive antes de um
+GATE); concluir é da skill do papel quando o trabalho dela termina, perguntando só o saldo —
 `[DEV]` no merge, `[REV]` ao aprovar (depois do push), `[VER]` ao aceitar (depois do push), `[APR]` na aprovação,
 `[ESP]` no GATE do backlog, Sustentação ao finalizar (com o IB do item). **Entrega** (todo papel do HITL):
 commit → push → conferir no remoto (`git rev-parse HEAD` = `git rev-parse origin/<branch>`) → só então lançar horas
@@ -145,7 +146,7 @@ loop, a fatia para sozinha e o lote segue.
 | escrever o PRD de um épico | `sdd-prd` |
 | quebrar o PRD em fatias / refinar o backlog | `sdd-fatiar` |
 | planejar sprint, roadmap, virada, review | `sdd-planejamento` |
-| trazer para a sprint o que mudou no EWM — tarefas por fora e divergências das conhecidas ("sincroniza a sprint") | `sdd-planejamento` |
+| levar o sdd até onde o trabalho chegou por fora — tarefas no EWM, divergências das conhecidas, PR e merge ("sincroniza a sprint") | `sdd-planejamento` |
 | executar um atendimento já triado (`AT-nnn`, `[ATD]`) | `sdd-atender` |
 | assumir, registrar, lançar horas e concluir outro item de Sustentação (`[IMPL]`, `[BD]`, `[INF]`, `[OPE]`, `[EXT]`) | `sdd-executar` |
 | lançar horas ou ver o relatório de horas | `sdd-status` (fechar a sessão) · Sustentação: `sdd-atender` ou `sdd-executar` · relatório: `sdd-planejamento` |

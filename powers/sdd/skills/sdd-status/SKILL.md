@@ -4,7 +4,7 @@ description: "Painel do fluxo sdd, somente leitura — onde parei e o que fazer 
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.4.1"
+  version: "3.4.2"
 ---
 
 # sdd-status — Onde parei
@@ -23,14 +23,15 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
    [status-template.md](../sdd-desenvolver/references/status-template.md).
 2. De cada `status.md`: fatia, título, trilha, modo, fase, responsável, rodadas, achados abertos, PR, ELM,
    Banco, última linha do Histórico (data) e pendências `ELM pendente [<chave>]:` sem `ELM feito` com a **mesma chave** (também
-   no rodapé das fichas de `fatias/`, no campo `**ELM:**` das fichas de `sustentacao/**` e na coluna "Tarefa ELM" da
-   sprint aberta com `pendente`, fora das linhas com `saiu da sprint`). Também as do Histórico do `status.md` de
+   no rodapé das fichas de `fatias/`, no campo `**ELM:**` das fichas de `sustentacao/**`, na `## Sustentação` e nas
+   `### <Categoria>` do `backlog.md` e na coluna "Tarefa ELM" da sprint aberta com `pendente`, fora das linhas com `saiu da sprint`). Também as do Histórico do `status.md` de
    `origin/<base>` de toda fatia `concluida` com pendência aberta (o item 1 não conta esse `status.md` para o resto):
    entram na lista 🏛️ e na contagem dela.
    PR das fatias em `pr-aberto`, `em-revisao`, `em-verificacao`, `retrabalho`, `aceita` ou `aguardando-aprovacao-pr`:
    `gitlab_listar_mrs(origem=<branch>, estado=all)` (MCP `gitlabpr`, só leitura) — estado, conflitos e link;
    `merged` sem `Fase: pronta` na base → o Dev responsável registra o merge (`sdd-desenvolver` Passo 6: `pronta` na
-   base e conclusão da `[DEV]`); `closed` sem merge → inconsistência. Sem o MCP → o link do `status.md`.
+   base e conclusão da `[DEV]`; merge por fora do sdd → a sincronização da sprint grava a `pronta`); `closed` sem
+   merge → inconsistência. Sem o MCP → o link do `status.md`.
 3. De cada `tasks.md`: `[x]`/total e o primeiro item pendente.
 4. `<produto>/backlog.md` (da base), pelas [situações](../sdd-fatiar/references/backlog.md#situações): fatias
    `planejada` (sprint aberta) e `elegivel` sem `status.md` em nenhuma branch, `iniciada` (em andamento; a data é a
@@ -60,12 +61,14 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
      tarefas do mesmo papel, o estado e o dono das abertas), o que a listagem sozinha mostra: o estado e o dono dos
      ids da sprint que estão nela (do IB de épico citado no `backlog.md`, só o estado) e a **entrada** (id conhecido
      que está na listagem e era esperado no backlog ou na iteração de outra sprint, uma por item, com os ids dele que
-     estão nela; a iteração que cobre duas sprints não é entrada). A estimativa fica para a sincronização: a listagem
-     não a traz;
+     estão nela; a iteração que cobre duas sprints não é entrada) e o estado das tarefas da fatia (`[DEV]`, `[REV]`,
+     `[VER]`, `[APR]`) fora do esperado pela fase do `status.md` (item 2; a tabela do §9). A estimativa fica para a
+     sincronização (a listagem não a traz), e o IB do backlog fora do estado inicial também (o painel não lista o
+     backlog do EWM);
    - **a conferir** — id do conjunto "da sprint" ausente da listagem, quando a linha dele não tem `migrada de` (o da
      linha migrada é, em geral, tarefa que fechou na sprint anterior e ficou lá: fica para a sincronização);
    - **fora de toda contagem** — o que o §9, passo 2, deixa fora da comparação: as pendências registradas (itens 2
-     e 4, inclusive as das fatias `concluida`), o id com pendência de cancelamento (aberta ou já com `ELM feito`) e a
+     e 4, inclusive as das fatias `concluida` e a `[<tipo> <id> sumiu]`, até o `ELM feito`), o id com pendência de cancelamento (aberta ou já com `ELM feito`) e a
      linha com a publicação pendente.
 7. Lotes autônomos em andamento: `.kiro/local/loop-*.md`.
 8. "Minhas" = responsável igual ao login da pessoa: `git config user.name` cruzado com `nome`/`login` do
@@ -89,7 +92,7 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
 - FT-030 verificada → abrir o PR (sdd-implementar)
 - FT-026 bloqueada: aguardando troca para HITL → P.O. (sdd-planejamento, Troca de modo)
 🔁 Retrabalho: FT-026 (de: em-revisao) → o codificador retoma no mesmo PR (sdd-implementar)
-📦 Prontas esperando consolidação: FT-025 (merge há 1 dia) → P.O. ou SM (sdd-consolidar, agente sdd-produto, horas na [GB])
+📦 Prontas esperando consolidação: FT-025 (merge há 1 dia) → P.O. ou SM (sdd-consolidar, agente sdd-produto, [GB])
 
 ✅ Elegíveis para começar — as planejadas da sprint, depois as elegivel (por prioridade; empate: a ordem da linha)
 | FT | Título | Situação | Prioridade | Tam. | Modo | Depende de |
@@ -125,15 +128,16 @@ trabalho de produto (PRD/fatiar) para manter o backlog com fatias elegíveis.
 
 - fase `pr-aberto` sem PR (nem `PR: texto entregue`), ou com tarefas pendentes no `tasks.md`;
 - fatia `elegivel`, `planejada` ou `iniciada` sem ficha (coluna `ficha` `—` ou arquivo inexistente);
-- fatia `elegivel` ou `planejada` com `status.md` numa branch: a `iniciada` não chegou à base (a
-  [pré-condição dos ritos de fechamento](../sdd-planejamento/SKILL.md#pré-condição-dos-ritos-de-fechamento) corrige);
+- fatia `elegivel` ou `planejada` com `status.md` numa branch: a `iniciada` não chegou à base (a sincronização da
+  sprint corrige, [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §9);
 - fatia `iniciada` sem `status.md` em nenhuma branch nem na base (sessão interrompida antes da branch): vai na
   linha ⏸️ do painel;
 - PR `merged` sem `Fase: pronta` no `status.md` da base: o Dev responsável registra o merge (`sdd-desenvolver`
-  Passo 6);
+  Passo 6); merge por fora do sdd → a sincronização da sprint (§9);
 - situação diferente no `backlog.md` e na linha viva da sprint aberta (fatia ou item de Sustentação; a com
   `saiu da sprint` é histórico — [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base)), ou
-  `pronta`/`concluida` no `status.md` da base e não no `backlog.md` (ou o contrário);
+  `pronta`/`concluida` no `status.md` da base e não no `backlog.md` (ou o contrário) — a sincronização da sprint
+  (§9) propõe a solução;
 - fatia em andamento sem commit há mais de 3 dias úteis;
 - `concluida` com Banco = `pendente` ou `aplicada em dev` (implantação bloqueada);
 - Histórico fora de ordem cronológica ou fase que não bate com a última linha (conflito mal resolvido);
@@ -145,7 +149,7 @@ trabalho de produto (PRD/fatiar) para manter o backlog com fatias elegíveis.
 - arquivo com dado de cliente versionado (extração, CSV ou evidência fora de `.kiro/local/`).
 
 Tarefa concluída **sem horas lançadas** não é apontada aqui: só no fechamento da sprint (`sdd-planejamento`,
-virada).
+virada). A `[GB]` sem horas (a dona também é o P.O., que nunca lança) é normal: nem aqui nem no relatório de horas.
 
 ## Fechar a sessão
 
@@ -186,8 +190,14 @@ o `status.md` que vale é o da base — os itens 1 e 4 gravam nele pelo bloco
 
    O mesmo vale fora da fatia, mudando só onde a linha vai: Sustentação → seção Créditos da ficha `<ID>` (`AT-<nnn>`,
    `IM-<nnn>`…); especificação → `status.md` do épico (`sdd-especificar`); gestão (triagem, consolidação, planejamento,
-   retrospectiva, horas na `[GB]`) → seção **Créditos de gestão** do `sprint-<nn>.md` aberto, com Atividade no lugar de
-   Papel.
+   ritos, sincronização) → seção **Créditos de gestão** do `sprint-<nn>.md` aberto, com Atividade no lugar de Papel,
+   quando há sprint aberta. Sem sprint aberta (só o comentário na `[GB]`) → `--desde` = a data e hora do último
+   comentário `Créditos` da `[GB]` (`elm_ler_wi(<id da [GB]>, comentarios = -1)`). Toda sessão do P.O. ou do SM no
+   agente de produto grava também, com o mesmo "sim", um comentário na `[GB]`: `elm_comentar(<id da [GB]>, "Créditos
+   <atividade> <ids>: <créditos> (sessão <sessão>, <login>, <AAAA-MM-DD>)")` — ex.: `Créditos triagem FT-040, AT-013:
+   2.40 (sessão 9ec1dcaa, ana.souza, 2026-10-29)`. Horas na `[GB]`, só o SM lança; o P.O. nunca, nem quando também
+   é o SM. Sem o MCP `elm` ou com falha → `ELM pendente [GB <id> créditos]: comentar "Créditos <atividade> <ids>: …"` no lugar das pendências da `[GB]`
+   ([elm.md](../sdd/references/elm.md#pendências)).
 5. Mostre o `git status` e proponha o commit do que está pronto (padrão do `sdd.md`); grave só com "ok" e nunca
    faça push — na fatia com o PR mergeado, o commit e o push são os do Gravar na base.
 6. Termine com a frase para retomar numa sessão nova (ex.: "vamos trabalhar na FT-031").

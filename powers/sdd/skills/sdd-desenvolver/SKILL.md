@@ -4,7 +4,7 @@ description: "Skill do papel Dev no fluxo sdd — começa ou retoma uma fatia j�
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.4.1"
+  version: "3.4.2"
 ---
 
 # sdd-desenvolver — Compromisso e início do código
@@ -42,8 +42,8 @@ se o papel pode começar.
 
 Fatia já iniciada (tem pasta em `.kiro/specs/` nesta branch, em worktrees ou em branches remotas —
 `git grep -l '<id>' <ref> -- '.kiro/specs/*/status.md'`) → leia o `status.md` e **retome**: Passo 4, item 5
-(assumir: já minha e em andamento → `ja_estava`, nada a fazer) e Passo 5, sem repetir o Passo 3; `pronta` ou
-`concluida` na base → só o Passo 5. `iniciada` no `backlog.md` sem `status.md` em nenhuma branch (a sessão parou
+(assumir: já minha e em andamento → `ja_estava`, nada a fazer; já fechada → o `precondicao` do item 5) e Passo 5,
+sem repetir o Passo 3; `pronta` ou `concluida` na base → só o Passo 5. `iniciada` no `backlog.md` sem `status.md` em nenhuma branch (a sessão parou
 entre o registro e a branch) → só o `responsavel` da linha retoma, pelo Passo 4 a partir do item 3, depois de
 conferir a `iniciada` em `origin/<base>` (`git show origin/<base>:<produto>/backlog.md`; só no local → antes, o push
 do item 2, variante do Dev); outra pessoa →
@@ -62,7 +62,7 @@ Observação `modo: AFK → HITL (…)` na linha da fatia. Registrada → mostre
 Revisor e Verificador da linha da sprint (a Troca de modo grava ali; o Histórico não é a fonte), e, com "sim", grave
 no `status.md` `Modo: HITL`, os ids da `[REV]` e da `[VER]` (campo ELM, da coluna "Tarefa ELM"), `Bloqueio: —` e a
 fase de origem (`planejando`); commit e push. A `[DEV]` é retomada por
-`elm_transicao(<id>, "assumir")` (já minha e em andamento → nada a fazer). Siga no HITL: `sdd-plano` Passo 5, com o GATE pela
+`elm_transicao(<id>, "assumir")` (já minha e em andamento → nada a fazer; já fechada → Passo 4, item 5). Siga no HITL: `sdd-plano` Passo 5, com o GATE pela
 senioridade. Recusada (Observação `modo: AFK mantido`) → `Bloqueio: —`, fase de origem, segue no AFK. Nenhuma das duas → diga
 que a troca é do P.O. (`sdd-planejamento`, Troca de modo) e pare. Na troca, o Dev
 não grava na base nem cria ou cancela tarefa. **HITL → AFK nunca:** `Modo: HITL` no `status.md` e `AFK` no backlog →
@@ -148,6 +148,9 @@ começou.
    [../sdd-plano/references/plano-templates.md](../sdd-plano/references/plano-templates.md)).
 5. **Assumir a `[DEV]`** (com o MCP `elm`; nunca sem "sim") — `elm_transicao(<id da [DEV]>, "assumir",
    iniciar_pai: true)`, com `estimativa_h` se faltar (regras: [elm.md](../sdd/references/elm.md)). O item de backlog continua do P.O.
+   **Já fechada** (`precondicao` "já concluída: reabra antes": alguém a fechou à mão) → mostre o estado; PR da fatia
+   mergeado (`gitlab_listar_mrs(origem=<branch>, estado=merged)`; sem o MCP, a pessoa diz) → **Passo 6**, do item 5;
+   senão, com "sim", `elm_transicao(<id>, "reabrir")` e de novo o `assumir`.
    Tarefa ainda fora da sprint (puxada, encaixe aprovado agora ou publicação que falhou no planejamento) → antes, o
    IB (ou o item de origem) sai do backlog do EWM para a iteração da sprint (`elm_atualizar_wi(id, iteracao)`; `elm`
    `pendente` → crie-o; id sem link, como `DF 4567` → complete o que a triagem não fez, como a publicação da sprint)
@@ -165,8 +168,9 @@ começou.
    | sem épico, pedido em texto | `[DEV]` `[REV]` `[VER]` | IB `[FT-nnn]`, filho da Manutenção |
 
    Fatia **AFK**: só a `[DEV]`, em qualquer linha — revisão e verificação são subagentes, sem tarefa; a `[REV]` e a
-   `[VER]` da fatia HITL que volta AFK não movem: `ELM pendente [<tipo> <id> cancelar]` no `status.md` (elm-sprint.md,
-   topo). Fatia **HITL puxada**: a `[REV]` e a `[VER]` vão para o revisor e o verificador da linha da sprint (item 1).
+   `[VER]` da fatia HITL que volta AFK não movem: `elm_transicao(<id>, "cancelar")`, no mesmo "sim"; sem o MCP, com
+   `precondicao` ou erro → `ELM pendente [<tipo> <id> cancelar]` no `status.md` (elm-sprint.md, topo). Fatia **HITL puxada**: a `[REV]` e
+   a `[VER]` vão para o revisor e o verificador da linha da sprint (item 1).
 
    Grave os ids das tarefas, as que moveram inclusive, no campo ELM do `status.md` (`DEV <id> · REV <id> · VER <id>`)
    e, se o item nasceu ou foi completado aqui, o dele (`IB <id>` ou `DF <id>`) — é por ele que as horas acham a
@@ -210,9 +214,10 @@ A fatia chegou a `aceita` (HITL) ou a `aguardando-aprovacao-pr` (AFK): o merge, 
 `[DEV]` são do Dev responsável, aqui. Também o PR já mergeado por fora, pela UI do GitLab (a `sdd-consolidar` manda
 para cá quando falta a `Fase: pronta` na base): siga do item 5 — a `pronta` só com o merge conferido —, e sem a
 aprovação registrada (abaixo) o aviso do item 9 diz isso. **Já registrado?** `git fetch` e o `status.md` da fatia em
-`origin/<base>` com `Fase: pronta` ou `concluida` → o merge já foi registrado: com a `[DEV]` ainda aberta, siga do
-item 7; senão, diga isso e pare. Vale a aprovação **registrada**, nunca a dita na conversa ("o PR foi aprovado",
-"pode mergear"; o P.O. não aprova PR):
+`origin/<base>` com `Fase: pronta` ou `concluida` → o merge já foi registrado — aqui ou pela sincronização
+([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §9), que também grava `pronta` pela evidência do merge
+feito por fora, com Créditos e lições `—`: com a `[DEV]` ainda aberta, siga do item 7; senão, diga isso e pare. Vale
+a aprovação **registrada**, nunca a dita na conversa ("o PR foi aprovado", "pode mergear"; o P.O. não aprova PR):
 - **HITL:** revisão `APROVADO` e verificação `ACEITO` registradas (é o que leva a fatia a `aceita`);
 - **AFK:** a `[APR] FT-<nnn> Aprovar PR` está **concluída** e tem o comentário `PR aprovado, sha <sha>` (`elm_ler_wi(<id>,
   comentarios: true)`, só leitura). Sem o MCP `elm` → a linha `PR aprovado por <login>, sha <sha>` que o
@@ -267,14 +272,15 @@ item 7; senão, diga isso e pare. Vale a aprovação **registrada**, nunca a dit
    Commit `<FT> registrar merge` só com o `status.md`, o `backlog.md` e o `sprint-<nn>.md`; push com a conferência.
    Na branch, nada: antes do merge, um commit nela mudaria o `sha` aprovado.
 7. **Conclusão da `[DEV]`** (depois do push do item 6): mostre as horas já lançadas (`elm_horas(<id>)`) e pergunte
-   só o saldo → `elm_lancar_horas(<id>, <saldo>)` e `elm_transicao(<id>, "concluir")`, numa confirmação. Sem o MCP
+   só o saldo → `elm_lancar_horas(<id>, <saldo>)` e `elm_transicao(<id>, "concluir")`, numa confirmação (`[DEV]` já
+   fechada, do Passo 4, item 5 → só o saldo). Sem o MCP
    `elm`, a pendência já foi no item 6.
 8. **Worktree do loop** (`.kiro/local/wt/<ft>`): depois do merge, `git worktree remove .kiro/local/wt/<ft>` —
    **sem `--force`**; os agentes não podem (negado a todos): entregue o comando e a pessoa o roda. Falhou por arquivos
    não rastreados ou alterados → mostre quais (evidência com dado real fica em `.kiro/local/verificacao/`, fora da
    worktree) e deixe a pessoa decidir; nunca force.
 9. **Avise o P.O. ou o SM** de que a fatia está `pronta` para a consolidação (**`sdd-consolidar`**, no agente
-   `sdd-produto`, com horas na `[GB]`) e **pare**: a consolidação não é do Dev.
+   `sdd-produto`, com os créditos num comentário na `[GB]`; horas, só do SM) e **pare**: a consolidação não é do Dev.
 
 ## Regras
 

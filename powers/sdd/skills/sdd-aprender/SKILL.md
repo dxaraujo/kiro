@@ -4,7 +4,7 @@ description: "Aprendizado composto do fluxo sdd — transforma cada correção h
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.4.1"
+  version: "3.4.2"
 ---
 
 # sdd-aprender — Cada erro corrigido uma vez só
@@ -82,10 +82,10 @@ que o erro não voltou.
 ## Modo retrospectiva (fim de fatia, épico ou sprint)
 
 De **sprint**: antes dos dados, a [pré-condição dos ritos de fechamento](../sdd-planejamento/SKILL.md#pré-condição-dos-ritos-de-fechamento)
-inteira — a sincronização com o EWM ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §9: sempre a
-tabela com as divergências e as por fora, ou a linha `🔄 <chave> × EWM: iguais — <n> itens conferidos`; sem o MCP
-`elm` → avise "sincronização com o EWM não feita" e siga), a rede de proteção e a consolidação (fatia `pronta` que
-a espera → pare, salvo decisão do P.O.).
+inteira — a sincronização com o EWM ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §9, com a rede
+de proteção: sempre a tabela com as divergências e as por fora, ou a linha `🔄 <chave> × EWM: iguais — <n> itens
+conferidos`; sem o MCP `elm` → avise "sincronização com o EWM não feita" e siga, só com as linhas do git) e a
+consolidação (fatia `pronta` que a espera → pare, salvo decisão do P.O.).
 
 Com dados, não impressões:
 
@@ -101,7 +101,8 @@ Propostas: <promoções, rubricas, skills, steering>
 Fontes: `status.md` das fatias (Histórico; a seção Créditos, para a versão do power), `revisao-*`, `verificacao.md`,
 `licoes.md`, `backlog.md` e `sprint-<nn>.md` (Status; a coluna Créditos, para o total por item). Termine
 perguntando quais propostas aplicar. Retrospectiva de épico ou de sprint grava, no commit dela, a linha de créditos
-da sessão na seção **Créditos de gestão** do `sprint-<nn>.md` aberto (Atividade `retrospectiva`; ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4)).
+da sessão na seção **Créditos de gestão** do `sprint-<nn>.md` aberto (Atividade `retrospectiva`; ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4))
+e, na sessão do P.O. ou do SM, o comentário de créditos na `[GB]` (o mesmo item 4).
 
 **Lint do conhecimento** (retrospectiva de épico — a consolidação da última fatia o sugere — ou de sprint, ou
 quando a pessoa pedir; nunca a cada fatia): procure contradições entre glossário, ADRs, bundle do ELM (pelo

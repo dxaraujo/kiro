@@ -4,7 +4,7 @@ description: "Quebra um PRD aprovado do fluxo sdd em fatias verticais (tracer bu
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.4.1"
+  version: "3.4.2"
 ---
 
 # sdd-fatiar — PRD → fatias verticais
@@ -96,7 +96,7 @@ Na **base**, pelo bloco [Gravar na base](references/backlog.md#gravar-na-base):
 2. **Fichas** das fatias (`<produto>/fatias/FT-<nnn>-<slug>.md`, formato "padrão de épico"): Objetivo, Cobre (links
    para os cenários do PRD, sem copiar) e Como verificar; a coluna `ficha` aponta para elas.
 3. `status.md` do épico: `Fase: fatiado`.
-4. **EWM** (com ELM, com "sim"): um IB por fatia sob o épico, no backlog do EWM ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §3,
+4. **EWM** (com ELM, com "sim"): um IB por fatia sob o épico, no backlog do EWM e no estado inicial ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §3,
    `iteracao = backlog`); os ids vão para a coluna `elm` (`IB [<id>](<url>)`). Sem o MCP `elm` → `pendente`.
 5. Commit (padrão do `sdd.md`): `backlog.md`, fichas, `status.md` do épico.
 
@@ -125,16 +125,16 @@ mudou depois do fatiamento) → o GATE do refinamento grava `Fase: fatiado` no `
   fatia `concluida` → no mesmo commit, o épico `concluido` no backlog, Fase `concluido` no `status.md` do épico e o
   IB do épico concluído (como no Passo 4 da `sdd-consolidar`).
 - **No EWM**, a fatia `cancelada` (inclusive a absorvida pelo juntar) tem o IB (e, se não foi iniciada, as tarefas)
-  cancelado à mão na UI — o MCP só assume, conclui e reabre; nunca `elm_transicao` para cancelar:
-  `ELM pendente [FT-<nnn> cancelar]` (roteiro manual) no rodapé da ficha da fatia, onde moram as pendências da fatia
-  não iniciada, `dividida` ou `cancelada`.
+  cancelado: `elm_transicao(<id>, "cancelar")`, um por id, com "sim". Na falha (sem o MCP, `precondicao`, erro) →
+  `ELM pendente [FT-<nnn> cancelar]` no rodapé da ficha da fatia, onde moram as pendências da fatia não iniciada,
+  `dividida` ou `cancelada`.
 - **Dividir ou cancelar depois de `iniciada`** (juntar, nunca): conclua as tarefas abertas da fatia com as horas já
   lançadas (`elm_transicao(<id>, "concluir")`, com "sim"; sem o MCP, `ELM pendente` no rodapé da ficha) e avise o Dev
   para fechar o PR.
 - **Cancelar o épico** (decisão do P.O.), numa gravação: `Fase: cancelado` no `status.md` do épico (se já está na
   base); no backlog, o épico `cancelado` (motivo na `obs`) e as fatias não iniciadas `cancelada`; na sprint, a linha
-  da Especificação não concluída `cancelada`; a `[ESP]` aberta conclui com as horas já lançadas, e o IB do épico é
-  cancelado à mão, como o das fatias (`ELM pendente [EP-<nn> cancelar]`, onde moram as do épico —
+  da Especificação não concluída `cancelada`; a `[ESP]` aberta conclui com as horas já lançadas, e o IB do épico
+  cancela como o das fatias (na falha, `ELM pendente [EP-<nn> cancelar]`, onde moram as do épico —
   [pendências](../sdd/references/elm.md#pendências)). As fatias `iniciada` em diante não mudam aqui: mostre-as ao
   P.O. (cancelar uma iniciada é o item acima).
 - **Nova fatia:** no fim de `## Fatias`, como no Passo 3 (item 1; o IB nasce no backlog do EWM pelo item 4).
@@ -142,7 +142,7 @@ mudou depois do fatiamento) → o GATE do refinamento grava `Fase: fatiado` no `
 - **Definition of Ready** ([critérios](references/backlog.md#definition-of-ready-o-que-faz-uma-fatia-elegivel)): a
   cada refinamento, grave `elegivel` nas `nova` que passam; a `elegivel` ou `planejada` que deixou de passar volta a
   `nova` com `falta:` — a `planejada` sai da sprint pela [Volta](references/backlog.md#situações) (no EWM, o IB e as
-  tarefas voltam ao backlog: [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §3).
+  tarefas voltam ao backlog, o IB no estado inicial: [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §3).
 
 ## Regras
 

@@ -1,10 +1,10 @@
 ---
 name: sdd-consolidar
-description: "Fecha uma fatia pronta do fluxo sdd (PR mergeado e registrado na base pelo Dev) — processo de produto, do P.O. ou do SM (analista de negócio) no agente sdd-produto, com horas na tarefa [GB] Gerenciamento do backlog: lê o campo Drift de negócio do status.md (marcado pela revisão e pela verificação) e, com drift, leva o PRD ou a ficha a nova versão; manda para o ELM pelo MCP elm, numa confirmação, os requisitos, a regra da ficha as-built, a especificação técnica as-built (escrita pelo Dev no PR), os casos de teste (criados pelo agente no ETM, um por cenário verificado) e a conclusão do item de backlog; leva os ADRs do PR para a pasta de ADRs, corrige o glossário, marca a fatia concluida no backlog e na sprint, registra as lições (sdd-aprender) e diz o que vem a seguir no épico. Use em \"PR mergeado\", \"fecha a FT-031\", \"consolidar\", \"concluir a fatia\", \"a fatia foi entregue\"."
+description: "Fecha uma fatia pronta do fluxo sdd (PR mergeado e registrado na base pelo Dev) — processo de produto, do P.O. ou do SM (analista de negócio) no agente sdd-produto, na tarefa [GB] Gerenciamento do backlog (horas só do SM; os créditos num comentário nela): lê o campo Drift de negócio do status.md (marcado pela revisão e pela verificação) e, com drift, leva o PRD ou a ficha a nova versão; manda para o ELM pelo MCP elm, numa confirmação, os requisitos, a regra da ficha as-built, a especificação técnica as-built (escrita pelo Dev no PR), os casos de teste (criados pelo agente no ETM, um por cenário verificado) e a conclusão do item de backlog; leva os ADRs do PR para a pasta de ADRs, corrige o glossário, marca a fatia concluida no backlog e na sprint, registra as lições (sdd-aprender) e diz o que vem a seguir no épico. Use em \"PR mergeado\", \"fecha a FT-031\", \"consolidar\", \"concluir a fatia\", \"a fatia foi entregue\"."
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.4.1"
+  version: "3.4.2"
 ---
 
 # sdd-consolidar — Documentação viva depois do merge
@@ -14,16 +14,18 @@ fica valendo é a documentação oficial no ELM — e ela tem de descrever o que
 distância entre os dois.
 
 **Processo de produto:** quem consolida é o **P.O. ou o SM** (analista de negócio), no agente **`sdd-produto`**, e
-as horas vão na tarefa **`[GB] Gerenciamento do backlog`** (a `GB` da primeira linha de `## Sustentação` do
-`backlog.md`). A consolidação não repete a revisão nem a verificação: o drift de negócio já vem marcado por elas no
+a tarefa é a **`[GB] Gerenciamento do backlog`** (a `GB` da primeira linha de `## Sustentação` do `backlog.md`;
+dono = o SM). A consolidação não repete a revisão nem a verificação: o drift de negócio já vem marcado por elas no
 `status.md`; os ADRs já vêm escritos no PR.
 
 Entrada: fatia `pronta` — o Dev responsável mergeou o PR aprovado e, conferido o merge, gravou `Fase: pronta` no
-`status.md` da **base** (Passo 6 da `sdd-desenvolver`). Leia a fase dali (`git fetch` e `git show
+`status.md` da **base** (Passo 6 da `sdd-desenvolver`; merge por fora do sdd: a sincronização da sprint,
+[elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §9). Leia a fase dali (`git fetch` e `git show
 origin/<base>:.kiro/specs/<ft>-<slug>/status.md`), com o `status` da linha no `backlog.md` da base: `concluida` em
 qualquer um dos dois → diga "já consolidada em <data>" e pare — nada se repete (ADR, lições, glossário, CT, ELM).
 Sem `pronta` na base (PR aberto, ou mergeado sem o registro) → não consolide: mande o Dev ao Passo 6 da
-`sdd-desenvolver` (o merge e o registro do merge são dele) e pare. Tudo aqui é gravado na **base**, pelo bloco
+`sdd-desenvolver` (o merge e o registro do merge são dele; mergeado por fora do sdd → "sincroniza a sprint") e
+pare. Tudo aqui é gravado na **base**, pelo bloco
 [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base) (a troca e o `pull --ff-only` vêm antes de
 qualquer passo).
 
@@ -36,7 +38,9 @@ releia o `design.md` nem o `verificacao.md` atrás de drift: isso já foi julgad
 - `sim — <motivo>` → mostre o motivo e leve o PRD a nova versão pela `sdd-prd` (mudança depois de aprovado) — na
   fatia sem épico, a ficha, pela `sdd-triar` — **antes** de publicar (Passo 2).
 - `não` → nada no PRD nem na ficha.
-- vazio (`—`) → pergunte a quem revisou ou verificou (Histórico) e grave a resposta no campo; não procure você.
+- vazio (`—`) → pergunte a quem revisou ou verificou (Histórico) e grave a resposta no campo; não procure você;
+  sem REV nem VER no Histórico (fatia `pronta` pela sincronização, `merge do PR <link> por fora do sdd`) → pergunte
+  ao Dev responsável (o dono da `[DEV]`) e grave a resposta no campo.
 
 ## Passo 2 — ELM (com o MCP `elm`; senão registre pendências)
 
@@ -60,11 +64,16 @@ Numa confirmação só, nesta ordem, como diz [references/elm-publicar.md](refer
 - *backlog* — concluir o IB da fatia (e o do épico, na última fatia — Passo 4). Tarefa concluída sem horas não
   trava: a virada aponta. A consolidação é **pré-condição dos ritos de fechamento** da sprint (review, retrospectiva,
   virada): fatia `pronta` sem ela para o rito, salvo decisão do P.O.;
-- *horas* — as da consolidação na `[GB] Gerenciamento do backlog`: `elm_lancar_horas(id, horas)` (lança, não
-  conclui — a `[GB]` é contínua). Os créditos desta sessão vão na seção **Créditos de gestão** do `sprint-<nn>.md` aberto (Atividade `consolidação FT-<nnn>`;
-  ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4)), no commit do Passo 4. `## Sustentação` sem a `GB` → como na `sdd-triar` (sugira criá-la ou pergunte a tarefa). Quem consolida não é o
-  dono da `[GB]` (o SM, com a `[GB]` do P.O.) → o MCP recusa (`só o dono lança horas`): pergunte em que tarefa dele
-  lançar, ou registre `ELM pendente [GB horas]: <login> <h>h (<data>)` para quem é dono.
+- *horas* — só o SM lança as da consolidação na `[GB] Gerenciamento do backlog`: `elm_lancar_horas(id, horas)`
+  (lança, não conclui — a `[GB]` é contínua). O P.O. nunca lança horas, nem quando também é o SM.
+- *créditos* — em toda consolidação, do P.O. ou do SM, os créditos desta sessão
+  ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4) vão, no Passo 4, num comentário na `[GB]`
+  (`elm_comentar(<id da [GB]>, "Créditos consolidação FT-<nnn>: <créditos> (sessão <sessão>, <login>, <AAAA-MM-DD>)")`,
+  com "sim") e na seção **Créditos de gestão** do `sprint-<nn>.md` aberto (Atividade `consolidação FT-<nnn>`), no
+  commit do Passo 4. `## Sustentação` sem a `GB` → indique o modo inicial da `sdd-planejamento` (ou crie-a pelo
+  [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §2, com "sim"); sem ela, grave só a linha em
+  Créditos de gestão. Falha no comentário → `ELM pendente [GB <id> créditos]` no lugar das pendências da `[GB]`
+  ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4), não no `status.md`.
 
 Sem o MCP `elm` nesta sessão ou com falha → `ELM pendente [<chave>]: <ação>` no Histórico do `status.md`
 ([pendências](../sdd/references/elm.md#pendências)). Depois da publicação, a `sdd-sync` traz o publicado ao bundle (e
@@ -102,6 +111,7 @@ retrospectiva do épico ou da sprint (`sdd-aprender`).
 - **`sdd-aprender`** modo registrar para cada linha das **Lições candidatas** que o Dev gravou com a `pronta`
   (`status.md` da base): transcreva sem reclassificar — os fatos e a causa são de quem recebeu a correção — e grave
   o L-nnn na linha. Causa `—` ou `nenhuma` → nada a registrar.
+- Créditos da sessão (Passo 2, *créditos*): o comentário na `[GB]` e a linha em Créditos de gestão.
 - Commit (padrão do `sdd.md`, `<id> consolidar`) com `status.md`, `backlog.md`, `sprint-<nn>.md` e o que mudou.
 
 ## Passo 5 — Próximo

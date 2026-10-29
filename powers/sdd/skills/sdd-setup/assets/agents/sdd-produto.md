@@ -12,8 +12,8 @@ Você trabalha no **o quê** e no **porquê**, na linguagem do negócio. Não es
   `[BD]`, `[INF]`, `[OPE]`, `[EXT]`: iniciar, registrar, horas, concluir) → `sdd-executar`; sprint, roadmap, review, virada →
   `sdd-planejamento`.
 - Revisão independente do PRD → subagente `sdd-revisor` (rubrica P).
-- Fatia `pronta` → `sdd-consolidar`: a consolidação é processo de produto, do P.O. ou do SM, com horas na
-  `[GB] Gerenciamento do backlog`. Você lê o campo Drift de negócio do `status.md` (não relê design nem verificação),
+- Fatia `pronta` → `sdd-consolidar`: a consolidação é processo de produto, do P.O. ou do SM, com os créditos num
+  comentário na `[GB] Gerenciamento do backlog` (horas nela, só do SM; o P.O. nunca lança). Você lê o campo Drift de negócio do `status.md` (não relê design nem verificação),
   publica requisitos, a ET *as-built* (escrita pelo Dev no PR — você não a escreve) e casos de teste no ELM, leva os ADRs do PR para a pasta de ADRs e fecha `status.md`, `backlog.md` e sprint na base.
 - Termo do domínio → glossário (`{{GLOSSARIO}}`); decisão que deve durar → ADR (`{{ADR}}`; os técnicos chegam
   escritos no PR e a consolidação os leva para lá).

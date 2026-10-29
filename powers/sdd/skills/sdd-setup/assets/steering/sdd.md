@@ -46,14 +46,17 @@ Começar um item registrado: hub `sdd-iniciar` (diz a skill do papel: `sdd-espec
   P.O. na base. HITL → AFK nunca.
 - Toda hora tem tarefa (`[ESP]` `[DEV]` `[REV]` `[VER]` e as da Sustentação — `[ATD]` `[IMPL]` `[BD]` `[INF]` `[OPE]` `[EXT]`; no AFK, só a `[DEV]`; `[APR]` do Dev Sênior nos
   gates sem tarefa de papel — aprovar plano, aprovar PR do AFK —, criada quando a fatia chega ao gate; `[GB]
-  Gerenciamento do backlog` do P.O. ou do SM: triagem e consolidação). Lançar horas é
+  Gerenciamento do backlog` do SM: só ele lança horas nela; o P.O. nunca lança, nem quando é também o SM, e toda
+  sessão do P.O. ou do SM no `sdd-produto` comenta nela os créditos gastos). Lançar horas é
   registro de empenho, a qualquer momento na tarefa assumida; concluir é da skill do papel, com o saldo: `[DEV]` no
   merge, `[REV]` ao aprovar (depois do push), `[VER]` ao aceitar (depois do push), `[APR]` na aprovação, `[ESP]` no
-  GATE do backlog, a da Sustentação ao concluir o item (junto com o IB dele). A sincronização com o EWM traz para
-  a sprint a tarefa criada direto no EWM na iteração dela e compara os itens que os arquivos já conhecem (estado,
-  iteração, dono, estimativa), numa tabela com a solução proposta (`sdd-planejamento`, "sincroniza a sprint").
+  GATE do backlog, a da Sustentação ao concluir o item (junto com o IB dele). A sincronização com o EWM
+  (`sdd-planejamento`, "sincroniza a sprint") leva o sdd até onde o trabalho chegou por fora: traz a tarefa criada
+  direto no EWM, compara os itens conhecidos (estado, iteração, dono, estimativa, a fase do `status.md`, o IB do
+  backlog fora do estado inicial) e lê o git (branch, PR, merge → `iniciada` ou `pronta`), numa tabela com a solução
+  proposta.
 - **Consolidação é processo de produto:** fatia `pronta` → o P.O. ou o SM, no agente `sdd-produto`
-  (`sdd-consolidar`, horas na `[GB]`): lê o Drift de negócio que a REV e a VER marcaram no `status.md`, publica no
+  (`sdd-consolidar`, créditos na `[GB]`): lê o Drift de negócio que a REV e a VER marcaram no `status.md`, publica no
   ELM o *as-built* (requisitos, ET, casos de teste), leva os ADRs do PR à pasta de ADRs e fecha a fatia na base
   (`concluida`).
 - Estado em disco: a situação de cada item no `backlog.md` e na sprint, gravada na base por quem a causa (seção
@@ -126,8 +129,8 @@ Na worktree do `sdd-loop`: `cd .kiro/local/wt/<ft> && <comando>`. Falha de ambie
 
 ## Sustentação
 
-O que não vem de épico. No EWM, o IB `Sustentação` (um por produto, no backlog do EWM) é o pai da `[GB]`, do IB
-`Manutenção` e dos IBs de categoria.
+O que não vem de épico. No EWM, o IB `Sustentação` (um por produto, no backlog do EWM; nasce com a `[GB]` no modo
+inicial da `sdd-planejamento`) é o pai da `[GB]`, do IB `Manutenção` e dos IBs de categoria.
 
 - **Manutenção:** o IB pai das fatias sem épico (trilha padrão ou rápida; `origem` `Manutenção` no `backlog.md`),
   que nasce com a primeira delas. Elas mudam o repositório e seguem o fluxo da fatia: são do Dev e podem ser AFK.

@@ -98,9 +98,9 @@ Então o desconto aplicado é de R$ 50,00
 - **Padrão de épico:** nada de regra ou cenário copiado do PRD — só os links; o PRD continua a fonte.
 - **Decisões** no formato do `decisoes.md` da `sdd-entrevistar`, aqui dentro (a ficha não tem pasta).
 - **Pendências do ELM** da fatia não iniciada, `dividida` ou `cancelada` (sem `status.md` que valha): no rodapé da
-  ficha, `ELM pendente [<chave>]: <o que falta>` — ex.: `[FT-040 cancelar]`, o IB e as tarefas cancelados na UI do
-  EWM (o MCP não cancela); resolvida, `ELM feito [<chave>]: …` abaixo dela
-  ([pendências](../../sdd/references/elm.md#pendências)).
+  ficha, `ELM pendente [<chave>]: <o que falta>` — ex.: `[FT-040 cancelar]`, quando o `elm_transicao(<id>,
+  "cancelar")` do IB ou das tarefas falhou (sem o MCP, `precondicao`, erro); resolvida, `ELM feito [<chave>]: …`
+  abaixo dela ([pendências](../../sdd/references/elm.md#pendências)).
 - Termos do glossário em todo o texto; termo novo vai para o glossário (a triagem roda na base).
 - Mais de ~3 cenários de comportamentos diferentes, ou mais de uma regra nova independente → não é uma fatia: a
   `sdd-triar` refaz a triagem como épico.

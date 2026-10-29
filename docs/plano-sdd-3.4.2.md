@@ -70,8 +70,9 @@ Na conferência da 3.4.1 contra o que se pediu ao revisar o rascunho dela, sobra
 | 5 | Estado de `[REV]`, `[VER]`, `[APR]` e `[DEV]` pela fase do `status.md` | comparar pela fase · só as linhas genéricas (3.4.1) | **em aberto** — proposta: o §9 lê a `fase` (regra A base prevalece) e compara pelo estado esperado da fase (rascunho abaixo), com `manter` quando quem resolve é o papel e `EWM:` quando o EWM está à frente |
 | 6 | Fatia com `status.md` numa branch e ainda `planejada` na base | rede de proteção antes do §9 · o §9 trata a fatia como iniciada · como está | **em aberto** — proposta: o passo 2 do §9 olha os `status.md` das branches, como a rede de proteção. Fatia com `status.md` conta como iniciada para "saiu" (o EWM volta, nunca "sai da sprint") e gera a linha `arquivo: iniciada (status.md na branch)`, que grava como a rede de proteção grava. Vale também sob pedido |
 | 7 | WI que sumiu do EWM | `manter` (3.4.1) · `arquivo:` o id vira `pendente` e o §3–4 republica · `manter` com pendência registrada | **em aberto** — proposta: a solução continua `manter: confira na UI do EWM`, mas o `manter` dessa linha registra `ELM pendente [<tipo> <id> sumiu]`, que tira o id da comparação até o `ELM feito` (como a decisão 13 da 3.4.1). Em Outras, `arquivo: pendente (republicar)` |
-| 8 | MCP `elm` | sem mudança (decisão 17 da 3.4.1) · incluir as melhorias da seção 6 da 3.4.1 | **em aberto** — pela versão única, se mudar, a mcp-elm sobe junto, e o `plugin.json` passa a exigir a nova |
-| 9 | Versão | 3.4.2 sozinha | **3.4.2**: `plugin.json`, as 22 skills e o MCP se a decisão 8 o alterar |
+| 8 | MCP `elm` | sem mudança (decisão 17 da 3.4.1) · só cancelar · todas as melhorias da seção 6 da 3.4.1 | **cancelar** (pedido): `elm_transicao` ganha o alvo `cancelar` (seção MCP abaixo); a mcp-elm sobe para 3.4.2 junto com o power, e o `plugin.json` passa a exigir `mcp-elm ≥ 3.4.2`. As outras melhorias (estimativa e grupo do estado na listagem, data da conclusão, pai na listagem, teto de 1000) seguem adiadas |
+| 8a | Quem grava `pronta` pela evidência do merge | só a `sdd-desenvolver` (3.4.1) · também a sincronização | **também a sincronização** (pedido): com o PR mergeado na base, a linha `arquivo: pronta (merge <sha> por fora do sdd)` grava como o Passo 6 da `sdd-desenvolver` — `status.md` da base com `Fase: pronta`, backlog e sprint `pronta`, Créditos `—` e lições `—` —, com o "ok" da tabela; a `sdd-consolidar` leva a `concluida` depois |
+| 9 | Versão | 3.4.2 sozinha | **3.4.2**: `plugin.json`, as 22 skills e a mcp-elm (decisão 8), juntos |
 | 10 | Migração | — | nenhuma (o power ainda não tem usuários) |
 
 ### Desenvolvimento por fora do sdd (decisão 0)
@@ -94,12 +95,34 @@ Casos (rascunho — **propostas**, para confirmar):
 
 Pontos para decidir com estes casos:
 
-- **Cancelar no EWM:** o MCP não cancela (`elm_transicao` só assume, conclui e reabre). Sem mudança no MCP, o
-  "cancelar" vira `ELM pendente [<tipo> <id> cancelar]` para a pessoa fazer na UI — o que pesa a favor da decisão 8.
-- **Quem grava `pronta`:** a 3.4.1 só deixa a `sdd-desenvolver` gravar (`pronta` exige `status.md` na base, créditos
-  e lições). A proposta é a sincronização gravar com a evidência do merge, com Créditos e lições `—`.
-- **O agente de produto** (onde a sincronização roda) precisa ler o git e o PR — conferir as permissões em
-  `sdd-setup/assets/agents/papeis.json`.
+- **Cancelar no EWM:** decidido — o MCP passa a cancelar (decisão 8); o "cancelar" da tabela chama
+  `elm_transicao(<id>, "cancelar")`, e a pendência `ELM pendente [<tipo> <id> cancelar]` fica só para a falha.
+- **Quem grava `pronta`:** decidido — também a sincronização, pela evidência do merge (decisão 8a).
+- **O agente de produto** já lê o git (`git-leitura`) e o MR (`+gitlab-leitura`), grava `.kiro/specs/*/status.md` e
+  pergunta antes de `+elm-tarefa` (`sdd-setup/assets/agents/papeis.json:46-61`): nenhuma permissão muda; o
+  `cancelar` entra no mesmo grupo `elm-tarefa`, com pergunta.
+
+### MCP `elm` — cancelar (decisão 8)
+
+- `mcps/elm/mcp_elm/ewm.py`: `ALVOS` (`:58`) ganha `cancelar`, grupo `closed` por um estado de descarte — o inverso
+  do filtro de hoje, que tira os estados de `_DESCARTE` (`:60`) do caminho de `concluir`. Em `_ir` (`:476-513`), com o
+  alvo `cancelar` só valem as ações cujo resultado casa com `_DESCARTE`; já num estado de descarte → `ja_estava`;
+  concluída (fechada sem descarte) → `precondicao` ("já concluída: reabra antes", como o `assumir`, `:528`);
+  workflow sem estado de descarte → `precondicao` ("o workflow não tem cancelamento"), e a skill registra a
+  pendência. A mensagem de alvo inválido (`:518`) passa a listar os quatro.
+- `mcps/elm/mcp_elm/server.py:108`: `alvo: Literal["assumir", "concluir", "reabrir", "cancelar"]` e a docstring.
+- Testes em `mcps/elm/tests/test_ewm.py` (com o `elm_fake.py`): cancelar a partir de Novo e de Em Andamento; já
+  cancelada; concluída; workflow sem descarte.
+- `mcps/elm/pyproject.toml` → 3.4.2; `mcps/elm/docs/manual-mcp-elm.md`, o alvo novo.
+
+### Power — onde o cancelamento manual vira chamada
+
+Toda pendência `[<…> cancelar]` que existe porque "o MCP não cancela" passa a ser `elm_transicao(<id>, "cancelar")`
+com "sim", e a pendência só na falha: `sdd/references/elm.md` (pendências e Regras de toda escrita),
+`sdd-triar/SKILL.md:52`, `:61` e `references/ficha.md:102`, `sdd-fatiar/SKILL.md` e `references/backlog.md:149`,
+`sdd-planejamento/SKILL.md` e `references/elm-sprint.md` (decisão 7a da 3.4.1 e o §9), `sdd-desenvolver/SKILL.md`
+(puxada) e `sdd-loop/SKILL.md`. A decisão 13 da 3.4.1 (pendência de cancelamento sai da comparação) segue para as
+pendências que sobrarem.
 
 ### Estado esperado pela fase (rascunho para a decisão 5)
 
@@ -145,7 +168,7 @@ da PA no `sdd.md`.
   ou a fase ficam para a sincronização, como a estimativa na 3.4.1.
 - `sdd/references/elm.md`: a chave `[<tipo> <id> sumiu]` na tabela de pendências (decisão 7).
 - `README.md` (nota da 3.4.2), `plugin.json` e o `metadata.version` das 22 skills.
-- `mcps/elm`, se a decisão 8 o incluir.
+- `mcps/elm`: o alvo `cancelar` (seção MCP); `plugin.json` exige `mcp-elm ≥ 3.4.2`.
 
 ## Para a revisão final da 3.4.1
 
@@ -187,4 +210,7 @@ Achados da conferência da 3.4.1 que não são pendências desta versão, mas pe
   mostra a linha; nos ritos, a solução nunca é "sai da sprint".
 - WI `nao_encontrado` com `manter` → na sincronização seguinte, não volta enquanto a pendência `sumiu` estiver
   aberta.
-- Testes do power (`test_gerar_agentes.py`, `test_creditos.py`) e, se o MCP mudar, o pytest dele.
+- `elm_transicao(<id>, "cancelar")` no fake: Novo e Em Andamento → cancelado; cancelado → `ja_estava`; concluído →
+  `precondicao`; sem estado de descarte → `precondicao`.
+- `grep -rn "o MCP não cancela" powers/sdd` → nada.
+- Testes do power (`test_gerar_agentes.py`, `test_creditos.py`) e o pytest do MCP.

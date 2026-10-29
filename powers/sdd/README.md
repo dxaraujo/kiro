@@ -89,7 +89,7 @@ Fontes no fim deste arquivo.
 | `sdd-implementar` | TDD + backpressure, commits pequenos, revisão e PR (termina no PR) |
 | `sdd-revisar` | revisão independente: PRD (P), plano (L), código (C, dois eixos) |
 | `sdd-verificar` | aceite de ponta a ponta com evidência; `CT.csv` para o ETM |
-| `sdd-consolidar` | fatia `pronta` (pós-merge) → `concluida`, processo de produto (P.O. ou SM, agente `sdd-produto`, horas na `[GB]`): drift marcado pela revisão e pela verificação, ELM as-built (requisitos, ET, casos de teste criados no ETM), ADRs do PR, glossário, conclusão |
+| `sdd-consolidar` | fatia `pronta` (pós-merge) → `concluida`, processo de produto (P.O. ou SM, agente `sdd-produto`, créditos num comentário na `[GB]`; horas só do SM): drift marcado pela revisão e pela verificação, ELM as-built (requisitos, ET, casos de teste criados no ETM), ADRs do PR, glossário, conclusão |
 | `sdd-sync` | sincroniza o bundle OKF do DOORS Next nas duas vias (plano, baixar, enviar, conflitos) e, depois de baixar, pergunta se indexa o bundle local |
 | `sdd-loop` | fatias AFK até o PR, uma worktree por fatia, uma fase por contexto limpo |
 | `sdd-aprender` | lições, promoção de regras, retrospectiva com dados, casos de avaliação |
@@ -110,7 +110,7 @@ de `skills/sdd-setup/assets/`:
 | `.kiro/sdd/http.sh` (opcional) | única chamada HTTP que o verificador faz sem perguntar: só à URL de teste, com corpo da pasta `massa/` |
 | pasta do produto (proposta pela setup; padrão `.kiro/planejamento`) | `backlog.md`, épicos e PRDs, `equipe.json`, `acordos.md`, `roadmap.md`, `sprints/<iteração pai>/`, `sustentacao/<pasta>/`, `aprendizado/` — versionada; o que é local fica em `.kiro/local/` (fora do git) |
 
-O ELM vem no próprio power: o MCP **`mcp-elm`** (≥ 3.3.5) lê o `.kiro/config/sdd/pa_<nome>.json` do projeto (um por
+O ELM vem no próprio power: o MCP **`mcp-elm`** (≥ 3.4.2) lê o `.kiro/config/sdd/pa_<nome>.json` do projeto (um por
 project area, gravado pela `sdd-setup`) e expõe operações (`elm_transicao`, `elm_lancar_horas`, `elm_criar_wi`,
 `elm_ligar`, `elm_publicar_req`…): a skill do passo passa só o caminho do projeto, os ids e o conteúdo, e recebe
 `{"ok": …}`. Regras comuns em [`skills/sdd/references/elm.md`](skills/sdd/references/elm.md). Leituras liberadas nos
@@ -318,6 +318,22 @@ da próxima sprint e antes de publicar as linhas novas dela; a sprint gravada an
 a acha dentro da linha de base do produto. O item que volta a uma sprint leva as tarefas que ficaram no backlog do
 EWM, que movem com o dono e a estimativa do papel em vez de nascer de novo, e ganha linha nova (a com `saiu da sprint`
 fica como histórico). Requer o `mcp-elm` ≥ 3.3.5 (sem mudança no MCP).
+
+Na **3.4.2**, todo item triado nasce no backlog do EWM, e a sincronização leva o sdd até onde o trabalho chegou. (1)
+**Base no EWM desde o início:** o modo inicial da `sdd-planejamento` cria o IB `Sustentação` e a `[GB] Gerenciamento
+do backlog` na iteração de backlog; a `[GB]` move para a primeira sprint de cada pai. Todo IB triado nasce no backlog
+no estado inicial e volta a ele quando o item sai da sprint. (2) **A `[GB]` é do SM:** só o SM lança horas nela; o
+P.O. nunca lança, nem quando também é o SM (a mesma pessoa pode ter os dois papéis), e o `equipe.json` exige um SM
+ativo. Toda sessão do P.O. ou do SM no agente de produto registra os créditos num comentário na `[GB]`. (3)
+**Desenvolvimento por fora do sdd:** quando os tokens acabam, a pessoa segue sem agente (código, PR, merge, tarefas no
+EWM), e a "sincroniza a sprint" cruza o EWM (a sprint e o backlog), o `status.md` com a fase, o `sprint-<nn>.md` com o
+`backlog.md` e o git (branch, PR, merge): o PR mergeado por fora vira `pronta`, com a `[DEV]` concluída e a `[APR]`, a
+`[REV]` e a `[VER]` canceladas; o PR aberto ou a branch com commits, `iniciada`; as tarefas fora do esperado pela fase
+do `status.md`, o IB do backlog fora do estado inicial e o WI que sumiu do EWM também ganham linha. A rede de proteção
+dos ritos passa a rodar dentro da sincronização, e a tabela agrupa as linhas por item. (4) **Tarefa já fechada na
+retomada:** a `sdd-desenvolver`, a `sdd-atender` e a `sdd-executar` mostram o estado e oferecem reabrir ou fechar o
+item. (5) **Cancelar pelo MCP:** o `elm_transicao` ganha o alvo `cancelar`, e a pendência de cancelamento fica só para
+a falha. Requer o `mcp-elm` ≥ 3.4.2.
 
 Não use o `/upgrade-agent` (nem `kiro-cli agent upgrade`) nos agentes `sdd-*`: quem os gera é o script da setup
 ("atualizar os agentes do sdd").

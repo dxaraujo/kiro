@@ -446,7 +446,7 @@ Lacunas que o plano não fechava, resolvidas assim:
 | `[GB]` noutra iteração | `EWM: mover para esta sprint` |
 | Tarefa por fora sob IB ou defeito fora do `backlog.md` | vai na linha `triar` dele, sem item novo; a triagem usa a tarefa que já está sob ele |
 | Encaixe com duas tarefas do mesmo papel | a trazida pelo EWM é a do papel; a do backlog vira `ELM pendente [<tipo> <id> cancelar]` |
-| Descrição das skills | até 1024 caracteres (ajuste do autor em `sdd-desenvolver` e `sdd-triar`); nova conferência mecânica: `uv run --with pyyaml python -c "import glob,yaml; [print(p) for p in glob.glob('powers/sdd/skills/*/SKILL.md') if len(yaml.safe_load(open(p).read().split('---')[1])['description'])>1024]"` (não acha nada) |
+| Descrição das skills | até 1014 caracteres (ajuste do autor em `sdd-desenvolver` e `sdd-triar`); nova conferência mecânica: `uv run --with pyyaml python -c "import glob,yaml; [print(p) for p in glob.glob('powers/sdd/skills/*/SKILL.md') if len(yaml.safe_load(open(p).read().split('---')[1])['description'])>1014]"` (não acha nada) |
 
 Ficaram como estão, por decisão: a tarefa por fora cujo pai é um item que entrou conta duas vezes no painel (a
 listagem não traz o pai); a `[ESP]` puxada nasce com Horas previstas `—`, e a sincronização seguinte propõe a

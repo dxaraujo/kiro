@@ -45,10 +45,10 @@ três canceladas.
 | 8a | Quem grava `pronta` | só a `sdd-desenvolver` · também a sincronização | **também a sincronização**, pela evidência do merge (Créditos e lições `—`) |
 | 9 | Versão | — | **3.4.2** para o `plugin.json`, as 22 skills e a mcp-elm, juntos; `plugin.json` exige `mcp-elm ≥ 3.4.2` |
 | 10 | Migração | — | nenhuma |
-| 11 | Onde a `[GB]` nasce antes de haver sprint | na iteração de backlog e move com a primeira sprint · espera a primeira sprint (3.4.1) | **proposta:** nasce no backlog com o IB `Sustentação` e move para a iteração da primeira sprint de cada pai; com pai novo, nasce a `[GB]` do pai novo, como hoje |
-| 12 | Sem SM ativo no `equipe.json` | o schema exige um SM ativo · a `[GB]` fica sem dono · pergunta na hora | **proposta:** o schema passa a exigir exatamente um SM ativo, como o P.O. |
+| 11 | Onde a `[GB]` nasce antes de haver sprint | na iteração de backlog e move com a primeira sprint · espera a primeira sprint (3.4.1) | **a proposta** (aceita): nasce no backlog com o IB `Sustentação` e move para a iteração da primeira sprint de cada pai; com pai novo, nasce a `[GB]` do pai novo, como hoje |
+| 12 | Sem SM ativo no `equipe.json` | o schema exige um SM ativo · a `[GB]` fica sem dono · pergunta na hora | **a proposta** (aceita): o schema passa a exigir exatamente um SM ativo, como o P.O. |
 | 13 | A mesma pessoa é P.O. e SM | proibir no schema · pode, e lança horas como SM | **em aberto** — pela regra 5, o P.O. nunca lança horas |
-| 14 | Créditos da sessão do P.O. fora da triagem (consolidação, planejamento) | só na triagem (pedido) · em toda sessão do P.O. | **proposta:** em toda sessão do P.O., o mesmo comentário na `[GB]`, já que ela não recebe horas dele |
+| 14 | Créditos da sessão do P.O. fora da triagem (consolidação, planejamento) | só na triagem (pedido) · em toda sessão do P.O. | **a proposta** (aceita): em toda sessão do P.O., o mesmo comentário na `[GB]`, já que ela não recebe horas dele |
 
 ## Casos de desenvolvimento por fora
 

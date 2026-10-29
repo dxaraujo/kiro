@@ -91,7 +91,9 @@ nunca crie outra.
 
 **Sprint não publicada:** o `sprint-<nn>.md` gravado antes deste § — planejamento sem o MCP ou com falha, sessão
 parada antes da publicação, ou o da próxima, que nasce no passo 4 da virada (§5) — leva no cabeçalho
-`**Publicação no EWM:** pendente`, e este § (com pai novo, junto com o §2), ao rodar, o tira no commit da publicação.
+`**Publicação no EWM:** pendente`, e este § (com pai novo, junto com o §2), ao rodar, o tira no commit da publicação
+(sprint com linha `migrada de` ou linha sem ids: o movimento e a publicação delas ficam para a sincronização — indique
+"sincroniza a sprint").
 Enquanto ele está lá, nenhuma tool recebe a iteração dessa sprint ([elm.md](../../sdd/references/elm.md), Regras de
 toda escrita): sem este §, o MCP procura o caminho pelo nome na PA inteira e pode achar a sprint homônima de outro
 produto (cada produto tem a sua linha de base, §0); este § a acha dentro da linha de base e guarda o id no `pa`.
@@ -219,11 +221,12 @@ título ganha o `[AT-012]` pelas opções do §9 (renomear · só incluir o pref
 iteração na virada como o IB da fatia (§3, §5).
 
 **Tarefa** (só quando o item entra numa sprint — triagem com sprint aberta e reserva, planejamento, Encaixe ou §9):
-`elm_criar_wi(tipo tarefa, "[ATD] AT-012 <pedido>", pai = o IB do item, dono = quem faz, estimativa_h, iteracao = a
-da sprint)` — prefixo pela categoria (`[ATD] AT-012 …`, `[IMPL] IM-003 …`); o `pa` aplica a Classificação da Tarefa
-pelo prefixo. Fica no estado inicial. Ids: `IB [<id>](<url>) · ATD [<id>](<url>)` na coluna `elm` do `backlog.md`,
-`ATD <id>` na "Tarefa ELM" da sprint. A que já existe (o item saiu de uma sprint sem começar) move em vez de nascer
-(topo). Concluir o item é concluir a tarefa **e** o IB dele, na mesma confirmação (`sdd-atender`, `sdd-executar`).
+`elm_criar_wi(tipo tarefa, "[ATD] AT-012 <pedido>", pai = o IB do item, dono = quem faz, estimativa_h, iteracao = a da sprint)`
+— prefixo pela categoria (`[ATD] AT-012 …`, `[IMPL] IM-003 …`); o `pa` aplica a Classificação da Tarefa pelo prefixo.
+Fica no estado inicial. Ids: `IB [<id>](<url>) · ATD [<id>](<url>)` na coluna `elm` do `backlog.md`, `ATD <id>` na
+"Tarefa ELM" da sprint. A que já existe (o item saiu de uma sprint sem começar, ou o IB triado do EWM já tem a tarefa
+filha) é a dele: move em vez de nascer (topo). Concluir o item é concluir a tarefa **e** o IB dele, na mesma
+confirmação (`sdd-atender`, `sdd-executar`).
 
 ## 7. Troca AFK → HITL (só pela seção "Troca de modo")
 
@@ -282,8 +285,11 @@ sincronizar" sem ter rodado a comparação: o resultado é sempre a tabela do pa
 3. **Comparar** — "entrou" e "saiu" só quando a iteração real não é a esperada:
    - da sprint, na listagem → estado e dono ([Soluções propostas](#soluções-propostas)), pelo papel, não por tarefa:
      na linha com duas tarefas do mesmo papel (a trazida por fora, `DEV 669401 · DEV 670210`), o estado é o das
-     abertas (concluída só quando todas fecharam) e o dono comparado é o das abertas; abertas com donos diferentes →
-     uma linha `dono`, com `manter: o P.O. decide quem segue`;
+     abertas (concluída só quando todas fecharam), o dono comparado é o das abertas e a estimativa comparada é a soma
+     das abertas do papel (Horas, Horas previstas e `**Estimativa:**` recebem a soma); abertas com donos diferentes →
+     uma linha `dono`, com `manter: o P.O. decide quem segue`; decidido, o arquivo recebe esse dono pela regra do
+     dono, e a tarefa do outro é dele, que a conclui na sessão dele com as horas já lançadas (a linha volta até ela
+     fechar);
    - da sprint, fora da listagem → `elm_ler_wi(id, comentarios 0)`: **aberto** noutra iteração → saiu — salvo na linha
      com `migrada de <chave>` cujo id aberto está na iteração de uma sprint da cadeia (`<chave>`, a de onde ela migrou
      antes, e assim por diante, pelos `migrada de` dos arquivos fechados): a virada não moveu, e a linha é `EWM: mover
@@ -441,11 +447,11 @@ referência: no GATE do plano ele é o aprovador.
 | só uma tarefa aberta saiu (na Especificação, também só o IB do épico), com o item na sprint | EWM: volta | — |
 | fechado e fora da listagem | não é divergência: fica onde fechou | — |
 | sumiu (`nao_encontrado`) | manter: confira na UI do EWM | — |
-| entrou: fatia `elegivel` fora da sprint (o IB, tarefas dela, ou os dois) | encaixe (P.O., Encaixe da `sdd-planejamento`; a tarefa que já existe é a do papel, e o IB e as tarefas que faltam vêm para a sprint) — recusado, EWM: tudo volta ao backlog | EWM: volta ao backlog |
+| entrou: fatia `elegivel` fora da sprint (o IB, tarefas dela, ou os dois) | encaixe (P.O., Encaixe da `sdd-planejamento`; a tarefa que já existe é a do papel — duas do mesmo papel: a trazida; a do backlog vira `ELM pendente [<tipo> <id> cancelar]` no rodapé da ficha —, e o IB e as tarefas que faltam vêm para a sprint) — recusado, EWM: tudo volta ao backlog | EWM: volta ao backlog |
 | entrou: fatia `nova` | a DoR primeiro, como na Previsão: passa → `elegivel` e encaixe, como acima; não passa → EWM: volta ao backlog, com o `falta:` na `obs` | — |
 | entrou: épico `novo` ou `elegivel`, com a `[ESP]` | arquivo (P.O.): Especificação `planejada` e épico `planejado`, com `encaixe: trazida do EWM (<P.O.>, <data>)`; Responsável e Horas previstas pelo dono e pela estimativa da `[ESP]` · EWM: o IB do épico → sprint (o `novo` passa antes pela DoR do épico; não passa → EWM: volta ao backlog) | EWM: volta ao backlog |
 | entrou: épico `novo` ou `elegivel`, só o IB | EWM: volta ao backlog (a especificação entra pelo planejamento, que dá o responsável e as horas) | — |
-| entrou: item de Sustentação `aberto` (o IB, a tarefa, ou os dois) | arquivo: entra na sprint (linha nova), com a situação pelo estado da tarefa (Novo → `aberto`, Em Andamento → `em-andamento`, concluída → `concluido`, com `concluida-em` = a data da sincronização e a Observação `concluído no EWM`, como na linha "tarefa concluída") no backlog, na linha e no `**Situação:**` da ficha, e `trazida do EWM`; a tarefa que já existe é a dele — o arquivo recebe o dono e a estimativa dela (`responsavel`, Responsável, Horas e `**Estimativa:**`), e o EWM não muda o dono nem as horas dela —, e só sem ela a tarefa nasce (§6), com o `responsavel` e a `**Estimativa:**` da ficha, ou os que a pessoa der na linha · EWM: o IB e a tarefa → sprint, e, com a tarefa concluída, concluir o IB (reserva estourada → o item fica, e o P.O. decide pelo Encaixe se uma fatia sai) | EWM: volta ao backlog |
+| entrou: item de Sustentação `aberto` (o IB, a tarefa, ou os dois) | arquivo: entra na sprint (linha nova), com a situação pelo estado da tarefa (Novo → `aberto`, Em Andamento → `em-andamento`, concluída → `concluido`, com `concluida-em` = a data da sincronização e a Observação `concluído no EWM`, como na linha "tarefa concluída") no backlog, na linha e no `**Situação:**` da ficha, e `trazida do EWM`; a tarefa que já existe é a dele — o arquivo recebe o dono e a estimativa dela (`responsavel`, Responsável, `**Responsável:**` da ficha, Horas e `**Estimativa:**`), e o EWM não muda o dono nem as horas dela; sem dono ou sem estimativa no EWM, vale o do arquivo (EWM: dono = o `responsavel`, estimativa = a `**Estimativa:**` da ficha, como na **Tarefa sem dono**) —, e só sem ela a tarefa nasce (§6), com o `responsavel` e a `**Estimativa:**` da ficha, ou os que a pessoa der na linha · EWM: o IB e a tarefa → sprint, e, com a tarefa concluída, concluir o IB (reserva estourada → o item fica, e o P.O. decide pelo Encaixe se uma fatia sai) | EWM: volta ao backlog |
 | entrou: item terminal | EWM: volta para a iteração esperada | — |
 | entrou: IB de estrutura (`Sustentação`, `Manutenção`, categoria) | EWM: volta ao backlog | — |
 
@@ -475,21 +481,22 @@ dele (passo 3). Título: renomear (padrão do sdd) · só incluir o prefixo · m
   e a linha nasce `iniciada`), com `encaixe: trazida do EWM (<quem>, <data>)`, Responsável e Horas previstas pelo dono
   e pela estimativa dela, e o IB do épico vem para a sprint; o P.O. confirma. Fatia ou épico fora do `backlog.md` →
   `triar` (`sdd-triar`, "importar do EWM") para o IB;
-- **Sustentação** → tarefa de um item (pai IB `[AT-012]`) → o id vai para o `elm` dele e para a "Tarefa ELM" da linha
-  viva dele na sprint; sem linha viva, o item entra na sprint (linha nova) como em "entrou: item de Sustentação"
-  (acima), com o IB movido junto. Senão, a linha da `### <Categoria>` do `backlog.md` com `elm` `pendente` que seja o
-  mesmo pedido (triado sem o MCP e aberto à mão no EWM) → proponha ligar (sem id nem ficha novos; se o item está na
-  sprint com a publicação pendente, na mesma linha dela: a publicação cria só o IB, e a tarefa por fora é a dele,
-  sem tarefa nova). Nenhuma → a tarefa **vira item**: registre pelas
-  regras da Sustentação da [`sdd-triar`](../../sdd-triar/SKILL.md#passo-3--registrar-na-base) (categoria confirmada,
-  próximo id da série, duplicado pelo `**Origem:**` das fichas de `sustentacao/**`), com `origem` `EWM <id>`, `sprint`
-  = a desta, `responsavel` = o dono no EWM e o `status` pelo estado (Novo → `aberto`, Em Andamento → `em-andamento`,
-  concluída → `concluido` com `concluida-em`); a ficha leva o título e a descrição do EWM (sem dado de cliente),
-  `**Estimativa:**` a da tarefa (ou `—`) e `falta: prazo, critério de pronto` no que o EWM não traz. Ligado ou novo, o
-  item sem IB ganha o IB `[XX-nnn] <pedido>` (§6; a `### <Categoria>` nasce se for a primeira) e a tarefa passa a
-  filha dele — com a tarefa concluída, o IB conclui na mesma linha; linha na `## Sustentação` do `sprint-<nn>.md` com
-  `trazida do EWM`. Reserva estourada → o item fica na sprint e o P.O. decide pelo Encaixe
-  ([Durante a sprint](../SKILL.md#durante-a-sprint));
+- **Sustentação** → pai IB ou defeito fora do `backlog.md` (também com o prefixo no título) → vai na linha `triar`
+  dele, sem item novo (pistas, acima). Tarefa de um item (pai IB `[AT-012]`) → o id vai para o `elm` dele e para a
+  "Tarefa ELM" da linha viva dele na sprint; sem linha viva, o item entra na sprint (linha nova) como em "entrou: item
+  de Sustentação" (acima), com o IB movido junto. Senão, a linha da `### <Categoria>` do `backlog.md` com `elm`
+  `pendente` que seja o mesmo pedido (triado sem o MCP e aberto à mão no EWM) → proponha ligar (sem id nem ficha
+  novos; se o item está na sprint com a publicação pendente, na mesma linha dela: a publicação cria só o IB, e a
+  tarefa por fora é a dele, sem tarefa nova). Nenhuma → a tarefa **vira item**: registre pelas regras da Sustentação
+  da [`sdd-triar`](../../sdd-triar/SKILL.md#passo-3--registrar-na-base) (categoria confirmada, próximo id da série,
+  duplicado pelo `**Origem:**` das fichas de `sustentacao/**`), com `origem` `EWM <id>`, `sprint` = a desta,
+  `responsavel` = o dono no EWM e o `status` pelo estado (Novo → `aberto`, Em Andamento → `em-andamento`, concluída →
+  `concluido` com `concluida-em`); a ficha leva o título e a descrição do EWM (sem dado de cliente), `**Estimativa:**`
+  a da tarefa (ou `—`) e `falta: prazo, critério de pronto` no que o EWM não traz. Ligado ou novo, o item sem IB ganha
+  o IB `[XX-nnn] <pedido>` (§6; a `### <Categoria>` nasce se for a primeira) e a tarefa passa a filha dele — com a
+  tarefa concluída, o IB conclui na mesma linha; linha na `## Sustentação` do `sprint-<nn>.md` com `trazida do EWM`.
+  Reserva estourada → o item fica na sprint e o P.O. decide pelo Encaixe ([Durante a
+  sprint](../SKILL.md#durante-a-sprint));
 - **IB ou defeito** fora do `backlog.md` → `triar` (`sdd-triar`, "importar do EWM"); outra: `EWM: volta ao backlog`;
 - **EWM:** `elm_atualizar_wi(id, titulo)` pela escolha da linha; sem pai → `pai` = o IB da fatia ou o épico; na
   Sustentação, o IB do item (também quando o pai era a `Sustentação` ou o IB da categoria) — todo trabalho tem pai.

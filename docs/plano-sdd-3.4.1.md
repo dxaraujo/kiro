@@ -418,3 +418,36 @@ citam, sem mudança no texto deles.
   existem em `mcps/elm/mcp_elm/server.py`, o agente de produto com cada uma, e a tarefa que move em vez de nascer).
 - **Piloto:** a sprint de ensaio com os casos (b), (d), (l) e a linha "tarefa concluída" da Sustentação feitos de
   verdade no EWM.
+
+## 8. Decisões tomadas na execução
+
+A execução passou por uma conferência por grupo de arquivos, uma revisão em três ângulos com três ensaios de mesa
+(cada par conferido por um cético: 23 achados confirmados) e uma conferência focada das correções (12 confirmados).
+Lacunas que o plano não fechava, resolvidas assim:
+
+| Lacuna | Decisão |
+|---|---|
+| Painel com a listagem no teto | `🔄 EWM: não conferido (listagem no teto de 1000 itens)` (decisão 20 no painel) |
+| Painel e item que entrou | estado e dono só dos ids da sprint; a entrada conta uma vez por item, com os ids dele |
+| Pendência de cancelamento na puxada | no Histórico do `status.md` (a fatia já está `iniciada`); no loop, entra no `status.md` quando ele nasce (Passo 2) |
+| Épico puxado pela `sdd-especificar` | o IB vai para a sprint (só `iteracao`), com a `[ESP]` que ficou no backlog (dono = quem assume) |
+| Prévia do loop | lista mover ou criar o IB e a `[DEV]` da puxada |
+| Marcador consumido com pai novo | o §1 roda junto com o §2 (a `[GB]` do pai novo nasce); com linha `migrada de` ou sem ids, indique "sincroniza a sprint" |
+| Marcador nas leituras | a regra 6 do `elm.md` vale também para leitura; a "minha próxima tarefa" lê a sprint pelos arquivos |
+| Iteração que cobre duas sprints | o movimento não muda nada, mas o §1, o §3–4, o §6 e o §9 da próxima rodam |
+| Linha viva | também na por fora, na publicação pendente e no §4 |
+| Duas tarefas do mesmo papel na linha | compara pelo papel (estado e dono das abertas, estimativa somada); donos diferentes → `manter`, o P.O. decide, e a do outro fecha na sessão dele |
+| Sustentação que saiu da iteração | o estado da tarefa decide: em andamento → volta; concluída ou descartada → só a linha de estado |
+| Estados do fluxo de defeito | `Reaberto` é nova; `Verificado` é concluída |
+| Épico que entra com a `[ESP]` | é linha de escopo (P.O.); DoR que não passa → volta ao backlog |
+| Entrada do item de Sustentação | grava a ficha (`**Situação:**`, `**Responsável:**`), `concluida-em` e a Observação; recebe o dono e a estimativa da tarefa (sem eles no EWM, vale o do arquivo) |
+| Falha no movimento | vale para toda linha que entra ou sai: o lado do arquivo não é gravado |
+| Tarefa sem dono no EWM | em qualquer tabela, `EWM: dono = o do arquivo` |
+| `[GB]` noutra iteração | `EWM: mover para esta sprint` |
+| Tarefa por fora sob IB ou defeito fora do `backlog.md` | vai na linha `triar` dele, sem item novo; a triagem usa a tarefa que já está sob ele |
+| Encaixe com duas tarefas do mesmo papel | a trazida pelo EWM é a do papel; a do backlog vira `ELM pendente [<tipo> <id> cancelar]` |
+| Descrição das skills | até 1024 caracteres (ajuste do autor em `sdd-desenvolver` e `sdd-triar`); nova conferência mecânica: `uv run --with pyyaml python -c "import glob,yaml; [print(p) for p in glob.glob('powers/sdd/skills/*/SKILL.md') if len(yaml.safe_load(open(p).read().split('---')[1])['description'])>1024]"` (não acha nada) |
+
+Ficaram como estão, por decisão: a tarefa por fora cujo pai é um item que entrou conta duas vezes no painel (a
+listagem não traz o pai); a `[ESP]` puxada nasce com Horas previstas `—`, e a sincronização seguinte propõe a
+estimativa do EWM; e o piloto da seção 7 continua a fazer.

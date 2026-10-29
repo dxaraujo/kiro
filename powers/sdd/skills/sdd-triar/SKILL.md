@@ -158,7 +158,8 @@ Grava-se na base, conferida no Passo 1. Ids do EWM na coluna `elm` com o tipo an
   - EWM (com ELM, com "sim"): [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §6 — o IB do item,
     `[<ID>] <pedido>` (dono = o P.O.), filho do IB da categoria; se o item já entra na sprint, na iteração dela e com
     a tarefa `<prefixo> <ID> <pedido>` (dono = quem faz); senão, só o IB, no backlog (a tarefa nasce quando o item
-    entrar numa sprint). Veio de um IB ou DF do EWM → ele é o IB do item (sem IB novo): sem pai, sob o IB da
+    entrar numa sprint). Veio de um IB ou DF do EWM → ele é o IB do item (sem IB novo), e a tarefa que já está sob ele
+    (`elm_listar_wi(pai = <id>)`) é a do item, sem tarefa nova: sem pai, sob o IB da
     categoria (outro pai: mantenha e avise), e o título ganha o `[<ID>]` pelas opções do §9 (renomear · só incluir o
     prefixo · manter). Primeiro item da categoria → o IB `<Categoria>` nasce junto, na mesma confirmação, e o id dele
     abre a `### <Categoria>` (§6; §2 antes, se faltar a Sustentação). Sem o MCP `elm` → `pendente` (veio do EWM: o

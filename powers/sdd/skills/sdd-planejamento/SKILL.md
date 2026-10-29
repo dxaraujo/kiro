@@ -180,7 +180,8 @@ tarefa por fora, divergência ou id `a conferir`) — compara a sprint com a ite
 ([references/elm-sprint.md](references/elm-sprint.md) §9): o que nasceu **por fora** — tarefa criada direto no EWM
 (Sustentação, ou uma `[DEV]`/`[ESP]` aberta à mão quando a sessão do agente parou) entra na sprint com o mesmo id: o
 sdd infere o que ela é e propõe o tipo e o título (renomear, só incluir o prefixo ou manter o título); a de
-Sustentação sem item vira item, com o IB dele acima dela — e **o que mudou no EWM** nos itens que os arquivos já
+Sustentação sem item vira item, com o IB dele acima dela (a que tem por pai um IB ou defeito fora do `backlog.md` vai
+com ele para a triagem) — e **o que mudou no EWM** nos itens que os arquivos já
 conhecem (estado, iteração, dono, estimativa). Mostra **uma tabela** com todas as divergências e as por fora, cada
 linha com a solução proposta: "ok" aplica tudo como proposto, ou a pessoa ajusta uma ou mais linhas (`<n>: arquivo`,
 `<n>: EWM`, `<n>: manter`; na por fora, o tipo e o título). A situação da fatia e do épico nunca muda pelo estado do
@@ -210,17 +211,18 @@ Com a decisão do P.O. (ou de quem ele delegou): `status` `planejada`, `sprint`,
 [senioridade](#modo-pela-senioridade) no `backlog.md` (e, na fatia HITL, revisor — Dev Sênior, pela [regra do
 revisor](#modo-pela-senioridade) — e verificador, que não seja quem implementa — as `[REV]`/`[VER]` precisam deles),
 uma linha `planejada` no `sprint-<nn>.md` com a Observação `encaixe: <decisão> (<quem decidiu>, <data>)` (item de
-Sustentação: a `sprint` e a linha `aberto` na `### <Categoria>`, que nasce se for a primeira), pelo bloco
-[Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base), e no EWM o IB da fatia passa do backlog para a
-iteração da sprint (só `iteracao`), cada tarefa que já existe (a que ficou no backlog do EWM quando a fatia saiu de
-uma sprint sem começar, ou a que o EWM trouxe) move na chamada dela, com o dono e a estimativa do papel, e só nasce
-o papel que falta ([references/elm-sprint.md](references/elm-sprint.md), topo e §3–4; item de Sustentação: o IB dele
-muda de iteração e a tarefa move ou nasce, §6). Na troca, a fatia que sai fica `elegivel` com
+Sustentação: a `sprint` e a linha `aberto` na `### <Categoria>`, que nasce se for a primeira), pelo bloco [Gravar na
+base](../sdd-fatiar/references/backlog.md#gravar-na-base), e no EWM o IB da fatia passa do backlog para a iteração da
+sprint (só `iteracao`), cada tarefa que já existe (a que ficou no backlog do EWM quando a fatia saiu de uma sprint sem
+começar, ou a que o EWM trouxe) move na chamada dela, com o dono e a estimativa do papel — uma por papel: com duas, a
+que o EWM trouxe é a dele, e a que ficou no backlog não move e vira `ELM pendente [<tipo> <id> cancelar]` no rodapé da
+ficha —, e só nasce o papel que falta ([references/elm-sprint.md](references/elm-sprint.md), topo e §3–4; item de
+Sustentação: o IB dele muda de iteração e a tarefa move ou nasce, §6). Na troca, a fatia que sai fica `elegivel` com
 `sprint` `—` no `backlog.md`, e a linha dela no `sprint-<nn>.md` recebe Status `elegivel` e a Observação
 `saiu da sprint: encaixe de <FT> (<quem>, <data>)`; o IB dela e as tarefas voltam ao backlog do EWM
-(`elm_atualizar_wi(ids, iteracao = backlog)`; [references/elm-sprint.md](references/elm-sprint.md) §3) e ficam lá
-até ela voltar a uma sprint, quando movem. Depois, volte à `sdd-desenvolver` (Passo 3, item 4) ou à sincronização
-(a próxima linha `encaixe`). Sem decisão, a fatia não começa; urgência acelera a decisão, não a dispensa.
+(`elm_atualizar_wi(ids, iteracao = backlog)`; [references/elm-sprint.md](references/elm-sprint.md) §3) e ficam lá até
+ela voltar a uma sprint, quando movem. Depois, volte à `sdd-desenvolver` (Passo 3, item 4) ou à sincronização (a
+próxima linha `encaixe`). Sem decisão, a fatia não começa; urgência acelera a decisão, não a dispensa.
 
 ## Troca de modo (AFK → HITL)
 

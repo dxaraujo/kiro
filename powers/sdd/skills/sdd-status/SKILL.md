@@ -56,11 +56,12 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
    fora), conte, sem gravar nada:
    - **por fora** — id da listagem que nenhum arquivo cita, de `tipo` do `pa` (o de outro tipo só conta nos itens da
      listagem);
-   - **divergências** — pelas tabelas do §9 (Soluções propostas), o que a listagem sozinha mostra: o estado e o dono
-     dos ids da sprint que estão nela (do IB de épico citado no `backlog.md`, só o estado) e a **entrada** (id
-     conhecido que está na listagem e era esperado no backlog ou na iteração de outra sprint, uma por item, com os
-     ids dele que estão nela; a iteração que cobre duas sprints não é entrada). A estimativa fica para a
-     sincronização: a listagem não a traz;
+   - **divergências** — pelas tabelas do §9 (Soluções propostas) e pelo papel, como no §9, passo 3 (na linha com duas
+     tarefas do mesmo papel, o estado e o dono das abertas), o que a listagem sozinha mostra: o estado e o dono dos
+     ids da sprint que estão nela (do IB de épico citado no `backlog.md`, só o estado) e a **entrada** (id conhecido
+     que está na listagem e era esperado no backlog ou na iteração de outra sprint, uma por item, com os ids dele que
+     estão nela; a iteração que cobre duas sprints não é entrada). A estimativa fica para a sincronização: a listagem
+     não a traz;
    - **a conferir** — id do conjunto "da sprint" ausente da listagem, quando a linha dele não tem `migrada de` (o da
      linha migrada é, em geral, tarefa que fechou na sprint anterior e ficou lá: fica para a sincronização);
    - **fora de toda contagem** — o que o §9, passo 2, deixa fora da comparação: as pendências registradas (itens 2

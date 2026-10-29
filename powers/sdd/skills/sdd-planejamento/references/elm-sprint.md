@@ -18,7 +18,9 @@ movem só com `iteracao`, na chamada única do §3 (o dono do IB segue o P.O.). 
 conferido com `elm_listar_wi(pai = IB)` — não pelo prefixo do título, que a pessoa pode ter mantido; a tarefa
 descartada e a que tem pendência de cancelamento aberta não contam (o papel nasce de novo, e a velha segue com a
 pendência). O papel que o novo modo não tem (a fatia HITL que volta AFK, pela senioridade do novo responsável) não
-move: vira `ELM pendente [<tipo> <id> cancelar]` no rodapé da ficha, e a sincronização não o compara mais (§9).
+move: vira `ELM pendente [<tipo> <id> cancelar]` onde a fatia guarda as pendências (`elm.md`, Pendências: o
+rodapé da ficha; na puxada, que já gravou `iniciada`, o Histórico do `status.md`), e a sincronização não o compara
+mais (§9).
 
 ## Estrutura no EWM (padrão)
 
@@ -175,8 +177,8 @@ o IB dele muda de iteração (sem `elm` → nasce antes) e a tarefa nasce (§6).
 **Ordem**, em toda virada: o §9 da sprint que fecha é o da pré-condição dos ritos (antes da migração nos arquivos;
 este § não roda outro, que veria os itens já migrados) → a migração nos arquivos (passo 3 da virada) → o
 replanejamento da próxima (passo 4: o arquivo dela nasce com `**Publicação no EWM:** pendente`, §1) → o §1 da
-próxima, também com o mesmo pai (próxima em outro pai, `2026/Sprint 04` → `2027/Sprint 01`: o §2 antes, com a `[GB]`
-do pai novo) → o **movimento** → o §3–4 e o §6 das linhas novas → o §9 da próxima. Antes do movimento, os itens
+próxima, também com o mesmo pai (próxima em outro pai, `2026/Sprint 04` → `2027/Sprint 01`: também o §2, com a
+`[GB]` do pai novo) → o **movimento** → o §3–4 e o §6 das linhas novas → o §9 da próxima. Antes do movimento, os itens
 migrados ainda estão na iteração que fecha, e o §9 da próxima os veria sair.
 
 **Movimento:** `elm_atualizar_wi(ids, iteracao = a nova)` numa chamada (move, nunca recria; o pai não muda), com os

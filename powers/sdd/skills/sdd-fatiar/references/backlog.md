@@ -100,10 +100,11 @@ mesmo commit** nos dois arquivos.
   ([status-template.md](../../sdd-desenvolver/references/status-template.md)); `pronta` e `concluida` só existem no
   `status.md` da base (regra A base prevalece do `status-template.md`).
 - **Volta.** A DoR que deixou de valer (PRD reaberto, ficha devolvida, decisão em aberto) rebaixa a `nova` só a fatia
-  `elegivel` ou `planejada`. A `planejada` que sai da sprint (DoR perdida ou troca do Encaixe) fica `nova` ou
-  `elegivel`, com `sprint` `—`, e a linha dela na sprint recebe a mesma situação e `saiu da sprint: <motivo>
-  (<quem>, <data>)`; no EWM, o IB e as tarefas voltam ao backlog
-  ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §3, "Item que sai da sprint sem ter começado").
+  `elegivel` ou `planejada`. A `planejada` que sai da sprint (DoR perdida, troca do Encaixe ou movida no EWM e
+  aceita pelo P.O. na sincronização, [elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §9) fica
+  `nova` ou `elegivel`, com `sprint` `—`, e a linha dela na sprint recebe a mesma situação e `saiu da sprint:
+  <motivo> (<quem>, <data>)`; no EWM, o IB e as tarefas voltam ao backlog e ficam lá até ela voltar a uma sprint,
+  quando movem (elm-sprint.md, topo e §3).
   De `iniciada` em diante nada volta: a fatia para em `bloqueada (de: <fase>)` no `status.md`, com o motivo, até o
   P.O. decidir. Juntar só entre fatias não iniciadas (a absorvida: `cancelada` com `substituida-por`).
 - **Dividida ou cancelada depois de `iniciada`:** a `sdd-fatiar` (ou a `sdd-triar`, na de Manutenção) conclui as
@@ -121,7 +122,7 @@ mesmo commit** nos dois arquivos.
 | Épico | Especificação | Quando | Quem grava |
 |---|---|---|---|
 | `novo` | — | triado; sem informação para o PRD, a pasta antecipada guarda o `rascunho.md` | `sdd-triar` |
-| `elegivel` | — | passou na DoR do épico ([uma só](#definition-of-ready-o-que-faz-uma-fatia-elegivel): o problema, quem pede, o resultado e o `po`) | `sdd-triar` · `sdd-planejamento` |
+| `elegivel` | — (a linha que saiu da sprint: `elegivel`, com `saiu da sprint`) | passou na DoR do épico ([uma só](#definition-of-ready-o-que-faz-uma-fatia-elegivel): o problema, quem pede, o resultado e o `po`); ou `planejado` cuja `[ESP]` saiu da sprint sem começar (movida no EWM e aceita pelo P.O. na sincronização, §9 do `elm-sprint.md`; ela fica no backlog do EWM até voltar) | `sdd-triar` · `sdd-planejamento` |
 | `planejado` (+ `sprint`) | `planejada` | `[ESP]` planejada | `sdd-planejamento` |
 | `iniciado` | `iniciada` | `[ESP]` assumida: só a situação vai à base; épico não planejado → + `sprint` (a aberta), e a linha nasce nela com a Observação `puxada` | `sdd-especificar` Passo 2 |
 | `iniciado` | `concluida` (+ Créditos) | GATE do backlog: a `[ESP]` conclui; o épico segue com as fatias | `sdd-especificar` Passo 6 |
@@ -142,10 +143,10 @@ mesmo commit** nos dois arquivos.
 
 | Situação | Quando | Quem grava |
 |---|---|---|
-| `aberto` | triado (na sprint ou fora dela: `sprint` `—`) | `sdd-triar` · `sdd-planejamento` ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §9) |
-| `em-andamento` | tarefa assumida — antes, cria o IB e a tarefa que faltarem; commit `<ID> iniciar` (concluído na mesma sessão → um commit só) | `sdd-atender` · `sdd-executar` · `sdd-planejamento` (§9: tarefa trazida do EWM já nesse estado) |
-| `concluido` | tarefa e IB do item concluídos (+ `concluida-em` no backlog; Créditos na sprint e, na virada, no backlog) | `sdd-atender` · `sdd-executar` · `sdd-planejamento` (§9: tarefa trazida do EWM já nesse estado) |
-| `cancelado` | correção do registro; cancelar o IB e a tarefa é na UI do EWM (`ELM pendente [<ID> cancelar]` no campo `**ELM:**` do registro: o MCP não cancela) | `sdd-triar` |
+| `aberto` | triado (na sprint ou fora dela: `sprint` `—`); o item `aberto` que sai da sprint (movido no EWM e aceito pelo P.O. na sincronização) segue `aberto`, com `sprint` `—` e a linha da sprint com `saiu da sprint` | `sdd-triar` · `sdd-planejamento` ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §9) |
+| `em-andamento` | tarefa assumida — antes, cria o IB e a tarefa que faltarem; commit `<ID> iniciar` (concluído na mesma sessão → um commit só) | `sdd-atender` · `sdd-executar` · `sdd-planejamento` (§9: tarefa trazida do EWM já nesse estado, ou a conhecida que entrou em andamento no EWM) |
+| `concluido` | tarefa e IB do item concluídos (+ `concluida-em` no backlog; Créditos na sprint e, na virada, no backlog) | `sdd-atender` · `sdd-executar` · `sdd-planejamento` (§9: tarefa trazida do EWM já nesse estado, ou a conhecida concluída no EWM — `concluida-em` = a data da sincronização, Observação `concluído no EWM`) |
+| `cancelado` | correção do registro; cancelar o IB e a tarefa é na UI do EWM (`ELM pendente [<ID> cancelar]` no campo `**ELM:**` do registro: o MCP não cancela) | `sdd-triar` · `sdd-planejamento` (§9: tarefa descartada no EWM, Observação `cancelado no EWM`) |
 
 ## Quem escreve o quê
 
@@ -156,11 +157,11 @@ mesmo commit** nos dois arquivos.
 | épico `prd` e `pasta` (se estava `—`), no GATE do PRD | `sdd-especificar` |
 | fatias de épico criadas (`origem` `EP-nn`, `prioridade` do épico), divididas, juntadas, canceladas; as fichas delas | `sdd-fatiar` |
 | fatia de Manutenção (`trilha`, ficha, `obs` `falta:` e `vinculada a`), dividida ou cancelada | `sdd-triar` |
-| `sprint`, `responsavel`, `modo` final (pela senioridade), `prioridade` e a ordem das linhas · encaixe durante a sprint · `sprint` dos itens que migram na virada | `sdd-planejamento` |
+| `sprint`, `responsavel`, `modo` final (pela senioridade), `prioridade` e a ordem das linhas · encaixe durante a sprint · `sprint` dos itens que migram na virada · na sincronização com o EWM, a saída e a entrada aceitas pelo P.O. e o `responsavel` pelo dono da tarefa (§9 do `elm-sprint.md`) | `sdd-planejamento` |
 | `responsavel` (se `—`) da fatia que inicia e `sprint` da puxada | `sdd-desenvolver` Passo 4 (no loop, o orquestrador) |
 | `sprint` do épico não planejado, ao assumir a `[ESP]` | `sdd-especificar` Passo 2 |
 | item de Sustentação registrado (id da série, `origem`, `sprint`, `responsavel`, `registro`) e a `### <Categoria>` do primeiro | `sdd-triar`; tarefa trazida do EWM: `sdd-planejamento` (§9 do `elm-sprint.md`) |
-| `concluida-em` | `sdd-consolidar` (fatia) · `sdd-atender`/`sdd-executar` (item de Sustentação) · `sdd-planejamento` (§9: tarefa trazida do EWM já concluída) |
+| `concluida-em` | `sdd-consolidar` (fatia) · `sdd-atender`/`sdd-executar` (item de Sustentação) · `sdd-planejamento` (§9: tarefa trazida do EWM já concluída, ou a conhecida concluída no EWM) |
 | `creditos` | a virada da sprint (`sdd-planejamento`) |
 | linhas da `## Sustentação` e da `### <Categoria>` | IB `Sustentação`: a setup ou a `sdd-triar`; `GB`: a publicação da sprint (inclusive a do pai novo); IB `Manutenção` e IB da categoria: quem cria no EWM o primeiro item deles ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §2, §3, §6) |
 | `elm` (ids e urls) | `sdd-triar` (épico, fatia de Manutenção, IB do item de Sustentação), `sdd-fatiar` (IB das fatias de épico), a publicação da sprint e o Encaixe (tarefas e o que estava `pendente` ou sem link), o espelhamento do §0 (o que estava `pendente` ou sem link), `sdd-consolidar` (item e tarefas do campo ELM do `status.md`), `sdd-atender`/`sdd-executar` (IB e tarefa que faltarem, ao assumir) ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §2–6) |
@@ -193,6 +194,11 @@ merge. As skills citam este bloco em vez de repetir:
 4. **Publicar:** push direto na base, com o "sim" da pessoa (agente sem push → entregue o comando pronto).
    Conflito de id no push → a regra de conflito abaixo.
 5. Ao terminar, ofereça voltar à branch anterior.
+
+**Linha viva.** O item que volta à sprint de onde saiu (puxada, Encaixe, sincronização com o EWM, `sdd-especificar`)
+ganha linha nova no `sprint-<nn>.md`; com duas linhas do mesmo id na sprint aberta, a **viva** — a que se lê e se
+escreve (Status ou Situação, Tarefa ELM, Responsável, Créditos) — é a sem `saiu da sprint`. A com `saiu da sprint` é
+histórico: nunca é editada e não migra na virada. O item que só tem essa linha na sprint está fora dela.
 
 **Pelo Dev** (o agente do Dev e o orquestrador do loop gravam só os registros de situação — `iniciada`, `pronta` — e o
 `status.md` da fatia na base; quem desenvolve tem push na base, requisito do sdd), o bloco muda assim:

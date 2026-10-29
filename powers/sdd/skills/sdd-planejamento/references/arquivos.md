@@ -133,6 +133,7 @@ de início do cabeçalho (o nome do pai é livre e não ordena) — a do `histor
 **Power sdd:** <versões usadas, crescente: 2.9.0 · 2.9.1>   (o planejamento grava a da abertura; a virada acrescenta as das linhas de créditos)
 **Situação:** <aberta | fechada>   (a virada grava `fechada`; o painel usa a última `aberta`)
 **Fechamento sem consolidar:** <FT-… (<P.O.>, <data>)>   (só quando o P.O. decide fechar com fatia de PR mergeado sem consolidação)
+**Publicação no EWM:** pendente   (só enquanto o §1 do [elm-sprint.md](elm-sprint.md) não rodou: planejamento sem o MCP ou com falha, ou a próxima, gravada no passo 4 da virada; a publicação a tira)
 
 ## Fatias
 
@@ -207,16 +208,22 @@ quem causa a transição, no mesmo commit do `backlog.md` — listas fechadas e 
 `concluida` (a linha nasce `planejada`; a puxada, `iniciada`; a que sai da sprint fica `nova` ou `elegivel`, com
 `saiu da sprint`; desvios `dividida`, `cancelada`); o detalhe da `iniciada` é a fase do `status.md`. Especificação:
 `planejada` → `iniciada` → `concluida` · `cancelada` (a do épico assumido sem ter sido planejado nasce `iniciada`,
-pela `sdd-especificar`, com Horas previstas `—`, Tarefa ELM `ESP <id>` ou `pendente` e a Observação `puxada`).
-Sustentação: `aberto` → `em-andamento` → `concluido` · `cancelado`. A linha migrada guarda a última situação.
+pela `sdd-especificar`, com Horas previstas `—`, Tarefa ELM `ESP <id>` ou `pendente` e a Observação `puxada`; a que
+sai da sprint fica `elegivel`, com `saiu da sprint`). Sustentação: `aberto` → `em-andamento` → `concluido` ·
+`cancelado` (a que sai da sprint fica `aberto`, com `saiu da sprint`). A linha migrada guarda a última situação.
+**O item que volta** à sprint de onde saiu ganha linha nova; a com `saiu da sprint` fica como histórico — nunca é
+editada e não migra na virada —, e a **viva**, que se lê e se escreve, é a sem ela
+([Gravar na base](../../sdd-fatiar/references/backlog.md#gravar-na-base)).
 
 "Tarefa ELM": as tarefas do item no EWM, com o tipo antes de cada id — nas fatias `DEV <id> · REV <id> · VER <id>`,
 mais `APR <id>` das aprovações criadas no gate (AFK, a `DEV` e as `APR`); `ESP <id>`; `ATD <id>`, `IMPL <id>`… —,
 ou `pendente`, gravada na publicação da sprint ([elm-sprint.md](elm-sprint.md) §4; e pela `sdd-consolidar` na
-fatia puxada). Observação: `puxada`, `revisor único`, `encaixe: <decisão> (<quem>, <data>)`,
-`modo: AFK → HITL (<quem>, <data>, <motivo>)`, `modo: AFK mantido (<quem>, <data>)`, `migrada para <chave>`,
-`migrada de <chave>`, `saiu da sprint: <motivo> (<quem>, <data>)`, `trazida do EWM`, `não consolidada` ou texto
-livre.
+fatia puxada). Observação: `puxada`, `revisor único`, `encaixe: <decisão> (<quem>, <data>)` (a fatia que entrou pelo
+EWM: `encaixe: trazida do EWM — <decisão> (<quem>, <data>)`), `modo: AFK → HITL (<quem>, <data>, <motivo>)`,
+`modo: AFK mantido (<quem>, <data>)`, `migrada para <chave>`, `migrada de <chave>`, `saiu da sprint: <motivo> (<quem>,
+<data>)` (movida no EWM: `saiu da sprint: movida no EWM para <iteração> (<P.O.>, <data>)`), `trazida do EWM`,
+`concluído no EWM`, `cancelado no EWM` (Sustentação: a tarefa fechou ou foi descartada direto no EWM, [elm-sprint.md](elm-sprint.md)
+§9), `não consolidada` ou texto livre.
 
 Créditos (do Kiro): nas Fatias, Especificação e Sustentação, a soma das linhas de créditos do item, gravada na
 conclusão dele (`sdd-consolidar`, `sdd-especificar`, `sdd-atender`, `sdd-executar`), `—` antes; em Créditos de gestão, uma linha por

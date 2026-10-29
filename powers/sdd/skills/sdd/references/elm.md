@@ -16,7 +16,7 @@ Toda tool devolve `{"ok":true,"dados":{…}}` ou `{"ok":false,"erro":{"codigo","
 | conferir conexão e `pa` | `elm_status` |
 | ler · listar work items | `elm_ler_wi(id)` · `elm_listar_wi(iteracao, dono, tipo, pai, titulo_prefixo, estado)` |
 | criar · atualizar (pai, iteração, campos; vários ids = virada) | `elm_criar_wi` · `elm_atualizar_wi` |
-| assumir · concluir · reabrir | `elm_transicao(id, alvo)` |
+| assumir · concluir · reabrir · cancelar | `elm_transicao(id, alvo)` |
 | comentar · anexos | `elm_comentar` · `elm_anexo(acao)` |
 | horas lançadas · relatório da iteração · lançar · remover (lançamento errado) | `elm_horas(id)` · `elm_horas(iteracao)` · `elm_lancar_horas` · `elm_remover_horas(id, data)` |
 | ligar (implementa, rastreia, afeta, testado por, valida, depende, relacionado) | `elm_ligar` |
@@ -28,7 +28,7 @@ Toda tool devolve `{"ok":true,"dados":{…}}` ou `{"ok":false,"erro":{"codigo","
 | bundle do DOORS Next | `elm_sync` (skill `sdd-sync`, que pergunta se indexa no fim) |
 
 **Comentário e anexo na própria tarefa:** todo papel com tarefa — Dev na `[DEV]`, revisor na `[REV]` e na `[APR]`,
-verificador na `[VER]`, produto na `[ESP]` e na `[GB]`, quem faz o item de Sustentação na tarefa dele (`[ATD]`,
+verificador na `[VER]`, produto na `[ESP]` e na `[GB]` (o P.O. e o SM, que é o dono), quem faz o item de Sustentação na tarefa dele (`[ATD]`,
 `[IMPL]`…) — pode comentar (`elm_comentar`) e anexar (`elm_anexo enviar`, arquivo de dentro do projeto) nela, sempre
 com "sim"; na tarefa de outro papel, não.
 
@@ -60,7 +60,8 @@ criado fora do fluxo recusado numa transição → mostre o campo e peça o valo
    cancelamento aberta (`[<tipo> <id> cancelar]`) não contam: o papel nasce de novo, e a velha segue com a pendência
    ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md), topo).
 3. **Grave de volta** cada id assim que nasce (falha no meio: o próximo passo 2 retoma). Commit no fim.
-4. **Nunca apague** nada no ELM: o que deixou de valer vira roteiro manual (obsoleto/remoção na UI).
+4. **Nunca apague** nada no ELM: IB ou tarefa que deixou de valer é cancelado (`elm_transicao(<id>, "cancelar")`);
+   o resto (requisito) vira roteiro manual (obsoleto/remoção na UI).
 5. **Conflito no DOORS Next:** `elm_publicar_req` com `modificado_em` devolve `conflito` se o ELM mudou depois →
    mostre os dois lados e pergunte qual fica.
 6. **Sprint não publicada** (`**Publicação no EWM:** pendente` no cabeçalho do `sprint-<nn>.md`): nenhuma tool, de
@@ -78,8 +79,15 @@ Sem o MCP `elm` nesta sessão (outra máquina), sem as tools de escrita (pesquis
 `ELM pendente [<chave>]: <o que falta>` no lugar único do artefato e siga — o ELM nunca trava o fluxo. A chave
 identifica ação e alvo (`[DEV 669412 concluir]`, `[IB FT-031 concluir]`, `[IB AT-012 concluir]`,
 `[REG-01 publicar]`, `[CT FT-031 criar]`, `[DEV FT-031 horas]`); uma pendência por chave. Cancelar IB ou tarefa é
-sempre roteiro manual, mesmo com o MCP (o `elm_transicao` só assume, conclui e reabre): `ELM pendente [<id> cancelar]`
-(`[FT-031 cancelar]`, `[AT-012 cancelar]`) até a pessoa cancelar na UI do EWM.
+`elm_transicao(<id>, "cancelar")`, com "sim" (já descartado → `ja_estava`; concluído → `precondicao` `já concluída:
+reabra antes`; workflow sem descarte → `precondicao` `o workflow não tem cancelamento`). Só na falha (sem o MCP,
+`precondicao`, erro): `ELM pendente [<tipo> <id> cancelar]` (`[DEV 669412 cancelar]`) ou a do item
+(`[FT-031 cancelar]`, `[AT-012 cancelar]`), até o `ELM feito`.
+
+WI que sumiu do EWM (`nao_encontrado` na sincronização da sprint, §9) e que a pessoa mantém: `ELM pendente
+[<tipo> <id> sumiu]: confira na UI do EWM` (`[DEV 669412 sumiu]`, `[IB 669410 sumiu]`), no lugar das pendências do
+item (tabela abaixo). Até o `ELM feito`, o id sai da comparação do §9 e da contagem da
+`sdd-status`.
 
 Exceção, na sincronização da sprint ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §9, passo 5): a
 falha que a próxima comparação vê de novo (estado, dono, estimativa ou iteração de item não terminal da sprint) não
@@ -92,6 +100,7 @@ grava o lado do arquivo.
 | fatia não iniciada, `dividida` ou `cancelada` | rodapé da ficha `<produto>/fatias/FT-<nnn>-<slug>.md` |
 | épico | rodapé do `prd.md` (antes do GATE, o `rascunho.md`) |
 | item de Sustentação (toda categoria) | campo `**ELM:**` da ficha `<produto>/sustentacao/<pasta>/<ID>-<slug>.md` |
+| `[GB]` e IBs de estrutura (`Sustentação`, `Manutenção`, `<Categoria>`) | na `## Sustentação` do `backlog.md` (ou na `### <Categoria>`), logo abaixo da linha dos ids |
 | sprint | coluna "Tarefa ELM" do `sprint-<nn>.md` (`pendente`) |
 
 Resolver ("resolve as pendências do ELM"): a `sdd-status` lista; para cada uma, faça a operação e acrescente
@@ -106,7 +115,7 @@ Resolver ("resolve as pendências do ELM"): a `sdd-status` lista; para cada uma,
 | `[REV] FT-<nnn> Revisar` · `[VER] FT-<nnn> Verificar` | IB | revisor · verificador (só HITL) | planejamento ou troca AFK→HITL | aprovar · aceitar (depois do push) |
 | `[APR] FT-<nnn> Aprovar plano` · `Aprovar PR` | IB | Dev Sênior | no gate | na aprovação |
 | Sustentação: `[ATD] AT-<nnn>` · `[IMPL] IM-<nnn>` · `[BD] BD-<nnn>` · `[INF] IN-<nnn>` · `[OPE] OP-<nnn>` · `[EXT] EX-<nnn>` + `<pedido>` | IB do item (`[AT-<nnn>] <pedido>`) | quem faz | quando o item entra numa sprint, ou trazida do EWM ([elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §9) | ao finalizar, com o IB do item (`sdd-atender` no Atendimento; `sdd-executar` nas demais) |
-| `[GB] Gerenciamento do backlog` | IB `Sustentação` | P.O. | 1ª sprint do pai | na troca de pai (a do pai novo nasce); senão move na virada |
+| `[GB] Gerenciamento do backlog` | IB `Sustentação` | SM | planejamento inicial (no backlog, com a `Sustentação`); move para a 1ª sprint de cada pai | na troca de pai (a do pai novo nasce); senão move na virada |
 
 **Os pais** (todo trabalho tem pai): épico `[EP-<nn>]` → IB `[FT-<nnn>]`; IB `Sustentação` (um por produto) → IB
 `Manutenção` (das fatias sem épico: o IB `[FT-<nnn>]` ou o item de origem, DF ou IB) e um IB por categoria
@@ -115,9 +124,18 @@ Resolver ("resolve as pendências do ELM"): a `sdd-status` lista; para cada uma,
 [elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md) §2, §3 e §6.
 
 O `pa` aplica os campos que a PA exige (categoria, campos exigidos por processo, classificação por prefixo); `iteracao` é a
-da sprint, ou `backlog` para épico e IB fora de sprint — tarefa nasce só na sprint (o backlog do EWM é a cópia do
+da sprint, ou `backlog` para épico e IB fora de sprint — tarefa nasce só na sprint, salvo a `[GB]` (o backlog do EWM é a cópia do
 `backlog.md`: [elm-sprint.md](../../sdd-planejamento/references/elm-sprint.md)). Assumir =
-`elm_transicao(id, "assumir")`; concluir = saldo de horas e `elm_transicao(id, "concluir")`.
+`elm_transicao(id, "assumir")`; concluir = saldo de horas e `elm_transicao(id, "concluir")`; voltar ao estado inicial
+(IB no backlog fora de sprint, item que sai da sprint) = `elm_transicao(id, "reabrir")`; cancelar =
+`elm_transicao(id, "cancelar")`.
+
+**Horas e créditos de gestão:** só o SM lança horas na `[GB]` (`elm_lancar_horas`); o P.O. nunca lança, nem quando
+também é o SM. Toda sessão do P.O. ou do SM no agente de produto (triagem, consolidação, planejamento, ritos,
+sincronização) fecha com os créditos num comentário na `[GB]`: `elm_comentar(<id da [GB]>, "Créditos <atividade>
+<ids>: <créditos> (sessão <sessão>, <login>, <AAAA-MM-DD>)")` — ex.: `Créditos triagem FT-040, AT-013: 2.40 (sessão
+9ec1dcaa, ana.souza, 2026-10-29)` —, além da linha em Créditos de gestão do `sprint-<nn>.md` aberto
+([`sdd-status`](../../sdd-status/SKILL.md#fechar-a-sessão), item 4). `[GB]` sem horas é normal.
 
 ## O que o MCP não grava (roteiro manual)
 

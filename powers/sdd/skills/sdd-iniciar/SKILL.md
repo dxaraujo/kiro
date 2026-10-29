@@ -4,7 +4,7 @@ description: "Hub de início do fluxo sdd — recebe um work item já registrado
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.4.1"
+  version: "3.4.2"
 ---
 
 # sdd-iniciar — Hub: qual skill faz este item
@@ -47,10 +47,13 @@ diga o que ele é e peça o item.
 | fatia em `aceita` (HITL), ou em `aguardando-aprovacao-pr` (AFK) com a `[APR] Aprovar PR` concluída — qualquer item dela, menos a `[APR]` | **`sdd-desenvolver`** (Passo 6 — merge do PR aprovado) | Dev responsável / `sdd-codificador` |
 | fatia em `aguardando-aprovacao-pr` (AFK) sem a `[APR] Aprovar PR` concluída | **`sdd-revisar`** (seção "Aprovação do PR — a `[APR]`") | Aprovador (Dev Sênior) / `sdd-revisor` |
 | fatia em `bloqueada` com `aguardando troca para HITL` | **`sdd-planejamento`** (Troca de modo, na base); feita a troca, o Dev retoma pela **`sdd-desenvolver`** | P.O. ou SM / `sdd-produto` · Dev / `sdd-codificador` |
-| fatia `pronta` (na base) | **`sdd-consolidar`** (processo de produto; horas na `[GB]`) | P.O. ou SM / `sdd-produto` |
-| tarefa `[GB] Gerenciamento do backlog` | pedido de sprint (planejar, ritos, "sincroniza a sprint") → **`sdd-planejamento`**; senão, fatias `pronta` → **`sdd-consolidar`** (uma por vez); nenhuma → **`sdd-triar`** | P.O. ou SM / `sdd-produto` |
+| fatia `pronta` (na base) | **`sdd-consolidar`** (processo de produto, na `[GB]`) | P.O. ou SM / `sdd-produto` |
+| tarefa `[GB] Gerenciamento do backlog` | pedido de sprint (planejar, ritos, "sincroniza a sprint") → **`sdd-planejamento`**; senão, fatias `pronta` → **`sdd-consolidar`** (uma por vez); nenhuma → **`sdd-triar`** | SM (o dono) ou P.O. / `sdd-produto` |
 
 As linhas `fatia …` valem sobre as do item (`FT-nnn`, `[DEV]`…) e leem a fase pela regra A base prevalece (Passo 1).
+Tarefa `[DEV]` ou de Sustentação já fechada no EWM encaminha igual: a `sdd-desenvolver`, a `sdd-atender` e a
+`sdd-executar` mostram o estado e oferecem reabrir ou fechar o item
+(a `[DEV]` com o PR mergeado, pelo Passo 6 da `sdd-desenvolver`; o item de Sustentação, `concluido`).
 
 ```
 🔀 <item> — <título> · <tipo> · <fase do status.md | status do backlog>

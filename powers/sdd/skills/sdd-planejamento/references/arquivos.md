@@ -28,7 +28,7 @@ URL abaixo, nunca um caminho local:
     {
       "nome": "Ana Souza",
       "login": "ana.souza",
-      "papeis": ["P.O.", "Especificador"],
+      "papeis": ["P.O.", "Especificador", "SM"],
       "horas-semana": 10,
       "horas-revisao-semana": 4,
       "horas-especificacao-semana": 4,
@@ -53,7 +53,8 @@ URL abaixo, nunca um caminho local:
 
 - Chaves em kebab-case, exatamente as do exemplo; nada além delas (o schema recusa `horasSemana`, `capacidade`…).
 - `papeis` é uma lista com um ou mais de `P.O.`, `Especificador`, `Dev`, `QA` e `SM` (ex.: `["Dev", "QA"]`); as horas de
-  revisão e de especificação já dizem quanto do tempo vai para cada frente. Exatamente **um** membro ativo tem `P.O.`.
+  revisão e de especificação já dizem quanto do tempo vai para cada frente. Exatamente **um** membro ativo tem `P.O.` e
+  exatamente **um** tem `SM` — pode ser a mesma pessoa (Ana, acima). O SM é o dono da `[GB] Gerenciamento do backlog`.
 - `senioridade` — `Júnior`, `Pleno` ou `Sênior` — é obrigatória em quem tem `Dev` (o schema recusa sem ela) e não
   existe nos demais. Decide o modo das fatias que a pessoa implementa (Júnior: sempre HITL · Pleno: pelos critérios da
   fatia · Sênior: AFK por padrão) e quem revisa PR: a `[REV]` é sempre de um Dev Sênior.
@@ -66,7 +67,7 @@ URL abaixo, nunca um caminho local:
   `horas-lancadas` e `reserva-sustentacao` vêm do relatório de horas ([elm-sprint.md](elm-sprint.md) §5).
 - Capacidade da sprint e totais **não** são gravados: calcule na hora. `historico` fica dentro de `projeto`.
 - `motivo` da ausência: `férias`, `folga`, `treinamento` ou `outro`.
-- Exatamente um P.O. ativo. Quem sai fica `ativo: false` (preserva o histórico).
+- Exatamente um P.O. e um SM ativos (a mesma pessoa pode ter os dois). Quem sai fica `ativo: false` (preserva o histórico).
 - Horas de uma sprint = `horas-semana × semanas` − ausências que caem nela (o mesmo para revisão).
 - Sem dado pessoal além de nome e login.
 
@@ -82,7 +83,7 @@ URL abaixo, nunca um caminho local:
 | WIP | 1 fatia por sessão de agente · fatias esperando pessoa (`aguardando-aprovacao-plano`, `pr-aberto`, `em-revisao`, `em-verificacao`, `aceita`, `verificada`, `aguardando-aprovacao-pr`) ≤ 2 por revisor · PR parado > 1 dia: destravar antes de fatia nova (exceção fica registrada: `WIP excedido`) |
 | Tamanhos | P (horas) · M (≈ 1 dia) · G (2–3 dias) · maior → dividir (sem pontos; a previsão é pela vazão) |
 | Reserva (Sustentação + retrabalho) | 20% das horas da sprint do time, para a Sustentação sem mudança no repositório (toda categoria; a Manutenção entra pela vazão, como as fatias de épico) e o retrabalho da sprint anterior (fatias migradas primeiro); na virada, o P.O. pode mudar o % olhando o consumido (muda aqui, com "ok") |
-| Lançamento de horas | Cadência do time (padrão: ao fechar cada sessão de trabalho), em qualquer tarefa assumida; na conclusão, só o saldo. Lançar não conclui |
+| Lançamento de horas | Cadência do time (padrão: ao fechar cada sessão de trabalho), em qualquer tarefa assumida; na conclusão, só o saldo. Lançar não conclui. Na `[GB]`, só o SM lança; o P.O. nunca lança (nem quando é também o SM): os créditos das sessões do P.O. e do SM vão num comentário na `[GB]` |
 
 ## Definition of Ready (fatia)
 
@@ -203,7 +204,8 @@ Créditos por fatia concluída: <média> · por versão do power sdd: <versão> 
 `sdd.md` (a `### <Categoria>` nasce com o primeiro item dela na sprint; sem coluna Categoria: a seção diz).
 
 **Situações ao vivo:** Status (fatia) e Situação (Especificação e Sustentação) são gravados durante a sprint, por
-quem causa a transição, no mesmo commit do `backlog.md` — listas fechadas e quem grava cada uma em
+quem causa a transição (ou pela sincronização, com a evidência do git: `iniciada` e `pronta`,
+[elm-sprint.md](elm-sprint.md) §9), no mesmo commit do `backlog.md` — listas fechadas e quem grava cada uma em
 [Situações](../../sdd-fatiar/references/backlog.md#situações). Fatia: `planejada` → `iniciada` → `pronta` →
 `concluida` (a linha nasce `planejada`; a puxada, `iniciada`; a que sai da sprint fica `nova` ou `elegivel`, com
 `saiu da sprint`; desvios `dividida`, `cancelada`); o detalhe da `iniciada` é a fase do `status.md`. Especificação:
@@ -227,4 +229,6 @@ EWM: `encaixe: trazida do EWM — <decisão> (<quem>, <data>)`), `modo: AFK → 
 
 Créditos (do Kiro): nas Fatias, Especificação e Sustentação, a soma das linhas de créditos do item, gravada na
 conclusão dele (`sdd-consolidar`, `sdd-especificar`, `sdd-atender`, `sdd-executar`), `—` antes; em Créditos de gestão, uma linha por
-sessão de triagem, consolidação, planejamento ou retrospectiva (`sdd-status`, Fechar a sessão, item 4).
+sessão do P.O. ou do SM no agente de produto — triagem, consolidação, planejamento, ritos, sincronização —, com o
+mesmo número no comentário de créditos da `[GB]` (`sdd-status`, Fechar a sessão, item 4). A `[GB]` só tem as horas do
+SM: sem horas (dona que também é P.O.) não é falta.

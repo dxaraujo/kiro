@@ -4,7 +4,7 @@ description: "Entrada de todo trabalho novo no fluxo sdd — recebe um pedido em
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.4.1"
+  version: "3.4.2"
 ---
 
 # sdd-triar — Triagem e registro
@@ -49,16 +49,18 @@ e `obs` — épicos, fatias e as `### <Categoria>` da `## Sustentação`), no `*
   [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md)) e a original, no `backlog.md` e na linha da sprint,
   `cancelada` (`obs` `substituida-por EP-nn` ou o motivo) ou `dividida` (`substituida-por FT-…`). Já `iniciada` →
   antes, conclua as tarefas abertas dela com as horas lançadas (sem o MCP, `ELM pendente`) e avise o Dev para
-  fechar o PR. Cancelada → o IB (e, se não foi iniciada, as tarefas) é cancelado na UI do EWM (o MCP não cancela):
-  `ELM pendente [FT-<nnn> cancelar]`. As pendências da original moram no rodapé da ficha
+  fechar o PR. Cancelada → o IB (e, se não foi iniciada, as tarefas) cancela no EWM: `elm_transicao(<id>,
+  "cancelar")`, um por id, com "sim"; na falha (sem o MCP, `precondicao`, erro), `ELM pendente [FT-<nnn> cancelar]`.
+  As pendências da original moram no rodapé da ficha
   ([ficha.md](references/ficha.md));
 - **épico `novo`** que voltou (falta de informação para o PRD, P.O. ou EWM pendentes —
   devolvido pela `sdd-prd`, pela `sdd-especificar` ou pela Definition of Ready) → **complete o registro**: o que
   falta da linha (`po`, descrição mínima, `elm`), sem id novo (passa na DoR → `elegivel`), e siga para o
   Passo 4;
 - **item de Sustentação** registrado por engano, em dobro ou com o pedido retirado → `cancelado`, com o motivo, na
-  linha do `backlog.md` (e na da sprint, se houver) e no `**Situação:**` do registro; cancelar o IB e a tarefa é na
-  UI do EWM (o MCP não cancela): `ELM pendente [<ID> cancelar]` no `**ELM:**` do registro;
+  linha do `backlog.md` (e na da sprint, se houver) e no `**Situação:**` do registro; o IB e a tarefa cancelam no
+  EWM (`elm_transicao(<id>, "cancelar")`, com "sim"); na falha, `ELM pendente [<ID> cancelar]` no `**ELM:**` do
+  registro;
 - o resto → pare: começar ou retomar é pelo hub **`sdd-iniciar`**; mudar uma fatia de épico é refinamento na
   **`sdd-fatiar`**.
 
@@ -83,12 +85,18 @@ e `obs` — épicos, fatias e as `### <Categoria>` da `## Sustentação`), no `*
 - Fatos o agente busca (código, bundle do ELM pelas `elm_*_local`, banco só leitura); decisões são da pessoa.
 - **Não fazer** (já entregue, fora do produto, recusado pelo P.O.) → nada no backlog; item do EWM → ofereça um
   comentário `sdd: não fazer — <motivo>` (`elm_comentar`, com "sim"), que o tira dos próximos lotes;
-  fechar o item é do P.O., na UI.
+  cancelar o item é do P.O. (`elm_transicao(<id>, "cancelar")`, com "sim").
 
 ## Passo 3 — Registrar (na base)
 
 Grava-se na base, conferida no Passo 1. Ids do EWM na coluna `elm` com o tipo antes de cada um (`IB [612010](…)`,
 `DF [4567](…)` — formato do backlog).
+
+Com ELM, **todo item triado tem o seu IB na iteração de backlog, no estado inicial** — épico, fatia, defeito ou IB de
+origem e item de Sustentação (o de Sustentação que já entra na sprint vai na iteração dela). O que nasce já nasce
+assim; o item de origem em outro estado volta a ele com `elm_transicao(<id>, "reabrir")`, na mesma confirmação. O IB
+`Sustentação` e a `[GB]` já existem desde o modo inicial da `sdd-planejamento`
+([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §2).
 
 - **Épico:** próximo `EP-nn` de "Próximos ids"; linha em `## Épicos` com prioridade `—` (quem
   prioriza é o planejamento), `sprint` e `prd` `—` e `po` = o P.O. ativo do `equipe.json` (outro, se a pessoa disser).
@@ -169,12 +177,16 @@ Atualize "Próximos ids". O commit é **um só, no fim da sessão de triagem** (
 `backlog.md`, as fichas, as pastas dos épicos, os registros de Sustentação e, no `sprint-<nn>.md` aberto, as linhas
 da Sustentação e a de créditos da sessão na seção **Créditos de gestão** (Atividade `triagem`;
 ([`sdd-status`](../sdd-status/SKILL.md#fechar-a-sessão), item 4); sem sprint aberta, não há onde gravar) (padrão de
-commit do `sdd.md`). A triagem não tem tarefa própria (os itens triados nascem no backlog do EWM, mas a `[GB]` só
-nasce com a primeira sprint do pai): o padrão é a tarefa **`[GB] Gerenciamento do backlog`** (o `GB` da linha da
-`## Sustentação` do `backlog.md`): mostre-a e confirme (a pessoa pode indicar outra). Sem `GB` → sugira criá-la
-([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §2; só com sprint aberta, que dá a iteração) ou
-pergunte a tarefa. Sem tarefa, não commite: deixe os arquivos e o comando pronto; push direto na base com o "sim" da
-pessoa (no agente `sdd-produto`, que não faz push, entregue o comando pronto — a pessoa executa). **Conflito de id**
+commit do `sdd.md`). A triagem não tem tarefa própria: o padrão é a tarefa **`[GB] Gerenciamento do backlog`** (o
+`GB` da linha da `## Sustentação` do `backlog.md`): mostre-a e confirme (a pessoa pode indicar outra). Sem `GB` →
+indique o modo inicial da `sdd-planejamento` (ou crie-a pelo
+[elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §2, com "sim") ou pergunte a tarefa. **Créditos e
+horas**, antes do commit: os créditos da sessão (item 4 do Fechar a sessão) vão também num comentário na `[GB]`,
+com "sim" — `elm_comentar(<id da [GB]>, "Créditos triagem <ids>: <créditos> (sessão <sessão>, <login>,
+<AAAA-MM-DD>)")`, ex.: `Créditos triagem FT-040, AT-013: 2.40 (sessão 9ec1dcaa, ana.souza, 2026-10-29)`. Horas da
+triagem, só o SM lança, na `[GB]` (`elm_lancar_horas`, com "sim"); o P.O. nunca lança — nem quando também é o SM:
+o registro dele é o comentário. Sem tarefa, não commite: deixe os arquivos e o comando pronto; push direto na base
+com o "sim" da pessoa (no agente `sdd-produto`, que não faz push, entregue o comando pronto — a pessoa executa). **Conflito de id**
 no push (outra pessoa registrou o mesmo número antes): o agente não faz merge nem rebase — peça à pessoa `git pull --rebase`; no
 conflito do `backlog.md`, mantenha o remoto e, **antes de renumerar**, confira de novo de onde o item veio (DF, IB,
 AT, chamado, pedido — colunas `origem`, `elm` e `obs`, `**Origem:**` da ficha ou do registro):
@@ -196,8 +208,9 @@ Mais algum item para triar?
 ```
 
 - **"sim"** → volte ao Passo 1 com o novo item, na mesma sessão e na base (sem novo `switch` nem `pull`).
-- **"não"** → mostre o resumo da sessão (ids, trilhas, pendências `falta:` e `ELM pendente`), faça o commit único
-  do Passo 3 e encerre; se a triagem trocou de branch no Passo 1, ofereça voltar à anterior.
+- **"não"** → mostre o resumo da sessão (ids, trilhas, pendências `falta:` e `ELM pendente`), registre os créditos
+  (o comentário na `[GB]`; as horas, só se é o SM e não é o P.O.), faça o commit único do Passo 3 e encerre; se a
+  triagem trocou de branch no Passo 1, ofereça voltar à anterior.
 
 A triagem termina aqui. **Nunca invoque nem simule outra skill** (nem `sdd-iniciar`, nem a do papel): responda com
 a instrução acima e pare. Recomeçar a própria triagem com o próximo item não é invocar outra skill.
@@ -229,8 +242,8 @@ a instrução acima e pare. Recomeçar a própria triagem com o próximo item n�
    | IB 615 | Item de Backlog | Relação de contas bloqueadas para a auditoria | sustentação · Atendimento | aberto · 2026/Sprint 03 | extração, sem mudança |
    "sim" registra tudo · ou ajuste por linha (ex.: "DF 4570: não fazer")
    ```
-4. Com "sim": o Passo 3 para cada linha, com um commit para o lote e o EWM numa confirmação só. Padrão
-   no lote → ficha em `rascunho` só com o Pedido e `falta: regras, cenários e aprovação do P.O.`; rápida
+4. Com "sim": o Passo 3 para cada linha (o item fora do estado inicial volta a ele), com um commit para o lote e o
+   EWM numa confirmação só. Padrão no lote → ficha em `rascunho` só com o Pedido e `falta: regras, cenários e aprovação do P.O.`; rápida
    sem o que a ficha da trilha pede → `nova` com `falta: <o quê>` (a entrevista é uma a uma, depois). Sustentação no
    lote → registrado como no Passo 3, sem a entrevista curta (o item do EWM é o pedido e o IB do item; prazo e
    critério de pronto ficam `—`), com a categoria, a sprint e o responsável da tabela e, se entra na sprint, a tarefa

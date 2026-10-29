@@ -39,7 +39,8 @@
            sdd-verificar); AFK volta a revisando (subagentes), e quem aprova reabre a [APR] Aprovar PR (sdd-revisar,
            Aprovação do PR).
      Merge (sdd-desenvolver Passo 6): HITL em aceita; AFK em aguardando-aprovacao-pr com a [APR] Aprovar PR
-     concluída (a aprovação não grava fase: o sha não muda).
+     concluída (a aprovação não grava fase: o sha não muda). Merge feito por fora do sdd → a sincronização da sprint
+     (elm-sprint.md §9) também grava pronta, pela evidência do merge (Créditos e lições —).
      A base prevalece: pronta e concluida só existem no status.md da base (a pasta da fatia chega lá com o merge).
      O status.md de origin/<base> em pronta ou concluida vale sobre o da branch, que fica parado na fase do merge;
      e o da branch de fatia dividida ou cancelada no backlog.md da base não conta. Painel, WIP (sdd-desenvolver,
@@ -55,7 +56,9 @@
      grava o status.md; o revisor só no HITL (a rodada é dele); o verificador grava a fase do resultado também como
      subagente do AFK (`verificada` ou `implementando`, sdd-verificar), e o resto, só no HITL; o Dev Sênior da [APR]
      na aprovação do plano e nas mudanças pedidas no PR (o PR aprovado não ganha commit: o sha não muda); pronta, o
-     Dev, na base (sdd-desenvolver Passo 6); concluida, a consolidação, na base.
+     Dev, na base (sdd-desenvolver Passo 6), ou a sincronização da sprint, pela evidência do merge por fora
+     (elm-sprint.md §9), que também grava a fase do PR (ou implementando) no status.md da iniciada por fora, na
+     branch; concluida, a consolidação, na base.
      Rodadas: incrementadas por quem pede a rodada — sdd-plano (análise), sdd-implementar (revisão e
      verificação) ou, no loop, o orquestrador; nas receitas de workflow, o passo do codificador que vem depois.
      O revisor e o verificador não incrementam — exceto no HITL, em que eles mesmos conduzem a rodada sobre o PR.

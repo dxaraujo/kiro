@@ -10,7 +10,7 @@
 ## Pessoas
 
 > Colunas obrigatórias: Login, Nome, Papéis, Horas/semana (e Senioridade, para Dev).  
-> Papéis (um ou mais, separados por vírgula): `P.O.` · `Especificador` · `Dev` · `QA` · `SM` — exatamente um P.O. ativo  
+> Papéis (um ou mais, separados por vírgula): `P.O.` · `Especificador` · `Dev` · `QA` · `SM` — exatamente um P.O. e um SM ativos (a mesma pessoa pode ter os dois; o SM é o dono da [GB])  
 > Senioridade (obrigatória para Dev): `Júnior` (fatias sempre HITL) · `Pleno` (modo pelos critérios da fatia) · `Sênior` (AFK por padrão; a [REV] é sempre de um Dev Sênior); `—` para quem não é Dev  
 > Atende: `true` = faz Sustentação (toda categoria: [ATD], [IMPL]…); `false` ou em branco = não. A reserva (Sustentação + retrabalho) é das horas do time inteiro.  
 > Ativo: `false` = saiu (histórico preservado).

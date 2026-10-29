@@ -117,25 +117,50 @@
       "items": {
         "$ref": "#/$defs/membro"
       },
-      "contains": {
-        "properties": {
-          "ativo": {
-            "const": true
+      "allOf": [
+        {
+          "contains": {
+            "properties": {
+              "ativo": {
+                "const": true
+              },
+              "papeis": {
+                "contains": {
+                  "const": "P.O."
+                }
+              }
+            },
+            "required": [
+              "papeis",
+              "ativo"
+            ]
           },
-          "papeis": {
-            "contains": {
-              "const": "P.O."
-            }
-          }
+          "minContains": 1,
+          "maxContains": 1,
+          "$comment": "Exatamente um P.O. ativo."
         },
-        "required": [
-          "papeis",
-          "ativo"
-        ]
-      },
-      "minContains": 1,
-      "maxContains": 1,
-      "$comment": "Exatamente um P.O. ativo."
+        {
+          "contains": {
+            "properties": {
+              "ativo": {
+                "const": true
+              },
+              "papeis": {
+                "contains": {
+                  "const": "SM"
+                }
+              }
+            },
+            "required": [
+              "papeis",
+              "ativo"
+            ]
+          },
+          "minContains": 1,
+          "maxContains": 1,
+          "$comment": "Exatamente um SM ativo (dono da [GB]; pode ser o P.O.)."
+        }
+      ]
     }
   },
   "$defs": {

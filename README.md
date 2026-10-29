@@ -1,5 +1,9 @@
 # kiro
 
+> **Arquivado.** O power `sdd` virou o **Saíra** e continua em [dxaraujo/saira](https://github.com/dxaraujo/saira). Este
+> repositório fica só para consulta, congelado no sdd 3.4.4 (que usa o `mcp-elm` 3.4.2). Os MCPs estão no PyPI, e os
+> schemas públicos em [dxaraujo/mcps](https://github.com/dxaraujo/mcps).
+
 Powers do [Kiro](https://kiro.dev) mantidos por [@dxaraujo](https://github.com/dxaraujo): os powers ensinam o
 agente a trabalhar (skills); os MCPs, cada um no seu repositório e publicados no PyPI, dão a ele acesso aos sistemas.
 

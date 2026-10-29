@@ -2,43 +2,43 @@
 
 ## Contexto
 
-A 3.4.1 (branch `claude/clever-thompson-8wkouo`, `443231b`; plano em `docs/plano-sdd-3.4.1.md` dele) reescreveu o §9
+A 3.4.1 (no `main` desde `a1ae8c5`; plano em `docs/plano-sdd-3.4.1.md`) reescreveu o §9
 do `powers/sdd/skills/sdd-planejamento/references/elm-sprint.md`. A sincronização passou a comparar as tarefas
 conhecidas, além das por fora, numa tabela só, com a solução proposta por linha. As referências de linha abaixo são da
-3.4.1. Este plano parte dela e só começa depois que ela chegar ao `main`.
+3.4.1 do `main` (`a1ae8c5`).
 
 Na conferência da 3.4.1 contra o que se pediu ao revisar o rascunho dela, sobraram quatro pendências:
 
 1. **Campo que o EWM não traz.** Foi pedido `—` no campo correspondente, sem inferir. A seção Por fora do §9 ainda grava
    `falta: prazo, critério de pronto` na ficha do item de Sustentação que nasce de uma tarefa por fora
-   (`elm-sprint.md:466-468`), como na 3.4.0. Nenhuma das decisões 1–25 da 3.4.1 trata disso. O power fica
+   (`elm-sprint.md:494-495`), como na 3.4.0. Nenhuma das decisões 1–25 da 3.4.1 trata disso. O power fica
    incoerente: o lote "importar do EWM" da `sdd-triar` já grava prazo e critério de pronto `—` no mesmo caso
-   (`sdd-triar/SKILL.md:234-235`).
+   (`sdd-triar/SKILL.md:235-236`).
 2. **Tabela agrupada por tarefa ou IB.** A tabela da 3.4.1 tem uma linha por WI e por campo, sem agrupamento
-   (`elm-sprint.md:303-330`). O cabeçalho conta os itens conferidos (`9 divergências · 41 itens conferidos`), não os
+   (`elm-sprint.md:319-345`). O cabeçalho conta os itens conferidos (`9 divergências · 41 itens conferidos`), não os
    itens com divergência.
 3. **Lacunas que continuam abertas:**
    1. **IB ou defeito do backlog alterado no EWM fora da sprint.** Os ids "do backlog" e "terminal de fora" só geram
-      linha quando aparecem na listagem da iteração da sprint (`elm-sprint.md:279-291`). Fora dela, nunca são lidos:
+      linha quando aparecem na listagem da iteração da sprint (`elm-sprint.md:260-307`). Fora dela, nunca são lidos:
       o IB cancelado ou concluído à mão no backlog do EWM segue `nova`/`elegivel` no `backlog.md`. O "importar do
       EWM" da `sdd-triar` exclui todo id conhecido.
-   2. **`[DEV]` concluída à mão quando a fatia é retomada.** O §9 acusa (`elm-sprint.md:376`, `manter: o Dev confere`),
+   2. **`[DEV]` concluída à mão quando a fatia é retomada.** O §9 acusa (`elm-sprint.md:396`, `manter: o Dev confere`),
       mas a `sdd-desenvolver` retoma e chama `assumir` sem ler o estado (`sdd-desenvolver/SKILL.md:45`, `:65`,
       `:149`). O MCP recusa a tarefa fechada com `precondicao` ("já concluída: reabra antes", `ewm.py:527-528`), e a
       skill não diz o que fazer. A `sdd-atender` (`:50`) e a `sdd-executar` (`:40`) têm o mesmo furo, que a seção 6
       da 3.4.1 só registra.
    3. **Estado de `[REV]`, `[VER]` e `[APR]` em relação à fase do `status.md`.** O §9 lê o `status.md` só pelos ids,
-      nunca pela `fase`. As linhas genéricas da tabela Fatia (`elm-sprint.md:378`, `:381`) pegam a tarefa descartada
+      nunca pela `fase`. As linhas genéricas da tabela Fatia (`elm-sprint.md:398`, `:401`) pegam a tarefa descartada
       e a tarefa aberta depois de `pronta`. Ficam de fora, por exemplo: a `[VER]` concluída com a fatia ainda em
       `implementando`; a `[APR] Aprovar plano` aberta com o plano já aprovado; a `[DEV]` ainda Nova com a fatia
       `iniciada`.
    4. **Fatia com `status.md` numa branch e ainda `planejada` na base.** A linha da tabela Fatia exclui esse caso e o
-      deixa para a rede de proteção (`elm-sprint.md:377`), que só roda na pré-condição dos ritos
-      (`sdd-planejamento/SKILL.md:256-262`) e depois do §9. Sob pedido, a resposta é "iguais". Nos ritos, se o IB
+      deixa para a rede de proteção (`elm-sprint.md:397`), que só roda na pré-condição dos ritos
+      (`sdd-planejamento/SKILL.md:258-264`) e depois do §9. Sob pedido, a resposta é "iguais". Nos ritos, se o IB
       foi movido no EWM, o §9 decide "saiu" pela situação do `backlog.md` e propõe "sai da sprint" para uma fatia já
       começada, quando a regra é "de `iniciada` em diante nada volta".
    5. **WI que sumiu do EWM.** A única solução para `nao_encontrado` é `manter: confira na UI do EWM`, com Outras `—`
-      (`elm-sprint.md:428`). Como o `manter` volta na próxima sincronização, a linha volta para sempre e a linha
+      (`elm-sprint.md:449`). Como o `manter` volta na próxima sincronização, a linha volta para sempre e a linha
       "iguais" nunca sai.
 4. **MCP `elm`.** A decisão 17 da 3.4.1 é "sem mudança (pedido)". A seção 6 dela adia melhorias que a sincronização
    usaria:
@@ -87,21 +87,21 @@ da PA no `sdd.md`.
 
 ### `sdd-planejamento/references/elm-sprint.md`
 
-- **Por fora** (`:437-` e `:466-468`): `falta: prazo, critério de pronto` → os campos com `—` (decisão 1). Tarefa
-  sem dono → `responsavel` `—`. A `[ESP]` sem estimativa na linha "entrou: épico com a `[ESP]`" (`:431`) → Horas
+- **Por fora** (`:458-` e `:494-495`): `falta: prazo, critério de pronto` → os campos com `—` (decisão 1). Tarefa
+  sem dono → `responsavel` `—`. A `[ESP]` sem estimativa na linha "entrou: épico com a `[ESP]`" (`:452`) → Horas
   previstas `—`.
-- **Tabela** (`:303-330`): agrupamento e cabeçalho (decisão 2), atualizando o exemplo.
-- **Passo 1 e 2** (`:250-291`): a listagem do backlog e os ids "do backlog" comparados (decisão 3, se aprovada); a
+- **Tabela** (`:319-345`): agrupamento e cabeçalho (decisão 2), atualizando o exemplo.
+- **Passo 1 e 2** (`:254-307`): a listagem do backlog e os ids "do backlog" comparados (decisão 3, se aprovada); a
   fatia com `status.md` em branch (decisão 6).
-- **Soluções propostas — Fatia** (`:372-401`): as linhas pela fase (decisão 5). A linha `:377` passa a cobrir a
+- **Soluções propostas — Fatia** (`:392-406`): as linhas pela fase (decisão 5). A linha `:397` passa a cobrir a
   fatia com `status.md` em branch (decisão 6).
-- **Soluções propostas — Iteração** (`:428`): o `sumiu` com a pendência registrada (decisão 7).
+- **Soluções propostas — Iteração** (`:449`): o `sumiu` com a pendência registrada (decisão 7).
 
 ### Demais skills
 
 - `sdd-desenvolver/SKILL.md` (`:45`, `:65`, `:149`), `sdd-atender/SKILL.md:50`, `sdd-executar/SKILL.md:40`: o
   `precondicao` do `assumir` (decisão 4). Tirar o item correspondente da seção 6 da 3.4.1.
-- `sdd-planejamento/SKILL.md` (pré-condição, `:248-262`): a rede de proteção deixa de ser a única a ver o
+- `sdd-planejamento/SKILL.md` (pré-condição, `:250-264`): a rede de proteção deixa de ser a única a ver o
   `status.md` em branch (decisão 6).
 - `sdd-status/SKILL.md`: o painel conta as divergências novas que a listagem já mostra. As que exigem `elm_ler_wi`
   ou a fase ficam para a sincronização, como a estimativa na 3.4.1.
@@ -116,17 +116,17 @@ Achados da conferência da 3.4.1 que não são pendências desta versão, mas pe
 - **Diferenças do que foi pedido no rascunho:**
   - a decisão 6 pede o "sim" do P.O. nas linhas de escopo, onde se pediu que o "ok" aprovasse tudo;
   - as decisões 3, 7 e 8 gravam a situação da fatia na Volta e no encaixe;
-  - o "encaminhar à skill dona" existe só para a `[DEV]` concluída (`elm-sprint.md:376`). `[ESP]` concluída e IB
-    da fatia ou do épico concluído antes da hora só têm `EWM: reabrir` (`:379`, `:407`, `:410`).
-- **Inconsistências internas:**
-  - a decisão 7a manda a pendência de cancelamento da puxada para o rodapé da ficha, e as skills a gravam no
-    `status.md` (o plano ficou para trás);
-  - a `sdd-iniciar` (`:66`) passa a iteração ao MCP sem checar `**Publicação no EWM:** pendente` (decisão 24) e
-    trata a tarefa com o título mantido como fora da sprint (decisão 11);
+  - o "encaminhar à skill dona" existe só para a `[DEV]` concluída (`elm-sprint.md:396`). `[ESP]` concluída e IB
+    da fatia ou do épico concluído antes da hora só têm `EWM: reabrir` (`:399`, `:427`, `:430`).
+- **Inconsistências internas que seguem:**
+  - a `sdd-iniciar` (`:83-86`) trata a tarefa sem prefixo do sdd como fora da sprint, mas a decisão 11 deixa
+    "manter o título": a tarefa trazida assim já está na sprint;
   - na sprint não publicada, não está escrito que as divergências achadas depois da publicação voltam numa tabela
     nova, à espera de outro "ok".
-- **Sem registro:** o ensaio de mesa dos casos (a)–(n) e o piloto da seção 7. Os testes passam
-  (`test_gerar_agentes.py`: 15 OK; `test_creditos.py`: ok).
+- **Já resolvidas na 3.4.1 final** (seção 8 do plano dela): a pendência de cancelamento da puxada vai para o
+  Histórico do `status.md` (o texto da decisão 7a ainda diz "rodapé da ficha"); a "minha próxima tarefa" da
+  `sdd-iniciar` lê a sprint pelos arquivos enquanto há `**Publicação no EWM:** pendente`; o ensaio de mesa foi feito.
+- **A fazer:** o piloto da seção 7 da 3.4.1.
 
 ## Verificação
 

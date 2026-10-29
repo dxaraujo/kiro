@@ -24,7 +24,9 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
 2. De cada `status.md`: fatia, título, trilha, modo, fase, responsável, rodadas, achados abertos, PR, ELM,
    Banco, última linha do Histórico (data) e pendências `ELM pendente [<chave>]:` sem `ELM feito` com a **mesma chave** (também
    no rodapé das fichas de `fatias/`, no campo `**ELM:**` das fichas de `sustentacao/**` e na coluna "Tarefa ELM" da
-   sprint aberta com `pendente`).
+   sprint aberta com `pendente`, fora das linhas com `saiu da sprint`). Também as do Histórico do `status.md` de
+   `origin/<base>` de toda fatia `concluida` com pendência aberta (o item 1 não conta esse `status.md` para o resto):
+   entram na lista 🏛️ e na contagem dela.
    PR das fatias em `pr-aberto`, `em-revisao`, `em-verificacao`, `retrabalho`, `aceita` ou `aguardando-aprovacao-pr`:
    `gitlab_listar_mrs(origem=<branch>, estado=all)` (MCP `gitlabpr`, só leitura) — estado, conflitos e link;
    `merged` sem `Fase: pronta` na base → o Dev responsável registra o merge (`sdd-desenvolver` Passo 6: `pronta` na
@@ -41,11 +43,29 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
    `sdd-planejamento` modo inicial). Sem `<produto>/equipe.json` → sugira o mesmo modo inicial: sem ele não há
    senioridade (modo da fatia, GATE do plano, quem revisa).
 6. `<produto>/aprendizado/licoes.md`: lições com situação `proposta`.
-   Sprint aberta (`sprint-<nn>.md`): seções Especificação e Sustentação (reserva × consumido) e as linhas
-   `ELM pendente [<chave>]:`. Sustentação aberta: as linhas `aberto` e `em-andamento` de cada `### <Categoria>` da
-   `## Sustentação` do `backlog.md` (na sprint ou com `sprint` `—`). Com o MCP `elm`: **tarefas por fora** —
-   `elm_listar_wi(iteracao da sprint, tipo tarefa, limite 200)` menos os ids conhecidos (os mesmos do §9, item 2, do
-   [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md)); só conta, não grava.
+   Sprint aberta (`sprint-<nn>.md`): seções Especificação e Sustentação (reserva × consumido; a linha com
+   `saiu da sprint` não conta no consumido) e as linhas `ELM pendente [<chave>]:`, cada item pela linha viva, a sem
+   `saiu da sprint` ([Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base)). Sustentação aberta: as
+   linhas `aberto` e `em-andamento` de cada `### <Categoria>` da `## Sustentação` do `backlog.md` (na sprint ou com
+   `sprint` `—`). Com o MCP `elm`: **conferência com o EWM** — só leitura, numa listagem (a sincronização inteira é o
+   §9 do [elm-sprint.md](../sdd-planejamento/references/elm-sprint.md)). Cabeçalho com o marcador
+   `**Publicação no EWM:** pendente` → não liste nem rode o §1: sprint não publicada. Senão,
+   `elm_listar_wi(iteracao da sprint, limite 200)`, **sem `tipo`** (tarefas, IBs, defeitos e épicos); `truncado` →
+   de novo com `limite 1000`; `total` = 1000 → não conte (a listagem pode estar incompleta); erro `nao_encontrado` ou
+   `entrada` → sprint não publicada. Pelos conjuntos do §9, passo 2 (da sprint, do backlog, terminal de fora, por
+   fora), conte, sem gravar nada:
+   - **por fora** — id da listagem que nenhum arquivo cita, de `tipo` do `pa` (o de outro tipo só conta nos itens da
+     listagem);
+   - **divergências** — pelas tabelas do §9 (Soluções propostas), o que a listagem sozinha mostra: o estado e o dono
+     dos ids da sprint que estão nela (do IB de épico citado no `backlog.md`, só o estado) e a **entrada** (id
+     conhecido que está na listagem e era esperado no backlog ou na iteração de outra sprint, uma por item, com os
+     ids dele que estão nela; a iteração que cobre duas sprints não é entrada). A estimativa fica para a
+     sincronização: a listagem não a traz;
+   - **a conferir** — id do conjunto "da sprint" ausente da listagem, quando a linha dele não tem `migrada de` (o da
+     linha migrada é, em geral, tarefa que fechou na sprint anterior e ficou lá: fica para a sincronização);
+   - **fora de toda contagem** — o que o §9, passo 2, deixa fora da comparação: as pendências registradas (itens 2
+     e 4, inclusive as das fatias `concluida`), o id com pendência de cancelamento (aberta ou já com `ELM feito`) e a
+     linha com a publicação pendente.
 7. Lotes autônomos em andamento: `.kiro/local/loop-*.md`.
 8. "Minhas" = responsável igual ao login da pessoa: `git config user.name` cruzado com `nome`/`login` do
    `equipe.json`; sem correspondência, pergunte o login uma vez.
@@ -80,13 +100,20 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
 🎧 Reserva (Sustentação + retrabalho): <h>h · consumido <h>h (retrabalho <x>h · Sustentação <y>h)
 - Atendimento: AT-012 em-andamento (joao.lima, prazo 2026-10-16) · AT-014 aberto · Implantação: IM-003 aberto (ana.souza)
 
-🔄 EWM: <n> tarefas na iteração fora da sprint (<ids>) → sincroniza a sprint (sdd-planejamento)
+🔄 EWM: <n> por fora · <m> divergências · <k> a conferir (<ids>) → sincroniza a sprint (sdd-planejamento)
 ⛔ Fechamento (último dia da sprint ou depois): <n> fatias prontas esperando consolidação (FT-…) → consolide antes da review (sdd-consolidar)
 🏛️ ELM pendente: <n> (lista) · 🔁 Lições propostas: <n>
 ⚠️ Inconsistências: <lista | nenhuma>
 
 👉 Sugestão: <a ação de maior alavanca agora>
 ```
+
+**EWM** — a linha 🔄 sai da Coleta, item 6 (a parte com zero pode ser omitida). Nada encontrado →
+`🔄 EWM: sem diferença na listagem (<n> itens)`: o painel nunca diz "iguais", que é da sincronização (ela também
+compara a estimativa e lê o que saiu da listagem). Marcador, `nao_encontrado` ou `entrada` →
+`🔄 EWM: sprint não publicada → sincroniza a sprint`; sem o MCP → `🔄 EWM: não conferido (sem o MCP elm)`;
+`total` = 1000 → `🔄 EWM: não conferido (listagem no teto de 1000 itens)`. A 🏛️ conta também as pendências das
+fatias `concluida` (Coleta, item 2).
 
 **Sugestão** — nesta ordem: desbloquear quem espera uma pessoa (plano ou PR parado, WIP de revisão estourado, PR
 mergeado sem `pronta` na base) → item de Sustentação com prazo vencendo → terminar a fatia em andamento → começar a
@@ -103,7 +130,8 @@ trabalho de produto (PRD/fatiar) para manter o backlog com fatias elegíveis.
   linha ⏸️ do painel;
 - PR `merged` sem `Fase: pronta` no `status.md` da base: o Dev responsável registra o merge (`sdd-desenvolver`
   Passo 6);
-- situação diferente no `backlog.md` e na linha da sprint aberta (fatia ou item de Sustentação), ou
+- situação diferente no `backlog.md` e na linha viva da sprint aberta (fatia ou item de Sustentação; a com
+  `saiu da sprint` é histórico — [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base)), ou
   `pronta`/`concluida` no `status.md` da base e não no `backlog.md` (ou o contrário);
 - fatia em andamento sem commit há mais de 3 dias úteis;
 - `concluida` com Banco = `pendente` ou `aplicada em dev` (implantação bloqueada);
@@ -111,8 +139,8 @@ trabalho de produto (PRD/fatiar) para manter o backlog com fatias elegíveis.
 - conceito de `elm/` com `verified` humano e sem `resource` há mais de 1 dia (projeto que publica na aprovação);
 - conceito de `elm/` alterado (`generated.at`) depois do último `verified` e ainda `stable` (falta reaprovar);
 - `backlog.md` alterado numa branch de fatia (deve mudar só na base);
-- reserva (Sustentação + retrabalho) estourada (consumido > reserva) sem decisão do P.O. registrada no
-  `sprint-<nn>.md`;
+- reserva (Sustentação + retrabalho) estourada (consumido > reserva; o consumido não conta as linhas com
+  `saiu da sprint`) sem decisão do P.O. registrada no `sprint-<nn>.md`;
 - arquivo com dado de cliente versionado (extração, CSV ou evidência fora de `.kiro/local/`).
 
 Tarefa concluída **sem horas lançadas** não é apontada aqui: só no fechamento da sprint (`sdd-planejamento`,

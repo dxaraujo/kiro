@@ -31,9 +31,10 @@ O passo 1 vem primeiro; com a tarefa já assumida, os demais valem em qualquer o
 horas ou concluir sem a tarefa assumida → o passo 1 antes). Cada escrita no EWM com "sim". Ficha, backlog e sprint são
 gravados na base (bloco [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base)).
 
-1. **Assumir a tarefa:** antes de tudo, item fora da sprint aberta (`sprint` `—`, sem linha na `### <Categoria>` do
-   `sprint-<nn>.md` aberto: sem sprint, ou fora da reserva na triagem) → a decisão é do P.O. (`sdd-planejamento`,
-   Encaixe) e pare; com a linha na sprint, siga (a reserva já foi decidida ali). Falta o IB do item (`elm`
+1. **Assumir a tarefa:** antes de tudo, item fora da sprint aberta (`sprint` `—`, sem linha viva na `### <Categoria>`
+   do `sprint-<nn>.md` aberto: sem sprint, fora da reserva na triagem ou só a linha com `saiu da sprint` —
+   [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base), Linha viva) → a decisão é do P.O. (`sdd-planejamento`,
+   Encaixe) e pare; com a linha viva na sprint, siga (a reserva já foi decidida ali). Falta o IB do item (`elm`
    `pendente`) ou a tarefa → crie o que faltar ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md) §6) e
    grave os ids na coluna `elm` do `backlog.md` e em "Tarefa ELM" da linha do `sprint-<nn>.md`. Então
    `elm_transicao(id, "assumir")` na tarefa (já minha → `ja_estava`; de outra pessoa → `conflito`: pergunte e repita

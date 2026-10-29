@@ -59,7 +59,8 @@ e pergunte se retoma. Retomar = continuar cada fatia da fase registrada no `stat
    "perguntar a cada lote" (com "não — a pessoa abre", omita a linha: o loop para em `verificada`)
    Base: `iniciada` das <n> fatias no backlog e na sprint (puxadas: a linha nasce com `puxada`), num commit
    `<FT…> iniciar` e push na <base> (com "não — a pessoa abre": o push é seu, com o comando pronto)
-   EWM: assumir as [DEV] do lote (responsável: <login de quem dispara>) e colocá-las em andamento; criar cada
+   EWM: nas puxadas, antes, o IB e a [DEV] que já existe vão para a sprint, e a que falta nasce; assumir as [DEV]
+   do lote (responsável: <login de quem dispara>) e colocá-las em andamento; criar cada
    [APR] quando a fatia chegar ao gate — no AFK não há [REV] nem [VER]: revisão e verificação são dos subagentes
    Confirma?
    ```
@@ -72,9 +73,15 @@ e pergunte se retoma. Retomar = continuar cada fatia da fase registrada no `stat
    conferido. Sem push no loop ("não — a pessoa abre"): entregue o comando pronto (`git push origin <base>`) e
    espere a publicação — `git fetch` mostra o commit em `origin/<base>` — antes das worktrees. Push que você tentou
    e o remoto recusou → o bloco desfaz o commit e para: refaça a fronteira (outra pessoa pode ter iniciado uma delas).
-   Depois, com o MCP `elm`: fatia sem `[DEV]` (puxada, ou publicação que falhou) → crie-a ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md)
-   §3–4: antes o IB sai do backlog do EWM para a iteração da sprint — `pendente`, crie-o; id sem link, complete-o; pai sempre definido —; das tarefas, só a `[DEV]`, AFK); depois `elm_transicao(<id>, "assumir", iniciar_pai: true)` em cada `[DEV]`; sem o MCP `elm` ou com falha → `ELM pendente [<chave>]: assumir a
-   tarefa` no `status.md` de cada fatia.
+   Depois, com o MCP `elm`: fatia sem `[DEV]` na sprint (puxada, ou publicação que falhou) → antes do `assumir`, o IB
+   sai do backlog do EWM para a iteração da sprint, só com `iteracao` (`pendente`, crie-o; id sem link, complete-o;
+   pai sempre definido), e a `[DEV]` que já existe (a fatia saiu de uma sprint sem começar) move com quem dispara
+   como `dono` e a estimativa dela; só nasce a que falta, conferida com `elm_listar_wi(pai = IB)`, sem contar a
+   descartada nem a que tem pendência de cancelamento aberta ([elm-sprint.md](../sdd-planejamento/references/elm-sprint.md),
+   topo e §3–4). Das tarefas, só a `[DEV]`, AFK: a `[REV]` e a `[VER]` de um planejamento HITL anterior não movem →
+   `ELM pendente [<tipo> <id> cancelar]` no `status.md`. Depois `elm_transicao(<id>, "assumir", iniciar_pai: true)`
+   em cada `[DEV]`; sem o MCP `elm` ou com falha → `ELM pendente [<chave>]: assumir a tarefa` no `status.md`
+   de cada fatia.
 5. Log `.kiro/local/loop-<AAAA-MM-DD-HHMM>.md` (formato no fim).
 
 ## Passo 2 — Worktree por fatia
@@ -179,7 +186,7 @@ Os **Kiro Workflows** do sdd (se instalados) não fazem parte do loop: são rece
 - O orquestrador nunca faz merge (é de quem disparou o loop, depois da aprovação do PR), nunca `--force`, nunca
   push sem a autorização do lote (na base, só o da `iniciada` do lote, Passo 1); todo push é conferido no remoto
   antes do PR.
-- ELM só pelo que o lote confirmou (assumir `[DEV]`, estados, criar as `[APR]` nos gates) e pelas horas do fim; nada mais (a conclusão da `[DEV]` é no merge). Sem o MCP `elm` ou com
+- ELM só pelo que o lote confirmou (mover ou criar o IB e a `[DEV]` da puxada, assumir `[DEV]`, estados, criar as `[APR]` nos gates) e pelas horas do fim; nada mais (a conclusão da `[DEV]` é no merge). Sem o MCP `elm` ou com
   falha → `ELM pendente [<chave>]: …` no `status.md`.
 - Nunca relaxe um gate para o loop andar: bloqueio é informação, não falha.
 - Tipo de fatia que bloqueia com frequência → sugira na retrospectiva tratá-lo como HITL.

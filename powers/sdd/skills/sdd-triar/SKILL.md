@@ -145,7 +145,8 @@ Grava-se na base, conferida no Passo 1. Ids do EWM na coluna `elm` com o tipo an
   - Próximo id da série da categoria em "Próximos ids" (`AT-`, `IM-`…; série que falta → começa em `001`).
   - **Sprint sugerida:** a aberta (`sprint-<nn>.md` com `**Situação:** aberta`), pela regra da reserva — a reserva
     (Sustentação + retrabalho) está na `## Sustentação` do `sprint-<nn>.md`; o usado é o retrabalho migrado mais a
-    soma das estimativas dos itens das `### <Categoria>` dela; cabe com a estimativa deste (A-6) → quem triou
+    soma das estimativas dos itens das `### <Categoria>` dela, sem as linhas com `saiu da sprint` (o item
+    saiu da sprint e não consome a reserva); cabe com a estimativa deste (A-6) → quem triou
     confirma; estourou → fica fora da sprint (`sprint` `—`), e a decisão é do P.O. pelo Encaixe da
     `sdd-planejamento` (a Sustentação não tira fatia sozinha). Sem sprint aberta → `sprint` `—` e o aviso "sem sprint
     aberta: o item entra no próximo planejamento". Responsável sugerido: quem tem `atende: true` no `equipe.json`.

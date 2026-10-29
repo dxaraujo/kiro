@@ -39,8 +39,9 @@ Não é atendimento (pedido que muda o comportamento do sistema, ou regra que ni
 
 ## Passo 2 — Assumir a `[ATD]`
 
-AT fora da sprint aberta (`sprint` `—`, sem linha na `### Atendimento` do `sprint-<nn>.md` aberto: sem sprint, ou
-fora da reserva na triagem) → a decisão é do P.O. (`sdd-planejamento`, Encaixe) e pare; com a linha na sprint, siga
+AT fora da sprint aberta (`sprint` `—`, sem linha viva na `### Atendimento` do `sprint-<nn>.md` aberto: sem sprint,
+fora da reserva na triagem ou só a linha com `saiu da sprint` — [Gravar na base](../sdd-fatiar/references/backlog.md#gravar-na-base),
+Linha viva) → a decisão é do P.O. (`sdd-planejamento`, Encaixe) e pare; com a linha viva na sprint, siga
 (a reserva já foi decidida ali).
 
 1. **EWM**, com "sim": falta o IB `[AT-nnn]` (`elm` `pendente`: AT registrado sem o MCP `elm`) ou a `[ATD]` → antes,

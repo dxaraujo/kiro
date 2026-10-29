@@ -4,7 +4,7 @@ description: "Skill de quem faz os itens da Sustentação sem fluxo próprio no 
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.4.2"
+  version: "3.4.3"
 ---
 
 # sdd-executar — Sustentação sem fluxo próprio

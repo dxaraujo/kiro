@@ -335,6 +335,13 @@ retomada:** a `sdd-desenvolver`, a `sdd-atender` e a `sdd-executar` mostram o es
 item. (5) **Cancelar pelo MCP:** o `elm_transicao` ganha o alvo `cancelar`, e a pendência de cancelamento fica só para
 a falha. Requer o `mcp-elm` ≥ 3.4.2.
 
+Na **3.4.3**, o item do backlog que ficou sem IB chega ao EWM sem esperar a sprint: o backlog do EWM é a fonte dos
+relatórios das demandas. O espelhamento (§0, passo 4 do `elm-sprint.md`) passa a rodar na triagem (em toda sessão,
+antes do primeiro item), na "sincroniza a sprint" (linha `EWM: criar no backlog`) e em "atualizar a configuração do
+sdd", também com o backlog do EWM já configurado. O IB `Sustentação`, `Manutenção` ou de categoria com título
+parecido (`Sustentação - <produto>`) e sem o id no `backlog.md` é perguntado, e não nasce outro. O painel da
+`sdd-status` conta os itens sem IB. Requer o `mcp-elm` ≥ 3.4.2 (sem mudança no MCP).
+
 Não use o `/upgrade-agent` (nem `kiro-cli agent upgrade`) nos agentes `sdd-*`: quem os gera é o script da setup
 ("atualizar os agentes do sdd").
 

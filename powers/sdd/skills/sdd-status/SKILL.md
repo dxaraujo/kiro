@@ -4,7 +4,7 @@ description: "Painel do fluxo sdd, somente leitura — onde parei e o que fazer 
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.4.2"
+  version: "3.4.3"
 ---
 
 # sdd-status — Onde parei
@@ -26,7 +26,9 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
    no rodapé das fichas de `fatias/`, no campo `**ELM:**` das fichas de `sustentacao/**`, na `## Sustentação` e nas
    `### <Categoria>` do `backlog.md` e na coluna "Tarefa ELM" da sprint aberta com `pendente`, fora das linhas com `saiu da sprint`). Também as do Histórico do `status.md` de
    `origin/<base>` de toda fatia `concluida` com pendência aberta (o item 1 não conta esse `status.md` para o resto):
-   entram na lista 🏛️ e na contagem dela.
+   entram na lista 🏛️ e na contagem dela. Com ELM, também a linha não terminal do `backlog.md` (épico, fatia, item de
+   Sustentação) com `elm` `—`, `pendente` ou id sem link: o item ainda sem IB no backlog do EWM, que a triagem ou a
+   sincronização cria (espelhamento, §0 passo 4 do `elm-sprint.md`).
    PR das fatias em `pr-aberto`, `em-revisao`, `em-verificacao`, `retrabalho`, `aceita` ou `aguardando-aprovacao-pr`:
    `gitlab_listar_mrs(origem=<branch>, estado=all)` (MCP `gitlabpr`, só leitura) — estado, conflitos e link;
    `merged` sem `Fase: pronta` na base → o Dev responsável registra o merge (`sdd-desenvolver` Passo 6: `pronta` na
@@ -106,7 +108,7 @@ seção. Sem `.kiro/steering/sdd.md` → diga que o fluxo não está configurado
 
 🔄 EWM: <n> por fora · <m> divergências · <k> a conferir (<ids>) → sincroniza a sprint (sdd-planejamento)
 ⛔ Fechamento (último dia da sprint ou depois): <n> fatias prontas esperando consolidação (FT-…) → consolide antes da review (sdd-consolidar)
-🏛️ ELM pendente: <n> (lista) · 🔁 Lições propostas: <n>
+🏛️ ELM pendente: <n> (lista; <m> itens do backlog sem IB → sdd-triar ou sincroniza a sprint) · 🔁 Lições propostas: <n>
 ⚠️ Inconsistências: <lista | nenhuma>
 
 👉 Sugestão: <a ação de maior alavanca agora>

@@ -4,7 +4,7 @@ description: "Implementa uma fatia do fluxo sdd a partir do plano aprovado (task
 license: MIT
 metadata:
   author: "Daniel Xavier Araújo"
-  version: "3.4.2"
+  version: "3.4.3"
 ---
 
 # sdd-implementar — Ciclo curto, verificação sempre

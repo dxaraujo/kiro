@@ -53,7 +53,7 @@ Nos arquivos do sdd: `sprints/2026/sprint-01.md`, chave `2026/Sprint 01` (do nú
 ## 0. Backlog do produto (na setup ou em "atualizar a configuração do sdd"; uma vez por projeto)
 
 1. `elm_backlog()` → `atual` (o `ccm.backlog` do `pa`) e `candidatos` (planos de backlog da PA). Já há `atual` →
-   mostre e confirme; fim.
+   mostre e confirme e vá ao passo 4.
 2. Pergunte a **linha de base** do projeto (a iteração da timeline onde ficam o backlog e os pais das sprints; quem
    administra a PA cria, se não existir) e se ela **já tem** a iteração `Backlog` com o plano. Mostre os
    `candidatos`.
@@ -73,7 +73,10 @@ Nos arquivos do sdd: `sprints/2026/sprint-01.md`, chave `2026/Sprint 01` (do nú
 3. O `pa` passa a ter `ccm.backlog`; daí em diante `iteracao: "backlog"` nas tools é ele, e o pai dele é a linha de
    base. Sem ele, criar no backlog falha com `precondicao` — peça "atualizar a configuração do sdd" (a `sdd-setup`, na
    sessão padrão, roda este §0; os agentes não têm o `elm_backlog`), nunca escolha outra iteração.
-4. **Espelhamento** (backlog já existente): linhas do `backlog.md` que não estão concluídas nem canceladas, com `elm`
+4. **Espelhamento** (backlog já existente): o backlog do EWM é a fonte dos relatórios das demandas, com ou sem sprint
+   aberta, e nenhum item espera a sprint para nascer nele. Rodam este passo a setup (também com o `atual`), a triagem
+   (`sdd-triar`, Passo 1, em toda sessão) e a sincronização (§9, passo 2). Linhas do `backlog.md` que não estão
+   concluídas nem canceladas, com `elm`
    `—`, `pendente` ou id sem link (`DF 4567`: registrado sem o MCP, conta como pendente) → prévia numa tabela (item,
    tipo, pai, iteração) e um "sim" → §2 (a Sustentação e a `[GB]`, se o modo inicial não as criou), §3 e §6 na
    ordem; o id sem link não nasce de novo: recebe o que a triagem
@@ -127,7 +130,9 @@ categoria (`Atendimento`…), a padrão do tipo.
 
 Idempotência: o id gravado no `backlog.md`; sem ele, `elm_listar_wi(iteracao = backlog, tipo ib, titulo_prefixo
 "Sustentação")` e, do resultado, só o de título exato `Sustentação` (o prefixo também traz demandas que começam pela
-palavra), aceito só se for o único. A `[GB]`: sem o id no `backlog.md`, `elm_listar_wi(pai = <id da Sustentação>,
+palavra), aceito só se for o único. **Título parecido** (só o prefixo casa: `Sustentação - <produto>`, e o mesmo na
+Manutenção, §3, e no IB da categoria, §6), sem o id no `backlog.md` → mostre e pergunte se é ele, nunca crie outro:
+"sim" grava o id na linha, e o título fica pelas opções do §9 (renomear · manter). A `[GB]`: sem o id no `backlog.md`, `elm_listar_wi(pai = <id da Sustentação>,
 titulo_prefixo "[GB]")` e, do resultado, só a aberta de título `[GB] Gerenciamento do backlog`, aceita só se for a
 única. A tarefa `[GB] Gerenciamento do backlog` (filha da Sustentação, dono = o SM
 ativo do `equipe.json`, que pode ser também o P.O.) nasce com ela, `iteracao = backlog`, e move para a iteração da
@@ -159,7 +164,8 @@ sai da linha; a Sustentação, a Manutenção e os IBs de categoria não mudam.
   (sem `links.depende` no `pa` → fica na descrição).
 - **Fatia sem épico** (origem `Manutenção`): o pai é o IB `Manutenção`, filho da Sustentação, que nasce com a
   primeira delas, na mesma confirmação (`elm_criar_wi(tipo ib, "Manutenção", pai = Sustentação, iteracao =
-  backlog)`; idempotência: `elm_listar_wi(pai = <id da Sustentação>, titulo_prefixo "Manutenção")`), com o id na
+  backlog)`; idempotência: `elm_listar_wi(pai = <id da Sustentação>, titulo_prefixo "Manutenção")`, com o título
+  parecido do §2), com o id na
   linha da `## Sustentação` do `backlog.md`. Com item de origem (DF, IB), não há IB novo:
   `elm_atualizar_wi(origem, iteracao = backlog)`, com `pai = Manutenção` se ele não tem pai (outro pai: mantém e
   avisa) e `dono = P.O.` se ele não tem dono — o `assumir` da `[DEV]` com `iniciar_pai` exige dono no pai. Fatia
@@ -227,7 +233,7 @@ Item sem mudança no repositório, de uma categoria da tabela **Sustentação** 
 **IB da categoria**, um por categoria: a `## Sustentação` do `backlog.md` sem a `### <Categoria>` → é o primeiro
 item dela: crie, na mesma confirmação do IB do item, `elm_criar_wi(tipo ib, "<Categoria>", pai = Sustentação,
 iteracao = backlog)` (§2 antes, se a Sustentação faltar; idempotência: `elm_listar_wi(pai = <id da Sustentação>,
-titulo_prefixo "<Categoria>")`); o id abre a `### <Categoria>` (`IB [<id>](<url>)`). Fica no backlog, como a
+titulo_prefixo "<Categoria>")`, com o título parecido do §2); o id abre a `### <Categoria>` (`IB [<id>](<url>)`). Fica no backlog, como a
 Sustentação; a Categoria dele é a padrão do tipo no `pa` (§2).
 
 **IB do item** (na triagem; `iteracao = backlog` ou a da sprint em que já entra): `elm_criar_wi(tipo ib,
@@ -309,6 +315,9 @@ comparação: o resultado é sempre a tabela do passo 4 ou a linha do passo 6.
      id nenhum, numa linha não iniciada: a sessão parou entre gravar o arquivo e publicar), ou cujo item tem `elm`
      `pendente` ou id sem link, e sem os ids no `status.md` —, que vira a linha `EWM: publicar (§1–4)`, nunca "sai da
      sprint"; a puxada `iniciada` tem Tarefa ELM `—` de propósito: os ids dela estão no `status.md`;
+   - o **item do backlog sem IB** — fora da sprint, não terminal, com `elm` `—`, `pendente` ou id sem link (o
+     registrado antes da regra, sem o MCP ou com falha) —, que vira a linha `EWM: criar no backlog (§0, passo 4)`,
+     agrupada no item como as outras;
    - a **pendência registrada** — `ELM pendente [<chave>]` sem `ELM feito`, coletada como na `sdd-status` (Coleta,
      itens 2 e 4) e no Histórico do `status.md` da base das fatias `concluida` —, que já cobre a diferença;
    - de vez, o id com pendência de **cancelamento** (`[<tipo> <id> cancelar]` ou a do item), aberta ou já com
@@ -525,6 +534,7 @@ o SM` (§2). Sem horas não é divergência.
 |---|---|---|
 | sprint não publicada (passo 1) | EWM: criar a iteração e o plano (§1; com pai novo, também o §2), e só então listar | — |
 | publicação pendente (passo 2) | EWM: publicar a linha (§1–4) | — |
+| item do backlog sem IB (passo 2) | EWM: criar no backlog (§0, passo 4) | — |
 | migrada (`migrada de <chave>`), aberta ainda na iteração de uma sprint da cadeia | EWM: mover para esta sprint (a virada não moveu, §5) | — |
 | `[GB]` do pai aberta noutra iteração (virada pela metade, ou movida à mão) | EWM: mover para esta sprint | — |
 | saiu (aberto), item não iniciado | arquivo: sai da sprint (P.O.) — fatia `elegivel` (ou `nova`, pela DoR), épico `elegivel`, Sustentação `aberto` com a tarefa ainda nova, com `sprint` `—`; a linha da sprint fica com a mesma situação e `saiu da sprint: movida no EWM para <iteração> (<P.O.>, <data>)` · EWM: o IB e as tarefas abertas que não estão no backlog (onde estiverem, outra sprint inclusive) → backlog, e o IB ao estado inicial | EWM: o que saiu volta para a sprint |

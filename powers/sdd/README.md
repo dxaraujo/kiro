@@ -162,8 +162,8 @@ processo do projeto exige algum deles, a skill do passo entrega o roteiro manual
   engine V2 do CLI não lê as permissões dos agentes, nem o hook e os workflows; e `uv` para os scripts da setup e
   da `sdd-status`.
 - Kiro Web não lê `~/.kiro`: os agentes do projeto aparecem lá, mas sem as skills do power — use a IDE ou o CLI.
-- MCPs do próprio power (o `mcp.json` os sobe com `uvx`): [`mcp-elm`](../../mcps/elm/), que também consulta o
-  bundle do ELM (`elm_*_local`, nunca lendo os arquivos), e [`mcp-gitlabpr`](../../mcps/gitlabpr/), que lista, lê e abre os PRs (merge
+- MCPs do próprio power (o `mcp.json` os sobe com `uvx`): [`mcp-elm`](https://pypi.org/project/mcp-elm/), que também consulta o
+  bundle do ELM (`elm_*_local`, nunca lendo os arquivos), e [`mcp-gitlabpr`](https://pypi.org/project/mcp-gitlabpr/), que lista, lê e abre os PRs (merge
   requests do GitLab) — credencial em `~/.config/mcp-gitlabpr/gitlabpr.properties` (`url` e `token`). Repositório
   fora do GitLab, ou sem a credencial → o fluxo entrega título e descrição do PR, e a pessoa o abre.
 - Opcional: IBM ELM — credencial em `~/.config/mcp-elm/elm.properties` e o `pa` gerado pela `sdd-setup`; MCP de consulta ao banco (somente leitura);

@@ -25,6 +25,6 @@ Powers do Kiro. Cada pasta é um power independente, instalado pelo painel **Pow
   título.
 - A configuração de cada projeto fica no projeto — `sdd`: `.kiro/config/sdd/` (`pa_<nome>.json`, lido pelo
   `mcp-elm`) —, gerada pela skill de setup e validada pelo schema em `skills/<power>-setup/assets/`.
-- Os logs do ELK não têm power: o [mcp-elk](../mcps/elk/) é autossuficiente (lê `.kiro/config/elk/` e traz as
+- Os logs do ELK não têm power: o [mcp-elk](https://pypi.org/project/mcp-elk/) é autossuficiente (lê `.kiro/config/elk/` e traz as
   regras nas `instructions`).
 - Versão: `version` do `plugin.json` e `metadata.version` de cada skill, juntos.

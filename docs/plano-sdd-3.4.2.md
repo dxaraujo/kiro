@@ -1,216 +1,91 @@
-# Plano — sincronização que fecha o trabalho feito por fora do sdd, tabela agrupada e as lacunas que a 3.4.1 deixou (sdd 3.4.2)
+# Plano — a sincronização leva o sdd até onde o trabalho chegou (sdd 3.4.2)
 
-## Contexto
+## Objetivo
 
-A 3.4.1 (no `main` desde `a1ae8c5`; plano em `docs/plano-sdd-3.4.1.md`) reescreveu o §9
-do `powers/sdd/skills/sdd-planejamento/references/elm-sprint.md`. A sincronização passou a comparar as tarefas
-conhecidas, além das por fora, numa tabela só, com a solução proposta por linha. As referências de linha abaixo são da
-3.4.1 do `main` (`a1ae8c5`).
+Permitir o desenvolvimento tradicional quando os tokens acabam. A pessoa segue sem agente (código, PR, merge, tarefas
+no EWM), e a "sincroniza a sprint" (§9 do `sdd-planejamento/references/elm-sprint.md`) leva o sdd até onde o
+trabalho chegou. Toda diferença entre `status.md` e EWM, ou entre `sprint-<nn>.md` e `backlog.md`, vira uma linha da
+tabela com uma solução sugerida, e nada é gravado sem o "ok" ou o ajuste da linha.
 
-**O intuito da sincronização** (pedido): possibilitar o desenvolvimento da maneira tradicional quando acabarem os
-tokens. A pessoa segue sem agente — altera o código, abre o PR, faz o merge, mexe nas tarefas do EWM — e a
-sincronização leva o sdd até onde o trabalho chegou. Por isso tudo o que estiver diferente entre o `status.md` e o
-EWM, ou entre o `sprint-<nn>.md` e o `backlog.md`, tem de ser tratado: entra na tabela com uma solução sugerida.
+Exemplo que a 3.4.1 não resolve: o Dev fez o código, o PR e o merge por fora; a `[DEV]` segue iniciada e `[APR]`,
+`[REV]` e `[VER]` abertas. Hoje dá `manter` para sempre. Na 3.4.2: fatia `pronta`, `[DEV]` concluída e as outras
+três canceladas.
 
-A 3.4.1 não faz isso. Exemplo: o Dev alterou o código, abriu o PR e fez o merge por fora do sdd; a `[DEV]` segue
-iniciada e a `[APR]`, a `[REV]` e a `[VER]` seguem abertas, mas está tudo feito. Na 3.4.1 a sincronização só
-compara o EWM com os arquivos, não olha o git, e a situação da fatia nunca muda por ela (decisão 3 da 3.4.1: nas
-linhas de estado da fatia, só `EWM` ou `manter`). O resultado é `manter` em toda rodada.
+## Decisões
 
-Na conferência da 3.4.1 contra o que se pediu ao revisar o rascunho dela, sobraram também estas pendências (todas
-decididas na tabela abaixo):
-
-1. **Campo que o EWM não traz.** O `—` foi cogitado no lugar do `falta: prazo, critério de pronto` da seção Por fora
-   (`elm-sprint.md:494-495`); **fica como é hoje** (decisão 1).
-2. **Tabela agrupada por tarefa ou IB.** A tabela da 3.4.1 tem uma linha por WI e por campo, sem agrupamento
-   (`elm-sprint.md:319-345`). O cabeçalho conta os itens conferidos (`9 divergências · 41 itens conferidos`), não os
-   itens com divergência.
-3. **Lacunas da 3.4.1:**
-   1. **IB ou defeito do backlog alterado no EWM fora da sprint.** Os ids "do backlog" e "terminal de fora" só geram
-      linha quando aparecem na listagem da iteração da sprint (`elm-sprint.md:260-307`). Fora dela, nunca são lidos:
-      o IB cancelado ou concluído à mão no backlog do EWM segue `nova`/`elegivel` no `backlog.md`. O "importar do
-      EWM" da `sdd-triar` exclui todo id conhecido.
-   2. **`[DEV]` concluída à mão quando a fatia é retomada.** O §9 acusa (`elm-sprint.md:396`, `manter: o Dev confere`),
-      mas a `sdd-desenvolver` retoma e chama `assumir` sem ler o estado (`sdd-desenvolver/SKILL.md:45`, `:65`,
-      `:149`). O MCP recusa a tarefa fechada com `precondicao` ("já concluída: reabra antes", `ewm.py:527-528`), e a
-      skill não diz o que fazer. A `sdd-atender` (`:50`) e a `sdd-executar` (`:40`) têm o mesmo furo, que a seção 6
-      da 3.4.1 só registra.
-   3. **Estado de `[REV]`, `[VER]` e `[APR]` em relação à fase do `status.md`.** O §9 lê o `status.md` só pelos ids,
-      nunca pela `fase`. As linhas genéricas da tabela Fatia (`elm-sprint.md:398`, `:401`) pegam a tarefa descartada
-      e a tarefa aberta depois de `pronta`. Ficam de fora, por exemplo: a `[VER]` concluída com a fatia ainda em
-      `implementando`; a `[APR] Aprovar plano` aberta com o plano já aprovado; a `[DEV]` ainda Nova com a fatia
-      `iniciada`.
-   4. **Fatia com `status.md` numa branch e ainda `planejada` na base.** A linha da tabela Fatia exclui esse caso e o
-      deixa para a rede de proteção (`elm-sprint.md:397`), que só roda na pré-condição dos ritos
-      (`sdd-planejamento/SKILL.md:258-264`) e depois do §9. Sob pedido, a resposta é "iguais". Nos ritos, se o IB
-      foi movido no EWM, o §9 decide "saiu" pela situação do `backlog.md` e propõe "sai da sprint" para uma fatia já
-      começada, quando a regra é "de `iniciada` em diante nada volta".
-   5. **WI que sumiu do EWM.** A única solução para `nao_encontrado` é `manter: confira na UI do EWM`, com Outras `—`
-      (`elm-sprint.md:449`). Como o `manter` volta na próxima sincronização, a linha volta para sempre e a linha
-      "iguais" nunca sai.
-4. **MCP `elm`.** A decisão 17 da 3.4.1 é "sem mudança (pedido)". A seção 6 dela adia melhorias que a sincronização
-   usaria:
-   - `estimativa_h` e o grupo do estado no `elm_listar_wi`: hoje é um `elm_ler_wi` por id; as "Planejadas" e a
-     menor alocação da Troca de modo não têm fonte;
-   - a data da conclusão no `elm_ler_wi`: o `concluida-em` recebe a data da sincronização, e a tarefa fechada
-     movida não é apontada;
-   - o pai na listagem: o pai trocado não é visto, e a duplicata criada no backlog para uma fatia na sprint também
-     não;
-   - cancelar por `elm_transicao`: hoje o cancelamento é a pendência manual `[<id> cancelar]`;
-   - o teto de 1000 itens: a sincronização avisa e para.
-
-## Discussões e decisões
-
-| # | Questão | Opções levantadas | Decisão |
+| # | Questão | Opções | Decisão |
 |---|---|---|---|
-| 0 | Para que serve a sincronização | conferir o EWM contra os arquivos (3.4.1) · levar o sdd até onde o trabalho chegou | **levar o sdd até onde o trabalho chegou** (pedido): possibilitar o desenvolvimento tradicional quando acabarem os tokens. Toda diferença entre `status.md` e EWM, ou entre `sprint-<nn>.md` e `backlog.md`, é uma linha da tabela com solução sugerida; o estado do git (branch, PR, merge) entra como evidência. Revê a decisão 3 da 3.4.1 (seção Desenvolvimento por fora do sdd) |
-| 1 | Campo que o EWM não traz (tarefa ou item trazido do EWM) | inferir · `falta: …` · `—` | **como é hoje** (pedido): a seção Por fora segue com `falta: prazo, critério de pronto` e `**Estimativa:**` a da tarefa (ou `—`) |
-| 2 | Agrupar a tabela | uma linha por WI e campo (3.4.1) · agrupada por tarefa ou IB | **agrupada** (pedido): as linhas de um mesmo item (o IB ou a origem e as tarefas dele) ficam juntas, na ordem da coluna Item; a linha de publicação continua primeiro; numeração corrida, para o ajuste por linha seguir igual. Cabeçalho `<n> divergências em <m> itens · <k> conferidos` |
-| 3 | IB ou defeito do backlog alterado no EWM fora da sprint | um `elm_ler_wi` por id do backlog · uma listagem do backlog do EWM (`elm_listar_wi(iteracao = backlog)`) · passo novo no "importar do EWM" · aceitar | **a proposta** (aceita): a listagem do backlog no §9, numa chamada, comparando estado e dono dos ids "do backlog". Título não (decisão 11 da 3.4.1). Prioridade não vai ao EWM (`sdd-fatiar/references/backlog.md`, coluna `prioridade`). A descrição não vem na listagem |
-| 4 | `[DEV]` (e tarefa de Sustentação) já fechada quando o trabalho é retomado | ler o estado antes do `assumir` · tratar o `precondicao` do `assumir` · deixar para a sincronização | **a proposta** (aceita): tratar o `precondicao`, sem chamada a mais. Na `sdd-desenvolver`: PR mergeado → Passo 6; senão `elm_transicao(<id>, "reabrir")` com "sim". Na `sdd-atender`/`sdd-executar`: reabrir, ou levar o item a `concluido` como a sincronização faz |
-| 5 | Estado de `[REV]`, `[VER]`, `[APR]` e `[DEV]` pela fase do `status.md` | comparar pela fase · só as linhas genéricas (3.4.1) | **a proposta** (aceita): o §9 lê a `fase` (regra A base prevalece) e compara pelo estado esperado da fase (tabela abaixo), com `manter` quando quem resolve é o papel e `EWM:` quando o EWM está à frente |
-| 6 | Fatia com `status.md` numa branch e ainda `planejada` na base | rede de proteção antes do §9 · o §9 trata a fatia como iniciada · como está | **a proposta** (aceita): o passo 2 do §9 olha os `status.md` das branches, como a rede de proteção. Fatia com `status.md` conta como iniciada para "saiu" (o EWM volta, nunca "sai da sprint") e gera a linha `arquivo: iniciada (status.md na branch)`, que grava como a rede de proteção grava. Vale também sob pedido |
-| 7 | WI que sumiu do EWM | `manter` (3.4.1) · `arquivo:` o id vira `pendente` e o §3–4 republica · `manter` com pendência registrada | **a proposta** (aceita): a solução continua `manter: confira na UI do EWM`, mas o `manter` dessa linha registra `ELM pendente [<tipo> <id> sumiu]`, que tira o id da comparação até o `ELM feito` (como a decisão 13 da 3.4.1). Em Outras, `arquivo: pendente (republicar)` |
-| 8 | MCP `elm` | sem mudança (decisão 17 da 3.4.1) · só cancelar · todas as melhorias da seção 6 da 3.4.1 | **cancelar** (pedido): `elm_transicao` ganha o alvo `cancelar` (seção MCP abaixo); a mcp-elm sobe para 3.4.2 junto com o power, e o `plugin.json` passa a exigir `mcp-elm ≥ 3.4.2`. As outras melhorias (estimativa e grupo do estado na listagem, data da conclusão, pai na listagem, teto de 1000) seguem adiadas |
-| 8a | Quem grava `pronta` pela evidência do merge | só a `sdd-desenvolver` (3.4.1) · também a sincronização | **também a sincronização** (pedido): com o PR mergeado na base, a linha `arquivo: pronta (merge <sha> por fora do sdd)` grava como o Passo 6 da `sdd-desenvolver` — `status.md` da base com `Fase: pronta`, backlog e sprint `pronta`, Créditos `—` e lições `—` —, com o "ok" da tabela; a `sdd-consolidar` leva a `concluida` depois |
-| 9 | Versão | 3.4.2 sozinha | **3.4.2**: `plugin.json`, as 22 skills e a mcp-elm (decisão 8), juntos |
-| 10 | Migração | — | nenhuma (o power ainda não tem usuários) |
+| 0 | Papel da sincronização | conferir EWM × arquivos (3.4.1) · levar o sdd até onde o trabalho chegou | **levar o sdd até onde chegou**, com o git (branch, PR, merge) como evidência. Revê a decisão 3 da 3.4.1 |
+| 1 | Campo que o EWM não traz | `falta: …` · `—` | **como hoje** (`falta: prazo, critério de pronto`) |
+| 2 | Tabela | uma linha por WI e campo · agrupada | **agrupada por item** (IB e tarefas juntos), numeração corrida; cabeçalho `<n> divergências em <m> itens · <k> conferidos` |
+| 3 | IB ou defeito do backlog alterado no EWM fora da sprint | não ver · ler um a um · listar o backlog | **listar o backlog do EWM** numa chamada e comparar estado e dono |
+| 4 | Tarefa já fechada quando alguém retoma | deixar falhar · tratar o `precondicao` do `assumir` | **tratar**: PR mergeado → Passo 6 da `sdd-desenvolver`; senão, reabrir. O mesmo na `sdd-atender` e na `sdd-executar` |
+| 5 | `[REV]`, `[VER]`, `[APR]` e `[DEV]` × fase do `status.md` | só as linhas genéricas · pela fase | **pela fase** (tabela abaixo) |
+| 6 | Fatia com `status.md` numa branch e ainda `planejada` | rede de proteção só nos ritos · no §9 | **no §9**: conta como iniciada e gera `arquivo: iniciada`; nunca "sai da sprint" |
+| 7 | WI que sumiu do EWM | `manter` para sempre · pendência | **`manter` registra `ELM pendente [<tipo> <id> sumiu]`**, que tira o id da comparação até o `ELM feito` |
+| 8 | MCP `elm` | sem mudança · cancelar · todas as melhorias | **cancelar**: `elm_transicao(<id>, "cancelar")`; as outras melhorias seguem adiadas |
+| 8a | Quem grava `pronta` | só a `sdd-desenvolver` · também a sincronização | **também a sincronização**, pela evidência do merge (Créditos e lições `—`) |
+| 9 | Versão | — | **3.4.2** para o `plugin.json`, as 22 skills e a mcp-elm, juntos; `plugin.json` exige `mcp-elm ≥ 3.4.2` |
+| 10 | Migração | — | nenhuma |
 
-### Desenvolvimento por fora do sdd (decisão 0)
+## Casos de desenvolvimento por fora
 
-Fontes que a sincronização passa a cruzar: o EWM (como na 3.4.1), o `status.md` (da base e da branch, pela regra A
-base prevalece), o `sprint-<nn>.md`, o `backlog.md` e o git — a branch da fatia (`git ls-remote`, `git log`) e o PR
-(o mesmo dado que a rede de proteção e a `sdd-status` já leem). Toda solução segue a regra da 3.4.1: aparece na
-tabela, e nada é gravado sem o "ok" ou o ajuste da linha.
+| Evidência no git | Solução sugerida |
+|---|---|
+| PR mergeado, fatia antes de `pronta` | `arquivo: pronta` (como o Passo 6) · concluir a `[DEV]` · cancelar `[APR]`, `[REV]` e `[VER]` abertas · depois a `sdd-consolidar` |
+| PR mergeado, fatia `pronta` | cancelar as tarefas abertas; concluir a `[DEV]` |
+| PR aberto | `arquivo: iniciada` e `status.md` na fase do PR (`pr-aberto` no HITL, `aguardando-aprovacao-pr` no AFK) |
+| branch com commits, sem PR | `arquivo: iniciada` e `Fase: implementando` |
+| PR fechado sem merge | `manter: o Dev diz` (retomar ou cancelar) |
+| `sprint-<nn>.md` × `backlog.md` diferentes | a versão mais adiantada pelas evidências; sem evidência, `manter` com as duas na linha |
 
-Casos:
+## Estado esperado pela fase (decisão 5)
 
-| Evidência | Arquivos | EWM | Solução sugerida |
-|---|---|---|---|
-| PR da fatia mergeado na base | fatia `planejada` ou `iniciada` (qualquer fase antes de `pronta`) | `[DEV]` aberta; `[APR]`, `[REV]`, `[VER]` abertas | **concluir no sdd:** `arquivo: pronta (merge <sha> por fora do sdd)` — grava como o Passo 6 da `sdd-desenvolver` (`status.md` da base com `Fase: pronta`, backlog e sprint `pronta`, Créditos `—`, lições `—`) · `EWM: concluir a [DEV]` · `EWM: cancelar` a `[APR]`, a `[REV]` e a `[VER]` que ainda não estão canceladas · depois, `sdd-consolidar` leva a `concluida` |
-| PR da fatia mergeado na base | fatia `pronta` | `[APR]`, `[REV]`, `[VER]` abertas | `EWM: cancelar` as abertas (a `[DEV]` aberta → concluir) |
-| PR aberto, sem merge | fatia `planejada` (sem `status.md`) ou `status.md` numa fase anterior | `[DEV]` em andamento | `arquivo: iniciada` (se `planejada`) e `Fase: pr-aberto` (HITL) ou `aguardando-aprovacao-pr` (AFK) no `status.md`, criado se faltar |
-| branch com commits, sem PR | fatia `planejada` | `[DEV]` em andamento | `arquivo: iniciada` e `status.md` com `Fase: implementando` (o mesmo caso da lacuna 6) |
-| PR fechado sem merge | fatia não terminal | — | `manter: o Dev diz` (retomar ou cancelar pela `sdd-fatiar`) |
-| `sprint-<nn>.md` × `backlog.md` | situação, responsável ou sprint diferentes na linha viva e no backlog | — | `arquivo:` a mais adiantada pelas evidências acima; sem evidência, `manter` com as duas versões na linha (as inconsistências da `sdd-status` viram linhas da tabela) |
+Conferir na implementação com o `sdd-desenvolver/references/status-template.md`.
 
-Com estes casos:
-
-- **Cancelar no EWM:** o MCP passa a cancelar (decisão 8); o "cancelar" da tabela chama
-  `elm_transicao(<id>, "cancelar")`, e a pendência `ELM pendente [<tipo> <id> cancelar]` fica só para a falha.
-- **Quem grava `pronta`:** também a sincronização, pela evidência do merge (decisão 8a).
-- **O agente de produto** já lê o git (`git-leitura`) e o MR (`+gitlab-leitura`), grava `.kiro/specs/*/status.md` e
-  pergunta antes de `+elm-tarefa` (`sdd-setup/assets/agents/papeis.json:46-61`): nenhuma permissão muda; o
-  `cancelar` entra no mesmo grupo `elm-tarefa`, com pergunta.
-
-### MCP `elm` — cancelar (decisão 8)
-
-- `mcps/elm/mcp_elm/ewm.py`: `ALVOS` (`:58`) ganha `cancelar`, grupo `closed` por um estado de descarte — o inverso
-  do filtro de hoje, que tira os estados de `_DESCARTE` (`:60`) do caminho de `concluir`. Em `_ir` (`:476-513`), com o
-  alvo `cancelar` só valem as ações cujo resultado casa com `_DESCARTE`; já num estado de descarte → `ja_estava`;
-  concluída (fechada sem descarte) → `precondicao` ("já concluída: reabra antes", como o `assumir`, `:528`);
-  workflow sem estado de descarte → `precondicao` ("o workflow não tem cancelamento"), e a skill registra a
-  pendência. A mensagem de alvo inválido (`:518`) passa a listar os quatro.
-- `mcps/elm/mcp_elm/server.py:108`: `alvo: Literal["assumir", "concluir", "reabrir", "cancelar"]` e a docstring.
-- Testes em `mcps/elm/tests/test_ewm.py` (com o `elm_fake.py`): cancelar a partir de Novo e de Em Andamento; já
-  cancelada; concluída; workflow sem descarte.
-- `mcps/elm/pyproject.toml` → 3.4.2; `mcps/elm/docs/manual-mcp-elm.md`, o alvo novo.
-
-### Power — onde o cancelamento manual vira chamada
-
-Toda pendência `[<…> cancelar]` que existe porque "o MCP não cancela" passa a ser `elm_transicao(<id>, "cancelar")`
-com "sim", e a pendência só na falha: `sdd/references/elm.md` (pendências e Regras de toda escrita),
-`sdd-triar/SKILL.md:52`, `:61` e `references/ficha.md:102`, `sdd-fatiar/SKILL.md` e `references/backlog.md:149`,
-`sdd-planejamento/SKILL.md` e `references/elm-sprint.md` (decisão 7a da 3.4.1 e o §9), `sdd-desenvolver/SKILL.md`
-(puxada) e `sdd-loop/SKILL.md`. A decisão 13 da 3.4.1 (pendência de cancelamento sai da comparação) segue para as
-pendências que sobrarem.
-
-### Estado esperado pela fase (decisão 5)
-
-Na implementação, conferir cada linha com quem grava a fase no `sdd-desenvolver/references/status-template.md` e com os nomes de estado
-da PA no `sdd.md`.
-
-| Fase no `status.md` | `[DEV]` | `[REV]` (HITL) | `[VER]` (HITL) | `[APR]` |
+| Fase | `[DEV]` | `[REV]` | `[VER]` | `[APR]` |
 |---|---|---|---|---|
-| `pesquisando` · `planejando` | em andamento | nova | nova | Aprovar plano: nova ou ausente |
-| `aguardando-aprovacao-plano` | em andamento | nova | nova | Aprovar plano: aberta |
-| `implementando` · `revisando` | em andamento | nova | nova | Aprovar plano: concluída (com GATE) |
+| `pesquisando` · `planejando` | em andamento | nova | nova | plano: nova ou ausente |
+| `aguardando-aprovacao-plano` | em andamento | nova | nova | plano: aberta |
+| `implementando` · `revisando` | em andamento | nova | nova | plano: concluída |
 | `pr-aberto` · `em-revisao` | em andamento | aberta | nova | — |
-| `aceita` · `verificando` · `em-verificacao` · `verificada` | em andamento | concluída | aberta → concluída | — |
-| `aguardando-aprovacao-pr` (AFK) | em andamento | — | — | Aprovar PR: aberta |
-| `retrabalho` | em andamento | reaberta quando a volta passa pela revisão | idem | Aprovar PR reaberta (conflito no merge) |
+| `aceita` · `verificando` · `verificada` | em andamento | concluída | aberta → concluída | — |
+| `aguardando-aprovacao-pr` (AFK) | em andamento | — | — | PR: aberta |
 | `pronta` · `concluida` | concluída | concluída | concluída | concluídas |
-| `bloqueada (de: <fase>)` | a da fase de origem | idem | idem | idem |
+| `retrabalho` · `bloqueada` | a da fase de origem | idem | idem | idem |
 
-## Mudanças propostas
+## O que muda
 
-### `sdd-planejamento/references/elm-sprint.md`
-
-- **Topo do §9 e passos 1–3** (`:244-307`): o intuito (decisão 0), as fontes novas (git, PR, `sprint-<nn>.md` ×
-  `backlog.md`) e os casos da seção Desenvolvimento por fora do sdd.
-- **Soluções propostas** (`:372-`): a tabela nova de desenvolvimento por fora; a regra "nas linhas de estado da fatia
-  não há `arquivo`" (`:342-343`) passa a ter a exceção da evidência do git.
-- **Tabela** (`:319-345`): agrupamento e cabeçalho (decisão 2), atualizando o exemplo.
-- **Passo 1 e 2** (`:254-307`): a listagem do backlog e os ids "do backlog" comparados (decisão 3); a
-  fatia com `status.md` em branch (decisão 6).
-- **Soluções propostas — Fatia** (`:392-406`): as linhas pela fase (decisão 5). A linha `:397` passa a cobrir a
-  fatia com `status.md` em branch (decisão 6).
-- **Soluções propostas — Iteração** (`:449`): o `sumiu` com a pendência registrada (decisão 7).
-
-### Demais skills
-
-- `sdd-desenvolver/SKILL.md` (`:45`, `:65`, `:149`), `sdd-atender/SKILL.md:50`, `sdd-executar/SKILL.md:40`: o
-  `precondicao` do `assumir` (decisão 4). Tirar o item correspondente da seção 6 da 3.4.1.
-- `sdd-planejamento/SKILL.md` (pré-condição, `:250-264`): a rede de proteção entra no §9 (decisões 0 e 6).
-- `sdd-desenvolver/SKILL.md` (Passo 6) e `sdd-fatiar/references/backlog.md` (Situações, quem grava `pronta`): a
-  sincronização como gravador de `pronta` pela evidência do merge (decisão 0).
-- `sdd-status/SKILL.md`: o painel conta as divergências novas que a listagem já mostra. As que exigem `elm_ler_wi`
-  ou a fase ficam para a sincronização, como a estimativa na 3.4.1.
-- `sdd/references/elm.md`: a chave `[<tipo> <id> sumiu]` na tabela de pendências (decisão 7).
-- `README.md` (nota da 3.4.2), `plugin.json` e o `metadata.version` das 22 skills.
-- `mcps/elm`: o alvo `cancelar` (seção MCP); `plugin.json` exige `mcp-elm ≥ 3.4.2`.
-
-## Para a revisão final da 3.4.1
-
-Achados da conferência da 3.4.1 que não são pendências desta versão, mas pesam na revisão dela:
-
-- **Diferenças do que foi pedido no rascunho:**
-  - a decisão 3 (a situação da fatia nunca muda pela sincronização) é revista pela decisão 0 desta versão;
-  - a decisão 6 pede o "sim" do P.O. nas linhas de escopo, onde se pediu que o "ok" aprovasse tudo;
-  - as decisões 3, 7 e 8 gravam a situação da fatia na Volta e no encaixe;
-  - o "encaminhar à skill dona" existe só para a `[DEV]` concluída (`elm-sprint.md:396`). `[ESP]` concluída e IB
-    da fatia ou do épico concluído antes da hora só têm `EWM: reabrir` (`:399`, `:427`, `:430`).
-- **Inconsistências internas que seguem:**
-  - a `sdd-iniciar` (`:83-86`) trata a tarefa sem prefixo do sdd como fora da sprint, mas a decisão 11 deixa
-    "manter o título": a tarefa trazida assim já está na sprint;
-  - na sprint não publicada, não está escrito que as divergências achadas depois da publicação voltam numa tabela
-    nova, à espera de outro "ok".
-- **Já resolvidas na 3.4.1 final** (seção 8 do plano dela): a pendência de cancelamento da puxada vai para o
-  Histórico do `status.md` (o texto da decisão 7a ainda diz "rodapé da ficha"); a "minha próxima tarefa" da
-  `sdd-iniciar` lê a sprint pelos arquivos enquanto há `**Publicação no EWM:** pendente`; o ensaio de mesa foi feito.
-- **A fazer:** o piloto da seção 7 da 3.4.1.
+- **`elm-sprint.md` §9:** fontes novas (git, PR, `sprint-<nn>.md` × `backlog.md`, backlog do EWM, fase do
+  `status.md`); tabela agrupada; soluções novas (casos acima, fase, `status.md` em branch, `sumiu`); exceção à regra
+  "linha de estado da fatia não tem `arquivo`" quando há evidência do git.
+- **`sdd-desenvolver`, `sdd-atender`, `sdd-executar`:** tratar o `precondicao` do `assumir`.
+- **`sdd-planejamento`:** a rede de proteção entra no §9.
+- **`sdd-fatiar/references/backlog.md`:** a sincronização também grava `pronta`.
+- **Cancelamento:** onde hoje há pendência porque "o MCP não cancela" (`elm.md`, `sdd-triar`, `sdd-fatiar`,
+  `sdd-planejamento`, `sdd-desenvolver`, `sdd-loop`), passa a ser `elm_transicao(<id>, "cancelar")` com "sim"; a
+  pendência fica só para a falha.
+- **`sdd-status`:** o painel conta as divergências novas que a listagem mostra.
+- **`mcps/elm`:** alvo `cancelar` em `ewm.py` e `server.py` (só ações que levam a um estado de descarte; já cancelada
+  → `ja_estava`; concluída ou workflow sem descarte → `precondicao`), testes, manual e `pyproject.toml` em 3.4.2.
+- **Versão:** `README.md`, `plugin.json` e as 22 skills.
+- **Permissões:** nenhuma muda (o agente de produto já lê git e MR; `cancelar` entra em `elm-tarefa`, com pergunta).
 
 ## Verificação
 
-- Desenvolvimento por fora: fatia `iniciada` em `implementando`, PR mergeado por fora, `[DEV]` em andamento,
-  `[APR]`, `[REV]` e `[VER]` abertas → a tabela propõe `pronta` no sdd, concluir a `[DEV]` e cancelar as outras três
-  (ou as pendências de cancelamento, sem o MCP); com o "ok", o `status.md` da base fica em `pronta` e a
-  `sdd-consolidar` aceita a fatia.
-- PR aberto por fora com a fatia `planejada` e sem `status.md` → a tabela propõe `iniciada` e o `status.md` na fase do
-  PR.
-- `sprint-<nn>.md` e `backlog.md` com situações diferentes → linha na tabela, com a solução pela evidência.
-- Tabela com divergências em três itens, um deles com IB e duas tarefas → as linhas de cada item juntas, numeração
-  corrida, o cabeçalho com `em 3 itens`, e o ajuste `<n>: …` aplicado à linha certa.
-- IB de fatia `elegivel` cancelado no backlog do EWM → linha na sincronização, sem a fatia estar na sprint
-  (decisão 3).
-- Fatia `iniciada` com a `[DEV]` concluída à mão e retomada pela `sdd-desenvolver` → a skill mostra o estado e
-  oferece o Passo 6 ou reabrir, nunca um `assumir` que falha calado. O mesmo na `sdd-atender` e na `sdd-executar`.
-- Fatia em `implementando` com a `[VER]` concluída → linha `EWM: reabrir a [VER]` (decisão 5).
-- Fatia `planejada` na base com `status.md` numa branch e IB movido para o backlog → a sincronização sob pedido
-  mostra a linha; nos ritos, a solução nunca é "sai da sprint".
-- WI `nao_encontrado` com `manter` → na sincronização seguinte, não volta enquanto a pendência `sumiu` estiver
-  aberta.
-- `elm_transicao(<id>, "cancelar")` no fake: Novo e Em Andamento → cancelado; cancelado → `ja_estava`; concluído →
-  `precondicao`; sem estado de descarte → `precondicao`.
-- `grep -rn "o MCP não cancela" powers/sdd` → nada.
-- Testes do power (`test_gerar_agentes.py`, `test_creditos.py`) e o pytest do MCP.
+- PR mergeado por fora com `[DEV]`, `[APR]`, `[REV]` e `[VER]` abertas → a tabela propõe `pronta`, concluir e
+  cancelar; com o "ok", a `sdd-consolidar` aceita a fatia.
+- PR aberto por fora, fatia `planejada` sem `status.md` → propõe `iniciada` e a fase do PR.
+- IB `elegivel` cancelado no backlog do EWM → linha na tabela, sem a fatia estar na sprint.
+- `[DEV]` concluída à mão e fatia retomada → a skill oferece o Passo 6 ou reabrir.
+- `[VER]` concluída com a fatia em `implementando` → `EWM: reabrir a [VER]`.
+- WI sumido com `manter` → não volta enquanto a pendência `sumiu` estiver aberta.
+- `cancelar` no fake do MCP: Novo e Em Andamento → cancelado; cancelado → `ja_estava`; concluído → `precondicao`.
+- `grep -rn "o MCP não cancela" powers/sdd` → nada; testes do power e pytest do MCP passam.
+
+## Fica para a revisão da 3.4.1
+
+- O "sim" do P.O. nas linhas de escopo (decisão 6 da 3.4.1), onde se pediu que o "ok" aprovasse tudo.
+- "Encaminhar à skill dona" só existe para a `[DEV]`; `[ESP]` e IB concluídos antes da hora só têm `EWM: reabrir`.
+- A `sdd-iniciar` trata a tarefa com o título mantido como fora da sprint.
+- O piloto da seção 7 da 3.4.1.
